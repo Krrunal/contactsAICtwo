@@ -1,0 +1,6 @@
+module Pods_contactsAIC_contactsAICTests {
+  umbrella header "Pods-contactsAIC-contactsAICTests-umbrella.h"
+
+  export *
+  module * { export * }
+}

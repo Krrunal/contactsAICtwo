@@ -1,0 +1,4 @@
+#Tue Sep 22 12:17:34 IST 2020
+base.0=/Users/macmini/Desktop/contactsAIC/android/app/build/intermediates/dex/debug/mergeDexDebug/out/classes.dex
+renamed.0=classes.dex
+path.0=classes.dex
