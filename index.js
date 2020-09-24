@@ -2,7 +2,7 @@
  * @format
  */
 
-import App from './src/containers/AddContact/index';
+import App from './src/containers/MyContactInformation/index';
 import {AppRegistry} from 'react-native';
 import {name as appName} from './app.json';
 
