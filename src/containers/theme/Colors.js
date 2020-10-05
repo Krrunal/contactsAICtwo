@@ -10,6 +10,7 @@ export const COLORS = {
   transparent: 'rgba(0,0,0,0.4)',
   main_sky_blue:'#B7E1F5',
   main_text_color:'#1374A3',
+  green:'#17950B'
 };
 
 // export default Color;

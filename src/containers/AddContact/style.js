@@ -9,16 +9,17 @@ export default StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: COLORS.white,
-    
+    alignItems:'center'
   },
   blueView: {
-    width: width * 0.8,
-    height: height * 0.075,
+    width: width * 0.9,
+    height: height * 0.065,
     backgroundColor: COLORS.main_text_color,
     borderRadius: 10,
     justifyContent: 'center',
     alignItems: 'center',
     flexDirection: 'row',
+    marginTop:Metrics.doubleBaseMargin
   },
   sidebarStyle: {
     width: width * 0.1,
@@ -56,7 +57,7 @@ sidebarStyleRight: {
 },
     firstView:{
         width: width * 0.8,
-        height: height * 0.075,
+        height: height * 0.065,
         backgroundColor: COLORS.main_text_color,
         borderRadius: 10,
         justifyContent: 'center',
@@ -66,7 +67,7 @@ sidebarStyleRight: {
     },
     SecondView:{
         width: width * 0.8,
-        height: height * 0.075,
+        height: height * 0.065,
         backgroundColor: COLORS.main_text_color,
         borderRadius: 10,
         justifyContent: 'center',
@@ -75,17 +76,20 @@ sidebarStyleRight: {
         marginTop:Metrics.baseMargin
     },
     firstText:{
-        fontSize:17,
-        color:COLORS.white
+      fontFamily:'Roboto-Bold',
+      fontSize: width * 0.042,
+        color:COLORS.white,
+        textAlign:'center'
     },
     centerText:{
-        fontSize:17,
+      fontSize:width*0.045,
         color:COLORS.white,
-      
+        fontFamily:'Roboto-Bold',
+        marginLeft:Metrics.smallMargin
     },
     sidebarViewCenter:{
         width: width * 0.5,
-         justifyContent: 'center',
+         
         alignItems: 'center',
         flexDirection: 'row',
        

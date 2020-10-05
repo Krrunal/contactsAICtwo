@@ -1,7 +1,7 @@
 import {Dimensions, StyleSheet} from 'react-native';
 
-import {COLORS} from '../theme/Colors.js';
-import Metrics from '../theme/Metrics';
+import {COLORS} from '../../../src/containers/theme/Colors.js';
+import Metrics from '../../containers/theme/Metrics.js';
 
 var {width, height} = Dimensions.get('window');
 export default StyleSheet.create({

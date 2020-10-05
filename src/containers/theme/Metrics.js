@@ -58,7 +58,7 @@ export default {
   smallMargin: ratio(8),
   baseMargin: ratio(16),
   doubleBaseMargin: ratio(32),
-  xdoubleBaseMargin: ratio(50),
+  xdoubleBaseMargin: ratio(45),
 
   verificationBoxSize: ratio(20),
   statusBarHeight: STATUSBAR_HEIGHT,

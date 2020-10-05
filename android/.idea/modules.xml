@@ -2,8 +2,15 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-335169507/@react-native-community_checkbox.iml" filepath="$PROJECT_DIR$/.idea/modules/-335169507/@react-native-community_checkbox.iml" group="contactsAIC/@react-native-community_checkbox" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/app.iml" group="contactsAIC/app" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/contactsAIC.iml" filepath="$PROJECT_DIR$/.idea/modules/contactsAIC.iml" group="contactsAIC" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-335169507/react-native-community_checkbox.iml" filepath="$PROJECT_DIR$/.idea/modules/-335169507/react-native-community_checkbox.iml" group="contactsAIC/react-native-community_checkbox" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/603912397/react-native-community_masked-view.iml" filepath="$PROJECT_DIR$/.idea/modules/603912397/react-native-community_masked-view.iml" group="contactsAIC/react-native-community_masked-view" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/1324050602/react-native-gesture-handler.iml" filepath="$PROJECT_DIR$/.idea/modules/1324050602/react-native-gesture-handler.iml" group="contactsAIC/react-native-gesture-handler" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/730919730/react-native-reanimated.iml" filepath="$PROJECT_DIR$/.idea/modules/730919730/react-native-reanimated.iml" group="contactsAIC/react-native-reanimated" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/1753677459/react-native-safe-area-context.iml" filepath="$PROJECT_DIR$/.idea/modules/1753677459/react-native-safe-area-context.iml" group="contactsAIC/react-native-safe-area-context" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/159443563/react-native-screens.iml" filepath="$PROJECT_DIR$/.idea/modules/159443563/react-native-screens.iml" group="contactsAIC/react-native-screens" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/731479916/react-native-vector-icons.iml" filepath="$PROJECT_DIR$/.idea/modules/731479916/react-native-vector-icons.iml" group="contactsAIC/react-native-vector-icons" />
     </modules>
   </component>
