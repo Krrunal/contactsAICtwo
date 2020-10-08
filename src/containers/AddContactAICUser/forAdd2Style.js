@@ -20,7 +20,7 @@ export default StyleSheet.create({
     borderRadius: 10,
     flexDirection: 'row',
     marginTop: Metrics.doubleBaseMargin,
-   
+   alignItems:'center'
   },
   sideBarView: {
     justifyContent: 'center',
@@ -177,6 +177,26 @@ export default StyleSheet.create({
     elevation: 5,
     borderRadius: 5,
     marginTop: Metrics.doubleBaseMargin,
+    margin: Metrics.smallMargin,
+  },
+  WhiteBigviewTwo: {
+    flexDirection: 'row',
+
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: width * 0.8,
+    height: height * 0.085,
+    backgroundColor: COLORS.white,
+    shadowColor: COLORS.black,
+    shadowOffset: {
+      width: 3,
+      height: 3,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+    borderRadius: 5,
+    marginTop: Metrics.baseMargin,
     margin: Metrics.smallMargin,
   },
 });

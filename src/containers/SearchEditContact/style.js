@@ -74,7 +74,8 @@ export default StyleSheet.create({
       resetImgStyle:{
         width:width*0.030,
         height:width*0.030,
-        marginLeft:Metrics.smallMargin
+        marginLeft:Metrics.smallMargin,
+        resizeMode:'contain'
       },
       plusStyle:{
         width: width * 0.130,

@@ -67,7 +67,7 @@ export default StyleSheet.create({
           alignItems:'center',
           width:width*0.034,
           height:width*0.034,
-          backgroundColor:COLORS.main_sky_blue,
+          backgroundColor:COLORS.main_text_color,
         //   shadowColor: COLORS.black,
         // shadowOffset: {
         //     width: 2,
@@ -86,7 +86,7 @@ export default StyleSheet.create({
         width:width*0.034,
         height:width*0.034,
         backgroundColor:COLORS.white,
-        borderColor:COLORS.main_sky_blue,
+        borderColor:COLORS.main_text_color,
         borderWidth:2,
     //     shadowColor: COLORS.black,
     //   shadowOffset: {
@@ -143,7 +143,7 @@ export default StyleSheet.create({
                 alignItems:'center',
                 color:COLORS.main_text_color,
                 fontFamily:'Roboto-Bold',
-                fontSize: width * 0.035,
+                fontSize: width * 0.025,
 
                 width:width*0.4
             
@@ -223,7 +223,7 @@ stylefiledTextAddress:{
     // alignItems:'center',
     color:COLORS.main_text_color,
     fontFamily:'Roboto-Bold',
-    fontSize: width * 0.035,
+    fontSize: width * 0.025,
    
 
 },
@@ -277,7 +277,7 @@ stylefiledTextNote:{
     color:COLORS.main_text_color,
     fontFamily:'Roboto-Light',
 fontFamily:'Roboto-Bold',
-    fontSize: width * 0.035,
+    fontSize: width * 0.025,
 
    
 

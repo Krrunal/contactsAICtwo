@@ -18,15 +18,15 @@ export default StyleSheet.create({
     backgroundColor: COLORS.main_text_color,
     borderRadius: 10,
     flexDirection: 'row',
-      alignContent:'center',
-      justifyContent:'center'
+    alignContent: 'center',
+    justifyContent: 'center',
   },
-  squareBorder:{
+  squareBorder: {
     width: width * 0.2,
     height: width * 0.2,
     borderColor: COLORS.main_text_color,
     borderRadius: 10,
-    borderWidth:3
+    borderWidth: 3,
   },
 
   sideBarView: {
@@ -82,9 +82,8 @@ export default StyleSheet.create({
   },
   firstText: {
     color: COLORS.main_text_color,
-    fontFamily:'Roboto-Light',
+    fontFamily: 'Roboto-Light',
     fontSize: width * 0.035,
-
   },
   firstImg: {
     width: width * 0.2,
@@ -116,15 +115,15 @@ export default StyleSheet.create({
   },
   stylefiledText: {
     marginLeft: Metrics.smallMargin,
-   
+
     justifyContent: 'center',
     alignItems: 'center',
     color: COLORS.main_text_color,
-   
-    fontSize: width * 0.027,
-       width: width * 0.4,
-    fontFamily:'Roboto-Bold',
 
+    fontSize: width * 0.025,
+
+    fontFamily: 'Roboto-Bold',
+    width: width * 0.4,
   },
   filedViewRight: {
     width: width * 0.8,
@@ -169,7 +168,7 @@ export default StyleSheet.create({
   },
   filedViewAddress: {
     width: width * 0.8,
-    height: height * 0.150,
+    height: height * 0.15,
     backgroundColor: COLORS.white,
     shadowColor: COLORS.black,
     shadowOffset: {
@@ -188,9 +187,10 @@ export default StyleSheet.create({
     // justifyContent:'center',
     // alignItems:'center',
     color: COLORS.main_text_color,
-    fontSize: width * 0.036,
-    fontFamily:'Roboto-Bold',
+    fontSize: width * 0.025,
 
+   
+    fontFamily: 'Roboto-Bold',
   },
   saveView: {
     justifyContent: 'center',
@@ -212,9 +212,8 @@ export default StyleSheet.create({
   },
   righttext: {
     color: COLORS.main_text_color,
-    fontFamily:'Roboto-Light',
-    fontSize: width * 0.020,
-   
+    fontFamily: 'Roboto-Light',
+    fontSize: width * 0.02,
   },
   filedViewNote: {
     width: width * 0.8,
@@ -237,10 +236,8 @@ export default StyleSheet.create({
     // justifyContent:'center',
     // alignItems:'center',
     color: COLORS.main_text_color,
-    fontFamily:'Roboto-Bold',
-    fontSize: width * 0.036,
-   
-    
+    fontFamily: 'Roboto-Bold',
+    fontSize: width * 0.025,
   },
   fieldMain: {
     alignItems: 'center',

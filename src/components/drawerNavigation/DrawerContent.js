@@ -19,6 +19,7 @@ import {
 } from 'react-native-paper';
 import {DrawerContentScrollView, DrawerItem} from '@react-navigation/drawer';
 import React, {Component, useState} from 'react';
+import {useDispatch, useSelector} from 'react-redux'
 
 import AddContact from '../../containers/AddContact/index';
 import {COLORS} from '../../containers/theme/Colors';
@@ -34,14 +35,25 @@ import label from '../../assets/icons/label.png';
 import navIcon from '../../assets/icons/navIcon.png';
 import setting from '../../assets/icons/settings.png';
 import sideBAR from '../../assets/images/sideBAR.png';
+import {useTheme} from '@react-navigation/native'
 
 var {width, height} = Dimensions.get('window');
 // import styles from  './style'
 
-export function DrawerContent(props) {
+export function DrawerContent(props,navigation) {
   state = {
     status: false,
   };
+
+  //theme
+  const {colors} =  useTheme()
+  const dispatch = useDispatch()
+  const currentTheme = useSelector(state=>{
+
+    return state.myDarMode
+  })
+
+  
   const [shouldShowInfo, setShouldShowInfo] = useState(false);
   const [shouldShowContact, setShouldShowContact] = useState(false);
   const [shouldShowLabel, setShouldShowLabel] = useState(false);
@@ -60,7 +72,7 @@ export function DrawerContent(props) {
   };
 
   return (
-    <View style={styles.mainContent}>
+    <View style={[styles.mainContent,{backgroundColor:colors.headerColor}]}>
       <View style={styles.whiteView}>
         <View style={{width: width * 0.6, flexDirection: 'row'}}>
           <View style={styles.sideBarViewContent}>
@@ -278,8 +290,6 @@ const styles = StyleSheet.create({
   sidebarStyle: {
     width: width * 0.1,
     height: width * 0.1,
-
-   
   },
   item: {
     width: width * 0.6,

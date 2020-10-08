@@ -4,14 +4,20 @@ import { Dimensions, StyleSheet } from 'react-native';
 // eslint-disable-next-line prettier/prettier
 import { COLORS } from '../theme/Colors.js';
 import Metrics from '../theme/Metrics';
+import {useTheme} from '@react-navigation/native';
 
 var {width,height} =  Dimensions.get('window');
+
 export default StyleSheet.create({
+    mainStyle:{
+        
+        flex: 1, backgroundColor: COLORS.white},
     container:{
       flex:1,
         backgroundColor:COLORS.white,
+   
         alignItems:'center',
-        
+        height:height,
     },
     headerView: {
         //borderWidth: 3,

@@ -208,6 +208,7 @@ export default StyleSheet.create({
     borderRadius: 5,
 
     marginBottom: Metrics.baseMargin,
+    marginTop:Metrics.smallMargin
   },
   righttext: {
     color: COLORS.main_text_color,

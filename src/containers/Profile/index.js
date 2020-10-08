@@ -9,9 +9,10 @@ import {
   TextInput,
   TouchableHighlight,
   TouchableOpacity,
-  View
+  View,
 } from 'react-native';
 import React, {Component, useState} from 'react';
+import {useDispatch, useSelector} from 'react-redux';
 
 import {COLORS} from '../theme/Colors.js';
 import {CommonActions} from '@react-navigation/native';
@@ -38,49 +39,22 @@ import message from '../../assets/images/message.png';
 import note from '../../assets/images/note.png';
 import reset from '../../assets/images/reset.png';
 import styles from './style.js';
+import {useTheme} from '@react-navigation/native';
 import website from '../../assets/images/website.png';
 import websiteImg from '../../assets/images/website.png';
 
 const person = require('../../assets/images/person.png');
 var {width, height} = Dimensions.get('window');
-export default class searchContact extends Component {
-  renderImg() {
-    return (
-      <View>
-        <View
-          style={{
-            alignItems: 'center',
-            marginTop: Metrics.smallMargin,
-            padding: Metrics.smallMargin,
-          }}>
-          <View style={styles.ImgBigView}>
-            <View style={styles.imgView}>
-              <ImageBackground
-                source={require('../../assets/images/person.png')}
-                style={styles.imgStyle}>
-                <View style={styles.OverImageText}>
-                  <TouchableOpacity
-                    style={{alignItems: 'center', flexDirection: 'row'}}
-                    onPress={this.Profilenavigate}>
-                    <Icon
-                      name={'angle-left'}
-                      size={25}
-                      color={COLORS.transparent}
-                    />
-                    <Text style={styles.backText}>Back</Text>
-                  </TouchableOpacity>
-                </View>
-              </ImageBackground>
-            </View>
+export default function searchContact({navigation}) {
+  const {colors} = useTheme();
+  const dispatch = useDispatch();
+  const textcolor = colors.textColor;
+  const currentTheme = useSelector((state) => {
+    return state.myDarMode;
+  });
 
-            <Text style={styles.profileText}>Sean Green</Text>
-          </View>
-        </View>
-      </View>
-    );
-  }
-  Profilenavigate = () => {
-    this.props.navigation.dispatch(
+  const Profilenavigate = () => {
+    navigation.dispatch(
       CommonActions.navigate({
         name: 'AddContact',
         //routes: [{ name: 'Login' }],
@@ -88,248 +62,151 @@ export default class searchContact extends Component {
     );
   };
 
-  renderMiddle() {
-    return (
-      <View style={{alignItems: 'center'}}>
-        <View style={styles.middleView}>
-          <View style={styles.mainView}>
-            <View style={styles.IconView}>
-              <Image source={iconcall} style={styles.callImg} />
-              <Text
-                style={{
-                  marginTop: Metrics.xsmallMargin,
-                  fontFamily: 'Roboto-Bold',
-                  fontSize: width * 0.027,
-                }}>
-                Call
-              </Text>
+  return (
+    <View
+      style={[
+        {backgroundColor: COLORS.white, flex: 1},
+        {backgroundColor: colors.backColor},
+      ]}>
+      <ScrollView style={{flex: 1}}>
+        <View>
+          <View
+            style={{
+              alignItems: 'center',
+              marginTop: Metrics.smallMargin,
+              padding: Metrics.smallMargin,
+            }}>
+            <View style={styles.ImgBigView}>
+              <View style={styles.imgView}>
+                <ImageBackground
+                  source={require('../../assets/images/person.png')}
+                  style={styles.imgStyle}>
+                  <View style={styles.OverImageText}>
+                    <TouchableOpacity
+                      style={{alignItems: 'center', flexDirection: 'row'}}
+                      onPress={Profilenavigate}>
+                      <Icon
+                        name={'angle-left'}
+                        size={25}
+                        color={COLORS.transparent}
+                      />
+                      <Text style={styles.backText}>Back</Text>
+                    </TouchableOpacity>
+                  </View>
+                </ImageBackground>
+              </View>
+
+              <Text style={styles.profileText}>Sean Green</Text>
             </View>
-            <View style={styles.IconView}>
-              <Image source={iconMessage} style={styles.textImg} />
-              <Text
-                style={{
-                  marginTop: Metrics.xsmallMargin,
-                  fontFamily: 'Roboto-Bold',
-                  fontSize: width * 0.027,
-                }}>
-                Text
-              </Text>
-            </View>
-            {/* <View style={styles.IconView}>
+          </View>
+        </View>
+        <View style={{alignItems: 'center'}}>
+          <View style={styles.middleView}>
+            <View style={styles.mainView}>
+              <View style={styles.IconView}>
+                <Image source={iconcall} style={styles.callImg} />
+                <Text
+                  style={{
+                    marginTop: Metrics.xsmallMargin,
+                    fontFamily: 'Roboto-Bold',
+                    fontSize: width * 0.022,
+                  }}>
+                  Call
+                </Text>
+              </View>
+              <View style={styles.IconView}>
+                <Image source={iconMessage} style={styles.textImg} />
+                <Text
+                  style={{
+                    marginTop: Metrics.xsmallMargin,
+                    fontFamily: 'Roboto-Bold',
+                    fontSize: width * 0.022,
+                  }}>
+                  Text
+                </Text>
+              </View>
+              {/* <View style={styles.IconView}>
               <Image source={iconVideo} style={styles.videoImg} />
 
               <Text style={{marginTop: Metrics.xsmallMargin}}>Video</Text>
             </View> */}
-            <View style={styles.IconView}>
-              <Image source={iconVideo} style={styles.videoImg} />
-              <Text
-                style={{
-                  marginTop: Metrics.smallMargin,
-                  fontFamily: 'Roboto-Bold',
-                  fontSize: width * 0.027,
-                }}>
-                Video
-              </Text>
-            </View>
-            <View style={styles.IconView}>
-              <Image source={iconEmail} style={styles.emailImg} />
-              <Text
-                style={{
-                  marginTop: Metrics.xsmallMargin,
-                  fontFamily: 'Roboto-Bold',
-                  fontSize: width * 0.027,
-                }}>
-                E-mail
-              </Text>
-            </View>
-            <View style={styles.IconView}>
-              <Image source={iconMap} style={styles.mapImg} />
-              <Text
-                style={{
-                  marginTop: Metrics.xsmallMargin,
-                  fontFamily: 'Roboto-Bold',
-                  fontSize: width * 0.027,
-                }}>
-                Direction
-              </Text>
-            </View>
-            <View style={styles.IconView}>
-              <Image source={iconPay} style={styles.payImg} />
-              <Text
-                style={{
-                  marginTop: Metrics.xsmallMargin,
-                  fontFamily: 'Roboto-Bold',
-                  fontSize: width * 0.027,
-                }}>
-                Pay
-              </Text>
-            </View>
-          </View>
-        </View>
-      </View>
-    );
-  }
-
-  renderFriend() {
-    return (
-      <View style={styles.renderView}>
-        <View style={{flexDirection: 'row'}}>
-          <Image source={friendImg} style={styles.innerStyle} />
-          <View style={styles.filedView}>
-            <TextInput
-              placeholder="Friends,Universal Studio"
-              style={styles.stylefiledText}
-              placeholderTextColor={COLORS.black}
-              maxLength={10}
-            />
-          </View>
-        </View>
-      </View>
-    );
-  }
-  renderMobile() {
-    return (
-      <View
-        style={{
-          marginLeft: Metrics.smallMargin,
-          marginTop: Metrics.smallMargin,
-        }}>
-        <View style={{flexDirection: 'row', alignItems: 'center'}}>
-          <Image source={call} style={styles.innerStyle} />
-
-          <View style={styles.filedView}>
-            <TextInput
-              placeholder="+1 (303) 123-4567"
-              style={styles.stylefiledText}
-              placeholderTextColor={COLORS.black}
-              keyboardType={'numeric'}
-              maxLength={10}
-            />
-            <View style={styles.rightView}>
-              <View>
-                <View
-                  style={{flex: 1, alignItems: 'flex-end', width: width * 0.3}}>
-                  <View style={styles.rightTwoImg}>
-                    <View>
-                      <Image source={edit} style={styles.editImg} />
-                    </View>
-                    <View style={styles.resetImg}>
-                      <Image source={reset} style={styles.editImg} />
-                    </View>
-                  </View>
-                  <Text style={styles.righttext}>( Personal )</Text>
-                </View>
+              <View style={styles.IconView}>
+                <Image source={iconVideo} style={styles.videoImg} />
+                <Text
+                  style={{
+                    marginTop: Metrics.smallMargin,
+                    fontFamily: 'Roboto-Bold',
+                    fontSize: width * 0.022,
+                    marginRight: Metrics.smallMargin,
+                  }}>
+                  Video
+                </Text>
+              </View>
+              <View style={styles.IconView}>
+                <Image source={iconEmail} style={styles.emailImg} />
+                <Text
+                  style={{
+                    marginTop: Metrics.xsmallMargin,
+                    fontFamily: 'Roboto-Bold',
+                    fontSize: width * 0.022,
+                  }}>
+                  E-mail
+                </Text>
+              </View>
+              <View style={styles.IconView}>
+                <Image source={iconMap} style={styles.mapImg} />
+                <Text
+                  style={{
+                    marginTop: Metrics.xsmallMargin,
+                    fontFamily: 'Roboto-Bold',
+                    fontSize: width * 0.022,
+                  }}>
+                  Direction
+                </Text>
+              </View>
+              <View style={styles.IconView}>
+                <Image source={iconPay} style={styles.payImg} />
+                <Text
+                  style={{
+                    marginTop: Metrics.xsmallMargin,
+                    fontFamily: 'Roboto-Bold',
+                    fontSize: width * 0.022,
+                  }}>
+                  Pay
+                </Text>
               </View>
             </View>
           </View>
         </View>
-        <View style={styles.fieldMain}>
-          <View style={styles.filedViewRightTwo}>
-            <TextInput
-              placeholder="+1 (303) 123-4567"
-              style={styles.stylefiledText}
-              placeholderTextColor={COLORS.black}
-              keyboardType={'numeric'}
-              maxLength={10}
-            />
-            <View style={styles.rightView}>
-              <View>
-                <View
-                  style={{flex: 1, alignItems: 'flex-end', width: width * 0.3}}>
-                  <View style={styles.rightTwoImg}>
-                    <View>
-                      <Image source={edit} style={styles.editImg} />
-                    </View>
-                    <View style={styles.resetImg}>
-                      <Image source={reset} style={styles.editImg} />
-                    </View>
-                  </View>
-                  <Text style={styles.righttext}>( Work )</Text>
-                </View>
-              </View>
-            </View>
-          </View>
-          <View style={styles.filedViewRightTwo}>
-            <TextInput
-              placeholder="+1 (303) 123-4567"
-              style={styles.stylefiledText}
-              placeholderTextColor={COLORS.black}
-              keyboardType={'numeric'}
-              maxLength={10}
-            />
-            <View style={styles.rightView}>
-              <View>
-                <View style={styles.rightTwoImg}>
-                  <View>
-                    <Image source={edit} style={styles.editImg} />
-                  </View>
-                  <View style={styles.resetImg}>
-                    <Image source={reset} style={styles.editImg} />
-                  </View>
-                </View>
-                <Text style={styles.righttext}>( Lanline )</Text>
-              </View>
-            </View>
-          </View>
-        </View>
-      </View>
-    );
-  }
-  renderEmail() {
-    return (
-      <View
-        style={{
-          marginLeft: Metrics.smallMargin,
-          marginTop: Metrics.smallMargin,
-        }}>
-        <View style={{flexDirection: 'row', alignItems: 'center'}}>
-          <Image source={email} style={styles.innerStyle} />
-          <View style={styles.filedView}>
-            <TextInput
-              placeholder="Sean@gmail.com"
-              style={styles.stylefiledText}
-              placeholderTextColor={COLORS.black}
-              maxLength={10}
-            />
-            <View style={styles.rightView}>
-              <View>
-                <View style={styles.rightTwoImg}>
-                  <View>
-                    <Image source={edit} style={styles.editImg} />
-                  </View>
-                  <View style={styles.resetImg}>
-                    <Image source={reset} style={styles.editImg} />
-                  </View>
-                </View>
-                <Text style={styles.righttext}>( Personal )</Text>
-              </View>
-            </View>
-          </View>
-        </View>
-      </View>
-    );
-  }
-  renderAddress() {
-    return (
-      <View
-        style={{
-          marginLeft: Metrics.xsmallMargin,
-          marginTop: Metrics.smallMargin,
-        }}>
-        <View style={{flexDirection: 'row', alignItems: 'center'}}>
-          <Image source={home} style={styles.innerStyle} />
-          <View style={styles.filedViewAddress}>
-            <View
-              style={{
-                width: width * 0.42,
-                height: width * 0.17,
-                flexDirection: 'row',
-              }}>
+        <View style={styles.renderView}>
+          <View style={{flexDirection: 'row'}}>
+            <Image source={friendImg} style={styles.innerStyle} />
+            <View style={styles.filedView}>
               <TextInput
-                placeholder="Sean "
+                placeholder="Friends,Universal Studio"
                 style={styles.stylefiledText}
                 placeholderTextColor={COLORS.black}
-                multiline={true}
+                maxLength={10}
+              />
+            </View>
+          </View>
+        </View>
+
+        <View
+          style={{
+            marginLeft: Metrics.smallMargin,
+            marginTop: Metrics.smallMargin,
+          }}>
+          <View style={{flexDirection: 'row', alignItems: 'center'}}>
+            <Image source={call} style={styles.innerStyle} />
+
+            <View style={styles.filedView}>
+              <TextInput
+                placeholder="+1 (303) 123-4567"
+                style={styles.stylefiledText}
+                placeholderTextColor={COLORS.black}
+                keyboardType={'numeric'}
+                maxLength={10}
               />
               <View style={styles.rightView}>
                 <View>
@@ -337,7 +214,7 @@ export default class searchContact extends Component {
                     style={{
                       flex: 1,
                       alignItems: 'flex-end',
-                      width: width * 0.2,
+                      width: width * 0.3,
                     }}>
                     <View style={styles.rightTwoImg}>
                       <View>
@@ -347,243 +224,20 @@ export default class searchContact extends Component {
                         <Image source={reset} style={styles.editImg} />
                       </View>
                     </View>
+                    <Text style={styles.righttext}>( Personal )</Text>
                   </View>
                 </View>
               </View>
             </View>
-            <Text style={styles.righttext}>( Facebook Messenger )</Text>
           </View>
-        </View>
-      </View>
-    );
-  }
-  renderMesssanger() {
-    return (
-      <View
-        style={{
-          marginLeft: Metrics.smallMargin,
-          marginTop: Metrics.smallMargin,
-        }}>
-        <View style={{flexDirection: 'row', alignItems: 'center'}}>
-          <Image source={message} style={styles.innerStyle} />
-          <View style={styles.filedView}>
-            <TextInput
-              placeholder="Sean@gmail.com"
-              style={styles.stylefiledText}
-              placeholderTextColor={COLORS.black}
-              maxLength={10}
-            />
-            <View style={styles.rightView}>
-              <View>
-                <View
-                  style={{flex: 1, alignItems: 'flex-end', width: width * 0.4}}>
-                  <View style={styles.rightTwoImg}>
-                    <View>
-                      <Image source={edit} style={styles.editImg} />
-                    </View>
-                    <View style={styles.resetImg}>
-                      <Image source={reset} style={styles.editImg} />
-                    </View>
-                  </View>
-                  <Text style={styles.righttext}>( Facebook Messenger )</Text>
-                </View>
-              </View>
-            </View>
-          </View>
-        </View>
-      </View>
-    );
-  }
-  renderSocialMedia() {
-    return (
-      <View
-        style={{
-          marginLeft: Metrics.smallMargin,
-          marginTop: Metrics.smallMargin,
-        }}>
-        <View style={{flexDirection: 'row', alignItems: 'center'}}>
-          <Image source={instagram} style={styles.innerStyle} />
-
-          <View style={styles.filedView}>
-            <TextInput
-              placeholder="@usernamesean"
-              style={styles.stylefiledText}
-              placeholderTextColor={COLORS.black}
-              keyboardType={'numeric'}
-              maxLength={10}
-            />
-            <View style={styles.rightView}>
-              <View>
-                <View
-                  style={{flex: 1, alignItems: 'flex-end', width: width * 0.3}}>
-                  <View style={styles.rightTwoImg}>
-                    <View>
-                      <Image source={edit} style={styles.editImg} />
-                    </View>
-                    <View style={styles.resetImg}>
-                      <Image source={reset} style={styles.editImg} />
-                    </View>
-                  </View>
-                  <Text style={styles.righttext}>( Facebook )</Text>
-                </View>
-              </View>
-            </View>
-          </View>
-        </View>
-        <View style={styles.fieldMain}>
-          <View style={styles.filedViewRightTwo}>
-            <TextInput
-              placeholder="Seanusername"
-              style={styles.stylefiledText}
-              placeholderTextColor={COLORS.black}
-              keyboardType={'numeric'}
-              maxLength={10}
-            />
-            <View style={styles.rightView}>
-              <View>
-                <View
-                  style={{flex: 1, alignItems: 'flex-end', width: width * 0.3}}>
-                  <View style={styles.rightTwoImg}>
-                    <View>
-                      <Image source={edit} style={styles.editImg} />
-                    </View>
-                    <View style={styles.resetImg}>
-                      <Image source={reset} style={styles.editImg} />
-                    </View>
-                  </View>
-                  <Text style={styles.righttext}>( Instagram )</Text>
-                </View>
-              </View>
-            </View>
-          </View>
-        </View>
-      </View>
-    );
-  }
-  renderWebsite() {
-    return (
-      <View
-        style={{
-          marginLeft: Metrics.smallMargin,
-          marginTop: Metrics.smallMargin,
-        }}>
-        <View style={{flexDirection: 'row', alignItems: 'center'}}>
-          <Image source={website} style={styles.innerStyle} />
-          <View style={styles.filedView}>
-            <TextInput
-              placeholder="www.seamuser.com"
-              style={styles.stylefiledText}
-              placeholderTextColor={COLORS.black}
-              maxLength={10}
-            />
-            <View style={styles.rightView}>
-              <View>
-                <View
-                  style={{flex: 1, alignItems: 'flex-end', width: width * 0.4}}>
-                  <View style={styles.rightTwoImg}>
-                    <View>
-                      <Image source={edit} style={styles.editImg} />
-                    </View>
-                    <View style={styles.resetImg}>
-                      <Image source={reset} style={styles.editImg} />
-                    </View>
-                  </View>
-                  <Text style={styles.righttext}>( Personal )</Text>
-                </View>
-              </View>
-            </View>
-          </View>
-        </View>
-      </View>
-    );
-  }
-  renderDate() {
-    return (
-      <View
-        style={{
-          marginLeft: Metrics.smallMargin,
-          marginTop: Metrics.smallMargin,
-        }}>
-        <View style={{flexDirection: 'row', alignItems: 'center'}}>
-          <Image source={calender} style={styles.innerStyle} />
-
-          <View style={styles.filedView}>
-            <TextInput
-              placeholder="1st January,1970"
-              style={styles.stylefiledText}
-              placeholderTextColor={COLORS.black}
-              keyboardType={'numeric'}
-              maxLength={10}
-            />
-            <View style={styles.rightView}>
-              <View>
-                <View
-                  style={{flex: 1, alignItems: 'flex-end', width: width * 0.3}}>
-                  <View style={styles.rightTwoImg}>
-                    <View>
-                      <Image source={edit} style={styles.editImg} />
-                    </View>
-                    <View style={styles.resetImg}>
-                      <Image source={reset} style={styles.editImg} />
-                    </View>
-                  </View>
-                  <Text style={styles.righttext}>( Birthday )</Text>
-                </View>
-              </View>
-            </View>
-          </View>
-        </View>
-        <View style={styles.fieldMain}>
-          <View style={styles.filedViewRightTwo}>
-            <TextInput
-              placeholder="3rd Febrauary,1999"
-              style={styles.stylefiledText}
-              placeholderTextColor={COLORS.black}
-              keyboardType={'numeric'}
-              maxLength={10}
-            />
-            <View style={styles.rightView}>
-              <View>
-                <View
-                  style={{flex: 1, alignItems: 'flex-end', width: width * 0.4}}>
-                  <View style={styles.rightTwoImg}>
-                    <View>
-                      <Image source={edit} style={styles.editImg} />
-                    </View>
-                    <View style={styles.resetImg}>
-                      <Image source={reset} style={styles.editImg} />
-                    </View>
-                  </View>
-                  <Text style={styles.righttext}>( wedding anniversary )</Text>
-                </View>
-              </View>
-            </View>
-          </View>
-        </View>
-      </View>
-    );
-  }
-  renderNote() {
-    return (
-      <View
-        style={{
-          marginLeft: Metrics.xsmallMargin,
-          marginTop: Metrics.smallMargin,
-        }}>
-        <View style={{flexDirection: 'row', alignItems: 'center'}}>
-          <Image source={note} style={styles.innerStyle} />
-          <View style={styles.filedViewAddress}>
-            <View
-              style={{
-                width: width * 0.42,
-                height: width * 0.17,
-                flexDirection: 'row',
-              }}>
+          <View style={styles.fieldMain}>
+            <View style={styles.filedViewRightTwo}>
               <TextInput
-                placeholder="To book me Comedian E-mail me at workmail@company.com"
+                placeholder="+1 (303) 123-4567"
                 style={styles.stylefiledText}
                 placeholderTextColor={COLORS.black}
-                multiline={true}
+                keyboardType={'numeric'}
+                maxLength={10}
               />
               <View style={styles.rightView}>
                 <View>
@@ -591,7 +245,410 @@ export default class searchContact extends Component {
                     style={{
                       flex: 1,
                       alignItems: 'flex-end',
-                      width: width * 0.2,
+                      width: width * 0.3,
+                    }}>
+                    <View style={styles.rightTwoImg}>
+                      <View>
+                        <Image source={edit} style={styles.editImg} />
+                      </View>
+                      <View style={styles.resetImg}>
+                        <Image source={reset} style={styles.editImg} />
+                      </View>
+                    </View>
+                    <Text style={styles.righttext}>( Work )</Text>
+                  </View>
+                </View>
+              </View>
+            </View>
+            <View style={styles.filedViewRightTwo}>
+              <TextInput
+                placeholder="+1 (303) 123-4567"
+                style={styles.stylefiledText}
+                placeholderTextColor={COLORS.black}
+                keyboardType={'numeric'}
+                maxLength={10}
+              />
+              <View style={styles.rightView}>
+                <View>
+                  <View style={styles.rightTwoImg}>
+                    <View>
+                      <Image source={edit} style={styles.editImg} />
+                    </View>
+                    <View style={styles.resetImg}>
+                      <Image source={reset} style={styles.editImg} />
+                    </View>
+                  </View>
+                  <Text style={styles.righttext}>( Lanline )</Text>
+                </View>
+              </View>
+            </View>
+          </View>
+        </View>
+        <View
+          style={{
+            marginLeft: Metrics.smallMargin,
+            marginTop: Metrics.smallMargin,
+          }}>
+          <View style={{flexDirection: 'row', alignItems: 'center'}}>
+            <Image source={email} style={styles.innerStyle} />
+            <View style={styles.filedView}>
+              <TextInput
+                placeholder="Sean@gmail.com"
+                style={styles.stylefiledText}
+                placeholderTextColor={COLORS.black}
+                maxLength={10}
+              />
+              <View style={styles.rightView}>
+                <View>
+                  <View
+                    style={{
+                      flex: 1,
+                      alignItems: 'flex-end',
+                      width: width * 0.3,
+                    }}>
+                    <View style={styles.rightTwoImg}>
+                      <View>
+                        <Image source={edit} style={styles.editImg} />
+                      </View>
+                      <View style={styles.resetImg}>
+                        <Image source={reset} style={styles.editImg} />
+                      </View>
+                    </View>
+                    <Text style={styles.righttext}>( Personal )</Text>
+                  </View>
+                </View>
+              </View>
+            </View>
+          </View>
+        </View>
+        <View
+          style={{
+            marginLeft: Metrics.xsmallMargin,
+            marginTop: Metrics.smallMargin,
+          }}>
+          <View style={{flexDirection: 'row', alignItems: 'center'}}>
+            <Image source={home} style={styles.innerStyle} />
+            <View style={styles.filedViewAddress}>
+              <View
+                style={{
+                  width: width * 0.3,
+                  height: width * 0.32,
+                  flexDirection: 'row',
+                }}>
+                <TextInput
+                  placeholder="4546 willows St.
+                
+                Los Angles, CA 90016
+                
+                United states"
+                  style={styles.stylefiledText}
+                  placeholderTextColor={COLORS.black}
+                  multiline={true}
+                />
+                <View style={styles.rightView}>
+                  <View>
+                    <View
+                      style={{
+                        flex: 1,
+                        alignItems: 'flex-end',
+                        width: width * 0.2,
+                      }}>
+                      <View style={styles.rightTwoImg}>
+                        <View>
+                          <Image source={edit} style={styles.editImg} />
+                        </View>
+                        <View style={styles.resetImg}>
+                          <Image source={reset} style={styles.editImg} />
+                        </View>
+                      </View>
+                    </View>
+                  </View>
+                </View>
+              </View>
+              <Text style={styles.righttext}>( Personal )</Text>
+            </View>
+          </View>
+        </View>
+        <View
+          style={{
+            marginLeft: Metrics.smallMargin,
+            marginTop: Metrics.smallMargin,
+          }}>
+          <View style={{flexDirection: 'row', alignItems: 'center'}}>
+            <Image source={message} style={styles.innerStyle} />
+            <View style={styles.filedView}>
+              <TextInput
+                placeholder="@usernamesean"
+                style={styles.stylefiledText}
+                placeholderTextColor={COLORS.black}
+              />
+              <View style={styles.rightView}>
+                <View>
+                  <View
+                    style={{
+                      flex: 1,
+                      alignItems: 'flex-end',
+                      width: width * 0.4,
+                    }}>
+                    <View style={styles.rightTwoImg}>
+                      <View>
+                        <Image source={edit} style={styles.editImg} />
+                      </View>
+                      <View style={styles.resetImg}>
+                        <Image source={reset} style={styles.editImg} />
+                      </View>
+                    </View>
+                    <Text style={styles.righttext}>( Facebook Messenger )</Text>
+                  </View>
+                </View>
+              </View>
+            </View>
+          </View>
+        </View>
+        <View
+          style={{
+            marginLeft: Metrics.smallMargin,
+            marginTop: Metrics.smallMargin,
+          }}>
+          <View style={{flexDirection: 'row', alignItems: 'center'}}>
+            <Image source={instagram} style={styles.innerStyle} />
+
+            <View style={styles.filedView}>
+              <TextInput
+                placeholder="@usernamesean"
+                style={styles.stylefiledText}
+                placeholderTextColor={COLORS.black}
+                keyboardType={'numeric'}
+                maxLength={10}
+              />
+              <View style={styles.rightView}>
+                <View>
+                  <View
+                    style={{
+                      flex: 1,
+                      alignItems: 'flex-end',
+                      width: width * 0.3,
+                    }}>
+                    <View style={styles.rightTwoImg}>
+                      <View>
+                        <Image source={edit} style={styles.editImg} />
+                      </View>
+                      <View style={styles.resetImg}>
+                        <Image source={reset} style={styles.editImg} />
+                      </View>
+                    </View>
+                    <Text style={styles.righttext}>( Facebook )</Text>
+                  </View>
+                </View>
+              </View>
+            </View>
+          </View>
+          <View style={styles.fieldMain}>
+            <View style={styles.filedViewRightTwo}>
+              <TextInput
+                placeholder="Seanusername"
+                style={styles.stylefiledText}
+                placeholderTextColor={COLORS.black}
+                keyboardType={'numeric'}
+                maxLength={10}
+              />
+              <View style={styles.rightView}>
+                <View>
+                  <View
+                    style={{
+                      flex: 1,
+                      alignItems: 'flex-end',
+                      width: width * 0.3,
+                    }}>
+                    <View style={styles.rightTwoImg}>
+                      <View>
+                        <Image source={edit} style={styles.editImg} />
+                      </View>
+                      <View style={styles.resetImg}>
+                        <Image source={reset} style={styles.editImg} />
+                      </View>
+                    </View>
+                    <Text style={styles.righttext}>( Instagram )</Text>
+                  </View>
+                </View>
+              </View>
+            </View>
+          </View>
+        </View>
+        <View
+          style={{
+            marginLeft: Metrics.smallMargin,
+            marginTop: Metrics.smallMargin,
+          }}>
+          <View style={{flexDirection: 'row', alignItems: 'center'}}>
+            <Image source={website} style={styles.innerStyle} />
+            <View style={styles.filedView}>
+              <TextInput
+                placeholder="www.seamuser.com"
+                style={styles.stylefiledText}
+                placeholderTextColor={COLORS.black}
+                maxLength={10}
+              />
+              <View style={styles.rightView}>
+                <View>
+                  <View
+                    style={{
+                      flex: 1,
+                      alignItems: 'flex-end',
+                      width: width * 0.4,
+                    }}>
+                    <View style={styles.rightTwoImg}>
+                      <View>
+                        <Image source={edit} style={styles.editImg} />
+                      </View>
+                      <View style={styles.resetImg}>
+                        <Image source={reset} style={styles.editImg} />
+                      </View>
+                    </View>
+                    <Text style={styles.righttext}>( Personal )</Text>
+                  </View>
+                </View>
+              </View>
+            </View>
+          </View>
+        </View>
+        <View
+          style={{
+            marginLeft: Metrics.smallMargin,
+            marginTop: Metrics.smallMargin,
+          }}>
+          <View style={{flexDirection: 'row', alignItems: 'center'}}>
+            <Image source={calender} style={styles.innerStyle} />
+
+            <View style={styles.filedView}>
+              <TextInput
+                placeholder="1st January,1970"
+                style={styles.stylefiledText}
+                placeholderTextColor={COLORS.black}
+                keyboardType={'numeric'}
+                maxLength={10}
+              />
+              <View style={styles.rightView}>
+                <View>
+                  <View
+                    style={{
+                      flex: 1,
+                      alignItems: 'flex-end',
+                      width: width * 0.3,
+                    }}>
+                    <View style={styles.rightTwoImg}>
+                      <View>
+                        <Image source={edit} style={styles.editImg} />
+                      </View>
+                      <View style={styles.resetImg}>
+                        <Image source={reset} style={styles.editImg} />
+                      </View>
+                    </View>
+                    <Text style={styles.righttext}>( Birthday )</Text>
+                  </View>
+                </View>
+              </View>
+            </View>
+          </View>
+          <View style={styles.fieldMain}>
+            <View style={styles.filedViewRightTwo}>
+              <TextInput
+                placeholder="3rd Febrauary,1999"
+                style={styles.stylefiledText}
+                placeholderTextColor={COLORS.black}
+                keyboardType={'numeric'}
+                maxLength={10}
+              />
+              <View style={styles.rightView}>
+                <View>
+                  <View
+                    style={{
+                      flex: 1,
+                      alignItems: 'flex-end',
+                      width: width * 0.4,
+                    }}>
+                    <View style={styles.rightTwoImg}>
+                      <View>
+                        <Image source={edit} style={styles.editImg} />
+                      </View>
+                      <View style={styles.resetImg}>
+                        <Image source={reset} style={styles.editImg} />
+                      </View>
+                    </View>
+                    <Text style={styles.righttext}>
+                      ( wedding anniversary )
+                    </Text>
+                  </View>
+                </View>
+              </View>
+            </View>
+          </View>
+        </View>
+        <View
+          style={{
+            marginLeft: Metrics.xsmallMargin,
+            marginTop: Metrics.smallMargin,
+          }}>
+          <View style={{flexDirection: 'row', alignItems: 'center'}}>
+            <Image source={note} style={styles.innerStyle} />
+            <View style={styles.filedViewNote}>
+              <View
+                style={{
+                  width: width * 0.42,
+                  height: width * 0.25,
+                  flexDirection: 'row',
+                }}>
+                <TextInput
+                  placeholder="To book me Comedian E-mail me at workmail@company.com"
+                  style={styles.stylefiledText}
+                  placeholderTextColor={COLORS.black}
+                  multiline={true}
+                />
+                <View style={styles.rightView}>
+                  <View>
+                    <View
+                      style={{
+                        flex: 1,
+                        alignItems: 'flex-end',
+                        width: width * 0.2,
+                      }}>
+                      <View style={styles.rightTwoImg}>
+                        {/* <View>
+                    <Image source={edit} style={styles.editImg} />
+                  </View> */}
+                        <View style={styles.resetImg}>
+                          <Image source={reset} style={styles.editImg} />
+                        </View>
+                      </View>
+                    </View>
+                  </View>
+                </View>
+              </View>
+              <Text style={styles.righttext}>( Note 1 )</Text>
+            </View>
+          </View>
+        </View>
+        <View
+          style={{
+            marginLeft: Metrics.smallMargin,
+            marginTop: Metrics.smallMargin,
+          }}>
+          <View style={{flexDirection: 'row', alignItems: 'center'}}>
+            <Image source={handshake} style={styles.innerStyle} />
+
+            <View style={styles.filedView}>
+              <TextInput
+                placeholder="IBM"
+                style={styles.stylefiledText}
+                placeholderTextColor={COLORS.black}
+              />
+              <View style={styles.rightView}>
+                <View>
+                  <View
+                    style={{
+                      flex: 1,
+                      alignItems: 'flex-end',
+                      width: width * 0.3,
                     }}>
                     <View style={styles.rightTwoImg}>
                       {/* <View>
@@ -601,95 +658,20 @@ export default class searchContact extends Component {
                         <Image source={reset} style={styles.editImg} />
                       </View>
                     </View>
+                    <Text style={styles.righttext}>( Company )</Text>
                   </View>
                 </View>
               </View>
             </View>
-            <Text style={styles.righttext}>( Note 1 )</Text>
           </View>
-        </View>
-      </View>
-    );
-  }
-  renderCompany() {
-    return (
-      <View
-        style={{
-          marginLeft: Metrics.smallMargin,
-          marginTop: Metrics.smallMargin,
-        }}>
-        <View style={{flexDirection: 'row', alignItems: 'center'}}>
-          <Image source={handshake} style={styles.innerStyle} />
-
-          <View style={styles.filedView}>
-            <TextInput
-              placeholder="IBM"
-              style={styles.stylefiledText}
-              placeholderTextColor={COLORS.black}
-            />
-            <View style={styles.rightView}>
-              <View>
-                <View
-                  style={{flex: 1, alignItems: 'flex-end', width: width * 0.3}}>
-                  <View style={styles.rightTwoImg}>
-                    {/* <View>
-                    <Image source={edit} style={styles.editImg} />
-                  </View> */}
-                    <View style={styles.resetImg}>
-                      <Image source={reset} style={styles.editImg} />
-                    </View>
-                  </View>
-                  <Text style={styles.righttext}>( Company )</Text>
-                </View>
-              </View>
-            </View>
-          </View>
-        </View>
-        <View style={styles.fieldMain}>
-          <View style={styles.filedViewRightTwo}>
-            <TextInput
-              placeholder="Software Engineer"
-              style={styles.stylefiledText}
-              placeholderTextColor={COLORS.black}
-              keyboardType={'numeric'}
-              maxLength={10}
-            />
-            <View style={styles.rightView}>
-              <View>
-                <View
-                  style={{flex: 1, alignItems: 'flex-end', width: width * 0.3}}>
-                  <View style={styles.rightTwoImg}>
-                    {/* <View>
-                    <Image source={edit} style={styles.editImg} />
-                  </View> */}
-                    <View style={styles.resetImg}>
-                      <Image source={reset} style={styles.editImg} />
-                    </View>
-                  </View>
-                  <Text style={styles.righttext}>( Job Title )</Text>
-                </View>
-              </View>
-            </View>
-          </View>
-        </View>
-        <View style={styles.fieldMain}>
-          <View style={styles.filedViewRightTwoCompany}>
-            <View
-              style={{
-                width: width * 0.5,
-                height: width * 0.3,
-                flexDirection: 'row',
-              }}>
+          <View style={styles.fieldMain}>
+            <View style={styles.filedViewRightTwo}>
               <TextInput
-                placeholder="Monday 9.00a.mto 5:00p.m Tuesday 9.00a.mto 5:00p.m 
-             Wednesday 9.00a.mto 5:00p.m
-             Thrusday 9.00a.mto 5:00p.m
-             Friday 9.00a.mto 5:00p.m
-             Saturday off
-             Sunday off "
-                style={styles.stylefiledTextCompany}
+                placeholder="Software Engineer"
+                style={styles.stylefiledText}
                 placeholderTextColor={COLORS.black}
-                multiline={true}
+                keyboardType={'numeric'}
+                maxLength={10}
               />
               <View style={styles.rightView}>
                 <View>
@@ -697,56 +679,83 @@ export default class searchContact extends Component {
                     style={{
                       flex: 1,
                       alignItems: 'flex-end',
-                      width: width * 0.35,
+                      width: width * 0.3,
                     }}>
-                    <View style={styles.rightTwoCompany}>
-                      <Image source={reset} style={styles.editImg} />
-                      <View style={styles.resetImg}></View>
+                    <View style={styles.rightTwoImg}>
+                      {/* <View>
+                    <Image source={edit} style={styles.editImg} />
+                  </View> */}
+                      <View style={styles.resetImg}>
+                        <Image source={reset} style={styles.editImg} />
+                      </View>
                     </View>
+                    <Text style={styles.righttext}>( Job Title )</Text>
                   </View>
                 </View>
               </View>
             </View>
-            <Text style={styles.righttext}>Pacific Time Zone</Text>
-            <Text style={styles.righttext}>( Work Gours)</Text>
+          </View>
+          <View style={styles.fieldMain}>
+            <View style={styles.filedViewRightTwoCompany}>
+              <View
+                style={{
+                  width: width * 0.5,
+                  height: width * 0.35,
+                  flexDirection: 'row',
+                }}>
+                <TextInput
+                  placeholder="Monday 9.00a.mto 5:00p.m Tuesday 9.00a.mto 5:00p.m 
+             Wednesday 9.00a.mto 5:00p.m
+             Thrusday 9.00a.mto 5:00p.m
+             Friday 9.00a.mto 5:00p.m
+             Saturday off
+             Sunday off "
+                  style={styles.stylefiledTextCompany}
+                  placeholderTextColor={COLORS.black}
+                  multiline={true}
+                />
+                <View style={styles.rightView}>
+                  <View>
+                    <View
+                      style={{
+                        flex: 1,
+                        alignItems: 'flex-end',
+                        width: width * 0.35,
+                      }}>
+                      <View style={styles.rightTwoCompany}>
+                        <Image source={reset} style={styles.editImg} />
+                        <View style={styles.resetImg}></View>
+                      </View>
+                    </View>
+                  </View>
+                </View>
+              </View>
+              <Text style={styles.righttext}>Pacific Time Zone</Text>
+              <Text style={styles.righttext}>( Work Hours)</Text>
+            </View>
           </View>
         </View>
+      </ScrollView>
+      <View
+        style={{
+          width: width * 0.9,
+          flexDirection: 'row',
+          alignItems: 'center',
+          justifyContent: 'flex-end',
+          flexDirection: 'row',
+          marginTop: Metrics.smallMargin,
+        }}>
+        <TouchableHighlight style={styles.saveView}>
+          <Text
+            style={{
+              color: COLORS.main_text_color,
+              fontFamily: 'Roboto-Bold',
+              fontSize: width * 0.04,
+            }}>
+            Edit
+          </Text>
+        </TouchableHighlight>
       </View>
-    );
-  }
-  render() {
-    return (
-      <View style={{backgroundColor: COLORS.white, flex: 1}}>
-        <ScrollView style={{flex: 1}}>
-          {this.renderImg()}
-          {this.renderMiddle()}
-
-          {this.renderFriend()}
-          {this.renderMobile()}
-          {this.renderEmail()}
-          {this.renderAddress()}
-          {this.renderMesssanger()}
-          {this.renderSocialMedia()}
-          {this.renderWebsite()}
-          {this.renderDate()}
-          {this.renderNote()}
-          {this.renderCompany()}
-        </ScrollView>
-        <View
-          style={{
-            width: width * 0.9,
-            flexDirection: 'row',
-            alignItems: 'center',
-            justifyContent: 'flex-end',
-            flexDirection: 'row',
-          }}>
-          <TouchableHighlight style={styles.saveView}>
-            <Text style={{color: COLORS.main_text_color,  fontFamily:'Roboto-Bold',
- fontSize: width * 0.040,
-}}>Edit</Text>
-          </TouchableHighlight>
-        </View>
-      </View>
-    );
-  }
+    </View>
+  );
 }

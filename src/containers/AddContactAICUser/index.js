@@ -10,30 +10,55 @@ import {
   View,
 } from 'react-native';
 import React, {Component} from 'react';
+import {useDispatch, useSelector} from 'react-redux';
 
 import {COLORS} from '../theme/Colors.js';
-import { CommonActions } from '@react-navigation/native';
+import {CommonActions} from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import Metrics from '../theme/Metrics';
 import info from '../../assets/icons/info.svg';
 import logo from '../../assets/images/logo.png';
-import rigthLogo from '../../assets/icons/contact.png'
+import rigthLogo from '../../assets/icons/contact.png';
 import sideBar from '../../assets/images/sideBAR.png';
 import styles from './style.js';
+import {useTheme} from '@react-navigation/native';
 
 var {width, height} = Dimensions.get('window');
 
-export default class AddContactAICUser extends Component {
-  renderHeader() {
-    return (
+export default function AddContactAICUser({navigation}) {
+  const {colors} = useTheme();
+  const dispatch = useDispatch();
+  const textcolor = colors.textColor;
+  const currentTheme = useSelector((state) => {
+    return state.myDarMode;
+  });
+
+  const byLabelNavigate = () => {
+    navigation.dispatch(
+      CommonActions.navigate({
+        name: 'manuallyAddContact',
+        //routes: [{ name: 'Login' }],
+      }),
+    );
+  };
+  const manuallyAddNavigate = () => {
+    navigation.dispatch(
+      CommonActions.navigate({
+        name: 'forAddContact',
+        //routes: [{ name: 'Login' }],
+      }),
+    );
+  };
+
+  return (
+    <View style={[styles.container, {backgroundColor: colors.backColor}]}>
       <View style={{alignItems: 'center'}}>
         <View style={styles.blueView}>
           <View style={{width: width * 0.9, flexDirection: 'row'}}>
             <TouchableOpacity
               style={styles.sideBarView}
-              onPress={() => this.props.navigation.openDrawer()}
-             >
-             <Image source={sideBar} style={styles.sidebarStyle} />
+              onPress={() => navigation.openDrawer()}>
+              <Image source={sideBar} style={styles.sidebarStyle} />
             </TouchableOpacity>
             <View style={styles.sidebarViewCenter}>
               <Text style={styles.centerText}>Add Contact AIC User(s)</Text>
@@ -44,46 +69,18 @@ export default class AddContactAICUser extends Component {
           </View>
         </View>
       </View>
-    );
-  }
-  renderMiddle() {
-    return (
       <View>
-        <View style={{alignItems: 'center',marginTop:Metrics.baseMargin}}>
-          <TouchableOpacity style={styles.Whiteview} onPress={this.byLabelNavigate} >
+        <View style={{alignItems: 'center', marginTop: Metrics.baseMargin}}>
+          <TouchableOpacity style={styles.Whiteview} onPress={byLabelNavigate}>
             <Text style={styles.blueText}>QR Code</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.Whiteview} onPress={this.manuallyAddNavigate}>
+          <TouchableOpacity
+            style={styles.Whiteview}
+            onPress={manuallyAddNavigate}>
             <Text style={styles.blueText}>Username</Text>
           </TouchableOpacity>
         </View>
       </View>
-    );
-  }
-  byLabelNavigate = () => {
-    this.props.navigation.dispatch(
-        CommonActions.navigate({
-          name: 'manuallyAddContact',
-          //routes: [{ name: 'Login' }],
-        })
-    );
-  }
-  manuallyAddNavigate = () => {
-    this.props.navigation.dispatch(
-        CommonActions.navigate({
-          name: 'forAddContact',
-          //routes: [{ name: 'Login' }],
-        })
-    );
-}
-
-
-  render() {
-    return (
-      <View style={styles.container}>
-        {this.renderHeader()}
-        {this.renderMiddle()}
-      </View>
-    );
-  }
+    </View>
+  );
 }

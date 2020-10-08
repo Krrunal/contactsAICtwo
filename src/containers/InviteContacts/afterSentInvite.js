@@ -10,6 +10,7 @@ import {
   View,
 } from 'react-native';
 import React, {Component, useState} from 'react';
+import {useDispatch, useSelector} from 'react-redux';
 
 import {COLORS} from '../theme/Colors.js';
 import {CommonActions} from '@react-navigation/native';
@@ -18,20 +19,39 @@ import logo from '../../assets/images/logo.png';
 import rigthLogo from '../../assets/icons/contact.png';
 import sideBar from '../../assets/images/sideBAR.png';
 import styles from './style.js';
+import {useTheme} from '@react-navigation/native';
 
 /* eslint-disable react-native/no-inline-styles */
 /* eslint-disable prettier/prettier */
 
 var {width, height} = Dimensions.get('window');
-export default class afterSentInvite extends Component {
-  renderHeader() {
+export default function afterSentInvite ({navigation})  {
+      
+  
+  
+    const {colors} = useTheme();
+    const dispatch = useDispatch();
+    const textcolor = colors.textColor
+    const currentTheme = useSelector((state) => {
+      return state.myDarMode;
+    });
+const  oknavigate = () => {
+    navigation.dispatch(
+      CommonActions.navigate({
+        name: 'Invite',
+        //routes: [{ name: 'Login' }],
+      }),
+    );
+  };
+
     return (
-      <View style={{alignItems: 'center', flex: 1}}>
+      <View style={[{flex: 1, backgroundColor: COLORS.white},{backgroundColor: colors.backColor}]}>
+          <View style={{alignItems: 'center', flex: 1}}>
         <View style={styles.blueView}>
           <View style={{width: width * 0.9, flexDirection: 'row'}}>
             <TouchableOpacity
               style={styles.sideBarView}
-              onPress={() => this.props.navigation.openDrawer()}>
+              onPress={() => navigation.openDrawer()}>
               <Image source={sideBar} style={styles.sidebarStyle} />
             </TouchableOpacity>
             <View style={styles.sidebarViewCenter}>
@@ -43,15 +63,15 @@ export default class afterSentInvite extends Component {
           </View>
         </View>
         <Text
-          style={{
+          style={[{
             marginTop: Metrics.xdoubleBaseMargin,
             fontFamily: 'Roboto-Bold',
             fontSize: width * 0.04,
-          }}>
+          }, {color: colors.textColor}]}>
           Invite(s) Sent
         </Text>
         <View style={{marginTop: Metrics.doubleBaseMargin}}>
-          <TouchableOpacity style={styles.Whiteview} onPress={this.oknavigate}>
+          <TouchableOpacity style={styles.Whiteview} onPress={oknavigate}>
             <Text
               style={{
                 color: COLORS.main_text_color,
@@ -63,21 +83,7 @@ export default class afterSentInvite extends Component {
           </TouchableOpacity>
         </View>
       </View>
-    );
-  }
-  oknavigate = () => {
-    this.props.navigation.dispatch(
-      CommonActions.navigate({
-        name: 'Invite',
-        //routes: [{ name: 'Login' }],
-      }),
-    );
-  };
-  render() {
-    return (
-      <View style={{flex: 1, backgroundColor: COLORS.white}}>
-        {this.renderHeader()}
       </View>
     );
   }
-}
+

@@ -1,9 +1,10 @@
 /**
  * @format
  */
+import 'react-native-gesture-handler';
 
 import App from './src/components/drawerNavigation/app';
-// import App from './src/containers/Profile/index';
+// import App from './src/checkTwo';
 import {AppRegistry} from 'react-native';
 import {name as appName} from './app.json';
 

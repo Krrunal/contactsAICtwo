@@ -153,7 +153,7 @@ export default StyleSheet.create({
   },
   stylefiledText: {
     marginLeft: Metrics.smallMargin,
-
+    fontSize: width * 0.027,
     // justifyContent: 'center',
     // alignItems: 'center',
     color: COLORS.black,
@@ -221,10 +221,11 @@ export default StyleSheet.create({
     width: width * 0.04,
     height: width * 0.04,
     marginRight: 12,
+    resizeMode:'contain'
   },
   rightTwoImg: {
     flexDirection: 'row',
-  
+    alignItems:'flex-end',
     width: width * 0.15,
   },
   resetImg: {
@@ -234,7 +235,7 @@ export default StyleSheet.create({
   },
   filedViewAddress: {
     width: width * 0.8,
-    height: height * 0.12,
+    height: height * 0.2,
     backgroundColor: COLORS.white,
     shadowColor: COLORS.black,
     shadowOffset: {
@@ -258,7 +259,7 @@ export default StyleSheet.create({
   },
   filedViewRightTwoCompany:{
     width: width * 0.8,
-    height: height * 0.180,
+    height: height * 0.240,
     backgroundColor: COLORS.white,
     shadowColor: COLORS.black,
     shadowOffset: {
@@ -276,7 +277,7 @@ export default StyleSheet.create({
   },
   stylefiledTextCompany: {
     marginLeft: Metrics.smallMargin,
-
+    fontSize: width * 0.027,
     // justifyContent: 'center',
     // alignItems: 'center',
     color: COLORS.black,
@@ -308,6 +309,36 @@ export default StyleSheet.create({
     borderRadius: 5,
 
     marginBottom: Metrics.baseMargin,
+  },
+  filedViewNote: {
+    width: width * 0.8,
+    height: height * 0.180,
+    backgroundColor: COLORS.white,
+    shadowColor: COLORS.black,
+    shadowOffset: {
+      width: 2,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+    borderRadius: 5,
+    marginLeft: Metrics.smallMargin,
+  },
+  filedViewcomapny: {
+    width: width * 0.8,
+    height: height * 0.180,
+    backgroundColor: COLORS.white,
+    shadowColor: COLORS.black,
+    shadowOffset: {
+      width: 2,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+    borderRadius: 5,
+    marginLeft: Metrics.smallMargin,
   },
 });
 
