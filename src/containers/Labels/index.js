@@ -8,131 +8,148 @@ import {
   TextInput,
   TouchableOpacity,
   View,
-} from 'react-native';
-import React, {Component, useState} from 'react';
-import {useDispatch, useSelector} from 'react-redux';
+} from "react-native";
+import React, { Component, useState } from "react";
+import styled, { ThemeProvider } from "styled-components/native";
 
-import {COLORS} from '../theme/Colors.js';
-import {CommonActions} from '@react-navigation/native';
-import Icon from 'react-native-vector-icons/FontAwesome5';
-import Metrics from '../theme/Metrics';
-import logo from '../../assets/images/logo.png';
-import rigthLogo from '../../assets/icons/contact.png';
-import sideBar from '../../assets/images/sideBAR.png';
-import styles from './style.js';
-import {useTheme} from '@react-navigation/native';
+import { COLORS } from "../theme/Colors.js";
+import { CommonActions } from "@react-navigation/native";
+import Font from "../theme/font";
+import Header from "../../components/header/index";
+import Icon from "react-native-vector-icons/FontAwesome5";
+import Metrics from "../theme/Metrics";
+import { connect } from "react-redux";
+import styles from "./style.js";
 
-/* eslint-disable react-native/no-inline-styles */
-/* eslint-disable prettier/prettier */
-
-var {width, height} = Dimensions.get('window');
-export default function labels({navigation}) {
-  const {colors} = useTheme();
-  const dispatch = useDispatch();
-  const textcolor = colors.textColor;
-  const ColorIcon = colors.iconColor;
-  const currentTheme = useSelector((state) => {
-    return state.myDarMode;
-  });
-
-  const manageLabelnavigate = () => {
-    navigation.dispatch(
-      CommonActions.navigate({
-        name: 'ManageLable',
-        //routes: [{ name: 'Login' }],
-      }),
+var { width, height } = Dimensions.get("window");
+class labels extends Component {
+  renderHeader() {
+    return (
+      <Header
+        title="Labels"
+        onPress={() => this.props.navigation.openDrawer()}
+      />
     );
-  };
+  }
 
-  return (
-    <View style={[{flex: 1, backgroundColor: COLORS.white},{backgroundColor: colors.backColor}]}>
-      <View style={{alignItems: 'center'}}>
-        <View style={styles.blueView}>
-          <View style={{width: width * 0.9, flexDirection: 'row'}}>
-            <TouchableOpacity
-              style={styles.sideBarView}
-              onPress={() => navigation.openDrawer()}>
-              <Image source={sideBar} style={styles.sidebarStyle} />
-            </TouchableOpacity>
-            <View style={styles.sidebarViewCenter}>
-              <Text style={styles.centerText}>Labels</Text>
-            </View>
-            <View style={styles.sidebarViewRight}>
-              <Image source={rigthLogo} style={styles.sidebarStyle} />
-            </View>
-          </View>
-        </View>
-      </View>
+  renderMiddle() {
+    return (
       <ScrollView>
-        <View style={{flex: 1, marginBottom: Metrics.smallMargin}}>
+        <View style={{ flex: 1, marginBottom: Metrics.smallMargin }}>
           <View style={styles.tripleView}>
-            <Icon name={'arrows-alt-v'} size={15} color={ColorIcon} />
+            {this.props.theme.mode === "light" ? (
+              <Icon name={"arrows-alt-v"} size={15} color={COLORS.black} />
+            ) : (
+              <Icon name={"arrows-alt-v"} size={15} color={COLORS.white} />
+            )}
+
             <TouchableOpacity
               style={styles.manageView}
-              onPress={manageLabelnavigate}>
+              onPress={this.manageLabelnavigate}
+            >
               <Text style={styles.manageText}>Manage</Text>
             </TouchableOpacity>
-            <Text style={[styles.tripleText, {color: colors.textColor}]}>Family</Text>
+            <NormalText>Family</NormalText>
           </View>
           <View style={styles.tripleView}>
-            <Icon name={'arrows-alt-v'} size={15} color={ColorIcon}/>
+            {this.props.theme.mode === "light" ? (
+              <Icon name={"arrows-alt-v"} size={15} color={COLORS.black} />
+            ) : (
+              <Icon name={"arrows-alt-v"} size={15} color={COLORS.white} />
+            )}
             <View style={styles.manageView}>
               <Text style={styles.manageText}>Manage</Text>
             </View>
-            <Text style={[styles.tripleText, {color: colors.textColor}]}>Friend</Text>
+            <NormalText>Friend</NormalText>
           </View>
           <View style={styles.tripleView}>
-            <Icon name={'arrows-alt-v'} size={15} color={ColorIcon} />
+            {this.props.theme.mode === "light" ? (
+              <Icon name={"arrows-alt-v"} size={15} color={COLORS.black} />
+            ) : (
+              <Icon name={"arrows-alt-v"} size={15} color={COLORS.white} />
+            )}
             <View style={styles.manageView}>
               <Text style={styles.manageText}>Manage</Text>
             </View>
-            <Text style={[styles.tripleText, {color: colors.textColor}]}>Relative</Text>
+            <NormalText>Relative</NormalText>
           </View>
           <View style={styles.tripleView}>
-            <Icon name={'arrows-alt-v'} size={15} color={ColorIcon}/>
+            {this.props.theme.mode === "light" ? (
+              <Icon name={"arrows-alt-v"} size={15} color={COLORS.black} />
+            ) : (
+              <Icon name={"arrows-alt-v"} size={15} color={COLORS.white} />
+            )}
             <View style={styles.manageView}>
               <Text style={styles.manageText}>Manage</Text>
             </View>
-            <Text style={[styles.tripleText, {color: colors.textColor}]}>Universal Studio</Text>
+            <NormalText>Universal Studio</NormalText>
           </View>
           <View style={styles.tripleView}>
-            <Icon name={'arrows-alt-v'} size={15} color={ColorIcon}/>
+            {this.props.theme.mode === "light" ? (
+              <Icon name={"arrows-alt-v"} size={15} color={COLORS.black} />
+            ) : (
+              <Icon name={"arrows-alt-v"} size={15} color={COLORS.white} />
+            )}
             <View style={styles.manageView}>
               <Text style={styles.manageText}>Manage</Text>
             </View>
-            <Text style={[styles.tripleText, {color: colors.textColor}]}>Sports Gambling Podcast</Text>
+            <NormalText>Sports Gambling Podcast</NormalText>
           </View>
           <View style={styles.tripleView}>
-            <Icon name={'arrows-alt-v'} size={15} color={ColorIcon} />
+            {this.props.theme.mode === "light" ? (
+              <Icon name={"arrows-alt-v"} size={15} color={COLORS.black} />
+            ) : (
+              <Icon name={"arrows-alt-v"} size={15} color={COLORS.white} />
+            )}
             <View style={styles.manageView}>
               <Text style={styles.manageText}>Manage</Text>
             </View>
-            <Text style={[styles.tripleText, {color: colors.textColor}]}>Green Inc.</Text>
+            <NormalText>Green Inc.</NormalText>
           </View>
           <View style={styles.tripleView}>
-            <Icon name={'arrows-alt-v'} size={15} color={ColorIcon} />
+            {this.props.theme.mode === "light" ? (
+              <Icon name={"arrows-alt-v"} size={15} color={COLORS.black} />
+            ) : (
+              <Icon name={"arrows-alt-v"} size={15} color={COLORS.white} />
+            )}
             <View style={styles.manageView}>
               <Text style={styles.manageText}>Manage</Text>
             </View>
-            <Text style={[styles.tripleText, {color: colors.textColor}]}>No Label</Text>
+            <NormalText>No Label</NormalText>
           </View>
         </View>
       </ScrollView>
-      <View style={{alignItems: 'center', flex: 1}}>
+    );
+  }
+
+  manageLabelnavigate = () => {
+    this.props.navigation.dispatch(
+      CommonActions.navigate({
+        name: "ManageLable",
+        //routes: [{ name: 'Login' }],
+      })
+    );
+  };
+
+  renderLast() {
+    return (
+      <View style={{ alignItems: "center", flex: 1 }}>
         <View
           style={{
             flex: 1,
-            bottom: 20,
-            position: 'absolute',
-            flexDirection: 'row',
-          }}>
+            bottom: 40,
+            position: "absolute",
+            flexDirection: "row",
+          }}
+        >
           <View style={styles.Whiteview}>
             <Text
               style={{
                 color: COLORS.main_text_color,
-                fontFamily: 'Roboto-Bold',
+                fontFamily: Font.medium,
                 fontSize: width * 0.045,
-              }}>
+              }}
+            >
               Add
             </Text>
           </View>
@@ -140,14 +157,54 @@ export default function labels({navigation}) {
             <Text
               style={{
                 color: COLORS.main_text_color,
-                fontFamily: 'Roboto-Bold',
+                fontFamily: Font.medium,
                 fontSize: width * 0.045,
-              }}>
+              }}
+            >
               Delete
             </Text>
           </View>
         </View>
       </View>
-    </View>
-  );
+    );
+  }
+
+  render() {
+    return (
+      <ThemeProvider theme={this.props.theme}>
+        <Container>
+          {this.renderHeader()}
+          {this.renderMiddle()}
+          {this.renderLast()}
+        </Container>
+      </ThemeProvider>
+    );
+  }
 }
+
+const mapStateToProps = (state) => ({
+  theme: state.themeReducer.theme,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  switchTheme: bindActionCreators(switchTheme, dispatch),
+});
+
+export default connect(mapStateToProps)(labels);
+
+const Container = styled.View`
+  flex: 1;
+
+  width: 100%;
+
+  background-color: ${(props) => props.theme.backColor};
+`;
+const NormalText = styled.Text`
+  font-family: Roboto-Regular;
+  font-size: 17px;
+  color: ${(props) => props.theme.textColor};
+  margin-left: 15px;
+`;
+const IconColor = styled.Image`
+  color: ${(props) => props.theme.textColor};
+`;

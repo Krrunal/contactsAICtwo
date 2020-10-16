@@ -14,7 +14,10 @@
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/../node_modules/@react-native-community/checkbox/android" />
             <option value="$PROJECT_DIR$/../node_modules/@react-native-community/masked-view/android" />
+            <option value="$PROJECT_DIR$/../node_modules/react-native-contacts/android" />
+            <option value="$PROJECT_DIR$/../node_modules/react-native-firebase/android" />
             <option value="$PROJECT_DIR$/../node_modules/react-native-gesture-handler/android" />
+            <option value="$PROJECT_DIR$/../node_modules/react-native-image-crop-picker/android" />
             <option value="$PROJECT_DIR$/../node_modules/react-native-reanimated/android" />
             <option value="$PROJECT_DIR$/../node_modules/react-native-safe-area-context/android" />
             <option value="$PROJECT_DIR$/../node_modules/react-native-screens/android" />

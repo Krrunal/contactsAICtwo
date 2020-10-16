@@ -1,10 +1,10 @@
 import { Dimensions, StyleSheet } from 'react-native';
-
-// eslint-disable-next-line prettier/prettier
 import { COLORS } from '../theme/Colors.js';
 import Metrics from '../theme/Metrics';
+import Font from '../theme/font';
 
 var {width,height} =  Dimensions.get('window');
+
 export default StyleSheet.create({
     container:{
         flex: 1,
@@ -23,16 +23,11 @@ export default StyleSheet.create({
         paddingVertical: Metrics.buttonPadding,
         alignItems: 'center',
         justifyContent: 'center',
-        //borderWidth: 1
     },
 
     text: {
-        fontFamily:'Roboto-Bold',
-        fontSize: width * 0.045,
-   
-       
-        //fontWeight: "900",
-        //fontFamily: Font.bold,
+        fontFamily: Font.regular,
+        fontSize: width * 0.055,
         color: COLORS.main_text_color
     }
 })

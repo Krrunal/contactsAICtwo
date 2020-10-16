@@ -8,149 +8,196 @@ import {
   TextInput,
   TouchableOpacity,
   View,
-} from 'react-native';
-import React, {Component} from 'react';
-import {useDispatch, useSelector} from 'react-redux';
+} from "react-native";
+import React, { Component } from "react";
+import { darkTheme, lightTheme } from "../theme/themeProps";
+import styled, { ThemeProvider } from "styled-components/native";
 
-import {COLORS} from '../theme/Colors.js';
-import {CommonActions} from '@react-navigation/native';
-import Icon from 'react-native-vector-icons/FontAwesome5';
-import Metrics from '../theme/Metrics';
-import logo from '../../assets/images/logo.png';
-import rigthLogo from '../../assets/icons/contact.png';
-import sideBar from '../../assets/images/sideBAR.png';
-import styles from './forContactStyle.js';
-import {useTheme} from '@react-navigation/native';
+import { COLORS } from "../theme/Colors.js";
+import { CommonActions } from "@react-navigation/native";
+import Font from "../theme/font.js";
+import Header from "../../components/header/index";
+import { bindActionCreators } from "redux";
+import { connect } from "react-redux";
+import styles from "./forContactStyle.js";
+import { switchTheme } from "../../action/themeAction";
 
-var {width, height} = Dimensions.get('window');
+var { width, height } = Dimensions.get("window");
 
-export default function forAddContact({navigation}) {
-  const {colors} = useTheme();
-  const dispatch = useDispatch();
-  const textcolor = colors.textColor;
-  const currentTheme = useSelector((state) => {
-    return state.myDarMode;
-  });
-  // onPress={this.afterContactNavigate}
-  const afterContactNavigate = () => {
-    navigation.dispatch(
-      CommonActions.navigate({
-        name: 'manuallyAddContact',
-        //routes: [{ name: 'Login' }],
-      }),
+class forAddContact extends Component {
+  renderHeader() {
+    return (
+      <Header
+        title="Add Contacts AIC User(s)"
+        onPress={() => this.props.navigation.openDrawer()}
+      />
     );
-  };
+  }
 
-  const forAddContactNavigate = () => {
-    navigation.dispatch(
-      CommonActions.navigate({
-        name: 'manuallyAddContact',
-        //routes: [{ name: 'Login' }],
-      }),
-    );
-  };
-
-  const backtNavigate = () => {
-    navigation.dispatch(
-      CommonActions.navigate({
-        name: 'manuallyAddContact',
-        //routes: [{ name: 'Login' }],
-      }),
-    );
-  };
-  const finishtNavigate = () => {
-    navigation.dispatch(
-      CommonActions.navigate({
-        name: 'AddContact',
-        //routes: [{ name: 'Login' }],
-      }),
-    );
-  };
-
-  return (
-    <View style={[styles.container, {backgroundColor: colors.backColor}]}>
-      <View>
-        <View style={styles.blueView}>
-          <View style={{width: width * 0.9, flexDirection: 'row'}}>
-            <TouchableOpacity
-              style={styles.sideBarView}
-              onPress={() => navigation.openDrawer()}>
-              <Image source={sideBar} style={styles.sidebarStyle} />
-            </TouchableOpacity>
-            <View style={styles.sidebarViewCenter}>
-              <Text style={styles.centerText}>Add Contacts AIC User(s)</Text>
-            </View>
-            <View style={styles.sidebarViewRight}>
-              <Image source={rigthLogo} style={styles.sidebarStyle} />
-            </View>
-          </View>
+  renderHeaderLine() {
+    return (
+      <View style={styles.TopView}>
+        <View style={styles.topOne}>
+          <BoldText>Contact(s) to Add </BoldText>
         </View>
-        <View style={styles.TopView}>
-          <View style={styles.topOne}>
-            <Text style={[styles.sizeText,{color:colors.textColor}]}>Contact(s) to Add </Text>
-          </View>
-          <View style={styles.toptwo}>
-            <Text style={[styles.sizeText,{color:colors.textColor}]}>Label (s)</Text>
-          </View>
+        <View style={styles.toptwo}>
+          <BoldText>Label (s)</BoldText>
         </View>
       </View>
+    );
+  }
+
+  renderMiddle() {
+    return (
       <View style={styles.WhiteBigview}>
         <TouchableOpacity style={styles.textLeft}>
           <Text style={styles.sizeText}>[ USER NAME ]</Text>
         </TouchableOpacity>
         <View style={styles.textRigh}>
-          <Text style={[styles.sizeTextSmall,{color:colors.textcolor}]}>
-            Sport Gambling Podcast {' \n'}
+          <Text style={styles.sizeTextSmall}>
+            Sport Gambling Podcast {" \n"}
             Green Inc.
           </Text>
         </View>
       </View>
-      <View>
+    );
+  }
+  // onPress={this.afterContactNavigate}
+  afterContactNavigate = () => {
+    this.props.navigation.dispatch(
+      CommonActions.navigate({
+        name: "manuallyAddContact",
+        //routes: [{ name: 'Login' }],
+      })
+    );
+  };
+
+  renderView() {
+    return (
+      <View style={{alignItems:'center'}}>
         <TouchableOpacity
           style={styles.SmallMiddle}
-          onPress={forAddContactNavigate}>
+          onPress={this.forAddContactNavigate}
+        >
           <Text
             style={{
               fontSize: width * 0.035,
-              fontFamily: 'Roboto-Bold',
-              fontSize: width * 0.045,
-            }}>
+              fontFamily: Font.medium,
+              fontSize: width * 0.043,
+            }}
+          >
             Add Contact
           </Text>
         </TouchableOpacity>
       </View>
-      <View style={{alignItems: 'center', flex: 1}}>
+    );
+  }
+
+  forAddContactNavigate = () => {
+    this.props.navigation.dispatch(
+      CommonActions.navigate({
+        name: "manuallyAddContact",
+        //routes: [{ name: 'Login' }],
+      })
+    );
+  };
+
+  renderLast() {
+    return (
+      <View style={{ alignItems: "center", flex: 1 }}>
         <View
           style={{
             flex: 1,
-            bottom: 20,
-            position: 'absolute',
-            flexDirection: 'row',
-          }}>
-          <TouchableOpacity style={styles.Whiteview} onPress={backtNavigate}>
+            bottom: 30,
+            position: "absolute",
+            flexDirection: "row",
+          }}
+        >
+          <TouchableOpacity
+            style={styles.Whiteview}
+            onPress={this.backtNavigate}
+          >
             <Text
               style={{
                 color: COLORS.main_text_color,
-                fontFamily: 'Roboto-Bold',
+                fontFamily: Font.medium,
                 fontSize: width * 0.045,
-              }}>
+              }}
+            >
               Back
             </Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.WhiteviewTwo}
-            onPress={finishtNavigate}>
+            onPress={this.finishtNavigate}
+          >
             <Text
               style={{
                 color: COLORS.main_text_color,
-                fontFamily: 'Roboto-Bold',
+                fontFamily: Font.medium,
                 fontSize: width * 0.045,
-              }}>
+              }}
+            >
               Finish
             </Text>
           </TouchableOpacity>
         </View>
       </View>
-    </View>
-  );
+    );
+  }
+
+  backtNavigate = () => {
+    this.props.navigation.dispatch(
+      CommonActions.navigate({
+        name: "chooseContactFromLabel",
+        //routes: [{ name: 'Login' }],
+      })
+    );
+  };
+
+  finishtNavigate = () => {
+    this.props.navigation.dispatch(
+      CommonActions.navigate({
+        name: "AddContact",
+        //routes: [{ name: 'Login' }],
+      })
+    );
+  };
+
+  render() {
+    return (
+      <ThemeProvider theme={this.props.theme}>
+        <Container>
+          <View>
+            {this.renderHeader()}
+            {this.renderHeaderLine()}
+            {this.renderMiddle()}
+            {this.renderView()}
+            {this.renderLast()}
+          </View>
+        </Container>
+      </ThemeProvider>
+    );
+  }
 }
+const mapStateToProps = (state) => ({
+  theme: state.themeReducer.theme,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  switchTheme: bindActionCreators(switchTheme, dispatch),
+});
+
+export default connect(mapStateToProps)(forAddContact);
+
+const Container = styled.View`
+  flex: 1;
+
+  background-color: ${(props) => props.theme.backColor};
+  align-items:center;
+`;
+const BoldText = styled.Text`
+  font-family: Roboto-Regular;
+  font-size: 17px;
+  color: ${(props) => props.theme.iconColor};
+`;

@@ -1,105 +1,91 @@
-/* eslint-disable prettier/prettier */
-import {Dimensions, StyleSheet} from 'react-native';
-
-// eslint-disable-next-line prettier/prettier
-import {COLORS} from '../theme/Colors.js';
+import { Dimensions, StyleSheet } from 'react-native';
+import { COLORS } from '../theme/Colors.js';
+import Font from '../theme/font';
 import Metrics from '../theme/Metrics';
 
-var {width, height} = Dimensions.get('window');
+var {width,height} =  Dimensions.get('window');
 export default StyleSheet.create({
-  sideBarView: {
-    justifyContent: 'center',
-    margin: Metrics.xsmallMargin,
-  },
-  sidebarViewCenter: {
-    width: width * 0.6,
-    //  justifyContent: 'center',
-    alignItems: 'center',
-    flexDirection: 'row',
-    marginLeft: Metrics.smallMargin,
-  },
-  sidebarViewRight: {
-    margin: Metrics.xsmallMargin,
-    flex: 1,
-    justifyContent: 'flex-end',
-    flexDirection: 'row',
-  },
-  centerText: {
-    fontFamily: 'Roboto-Bold',
-    fontSize: width * 0.045,
-
-    color: COLORS.white,
-  },
-  sidebarStyle: {
-    width: width * 0.1,
-    height: width * 0.1,
-  },
-  blueView: {
-    width: width * 0.9,
-    height: height * 0.0665,
-    backgroundColor: COLORS.main_text_color,
-    borderRadius: 10,
-    flexDirection: 'row',
-    marginTop:Metrics.doubleBaseMargin,
-    alignItems: 'center',
-  },
-  whiteBigView: {
-    width: width * 0.9,
-    height: height * 0.7,
-    backgroundColor: COLORS.white,
-    borderRadius: 10,
-    marginTop: Metrics.baseMargin,
-  },
-  checkboxView: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    // marginLeft:Metrics.doubleBaseMargin,
-    marginTop: Metrics.smallMargin,
-  },
-  showText: {
-    fontFamily: 'Roboto-Light',
-    fontSize: width * 0.04,
-
-    color: COLORS.black,
-  },
-  checkboxViewTwo: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginTop: Metrics.baseMargin,
-  },
-  Whiteview: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    width:width*0.660,
-
-    height: height * 0.065,
-    backgroundColor: COLORS.white,
-    shadowColor: COLORS.black,
-    shadowOffset: {
-      width: 3,
-      height: 3,
+    container:{
+        alignItems: 'center',
+        flex: 1,
+        backgroundColor: COLORS.white,
     },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-    elevation: 5,
-    borderRadius: 5,
-  },
-  Whiteview: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    width:width*0.660,
 
-    height: height * 0.065,
-    backgroundColor: COLORS.white,
-    shadowColor: COLORS.black,
-    shadowOffset: {
-      width: 3,
-      height: 3,
+    contactView:{
+        width:width*0.8,
+        flex: 1,
+        backgroundColor:COLORS.white,
     },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-    elevation: 5,
-    borderRadius: 5,
-    marginTop: Metrics.smallMargin,
-  },
+    
+    checkboxView:{
+        flexDirection:'row',
+        alignItems:'center',
+        marginLeft:Metrics.xsmallMargin,
+        width: width * 0.8,
+    },
+
+    showText:{
+        fontFamily: Font.regular,
+        fontSize: width * 0.040,
+        color:COLORS.black,
+        marginLeft: Metrics.baseMargin
+    },
+
+    checkboxViewTwo:{
+        flexDirection:'row',
+        alignItems:'center',
+        marginTop:Metrics.baseMargin,
+    },
+
+    Whiteview:{
+        justifyContent:'center',
+        alignItems:'center',
+        width:width*0.660,
+        height:height*0.065,
+        backgroundColor:COLORS.white,
+        shadowColor: COLORS.black,
+        shadowOffset: {
+            width: 3,
+            height: 3,
+        },
+        shadowOpacity: 0.25,
+        shadowRadius:4,
+        elevation: 5,
+        borderRadius:5,
+        // marginTop:Metrics.baseMargin,
+    },
+
+    smallWhiteView:{
+        justifyContent:'center',
+        alignItems:'center',
+        width:width*0.145,
+        height:height*0.045,
+        backgroundColor:COLORS.white,
+        shadowColor: COLORS.black,
+        shadowOffset: {
+            width: 3,
+            height: 3,
+        },
+        shadowOpacity: 0.25,
+        shadowRadius:4,
+        elevation: 5,
+        borderRadius:5,
+        margin:Metrics.xsmallMargin
+    },
+
+    smallText:{
+        fontSize:10
+    },
+
+    twoWhiteView:{
+        flexDirection:'row',
+        flex:1,
+        justifyContent:'flex-end'
+    },
+  
+    importHeading:{
+        fontFamily: Font.regular,
+        fontSize: width * 0.037,
+        marginVertical: Metrics.doubleBaseMargin,
+    }
 });

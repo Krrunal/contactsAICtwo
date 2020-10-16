@@ -11,12 +11,20 @@ import com.facebook.react.shell.MainReactPackage;
 import java.util.Arrays;
 import java.util.ArrayList;
 
+// @react-native-community/async-storage
+import com.reactnativecommunity.asyncstorage.AsyncStoragePackage;
 // @react-native-community/checkbox
 import com.reactnativecommunity.checkbox.ReactCheckBoxPackage;
 // @react-native-community/masked-view
 import org.reactnative.maskedview.RNCMaskedViewPackage;
+// react-native-contacts
+import com.rt2zz.reactnativecontacts.ReactNativeContacts;
+// react-native-firebase
+import io.invertase.firebase.RNFirebasePackage;
 // react-native-gesture-handler
 import com.swmansion.gesturehandler.react.RNGestureHandlerPackage;
+// react-native-image-crop-picker
+import com.reactnative.ivpusic.imagepicker.PickerPackage;
 // react-native-reanimated
 import com.swmansion.reanimated.ReanimatedPackage;
 // react-native-safe-area-context
@@ -70,9 +78,13 @@ public class PackageList {
   public ArrayList<ReactPackage> getPackages() {
     return new ArrayList<>(Arrays.<ReactPackage>asList(
       new MainReactPackage(mConfig),
+      new AsyncStoragePackage(),
       new ReactCheckBoxPackage(),
       new RNCMaskedViewPackage(),
+      new ReactNativeContacts(),
+      new RNFirebasePackage(),
       new RNGestureHandlerPackage(),
+      new PickerPackage(),
       new ReanimatedPackage(),
       new SafeAreaContextPackage(),
       new RNScreensPackage(),

@@ -9,68 +9,55 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-/* eslint-disable react-native/no-inline-styles */
-/* eslint-disable prettier/prettier */
 import React, {Component, useState} from 'react';
 
 import {COLORS} from '../theme/Colors.js';
 import Metrics from '../theme/Metrics';
-import logo from '../../assets/images/logo.png';
-import rigthLogo from '../../assets/icons/contact.png'
-import sideBar from '../../assets/images/sideBAR.png';
 import styles from './style.js';
+import Header from '../../components/header/index';
+import Font from '../theme/font';
 
 var {width, height} = Dimensions.get('window');
 export default class searchContact extends Component {
-  state = {
-    checked: false,
-    checked1: false,
-    checked2: false,
-    checked3: false,
-    checked4: false,
-    checked5: false,
-    checked6: false,
-    checked8: false,
-    checked9: false,
-    checked10: false,
-  };
-  selectAll() {
-    const {checked, checked1, checked2, checked3} = this.state;
-    if (this.state.checked == true) {
-      this.state.checked1 = true;
-      this.state.checked2 = true;
-      this.state.checked3 = true;
-      this.state.checked4 = true;
-      this.state.checked5 = true;
-      this.state.checked6 = true;
-      this.state.checked7 = true;
-      this.state.checked8 = true;
-    } else {
+  // state = {
+  //   checked: false,
+  //   checked1: false,
+  //   checked2: false,
+  //   checked3: false,
+  //   checked4: false,
+  //   checked5: false,
+  //   checked6: false,
+  //   checked8: false,
+  //   checked9: false,
+  //   checked10: false,
+  // };
+
+  // selectAll() {
+  //   const {checked, checked1, checked2, checked3} = this.state;
+  //   if (this.state.checked == true) {
+  //     this.state.checked1 = true;
+  //     this.state.checked2 = true;
+  //     this.state.checked3 = true;
+  //     this.state.checked4 = true;
+  //     this.state.checked5 = true;
+  //     this.state.checked6 = true;
+  //     this.state.checked7 = true;
+  //     this.state.checked8 = true;
+  //   } else {
    
    
-    }
-  }
+  //   }
+  // }
+  
   renderHeader() {
     return (
-      <View style={{alignItems: 'center'}}>
-        <View style={styles.blueView}>
-          <View style={{width: width * 0.9, flexDirection: 'row'}}>
-            <TouchableOpacity
-              style={styles.sideBarView}
-              onPress={() => this.props.navigation.openDrawer()}>
-              <Image source={sideBar} style={styles.sidebarStyle} />
-            </TouchableOpacity>
-            <View style={styles.sidebarViewCenter}>
-              <Text style={styles.centerText}>Import Contacts</Text>
-            </View>
-            <View style={styles.sidebarViewRight}>
-              <Image source={rigthLogo} style={styles.sidebarStyle} />
-            </View>
-          </View>
-        </View>
-      </View>
+        <Header 
+          title="My Contact Information"
+          onPress={() => this.props.navigation.openDrawer()}
+        />
     );
   }
+
   renderMiddle() {
     const {checked, checked1, checked2, checked3} = this.state;
     return (

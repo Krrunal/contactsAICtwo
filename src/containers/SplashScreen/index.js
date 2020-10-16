@@ -1,50 +1,64 @@
-import {Image, Text, View} from 'react-native';
-import {NavigationActions, StackActions} from 'react-navigation';
-import React, {useEffect, useState} from 'react';
-import {useDispatch, useSelector} from 'react-redux';
+import * as React from 'react';
 
-import {Colors} from '../theme/Colors';
+import { Image, Text, View } from 'react-native';
+import { darkTheme, lightTheme } from "../theme/themeProps";
+import styled, { ThemeProvider } from "styled-components/native";
+
 import {CommonActions} from '@react-navigation/native';
-// import GeneralStatusBar from '../../components/statusbar/index';
+import { bindActionCreators } from "redux";
+import { connect } from "react-redux";
 import styles from './style';
-import {useTheme} from '@react-navigation/native';
+import { switchTheme } from "../../action/themeAction";
 
-export default function Splash({navigation}) {
-  const {colors} = useTheme();
-  const dispatch = useDispatch();
-  const textcolor = colors.textColor;
-  const currentTheme = useSelector((state) => {
-    return state.myDarMode;
-  });
+class Splash extends React.Component {
+    async componentDidMount() {
+        this.timeoutHandle = setTimeout(async() => {
+            this.props.navigation.dispatch(
+                CommonActions.reset({
+                    index: 0,
+                    routes: [{ name: 'Login' }],
+                })
+            );
+        }, 2000);
+    }
 
-  useEffect(() => {
-    setTimeout(() => {
-      navigation.navigate('Login');
-    }, 2000);
-  });
-  // async componentDidMount() {
-  //     this.timeoutHandle = setTimeout(async() => {
-  //         this.props.navigation.dispatch(
-  //             CommonActions.reset({
-  //               index: 0,
-  //               routes: [{ name: 'Login' }],
-  //             })
-  //         );
-  //     }, 2000);
-  // }
+    render() {
+        return (
+            <ThemeProvider theme={this.props.theme}>
+                      
+            <View style={styles.container}>
+            <Container>
 
-  return (
-    <View style={[styles.container, {backgroundColor: colors.backColor}]}>
-      {/* <GeneralStatusBar backgroundColor={Colors.transparent} barStyle="light-content" /> */}
-      <Image
-        source={require('../../assets/images/logo.png')}
-        style={styles.logo}
-      />
-      <View style={styles.nameView}>
-        <Text style={styles.text}> CONTACTS AIC </Text>
-      </View>
-      {/* <View style={styles.lineStyle}>
-                </View> */}
-    </View>
-  );
+                {/* <GeneralStatusBar backgroundColor={Colors.transparent} barStyle="light-content" /> */}
+                <Image source={require('../../assets/images/logo.png')} style={styles.logo} />
+                <View style={styles.nameView}>
+                    <Text style={styles.text}> CONTACTS AIC </Text>
+                </View>
+                </Container>
+            </View>
+            </ThemeProvider>
+        );
+    }
 }
+
+
+
+const mapStateToProps = (state) => ({
+    theme: state.themeReducer.theme,
+  });
+  
+  const mapDispatchToProps = (dispatch) => ({
+    switchTheme: bindActionCreators(switchTheme, dispatch),
+  });
+  
+  export default connect(mapStateToProps)(Splash);
+  
+  const Container = styled.View`
+    flex: 1;
+  
+    width: 100%;
+    align-items: center;
+    justify-Content: center;
+    background-color: ${(props) => props.theme.backColor};
+  `;
+

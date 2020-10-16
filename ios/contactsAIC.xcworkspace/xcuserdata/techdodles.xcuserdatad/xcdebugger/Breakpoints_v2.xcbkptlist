@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Bucket
+   uuid = "3C3C5276-3051-4479-BAC2-49698AE73190"
+   type = "0"
+   version = "2.0">
+   <Breakpoints>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "543B4E8C-DDA6-4805-8EC2-6FF6ECF655ED"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "contactsAIC/AppDelegate.h"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "5"
+            endingLineNumber = "5"
+            landmarkName = "AppDelegate"
+            landmarkType = "2">
+            <Locations>
+               <Location
+                  uuid = "543B4E8C-DDA6-4805-8EC2-6FF6ECF655ED - 4594e8c258163096"
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "-[AppDelegate window]"
+                  moduleName = "contactsAIC"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/techdodles/Desktop/mansi/PROJECTS/contactsAICtwo-master/ios/contactsAIC/AppDelegate.h"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "6"
+                  endingLineNumber = "6"
+                  offsetFromSymbolStart = "12">
+               </Location>
+               <Location
+                  uuid = "543B4E8C-DDA6-4805-8EC2-6FF6ECF655ED - 81167842cd7f1f20"
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "-[AppDelegate setWindow:]"
+                  moduleName = "contactsAIC"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/techdodles/Desktop/mansi/PROJECTS/contactsAICtwo-master/ios/contactsAIC/AppDelegate.h"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "6"
+                  endingLineNumber = "6"
+                  offsetFromSymbolStart = "49">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+   </Breakpoints>
+</Bucket>

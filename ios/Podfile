@@ -11,6 +11,9 @@ target 'contactsAIC' do
   pod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons'
 
   pod 'RNCCheckbox', :path => '../node_modules/@react-native-community/checkbox'
+  # pod 'RNFirebase', :path => '../node_modules/react-native-firebase/ios'
+
+  pod 'RNImageCropPicker', :path => '../node_modules/react-native-image-crop-picker'
 
   target 'contactsAICTests' do
     inherit! :complete

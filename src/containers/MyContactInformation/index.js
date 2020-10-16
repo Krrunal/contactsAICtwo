@@ -1,108 +1,389 @@
+import { ActionSheet, Root } from "native-base";
 import {
+  Animated,
   CheckBox,
   Dimensions,
   Image,
   Keyboard,
-  ScrollView,
   Text,
   TextInput,
   TouchableHighlight,
   TouchableOpacity,
   View,
-} from 'react-native';
-/* eslint-disable react-native/no-inline-styles */
-/* eslint-disable prettier/prettier */
-import React, {Component} from 'react';
-import {useDispatch, useSelector} from 'react-redux';
+} from "react-native";
+import React, { Component } from "react";
+import { darkTheme, lightTheme } from "../theme/themeProps";
+import styled, { ThemeProvider } from "styled-components/native";
 
-import {COLORS} from '../theme/Colors.js';
-import Metrics from '../theme/Metrics';
-import borderCorner from '../../assets/images/borderCorner.png';
-import calender from '../../assets/images/calender.png';
-import call from '../../assets/images/call.png';
-import email from '../../assets/images/email.png';
-import handshake from '../../assets/images/handshake.png';
-import home from '../../assets/images/home.png';
-import innerimg from '../../assets/images/innerimg.png';
-import instagram from '../../assets/images/instagram.png';
-import logo from '../../assets/images/logo.png';
-import message from '../../assets/images/message.png';
-import note from '../../assets/images/note.png';
-import outerimg from '../../assets/images/outerimg.png';
-import rigthLogo from '../../assets/icons/contact.png';
-import sideBar from '../../assets/images/sideBAR.png';
-import styles from './style.js';
-import {useTheme} from '@react-navigation/native';
-import website from '../../assets/images/website.png';
+import { COLORS } from "../theme/Colors.js";
+import { Colors } from "react-native-paper";
+import Font from "../theme/font";
+import Header from "../../components/header/index";
+import ImagePicker from "react-native-image-crop-picker";
+import Metrics from "../theme/Metrics";
+import { ThemeContext } from "react-navigation";
+import { bindActionCreators } from "redux";
+import calender from "../../assets/images/calender.png";
+import call from "../../assets/images/call.png";
+import { color } from "react-native-reanimated";
+import { connect } from "react-redux";
+import email from "../../assets/images/email.png";
+import handshake from "../../assets/images/handshake.png";
+import home from "../../assets/images/home.png";
+import innerimg from "../../assets/images/innerimg.png";
+import instagram from "../../assets/images/instagram.png";
+import message from "../../assets/images/message.png";
+import note from "../../assets/images/note.png";
+import rigthLogo from "../../assets/icons/contact.png";
+import sideBar from "../../assets/images/sideBAR.png";
+import styles from "./style.js";
+import { switchTheme } from "../../action/themeAction";
+import website from "../../assets/images/website.png";
 
-var {width, height} = Dimensions.get('window');
+var { width, height } = Dimensions.get("window");
 
-export default function MyContactInfromation({navigation}) {
-  const {colors} = useTheme();
-  const dispatch = useDispatch();
-  const textcolor = colors.textColor;
-  const currentTheme = useSelector((state) => {
-    return state.myDarMode;
-  });
-  return (
-    <View style={[styles.container, {backgroundColor: colors.backColor}]}>
-      <View style={{alignItems: 'center', marginTop: Metrics.doubleBaseMargin}}>
-        <View style={styles.blueView}>
-          <View style={{width: width * 0.9, flexDirection: 'row'}}>
-            <TouchableOpacity
-              style={styles.sideBarView}
-              onPress={() => navigation.openDrawer()}>
-              <Image source={sideBar} style={styles.sidebarStyle} />
-            </TouchableOpacity>
-            <View style={styles.sidebarViewCenter}>
-              <Text style={styles.centerText}>My Contact Information</Text>
-            </View>
-            <View style={styles.sidebarViewRight}>
-              <Image source={rigthLogo} style={styles.sidebarStyle} />
-            </View>
-          </View>
-        </View>
-      </View>
-      <ScrollView
-        style={[
-          {
-            flex: 1,
-            backgroundColor: COLORS.white,
-            marginTop: Metrics.smallMargin,
-          },
-          {backgroundColor: colors.backColor},
-        ]}>
-        <View style={{alignItems: 'center'}}>
+var DESTRUCTIVE_INDEX = 3;
+var CANCEL_INDEX = 4;
+var BUTTONS = ["Take Photo", "Choose Photo From Gallery", "Cancel"];
+class MyContactInfromation extends Component {
+  static contextType = ThemeContext;
+
+  constructor() {
+    super();
+
+    this.state = {
+      image: null,
+      images: null,
+      image2: null,
+      image3: null,
+
+      valueArrayNumber: [],
+      valueArrayEmail: [],
+      valueArrayAddress: [],
+      valueArrayMessanger: [],
+      valueArraySocialMedia: [],
+      valueArrayWebsite: [],
+      valueArrayDate: [],
+      valueArrayNote: [],
+      valueArrayCompany: [],
+
+      disabledNumber: false,
+      disabledEmail: false,
+      disabledAddress: false,
+      disabledMessanger: false,
+      disabledSocialMedia: false,
+      disableWebsite: false,
+      disabledDate: false,
+      disabledNote: false,
+      disabledCompany: false,
+      status: false,
+    };
+
+    this.indexNumber = 0;
+    this.indexEmail = 0;
+    this.indexAddress = 0;
+    this.indexMessanger = 0;
+    this.indexSocialMedia = 0;
+    this.indexWebsite = 0;
+    this.indexDate = 0;
+    this.indexNote = 0;
+    this.indexCompany = 0;
+    this.animatedValue = new Animated.Value(0);
+  }
+
+  ShowHideTextComponentView = () => {
+    if (this.state.status == true) {
+      this.setState({ status: false });
+    } else {
+      this.setState({ status: true });
+    }
+  };
+
+  renderHeader() {
+    return (
+      <Header
+        title="My Contact Information"
+        onPress={() => this.props.navigation.openDrawer()}
+      />
+    );
+  }
+  selectPhoto = () => {
+    ActionSheet.show(
+      {
+        options: BUTTONS,
+        cancelButtonIndex: CANCEL_INDEX,
+        destructiveButtonIndex: DESTRUCTIVE_INDEX,
+        title: "Select Photo",
+      },
+      (buttonIndex) => {
+        switch (buttonIndex) {
+          case 0:
+            this.takePhtotFromCamera();
+            break;
+
+          case 1:
+            this.fromGallery();
+            break;
+          default:
+            break;
+        }
+      }
+    );
+  };
+  selectPhoto2 = () => {
+    ActionSheet.show(
+      {
+        options: BUTTONS,
+        cancelButtonIndex: CANCEL_INDEX,
+        destructiveButtonIndex: DESTRUCTIVE_INDEX,
+        title: "Select Photo",
+      },
+      (buttonIndex) => {
+        switch (buttonIndex) {
+          case 0:
+            this.takePhtotFromCamera2();
+            break;
+
+          case 1:
+            this.fromGallery2();
+            break;
+          default:
+            break;
+        }
+      }
+    );
+  };
+  selectPhoto3 = () => {
+    ActionSheet.show(
+      {
+        options: BUTTONS,
+        cancelButtonIndex: CANCEL_INDEX,
+        destructiveButtonIndex: DESTRUCTIVE_INDEX,
+        title: "Select Photo",
+      },
+      (buttonIndex) => {
+        switch (buttonIndex) {
+          case 0:
+            this.takePhtotFromCamera3();
+            break;
+
+          case 1:
+            this.fromGallery3();
+            break;
+          default:
+            break;
+        }
+      }
+    );
+  };
+
+  takePhtotFromCamera = () => {
+    ImagePicker.openCamera({
+      width: 300,
+      height: 400,
+      cropping: true,
+    }).then((image) => {
+      console.log(image);
+      this.setState({
+        image: {
+          uri: image.path,
+          width: image.width,
+          height: image.height,
+          mime: image.mime,
+        },
+        images: null,
+      });
+    });
+  };
+
+  fromGallery = () => {
+    ImagePicker.openPicker({
+      width: 300,
+      height: 400,
+      cropping: true,
+    }).then((image) => {
+      console.log(image);
+      this.setState({
+        image: {
+          uri: image.path,
+          width: image.width,
+          height: image.height,
+          mime: image.mime,
+        },
+        images: null,
+      });
+    });
+  };
+
+  takePhtotFromCamera2 = () => {
+    ImagePicker.openCamera({
+      width: 300,
+      height: 400,
+      cropping: true,
+    }).then((image2) => {
+      console.log(image2);
+      this.setState({
+        image: {
+          uri: image2.path,
+          width: image2.width,
+          height: image2.height,
+          mime: image2.mime,
+        },
+        images: null,
+      });
+    });
+  };
+
+  fromGallery2 = () => {
+    ImagePicker.openPicker({
+      width: 300,
+      height: 400,
+      cropping: true,
+    }).then((image2) => {
+      console.log(image2);
+      this.setState({
+        image2: {
+          uri: image2.path,
+          width: image2.width,
+          height: image2.height,
+          mime: image2.mime,
+        },
+        images: null,
+      });
+    });
+  };
+
+  takePhtotFromCamera3 = () => {
+    ImagePicker.openCamera({
+      width: 300,
+      height: 400,
+      cropping: true,
+    }).then((image3) => {
+      console.log(image3);
+      this.setState({
+        image3: {
+          uri: image3.path,
+          width: image3.width,
+          height: image3.height,
+          mime: image3.mime,
+        },
+        images: null,
+      });
+    });
+  };
+
+  fromGallery3 = () => {
+    ImagePicker.openPicker({
+      width: 300,
+      height: 400,
+      cropping: true,
+    }).then((image3) => {
+      console.log(image3);
+      this.setState({
+        image3: {
+          uri: image3.path,
+          width: image3.width,
+          height: image3.height,
+          mime: image3.mime,
+        },
+        images: null,
+      });
+    });
+  };
+  renderImage = (image) => {
+    return (
+      <Image
+        style={{
+          width: width * 0.189,
+          height: width * 0.188,
+          borderRadius: 7,
+          borderWidth: 3,
+          resizeMode: "cover",
+        }}
+        source={image}
+      />
+    );
+  };
+
+  renderImage2 = (image2) => {
+    return (
+      <Image
+        style={{
+          width: width * 0.189,
+          height: width * 0.188,
+          borderRadius: 7,
+          borderWidth: 3,
+          resizeMode: "cover",
+        }}
+        source={image2}
+      />
+    );
+  };
+  renderImage3 = (image3) => {
+    return (
+      <Image
+        style={{
+          width: width * 0.189,
+          height: width * 0.188,
+          borderRadius: 7,
+          borderWidth: 3,
+          resizeMode: "cover",
+        }}
+        source={image3}
+      />
+    );
+  };
+  renderMiddle() {
+    return (
+      <Root>
+        <View style={{ alignItems: "center" }}>
           <View style={styles.middleView}>
             <View style={styles.firstMiddle}>
-              <View style={styles.squareBorder}></View>
-              {/* <Image source={borderCorner} style={styles.firstImg} /> */}
-              <View style={styles.first}>
-                <Text style={styles.firstText}>Select Photo</Text>
+              <View style={styles.squareBorder}>
+                {this.renderImage(this.state.image)}
               </View>
+
+              <TouchableOpacity style={styles.first} onPress={this.selectPhoto}>
+                <Text style={styles.firstText}>Select Photo</Text>
+              </TouchableOpacity>
             </View>
             <View style={styles.firstMiddle}>
-              <View style={styles.squareBorder}></View>
-              <View style={styles.first}>
-                <Text style={styles.firstText}>Select Photo</Text>
+              <View style={styles.squareBorder}>
+                {this.renderImage2(this.state.image2)}
               </View>
+              <TouchableOpacity
+                style={styles.first}
+                onPress={this.selectPhoto2}
+              >
+                <Text style={styles.firstText}>Select Photo</Text>
+              </TouchableOpacity>
             </View>
             <View style={styles.firstMiddle}>
-              <View style={styles.squareBorder}></View>
-              <View style={styles.first}>
-                <Text style={styles.firstText}>Select Photo</Text>
+              <View style={styles.squareBorder}>
+                {this.renderImage3(this.state.image3)}
               </View>
+              <TouchableOpacity
+                style={styles.first}
+                onPress={this.selectPhoto3}
+              >
+                <Text style={styles.firstText}>Select Photo</Text>
+              </TouchableOpacity>
             </View>
           </View>
         </View>
-        <View
-          style={{
-            marginLeft: Metrics.smallMargin,
-            marginTop: Metrics.smallMargin,
-            marginBottom: Metrics.baseMargin,
-          }}>
-          <View style={{flexDirection: 'row', alignItems: 'center'}}>
+      </Root>
+    );
+  }
+
+  renderName() {
+    return (
+      <View style={{ marginTop: Metrics.baseMargin }}>
+        <View style={{ flexDirection: "row" }}>
+          <View>
             <Image source={innerimg} style={styles.innerStyle} />
+          </View>
+
+          <View>
             <View style={styles.filedView}>
               <TextInput
                 placeholder=""
@@ -110,16 +391,14 @@ export default function MyContactInfromation({navigation}) {
                 placeholderTextColor={COLORS.main_text_color}
                 maxLength={10}
               />
-
               <View style={styles.rightView}>
                 <Text style={styles.righttext}>First Name</Text>
               </View>
             </View>
-          </View>
-          <View style={styles.fieldMain}>
-            <View style={styles.filedViewRight}>
+
+            <View style={styles.filedView}>
               <TextInput
-                placeholder=" "
+                placeholder=""
                 style={styles.stylefiledText}
                 placeholderTextColor={COLORS.main_text_color}
                 maxLength={10}
@@ -129,107 +408,209 @@ export default function MyContactInfromation({navigation}) {
               </View>
             </View>
 
-            <View style={styles.filedViewRight}>
+            <View style={styles.filedView}>
               <TextInput
-                placeholder=" "
+                placeholder=""
                 style={styles.stylefiledText}
                 placeholderTextColor={COLORS.main_text_color}
+                maxLength={10}
               />
               <View style={styles.rightView}>
                 <Text style={styles.righttext}>Last Name</Text>
               </View>
             </View>
-            <View style={styles.filedViewRight}>
-              <TextInput
-                placeholder=" "
-                style={styles.stylefiledText}
-                placeholderTextColor={COLORS.main_text_color}
-              />
-              <View style={styles.rightView}>
-                <Text style={styles.righttext}> NickName</Text>
-              </View>
-            </View>
-          </View>
-        </View>
-        <View
-          style={{
-            marginLeft: Metrics.smallMargin,
-            marginTop: Metrics.smallMargin,
-          }}>
-          <View style={{flexDirection: 'row', alignItems: 'center'}}>
-            <Image source={call} style={styles.innerStyle} />
 
             <View style={styles.filedView}>
               <TextInput
-                placeholder="Phone Number-1"
+                placeholder=""
                 style={styles.stylefiledText}
                 placeholderTextColor={COLORS.main_text_color}
-                keyboardType={'numeric'}
                 maxLength={10}
               />
               <View style={styles.rightView}>
-                <View>
-                  <Text style={styles.righttext}>Personal</Text>
-                  <Text style={styles.righttext}>(Mobile)</Text>
-                </View>
+                <Text style={styles.righttext}>Nickname</Text>
               </View>
             </View>
-          </View>
-          <View style={styles.fieldMain}>
-            <View style={styles.filedViewRightTwo}>
-              <TextInput
-                placeholder="Phone Number-2"
-                style={styles.stylefiledText}
-                placeholderTextColor={COLORS.main_text_color}
-                keyboardType={'numeric'}
-                maxLength={10}
-              />
-              <View style={styles.rightView}>
-                <View>
-                  <Text style={styles.righttext}>Personal</Text>
-                  <Text style={styles.righttext}>(Landline)</Text>
-                </View>
-              </View>
-            </View>
-            <View style={styles.filedViewRightTwo}>
-              <TextInput
-                placeholder="Phone Number-3"
-                style={styles.stylefiledText}
-                placeholderTextColor={COLORS.main_text_color}
-                keyboardType={'numeric'}
-                maxLength={10}
-              />
-              <View style={styles.rightView}>
-                <View>
-                  <Text style={styles.righttext}>Work</Text>
-                  <Text style={styles.righttext}>(Landline)</Text>
-                </View>
-              </View>
-            </View>
-          </View>
-          <View
-            style={{
-              marginLeft: Metrics.xdoubleBaseMargin,
-              marginTop: Metrics.smallMargin,
-            }}>
-            <Text
-              style={[{
-                color: COLORS.main_text_color,
-                fontFamily: 'Roboto-Light',
-                fontSize: width * 0.035,
-                marginBottom: Metrics.baseMargin,
-              }, {color: colors.textColor}]}>
-              + Add Phone Number
-            </Text>
           </View>
         </View>
-        <View
-          style={{
-            marginLeft: Metrics.smallMargin,
-            marginTop: Metrics.smallMargin,
-          }}>
-          <View style={{flexDirection: 'row', alignItems: 'center'}}>
+      </View>
+    );
+  }
+
+  addNumber = () => {
+    this.animatedValue.setValue(0);
+    let newlyAddedValue = { indexNumber: this.indexNumber };
+    this.setState(
+      {
+        disabledNumber: true,
+        valueArrayNumber: [...this.state.valueArrayNumber, newlyAddedValue],
+      },
+      () => {
+        Animated.timing(this.animatedValue, {
+          toValue: 1,
+          duration: 500,
+          useNativeDriver: true,
+        }).start(() => {
+          this.indexNumber = this.indexNumber + 1;
+          this.setState({ disabledNumber: false });
+        });
+      }
+    );
+  };
+
+  renderMobile() {
+    let arrayNumber = this.state.valueArrayNumber.map((item, key) => {
+      if (key == this.indexNumber) {
+        return (
+          <View style={styles.filedView}>
+            <TextInput
+              placeholder="Phone Number"
+              style={styles.stylefiledText}
+              placeholderTextColor={COLORS.main_text_color}
+              maxLength={10}
+            />
+            <View style={styles.rightView}>
+              <Text style={styles.righttext}>Personal</Text>
+            </View>
+          </View>
+        );
+      } else {
+        return (
+          <View style={styles.filedView}>
+            <TextInput
+              placeholder="Phone Number"
+              style={styles.stylefiledText}
+              placeholderTextColor={COLORS.main_text_color}
+              maxLength={10}
+            />
+            <View style={styles.rightView}>
+              <Text style={styles.righttext}>Personal</Text>
+            </View>
+          </View>
+        );
+      }
+    });
+
+    return (
+      <View style={{ marginTop: Metrics.baseMargin }}>
+        <View style={{ flexDirection: "row" }}>
+          <View>
+            <Image source={call} style={styles.innerStyle} />
+          </View>
+
+          <View>
+            <View style={styles.filedView}>
+              <TextInput
+                placeholder="Phone Number -1"
+                style={styles.stylefiledText}
+                placeholderTextColor={COLORS.main_text_color}
+                maxLength={10}
+              />
+              <View style={styles.rightView}>
+                <Text style={styles.righttext}>Personal (Mobile)</Text>
+              </View>
+            </View>
+
+            <View style={styles.filedView}>
+              <TextInput
+                placeholder="Phone Number -2"
+                style={styles.stylefiledText}
+                placeholderTextColor={COLORS.main_text_color}
+                maxLength={10}
+              />
+              <View style={styles.rightView}>
+                <Text style={styles.righttext}>Personal (Landline)</Text>
+              </View>
+            </View>
+
+            <View style={styles.filedView}>
+              <TextInput
+                placeholder="Phone Number -3"
+                style={styles.stylefiledText}
+                placeholderTextColor={COLORS.main_text_color}
+                maxLength={10}
+              />
+              <View style={styles.rightView}>
+                <Text style={styles.righttext}>Work (Landline)</Text>
+              </View>
+            </View>
+
+            {arrayNumber}
+
+            <TouchableOpacity
+              onPress={this.addNumber}
+              disable={this.state.disabledNumber}
+            >
+              {this.state.status ? (
+                <NormalText> + Add Phone Number </NormalText>
+              ) : null}
+            </TouchableOpacity>
+          </View>
+        </View>
+      </View>
+    );
+  }
+
+  addEmailAddress = () => {
+    this.animatedValue.setValue(0);
+    let newlyAddedValue = { indexEmail: this.indexEmail };
+    this.setState(
+      {
+        disabledEmail: true,
+        valueArrayEmail: [...this.state.valueArrayEmail, newlyAddedValue],
+      },
+      () => {
+        Animated.timing(this.animatedValue, {
+          toValue: 1,
+          duration: 500,
+          useNativeDriver: true,
+        }).start(() => {
+          this.indexEmail = this.indexEmail + 1;
+          this.setState({ disabledEmail: false });
+        });
+      }
+    );
+  };
+
+  renderEmail() {
+    let arrayEmailAddress = this.state.valueArrayEmail.map((item, key) => {
+      if (key == this.indexEmail) {
+        return (
+          <View style={styles.filedView} key={key}>
+            <TextInput
+              placeholder="E-mail Address"
+              style={styles.stylefiledText}
+              placeholderTextColor={COLORS.main_text_color}
+            />
+            <View style={styles.rightView}>
+              <Text style={styles.righttext}>( Personal )</Text>
+            </View>
+          </View>
+        );
+      } else {
+        return (
+          <View style={styles.filedView}>
+            <TextInput
+              placeholder="E-mail Address"
+              style={styles.stylefiledText}
+              placeholderTextColor={COLORS.main_text_color}
+            />
+            <View style={styles.rightView}>
+              <Text style={styles.righttext}>( Personal )</Text>
+            </View>
+          </View>
+        );
+      }
+    });
+
+    return (
+      <View style={{ marginTop: Metrics.doubleBaseMargin }}>
+        <View style={{ flexDirection: "row" }}>
+          <View>
             <Image source={email} style={styles.innerStyle} />
+          </View>
+
+          <View>
             <View style={styles.filedView}>
               <TextInput
                 placeholder="E-mail Address -1"
@@ -238,80 +619,196 @@ export default function MyContactInfromation({navigation}) {
                 maxLength={10}
               />
               <View style={styles.rightView}>
-                <Text style={styles.righttext}>(Personal 1)</Text>
+                <Text style={styles.righttext}>( Personal 1 )</Text>
               </View>
             </View>
-          </View>
-          <View style={styles.fieldMain}>
-            <View style={styles.filedViewRightTwo}>
+
+            <View style={styles.filedView}>
               <TextInput
-                placeholder="E-mail Address-2"
+                placeholder="E-mail Address -2"
                 style={styles.stylefiledText}
                 placeholderTextColor={COLORS.main_text_color}
                 maxLength={10}
               />
               <View style={styles.rightView}>
-                <Text style={styles.righttext}>(Personal 2)</Text>
+                <Text style={styles.righttext}>( Personal 2 )</Text>
               </View>
             </View>
-          </View>
-          <View
-            style={{
-              marginLeft: Metrics.xdoubleBaseMargin,
-              marginTop: Metrics.smallMargin,
-            }}>
-            <Text
-              style={[{
-                color: COLORS.main_text_color,
-                fontFamily: 'Roboto-Light',
-                fontSize: width * 0.035,
-                marginBottom: Metrics.baseMargin,
-              }, {color: colors.textColor}]}>
-              + Add E-mail Address
-            </Text>
+
+            {arrayEmailAddress}
+
+            <TouchableOpacity
+              onPress={this.addEmailAddress}
+              disable={this.state.disabledEmail}
+            >
+              {this.state.status ? (
+                <NormalText> + Add E-mail Address </NormalText>
+              ) : null}
+            </TouchableOpacity>
           </View>
         </View>
-        <View
-          style={{
-            marginLeft: Metrics.smallMargin,
-            marginTop: Metrics.smallMargin,
-          }}>
-          <View style={{flexDirection: 'row'}}>
+      </View>
+    );
+  }
+
+  addAddress = () => {
+    this.animatedValue.setValue(0);
+    let newlyAddedValue = { indexAddress: this.indexAddress };
+    this.setState(
+      {
+        disabledAddress: true,
+        valueArrayAddress: [...this.state.valueArrayAddress, newlyAddedValue],
+      },
+      () => {
+        Animated.timing(this.animatedValue, {
+          toValue: 1,
+          duration: 500,
+          useNativeDriver: true,
+        }).start(() => {
+          this.indexAddress = this.indexAddress + 1;
+          this.setState({ disabledAddress: false });
+        });
+      }
+    );
+  };
+
+  renderAddress() {
+    let arrayAddress = this.state.valueArrayAddress.map((item, key) => {
+      if (key == this.indexAddress) {
+        return (
+          <View style={styles.addressFieldContainer} key={key}>
+            <TextInput
+              placeholder="Address"
+              style={styles.addressField}
+              placeholderTextColor={COLORS.main_text_color}
+              multiline={true}
+              numberOfLines={5}
+            />
+            <View style={styles.addressRightView}>
+              <Text style={styles.addressRighttext}>( Personal )</Text>
+            </View>
+          </View>
+        );
+      } else {
+        return (
+          <View style={styles.addressFieldContainer}>
+            <TextInput
+              placeholder="Address"
+              style={styles.addressField}
+              placeholderTextColor={COLORS.main_text_color}
+              multiline={true}
+              numberOfLines={5}
+            />
+            <View style={styles.addressRightView}>
+              <Text style={styles.addressRighttext}>( Personal )</Text>
+            </View>
+          </View>
+        );
+      }
+    });
+
+    return (
+      <View style={{ marginTop: Metrics.doubleBaseMargin }}>
+        <View style={{ flexDirection: "row" }}>
+          <View>
             <Image source={home} style={styles.innerStyle} />
-            <View style={styles.filedViewAddress}>
+          </View>
+
+          <View>
+            <View style={styles.addressFieldContainer}>
               <TextInput
-                placeholder="Address "
-                style={styles.stylefiledTextAddress}
+                placeholder="Address"
+                style={styles.addressField}
                 placeholderTextColor={COLORS.main_text_color}
+                multiline={true}
+                numberOfLines={5}
               />
-              <View style={styles.rightView}>
-                <Text style={styles.righttext}>(Personal 1)</Text>
+              <View style={styles.addressRightView}>
+                <Text style={styles.addressRighttext}>( Personal 1 )</Text>
               </View>
             </View>
-          </View>
-          <View
-            style={{
-              marginLeft: Metrics.xdoubleBaseMargin,
-              marginTop: Metrics.smallMargin,
-            }}>
-            <Text
-              style={[{
-                color: COLORS.main_text_color,
-                fontFamily: 'Roboto-Light',
-                fontSize: width * 0.035,
-                marginBottom: Metrics.baseMargin,
-              }, {color: colors.textColor}]}>
-              + Add Address
-            </Text>
+
+            {arrayAddress}
+
+            <TouchableOpacity
+              onPress={this.addAddress}
+              disable={this.state.disabledAddress}
+            >
+              {this.state.status ? (
+                <NormalText> + Add Address </NormalText>
+              ) : null}
+            </TouchableOpacity>
           </View>
         </View>
-        <View
-          style={{
-            marginLeft: Metrics.smallMargin,
-            marginTop: Metrics.smallMargin,
-          }}>
-          <View style={{flexDirection: 'row', alignItems: 'center'}}>
+      </View>
+    );
+  }
+
+  addMessager = () => {
+    this.animatedValue.setValue(0);
+    let newlyAddedValue = { indexMessanger: this.indexMessanger };
+    this.setState(
+      {
+        disabledMessanger: true,
+        valueArrayMessanger: [
+          ...this.state.valueArrayMessanger,
+          newlyAddedValue,
+        ],
+      },
+      () => {
+        Animated.timing(this.animatedValue, {
+          toValue: 1,
+          duration: 500,
+          useNativeDriver: true,
+        }).start(() => {
+          this.indexMessanger = this.indexMessanger + 1;
+          this.setState({ disabledMessanger: false });
+        });
+      }
+    );
+  };
+
+  renderMessage() {
+    let arrayMessenger = this.state.valueArrayMessanger.map((item, key) => {
+      if (key == this.indexMessanger) {
+        return (
+          <View style={styles.filedView}>
+            <TextInput
+              placeholder="Messenger Account"
+              style={styles.stylefiledText}
+              placeholderTextColor={COLORS.main_text_color}
+              maxLength={10}
+            />
+            <View style={styles.rightView}>
+              <Text style={styles.righttext}>( Personal )</Text>
+            </View>
+          </View>
+        );
+      } else {
+        return (
+          <View style={styles.filedView}>
+            <TextInput
+              placeholder="Messenger Account"
+              style={styles.stylefiledText}
+              placeholderTextColor={COLORS.main_text_color}
+              maxLength={10}
+            />
+            <View style={styles.rightView}>
+              <Text style={styles.righttext}>( Personal )</Text>
+            </View>
+          </View>
+        );
+      }
+    });
+
+    return (
+      <View style={{ marginTop: Metrics.doubleBaseMargin }}>
+        <View style={{ flexDirection: "row" }}>
+          <View>
             <Image source={message} style={styles.innerStyle} />
+          </View>
+
+          <View>
             <View style={styles.filedView}>
               <TextInput
                 placeholder="Messenger Account -1"
@@ -320,12 +817,11 @@ export default function MyContactInfromation({navigation}) {
                 maxLength={10}
               />
               <View style={styles.rightView}>
-                <Text style={styles.righttext}>(Personal)</Text>
+                <Text style={styles.righttext}>( Personal )</Text>
               </View>
             </View>
-          </View>
-          <View style={styles.fieldMain}>
-            <View style={styles.filedViewRightTwo}>
+
+            <View style={styles.filedView}>
               <TextInput
                 placeholder="Messenger Account -2"
                 style={styles.stylefiledText}
@@ -333,33 +829,94 @@ export default function MyContactInfromation({navigation}) {
                 maxLength={10}
               />
               <View style={styles.rightView}>
-                <Text style={styles.righttext}>(Work)</Text>
+                <Text style={styles.righttext}>( Work )</Text>
               </View>
             </View>
-          </View>
-          <View
-            style={{
-              marginLeft: Metrics.xdoubleBaseMargin,
-              marginTop: Metrics.smallMargin,
-            }}>
-            <Text
-              style={[{
-                color: COLORS.main_text_color,
-                fontFamily: 'Roboto-Light',
-                fontSize: width * 0.035,
-                marginBottom: Metrics.baseMargin,
-              }, {color: colors.textColor}]}>
-              + Add Messenger Account
-            </Text>
+
+            {arrayMessenger}
+
+            <TouchableOpacity
+              onPress={this.addMessager}
+              disable={this.state.disabledMessanger}
+            >
+              {this.state.status ? (
+                <NormalText>
+                  {" "}
+                  + Add Messenger Account{" "}
+                </NormalText>
+              ) : null}
+            </TouchableOpacity>
           </View>
         </View>
-        <View
-          style={{
-            marginLeft: Metrics.smallMargin,
-            marginTop: Metrics.smallMargin,
-          }}>
-          <View style={{flexDirection: 'row', alignItems: 'center'}}>
+      </View>
+    );
+  }
+
+  addSocialMedia = () => {
+    this.animatedValue.setValue(0);
+    let newlyAddedValue = { indexSocialMedia: this.indexSocialMedia };
+    this.setState(
+      {
+        disabledSocialMedia: true,
+        valueArraySocialMedia: [
+          ...this.state.valueArraySocialMedia,
+          newlyAddedValue,
+        ],
+      },
+      () => {
+        Animated.timing(this.animatedValue, {
+          toValue: 1,
+          duration: 500,
+          useNativeDriver: true,
+        }).start(() => {
+          this.indexSocialMedia = this.indexSocialMedia + 1;
+          this.setState({ disabledSocialMedia: false });
+        });
+      }
+    );
+  };
+
+  renderSocialmedia() {
+    let arraySocialMedia = this.state.valueArraySocialMedia.map((item, key) => {
+      if (key == this.indexSocialMedia) {
+        return (
+          <View style={styles.filedView}>
+            <TextInput
+              placeholder="Social Media Account"
+              style={styles.stylefiledText}
+              placeholderTextColor={COLORS.main_text_color}
+              maxLength={10}
+            />
+            <View style={styles.rightView}>
+              <Text style={styles.righttext}>( Personal )</Text>
+            </View>
+          </View>
+        );
+      } else {
+        return (
+          <View style={styles.filedView}>
+            <TextInput
+              placeholder="Social Media Account"
+              style={styles.stylefiledText}
+              placeholderTextColor={COLORS.main_text_color}
+              maxLength={10}
+            />
+            <View style={styles.rightView}>
+              <Text style={styles.righttext}>( Personal )</Text>
+            </View>
+          </View>
+        );
+      }
+    });
+
+    return (
+      <View style={{ marginTop: Metrics.doubleBaseMargin }}>
+        <View style={{ flexDirection: "row" }}>
+          <View>
             <Image source={instagram} style={styles.innerStyle} />
+          </View>
+
+          <View>
             <View style={styles.filedView}>
               <TextInput
                 placeholder="Social Media Account -1"
@@ -368,12 +925,11 @@ export default function MyContactInfromation({navigation}) {
                 maxLength={10}
               />
               <View style={styles.rightView}>
-                <Text style={styles.righttext}>(Instagram Personal)</Text>
+                <Text style={styles.righttext}>( Instagram Personal )</Text>
               </View>
             </View>
-          </View>
-          <View style={styles.fieldMain}>
-            <View style={styles.filedViewRightTwo}>
+
+            <View style={styles.filedView}>
               <TextInput
                 placeholder="Social Media Account -2"
                 style={styles.stylefiledText}
@@ -381,33 +937,92 @@ export default function MyContactInfromation({navigation}) {
                 maxLength={10}
               />
               <View style={styles.rightView}>
-                <Text style={styles.righttext}>(Instagram Professional)</Text>
+                <Text style={styles.righttext}>( Periscop Professional )</Text>
               </View>
             </View>
-          </View>
-          <View
-            style={{
-              marginLeft: Metrics.xdoubleBaseMargin,
-              marginTop: Metrics.smallMargin,
-            }}>
-            <Text
-              style={[{
-                color: COLORS.main_text_color,
-                fontFamily: 'Roboto-Light',
-                fontSize: width * 0.035,
-                marginBottom: Metrics.baseMargin,
-              }, {color: colors.textColor}]}>
-              + Add Social Media Account
-            </Text>
+
+            {arraySocialMedia}
+
+            <TouchableOpacity
+              onPress={this.addSocialMedia}
+              disable={this.state.disabledSocialMedia}
+            >
+              {this.state.status ? (
+                <NormalText>
+                  {" "}
+                  + Add Social Media Account{" "}
+                </NormalText>
+              ) : null}
+            </TouchableOpacity>
           </View>
         </View>
-        <View
-          style={{
-            marginLeft: Metrics.smallMargin,
-            marginTop: Metrics.smallMargin,
-          }}>
-          <View style={{flexDirection: 'row', alignItems: 'center'}}>
+      </View>
+    );
+  }
+
+  addWebsite = () => {
+    this.animatedValue.setValue(0);
+    let newlyAddedValue = { indexWebsite: this.indexWebsite };
+    this.setState(
+      {
+        disableWebsite: true,
+        valueArrayWebsite: [...this.state.valueArrayWebsite, newlyAddedValue],
+      },
+      () => {
+        Animated.timing(this.animatedValue, {
+          toValue: 1,
+          duration: 500,
+          useNativeDriver: true,
+        }).start(() => {
+          this.indexWebsite = this.indexWebsite + 1;
+          this.setState({ disableWebsite: false });
+        });
+      }
+    );
+  };
+
+  renderWebsite() {
+    const colors = this.context;
+    let arrayWebsite = this.state.valueArrayWebsite.map((item, key) => {
+      if (key == this.indexWebsite) {
+        return (
+          <View style={styles.filedView}>
+            <TextInput
+              placeholder="Website"
+              style={styles.stylefiledText}
+              placeholderTextColor={COLORS.main_text_color}
+              maxLength={10}
+            />
+            <View style={styles.rightView}>
+              <Text style={styles.righttext}>( podcast )</Text>
+            </View>
+          </View>
+        );
+      } else {
+        return (
+          <View style={styles.filedView}>
+            <TextInput
+              placeholder="Website"
+              style={styles.stylefiledText}
+              placeholderTextColor={COLORS.main_text_color}
+              maxLength={10}
+            />
+            <View style={styles.rightView}>
+              <Text style={styles.righttext}>( podcast )</Text>
+            </View>
+          </View>
+        );
+      }
+    });
+
+    return (
+      <View style={{ marginTop: Metrics.doubleBaseMargin }}>
+        <View style={{ flexDirection: "row" }}>
+          <View>
             <Image source={website} style={styles.innerStyle} />
+          </View>
+
+          <View>
             <View style={styles.filedView}>
               <TextInput
                 placeholder="Website -1"
@@ -416,12 +1031,11 @@ export default function MyContactInfromation({navigation}) {
                 maxLength={10}
               />
               <View style={styles.rightView}>
-                <Text style={styles.righttext}>(Sport gambling podcast)</Text>
+                <Text style={styles.righttext}>( Sport gambling podcast )</Text>
               </View>
             </View>
-          </View>
-          <View style={styles.fieldMain}>
-            <View style={styles.filedViewRightTwo}>
+
+            <View style={styles.filedView}>
               <TextInput
                 placeholder="Website -2"
                 style={styles.stylefiledText}
@@ -429,33 +1043,88 @@ export default function MyContactInfromation({navigation}) {
                 maxLength={10}
               />
               <View style={styles.rightView}>
-                <Text style={styles.righttext}>(Universal Studio)</Text>
+                <Text style={styles.righttext}>( Universal Studio )</Text>
               </View>
             </View>
-          </View>
-          <View
-            style={{
-              marginLeft: Metrics.xdoubleBaseMargin,
-              marginTop: Metrics.smallMargin,
-            }}>
-            <Text
-              style={[{
-                color: COLORS.main_text_color,
-                fontFamily: 'Roboto-Light',
-                fontSize: width * 0.035,
-                marginBottom: Metrics.baseMargin,
-              }, {color: colors.textColor}]}>
-              + Add Website{' '}
-            </Text>
+
+            {arrayWebsite}
+
+            <TouchableOpacity
+              onPress={this.addWebsite}
+              disable={this.state.disableWebsite}
+            >
+              {this.state.status ? (
+                <NormalText> + Add Website </NormalText>
+              ) : null}
+            </TouchableOpacity>
           </View>
         </View>
-        <View
-          style={{
-            marginLeft: Metrics.smallMargin,
-            marginTop: Metrics.smallMargin,
-          }}>
-          <View style={{flexDirection: 'row', alignItems: 'center'}}>
+      </View>
+    );
+  }
+
+  addDate = () => {
+    this.animatedValue.setValue(0);
+    let newlyAddedValue = { indexDate: this.indexDate };
+    this.setState(
+      {
+        disabledDate: true,
+        valueArrayDate: [...this.state.valueArrayDate, newlyAddedValue],
+      },
+      () => {
+        Animated.timing(this.animatedValue, {
+          toValue: 1,
+          duration: 500,
+          useNativeDriver: true,
+        }).start(() => {
+          this.indexDate = this.indexDate + 1;
+          this.setState({ disabledDate: false });
+        });
+      }
+    );
+  };
+
+  renderDate() {
+    let arrayDate = this.state.valueArrayDate.map((item, key) => {
+      if (key == this.indexDate) {
+        return (
+          <View style={styles.filedView}>
+            <TextInput
+              placeholder="Date"
+              style={styles.stylefiledText}
+              placeholderTextColor={COLORS.main_text_color}
+              maxLength={10}
+            />
+            <View style={styles.rightView}>
+              <Text style={styles.righttext}>( Birthday )</Text>
+            </View>
+          </View>
+        );
+      } else {
+        return (
+          <View style={styles.filedView}>
+            <TextInput
+              placeholder="Date"
+              style={styles.stylefiledText}
+              placeholderTextColor={COLORS.main_text_color}
+              maxLength={10}
+            />
+            <View style={styles.rightView}>
+              <Text style={styles.righttext}>( Birthday )</Text>
+            </View>
+          </View>
+        );
+      }
+    });
+
+    return (
+      <View style={{ marginTop: Metrics.doubleBaseMargin }}>
+        <View style={{ flexDirection: "row" }}>
+          <View>
             <Image source={calender} style={styles.innerStyle} />
+          </View>
+
+          <View>
             <View style={styles.filedView}>
               <TextInput
                 placeholder="Date"
@@ -464,69 +1133,176 @@ export default function MyContactInfromation({navigation}) {
                 maxLength={10}
               />
               <View style={styles.rightView}>
-                <Text style={styles.righttext}>(Birthday)</Text>
+                <Text style={styles.righttext}>( Birthday )</Text>
               </View>
             </View>
-          </View>
 
-          <View
-            style={{
-              marginLeft: Metrics.xdoubleBaseMargin,
-              marginTop: Metrics.smallMargin,
-            }}>
-            <Text
-              style={[{
-                color: COLORS.main_text_color,
-                fontFamily: 'Roboto-Light',
-                fontSize: width * 0.035,
+            {arrayDate}
 
-                marginBottom: Metrics.baseMargin,
-              }, {color: colors.textColor}]}>
-              + Add Date{' '}
-            </Text>
+            <TouchableOpacity
+              onPress={this.addDate}
+              disable={this.state.disabledDate}
+            >
+              {this.state.status ? <NormalText> + Add Date </NormalText> : null}
+            </TouchableOpacity>
           </View>
         </View>
-        <View
-          style={{
-            marginLeft: Metrics.smallMargin,
-            marginTop: Metrics.smallMargin,
-          }}>
-          <View style={{flexDirection: 'row'}}>
+      </View>
+    );
+  }
+
+  addNote = () => {
+    this.animatedValue.setValue(0);
+    let newlyAddedValue = { indexNote: this.indexNote };
+    this.setState(
+      {
+        disabledNote: true,
+        valueArrayNote: [...this.state.valueArrayNote, newlyAddedValue],
+      },
+      () => {
+        Animated.timing(this.animatedValue, {
+          toValue: 1,
+          duration: 500,
+          useNativeDriver: true,
+        }).start(() => {
+          this.indexNote = this.indexNote + 1;
+          this.setState({ disabledNote: false });
+        });
+      }
+    );
+  };
+
+  renderNote() {
+    let arrayNote = this.state.valueArrayNote.map((item, key) => {
+      if (key == this.indexNote) {
+        return (
+          <View style={styles.addressFieldContainer}>
+            <TextInput
+              placeholder="Note"
+              style={styles.addressField}
+              placeholderTextColor={COLORS.main_text_color}
+              multiline={true}
+              numberOfLines={5}
+            />
+            <View style={styles.addressRightView}>
+              <Text style={styles.addressRighttext}>( Note )</Text>
+            </View>
+          </View>
+        );
+      } else {
+        return (
+          <View style={styles.addressFieldContainer}>
+            <TextInput
+              placeholder="Note"
+              style={styles.addressField}
+              placeholderTextColor={COLORS.main_text_color}
+              multiline={true}
+              numberOfLines={5}
+            />
+            <View style={styles.addressRightView}>
+              <Text style={styles.addressRighttext}>( Note )</Text>
+            </View>
+          </View>
+        );
+      }
+    });
+
+    return (
+      <View style={{ marginTop: Metrics.doubleBaseMargin }}>
+        <View style={{ flexDirection: "row" }}>
+          <View>
             <Image source={note} style={styles.innerStyle} />
-            <View style={styles.filedViewNote}>
+          </View>
+
+          <View>
+            <View style={styles.addressFieldContainer}>
               <TextInput
                 placeholder="Note"
-                style={styles.stylefiledTextNote}
+                style={styles.addressField}
                 placeholderTextColor={COLORS.main_text_color}
+                multiline={true}
+                numberOfLines={5}
               />
-              <View style={styles.rightView}>
-                <Text style={styles.righttext}>(Note -1)</Text>
+              <View style={styles.addressRightView}>
+                <Text style={styles.addressRighttext}>( Note -1 )</Text>
               </View>
             </View>
-          </View>
-          <View
-            style={{
-              marginLeft: Metrics.xdoubleBaseMargin,
-              marginTop: Metrics.smallMargin,
-            }}>
-            <Text
-              style={[{
-                color: COLORS.main_text_color,
-                fontFamily: 'Roboto-Light',
-                fontSize: width * 0.035,
-                marginBottom: Metrics.baseMargin,
-              }, {color: colors.textColor}]}>
-              + Add Note
-            </Text>
+
+            {arrayNote}
+
+            <TouchableOpacity
+              onPress={this.addNote}
+              disable={this.state.disabledNote}
+            >
+              {this.state.status ? <NormalText> + Add Note </NormalText> : null}
+            </TouchableOpacity>
           </View>
         </View>
-        <View
-          style={{
-            marginLeft: Metrics.smallMargin,
-            marginTop: Metrics.smallMargin,
-          }}>
-          <View style={{flexDirection: 'row', alignItems: 'center'}}>
+      </View>
+    );
+  }
+
+  addCompany = () => {
+    this.animatedValue.setValue(0);
+    let newlyAddedValue = { indexCompany: this.indexCompany };
+    this.setState(
+      {
+        disabledCompany: true,
+        valueArrayCompany: [...this.state.valueArrayCompany, newlyAddedValue],
+      },
+      () => {
+        Animated.timing(this.animatedValue, {
+          toValue: 1,
+          duration: 500,
+          useNativeDriver: true,
+        }).start(() => {
+          this.indexCompany = this.indexCompany + 1;
+          this.setState({ disabledCompany: false });
+        });
+      }
+    );
+  };
+
+  renderCompany() {
+    let arrayCompany = this.state.valueArrayCompany.map((item, key) => {
+      if (key == this.indexCompany) {
+        return (
+          <View style={styles.filedView}>
+            <TextInput
+              placeholder="Company"
+              style={styles.stylefiledText}
+              placeholderTextColor={COLORS.main_text_color}
+              maxLength={10}
+            />
+          </View>
+        );
+      } else {
+        return (
+          <View style={styles.filedView}>
+            <TextInput
+              placeholder="Company"
+              style={styles.stylefiledText}
+              placeholderTextColor={COLORS.main_text_color}
+              maxLength={10}
+            />
+          </View>
+        );
+      }
+    });
+
+    return (
+      <View
+        style={{
+          marginTop: Metrics.baseMargin,
+          marginBottom: Metrics.baseMargin,
+        }}
+      >
+        <View style={{ flexDirection: "row" }}>
+          <View>
             <Image source={handshake} style={styles.innerStyle} />
+          </View>
+
+          <View>
             <View style={styles.filedView}>
               <TextInput
                 placeholder="Company"
@@ -534,10 +1310,12 @@ export default function MyContactInfromation({navigation}) {
                 placeholderTextColor={COLORS.main_text_color}
                 maxLength={10}
               />
+              <View style={styles.rightView}>
+                {/* <Text style={styles.righttext}>First Name</Text> */}
+              </View>
             </View>
-          </View>
-          <View style={styles.fieldMain}>
-            <View style={styles.filedViewRightTwo}>
+
+            <View style={styles.filedView}>
               <TextInput
                 placeholder="Job Title"
                 style={styles.stylefiledText}
@@ -545,7 +1323,8 @@ export default function MyContactInfromation({navigation}) {
                 maxLength={10}
               />
             </View>
-            <View style={styles.filedViewRightTwo}>
+
+            <View style={styles.filedView}>
               <TextInput
                 placeholder="Work Hours"
                 style={styles.stylefiledText}
@@ -553,43 +1332,114 @@ export default function MyContactInfromation({navigation}) {
                 maxLength={10}
               />
             </View>
-          </View>
-          <View
-            style={{
-              marginLeft: Metrics.xdoubleBaseMargin,
-              marginTop: Metrics.smallMargin,
-            }}>
-            <Text
-              style={[{
-                color: COLORS.main_text_color,
-                fontFamily: 'Roboto-Light',
-                fontSize: width * 0.035,
-                marginBottom: Metrics.baseMargin,
-              }, {color: colors.textColor}]}>
-              + Company{' '}
-            </Text>
+
+            {arrayCompany}
+
+            <TouchableOpacity
+              onPress={this.addCompany}
+              disable={this.state.disabledCompany}
+            >
+              {this.state.status ? <NormalText> + Company </NormalText> : null}
+            </TouchableOpacity>
           </View>
         </View>
-      </ScrollView>
-      <View
-        style={{
-          width: width * 0.9,
-          flexDirection: 'row',
-          alignItems: 'center',
-          justifyContent: 'flex-end',
-          flexDirection: 'row',
-        }}>
-        <TouchableHighlight style={styles.saveView}>
-          <Text
-            style={{
-              color: COLORS.main_text_color,
-              fontFamily: 'Roboto-Bold',
-              fontSize: width * 0.04,
-            }}>
-            Edit
-          </Text>
-        </TouchableHighlight>
       </View>
-    </View>
-  );
+    );
+  }
+
+  render() {
+    return (
+      <ThemeProvider theme={this.props.theme}>
+        <View style={styles.container}>
+          <Container>
+            {this.renderHeader()}
+            <ScrollView>
+              {this.renderMiddle()}
+              {this.renderName()}
+              {this.renderMobile()}
+              {this.renderEmail()}
+              {this.renderAddress()}
+              {this.renderMessage()}
+              {this.renderSocialmedia()}
+              {this.renderWebsite()}
+              {this.renderDate()}
+              {this.renderNote()}
+              {this.renderCompany()}
+            </ScrollView>
+            <View
+              style={{
+                width: width * 0.9,
+                flexDirection: "row",
+                alignItems: "center",
+                justifyContent: "flex-end",
+                flexDirection: "row",
+              }}
+            >
+              <TouchableHighlight
+                underlayColor="transparent"
+                style={styles.saveView}
+                onPress={this.ShowHideTextComponentView}
+              >
+                {this.state.status == true ? (
+                  <Text
+                    style={{
+                      color: COLORS.main_text_color,
+                      fontFamily: Font.medium,
+                      fontSize: width * 0.04,
+                    }}
+                  >
+                    {" "}
+                    Save{" "}
+                  </Text>
+                ) : (
+                  <Text
+                    style={{
+                      color: COLORS.main_text_color,
+                      fontFamily: Font.medium,
+                      fontSize: width * 0.04,
+                    }}
+                  >
+                    Edit{" "}
+                  </Text>
+                )}
+              </TouchableHighlight>
+            </View>
+          </Container>
+        </View>
+      </ThemeProvider>
+    );
+  }
 }
+
+const mapStateToProps = (state) => ({
+  theme: state.themeReducer.theme,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  switchTheme: bindActionCreators(switchTheme, dispatch),
+});
+
+export default connect(mapStateToProps)(MyContactInfromation);
+
+const Container = styled.SafeAreaView`
+  flex: 1;
+
+  width: 100%;
+  align-items: center;
+  background-color: ${(props) => props.theme.backColor};
+`;
+const NormalText = styled.Text`
+  font-family: Roboto-Regular;
+  font-size: 17px;
+  color: ${(props) => props.theme.textColor};
+`;
+const BoldText = styled.Text`
+  font-family: Roboto-Bold;
+  font-size: 17px;
+  color: ${(props) => props.theme.textColor};
+`;
+const ScrollView = styled.ScrollView`
+  color: ${(props) => props.theme.textColor};
+  flex: 1;
+  width: 90%;
+`;

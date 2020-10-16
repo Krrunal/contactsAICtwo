@@ -13,43 +13,25 @@ import React, {Component, useState} from 'react';
 
 import {COLORS} from '../theme/Colors.js';
 import Metrics from '../theme/Metrics';
-import edit from '../../assets/images/edit.png';
-import logo from '../../assets/images/logo.png';
-import outerimg from '../../assets/images/outerimg.png';
-import plus from '../../assets/images/plus.png';
-import reset from '../../assets/images/reset.png';
-import sideBar from '../../assets/images/sideBAR.png';
 import styles from './style.js';
-
-/* eslint-disable react-native/no-inline-styles */
-/* eslint-disable prettier/prettier */
+import Header from '../../components/header/index';
+import Font from '../theme/font';
 
 var {width, height} = Dimensions.get('window');
 export default class searchContact extends Component {
   state = {
     checked: false,
   }
+
   renderHeader() {
     return (
-      <View style={{alignItems: 'center'}}>
-        <View style={styles.blueView}>
-          <View style={{width: width * 0.9, flexDirection: 'row'}}>
-            <TouchableOpacity
-              style={styles.sideBarView}
-              onPress={() => this.props.navigation.openDrawer()}>
-              <Image source={sideBar} style={styles.sidebarStyle} />
-            </TouchableOpacity>
-            <View style={styles.sidebarViewCenter}>
-              <Text style={styles.centerText}>Manage Label</Text>
-            </View>
-            <View style={styles.sidebarViewRight}>
-              <Image source={logo} style={styles.sidebarStyle} />
-            </View>
-          </View>
-        </View>
-      </View>
+        <Header 
+          title="Manage Labels"
+          onPress={() => this.props.navigation.openDrawer()}
+        />
     );
   }
+
   renderMiddle() {
     return (
       <View style={{alignItems: 'center'}}>
@@ -79,6 +61,7 @@ export default class searchContact extends Component {
       </View>
     );
   }
+
   renderLast(){
     return(
       <View style={{alignItems:'center',flex:1}}>
@@ -90,6 +73,7 @@ export default class searchContact extends Component {
     </View>
     )
   }
+
   render() {
     return (
       <View style={{backgroundColor: COLORS.white, flex: 1}}>

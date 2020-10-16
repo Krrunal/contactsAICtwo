@@ -1,7 +1,7 @@
 import { Dimensions, StyleSheet } from 'react-native';
 
-// eslint-disable-next-line prettier/prettier
 import { COLORS } from '../theme/Colors.js';
+import Font from '../theme/font';
 import Metrics from '../theme/Metrics';
 
 var {width,height} =  Dimensions.get('window');
@@ -12,28 +12,42 @@ export default StyleSheet.create({
         backgroundColor:COLORS.white,
         alignItems:'center',
     },
+
     mobileView:{
         backgroundColor:COLORS.main_sky_blue,
-        // marginLeft:30,
         width:width*0.9,
         height:height*0.065,
         borderRadius:10,
         marginTop:Metrics.xsmallMargin,
         justifyContent:'center',
-       
     },
+    numberView  :{
+        backgroundColor:COLORS.main_sky_blue,
+        width:width*0.9,
+        height:height*0.065,
+        borderRadius:10,
+        marginTop:Metrics.baseMargin,
+        justifyContent:'center',
+        marginBottom:Metrics.smallMargin
+    },
+    mobileInputText: {
+        fontSize: width*0.04, 
+        fontFamily: Font.medium,
+        color:COLORS.main_text_color,
+    },
+
     textInputViewSignup:{
-        fontSize:width*0.040, 
-        fontFamily:"Roboto-Light",
+        fontSize: width*0.04, 
+        fontFamily: Font.medium,
         justifyContent:'center',
         alignItems:'center',
         color:COLORS.main_text_color,
         marginLeft:Metrics.baseMargin,
         width: width * 0.650,
     },
+
     userView:{
         backgroundColor:COLORS.main_sky_blue,
-        // marginLeft:30,
         width:width*0.9,
         height:height*0.065,
         borderRadius:10,
@@ -41,113 +55,131 @@ export default StyleSheet.create({
         justifyContent:'center',
         flexDirection: 'row'
     },
+
     passView:{
         backgroundColor:COLORS.main_sky_blue,
-        marginTop:Metrics.xsmallMargin
-        ,
+        marginTop:Metrics.xsmallMargin,
         width: width * 0.9,
         height: height * 0.065,
         borderRadius: 8,
         justifyContent:'center',
         flexDirection: 'row'
     },
+
     userText:{
         marginTop:Metrics.smallMargin,
         marginLeft:Metrics.baseMargin,
         flexDirection:'row'
     },
+
     downText:{
         fontSize:width*0.030,
         marginTop:Metrics.xsmallMargin,
         marginLeft:Metrics.baseMargin,
-        fontFamily:'Roboto-Light',
+        fontFamily: Font.light,
     },
-    checkboxView:{
-        flexDirection:'row',
-        alignItems:'center',
-        marginLeft:Metrics.smallMargin,
-        marginTop:Metrics.smallMargin,
 
-
-    },
     submitView:{
         backgroundColor:COLORS.white,
-        // marginLeft:30,
         width:width*0.9,
         height:height*0.075,
         borderRadius:10,
         marginTop:Metrics.doubleBaseMargin,
         justifyContent:'center',
         alignItems:'center',
-        shadowColor: COLORS.black,
         shadowOffset: {
-            width: 2,
-            height: 2,
+            width: 0,
+            height: 0,
         },
-        shadowOpacity: 0.25,
+        shadowOpacity: 0.7,
         shadowRadius:4,
         elevation: 5,
         marginBottom:Metrics.doubleBaseMargin
     },
-    submitText:{
-        color:COLORS.black,
-        fontSize:width*0.040, 
-        fontFamily:"Roboto-Bold"
-    },
-    logoStyle:{
-        width:width*0.2,
-        height:width*0.2,
-        marginTop:Metrics.baseMargin,
 
+    submitText:{
+        fontSize: width*0.040, 
+        fontFamily: Font.medium
     },
+
+    logoStyle:{
+        width: width * 0.17,
+        height: width * 0.17,
+        marginVertical:Metrics.doubleBaseMargin,
+    },
+
     logoText:{
-        marginTop:Metrics.baseMargin,
         color:COLORS.main_text_color,
-        fontSize:width*0.045,
-        fontFamily:"Roboto-Bold"
+        fontSize: width*0.053,
+        fontFamily: Font.bold
     },
+
     headerView:{
-        width:width,
+        width: width,
         justifyContent:'center',
         alignItems:'center'
     },
+
     normalText:{
-        fontFamily:'Roboto-Bold',
+        fontFamily: Font.medium,
         marginTop:Metrics.xsmallMargin,
-        fontSize:width*0.045,
-
+        fontSize: width*0.04,
     },
-    showText:{
-        marginTop:Metrics.xsmallMargin,
-        fontSize:width*0.035,
-        fontFamily:'Roboto-Light',
-     },
-     RigthView:{
-         width:width,
-         flex:1,
-         flexDirection:'row',
-         justifyContent: 'flex-end',
-         marginTop:Metrics.smallMargin,
-         alignItems:'center',
-         marginRight:Metrics.baseMargin
+    
+    RigthView:{
+        width:width,
+        flex:1,
+        flexDirection: 'row',
+        justifyContent: 'flex-end',
+        marginTop:Metrics.smallMargin,
+        alignItems:'center',
+        marginRight:Metrics.baseMargin,
+    },
 
-     },
-     eyeView: {
-        //borderWidth: 1,
+    eyeView: {
         width: width * 0.025,
         alignItems: 'flex-end',
         justifyContent: 'center',
         flex:1,
         marginRight:Metrics.baseMargin,
-      
     },
+
     checkIcon: {
         width: width * 0.045,
         height: width * 0.045,
     },
+
     checkIcon: {
         width: width * 0.045,
         height: width * 0.045,
     },
     
+    footerModal: {
+        justifyContent: 'center',
+        borderWidth: 40,
+        flex: 1
+    },
+
+    contactContent: {
+        margin: 0,
+        marginTop: height*0.4,
+        width: width * 0.8,
+        backgroundColor: COLORS.white,
+        alignSelf: 'center',
+        justifyContent: 'center',
+        borderWidth: 1,
+        paddingVertical: height * 0.02,
+        paddingHorizontal: width * 0.05,
+        borderRadius: 10
+    },
+
+    popupHeader: {
+        alignItems: 'flex-end'
+    },
+
+    infoIcon: {
+        width: width * 0.02,
+        height: width * 0.02,
+        alignSelf: 'center'
+    }
 })

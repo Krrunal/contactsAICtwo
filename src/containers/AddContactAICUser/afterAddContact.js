@@ -10,44 +10,29 @@ import {
   View,
 } from 'react-native';
 import React, {Component} from 'react';
+import styled, { ThemeProvider } from "styled-components/native";
 
 import {COLORS} from '../theme/Colors.js';
 import { CommonActions } from '@react-navigation/native';
+import Font from '../theme/font.js';
+import Header from '../../components/header/index';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import Metrics from '../theme/Metrics';
-import info from '../../assets/icons/info.svg';
-import logo from '../../assets/images/logo.png';
-import rigthLogo from '../../assets/icons/contact.png'
-import sideBar from '../../assets/images/sideBAR.png';
+import { connect } from "react-redux";
 import styles from './afterAddContactStyle.js';
 
 var {width, height} = Dimensions.get('window');
 
-export default class Share extends Component {
+ class afterAddContact extends Component {
   renderHeader() {
     return (
-      <View style={{alignItems: 'center'}}>
-        <View style={styles.blueView}>
-          <View style={{width: width * 0.9, flexDirection: 'row'}}>
-            <TouchableOpacity
-              style={styles.sideBarView}
-              onPress={() => this.props.navigation.openDrawer()}>
-              <Image source={sideBar} style={styles.sidebarStyle} />
-            </TouchableOpacity>
-            <View style={styles.sidebarViewCenter}>
-              <Text style={styles.centerText}>Add Contacts AIC User(s)</Text>
-            </View>
-            <View style={styles.sidebarViewRight}>
-              <Image source={rigthLogo} style={styles.sidebarStyle} />
-            </View>
-          </View>
-        </View>
-        <View>
-          <Text style={styles.middleText}>Enter Contact's Username</Text>
-        </View>
-      </View>
+        <Header 
+          title="Add Contacts AIC User(s)"
+          onPress={() => this.props.navigation.openDrawer()}
+        />
     );
   }
+
   renderMiddle() {
     return (
      
@@ -56,7 +41,7 @@ export default class Share extends Component {
         <View style={{marginTop: Metrics.baseMargin}}>
           <View>
             <View>
-              <Text style={styles.downText}>Username #1</Text>
+              <NormalText>Username #1</NormalText>
             </View>
 
             <View style={styles.userView}>
@@ -70,7 +55,7 @@ export default class Share extends Component {
         <View style={{marginTop: Metrics.baseMargin}}>
           <View>
             <View>
-              <Text style={styles.downText}>Username #2</Text>
+              <NormalText>Username #2</NormalText>
             </View>
 
             <View style={styles.userView}>
@@ -84,7 +69,7 @@ export default class Share extends Component {
         <View style={{marginTop: Metrics.baseMargin}}>
           <View>
             <View>
-              <Text style={styles.downText}>Username #3</Text>
+              <NormalText>Username #3</NormalText>
             </View>
 
             <View style={styles.userView}>
@@ -98,7 +83,7 @@ export default class Share extends Component {
         <View style={{marginTop: Metrics.baseMargin}}>
           <View style={{marginBottom:Metrics.doubleBaseMargin}}>
             <View>
-              <Text style={styles.downText}>Username #4</Text>
+              <NormalText>Username #4</NormalText>
             </View>
 
             <View style={styles.userView}>
@@ -114,49 +99,96 @@ export default class Share extends Component {
      
     );
   }
+
  renderLast() {
     return (
       <View style={{alignItems: 'center', flex: 1}}>
         <View
           style={{
             flex: 1,
-            bottom: 20,
+            bottom: 40,
             position: 'absolute',
             flexDirection: 'row',
           }}>
-          <TouchableOpacity style={styles.Whiteview} onPress={this.forAddContactNavigate}>
-            <Text style={{color: COLORS.main_text_color, fontFamily:'Roboto-Bold',
-     fontSize: width * 0.045,
-}}>Back</Text>
+          <TouchableOpacity style={styles.Whiteview} onPress={this.backNavigate}>
+            <Text style={{
+              color: COLORS.main_text_color, 
+              fontFamily: Font.medium,
+              fontSize: width * 0.045,
+            }}>Back</Text>
           </TouchableOpacity>
-          <View style={styles.WhiteviewTwo}>
-            <Text style={{color: COLORS.main_text_color, fontFamily:'Roboto-Bold',
-     fontSize: width * 0.045,
-}}>Next</Text>
-          </View>
+          <TouchableOpacity style={styles.WhiteviewTwo} onPress={this.forAddContactNavigate}>
+            <Text style={{
+              color: COLORS.main_text_color, 
+              fontFamily: Font.medium,
+              fontSize: width * 0.045,
+            }}>Next</Text>
+          </TouchableOpacity>
         </View>
       </View>
     );
   }
+
+  backNavigate = () => {
+    this.props.navigation.dispatch(
+      CommonActions.navigate({
+        name: 'manuallyAddContact',
+        //routes: [{ name: 'Login' }],
+      })
+    );
+  }
+
   forAddContactNavigate = () => {
     this.props.navigation.dispatch(
         CommonActions.navigate({
-          name: 'AddContact',
+          name: 'forAdd2',
           //routes: [{ name: 'Login' }],
         })
     );
-}
+  }
+
   render() {
     return (
-      <View style={styles.container}>
-      
+      <ThemeProvider theme={this.props.theme}>
+      <Container>
+      {/* <View style={styles.container}> */}
         {this.renderHeader()}
-      
+        <View style={styles.headerLineContainer}>
+          <LineText> Enter Contact's Username </LineText>
+        </View>
         {this.renderMiddle()}
-   
         {this.renderLast()}
-      
-      </View>
+      {/* </View> */}
+      </Container>
+      </ThemeProvider>
+
     );
   }
 }
+const mapStateToProps = (state) => ({
+  theme: state.themeReducer.theme,
+});
+
+
+export default connect(mapStateToProps)(afterAddContact);
+
+const Container = styled.View`
+  flex: 1;
+
+  width: 100%;
+  align-items: center;
+  background-color: ${(props) => props.theme.backColor};
+`;
+
+const NormalText = styled.Text`
+  font-family: Roboto-Regular;
+  font-size: 17px;
+  color: ${(props) => props.theme.iconColor};
+`;
+const LineText = styled.Text`
+  font-family: Roboto-Light;
+  font-size: 17px;
+  color: ${(props) => props.theme.iconColor};
+  line-Height:30px;
+  text-Align: center;
+`;

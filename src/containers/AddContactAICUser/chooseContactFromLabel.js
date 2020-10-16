@@ -2,38 +2,29 @@ import {
   CheckBox,
   Dimensions,
   Image,
-  Keyboard,
-  ScrollView,
   Text,
-  TextInput,
   TouchableOpacity,
   View,
-} from 'react-native';
-import {NavigationContainer, useTheme} from '@react-navigation/native';
-import React, {Component} from 'react';
-import {connect, useDispatch, useSelector} from 'react-redux';
+} from "react-native";
+import React, { Component } from "react";
+import { darkTheme, lightTheme } from "../theme/themeProps";
+import styled, { ThemeProvider } from "styled-components/native";
 
-import {COLORS} from '../theme/Colors.js';
-import {CommonActions} from '@react-navigation/native';
-import Icon from 'react-native-vector-icons/FontAwesome5';
-import Metrics from '../theme/Metrics';
-import info from '../../assets/icons/info.svg';
-import logo from '../../assets/images/logo.png';
-import plus from '../../assets/images/plus.png';
-import rigthLogo from '../../assets/icons/contact.png';
-import sideBar from '../../assets/images/sideBAR.png';
-import styles from './manuallyAddContactStyle';
+import { COLORS } from "../theme/Colors.js";
+import { CommonActions } from "@react-navigation/native";
+import Font from "../theme/font";
+import Header from "../../components/header/index";
+import Icon from "react-native-vector-icons/FontAwesome5";
+import Metrics from "../theme/Metrics";
+import { bindActionCreators } from "redux";
+import { connect } from "react-redux";
+import plus from "../../assets/images/plus.png";
+import styles from "./chooseContactFromLabelStyle.js";
+import { switchTheme } from "../../action/themeAction";
 
-var {width, height} = Dimensions.get('window');
+var { width, height } = Dimensions.get("window");
 
-export default function chooseContactFromLabel({navigation}) {
-  const {colors} = useTheme();
-  const dispatch = useDispatch();
-  const textcolor = colors.textColor
-  const currentTheme = useSelector((state) => {
-    return state.myDarMode;
-  });
-
+class chooseContactFromLabel extends Component {
   state = {
     checked: false,
     checked1: false,
@@ -44,107 +35,87 @@ export default function chooseContactFromLabel({navigation}) {
     checked6: false,
   };
 
-  //   forAddContactNavigate = () => {
-  //     this.props.navigation.dispatch(
-  //         CommonActions.navigate({
-  //           name: 'forAddContact',
-  //           //routes: [{ name: 'Login' }],
-  //         })
-  //     );
-  // }
+  renderHeader() {
+    return (
+      <Header
+        title="Add Contacts AIC User(s)"
+        onPress={() => this.props.navigation.openDrawer()}
+      />
+    );
+  }
 
-  return (
-    <View style={[styles.container,{backgroundColor:colors.backColor}]}>
-      <View style={{alignItems: 'center'}}>
-        <View style={styles.blueView}>
-          <View style={{width: width * 0.9, flexDirection: 'row'}}>
-            <TouchableOpacity
-              style={styles.sideBarView}
-              onPress={() => navigation.openDrawer()}>
-              <Image source={sideBar} style={styles.sidebarStyle} />
-            </TouchableOpacity>
-            <View style={styles.sidebarViewCenter}>
-              <Text style={styles.centerText}>Add Contacts AIC User(s)</Text>
-            </View>
-            <View style={styles.sidebarViewRight}>
-              <Image source={rigthLogo} style={styles.sidebarStyle} />
-            </View>
-          </View>
-        </View>
-        <View style={{width: width * 0.7}}>
-          <Text style={[styles.textMiddle,{color:textcolor}]}>
-            Select which label(s) to associate with [ USERNAME ]
-          </Text>
-        </View>
-      </View>
+  renderMiddle() {
+    return (
       <View>
         <View style={styles.mainView}>
           <CheckBox
-            // value={this.state.checked}
-            // onValueChange={() => this.setState({checked: !this.state.checked})}
-            tintColors={{true: '#1374A3', false: '#000'}}
+            value={this.state.checked}
+            onValueChange={() =>
+              this.setState({ checked: !this.state.checked })
+            }
+            tintColors={{ true: "#1374A3", false: "#000" }}
           />
-          <Text style={[styles.contactText,{color:textcolor}]}>Family</Text>
+          <NormalText>Family</NormalText>
         </View>
         <View style={styles.mainView}>
           <CheckBox
-            // value={this.state.checked1}
-            // onValueChange={() =>
-            //   this.setState({checked1: !this.state.checked1})
-            // }
-            tintColors={{true: '#1374A3', false: '#000'}}
+            value={this.state.checked1}
+            onValueChange={() =>
+              this.setState({ checked1: !this.state.checked1 })
+            }
+            tintColors={{ true: "#1374A3", false: "#000" }}
           />
-          <Text style={[styles.contactText,{color:textcolor}]}>Friend</Text>
+          <NormalText>Friend</NormalText>
         </View>
         <View style={styles.mainView}>
           <CheckBox
-            // value={this.state.checked2}
-            // onValueChange={() =>
-            //   this.setState({checked2: !this.state.checked2})
-            // }
-            tintColors={{true: '#1374A3', false: '#000'}}
+            value={this.state.checked2}
+            onValueChange={() =>
+              this.setState({ checked2: !this.state.checked2 })
+            }
+            tintColors={{ true: "#1374A3", false: "#000" }}
           />
-          <Text style={[styles.contactText,{color:textcolor}]}>Relative</Text>
+          <NormalText>Relative</NormalText>
         </View>
         <View style={styles.mainView}>
           <CheckBox
-            // value={this.state.checked3}
-            // onValueChange={() =>
-            //   this.setState({checked3: !this.state.checked3})
-            // }
-            tintColors={{true: '#1374A3', false: '#000'}}
+            value={this.state.checked3}
+            onValueChange={() =>
+              this.setState({ checked3: !this.state.checked3 })
+            }
+            tintColors={{ true: "#1374A3", false: "#000" }}
           />
-          <Text style={[styles.contactText,{color:textcolor}]}>Universal Studio</Text>
+          <NormalText>Universal Studio</NormalText>
         </View>
         <View style={styles.mainView}>
           <CheckBox
-            // value={this.state.checked4}
-            // onValueChange={() =>
-            //   this.setState({checked4: !this.state.checked4})
-            // }
-            tintColors={{true: '#1374A3', false: '#000'}}
+            value={this.state.checked4}
+            onValueChange={() =>
+              this.setState({ checked4: !this.state.checked4 })
+            }
+            tintColors={{ true: "#1374A3", false: "#000" }}
           />
-          <Text style={[styles.contactText,{color:textcolor}]}>Sposrt Gambling Podcast</Text>
+          <NormalText>Sposrt Gambling Podcast</NormalText>
         </View>
         <View style={styles.mainView}>
           <CheckBox
-            // value={this.state.checked5}
-            // onValueChange={() =>
-            //   this.setState({checked5: !this.state.checked5})
-            // }
-            tintColors={{true: '#1374A3', false: '#000'}}
+            value={this.state.checked5}
+            onValueChange={() =>
+              this.setState({ checked5: !this.state.checked5 })
+            }
+            tintColors={{ true: "#1374A3", false: "#000" }}
           />
-          <Text style={[styles.contactText,{color:textcolor}]}>Green Inc.</Text>
+          <NormalText>Green Inc.</NormalText>
         </View>
         <View style={styles.mainView}>
           <CheckBox
-            // value={this.state.checked6}
-            // onValueChange={() =>
-            //   this.setState({checked6: !this.state.checked6})
-            // }
-            tintColors={{true: '#1374A3', false: '#000'}}
+            value={this.state.checked6}
+            onValueChange={() =>
+              this.setState({ checked6: !this.state.checked6 })
+            }
+            tintColors={{ true: "#1374A3", false: "#000" }}
           />
-          <Text style={[styles.contactText,{color:textcolor}]}>UCLA</Text>
+          <NormalText>UCLA</NormalText>
         </View>
         <View style={styles.mainView}>
           <Image
@@ -158,37 +129,105 @@ export default function chooseContactFromLabel({navigation}) {
           <View style={styles.smallWhiteview}>
             <Text
               style={{
-                fontSize: width * 0.025,
-                fontFamily: 'Roboto-Light',
-                fontSize: width * 0.04,
-              }}>
+                fontSize: width * 0.03,
+                fontFamily: Font.regular,
+              }}
+            >
               Add
             </Text>
           </View>
         </View>
       </View>
-      <View style={{alignItems: 'center', flex: 1}}>
+    );
+  }
+
+  renderLast() {
+    return (
+      <View style={{ alignItems: "center", flex: 1 }}>
         <View
           style={{
             flex: 1,
             bottom: 20,
-            position: 'absolute',
-            flexDirection: 'row',
-          }}>
+            position: "absolute",
+            flexDirection: "row",
+          }}
+        >
           <TouchableOpacity
             style={styles.Whiteview}
-            onPress= {() => navigation.navigate('forAddContact')}>
+            onPress={this.forAddContactNavigate}
+          >
             <Text
               style={{
                 color: COLORS.main_text_color,
-                fontFamily: 'Roboto-Bold',
+                fontFamily: Font.medium,
                 fontSize: width * 0.045,
-              }}>
+              }}
+            >
               Next
             </Text>
           </TouchableOpacity>
         </View>
       </View>
-    </View>
-  );
+    );
+  }
+
+  forAddContactNavigate = () => {
+    this.props.navigation.dispatch(
+      CommonActions.navigate({
+        name: "forAddContact",
+        //routes: [{ name: 'Login' }],
+      })
+    );
+  };
+
+  render() {
+    return (
+      <ThemeProvider theme={this.props.theme}>
+        <Container>
+          {/* <View style={styles.container}> */}
+
+          {this.renderHeader()}
+          <View style={styles.headerLineContainer}>
+            <LineText>
+              {" "}
+              Select which label(s) to associate with [ USERNAME ]{" "}
+            </LineText>
+          </View>
+          {this.renderMiddle()}
+          {this.renderLast()}
+
+          {/* </View> */}
+        </Container>
+      </ThemeProvider>
+    );
+  }
 }
+const mapStateToProps = (state) => ({
+  theme: state.themeReducer.theme,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  switchTheme: bindActionCreators(switchTheme, dispatch),
+});
+
+export default connect(mapStateToProps)(chooseContactFromLabel);
+
+const Container = styled.View`
+flex: 1;
+
+width: 100%;
+/* align-items: center; */
+background-color: ${(props) => props.theme.backColor};
+`;
+const NormalText = styled.Text`
+  font-family: Roboto-Light;
+  font-size: 15px;
+  color: ${(props) => props.theme.iconColor};
+`;
+const LineText = styled.Text`
+  font-family: Roboto-Light;
+  font-size: 15px;
+  color: ${(props) => props.theme.iconColor};
+  line-Height:30px;
+  text-Align: center;
+`;

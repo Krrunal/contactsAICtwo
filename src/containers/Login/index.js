@@ -4,56 +4,135 @@ import {
   CheckBox,
   Image,
   Keyboard,
-  ScrollView,
   Text,
   TextInput,
   TouchableOpacity,
   View,
 } from 'react-native';
-/* eslint-disable react-native/no-inline-styles */
-/* eslint-disable prettier/prettier */
-import React, {Component, useState} from 'react';
-import {useDispatch, useSelector} from 'react-redux';
+import React, {Component} from 'react';
+import styled, { ThemeProvider } from "styled-components/native";
 
 import {COLORS} from '../theme/Colors.js';
 import {CommonActions} from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import Metrics from '../theme/Metrics';
 import {TouchableHighlight} from 'react-native-gesture-handler';
-import checked from '../../assets/icons/checked.png';
+import { bindActionCreators } from 'redux';
+import checked from '../../assets/icons/checked.png'
+import {connect} from 'react-redux'
 import innerimg from '../../assets/images/innerimg.png';
+import { login } from '../../action/loginAction';
 import logo from '../../assets/images/logo.png';
-import outerimg from '../../assets/images/outerimg.png';
 import styles from './style.js';
-import unchecked from '../../assets/icons/unchecked.png';
-import {useTheme} from '@react-navigation/native';
+import unchecked from '../../assets/icons/unchecked.png'
 
-// const {colors} = useTheme();
-export default function Login({navigation}) {
-  const {colors} = useTheme();
-  const dispatch = useDispatch();
-  const textcolor = colors.textColor;
-  const currentTheme = useSelector((state) => {
-    return state.myDarMode;
-  });
-  const [checked, setChecked, show, setShow] = useState(false);
-
-  // const showPassword = () => {
-  //   show ?  setShow = true : setShow = false
-  // };
-
-  const showPassword = () => {
-    show == false ? {show: true} : {show: false};
+class Login extends Component {
+  state = {
+    checked: false,
+    isKeyboardVisible: false,
+    show: false,
+    phone_number: '',
+    password: '',
   };
 
-  //   check = () => {
-  //     this.state.checked == false
-  //     ? this.setState({ checked: true })
-  //     : this.setState({ checked: false })
-  // }
+  renderHeader() {
+    return (
+      <View style={styles.headerView}>
+        <Image source={logo} style={styles.logoImg} />
+        <Text style={styles.logoText}>CONTACTS AIC</Text>
+      </View>
+    );
+  }
 
-  const navigate = () => {
-    navigation.dispatch(
+  renderEmail() {
+    return (
+      <View style={styles.viewEmail}>
+        <TextInput
+          placeholderTextColor={COLORS.main_text_color}
+          style={styles.textInputView}
+          autoCapitalize="none"
+          placeholder="Phone Number or Username"
+          keyboardType="default"
+          value={this.state.phone_number}
+          onChangeText={(value)=>this.setState({ phone_number: value })}
+          ref={input => { this.phone_number = input }}
+          // onFocus={()=>this.setState({ emailError: null })}
+        />
+      </View>
+    );
+  }
+
+  renderPassword() {
+    return (
+      <View style={styles.viewPassword}>
+        <TextInput
+          placeholderTextColor={COLORS.main_text_color}
+          style={styles.passwordInputView}
+          autoCapitalize="none"
+          placeholder="Password"
+          keyboardType="default"
+          secureTextEntry={this.state.show == false ? true : false}
+          value={this.state.password}
+          onChangeText={(value)=>this.setState({ password: value })}
+          ref={input => { this.password = input }}
+        />
+        <View style={styles.eyeView}>
+          <TouchableHighlight
+            underlayColor="transparent"
+            onPress={this.showPassword}>
+            {this.state.show == false ? (
+              <Icon name="eye-slash" size={18} color={COLORS.main_text_color} />
+            ) : (
+              <Icon name="eye" size={18} color={COLORS.main_text_color} />
+            )}
+          </TouchableHighlight>
+        </View>
+      </View>
+    );
+  }
+
+  showPassword = () => {
+    this.state.show == false
+      ? this.setState({show: true})
+      : this.setState({show: false});
+  };
+
+  renderLogin() {
+    return (
+      <TouchableOpacity style={styles.viewLogin} onPress={() =>this.props.login(this.state.phone_number,this.state.password)}>
+        <Text style={styles.loginText}>Log In</Text>
+      </TouchableOpacity>
+    );
+  }
+
+  renderRemeberMe() {
+    return (
+      <View style={styles.rememberView}>
+        <CheckBox
+          value={this.state.checked}
+          onValueChange={() => this.setState({checked: !this.state.checked})}
+          tintColors={{true: '#1374A3', false: '#000'}}
+        />
+        <Text style={styles.rememberText}>Remember Me</Text>
+      </View>
+    );
+  }
+
+  check = () => {
+    this.state.checked == false 
+    ? this.setState({ checked: true })
+    : this.setState({ checked: false })
+  }
+
+  renderSignupInLogin() {
+    return (
+      <TouchableOpacity style={styles.signupInlogin} onPress={this.navigate}>
+        <Text style={styles.loginText}>SIGN UP</Text>
+      </TouchableOpacity>
+    );
+  }
+
+  navigate = () => {
+    this.props.navigation.dispatch(
       CommonActions.navigate({
         name: 'Signup',
         //routes: [{ name: 'Login' }],
@@ -61,74 +140,61 @@ export default function Login({navigation}) {
     );
   };
 
-  return (
-    <ScrollView style={styles.mainStyle}>
-      <View style={[styles.container, {backgroundColor: colors.backColor}]}>
-        <View style={styles.headerView}>
-          <Image source={logo} style={styles.logoImg} />
-          <Text style={styles.logoText}>CONTACTS AIC</Text>
-        </View>
-        <View style={styles.viewEmail}>
-          <TextInput
-            placeholderTextColor={COLORS.main_text_color}
-            style={styles.textInputView}
-            autoCapitalize="none"
-            placeholder="Phone Number or Username"
-            keyboardType="default"
-            // value={this.state.email}
-            // onChangeText={(value) => this.setState({ email: value })}
-            // ref={input => { this.email = input }}
-            // onFocus={()=>this.setState({ emailError: null })}
-          />
-        </View>
-        <View style={styles.viewPassword}>
-          <TextInput
-            placeholderTextColor={COLORS.main_text_color}
-            style={styles.passwordInputView}
-            autoCapitalize="none"
-            placeholder="Password"
-            keyboardType="default"
-            secureTextEntry={show == false ? true : false}
-            // value={this.state.email}
-          />
-          <View style={styles.eyeView}>
-            <TouchableHighlight
-              underlayColor="transparent"
-              onPress={showPassword}>
-              {show == false ? (
-                <Icon
-                  name="eye-slash"
-                  size={18}
-                  color={COLORS.main_text_color}
-                />
-              ) : (
-                <Icon name="eye" size={18} color={COLORS.main_text_color} />
-              )}
-            </TouchableHighlight>
+  render() {
+    return (
+      <ThemeProvider theme={this.props.theme}>
+      <Container>
+
+      <ScrollView>
+        <View style={styles.container}>
+          {this.renderHeader()}
+          {this.renderEmail()}
+          {this.renderPassword()}
+          {this.renderLogin()}
+          {this.renderRemeberMe()}
+          <View style={styles.lineStyle}>
+            <View style={styles.lineView}></View>
+              <Text style={styles.orText}>OR {this.props.phone_number}</Text>
+            <View style={styles.lineViewTwo}></View>
           </View>
+          {this.renderSignupInLogin()}
         </View>
-        <TouchableOpacity style={styles.viewLogin}>
-          <Text style={styles.loginText}>LOG IN</Text>
-        </TouchableOpacity>
-        <View style={styles.rememberView}>
-          <CheckBox
-            value={checked}
-            onValueChange={setChecked}
-            tintColors={{true: '#1374A3', false: '#000'}}
-          />
-          <Text style={[styles.rememberText, {color: colors.textColor}]}>
-            Remember Me
-          </Text>
-        </View>
-        <View style={styles.lineStyle}>
-          <View style={styles.lineView}></View>
-          <Text style={styles.orText}>OR</Text>
-          <View style={styles.lineViewTwo}></View>
-        </View>
-        <TouchableOpacity style={styles.signupInlogin} onPress={navigate}>
-          <Text style={styles.loginText}>SIGN UP</Text>
-        </TouchableOpacity>
-      </View>
-    </ScrollView>
-  );
+      </ScrollView>
+      </Container>
+      </ThemeProvider>
+
+    );
+  }
 }
+
+function mapStateToProps(state) {
+  // console.log(state.login);
+    return {
+        response: state.login.response,
+        theme: state.themeReducer.theme,
+        // phone_number: state.login.phone_number,
+        // password: state.login.password
+    }
+}
+
+function mapDispatchToProps(dispatch){
+  return bindActionCreators({
+    login,
+  
+
+  },dispatch)
+}
+export default connect(mapStateToProps, mapDispatchToProps)(Login)
+
+const Container = styled.View`
+  flex: 1;
+
+  width: 100%;
+  align-items: center;
+  background-color: ${(props) => props.theme.backColor};
+`;
+const ScrollView = styled.ScrollView`
+  color: ${(props) => props.theme.textColor};
+  flex: 1;
+ 
+`;

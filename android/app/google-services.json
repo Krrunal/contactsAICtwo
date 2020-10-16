@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "49623062141",
+    "firebase_url": "https://contactaic.firebaseio.com",
+    "project_id": "contactaic",
+    "storage_bucket": "contactaic.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:49623062141:android:f857cd0e7679b8bca28314",
+        "android_client_info": {
+          "package_name": "com.contactsaic"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "49623062141-s2q4tcjmj46kuk7jet0otceun5fk2rpo.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.contactsaic",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
+        {
+          "client_id": "49623062141-nbja9n51580rejnik16mjotsua99jg1b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA3vzG2MxV3bCUlUIseCF9YlOT0_ko-Zrk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "49623062141-nbja9n51580rejnik16mjotsua99jg1b.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

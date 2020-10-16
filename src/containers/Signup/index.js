@@ -1,232 +1,341 @@
 import {
-  CheckBox,
+  FlatList,
   Image,
-  Keyboard,
-  ScrollView,
+  Modal,
   Text,
   TextInput,
   TouchableHighlight,
   TouchableOpacity,
   View,
-} from 'react-native';
-import React, {useState} from 'react';
-import {useDispatch, useSelector} from 'react-redux';
+} from "react-native";
+import React, { Component } from "react";
+import { darkTheme, lightTheme } from "../theme/themeProps";
+import styled, { ThemeProvider } from "styled-components/native";
 
-import {COLORS} from '../theme/Colors.js';
-import {CommonActions} from '@react-navigation/native';
-import Icon from 'react-native-vector-icons/FontAwesome5';
-import Metrics from '../theme/Metrics';
-import info from '../../assets/icons/info.svg';
-import logo from '../../assets/images/logo.png';
-import styles from './style.js';
-import {useTheme} from '@react-navigation/native';
+import { COLORS } from "../theme/Colors.js";
+import { CommonActions } from "@react-navigation/native";
+import Font from "../theme/font.js";
+import Icon from "react-native-vector-icons/FontAwesome";
+import IntlPhoneInput from "react-native-intl-phone-input";
+import Metrics from "../theme/Metrics";
+import { TouchableWithoutFeedback } from "react-native-gesture-handler";
+import { bindActionCreators } from "redux";
+import { connect } from "react-redux";
+import iSqure from "../../assets/icons/iSquare.png";
+import logo from "../../assets/images/logo.png";
+import styles from "./style.js";
+import { switchTheme } from "../../action/themeAction";
 
-export default function Signup({navigation}) {
-  const {colors} = useTheme();
-  const dispatch = useDispatch();
-  const textcolor = colors.textColor;
-  const currentTheme = useSelector((state) => {
-    return state.myDarMode;
-  });
-  const [checked, setChecked, show, setShow, showRender] = useState(false);
-
+class Signup extends Component {
   state = {
     checked: false,
     isKeyboardVisible: false,
     show: false,
     showRender: false,
+    isPassModelOpen: false,
+    passwordInfo: [
+      { info: "1) Eight characters." },
+      { info: "2) Two lowercase letters." },
+      { info: "3) Two uppercase letters." },
+      { info: "4) Two special characters." },
+      { info: "5) Two numbers." },
+    ],
   };
 
-  const showPassword = () => {
+  renderHeader() {
+    return (
+      <View style={{ paddingBottom: Metrics.ratio(10) }}>
+        <View style={styles.headerView}>
+          <Image source={logo} style={styles.logoStyle} />
+          <Text style={styles.logoText}>SIGN UP</Text>
+        </View>
+      </View>
+    );
+  }
+
+  renderMobileNumber() {
+    return (
+      <View>
+        <View style={styles.userText}>
+          <BoldBlack>*Phone number :</BoldBlack>
+          <View style={styles.RigthView}>
+            <Image
+              source={require("../../assets/icons/iSquare.png")}
+              style={styles.infoIcon}
+            />
+            <CountryText>Lookup Country Code</CountryText>
+          </View>
+        </View>
+        <View style={styles.numberView}>
+          <IntlPhoneInput
+            containerStyle={{ backgroundColor: COLORS.main_sky_blue }}
+            phoneInputStyle={styles.mobileInputText}
+            dialCodeTextStyle={styles.mobileInputText}
+            defaultCountry="IN"
+          />
+        </View>
+      </View>
+    );
+  }
+
+  renderuserName() {
+    return (
+      <View>
+        <View style={styles.userText}>
+          <BoldBlack>*Username :</BoldBlack>
+        </View>
+        <View style={styles.mobileView}>
+          <TextInput
+            placeholderTextColor={COLORS.main_text_color}
+            style={styles.textInputViewSignup}
+            keyboardType="default"
+          />
+        </View>
+        {/* <Text style={styles.downText}>Username <Text style={{color: COLORS.green, fontSize: 10}}>IS</Text> available</Text>
+        <Text style={styles.downText}>
+          Username <Text style={{color: COLORS.red, fontSize: 10}}>IS NOT</Text>{' '}
+          available
+        </Text> */}
+      </View>
+    );
+  }
+
+  renderEmail() {
+    return (
+      <View>
+        <View style={styles.userText}>
+          <BoldBlack>E-mail :</BoldBlack>
+        </View>
+        {/* <View style={styles.userView}>
+          <TextInput
+            placeholderTextColor={COLORS.main_text_color}
+            style={styles.textInputViewSignup}
+          />
+        </View> */}
+        <View style={styles.mobileView}>
+          <TextInput
+            placeholderTextColor={COLORS.main_text_color}
+            style={styles.textInputViewSignup}
+            keyboardType="email-address"
+          />
+        </View>
+      </View>
+    );
+  }
+
+  passwordInfo({ item, index }) {
+    return (
+      <View>
+        <Text> {item.info} </Text>
+      </View>
+    );
+  }
+
+  renderPassword() {
+    return (
+      <View>
+        <View style={styles.userText}>
+          <BoldBlack>*Password :</BoldBlack>
+          <View style={styles.RigthView}>
+            <TouchableWithoutFeedback
+              onPress={() => this.setState({ isPassModelOpen: true })}
+              style={{ flexDirection: "row" }}
+            >
+              <RightImage source={iSqure} />
+              <CountryText>Password Requirements</CountryText>
+            </TouchableWithoutFeedback>
+          </View>
+        </View>
+
+        <View style={styles.passView}>
+          <TextInput
+            placeholderTextColor={COLORS.main_text_color}
+            style={styles.textInputViewSignup}
+            autoCapitalize="none"
+            placeholder=" "
+            keyboardType="default"
+            secureTextEntry={this.state.show == false ? true : false}
+            value={this.state.password}
+          />
+
+          <View style={styles.eyeView}>
+            <TouchableHighlight
+              underlayColor="transparent"
+              onPress={this.showPassword}
+            >
+              {this.state.show == false ? (
+                <Icon
+                  name="eye-slash"
+                  size={18}
+                  color={COLORS.main_text_color}
+                />
+              ) : (
+                <Icon name="eye" size={18} color={COLORS.main_text_color} />
+              )}
+            </TouchableHighlight>
+          </View>
+        </View>
+        <NormalText>Used for password / username recovery</NormalText>
+
+        <Modal
+          visible={this.state.isPassModelOpen}
+          transparent={true}
+          style={styles.footerModal}
+          // onBackPress={() => this.setState({ isPassModelOpen: false })}
+        >
+          <View style={styles.contactContent}>
+            <View style={styles.popupHeader}>
+              <TouchableHighlight
+                onPress={() => this.setState({ isPassModelOpen: false })}
+              >
+                <Icon name="times" size={25} />
+              </TouchableHighlight>
+            </View>
+            <BoldBlack> Password must contain: </BoldBlack>
+
+            <FlatList
+              refreshing={true}
+              keyExtractor={(item, index) => index.toString()}
+              data={this.state.passwordInfo}
+              extraData={this.state}
+              numColumns={1}
+              renderItem={this.passwordInfo.bind(this)}
+              // scrollEnabled={true}
+              style={styles.flatlist}
+              // showsVerticalScrollIndicator={false}
+              keyboardShouldPersistTaps={"always"}
+            />
+          </View>
+        </Modal>
+      </View>
+    );
+  }
+
+  showPassword = () => {
     this.state.show == false
-      ? this.setState({show: true})
-      : this.setState({show: false});
-  };
-  const showrenderPassword = () => {
-    this.state.showRender == false
-      ? this.setState({showRender: true})
-      : this.setState({showRender: false});
+      ? this.setState({ show: true })
+      : this.setState({ show: false });
   };
 
-  const navigate = () => {
-    navigation.dispatch(
+  showrenderPassword = () => {
+    this.state.showRender == false
+      ? this.setState({ showRender: true })
+      : this.setState({ showRender: false });
+  };
+
+  renderReEnterPassword() {
+    return (
+      <View>
+        <View style={styles.userText}>
+          <BoldBlack>*Re-Enter Password :</BoldBlack>
+        </View>
+        <View style={styles.passView}>
+          <TextInput
+            placeholderTextColor={COLORS.main_text_color}
+            style={styles.textInputViewSignup}
+            secureTextEntry={this.state.showRender == false ? true : false}
+          />
+          <View style={styles.eyeView}>
+            <TouchableHighlight
+              underlayColor="transparent"
+              onPress={this.showrenderPassword}
+            >
+              {this.state.showRender == false ? (
+                <Icon
+                  name="eye-slash"
+                  size={18}
+                  color={COLORS.main_text_color}
+                />
+              ) : (
+                <Icon name="eye" size={18} color={COLORS.main_text_color} />
+              )}
+            </TouchableHighlight>
+          </View>
+        </View>
+      </View>
+    );
+  }
+
+  renderSubmitView() {
+    return (
+      <TouchableOpacity style={styles.submitView} onPress={this.navigate}>
+        <Text style={styles.submitText}>SUBMIT</Text>
+      </TouchableOpacity>
+    );
+  }
+
+  navigate = () => {
+    this.props.navigation.dispatch(
       CommonActions.navigate({
-        name: 'AddContact',
+        name: "AddContact",
         //routes: [{ name: 'Login' }],
-      }),
+      })
     );
   };
 
-  return (
-    <ScrollView style={[{backgroundColor: COLORS.white, flex: 1}, {backgroundColor: colors.backColor}]}>
-      <View style={[styles.container, {backgroundColor: colors.backColor}]}>
-        <View style={{paddingBottom: Metrics.ratio(10)}}>
-          <View style={styles.headerView}>
-            <Image source={logo} style={styles.logoStyle} />
-
-            <Text style={styles.logoText}>SIGN UP</Text>
-          </View>
-        </View>
-        <View>
-          <View style={styles.userText}>
-            <Text style={[styles.normalText, {color: colors.textColor}]}>
-              *Phone number :
-            </Text>
-            <View style={styles.RigthView}>
-              <Icon name={'info-circle'} size={10} color={textcolor} />
-              <Text
-                style={[
-                  {
-                    fontSize: 8,
-                    marginLeft: 5,
-                    fontFamily: 'Roboto-Light',
-                  },
-                  {color: colors.textColor},
-                ]}>
-                Lookup Country Code
-              </Text>
-            </View>
-          </View>
-          <View style={styles.mobileView}>
-            <TextInput
-              placeholderTextColor={COLORS.main_text_color}
-              style={styles.textInputViewSignup}
-              keyboardType={'numeric'}
-            />
-          </View>
-        </View>
-        <View>
-          <View style={styles.userText}>
-            <Text style={[styles.normalText, {color: colors.textColor}]}>
-              *Username :
-            </Text>
-            {/* <Icon name={'rocket'} size={30} color="#900" /> */}
-          </View>
-          
-          <View style={styles.mobileView}>
-            <TextInput
-              placeholderTextColor={COLORS.main_text_color}
-              style={styles.textInputViewSignup}
-            />
-          </View>
-          <Text style={[styles.downText, {color: colors.textColor}]}>
-            Username <Text style={{color: COLORS.green, fontSize: 10}}>IS</Text>{' '}
-            available
-          </Text>
-          <Text style={[styles.downText, {color: colors.textColor}]}>
-            Username{' '}
-            <Text style={{color: COLORS.red, fontSize: 10}}>IS NOT</Text>{' '}
-            available
-          </Text>
-        </View>
-        <View>
-          <View style={styles.userText}>
-            <Text style={[styles.normalText, {color: colors.textColor}]}>
-              E-mail :
-            </Text>
-          </View>
-         
-          <View style={styles.mobileView}>
-            <TextInput
-              placeholderTextColor={COLORS.main_text_color}
-              style={styles.textInputViewSignup}
-            />
-          </View>
-        </View>
-        <View>
-          <View style={styles.userText}>
-            <Text style={[styles.normalText, {color: colors.textColor}]}>
-              *Password :
-            </Text>
-            <View style={styles.RigthView}>
-              <Icon name={'info-circle'} size={10} color={textcolor} />
-              <Text
-                style={[
-                  {
-                    fontSize: 8,
-                    marginLeft: 5,
-                    fontFamily: 'Roboto-Light',
-                  },
-                  {color: colors.textColor},
-                ]}>
-                Password Requirements{' '}
-              </Text>
-            </View>
-          </View>
-
-          <View style={styles.passView}>
-            <TextInput
-              placeholderTextColor={COLORS.main_text_color}
-              style={styles.textInputViewSignup}
-              autoCapitalize="none"
-              placeholder=" "
-              keyboardType="default"
-              // secureTextEntry={this.state.show == false ? true : false}
-              // value={this.state.email}
-            />
-            <View style={styles.eyeView}>
-              <TouchableHighlight
-                underlayColor="transparent"
-                onPress={showPassword}>
-                {show == false ? (
-                  <Icon
-                    name="eye-slash"
-                    size={18}
-                    color={COLORS.main_text_color}
-                  />
-                ) : (
-                  <Icon name="eye" size={18} color={COLORS.main_text_color} />
-                )}
-              </TouchableHighlight>
-            </View>
-          </View>
-          <Text style={[styles.downText, {color: colors.textColor}]}>
-            Used for password / username recovery
-          </Text>
-        </View>
-        <View>
-          <View style={styles.userText}>
-            <Text style={[styles.normalText, {color: colors.textColor}]}>
-              *Re-Enter Password :
-            </Text>
-            {/* <Icon name={'rocket'} size={30} color="#900" /> */}
-          </View>
-          <View style={styles.passView}>
-            <TextInput
-              placeholderTextColor={COLORS.main_text_color}
-              style={styles.textInputViewSignup}
-              secureTextEntry={showRender == false ? true : false}
-            />
-            <View style={styles.eyeView}>
-              <TouchableHighlight
-                underlayColor="transparent"
-                onPress={showrenderPassword}>
-                {showRender == false ? (
-                  <Icon
-                    name="eye-slash"
-                    size={18}
-                    color={COLORS.main_text_color}
-                  />
-                ) : (
-                  <Icon name="eye" size={18} color={COLORS.main_text_color} />
-                )}
-              </TouchableHighlight>
-            </View>
-          </View>
-          {/* <View style={styles.checkboxView}>
-          <CheckBox
-            value={this.state.checked}
-            onValueChange={() => this.setState({checked: !this.state.checked})}
-            tintColors={{true: '#000', false: '#000'}}
-          />
-          <Text style={styles.showText}>Show password</Text>
-        </View> */}
-        </View>
-        <TouchableOpacity style={styles.submitView} onPress={navigate}>
-          <Text style={styles.submitText}>SUBMIT</Text>
-        </TouchableOpacity>
+  render() {
+    return (
+      <ThemeProvider theme={this.props.theme}>
+     
+          <ScrollView>
+          <Container>
+            {this.renderHeader()}
+            {this.renderMobileNumber()}
+            {this.renderuserName()}
+            {this.renderEmail()}
+            {this.renderPassword()}
+            {this.renderReEnterPassword()}
+            {this.renderSubmitView()}
+            </Container>
+          </ScrollView>
       
-      </View>
-    </ScrollView>
-  );
+      </ThemeProvider>
+    );
+  }
 }
+
+const mapStateToProps = (state) => ({
+  theme: state.themeReducer.theme,
+});
+
+export default connect(mapStateToProps)(Signup);
+
+const Container = styled.View`
+  flex: 1;
+
+  width: 100%;
+  align-items: center;
+  background-color: ${(props) => props.theme.backColor};
+  justify-content: center;
+`;
+const NormalText = styled.Text`
+  font-family: Roboto-Regular;
+  font-size: 10px;
+  color: ${(props) => props.theme.textColor};
+  margin-left:20px;
+  margin-Top:2px;
+`;
+
+const ScrollView = styled.ScrollView`
+  color: ${(props) => props.theme.textColor};
+  flex: 1;
+`;
+const CountryText = styled.Text`
+  font-size: 8px;
+  margin-left: 5px;
+  font-family: Roboto-Medium;
+  font-size: 8px;
+  color: ${(props) => props.theme.iconColor};
+
+`;
+const RightImage = styled.Image`
+  width: 10px;
+  height: 10px;
+  align-self: center;
+  
+`;
+const BoldBlack = styled.Text`
+  font-family: Roboto-Medium;
+  font-size: 17px;
+  color: ${(props) => props.theme.iconColor};
+`;

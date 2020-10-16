@@ -1,45 +1,191 @@
 import {
   CheckBox,
   Dimensions,
+  FlatList,
   Image,
-  Keyboard,
+  PermissionsAndroid,
   ScrollView,
   Text,
-  TextInput,
   TouchableOpacity,
-  View,
+  View
 } from 'react-native';
 import React, {Component, useState} from 'react';
-import {useDispatch, useSelector} from 'react-redux';
+import styled, { ThemeProvider } from "styled-components/native";
 
 import {COLORS} from '../theme/Colors.js';
-// import { CheckBox } from 'react-native-paper'
-import {CommonActions} from '@react-navigation/native';
+import { CommonActions } from '@react-navigation/native';
+import Contacts from 'react-native-contacts';
+import Font from '../theme/font.js';
+import Header from '../../components/header/index';
 import Metrics from '../theme/Metrics';
-import logo from '../../assets/images/logo.png';
-import rigthLogo from '../../assets/icons/contact.png';
+import { connect } from "react-redux";
+import { isRequired } from 'react-native/Libraries/DeprecatedPropTypes/DeprecatedColorPropType';
 import sideBar from '../../assets/images/sideBAR.png';
 import styles from './style.js';
-import {useTheme} from '@react-navigation/native';
-
-/* eslint-disable react-native/no-inline-styles */
-/* eslint-disable prettier/prettier */
 
 var {width, height} = Dimensions.get('window');
-export default function importContact({navigation}) {
-  const {colors} = useTheme();
-  const dispatch = useDispatch();
-  const textcolor = colors.textColor;
-  const currentTheme = useSelector((state) => {
-    return state.myDarMode;
-  });
-  const [checked, setChecked] = React.useState(false);
-  const [checked1, setChecked1] = React.useState(false);
-  const [checked2, setChecked2] = React.useState(false);
-  const [checked3, setChecked3] = React.useState(false);
-  
-  const importnavigate = () => {
-    navigation.dispatch(
+
+class importContact extends Component {
+  state = {
+    checked: false,
+    checked1: false,
+    checked2: false,
+    checked3: false,
+  };
+
+  componentDidMount() {
+    this.getContact()
+  }
+
+  selectAll() {
+    const {checked, checked1, checked2, checked3} = this.state;
+    if (this.state.checked == true) {
+      this.state.checked1 = true;
+      this.state.checked2 = true;
+      this.state.checked3 = true;
+    } else if (this.state.checked == false) {
+      this.state.checked1 = false;
+      this.state.checked2 = false;
+      this.state.checked3 = false;
+    }
+  }
+
+  selectOne() {
+    const {checked, checked1, checked2, checked3} = this.state;
+    if (this.state.checked1 == true) {
+      this.state.checked1 = false;
+    } else if ((this.state.checked1 = false)) {
+      this.state.checked1 = true;
+    }
+  }
+
+  renderHeader() {
+    return (
+        <Header 
+          title="Import Contacts"
+          onPress={() => this.props.navigation.openDrawer()}
+        />
+    );
+  }
+
+  getContact = async() => {
+    try {
+      const granted = await PermissionsAndroid.request(
+          PermissionsAndroid.PERMISSIONS.READ_CONTACTS,
+          {
+              title: "Cool Photo App READ_CONTACTS Permission",
+              message:
+                  "Cool Photo App needs access to your CONTACTS " +
+                  "so you can take awesome pictures.",
+              buttonNeutral: "Ask Me Later",
+              buttonNegative: "Cancel",
+              buttonPositive: "OK"
+          }
+      );
+      if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+          console.log("You can use the CONTACTS");
+
+          this.setState({ isLoading: true }, async () => {
+              Contacts.getAll((err, contacts) => {
+                  if (err) throw err;
+                  const contactNumber = contacts.filter((number) => {
+                      if (number.phoneNumbers.length != 0) {
+                          var n_number = Object.assign({}, number);
+                          n_number.isSelected = false;
+                          n_number.image = "";
+                          return n_number;
+                      }
+                  });
+                  //alert(JSON.stringify(contactNumber)); return;
+                  contactNumber.sort(function (a, b) {
+                      var AfamilyName = a.givenName == "" ? "" : a.givenName;
+                      var BfamilyName = b.givenName == "" ? "" : b.givenName;
+                      if (AfamilyName.toLowerCase() < BfamilyName.toLowerCase()) { return -1; }
+                      if (AfamilyName.toLowerCase() > BfamilyName.toLowerCase()) { return 1; }
+                      return 0;
+                  });
+                  // console.log(contactNumber);
+                  this.setState({ isLoading: false, fetchedContacts: contactNumber, oldContacts: contactNumber, isModalVisible: true });
+              })
+          });
+      } else {
+          console.log("READ_CONTACTS permission denied");
+      }
+  } catch (err) {
+      console.warn(err);
+  }
+}
+
+  renderItem({ item, index }) {
+    const lengthArray = this.state.fetchedContacts.length;
+    return (
+      <View style={styles.checkboxViewTwo}>
+        <CheckBox
+          value={this.state.checked1}
+          // onPress={this.selectOne()}
+          onValueChange={() =>
+            this.setState({checked1: !this.state.checked1})
+          }
+          tintColors={{true: '#1374A3', false: '#000'}}
+        />
+        <NormalText>{item.displayName}</NormalText>
+      </View>
+    );
+  }
+
+  renderMiddle() {
+    return (
+      <View style={{alignItems: 'center', height: height * 0.65}}>
+          
+          <View style={styles.checkboxView}>
+              <CheckBox
+                value={this.state.checked}
+                onPress={this.selectAll()}
+                onValueChange={() =>
+                  this.setState({checked: !this.state.checked})
+                }
+                tintColors={{true: '#1374A3', false: '#000'}}
+              />
+              <NormalText>Select (De-select) All</NormalText>
+          </View>
+
+          <ScrollView>
+            <View style={styles.contactView}>
+              <FlatList
+                refreshing={true}
+                keyExtractor={(item, index) => index.toString()}
+                data={this.state.fetchedContacts}
+                extraData={this.state}
+                numColumns={1}
+                renderItem={this.renderItem.bind(this)}
+              />
+            </View>
+          </ScrollView>
+      </View>
+    );
+  }
+
+  renderLast() {
+    return (
+      <View style={{alignItems: 'center', flex: 1}}>
+        <View style={{flex: 1, bottom: 40, position: 'absolute'}}>
+          <TouchableOpacity style={styles.Whiteview}  onPress={this.importnavigate}>
+            <Text
+              style={{
+                color: COLORS.main_text_color,
+                fontFamily: Font.medium,
+                fontSize: width * 0.045,
+              }}>
+              Import Contacts
+            </Text>
+          </TouchableOpacity>
+        </View>
+      </View>
+    );
+  }
+
+  importnavigate = () => {
+    this.props.navigation.dispatch(
       CommonActions.navigate({
         name: 'SerachEditContact',
         //routes: [{ name: 'Login' }],
@@ -48,106 +194,42 @@ export default function importContact({navigation}) {
   };
   // SerachEditContact
 
-  return (
-    <View
-      style={[
-        {flex: 1, backgroundColor: COLORS.white},
-        {backgroundColor: colors.backColor},
-      ]}>
-      <View style={{alignItems: 'center'}}>
-        <View style={styles.blueView}>
-          <View style={{width: width * 0.9, flexDirection: 'row'}}>
-            <TouchableOpacity
-              style={styles.sideBarView}
-              onPress={() => navigation.openDrawer()}>
-              <Image source={sideBar} style={styles.sidebarStyle} />
-            </TouchableOpacity>
-            <View style={styles.sidebarViewCenter}>
-              <Text style={styles.centerText}>Import Contacts</Text>
-            </View>
-            <View style={styles.sidebarViewRight}>
-              <Image source={rigthLogo} style={styles.sidebarStyle} />
-            </View>
-          </View>
-        </View>
-        <Text style={styles.textMiddle}>Import Contact(s) from Device</Text>
-      </View>
-      <View style={{alignItems: 'center', height: height * 0.55}}>
-        <ScrollView style={{marginTop: Metrics.smallMargin}}>
-          <View
-            style={[styles.whiteBigView, {backgroundColor: colors.backColor}]}>
-            <View style={{}}>
-              <View style={styles.checkboxView}>
-                <CheckBox
-                  value={checked}
-                  onValueChange={() => {
-                    setChecked(!checked);
-                  }}
-                  tintColors={{true: '#1374A3', false: '#000'}}
-                />
-
-                <Text style={[styles.showText, {color: colors.textColor}]}>
-                  Select (De-select) All
-                </Text>
-              </View>
-              <View></View>
-
-              <View style={{flex: 1}}>
-                <View style={styles.checkboxViewTwo}>
-                  <CheckBox
-                    value={checked1}
-                    onValueChange={() => {
-                      setChecked1(!checked1);
-                    }}
-                    tintColors={{true: '#1374A3', false: '#000'}}
-                  />
-                  <Text style={[styles.showText, {color: colors.textColor}]}>
-                    Ron Aron
-                  </Text>
-                </View>
-                <View style={styles.checkboxView}>
-                  <CheckBox
-                    value={checked2}
-                    onValueChange={() => {
-                      setChecked2(!checked2);
-                    }}
-                    tintColors={{true: '#1374A3', false: '#000'}}
-                  />
-                  <Text style={[styles.showText, {color: colors.textColor}]}>
-                    Shelly Blimton
-                  </Text>
-                </View>
-                <View style={styles.checkboxView}>
-                  <CheckBox
-                    value={checked3}
-                    onValueChange={() => {
-                      setChecked3(!checked3);
-                    }}
-                    tintColors={{true: '#1374A3', false: '#000'}}
-                  />
-                  <Text style={[styles.showText, {color: colors.textColor}]}>
-                    Arnold Brosser
-                  </Text>
-                </View>
-              </View>
-            </View>
-          </View>
-        </ScrollView>
-      </View>
-      <View style={{alignItems: 'center', flex: 1}}>
-        <View style={{flex: 1, bottom: 10, position: 'absolute'}}>
-          <TouchableOpacity style={styles.Whiteview} onPress={importnavigate}>
-            <Text
-              style={{
-                color: COLORS.main_text_color,
-                fontFamily: 'Roboto-Bold',
-                fontSize: width * 0.045,
-              }}>
-              Import
-            </Text>
-          </TouchableOpacity>
-        </View>
-      </View>
-    </View>
-  );
+  render() {
+    return (
+      <ThemeProvider theme={this.props.theme}>
+      <Container>
+      {/* <View style={styles.container}> */}
+        {this.renderHeader()}
+        <Text style={styles.importHeading}> Import contact(s) from Device </Text>
+        {this.renderMiddle()}
+        {this.renderLast()}
+        </Container>
+      </ThemeProvider>
+     
+    );
+  }
 }
+
+const mapStateToProps = (state) => ({
+  theme: state.themeReducer.theme,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  switchTheme: bindActionCreators(switchTheme, dispatch),
+});
+
+export default connect(mapStateToProps)(importContact);
+
+const Container = styled.View`
+  flex: 1;
+
+  width: 100%;
+  align-items: center;
+  background-color: ${(props) => props.theme.backColor};
+`;
+const NormalText = styled.Text`
+  font-family: Roboto-Regular;
+  font-size: 16px;
+  color: ${(props) => props.theme.iconColor};
+  margin-Left: 10px;
+`;

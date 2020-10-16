@@ -18,31 +18,22 @@ import info from '../../assets/icons/info.svg';
 import logo from '../../assets/images/logo.png';
 import sideBar from '../../assets/images/sideBAR.png';
 import styles from './style.js';
+import Header from '../../components/header/index';
+import Font from '../theme/font';
 
 var {width, height} = Dimensions.get('window');
 
 export default class ViewLabelByName extends Component {
+  
   renderHeader() {
     return (
-      <View style={{alignItems: 'center'}}>
-        <View style={styles.blueView}>
-          <View style={{width: width * 0.9, flexDirection: 'row'}}>
-            <TouchableOpacity
-              style={styles.sideBarView}
-              onPress={() => this.props.navigation.openDrawer()}>
-              <Image source={sideBar} style={styles.sidebarStyle} />
-            </TouchableOpacity>
-            <View style={styles.sidebarViewCenter}>
-              <Text style={styles.centerText}>View Labels </Text>
-            </View>
-            <View style={styles.sidebarViewRight}>
-              <Image source={logo} style={styles.sidebarStyle} />
-            </View>
-          </View>
-        </View>
-      </View>
+        <Header 
+          title="View Labels"
+          onPress={() => this.props.navigation.openDrawer()}
+        />
     );
   }
+
   renderMiddle() {
     return (
       <View style={styles.doubleView}>
@@ -58,6 +49,7 @@ export default class ViewLabelByName extends Component {
       </View>
     );
   }
+
   renderBigView() {
     return (
       <View>
@@ -88,6 +80,7 @@ export default class ViewLabelByName extends Component {
       </View>
     );
   }
+
   render() {
     return (
       <View style={styles.container}>

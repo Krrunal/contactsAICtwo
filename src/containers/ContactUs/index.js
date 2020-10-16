@@ -1,44 +1,52 @@
-import {CheckBox, Dimensions, Image, Keyboard, ScrollView, Text, TextInput, TouchableOpacity, View} from 'react-native';
-import React, {Component} from 'react';
-import {useDispatch, useSelector} from 'react-redux';
+import {
+  CheckBox,
+  Dimensions,
+  Image,
+  Keyboard,
+  ScrollView,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
+} from "react-native";
+import React, { Component } from "react";
+import styled, { ThemeProvider } from "styled-components/native";
 
-import {COLORS} from '../theme/Colors.js';
-import Icon from 'react-native-vector-icons/FontAwesome5';
-import Metrics from '../theme/Metrics';
-import { func } from 'prop-types';
-import info from '../../assets/icons/info.svg'
-import logo from '../../assets/images/logo.png';
-import rigthLogo from '../../assets/icons/contact.png'
-import sideBar from '../../assets/images/sideBAR.png'
-import styles from './style.js';
-import {useTheme} from '@react-navigation/native';
+import Font from "../theme/font";
+import Header from "../../components/header/index";
+import { connect } from "react-redux";
+import styles from "./style.js";
 
-var {width,height} =  Dimensions.get('window');
+var { width, height } = Dimensions.get("window");
 
-export default function ContactUs ({navigation})  {
-            
-    
-    
-      const {colors} = useTheme();
-      const dispatch = useDispatch();
-      const textcolor = colors.textColor
-      const currentTheme = useSelector((state) => {
-        return state.myDarMode;
-      });
-    
-    
-        return(
-            <View style={[styles.container,{backgroundColor: colors.backColor}]
-        }>
-               <View style={styles.blueView}>
-             <View style={{width:width*0.9,flexDirection:'row'}}>
-             <TouchableOpacity style={styles.sideBarView} onPress={() => navigation.openDrawer()}><Image source={sideBar} style={styles.sidebarStyle}/></TouchableOpacity> 
-             <View style={styles.sidebarViewCenter}><Text style={styles.centerText}>Contact Us</Text></View>
-             <View style={styles.sidebarViewRight}><Image source={rigthLogo} style={styles.sidebarStyle}/></View>
+class ContactUs extends Component {
+  renderHeader() {
+    return (
+      <Header
+        title="Contact Us"
+        onPress={() => this.props.navigation.openDrawer()}
+      />
+    );
+  }
 
-            </View>
-            
-          </View>
-            </View>
-        )
-    }
+  render() {
+    return (
+      <ThemeProvider theme={this.props.theme}>
+        <Container>{this.renderHeader()}</Container>
+      </ThemeProvider>
+    );
+  }
+}
+const mapStateToProps = (state) => ({
+  theme: state.themeReducer.theme,
+});
+
+export default connect(mapStateToProps)(ContactUs);
+
+const Container = styled.View`
+  flex: 1;
+
+  width: 100%;
+  align-items: center;
+  background-color: ${(props) => props.theme.backColor};
+`;

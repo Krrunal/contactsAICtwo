@@ -1,86 +1,120 @@
 import {
-  CheckBox,
   Dimensions,
-  Image,
-  Keyboard,
-  ScrollView,
   Text,
-  TextInput,
   TouchableOpacity,
   View,
 } from 'react-native';
-import {NavigationContainer, useTheme} from '@react-navigation/native';
 import React, {Component} from 'react';
-import {connect, useDispatch, useSelector} from 'react-redux';
+import { darkTheme, lightTheme } from "../theme/themeProps";
+import styled, { ThemeProvider } from "styled-components/native";
 
-import {COLORS} from '../theme/Colors.js';
-import CheckTwo from '../../checkTwo';
-import {CommonActions} from '@react-navigation/native';
-import Metrics from '../theme/Metrics';
-import {bindActionCreators} from 'redux';
-import logo from '../../assets/images/logo.png';
-import rigthLogo from '../../assets/icons/contact.png';
-import sideBar from '../../assets/images/sideBAR.png';
+import { CommonActions } from '@react-navigation/native';
+import Header from '../../components/header/index';
+import { bindActionCreators } from "redux";
+import { connect } from "react-redux";
+import {createDrawerNavigator} from '@react-navigation/drawer';
 import styles from './style';
-
-/* eslint-disable react-native/no-inline-styles */
-/* eslint-disable prettier/prettier */
-//screen.js
+import { switchTheme } from "../../action/themeAction";
 
 var {width, height} = Dimensions.get('window');
-export default function Add({navigation}) {
-  const {colors} = useTheme();
-  const dispatch = useDispatch();
-  const textcolor = colors.textColor;
-  const currentTheme = useSelector((state) => {
-    return state.myDarMode;
-  });
 
-  return (
-    <View style={[styles.container, {backgroundColor: colors.backColor}]}>
-      <View style={{alignItems: 'center'}}>
-        <View style={styles.blueView}>
-          <View style={{width: width * 0.9, flexDirection: 'row'}}>
-            <TouchableOpacity
-              style={styles.sideBarView}
-              onPress={() => navigation.openDrawer()}>
-              <Image source={sideBar} style={styles.sidebarStyle} />
-            </TouchableOpacity>
-            <View style={styles.sidebarViewCenter}>
-              <Text style={styles.centerText}>Add Contact(s)</Text>
-            </View>
+class Add extends Component {
 
-            <TouchableOpacity style={styles.sidebarViewRight}>
-              <Image source={rigthLogo} style={styles.sidebarStyleRight} />
-            </TouchableOpacity>
-            {/* <Text style={{textAlign:'center',fontSize:17,color:COLORS.white}}>Add Contact(s)</Text> */}
-            {/* <View style={styles.left}><Image source={logo} style={styles.sidebarStyleRight}/></View> */}
-          </View>
-        </View>
-      </View>
+  renderHeader() {
+    return (
+        <Header 
+          title="Add Contact(s)"
+          onPress={() => this.props.navigation.openDrawer()}
+        />
+    );
+  }
 
-      <View style={{justifyContent: 'center', flex: 1}}>
-        <TouchableOpacity
-          style={styles.firstView}
-          onPress={() => navigation.navigate('chooseContactFromLabel')}>
-          <Text style={styles.firstText}>Add Contacts AIC User(s)</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.SecondView}
-          onPress={() => navigation.navigate('addmanuallyContact')}>
-          <Text style={styles.firstText}>Add Contact Manually</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.SecondView}>
-          <Text
-            style={styles.firstText}
-            onPress={() => navigation.navigate('ImportContacts')}>
-            Import Contact(s) From My Device
-          </Text>
-        </TouchableOpacity>
-        {/* {this.renderFirst()}
+  renderFirst() {
+    return (
+      <TouchableOpacity style={styles.buttonView} onPress={this.addContactNavigate}>
+        <Text style={styles.text}>Add Contacts AIC User(s)</Text>
+      </TouchableOpacity>
+    );
+  }
+
+  addContactNavigate = () => {
+    this.props.navigation.dispatch(
+        CommonActions.navigate({
+          name: 'chooseContactFromLabel',
+          //routes: [{ name: 'Login' }],
+        })
+    );
+  }
+
+  renderSecond() {
+    return (
+      <TouchableOpacity style={styles.buttonView} onPress={this.importmanuallyNavigate}>
+        <Text style={styles.text}>Add Contact Manually</Text>
+      </TouchableOpacity>
+    );
+  }
+
+  // manuallyAddContact
+  importmanuallyNavigate = () => {
+    this.props.navigation.dispatch(
+        CommonActions.navigate({
+          name: 'addmanuallyContact',
+          //routes: [{ name: 'Login' }],
+        })
+    );
+  }
+
+  renderThird() {
+    return (
+      <TouchableOpacity style={styles.buttonView}>
+        <Text style={styles.text} onPress={this.importNavigate} >
+          Import Contact(s) From My Device</Text>
+      </TouchableOpacity>
+    );
+  }
+
+  importNavigate = () => {
+    this.props.navigation.dispatch(
+        CommonActions.navigate({
+          name: 'ImportContacts',
+          //routes: [{ name: 'Login' }],
+        })
+    );
+  }
+
+  render() {
+    return (
+      <ThemeProvider theme={this.props.theme}>
+      <View style={styles.container}>
+      <Container>
+
+        {this.renderHeader()}
+        <View style={{ marginTop: height * 0.2, flex: 1}}>
+          {this.renderFirst()}
           {this.renderSecond()}
-          {this.renderThird()} */}
+          {this.renderThird()}
+        </View>
+        </Container>
       </View>
-    </View>
-  );
+      </ThemeProvider>
+
+    );
+  }
 }
+const mapStateToProps = (state) => ({
+  theme: state.themeReducer.theme,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  switchTheme: bindActionCreators(switchTheme, dispatch),
+});
+
+export default connect(mapStateToProps)(Add);
+
+const Container = styled.SafeAreaView`
+  flex: 1;
+
+  width: 100%;
+  align-items: center;
+  background-color: ${(props) => props.theme.backColor};
+`;
