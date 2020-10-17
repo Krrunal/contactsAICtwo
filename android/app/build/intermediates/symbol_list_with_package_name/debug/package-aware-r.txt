@@ -109,9 +109,7 @@ attr animationMode
 attr appBarLayoutStyle
 attr arrowHeadLength
 attr arrowShaftLength
-attr aspectRatio
 attr autoCompleteTextViewStyle
-attr autoFocus
 attr autoSizeMaxTextSize
 attr autoSizeMinTextSize
 attr autoSizePresetSizes
@@ -343,7 +341,6 @@ attr fabCradleRoundedCornerRadius
 attr fabCradleVerticalOffset
 attr fabCustomSize
 attr fabSize
-attr facing
 attr fadeDuration
 attr failureImage
 attr failureImageScaleType
@@ -353,7 +350,6 @@ attr fastScrollHorizontalTrackDrawable
 attr fastScrollVerticalThumbDrawable
 attr fastScrollVerticalTrackDrawable
 attr firstBaselineToTopHeight
-attr flash
 attr floatingActionButtonStyle
 attr font
 attr fontFamily
@@ -1610,7 +1606,6 @@ id all
 id always
 id async
 id auto
-id back
 id beginning
 id blocking
 id bottom
@@ -1680,7 +1675,6 @@ id focusCrop
 id forever
 id fps_text
 id fragment_container_view_tag
-id front
 id ghost_view
 id ghost_view_holder
 id group_divider
@@ -1766,7 +1760,6 @@ id progress_circular
 id progress_horizontal
 id radio
 id react_test_id
-id redEye
 id right
 id right_icon
 id right_side
@@ -1828,7 +1821,6 @@ id status_bar_latest_event_content
 id stretch
 id submenuarrow
 id submit_area
-id surface_view
 id tabMode
 id tag_accessibility_actions
 id tag_accessibility_clickable_spans
@@ -1854,7 +1846,6 @@ id text_view_scale
 id textinput_counter
 id textinput_error
 id textinput_helper_text
-id texture_view
 id time
 id title
 id titleDividerNoCustom
@@ -1863,7 +1854,6 @@ id toolbar
 id toolbar_title
 id top
 id topPanel
-id torch
 id touch_outside
 id transition_current_scene
 id transition_layout_save
@@ -2023,7 +2013,6 @@ layout select_dialog_item_material
 layout select_dialog_multichoice_material
 layout select_dialog_singlechoice_material
 layout support_simple_spinner_dropdown_item
-layout surface_view
 layout test_action_chip
 layout test_design_checkbox
 layout test_reflow_chipgroup
@@ -2036,7 +2025,6 @@ layout text_view_with_line_height_from_layout
 layout text_view_with_line_height_from_style
 layout text_view_with_theme_line_height
 layout text_view_without_line_height
-layout texture_view
 layout ucrop_activity_photobox
 layout ucrop_aspect_ratio
 layout ucrop_controls
@@ -2049,30 +2037,10 @@ mipmap ic_launcher
 mipmap ic_launcher_round
 plurals mtrl_badge_content_description
 raw app
-raw node_modules_csscolorkeywords_colors
-raw node_modules_cssselect_lib_procedure
-raw node_modules_csstree_dist_defaultsyntax
-raw node_modules_domserializer_foreignnames
-raw node_modules_entities_lib_maps_decode
-raw node_modules_entities_lib_maps_entities
-raw node_modules_entities_lib_maps_legacy
-raw node_modules_entities_lib_maps_xml
-raw node_modules_nativebase_dist_src_basic_icon_nbicons
-raw node_modules_reactnativevectoricons_glyphmaps_antdesign
-raw node_modules_reactnativevectoricons_glyphmaps_entypo
-raw node_modules_reactnativevectoricons_glyphmaps_evilicons
-raw node_modules_reactnativevectoricons_glyphmaps_feather
 raw node_modules_reactnativevectoricons_glyphmaps_fontawesome
 raw node_modules_reactnativevectoricons_glyphmaps_fontawesome5free
 raw node_modules_reactnativevectoricons_glyphmaps_fontawesome5free_meta
-raw node_modules_reactnativevectoricons_glyphmaps_fontisto
-raw node_modules_reactnativevectoricons_glyphmaps_foundation
-raw node_modules_reactnativevectoricons_glyphmaps_ionicons
 raw node_modules_reactnativevectoricons_glyphmaps_materialcommunityicons
-raw node_modules_reactnativevectoricons_glyphmaps_materialicons
-raw node_modules_reactnativevectoricons_glyphmaps_octicons
-raw node_modules_reactnativevectoricons_glyphmaps_simplelineicons
-raw node_modules_reactnativevectoricons_glyphmaps_zocial
 raw src_assets_icons_info
 string abc_action_bar_home_description
 string abc_action_bar_up_description
@@ -2836,7 +2804,6 @@ style Widget_AppCompat_TextView
 style Widget_AppCompat_TextView_SpinnerItem
 style Widget_AppCompat_Toolbar
 style Widget_AppCompat_Toolbar_Button_Navigation
-style Widget_CameraView
 style Widget_Compat_NotificationActionContainer
 style Widget_Compat_NotificationActionText
 style Widget_Design_AppBarLayout
@@ -2972,7 +2939,6 @@ styleable BottomAppBar backgroundTint elevation fabAlignmentMode fabAnimationMod
 styleable BottomNavigationView backgroundTint elevation itemBackground itemHorizontalTranslationEnabled itemIconSize itemIconTint itemRippleColor itemTextAppearanceActive itemTextAppearanceInactive itemTextColor labelVisibilityMode menu
 styleable BottomSheetBehavior_Layout android_elevation backgroundTint behavior_expandedOffset behavior_fitToContents behavior_halfExpandedRatio behavior_hideable behavior_peekHeight behavior_saveFlags behavior_skipCollapsed shapeAppearance shapeAppearanceOverlay
 styleable ButtonBarLayout allowStacking
-styleable CameraView android_adjustViewBounds aspectRatio autoFocus facing flash
 styleable CardView android_minWidth android_minHeight cardBackgroundColor cardCornerRadius cardElevation cardMaxElevation cardPreventCornerOverlap cardUseCompatPadding contentPadding contentPaddingBottom contentPaddingLeft contentPaddingRight contentPaddingTop
 styleable Chip android_textAppearance android_textColor android_ellipsize android_maxWidth android_text android_checkable checkedIcon checkedIconEnabled checkedIconVisible chipBackgroundColor chipCornerRadius chipEndPadding chipIcon chipIconEnabled chipIconSize chipIconTint chipIconVisible chipMinHeight chipMinTouchTargetSize chipStartPadding chipStrokeColor chipStrokeWidth chipSurfaceColor closeIcon closeIconEnabled closeIconEndPadding closeIconSize closeIconStartPadding closeIconTint closeIconVisible ensureMinTouchTargetSize hideMotionSpec iconEndPadding iconStartPadding rippleColor shapeAppearance shapeAppearanceOverlay showMotionSpec textEndPadding textStartPadding
 styleable ChipGroup checkedChip chipSpacing chipSpacingHorizontal chipSpacingVertical singleLine singleSelection

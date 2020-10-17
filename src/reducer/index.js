@@ -5,8 +5,6 @@ import  AsyncStorage from '@react-native-community/async-storage'
 import contactReducer from "./contactReducer";
 import loginReducer from "./loginReducer";
 import themeReducer from "./themeReducer";
-import signupReducer from './signupReducer';
-
 import thunk from 'redux-thunk'
 
 const persistConfig = {
@@ -18,8 +16,7 @@ const allReducers = combineReducers({
   // splash: splashReducer,
   login: loginReducer,
   contact: contactReducer,
-  signup: signupReducer,
-  themeReducer,
+themeReducer,
 });
 const persistedReducer = persistReducer(persistConfig, allReducers)
 

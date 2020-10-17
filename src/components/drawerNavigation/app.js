@@ -30,9 +30,6 @@ import Splash from "../../containers/SplashScreen/index";
 import ViewLabel from "../../containers/ViewLabel/index";
 import addmanuallyContact from "../../containers/ManuallyContact/index";
 import afterAddContact from "../../containers/AddContactAICUser/afterAddContact";
-import QRScanner from '../../containers/AddContactAICUser/QRScanner';
-import QRDetail from '../../containers/AddContactAICUser/QRDetail';
-
 import afterSentInvite from "../../containers/InviteContacts/afterSentInvite";
 // import allReducers from "../../reducer/index";
 import chooseContactFromLabel from "../../containers/AddContactAICUser/chooseContactFromLabel";
@@ -108,8 +105,6 @@ function drawerRoutes() {
       <Drawer.Screen name="afterAddContact" component={afterAddContact} />
       <Drawer.Screen name="forAddContact" component={forAddContact} />
       <Drawer.Screen name="forAdd2" component={forAdd2} />
-      <Drawer.Screen name="QRScanner" component={QRScanner} />
-      <Drawer.Screen name="QRDetail" component={QRDetail} />
 
       <Drawer.Screen name="afterSentInvite" component={afterSentInvite} />
       <Drawer.Screen name="help" component={help} />
@@ -160,9 +155,6 @@ export function Navigation() {
         <Stack.Screen name="afterSentInvite" component={afterSentInvite} />
         <Stack.Screen name="forAddContact" component={forAddContact} />
         <Stack.Screen name="afterAddContact" component={afterAddContact} />
-        <Stack.Screen name="QRScanner" component={QRScanner} />
-        <Stack.Screen name="QRDetail" component={QRDetail} />
-
         <Stack.Screen name="Invite" component={Invite} />
         <Stack.Screen
           name="chooseContactFromLabel"

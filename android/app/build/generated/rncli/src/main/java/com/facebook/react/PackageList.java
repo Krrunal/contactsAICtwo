@@ -17,8 +17,6 @@ import com.reactnativecommunity.asyncstorage.AsyncStoragePackage;
 import com.reactnativecommunity.checkbox.ReactCheckBoxPackage;
 // @react-native-community/masked-view
 import org.reactnative.maskedview.RNCMaskedViewPackage;
-// react-native-camera
-import org.reactnative.camera.RNCameraPackage;
 // react-native-contacts
 import com.rt2zz.reactnativecontacts.ReactNativeContacts;
 // react-native-firebase
@@ -27,16 +25,12 @@ import io.invertase.firebase.RNFirebasePackage;
 import com.swmansion.gesturehandler.react.RNGestureHandlerPackage;
 // react-native-image-crop-picker
 import com.reactnative.ivpusic.imagepicker.PickerPackage;
-// react-native-permissions
-import com.reactnativecommunity.rnpermissions.RNPermissionsPackage;
 // react-native-reanimated
 import com.swmansion.reanimated.ReanimatedPackage;
 // react-native-safe-area-context
 import com.th3rdwave.safeareacontext.SafeAreaContextPackage;
 // react-native-screens
 import com.swmansion.rnscreens.RNScreensPackage;
-// react-native-svg
-import com.horcrux.svg.SvgPackage;
 // react-native-vector-icons
 import com.oblador.vectoricons.VectorIconsPackage;
 
@@ -87,16 +81,13 @@ public class PackageList {
       new AsyncStoragePackage(),
       new ReactCheckBoxPackage(),
       new RNCMaskedViewPackage(),
-      new RNCameraPackage(),
       new ReactNativeContacts(),
       new RNFirebasePackage(),
       new RNGestureHandlerPackage(),
       new PickerPackage(),
-      new RNPermissionsPackage(),
       new ReanimatedPackage(),
       new SafeAreaContextPackage(),
       new RNScreensPackage(),
-      new SvgPackage(),
       new VectorIconsPackage()
     ));
   }

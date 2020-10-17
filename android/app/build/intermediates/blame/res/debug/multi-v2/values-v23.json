@@ -1,10 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "/Users/techdodles/Desktop/mansi/PROJECTS/git/contactsAICtwo/android/app/build/intermediates/incremental/mergeDebugResources/merged.dir/values-v23/values-v23.xml",
+            "outputFile": "/Users/macmini/Desktop/contactsAIC-master/android/app/build/intermediates/incremental/mergeDebugResources/merged.dir/values-v23/values-v23.xml",
             "map": [
                 {
-                    "source": "/Users/techdodles/.gradle/caches/transforms-2/files-2.1/da5700f59650d39af8abba661a25207b/appcompat-1.1.0/res/values-v23/values-v23.xml",
+                    "source": "/Users/macmini/.gradle/caches/transforms-2/files-2.1/da5700f59650d39af8abba661a25207b/appcompat-1.1.0/res/values-v23/values-v23.xml",
                     "from": {
                         "startLines": "2,3,4,5,6,20,34,35,36,37,41,42,43,44",
                         "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4",
@@ -15,26 +15,7 @@
                     }
                 },
                 {
-                    "source": "/Users/techdodles/.gradle/caches/transforms-2/files-2.1/78c1aed01efe273b6414753a8da8788e/cardview-1.0.0/res/values-v23/values-v23.xml",
-                    "from": {
-                        "startLines": "2",
-                        "startColumns": "4",
-                        "startOffsets": "55",
-                        "endLines": "4",
-                        "endColumns": "12",
-                        "endOffsets": "200"
-                    },
-                    "to": {
-                        "startLines": "48",
-                        "startColumns": "4",
-                        "startOffsets": "3407",
-                        "endLines": "50",
-                        "endColumns": "12",
-                        "endOffsets": "3552"
-                    }
-                },
-                {
-                    "source": "/Users/techdodles/.gradle/caches/transforms-2/files-2.1/e39a00ed4542ef2a5a428d231e4ff8fc/material-1.1.0/res/values-v23/values-v23.xml",
+                    "source": "/Users/macmini/.gradle/caches/transforms-2/files-2.1/e39a00ed4542ef2a5a428d231e4ff8fc/material-1.1.0/res/values-v23/values-v23.xml",
                     "from": {
                         "startLines": "2,6",
                         "startColumns": "4,4",
@@ -50,6 +31,25 @@
                         "endLines": "54,58",
                         "endColumns": "10,10",
                         "endOffsets": "3817,4090"
+                    }
+                },
+                {
+                    "source": "/Users/macmini/.gradle/caches/transforms-2/files-2.1/78c1aed01efe273b6414753a8da8788e/cardview-1.0.0/res/values-v23/values-v23.xml",
+                    "from": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "55",
+                        "endLines": "4",
+                        "endColumns": "12",
+                        "endOffsets": "200"
+                    },
+                    "to": {
+                        "startLines": "48",
+                        "startColumns": "4",
+                        "startOffsets": "3407",
+                        "endLines": "50",
+                        "endColumns": "12",
+                        "endOffsets": "3552"
                     }
                 }
             ]

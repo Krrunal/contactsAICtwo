@@ -25,7 +25,6 @@ import iSqure from "../../assets/icons/iSquare.png";
 import logo from "../../assets/images/logo.png";
 import styles from "./style.js";
 import { switchTheme } from "../../action/themeAction";
-import {signup} from '../../action/signupAction';
 
 class Signup extends Component {
   state = {
@@ -73,9 +72,6 @@ class Signup extends Component {
             phoneInputStyle={styles.mobileInputText}
             dialCodeTextStyle={styles.mobileInputText}
             defaultCountry="IN"
-            value={this.state.phone_number}
-            onChangeText={(value)=>this.setState({ phone_number: value })}
-            ref={input => { this.phone_number = input }}  
           />
         </View>
       </View>
@@ -93,9 +89,6 @@ class Signup extends Component {
             placeholderTextColor={COLORS.main_text_color}
             style={styles.textInputViewSignup}
             keyboardType="default"
-            value={this.state.user_name}
-            onChangeText={(value)=>this.setState({ user_name: value })}
-            ref={input => { this.user_name = input }}  
           />
         </View>
         {/* <Text style={styles.downText}>Username <Text style={{color: COLORS.green, fontSize: 10}}>IS</Text> available</Text>
@@ -124,9 +117,6 @@ class Signup extends Component {
             placeholderTextColor={COLORS.main_text_color}
             style={styles.textInputViewSignup}
             keyboardType="email-address"
-            value={this.state.email}
-            onChangeText={(value)=>this.setState({ email: value })}
-            ref={input => { this.email = input }}  
           />
         </View>
       </View>
@@ -268,34 +258,26 @@ class Signup extends Component {
 
   renderSubmitView() {
     return (
-      <TouchableOpacity style={styles.submitView} 
-        onPress={()=>this.submit()}>
+      <TouchableOpacity style={styles.submitView} onPress={this.navigate}>
         <Text style={styles.submitText}>SUBMIT</Text>
       </TouchableOpacity>
     );
   }
 
-  submit = () => {
-    // const { phone_number, user_name, email} = this.state;
-    // !phone_number ? alert('Enter Phone number') : '';
-    // !user_name ? alert('Enter User Name') : '';
-    // !email ? alert('Enter Email') : '';
-
-    // if (phone_number && user_name && email) {
-      this.props.navigation.dispatch(
-        CommonActions.navigate({
-          name: "AddContact",
-          //routes: [{ name: 'Login' }],
-        })
-      );
-    // }
-    // console.log(this.state.phone_number.unmaskedPhoneNumber, this.state.user_name, this.state.email)
+  navigate = () => {
+    this.props.navigation.dispatch(
+      CommonActions.navigate({
+        name: "AddContact",
+        //routes: [{ name: 'Login' }],
+      })
+    );
   };
 
   render() {
     return (
       <ThemeProvider theme={this.props.theme}>
-        <ScrollView>
+     
+          <ScrollView>
           <Container>
             {this.renderHeader()}
             {this.renderMobileNumber()}
@@ -304,28 +286,28 @@ class Signup extends Component {
             {this.renderPassword()}
             {this.renderReEnterPassword()}
             {this.renderSubmitView()}
-          </Container>
-        </ScrollView>
+            </Container>
+          </ScrollView>
+      
       </ThemeProvider>
     );
   }
 }
 
 const mapStateToProps = (state) => ({
-    theme: state.themeReducer.theme,
+  theme: state.themeReducer.theme,
 });
-
 
 export default connect(mapStateToProps)(Signup);
 
 const Container = styled.View`
   flex: 1;
+
   width: 100%;
   align-items: center;
   background-color: ${(props) => props.theme.backColor};
   justify-content: center;
 `;
-
 const NormalText = styled.Text`
   font-family: Roboto-Regular;
   font-size: 10px;
@@ -338,21 +320,20 @@ const ScrollView = styled.ScrollView`
   color: ${(props) => props.theme.textColor};
   flex: 1;
 `;
-
 const CountryText = styled.Text`
   font-size: 8px;
   margin-left: 5px;
   font-family: Roboto-Medium;
   font-size: 8px;
   color: ${(props) => props.theme.iconColor};
-`;
 
+`;
 const RightImage = styled.Image`
   width: 10px;
   height: 10px;
   align-self: center;
+  
 `;
-
 const BoldBlack = styled.Text`
   font-family: Roboto-Medium;
   font-size: 17px;
