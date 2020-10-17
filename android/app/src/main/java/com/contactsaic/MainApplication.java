@@ -18,8 +18,9 @@ import java.util.List;
 import io.invertase.firebase.database.RNFirebaseDatabasePackage;
 import io.invertase.firebase.firestore.RNFirebaseFirestorePackage;
 
+import com.horcrux.svg.SvgPackage;
 import com.rt2zz.reactnativecontacts.ReactNativeContacts; // <--- import
-
+import org.reactnative.camera.RNCameraPackage;
 
 public class MainApplication extends Application implements ReactApplication {
 
@@ -35,9 +36,10 @@ public class MainApplication extends Application implements ReactApplication {
           @SuppressWarnings("UnnecessaryLocalVariable")
           List<ReactPackage> packages = new PackageList(this).getPackages();
           // Packages that cannot be autolinked yet can be added manually here, for example:
-          // packages.add(new MyReactNativePackage());
-           packages.add(new RNFirebaseDatabasePackage());
-           packages.add(new RNFirebaseFirestorePackage());
+            // packages.add(new SvgPackage());
+            packages.add(new RNFirebaseDatabasePackage());
+            packages.add(new RNFirebaseFirestorePackage());
+//            packages.add(new RNCameraPackage());
 
           return packages;
 

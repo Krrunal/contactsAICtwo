@@ -136,8 +136,9 @@ android {
         versionCode 1
         versionName "1.0"
         multiDexEnabled true
-
+        missingDimensionStrategy 'react-native-camera', 'general'
     }
+
     splits {
         abi {
             reset()
@@ -191,12 +192,19 @@ dependencies {
 
     implementation project(':react-native-contacts')
 
+    implementation project(':react-native-svg')
 
     //firebase dependencies
     implementation 'com.google.firebase:firebase-core:17.5.0'
     implementation 'com.google.firebase:firebase-database:19.5.0'
     implementation 'com.google.firebase:firebase-firestore:21.0.0'
 
+    implementation (project(':react-native-camera')) {
+        exclude group: "com.google.android.gms"
+    }
+    implementation ("com.google.android.gms:play-services-vision:10.2.0") {
+        force = true;
+    }
 
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.0.0"
 //    compile project(':react-native-vector-icons')
@@ -229,4 +237,4 @@ task copyDownloadableDepsToLibs(type: Copy) {
     into 'libs'
 }
 
-apply from: file("../../node_modules/@react-native-community/cli-platform-android/native_modules.gradle"); applyNativeModulesAppBuildGradle(project)
+apply from: file("../../../../node_modules/@react-native-community/cli-platform-android/native_modules.gradle"); applyNativeModulesAppBuildGradle(project)

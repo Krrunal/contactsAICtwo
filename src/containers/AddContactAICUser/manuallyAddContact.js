@@ -39,16 +39,27 @@ class manuallyAddContact extends Component {
   renderMiddle() {
     return (
       <View style={styles.mainView}>
-        <View style={styles.Whiteview}>
-          <Text style={styles.blueText}>QR Code</Text>
-        </View>
         <TouchableOpacity
           style={styles.Whiteview}
-          onPress={this.manuallyAddNavigate}
-        >
+          onPress={this.QRScanner} >
+          <Text style={styles.blueText}>QR Code</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          style={styles.Whiteview}
+          onPress={this.manuallyAddNavigate}>
           <Text style={styles.blueText}>Username</Text>
         </TouchableOpacity>
       </View>
+    );
+  }
+
+  QRScanner = () => {
+    this.props.navigation.dispatch(
+      CommonActions.navigate({
+        name: "QRScanner",
+        //routes: [{ name: 'Login' }],
+      })
     );
   }
 
