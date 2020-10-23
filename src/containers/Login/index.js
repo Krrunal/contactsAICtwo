@@ -13,20 +13,21 @@ import {
 } from "react-native";
 import React, { Component } from "react";
 import {Root, Toast} from 'native-base';
-// import { showToastError, validateEmail } from "../../action/Validation";
 import styled, { ThemeProvider } from "styled-components/native";
-import { COLORS } from "../theme/Colors.js";
-import GeneralStatusBar from "../../components/StatusBar/index";
 import Icon from "react-native-vector-icons/FontAwesome";
-import { InputCard } from "../../components/InputCard";
 import { TouchableHighlight } from "react-native-gesture-handler";
 import { bindActionCreators } from "redux";
-import checked from "../../assets/icons/checked.png";
 import { connect } from "react-redux";
+
+import { COLORS } from "../theme/Colors.js";
+import GeneralStatusBar from "../../components/StatusBar/index";
+import { InputCard } from "../../components/InputCard";
+import checked from "../../assets/icons/checked.png";
 import innerimg from "../../assets/images/innerimg.png";
 import logo from "../../assets/images/logo.png";
 import styles from "./style.js";
 import unchecked from "../../assets/icons/unchecked.png";
+import {Spinner} from '../../components/Spinner';
 
 class Login extends Component {
   constructor(props) {
@@ -90,6 +91,12 @@ class Login extends Component {
         break;
     }
     console.log(value);
+  }
+
+  showLoader() {
+    if (this.props.loader == true) {
+      return <Spinner />
+    }
   }
 
   render() {
@@ -211,7 +218,8 @@ class Login extends Component {
                 <Text style={styles.loginText}>SIGN UP</Text>
                 
               </TouchableOpacity>
-            
+              {this.showLoader()}
+
             </View>
             </Root>
           </ScrollView>
