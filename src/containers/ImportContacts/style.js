@@ -13,10 +13,14 @@ export default StyleSheet.create({
 
     contactView:{
         width:width*0.8,
-        flex: 1,
+        height: height * 0.55,
         backgroundColor:COLORS.white,
     },
-    
+    contactViewBlack:{
+        width:width*0.8,
+        height: height * 0.55,
+        backgroundColor:COLORS.black,
+    },
     checkboxView:{
         flexDirection:'row',
         alignItems:'center',

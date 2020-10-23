@@ -12,9 +12,9 @@ import React, { Component, useState } from "react";
 import styled, { ThemeProvider } from "styled-components/native";
 
 import { COLORS } from "../theme/Colors.js";
-import { CommonActions } from "@react-navigation/native";
 import Contacts from "react-native-contacts";
 import Font from "../theme/font";
+import GeneralStatusBar from "../../components/StatusBar/index";
 import Header from "../../components/header/index";
 import Metrics from "../theme/Metrics";
 import { connect } from "react-redux";
@@ -161,7 +161,19 @@ var { width, height } = Dimensions.get("window");
         </View>
 
         <ScrollView>
+        {this.props.theme.mode === 'light' ? (
           <View style={styles.contactView}>
+          <FlatList
+            refreshing={true}
+            keyExtractor={(item, index) => index.toString()}
+            data={this.state.fetchedContacts}
+            extraData={this.state}
+            numColumns={1}
+            renderItem={this.renderItem.bind(this)}
+          />
+        </View>
+          ) : (
+            <View style={styles.contactViewBlack}>
             <FlatList
               refreshing={true}
               keyExtractor={(item, index) => index.toString()}
@@ -171,6 +183,8 @@ var { width, height } = Dimensions.get("window");
               renderItem={this.renderItem.bind(this)}
             />
           </View>
+          )}
+          
         </ScrollView>
       </View>
     );
@@ -200,17 +214,21 @@ var { width, height } = Dimensions.get("window");
   }
 
   invitenavigate = () => {
-    this.props.navigation.dispatch(
-      CommonActions.navigate({
-        name: "afterSentInvite",
-        //routes: [{ name: 'Login' }],
-      })
-    );
+    this.props.navigation.navigate('AfterSentInvite')
   };
 
   render() {
     return (
       <ThemeProvider theme={this.props.theme}>
+        <GeneralStatusBar
+          backgroundColor={
+            this.props.theme.mode === "light" ? "white" : "black"
+          }
+          barStyle={
+            this.props.theme.mode === "dark" ? "light-content" : "dark-content"
+          }
+        />
+
         <Container>
           {this.renderHeader()}
           <NormalText>
@@ -233,7 +251,6 @@ export default connect(mapStateToProps)(InviteContact);
 
 const Container = styled.View`
   flex: 1;
-
   width: 100%;
   align-items: center;
   background-color: ${(props) => props.theme.backColor};

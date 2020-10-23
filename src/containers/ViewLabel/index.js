@@ -12,14 +12,14 @@ import {
 import React, { Component } from "react";
 import styled, { ThemeProvider } from "styled-components/native";
 
-import Font from "../theme/font";
+import GeneralStatusBar from "../../components/StatusBar/index";
 import Header from "../../components/header/index";
 import { connect } from "react-redux";
 import styles from "./style.js";
 
 var { width, height } = Dimensions.get("window");
 
- class ViewLabel extends Component {
+class ViewLabel extends Component {
   renderHeader() {
     return (
       <Header
@@ -36,13 +36,20 @@ var { width, height } = Dimensions.get("window");
           <Text style={styles.whiteText}>Contact</Text>
         </View>
         <View style={{ flex: 1, alignItems: "flex-end" }}>
-          <View style={styles.smallWhiteView}>
+          <TouchableOpacity
+            style={styles.smallWhiteView}
+            onPress={this.labelNavigate}
+          >
             <Text style={styles.blueText}>Label</Text>
-          </View>
+          </TouchableOpacity>
         </View>
       </View>
     );
   }
+  
+  labelNavigate = () => {
+    this.props.navigation.navigate("ViewLabelByName")
+  };
 
   renderBigView() {
     return (
@@ -79,6 +86,14 @@ var { width, height } = Dimensions.get("window");
   render() {
     return (
       <ThemeProvider theme={this.props.theme}>
+        <GeneralStatusBar
+          backgroundColor={
+            this.props.theme.mode === "light" ? "white" : "black"
+          }
+          barStyle={
+            this.props.theme.mode === "dark" ? "light-content" : "dark-content"
+          }
+        />
         <Container>
           {this.renderHeader()}
           {this.renderMiddle()}
@@ -91,7 +106,6 @@ var { width, height } = Dimensions.get("window");
 const mapStateToProps = (state) => ({
   theme: state.themeReducer.theme,
 });
-
 
 export default connect(mapStateToProps)(ViewLabel);
 

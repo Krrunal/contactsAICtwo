@@ -364,6 +364,8 @@ PODS:
     - React-Core (= 0.63.2)
     - React-cxxreact (= 0.63.2)
     - React-jsi (= 0.63.2)
+  - RNCAsyncStorage (1.12.1):
+    - React-Core
   - RNCCheckbox (0.5.3):
     - React
   - RNCMaskedView (0.1.10):
@@ -379,12 +381,22 @@ PODS:
     - React
   - RNGestureHandler (1.8.0):
     - React
+  - RNImageCropPicker (0.35.1):
+    - React-Core
+    - React-RCTImage
+    - RNImageCropPicker/QBImagePickerController (= 0.35.1)
+    - TOCropViewController
+  - RNImageCropPicker/QBImagePickerController (0.35.1):
+    - React-Core
+    - React-RCTImage
+    - TOCropViewController
   - RNReanimated (1.13.0):
     - React
   - RNScreens (2.11.0):
     - React
   - RNVectorIcons (7.1.0):
     - React
+  - TOCropViewController (2.5.5)
   - Yoga (1.14.0)
   - YogaKit (1.18.1):
     - Yoga (~> 1.14)
@@ -438,10 +450,12 @@ DEPENDENCIES:
   - React-RCTText (from `../node_modules/react-native/Libraries/Text`)
   - React-RCTVibration (from `../node_modules/react-native/Libraries/Vibration`)
   - ReactCommon/turbomodule/core (from `../node_modules/react-native/ReactCommon`)
+  - "RNCAsyncStorage (from `../node_modules/@react-native-community/async-storage`)"
   - "RNCCheckbox (from `../node_modules/@react-native-community/checkbox`)"
   - "RNCMaskedView (from `../node_modules/@react-native-community/masked-view`)"
   - RNFirebase (from `../node_modules/react-native-firebase/ios`)
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
+  - RNImageCropPicker (from `../node_modules/react-native-image-crop-picker`)
   - RNReanimated (from `../node_modules/react-native-reanimated`)
   - RNScreens (from `../node_modules/react-native-screens`)
   - RNVectorIcons (from `../node_modules/react-native-vector-icons`)
@@ -472,6 +486,7 @@ SPEC REPOS:
     - nanopb
     - OpenSSL-Universal
     - PromisesObjC
+    - TOCropViewController
     - YogaKit
 
 EXTERNAL SOURCES:
@@ -529,6 +544,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/Libraries/Vibration"
   ReactCommon:
     :path: "../node_modules/react-native/ReactCommon"
+  RNCAsyncStorage:
+    :path: "../node_modules/@react-native-community/async-storage"
   RNCCheckbox:
     :path: "../node_modules/@react-native-community/checkbox"
   RNCMaskedView:
@@ -537,6 +554,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-firebase/ios"
   RNGestureHandler:
     :path: "../node_modules/react-native-gesture-handler"
+  RNImageCropPicker:
+    :path: "../node_modules/react-native-image-crop-picker"
   RNReanimated:
     :path: "../node_modules/react-native-reanimated"
   RNScreens:
@@ -550,9 +569,9 @@ SPEC CHECKSUMS:
   boost-for-react-native: 39c7adb57c4e60d6c5479dd8623128eb5b3f0f2c
   CocoaAsyncSocket: 694058e7c0ed05a9e217d1b3c7ded962f4180845
   CocoaLibEvent: 2fab71b8bd46dd33ddb959f7928ec5909f838e3f
-  Crashlytics: 9220f5bc89e7a618df411b4f639389dbfb0e03d2
+  Crashlytics: 540b7e5f5da5a042647227a5e3ac51d85eed06df
   DoubleConversion: cde416483dac037923206447da6e1454df403714
-  Fabric: ea977e3cd9c20425516d3dafd3bf8c941c51223f
+  Fabric: 706c8b8098fff96c33c0db69cbf81f9c551d0d74
   FBLazyVector: 3ef4a7f62e7db01092f9d517d2ebc0d0677c4a37
   FBReactNativeSpec: dc7fa9088f0f2a998503a352b0554d69a4391c5a
   Firebase: 47176280bfba198e531f909cfb1612dad216cb96
@@ -597,16 +616,19 @@ SPEC CHECKSUMS:
   React-RCTText: 1b6773e776e4b33f90468c20fe3b16ca3e224bb8
   React-RCTVibration: 4d2e726957f4087449739b595f107c0d4b6c2d2d
   ReactCommon: a0a1edbebcac5e91338371b72ffc66aa822792ce
+  RNCAsyncStorage: cb9a623793918c6699586281f0b51cbc38f046f9
   RNCCheckbox: aac2c42466ceeac86f7016e3f659f819501d8859
   RNCMaskedView: f5c7d14d6847b7b44853f7acb6284c1da30a3459
   RNFirebase: 37daa9a346d070f9f6ee1f3b4aaf4c8e3b1d5d1c
   RNGestureHandler: 7a5833d0f788dbd107fbb913e09aa0c1ff333c39
+  RNImageCropPicker: 16951bc02411f50c4d197488ed6406a23dc3b5f1
   RNReanimated: 89f5e0a04d1dd52fbf27e7e7030d8f80a646a3fc
   RNScreens: 0e91da98ab26d5d04c7b59a9b6bd694124caf88c
   RNVectorIcons: bc69e6a278b14842063605de32bec61f0b251a59
+  TOCropViewController: da59f531f8ac8a94ef6d6c0fc34009350f9e8bfe
   Yoga: 7740b94929bbacbddda59bf115b5317e9a161598
   YogaKit: f782866e155069a2cca2517aafea43200b01fd5a
 
-PODFILE CHECKSUM: dded2792690c6fd06192d089e6f2f1fd0f66b3b9
+PODFILE CHECKSUM: f28a9c3c56eedaaf45876655a8a8ca85f8c7f62f
 
 COCOAPODS: 1.9.3

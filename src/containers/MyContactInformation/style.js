@@ -162,7 +162,7 @@ export default StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     width: width * 0.2,
-    height: height * 0.07,
+    height: height * 0.06,
     backgroundColor: COLORS.white,
     shadowColor: COLORS.black,
     shadowOffset: {
@@ -189,5 +189,17 @@ export default StyleSheet.create({
     flex: 1,
     width: width,
     borderWidth: 1
+  },
+  addFiledText: {
+    color: COLORS.main_text_color,
+    fontFamily: "Roboto-Light",
+    fontSize: width * 0.035,
+    marginBottom: Metrics.baseMargin,
+  },
+  addFiledTextBlack:{
+    color: COLORS.white,
+    fontFamily: "Roboto-Light",
+    fontSize: width * 0.035,
+    marginBottom: Metrics.baseMargin,
   },
 });

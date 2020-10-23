@@ -23,42 +23,26 @@ export default StyleSheet.create({
     viewEmail:{
         backgroundColor:COLORS.main_sky_blue,
         marginTop: height * 0.07,
-        width: width * 0.8,
+        width: width * 0.85,
         height: height * 0.065,
         borderRadius: 8,
-        justifyContent:'center'
+        justifyContent:'center',
     },
 
     viewPassword:{
         backgroundColor:COLORS.main_sky_blue,
         marginTop: height * 0.025,
-        width: width * 0.8,
+        width: width * 0.85,
         height: height * 0.065,
         borderRadius: 8,
+        alignItems: 'center',
         justifyContent:'center',
-        flexDirection: 'row'
-    },
-
-    passwordInputView: {
-        marginLeft:15,
-        width: width * 0.6,
-        justifyContent:'center',
-        alignItems:'center',
-        fontSize: width*0.038, 
-        fontFamily: Font.regular
-    },
-
-    textInputView:{
-        marginLeft:15,
-        justifyContent:'center',
-        alignItems:'center',
-        fontSize: width*0.038, 
-        fontFamily: Font.regular
+        flexDirection: 'row',
     },
 
     viewLogin:{
       backgroundColor:COLORS.light_blue,
-      width:width*0.8,
+      width:width*0.85,
       height:height*0.065,
       borderRadius:10 ,
       marginTop:20,
@@ -75,14 +59,15 @@ export default StyleSheet.create({
     rememberView:{
         flexDirection:'row',
         marginTop:Metrics.baseMargin,
-        justifyContent:'center'
+        justifyContent:'center',
+        alignItems:'center'
     },
 
     rememberText:{
         fontSize: width*0.04, 
-        marginTop:Metrics.xsmallMargin,
         fontFamily: Font.regular,
-        color: COLORS.main_text_color
+        color: COLORS.main_text_color,
+        marginLeft:Metrics.smallMargin,
     },
 
     lineView:{
@@ -141,7 +126,7 @@ export default StyleSheet.create({
     },
     
     eyeView: {
-        width: width * 0.17,
+        flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
     },
@@ -155,5 +140,32 @@ export default StyleSheet.create({
         width: width * 0.045,
         height: width * 0.045,
     },
+    checkedStyle:{
+        width: width * 0.030,
+        height: width * 0.030,
+        resizeMode:'contain'
+    },
+    uncheckedStyle:{
+        width: width * 0.045,
+        height: width * 0.045,
+        resizeMode:'contain'
 
+    },
+    checkView:{
+        width: width * 0.045,
+        height: width * 0.045,
+        justifyContent:'center',
+        alignItems:'center',
+        borderColor:COLORS.main_text_color,
+        borderWidth:1,
+        borderRadius:3
+    },
+
+    error: {
+        color: COLORS.red,
+        // borderWidth: 1,
+        alignSelf: 'center',
+        width: width * 0.75,
+        marginTop: height * 0.005
+    }
 });

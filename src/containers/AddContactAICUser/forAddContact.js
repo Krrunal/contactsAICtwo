@@ -14,8 +14,8 @@ import { darkTheme, lightTheme } from "../theme/themeProps";
 import styled, { ThemeProvider } from "styled-components/native";
 
 import { COLORS } from "../theme/Colors.js";
-import { CommonActions } from "@react-navigation/native";
 import Font from "../theme/font.js";
+import GeneralStatusBar from "../../components/StatusBar/index";
 import Header from "../../components/header/index";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
@@ -64,12 +64,7 @@ class forAddContact extends Component {
   }
   // onPress={this.afterContactNavigate}
   afterContactNavigate = () => {
-    this.props.navigation.dispatch(
-      CommonActions.navigate({
-        name: "manuallyAddContact",
-        //routes: [{ name: 'Login' }],
-      })
-    );
+    this.props.navigation.navigate('ManuallyAddContact')
   };
 
   renderView() {
@@ -94,12 +89,7 @@ class forAddContact extends Component {
   }
 
   forAddContactNavigate = () => {
-    this.props.navigation.dispatch(
-      CommonActions.navigate({
-        name: "manuallyAddContact",
-        //routes: [{ name: 'Login' }],
-      })
-    );
+    this.props.navigation.navigate('ManuallyAddContact')
   };
 
   renderLast() {
@@ -147,26 +137,25 @@ class forAddContact extends Component {
   }
 
   backtNavigate = () => {
-    this.props.navigation.dispatch(
-      CommonActions.navigate({
-        name: "chooseContactFromLabel",
-        //routes: [{ name: 'Login' }],
-      })
-    );
+    this.props.navigation.navigate('ChooseContactFromLabel')
   };
 
   finishtNavigate = () => {
-    this.props.navigation.dispatch(
-      CommonActions.navigate({
-        name: "AddContact",
-        //routes: [{ name: 'Login' }],
-      })
-    );
+    this.props.navigation.navigate('AddContact')
   };
 
   render() {
     return (
       <ThemeProvider theme={this.props.theme}>
+        <GeneralStatusBar
+          backgroundColor={
+            this.props.theme.mode === "light" ? "white" : "black"
+          }
+          barStyle={
+            this.props.theme.mode === "dark" ? "light-content" : "dark-content"
+          }
+        />
+
         <Container>
           <View>
             {this.renderHeader()}

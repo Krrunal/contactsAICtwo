@@ -1,175 +1,300 @@
 import "react-native-gesture-handler";
-
 import * as React from "react";
-
-import {
-  DarkTheme,
-  DefaultTheme,
-  NavigationContainer,
-} from "@react-navigation/native";
+import { Dimensions } from 'react-native';
+import { createStackNavigator } from 'react-navigation-stack';
+import { createDrawerNavigator } from "react-navigation-drawer";
+import { createAppContainer } from 'react-navigation';
 import { Provider, useSelector } from "react-redux";
 import styled, { ThemeProvider } from "styled-components/native";
 
-import About from "../../containers/About/index";
+import { themeReducer } from "../../reducer/themeReducer";
+import {SideBar} from './DrawerContent';
+import COLORS from '../../containers/theme/Colors';
+
+import Splash from "../../containers/SplashScreen/index";
+import Login from "../../containers/Login/index";
+import Signup from "../../containers/Signup/index";
 import AddContact from "../../containers/AddContact/index";
-import AddContactAICUser from "../../containers/AddContactAICUser/index";
+import Share from "../../containers/Share/index";
+import MyContactInfromation from "../../containers/MyContactInformation/index";
+import Display from "../../containers/Display/index";
+import About from "../../containers/About/index";
 import ContactUs from "../../containers/ContactUs/index";
-import { DrawerContent } from "./DrawerContent";
+import Help from "../../containers/Help/index";
+import AddContactAICUser from "../../containers/AddContactAICUser/index";
 import ImportContacts from "../../containers/ImportContacts/index";
 import Invite from "../../containers/InviteContacts/index";
 import Label from "../../containers/Labels/index";
-import Login from "../../containers/Login/index";
 import ManageLable from "../../containers/ManageLable/index";
-import MyContactInfromation from "../../containers/MyContactInformation/index";
-import { PersistGate } from "redux-persist/integration/react";
 import Profile from "../../containers/Profile/index";
+import QRDetail from "../../containers/AddContactAICUser/QRDetails";
+import QRScanner from "../../containers/AddContactAICUser/QRScanner";
 import SerachEditContact from "../../containers/SearchEditContact/index";
-import Share from "../../containers/Share/index";
-import Signup from "../../containers/Signup/index";
-import Splash from "../../containers/SplashScreen/index";
 import ViewLabel from "../../containers/ViewLabel/index";
-import addmanuallyContact from "../../containers/ManuallyContact/index";
-import afterAddContact from "../../containers/AddContactAICUser/afterAddContact";
-import afterSentInvite from "../../containers/InviteContacts/afterSentInvite";
-// import allReducers from "../../reducer/index";
-import chooseContactFromLabel from "../../containers/AddContactAICUser/chooseContactFromLabel";
-import { combineReducers } from "redux";
-import { contactReducer } from "../../reducer/contactReducer";
-import { createDrawerNavigator } from "@react-navigation/drawer";
-import { createStackNavigator } from "@react-navigation/stack";
-import { createStore } from "redux";
-import display from "../../containers/Display/index";
-import editContact from "../../containers/editContact/index";
-import forAdd2 from "../../containers/AddContactAICUser/forAdd2";
-import forAddContact from "../../containers/AddContactAICUser/forAddContact";
-import help from "../../containers/Help/index";
-import importContact from "../../containers/ImportContacts/index";
-import { loginReducer } from "../../reducer/loginReducer";
-import manuallyAddContact from "../../containers/AddContactAICUser/manuallyAddContact";
-import pendingRequest from "../../containers/PndingRequests/index";
-import searchContact from "../../containers/SearchContact/index";
-import storeRedux from "../../reducer/index";
-import { themeReducer } from "../../reducer/themeReducer";
+import ViewLabelByName from '../../containers/ViewLabelByName/index'
+import AddmanuallyContact from "../../containers/ManuallyContact/index";
+import AfterAddContact from "../../containers/AddContactAICUser/afterAddContact";
+import AfterSentInvite from "../../containers/InviteContacts/afterSentInvite";
+import ChooseContactFromLabel from "../../containers/AddContactAICUser/chooseContactFromLabel";
+import EditContact from "../../containers/editContact/index";
+import ForAdd2 from "../../containers/AddContactAICUser/forAdd2";
+import ForAddContact from "../../containers/AddContactAICUser/forAddContact";
+import ImportContact from "../../containers/ImportContacts/index";
+import ManuallyAddContact from "../../containers/AddContactAICUser/manuallyAddContact";
+import PendingRequest from "../../containers/PndingRequests/index";
+import SearchContact from "../../containers/SearchContact/index";
 
-const Drawer = createDrawerNavigator();
-const Stack = createStackNavigator();
+const RootNavigator = createStackNavigator({
+    Splash: {
+      screen: Splash,
+      navigationOptions: {
+        gesturesEnabled: false,
+        header: null,
+        drawerLockMode: 'unlocked',
+    }},
+    Login: {
+      screen: Login,
+      navigationOptions: {
+        gesturesEnabled: false,
+        header: null,
+        drawerLockMode: 'unlocked',
+    }},
+    Signup: {
+      screen: Signup,
+      navigationOptions: {
+        gesturesEnabled: false,
+        header: null,
+        drawerLockMode: 'unlocked',
+    }},
+    AddContact: {
+      screen: AddContact,
+      navigationOptions: {
+        gesturesEnabled: false,
+        header: null,
+        // drawerLockMode: 'unlocked',
+    }},
+    Share: {
+      screen: Share,
+      navigationOptions: {
+        gesturesEnabled: false,
+        header: null,
+        // drawerLockMode: 'unlocked',
+    }},
+    MyContactInfromation: {
+      screen: MyContactInfromation,
+      navigationOptions: {
+        gesturesEnabled: false,
+        header: null,
+        // drawerLockMode: 'unlocked',
+    }},
+    Display: {
+      screen: Display,
+      navigationOptions: {
+        gesturesEnabled: false,
+        header: null,
+        // drawerLockMode: 'unlocked',
+    }},
+    About: {
+      screen: About,
+      navigationOptions: {
+        gesturesEnabled: false,
+        header: null,
+        // drawerLockMode: 'unlocked',
+    }},
+    ContactUs: {
+      screen: ContactUs,
+      navigationOptions: {
+        gesturesEnabled: false,
+        header: null,
+        // drawerLockMode: 'unlocked',
+    }},
+    Help: {
+      screen: Help,
+      navigationOptions: {
+        gesturesEnabled: false,
+        header: null,
+        // drawerLockMode: 'unlocked',
+    }},
+    AddContactAICUser: {
+      screen: AddContactAICUser,
+      navigationOptions: {
+        gesturesEnabled: false,
+        header: null,
+        // drawerLockMode: 'unlocked',
+    }},
+    ImportContacts: {
+      screen: ImportContacts,
+      navigationOptions: {
+        gesturesEnabled: false,
+        header: null,
+        // drawerLockMode: 'unlocked',
+    }},
+    Invite: {
+      screen: Invite,
+      navigationOptions: {
+        gesturesEnabled: false,
+        header: null,
+        // drawerLockMode: 'unlocked',
+    }},
+    Label: {
+      screen: Label,
+      navigationOptions: {
+        gesturesEnabled: false,
+        header: null,
+        // drawerLockMode: 'unlocked',
+    }},
+    ManageLable: {
+      screen: ManageLable,
+      navigationOptions: {
+        gesturesEnabled: false,
+        header: null,
+        // drawerLockMode: 'unlocked',
+    }},
+    Profile: {
+      screen: Profile,
+      navigationOptions: {
+        gesturesEnabled: false,
+        header: null,
+        // drawerLockMode: 'unlocked',
+    }},
+    QRDetail: {
+      screen: QRDetail,
+      navigationOptions: {
+        gesturesEnabled: false,
+        header: null,
+        // drawerLockMode: 'unlocked',
+    }},
+    QRScanner: {
+      screen: QRScanner,
+      navigationOptions: {
+        gesturesEnabled: false,
+        header: null,
+        // drawerLockMode: 'unlocked',
+    }},
+    SerachEditContact: {
+      screen: SerachEditContact,
+      navigationOptions: {
+        gesturesEnabled: false,
+        header: null,
+        // drawerLockMode: 'unlocked',
+    }},
+    ViewLabel: {
+      screen: ViewLabel,
+      navigationOptions: {
+        gesturesEnabled: false,
+        header: null,
+        // drawerLockMode: 'unlocked',
+    }},
+    ViewLabelByName: {
+      screen: ViewLabelByName,
+      navigationOptions: {
+        gesturesEnabled: false,
+        header: null,
+        // drawerLockMode: 'unlocked',
+    }},
+    AddmanuallyContact: {
+      screen: AddmanuallyContact,
+      navigationOptions: {
+        gesturesEnabled: false,
+        header: null,
+        // drawerLockMode: 'unlocked',
+    }},
+    AfterAddContact: {
+      screen: AfterAddContact,
+      navigationOptions: {
+        gesturesEnabled: false,
+        header: null,
+        // drawerLockMode: 'unlocked',
+    }},
+    AfterSentInvite: {
+      screen: AfterSentInvite,
+      navigationOptions: {
+        gesturesEnabled: false,
+        header: null,
+        // drawerLockMode: 'unlocked',
+    }},
+    ChooseContactFromLabel: {
+      screen: ChooseContactFromLabel,
+      navigationOptions: {
+        gesturesEnabled: false,
+        header: null,
+        // drawerLockMode: 'unlocked',
+    }},
+    EditContact: {
+      screen: EditContact,
+      navigationOptions: {
+        gesturesEnabled: false,
+        header: null,
+        // drawerLockMode: 'unlocked',
+    }},
+    ForAdd2: {
+      screen: ForAdd2,
+      navigationOptions: {
+        gesturesEnabled: false,
+        header: null,
+        // drawerLockMode: 'unlocked',
+    }},
+    ForAddContact: {
+      screen: ForAddContact,
+      navigationOptions: {
+        gesturesEnabled: false,
+        header: null,
+        // drawerLockMode: 'unlocked',
+    }},
+    ImportContact: {
+      screen: ImportContact,
+      navigationOptions: {
+        gesturesEnabled: false,
+        header: null,
+        // drawerLockMode: 'unlocked',
+    }},
+    ManuallyAddContact: {
+      screen: ManuallyAddContact,
+      navigationOptions: {
+        gesturesEnabled: false,
+        header: null,
+        // drawerLockMode: 'unlocked',
+    }},
+    PendingRequest: {
+      screen: PendingRequest,
+      navigationOptions: {
+        gesturesEnabled: false,
+        header: null,
+        // drawerLockMode: 'unlocked',
+    }},
+    SearchContact: {
+      screen: SearchContact,
+      navigationOptions: {
+        gesturesEnabled: false,
+        header: null,
+        // drawerLockMode: 'unlocked',
+    }},
+  },
+    {
+      initialRouteName: 'Splash',
+      mode: 'slide',
+      navigationOptions: {
+        gesturesEnabled: false
+      }
+    }
+);
 
-// const customDarkTheme = {
-//   ...DarkTheme,
-//   colors: {
-//     ...DarkTheme.colors,
-//     backColor: "#000",
-//     headerColor: "#323232",
-//     textColor: "white",
-//     iconColor: "white",
-//   },
-// };
+const DrawerNavigator = createDrawerNavigator({
+  Main: {
+    screen: RootNavigator,
+    navigationOptions: {
+      header: null,
+    }
+  },
+},
+  {
+    initialRouteName: 'Main',
+    drawerPosition: 'left',
+    contentComponent: SideBar,
+    drawerWidth: Dimensions.get('window').width - Dimensions.get('window').width * 25 / 100,
+    drawerType: "front"
+    // overlayColor: COLORS.transparent,
+  }
+);
 
-// const customDefaultTheme = {
-//   ...DefaultTheme,
-//   colors: {
-//     ...DefaultTheme.colors,
-//     backColor: "#ffffff",
-//     headerColor: "#1374A3",
-//     textColor: "#000",
-//     iconColor: "rgba(0,0,0,0.4)",
-//   },
-// };
-
-function drawerRoutes() {
-  return (
-    <Drawer.Navigator drawerContent={(props) => <DrawerContent {...props} />}>
-      <Drawer.Screen name="AddContact" component={AddContact} />
-
-      <Drawer.Screen name="Share" component={Share} />
-      <Drawer.Screen
-        name="MyContactInfromation"
-        component={MyContactInfromation}
-      />
-      <Drawer.Screen name="importContact" component={importContact} />
-      <Drawer.Screen name="pendingRequest" component={pendingRequest} />
-      <Drawer.Screen name="SerachEditContact" component={SerachEditContact} />
-      <Drawer.Screen name="ImportContacts" component={ImportContacts} />
-
-      <Drawer.Screen name="ManageLable" component={ManageLable} />
-
-      <Drawer.Screen name="ViewLabel" component={ViewLabel} />
-      <Drawer.Screen name="display" component={display} />
-      <Drawer.Screen name="Profile" component={Profile} />
-      <Drawer.Screen name="manuallyAddContact" component={manuallyAddContact} />
-      <Drawer.Screen name="ContactUs" component={ContactUs} />
-      <Drawer.Screen name="searchContact" component={searchContact} />
-      <Drawer.Screen name="Invite" component={Invite} />
-      <Drawer.Screen name="Label" component={Label} />
-
-      <Drawer.Screen name="afterAddContact" component={afterAddContact} />
-      <Drawer.Screen name="forAddContact" component={forAddContact} />
-      <Drawer.Screen name="forAdd2" component={forAdd2} />
-
-      <Drawer.Screen name="afterSentInvite" component={afterSentInvite} />
-      <Drawer.Screen name="help" component={help} />
-      <Drawer.Screen name="About" component={About} />
-      <Drawer.Screen name="AddContactAICUser" component={AddContactAICUser} />
-      <Drawer.Screen
-        name="chooseContactFromLabel"
-        component={chooseContactFromLabel}
-      />
-      <Drawer.Screen name="addmanuallyContact" component={addmanuallyContact} />
-    </Drawer.Navigator>
-  );
-}
-export default App = () => {
-  const { store, persistor } = storeRedux();
-  return (
-    <Provider store={store}>
-      <PersistGate loading={null} persistor={persistor}>
-        <Navigation />
-      </PersistGate>
-    </Provider>
-  );
-};
-
-export function Navigation() {
-  // let currentTheme = useSelector((state) => {
-  //   return state.myDarMode;
-  // });
-
-  return (
-    <NavigationContainer
-    // theme={currentTheme ? customDarkTheme : customDefaultTheme}
-    >
-      <Stack.Navigator
-        screenOptions={{ headerShown: false }}
-        initialRouteName="Splash"
-      >
-        <Stack.Screen name="Splash" component={Splash} />
-        <Stack.Screen name="Login" component={Login} />
-        <Stack.Screen name="Signup" component={Signup} />
-        <Stack.Screen name="AddContact" component={drawerRoutes} />
-        <Stack.Screen name="ImportContacts" component={ImportContacts} />
-        <Stack.Screen name="AddContactAICUser" component={AddContactAICUser} />
-        <Stack.Screen
-          name="manuallyAddContact"
-          component={manuallyAddContact}
-        />
-        <Stack.Screen name="afterSentInvite" component={afterSentInvite} />
-        <Stack.Screen name="forAddContact" component={forAddContact} />
-        <Stack.Screen name="afterAddContact" component={afterAddContact} />
-        <Stack.Screen name="Invite" component={Invite} />
-        <Stack.Screen
-          name="chooseContactFromLabel"
-          component={chooseContactFromLabel}
-        />
-        <Stack.Screen name="SerachEditContact" component={SerachEditContact} />
-        <Stack.Screen
-          name="addmanuallyContact"
-          component={addmanuallyContact}
-        />
-        <Stack.Screen name="forAdd2" component={forAdd2} />
-
-        <Stack.Screen name="editContact" component={editContact} />
-      </Stack.Navigator>
-    </NavigationContainer>
-  );
-}
-// export default App;
+export default createAppContainer(DrawerNavigator);

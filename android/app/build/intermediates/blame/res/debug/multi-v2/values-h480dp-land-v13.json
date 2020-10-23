@@ -1,10 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "/Users/macmini/Desktop/contactsAIC-master/android/app/build/intermediates/incremental/mergeDebugResources/merged.dir/values-h480dp-land-v13/values-h480dp-land-v13.xml",
+            "outputFile": "/Users/techdodles/Desktop/mansi/PROJECTS/contactsAIC/android/app/build/intermediates/incremental/mergeDebugResources/merged.dir/values-h480dp-land-v13/values-h480dp-land-v13.xml",
             "map": [
                 {
-                    "source": "/Users/macmini/.gradle/caches/transforms-2/files-2.1/e39a00ed4542ef2a5a428d231e4ff8fc/material-1.1.0/res/values-h480dp-land-v13/values-h480dp-land-v13.xml",
+                    "source": "/Users/techdodles/.gradle/caches/transforms-2/files-2.1/e39a00ed4542ef2a5a428d231e4ff8fc/material-1.1.0/res/values-h480dp-land-v13/values-h480dp-land-v13.xml",
                     "from": {
                         "startLines": "2,3,4,5,6,7,8,9,10",
                         "startColumns": "4,4,4,4,4,4,4,4,4",

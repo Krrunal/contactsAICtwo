@@ -13,6 +13,7 @@ import React, { Component } from "react";
 import styled, { ThemeProvider } from "styled-components/native";
 
 import Font from "../theme/font";
+import GeneralStatusBar from "../../components/StatusBar/index";
 import Header from "../../components/header/index";
 import { connect } from "react-redux";
 import styles from "./style.js";
@@ -29,6 +30,15 @@ class Help extends Component {
   render() {
     return (
       <ThemeProvider theme={this.props.theme}>
+         <GeneralStatusBar
+          backgroundColor={
+            this.props.theme.mode === "light" ? "white" : "black"
+          }
+          barStyle={
+            this.props.theme.mode === "dark" ? "light-content" : "dark-content"
+          }
+        />
+
         <Container>{this.renderHeader()}</Container>
       </ThemeProvider>
     );

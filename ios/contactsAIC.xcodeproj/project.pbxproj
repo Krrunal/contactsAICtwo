@@ -18,6 +18,7 @@
 		74D86E7E3EEC9B96EBA5AD33 /* libPods-contactsAIC-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EE3BEFAFCAF459D93BD43442 /* libPods-contactsAIC-tvOS.a */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 		882773AFA694EBA3A44D4A37 /* libPods-contactsAIC.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D03E3732A5D1554B8B9637F8 /* libPods-contactsAIC.a */; };
+		9A4D0CBB2539965D000EB36E /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 9A4D0CBA2539965D000EB36E /* GoogleService-Info.plist */; };
 		C6F69B18774966EF13564282 /* libPods-contactsAIC-tvOSTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D8B2B5465C15843617689845 /* libPods-contactsAIC-tvOSTests.a */; };
 		D998226FDAD5AEC683C58396 /* libPods-contactsAIC-contactsAICTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 85ABD5FB3FDD1CBC660BBD2D /* libPods-contactsAIC-contactsAICTests.a */; };
 		EADFAF40253450FB002D1D84 /* Roboto-ThinItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = EADFAF3B253450E1002D1D84 /* Roboto-ThinItalic.ttf */; };
@@ -33,7 +34,6 @@
 		EADFAF4A2534512E002D1D84 /* Roboto-BlackItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = EADFAF3125344FDD002D1D84 /* Roboto-BlackItalic.ttf */; };
 		EADFAF4B2534512E002D1D84 /* Roboto-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = EADFAF3325345005002D1D84 /* Roboto-BoldItalic.ttf */; };
 		EADFAF4C2534512E002D1D84 /* Roboto-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = EADFAF3025344FD5002D1D84 /* Roboto-Black.ttf */; };
-		EADFAF6025345A87002D1D84 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = EADFAF5F25345A87002D1D84 /* GoogleService-Info.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -90,6 +90,7 @@
 		8AB6338F73164341B8257510 /* Ionicons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Ionicons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Ionicons.ttf"; sourceTree = "<group>"; };
 		8B29851F622745E3A7C2C025 /* Roboto-Bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Roboto-Bold.ttf"; path = "../assets/fonts/Roboto-Bold.ttf"; sourceTree = "<group>"; };
 		96CFCC2CA0374AB0ABF74195 /* EvilIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = EvilIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/EvilIcons.ttf"; sourceTree = "<group>"; };
+		9A4D0CBA2539965D000EB36E /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		A995356E9DFE47C68C2BCD79 /* Fontisto.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Fontisto.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Fontisto.ttf"; sourceTree = "<group>"; };
 		AB9C8BA20D53696C277521EA /* Pods-contactsAIC-tvOSTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-contactsAIC-tvOSTests.release.xcconfig"; path = "Target Support Files/Pods-contactsAIC-tvOSTests/Pods-contactsAIC-tvOSTests.release.xcconfig"; sourceTree = "<group>"; };
 		ACF766910FA847ED87EEF92E /* Roboto-Thin.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Roboto-Thin.ttf"; path = "../assets/fonts/Roboto/Roboto-Thin.ttf"; sourceTree = "<group>"; };
@@ -117,7 +118,6 @@
 		EADFAF39253450A0002D1D84 /* Roboto-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-Regular.ttf"; sourceTree = "<group>"; };
 		EADFAF3A253450D2002D1D84 /* Roboto-Thin.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-Thin.ttf"; sourceTree = "<group>"; };
 		EADFAF3B253450E1002D1D84 /* Roboto-ThinItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-ThinItalic.ttf"; sourceTree = "<group>"; };
-		EADFAF5F25345A87002D1D84 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		ED2971642150620600B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS12.0.sdk/System/Library/Frameworks/JavaScriptCore.framework; sourceTree = DEVELOPER_DIR; };
 		EE3BEFAFCAF459D93BD43442 /* libPods-contactsAIC-tvOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-contactsAIC-tvOS.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -265,7 +265,7 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
-				EADFAF5F25345A87002D1D84 /* GoogleService-Info.plist */,
+				9A4D0CBA2539965D000EB36E /* GoogleService-Info.plist */,
 				13B07FAE1A68108700A75B9A /* contactsAIC */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				00E356EF1AD99517003FC87E /* contactsAICTests */,
@@ -456,7 +456,7 @@
 				EADFAF482534512E002D1D84 /* Roboto-LightItalic.ttf in Resources */,
 				EADFAF492534512E002D1D84 /* DancingScript-VariableFont_wght.ttf in Resources */,
 				EADFAF4A2534512E002D1D84 /* Roboto-BlackItalic.ttf in Resources */,
-				EADFAF6025345A87002D1D84 /* GoogleService-Info.plist in Resources */,
+				9A4D0CBB2539965D000EB36E /* GoogleService-Info.plist in Resources */,
 				EADFAF4B2534512E002D1D84 /* Roboto-BoldItalic.ttf in Resources */,
 				EADFAF4C2534512E002D1D84 /* Roboto-Black.ttf in Resources */,
 				EADFAF4125345110002D1D84 /* Roboto-Regular.ttf in Resources */,
@@ -549,6 +549,7 @@
 			);
 			inputPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-contactsAIC-contactsAICTests/Pods-contactsAIC-contactsAICTests-resources.sh",
+				"${PODS_CONFIGURATION_BUILD_DIR}/RNImageCropPicker/QBImagePicker.bundle",
 				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/AntDesign.ttf",
 				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Entypo.ttf",
 				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/EvilIcons.ttf",
@@ -566,9 +567,11 @@
 				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/SimpleLineIcons.ttf",
 				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Zocial.ttf",
 				"${PODS_CONFIGURATION_BUILD_DIR}/React-Core/AccessibilityResources.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/TOCropViewController/TOCropViewControllerBundle.bundle",
 			);
 			name = "[CP] Copy Pods Resources";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/QBImagePicker.bundle",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AntDesign.ttf",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Entypo.ttf",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/EvilIcons.ttf",
@@ -586,6 +589,7 @@
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/SimpleLineIcons.ttf",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Zocial.ttf",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AccessibilityResources.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/TOCropViewControllerBundle.bundle",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -599,6 +603,7 @@
 			);
 			inputPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-contactsAIC/Pods-contactsAIC-resources.sh",
+				"${PODS_CONFIGURATION_BUILD_DIR}/RNImageCropPicker/QBImagePicker.bundle",
 				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/AntDesign.ttf",
 				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Entypo.ttf",
 				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/EvilIcons.ttf",
@@ -616,9 +621,11 @@
 				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/SimpleLineIcons.ttf",
 				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Zocial.ttf",
 				"${PODS_CONFIGURATION_BUILD_DIR}/React-Core/AccessibilityResources.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/TOCropViewController/TOCropViewControllerBundle.bundle",
 			);
 			name = "[CP] Copy Pods Resources";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/QBImagePicker.bundle",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AntDesign.ttf",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Entypo.ttf",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/EvilIcons.ttf",
@@ -636,6 +643,7 @@
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/SimpleLineIcons.ttf",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Zocial.ttf",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AccessibilityResources.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/TOCropViewControllerBundle.bundle",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -1035,7 +1043,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				LD_RUNPATH_SEARCH_PATHS = "/usr/lib/swift $(inherited)";
 				LIBRARY_SEARCH_PATHS = (
 					"\"$(TOOLCHAIN_DIR)/usr/lib/swift/$(PLATFORM_NAME)\"",
@@ -1088,7 +1096,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				LD_RUNPATH_SEARCH_PATHS = "/usr/lib/swift $(inherited)";
 				LIBRARY_SEARCH_PATHS = (
 					"\"$(TOOLCHAIN_DIR)/usr/lib/swift/$(PLATFORM_NAME)\"",

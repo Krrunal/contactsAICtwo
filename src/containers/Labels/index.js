@@ -1,11 +1,10 @@
 import {
+  Animated,
   CheckBox,
   Dimensions,
   Image,
   Keyboard,
-  ScrollView,
   Text,
-  TextInput,
   TouchableOpacity,
   View,
 } from "react-native";
@@ -13,8 +12,8 @@ import React, { Component, useState } from "react";
 import styled, { ThemeProvider } from "styled-components/native";
 
 import { COLORS } from "../theme/Colors.js";
-import { CommonActions } from "@react-navigation/native";
 import Font from "../theme/font";
+import GeneralStatusBar from "../../components/StatusBar/index";
 import Header from "../../components/header/index";
 import Icon from "react-native-vector-icons/FontAwesome5";
 import Metrics from "../theme/Metrics";
@@ -23,6 +22,19 @@ import styles from "./style.js";
 
 var { width, height } = Dimensions.get("window");
 class labels extends Component {
+  constructor() {
+    super();
+
+    this.state = {
+      label: "",
+      valueArrayLabel: [],
+
+      disabledLabel: false,
+      status: false,
+    };
+    this.indexlabel = 0;
+    this.animatedValue = new Animated.Value(0);
+  }
   renderHeader() {
     return (
       <Header
@@ -31,8 +43,82 @@ class labels extends Component {
       />
     );
   }
-
+  ShowHideTextComponentView = () => {
+    if (this.state.status == true) {
+      this.setState({ status: false });
+    } else {
+      this.setState({ status: true });
+    }
+  };
+  addLabel = () => {
+    this.animatedValue.setValue(0);
+    let newlyAddedValue = { indexlabel: this.indexlabel };
+    this.setState(
+      {
+        disabledLabel: true,
+        valueArrayLabel: [...this.state.valueArrayLabel, newlyAddedValue],
+      },
+      () => {
+        Animated.timing(this.animatedValue, {
+          toValue: 1,
+          duration: 500,
+          useNativeDriver: true,
+        }).start(() => {
+          this.indexlabel = this.indexlabel + 1;
+          this.setState({ disabledLabel: false });
+        });
+      }
+    );
+  };
   renderMiddle() {
+    let arrayLabel = this.state.valueArrayLabel.map((item, key) => {
+      if (key == this.indexlabel) {
+        return (
+          <View style={styles.addlabelView}>
+            {this.props.theme.mode === "light" ? (
+              <Icon name={"arrows-alt-v"} size={15} color={COLORS.black} />
+            ) : (
+              <Icon name={"arrows-alt-v"} size={15} color={COLORS.white} />
+            )}
+            <View style={styles.manageView}>
+              <Text style={styles.manageText}>Manage</Text>
+            </View>
+            <TextInput
+              placeholder="No Label"
+              style={styles.stylefiledText}
+              value={this.state.label}
+              onChangeText={(value) => this.setState({ label: value })}
+              ref={(input) => {
+                this.label = input;
+              }}
+            />
+          </View>
+        );
+      } else {
+        return (
+          <View style={styles.addlabelView}>
+            {this.props.theme.mode === "light" ? (
+              <Icon name={"arrows-alt-v"} size={15} color={COLORS.black} />
+            ) : (
+              <Icon name={"arrows-alt-v"} size={15} color={COLORS.white} />
+            )}
+            <View style={styles.manageView}>
+              <Text style={styles.manageText}>Manage</Text>
+            </View>
+            <TextInput
+              placeholder="No Label"
+              style={styles.stylefiledText}
+              value={this.state.label}
+              onChangeText={(value) => this.setState({ label: value })}
+              ref={(input) => {
+                this.label = input;
+              }}
+            />
+          </View>
+        );
+      }
+    });
+
     return (
       <ScrollView>
         <View style={{ flex: 1, marginBottom: Metrics.smallMargin }}>
@@ -106,29 +192,15 @@ class labels extends Component {
             </View>
             <NormalText>Green Inc.</NormalText>
           </View>
-          <View style={styles.tripleView}>
-            {this.props.theme.mode === "light" ? (
-              <Icon name={"arrows-alt-v"} size={15} color={COLORS.black} />
-            ) : (
-              <Icon name={"arrows-alt-v"} size={15} color={COLORS.white} />
-            )}
-            <View style={styles.manageView}>
-              <Text style={styles.manageText}>Manage</Text>
-            </View>
-            <NormalText>No Label</NormalText>
-          </View>
+
+          {arrayLabel}
         </View>
       </ScrollView>
     );
   }
 
   manageLabelnavigate = () => {
-    this.props.navigation.dispatch(
-      CommonActions.navigate({
-        name: "ManageLable",
-        //routes: [{ name: 'Login' }],
-      })
-    );
+    this.props.navigation.navigate('ManageLable')
   };
 
   renderLast() {
@@ -137,32 +209,21 @@ class labels extends Component {
         <View
           style={{
             flex: 1,
-            bottom: 40,
+            bottom: 35,
             position: "absolute",
             flexDirection: "row",
           }}
         >
-          <View style={styles.Whiteview}>
-            <Text
-              style={{
-                color: COLORS.main_text_color,
-                fontFamily: Font.medium,
-                fontSize: width * 0.045,
-              }}
-            >
-              Add
-            </Text>
-          </View>
+          <TouchableOpacity
+            style={styles.Whiteview}
+            onPress={this.addLabel}
+            disable={this.state.disabledLabel}
+          >
+            <Text style={styles.bottomButton}>Add</Text>
+          </TouchableOpacity>
+
           <View style={styles.WhiteviewTwo}>
-            <Text
-              style={{
-                color: COLORS.main_text_color,
-                fontFamily: Font.medium,
-                fontSize: width * 0.045,
-              }}
-            >
-              Delete
-            </Text>
+            <Text style={styles.bottomButton}>Delete</Text>
           </View>
         </View>
       </View>
@@ -172,6 +233,15 @@ class labels extends Component {
   render() {
     return (
       <ThemeProvider theme={this.props.theme}>
+        <GeneralStatusBar
+          backgroundColor={
+            this.props.theme.mode === "light" ? "white" : "black"
+          }
+          barStyle={
+            this.props.theme.mode === "dark" ? "light-content" : "dark-content"
+          }
+        />
+
         <Container>
           {this.renderHeader()}
           {this.renderMiddle()}
@@ -184,10 +254,6 @@ class labels extends Component {
 
 const mapStateToProps = (state) => ({
   theme: state.themeReducer.theme,
-});
-
-const mapDispatchToProps = (dispatch) => ({
-  switchTheme: bindActionCreators(switchTheme, dispatch),
 });
 
 export default connect(mapStateToProps)(labels);
@@ -208,3 +274,15 @@ const NormalText = styled.Text`
 const IconColor = styled.Image`
   color: ${(props) => props.theme.textColor};
 `;
+const ScrollView = styled.ScrollView`
+  /* color: ${(props) => props.theme.textColor}; */
+  /* flex: 1; */
+  height: 60%;
+  margin-bottom: 100px;
+`;
+const TextInput = styled.TextInput`
+  font-family: Roboto-Regular;
+  font-size: 17px;
+  color: ${(props) => props.theme.iconColor};
+  margin-left: 15px;
+`

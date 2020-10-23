@@ -1,7 +1,8 @@
 import { Dimensions, StyleSheet } from 'react-native';
+
 import { COLORS } from '../theme/Colors.js';
-import Metrics from '../theme/Metrics';
 import Font from '../theme/font';
+import Metrics from '../theme/Metrics';
 
 var {width,height} =  Dimensions.get('window');
 export default StyleSheet.create({
@@ -17,7 +18,9 @@ export default StyleSheet.create({
           flex:1,
           marginLeft:Metrics.doubleBaseMargin,
           marginTop:Metrics.doubleBaseMargin,
-        alignItems:'center'
+        alignItems:'center',
+        // marginBottom:Metrics.baseMargin,
+
       },
 
       manageView:{
@@ -86,6 +89,28 @@ export default StyleSheet.create({
   borderRadius:5,
   marginTop:Metrics.xdoubleBaseMargin,
   margin:Metrics.smallMargin,
-   }
-      
+   },
+   bottomButton:{
+    color: COLORS.main_text_color,
+    fontFamily: Font.medium,
+    fontSize: width * 0.045,
+  },
+  stylefiledText: {
+    marginLeft: Metrics.smallMargin,
+    justifyContent: 'center',
+    alignItems: 'center',
+    color: COLORS.main_text_color,
+    fontSize: width * 0.03,
+    width: width * 0.55,
+    fontFamily: Font.regular,
+  },
+  addlabelView  :{
+    flexDirection:'row',
+    flex:1,
+    marginLeft:Metrics.doubleBaseMargin,
+    marginTop:Metrics.baseMargin,
+    alignItems:'center',
+  // marginBottom:Metrics.baseMargin,
+
+}, 
  });

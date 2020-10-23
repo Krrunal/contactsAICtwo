@@ -15,6 +15,7 @@ import { darkTheme, lightTheme } from "../theme/themeProps";
 import styled, { ThemeProvider } from "styled-components/native";
 
 import Font from "../theme/font";
+import GeneralStatusBar from "../../components/StatusBar/index";
 import Header from "../../components/header/index";
 import { ResponsiveSize } from "../theme/GlobalFont";
 import { bindActionCreators } from "redux";
@@ -39,7 +40,7 @@ class display extends Component {
       if (this.props.theme.mode === "light") {
         this.setState({ checked4: false });
         this.setState({ checked5: true });
-      }else{
+      } else {
         this.setState({ checked4: true });
         this.setState({ checked5: false });
       }
@@ -50,12 +51,26 @@ class display extends Component {
     }
   };
 
-  check = () =>{
-   
-  }
+  check = () => {
+    if (this.state.checked4 == true) {
+      this.setState({ checked4: false, checked5: true });
+      this.props.switchTheme(lightTheme);
+    } else {
+      this.setState({ checked4: true, checked5: false });
+      this.props.switchTheme(darkTheme);
+    }
+  };
   render() {
     return (
       <ThemeProvider theme={this.props.theme}>
+        <GeneralStatusBar
+          backgroundColor={
+            this.props.theme.mode === "light" ? "white" : "black"
+          }
+          barStyle={
+            this.props.theme.mode === "dark" ? "light-content" : "dark-content"
+          }
+        />
         <Container>
           <Header
             title="Display"
@@ -117,10 +132,6 @@ class display extends Component {
                 <CheckBox
                   value={this.state.checked4}
                   onValueChange={this.check}
-                  // onValueChange={() =>
-                  //   this.setState({ checked4: !this.state.checked4 })
-                  // }
-                  // onValueChange={() => this.props.switchTheme(darkTheme)}
                   tintColors={{ true: "#1374A3", false: "#000" }}
                 />
                 <NormalText>On</NormalText>
@@ -129,10 +140,6 @@ class display extends Component {
                 <CheckBox
                   value={this.state.checked5}
                   onValueChange={this.check}
-                  // onValueChange={() =>
-                  //   this.setState({ checked5: !this.state.checked5 })
-                  // }
-                  // onValueChange={() => this.props.switchTheme(lightTheme)}
                   tintColors={{ true: "#1374A3", false: "#000" }}
                 />
                 <NormalText>Off</NormalText>

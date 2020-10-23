@@ -14,6 +14,7 @@ import styled, { ThemeProvider } from "styled-components/native";
 import Add from "../AddContact/index";
 import { COLORS } from "../theme/Colors.js";
 import Font from "../theme/font";
+import GeneralStatusBar from "../../components/StatusBar/index";
 import Header from "../../components/header/index";
 import Metrics from "../theme/Metrics";
 import borderCorner from "../../assets/images/borderCorner.png";
@@ -30,7 +31,7 @@ class ManageLable extends Component {
   renderHeader() {
     return (
       <Header
-        title="Manage Labels"
+        title="Manage Label"
         onPress={() => this.props.navigation.openDrawer()}
       />
     );
@@ -52,7 +53,6 @@ class ManageLable extends Component {
           <View style={styles.firstMiddle}>
             <Image source={borderCorner} style={styles.firstImg} />
 
-           
             {this.props.theme.mode === "light" ? (
               <View style={styles.firstBlack}></View>
             ) : (
@@ -61,7 +61,7 @@ class ManageLable extends Component {
           </View>
           <View style={styles.firstMiddle}>
             <Image source={borderCorner} style={styles.firstImg} />
-        
+
             {this.props.theme.mode === "light" ? (
               <View style={styles.firstWhite}></View>
             ) : (
@@ -662,6 +662,14 @@ class ManageLable extends Component {
   render() {
     return (
       <ThemeProvider theme={this.props.theme}>
+        <GeneralStatusBar
+          backgroundColor={
+            this.props.theme.mode === "light" ? "white" : "black"
+          }
+          barStyle={
+            this.props.theme.mode === "dark" ? "light-content" : "dark-content"
+          }
+        />
         <Container>
           {this.renderHeader()}
           <View style={{ alignItems: "center" }}>

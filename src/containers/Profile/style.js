@@ -83,14 +83,17 @@ export default StyleSheet.create({
   },
 
   iconContainer: {
-    width: width * 0.08,
-    height: width * 0.08,
+    width: width * 0.082,
+    height: width * 0.082,
     alignItems: "center",
     justifyContent: "center",
+    // borderWidth: 1
   },
 
   callImg: {
-    resizeMode: "center",
+    width: width * 0.082,
+    height: width * 0.082,
+    resizeMode: "contain"
   },
 
   iconText: {

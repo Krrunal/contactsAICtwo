@@ -14,6 +14,7 @@ import styled, { ThemeProvider } from "styled-components/native";
 
 import { COLORS } from "../theme/Colors.js";
 import Font from "../theme/font";
+import GeneralStatusBar from "../../components/StatusBar/index";
 import Header from "../../components/header/index";
 import Metrics from "../theme/Metrics";
 import { connect } from "react-redux";
@@ -74,7 +75,10 @@ class pendingRequest extends Component {
     return (
       <View style={{ alignItems: "center", flex: 1 }}>
         <View style={{ flex: 1, bottom: 40, position: "absolute" }}>
-          <View style={styles.Whiteview}>
+          <TouchableOpacity
+            style={styles.Whiteview}
+            onPress={this.navigateSearch}
+          >
             <Text
               style={{
                 color: COLORS.main_text_color,
@@ -85,15 +89,26 @@ class pendingRequest extends Component {
               {" "}
               Add Contacts
             </Text>
-          </View>
+          </TouchableOpacity>
         </View>
       </View>
     );
   }
-
+  navigateSearch = () => {
+    this.props.navigation.navigate('SerachEditContact')
+  };
   render() {
     return (
       <ThemeProvider theme={this.props.theme}>
+        <GeneralStatusBar
+          backgroundColor={
+            this.props.theme.mode === "light" ? "white" : "black"
+          }
+          barStyle={
+            this.props.theme.mode === "dark" ? "light-content" : "dark-content"
+          }
+        />
+
         <Container>
           {/* <View style={styles.container}> */}
           {this.renderHeader()}
@@ -138,5 +153,5 @@ const LineText = styled.Text`
   color: ${(props) => props.theme.iconColor};
   line-height: 30px;
   text-align: center;
-  margin-Top:12px;
+  margin-top: 12px;
 `;

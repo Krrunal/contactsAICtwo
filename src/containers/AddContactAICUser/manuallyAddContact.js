@@ -14,8 +14,8 @@ import { darkTheme, lightTheme } from "../theme/themeProps";
 import styled, { ThemeProvider } from "styled-components/native";
 
 import { COLORS } from "../theme/Colors.js";
-import { CommonActions } from "@react-navigation/native";
 import Font from "../theme/font.js";
+import GeneralStatusBar from "../../components/StatusBar/index";
 import Header from "../../components/header/index";
 import Icon from "react-native-vector-icons/FontAwesome5";
 import Metrics from "../theme/Metrics";
@@ -39,9 +39,9 @@ class manuallyAddContact extends Component {
   renderMiddle() {
     return (
       <View style={styles.mainView}>
-        <View style={styles.Whiteview}>
+        <TouchableOpacity style={styles.Whiteview} onPress={this.QRScanner}>
           <Text style={styles.blueText}>QR Code</Text>
-        </View>
+        </TouchableOpacity>
         <TouchableOpacity
           style={styles.Whiteview}
           onPress={this.manuallyAddNavigate}
@@ -52,18 +52,26 @@ class manuallyAddContact extends Component {
     );
   }
 
+  QRScanner = () => {
+    this.props.navigation.navigate('ForAddContact')
+  };
+
   manuallyAddNavigate = () => {
-    this.props.navigation.dispatch(
-      CommonActions.navigate({
-        name: "afterAddContact",
-        //routes: [{ name: 'Login' }],
-      })
-    );
+    this.props.navigation.navigate('AfterAddContact')
   };
 
   render() {
     return (
       <ThemeProvider theme={this.props.theme}>
+        <GeneralStatusBar
+          backgroundColor={
+            this.props.theme.mode === "light" ? "white" : "black"
+          }
+          barStyle={
+            this.props.theme.mode === "dark" ? "light-content" : "dark-content"
+          }
+        />
+
         <Container>
           {this.renderHeader()}
           {this.renderMiddle()}

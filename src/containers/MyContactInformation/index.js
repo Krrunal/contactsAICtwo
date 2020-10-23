@@ -18,6 +18,7 @@ import styled, { ThemeProvider } from "styled-components/native";
 import { COLORS } from "../theme/Colors.js";
 import { Colors } from "react-native-paper";
 import Font from "../theme/font";
+import GeneralStatusBar from "../../components/StatusBar/index";
 import Header from "../../components/header/index";
 import ImagePicker from "react-native-image-crop-picker";
 import Metrics from "../theme/Metrics";
@@ -77,6 +78,9 @@ class MyContactInfromation extends Component {
       disabledNote: false,
       disabledCompany: false,
       status: false,
+
+      //inputText
+      TextInputDisable: false,
     };
 
     this.indexNumber = 0;
@@ -103,10 +107,11 @@ class MyContactInfromation extends Component {
     return (
       <Header
         title="My Contact Information"
-        onPress={() => this.props.navigation.openDrawer()}
+        onPress={() => this.props.navigation.toggleDrawer()}
       />
     );
   }
+  // Add Contact Manually
   selectPhoto = () => {
     ActionSheet.show(
       {
@@ -385,48 +390,94 @@ class MyContactInfromation extends Component {
 
           <View>
             <View style={styles.filedView}>
-              <TextInput
-                placeholder=""
-                style={styles.stylefiledText}
-                placeholderTextColor={COLORS.main_text_color}
-                maxLength={10}
-              />
+              {this.state.status ? (
+                <TextInput
+                  placeholder=""
+                  style={styles.stylefiledText}
+                  placeholderTextColor={COLORS.main_text_color}
+                  maxLength={10}
+                  // editable={this.state.TextInputDisableFirstName}
+                />
+              ) : (
+                <TextInput
+                  placeholder=""
+                  style={styles.stylefiledText}
+                  placeholderTextColor={COLORS.main_text_color}
+                  maxLength={10}
+                  editable={this.state.TextInputDisable}
+                />
+              )}
+
               <View style={styles.rightView}>
                 <Text style={styles.righttext}>First Name</Text>
               </View>
             </View>
 
             <View style={styles.filedView}>
-              <TextInput
-                placeholder=""
-                style={styles.stylefiledText}
-                placeholderTextColor={COLORS.main_text_color}
-                maxLength={10}
-              />
+              {this.state.status ? (
+                <TextInput
+                  placeholder=""
+                  style={styles.stylefiledText}
+                  placeholderTextColor={COLORS.main_text_color}
+                  maxLength={10}
+                  // editable={this.state.TextInputDisableFirstName}
+                />
+              ) : (
+                <TextInput
+                  placeholder=""
+                  style={styles.stylefiledText}
+                  placeholderTextColor={COLORS.main_text_color}
+                  maxLength={10}
+                  editable={this.state.TextInputDisable}
+                />
+              )}
               <View style={styles.rightView}>
                 <Text style={styles.righttext}>Middle Name</Text>
               </View>
             </View>
 
             <View style={styles.filedView}>
-              <TextInput
-                placeholder=""
-                style={styles.stylefiledText}
-                placeholderTextColor={COLORS.main_text_color}
-                maxLength={10}
-              />
+              {this.state.status ? (
+                <TextInput
+                  placeholder=""
+                  style={styles.stylefiledText}
+                  placeholderTextColor={COLORS.main_text_color}
+                  maxLength={10}
+                  // editable={this.state.TextInputDisableFirstName}
+                />
+              ) : (
+                <TextInput
+                  placeholder=""
+                  style={styles.stylefiledText}
+                  placeholderTextColor={COLORS.main_text_color}
+                  maxLength={10}
+                  editable={this.state.TextInputDisable}
+                />
+              )}
+
               <View style={styles.rightView}>
                 <Text style={styles.righttext}>Last Name</Text>
               </View>
             </View>
 
             <View style={styles.filedView}>
-              <TextInput
-                placeholder=""
-                style={styles.stylefiledText}
-                placeholderTextColor={COLORS.main_text_color}
-                maxLength={10}
-              />
+              {this.state.status ? (
+                <TextInput
+                  placeholder=""
+                  style={styles.stylefiledText}
+                  placeholderTextColor={COLORS.main_text_color}
+                  maxLength={10}
+                  // editable={this.state.TextInputDisableFirstName}
+                />
+              ) : (
+                <TextInput
+                  placeholder=""
+                  style={styles.stylefiledText}
+                  placeholderTextColor={COLORS.main_text_color}
+                  maxLength={10}
+                  editable={this.state.TextInputDisable}
+                />
+              )}
               <View style={styles.rightView}>
                 <Text style={styles.righttext}>Nickname</Text>
               </View>
@@ -500,36 +551,78 @@ class MyContactInfromation extends Component {
 
           <View>
             <View style={styles.filedView}>
-              <TextInput
-                placeholder="Phone Number -1"
-                style={styles.stylefiledText}
-                placeholderTextColor={COLORS.main_text_color}
-                maxLength={10}
-              />
+              {this.state.status ? (
+                <TextInput
+                  placeholder="Phone Number -1"
+                  style={styles.stylefiledText}
+                  placeholderTextColor={COLORS.main_text_color}
+                  maxLength={13}
+                  keyboardType={"numeric"}
+                  // editable={this.state.TextInputDisableFirstName}
+                />
+              ) : (
+                <TextInput
+                  placeholder="Phone Number -1"
+                  style={styles.stylefiledText}
+                  placeholderTextColor={COLORS.main_text_color}
+                  maxLength={13}
+                  keyboardType={"numeric"}
+                  editable={this.state.TextInputDisable}
+                />
+              )}
+
               <View style={styles.rightView}>
                 <Text style={styles.righttext}>Personal (Mobile)</Text>
               </View>
             </View>
 
             <View style={styles.filedView}>
-              <TextInput
-                placeholder="Phone Number -2"
-                style={styles.stylefiledText}
-                placeholderTextColor={COLORS.main_text_color}
-                maxLength={10}
-              />
+              {this.state.status ? (
+                <TextInput
+                  placeholder="Phone Number -2"
+                  style={styles.stylefiledText}
+                  placeholderTextColor={COLORS.main_text_color}
+                  maxLength={13}
+                  keyboardType={"numeric"}
+                  // editable={this.state.TextInputDisableFirstName}
+                />
+              ) : (
+                <TextInput
+                  placeholder="Phone Number -2"
+                  style={styles.stylefiledText}
+                  placeholderTextColor={COLORS.main_text_color}
+                  maxLength={13}
+                  keyboardType={"numeric"}
+                  editable={this.state.TextInputDisable}
+                />
+              )}
+
               <View style={styles.rightView}>
                 <Text style={styles.righttext}>Personal (Landline)</Text>
               </View>
             </View>
 
             <View style={styles.filedView}>
-              <TextInput
-                placeholder="Phone Number -3"
-                style={styles.stylefiledText}
-                placeholderTextColor={COLORS.main_text_color}
-                maxLength={10}
-              />
+              {this.state.status ? (
+                <TextInput
+                  placeholder="Phone Number -3"
+                  style={styles.stylefiledText}
+                  placeholderTextColor={COLORS.main_text_color}
+                  maxLength={13}
+                  keyboardType={"numeric"}
+                  // editable={this.state.TextInputDisableFirstName}
+                />
+              ) : (
+                <TextInput
+                  placeholder="Phone Number -3"
+                  style={styles.stylefiledText}
+                  placeholderTextColor={COLORS.main_text_color}
+                  maxLength={13}
+                  keyboardType={"numeric"}
+                  editable={this.state.TextInputDisable}
+                />
+              )}
+
               <View style={styles.rightView}>
                 <Text style={styles.righttext}>Work (Landline)</Text>
               </View>
@@ -612,24 +705,48 @@ class MyContactInfromation extends Component {
 
           <View>
             <View style={styles.filedView}>
-              <TextInput
-                placeholder="E-mail Address -1"
-                style={styles.stylefiledText}
-                placeholderTextColor={COLORS.main_text_color}
-                maxLength={10}
-              />
+              {this.state.status ? (
+                <TextInput
+                  placeholder="E-mail Address -1"
+                  style={styles.stylefiledText}
+                  placeholderTextColor={COLORS.main_text_color}
+                  maxLength={10}
+                  // editable={this.state.TextInputDisableFirstName}
+                />
+              ) : (
+                <TextInput
+                  placeholder="E-mail Address -1"
+                  style={styles.stylefiledText}
+                  placeholderTextColor={COLORS.main_text_color}
+                  maxLength={10}
+                  editable={this.state.TextInputDisable}
+                />
+              )}
+
               <View style={styles.rightView}>
                 <Text style={styles.righttext}>( Personal 1 )</Text>
               </View>
             </View>
 
             <View style={styles.filedView}>
-              <TextInput
-                placeholder="E-mail Address -2"
-                style={styles.stylefiledText}
-                placeholderTextColor={COLORS.main_text_color}
-                maxLength={10}
-              />
+              {this.state.status ? (
+                <TextInput
+                  placeholder="E-mail Address -2"
+                  style={styles.stylefiledText}
+                  placeholderTextColor={COLORS.main_text_color}
+                  maxLength={10}
+                  // editable={this.state.TextInputDisableFirstName}
+                />
+              ) : (
+                <TextInput
+                  placeholder="E-mail Address -2"
+                  style={styles.stylefiledText}
+                  placeholderTextColor={COLORS.main_text_color}
+                  maxLength={10}
+                  editable={this.state.TextInputDisable}
+                />
+              )}
+
               <View style={styles.rightView}>
                 <Text style={styles.righttext}>( Personal 2 )</Text>
               </View>
@@ -684,6 +801,7 @@ class MyContactInfromation extends Component {
               multiline={true}
               numberOfLines={5}
             />
+
             <View style={styles.addressRightView}>
               <Text style={styles.addressRighttext}>( Personal )</Text>
             </View>
@@ -716,13 +834,24 @@ class MyContactInfromation extends Component {
 
           <View>
             <View style={styles.addressFieldContainer}>
-              <TextInput
-                placeholder="Address"
-                style={styles.addressField}
-                placeholderTextColor={COLORS.main_text_color}
-                multiline={true}
-                numberOfLines={5}
-              />
+              {this.state.status ? (
+                <TextInput
+                  placeholder="Address"
+                  style={styles.addressField}
+                  placeholderTextColor={COLORS.main_text_color}
+                  multiline={true}
+                  numberOfLines={5}
+                />
+              ) : (
+                <TextInput
+                  placeholder="Address"
+                  style={styles.addressField}
+                  placeholderTextColor={COLORS.main_text_color}
+                  multiline={true}
+                  numberOfLines={5}
+                  editable={this.state.TextInputDisable}
+                />
+              )}
               <View style={styles.addressRightView}>
                 <Text style={styles.addressRighttext}>( Personal 1 )</Text>
               </View>
@@ -810,24 +939,45 @@ class MyContactInfromation extends Component {
 
           <View>
             <View style={styles.filedView}>
-              <TextInput
-                placeholder="Messenger Account -1"
-                style={styles.stylefiledText}
-                placeholderTextColor={COLORS.main_text_color}
-                maxLength={10}
-              />
+              {this.state.status ? (
+                <TextInput
+                  placeholder="Messenger Account -1"
+                  style={styles.stylefiledText}
+                  placeholderTextColor={COLORS.main_text_color}
+                  maxLength={10}
+                />
+              ) : (
+                <TextInput
+                  placeholder="Messenger Account -1"
+                  style={styles.stylefiledText}
+                  placeholderTextColor={COLORS.main_text_color}
+                  maxLength={10}
+                  editable={this.state.TextInputDisable}
+                />
+              )}
+
               <View style={styles.rightView}>
                 <Text style={styles.righttext}>( Personal )</Text>
               </View>
             </View>
 
             <View style={styles.filedView}>
-              <TextInput
-                placeholder="Messenger Account -2"
-                style={styles.stylefiledText}
-                placeholderTextColor={COLORS.main_text_color}
-                maxLength={10}
-              />
+              {this.state.status ? (
+                <TextInput
+                  placeholder="Messenger Account -2"
+                  style={styles.stylefiledText}
+                  placeholderTextColor={COLORS.main_text_color}
+                  maxLength={10}
+                />
+              ) : (
+                <TextInput
+                  placeholder="Messenger Account -2"
+                  style={styles.stylefiledText}
+                  placeholderTextColor={COLORS.main_text_color}
+                  maxLength={10}
+                  editable={this.state.TextInputDisable}
+                />
+              )}
               <View style={styles.rightView}>
                 <Text style={styles.righttext}>( Work )</Text>
               </View>
@@ -840,10 +990,7 @@ class MyContactInfromation extends Component {
               disable={this.state.disabledMessanger}
             >
               {this.state.status ? (
-                <NormalText>
-                  {" "}
-                  + Add Messenger Account{" "}
-                </NormalText>
+                <NormalText> + Add Messenger Account </NormalText>
               ) : null}
             </TouchableOpacity>
           </View>
@@ -918,24 +1065,42 @@ class MyContactInfromation extends Component {
 
           <View>
             <View style={styles.filedView}>
-              <TextInput
-                placeholder="Social Media Account -1"
-                style={styles.stylefiledText}
-                placeholderTextColor={COLORS.main_text_color}
-                maxLength={10}
-              />
+              {this.state.status ? (
+                <TextInput
+                  placeholder="Social Media Account -1"
+                  style={styles.stylefiledText}
+                  placeholderTextColor={COLORS.main_text_color}
+                />
+              ) : (
+                <TextInput
+                  placeholder="Social Media Account -1"
+                  style={styles.stylefiledText}
+                  placeholderTextColor={COLORS.main_text_color}
+                  editable={this.state.TextInputDisable}
+                />
+              )}
+
               <View style={styles.rightView}>
                 <Text style={styles.righttext}>( Instagram Personal )</Text>
               </View>
             </View>
 
             <View style={styles.filedView}>
-              <TextInput
-                placeholder="Social Media Account -2"
-                style={styles.stylefiledText}
-                placeholderTextColor={COLORS.main_text_color}
-                maxLength={10}
-              />
+              {this.state.status ? (
+                <TextInput
+                  placeholder="Social Media Account -2"
+                  style={styles.stylefiledText}
+                  placeholderTextColor={COLORS.main_text_color}
+                />
+              ) : (
+                <TextInput
+                  placeholder="Social Media Account -2"
+                  style={styles.stylefiledText}
+                  placeholderTextColor={COLORS.main_text_color}
+                  editable={this.state.TextInputDisable}
+                />
+              )}
+
               <View style={styles.rightView}>
                 <Text style={styles.righttext}>( Periscop Professional )</Text>
               </View>
@@ -948,10 +1113,7 @@ class MyContactInfromation extends Component {
               disable={this.state.disabledSocialMedia}
             >
               {this.state.status ? (
-                <NormalText>
-                  {" "}
-                  + Add Social Media Account{" "}
-                </NormalText>
+                <NormalText> + Add Social Media Account </NormalText>
               ) : null}
             </TouchableOpacity>
           </View>
@@ -982,7 +1144,6 @@ class MyContactInfromation extends Component {
   };
 
   renderWebsite() {
-    const colors = this.context;
     let arrayWebsite = this.state.valueArrayWebsite.map((item, key) => {
       if (key == this.indexWebsite) {
         return (
@@ -1024,24 +1185,40 @@ class MyContactInfromation extends Component {
 
           <View>
             <View style={styles.filedView}>
-              <TextInput
-                placeholder="Website -1"
-                style={styles.stylefiledText}
-                placeholderTextColor={COLORS.main_text_color}
-                maxLength={10}
-              />
+              {this.state.status ? (
+                <TextInput
+                  placeholder="Website -1"
+                  style={styles.stylefiledText}
+                  placeholderTextColor={COLORS.main_text_color}
+                />
+              ) : (
+                <TextInput
+                  placeholder="Website -1"
+                  style={styles.stylefiledText}
+                  placeholderTextColor={COLORS.main_text_color}
+                  editable={this.state.TextInputDisable}
+                />
+              )}
               <View style={styles.rightView}>
                 <Text style={styles.righttext}>( Sport gambling podcast )</Text>
               </View>
             </View>
 
             <View style={styles.filedView}>
-              <TextInput
-                placeholder="Website -2"
-                style={styles.stylefiledText}
-                placeholderTextColor={COLORS.main_text_color}
-                maxLength={10}
-              />
+              {this.state.status ? (
+                <TextInput
+                  placeholder="Website -2"
+                  style={styles.stylefiledText}
+                  placeholderTextColor={COLORS.main_text_color}
+                />
+              ) : (
+                <TextInput
+                  placeholder="Website -2"
+                  style={styles.stylefiledText}
+                  placeholderTextColor={COLORS.main_text_color}
+                  editable={this.state.TextInputDisable}
+                />
+              )}
               <View style={styles.rightView}>
                 <Text style={styles.righttext}>( Universal Studio )</Text>
               </View>
@@ -1126,12 +1303,20 @@ class MyContactInfromation extends Component {
 
           <View>
             <View style={styles.filedView}>
-              <TextInput
-                placeholder="Date"
-                style={styles.stylefiledText}
-                placeholderTextColor={COLORS.main_text_color}
-                maxLength={10}
-              />
+              {this.state.status ? (
+                <TextInput
+                  placeholder="Date"
+                  style={styles.stylefiledText}
+                  placeholderTextColor={COLORS.main_text_color}
+                />
+              ) : (
+                <TextInput
+                  placeholder="Date"
+                  style={styles.stylefiledText}
+                  placeholderTextColor={COLORS.main_text_color}
+                  editable={this.state.TextInputDisable}
+                />
+              )}
               <View style={styles.rightView}>
                 <Text style={styles.righttext}>( Birthday )</Text>
               </View>
@@ -1216,13 +1401,25 @@ class MyContactInfromation extends Component {
 
           <View>
             <View style={styles.addressFieldContainer}>
-              <TextInput
-                placeholder="Note"
-                style={styles.addressField}
-                placeholderTextColor={COLORS.main_text_color}
-                multiline={true}
-                numberOfLines={5}
-              />
+              {this.state.status ? (
+                <TextInput
+                  placeholder="Note"
+                  style={styles.addressField}
+                  placeholderTextColor={COLORS.main_text_color}
+                  multiline={true}
+                  numberOfLines={5}
+                />
+              ) : (
+                <TextInput
+                  placeholder="Note"
+                  style={styles.addressField}
+                  placeholderTextColor={COLORS.main_text_color}
+                  multiline={true}
+                  numberOfLines={5}
+                  editable={this.state.TextInputDisable}
+                />
+              )}
+
               <View style={styles.addressRightView}>
                 <Text style={styles.addressRighttext}>( Note -1 )</Text>
               </View>
@@ -1304,33 +1501,63 @@ class MyContactInfromation extends Component {
 
           <View>
             <View style={styles.filedView}>
-              <TextInput
-                placeholder="Company"
-                style={styles.stylefiledText}
-                placeholderTextColor={COLORS.main_text_color}
-                maxLength={10}
-              />
+              {this.state.status ? (
+                <TextInput
+                  placeholder="Company"
+                  style={styles.stylefiledText}
+                  placeholderTextColor={COLORS.main_text_color}
+                  maxLength={15}
+                />
+              ) : (
+                <TextInput
+                  placeholder="Company"
+                  style={styles.stylefiledText}
+                  placeholderTextColor={COLORS.main_text_color}
+                  maxLength={15}
+                  editable={this.state.TextInputDisable}
+                />
+              )}
               <View style={styles.rightView}>
                 {/* <Text style={styles.righttext}>First Name</Text> */}
               </View>
             </View>
 
             <View style={styles.filedView}>
-              <TextInput
-                placeholder="Job Title"
-                style={styles.stylefiledText}
-                placeholderTextColor={COLORS.main_text_color}
-                maxLength={10}
-              />
+              {this.state.status ? (
+                <TextInput
+                  placeholder="Job Title"
+                  style={styles.stylefiledText}
+                  placeholderTextColor={COLORS.main_text_color}
+                  maxLength={15}
+                />
+              ) : (
+                <TextInput
+                  placeholder="Job Title"
+                  style={styles.stylefiledText}
+                  placeholderTextColor={COLORS.main_text_color}
+                  maxLength={15}
+                  editable={this.state.TextInputDisable}
+                />
+              )}
             </View>
 
             <View style={styles.filedView}>
-              <TextInput
-                placeholder="Work Hours"
-                style={styles.stylefiledText}
-                placeholderTextColor={COLORS.main_text_color}
-                maxLength={10}
-              />
+              {this.state.status ? (
+                <TextInput
+                  placeholder="Work Hours"
+                  style={styles.stylefiledText}
+                  placeholderTextColor={COLORS.main_text_color}
+                  maxLength={15}
+                />
+              ) : (
+                <TextInput
+                  placeholder="Work Hours"
+                  style={styles.stylefiledText}
+                  placeholderTextColor={COLORS.main_text_color}
+                  maxLength={15}
+                  editable={this.state.TextInputDisable}
+                />
+              )}
             </View>
 
             {arrayCompany}
@@ -1350,6 +1577,14 @@ class MyContactInfromation extends Component {
   render() {
     return (
       <ThemeProvider theme={this.props.theme}>
+         <GeneralStatusBar
+          backgroundColor={
+            this.props.theme.mode === "light" ? "white" : "black"
+          }
+          barStyle={
+            this.props.theme.mode === "dark" ? "light-content" : "dark-content"
+          }
+        />
         <View style={styles.container}>
           <Container>
             {this.renderHeader()}
@@ -1430,7 +1665,7 @@ const Container = styled.SafeAreaView`
 `;
 const NormalText = styled.Text`
   font-family: Roboto-Regular;
-  font-size: 17px;
+  font-size: 13px;
   color: ${(props) => props.theme.textColor};
 `;
 const BoldText = styled.Text`

@@ -5,38 +5,38 @@ import {
   ScrollView,
   Text,
   TouchableOpacity,
-  View
-} from 'react-native';
-import React, {Component, useState} from 'react';
+  View,
+} from "react-native";
+import React, { Component, useState } from "react";
 import styled, { ThemeProvider } from "styled-components/native";
 
-import {COLORS} from '../theme/Colors.js';
-import {CommonActions} from '@react-navigation/native';
-import Font from '../theme/font';
-import Header from '../../components/header/index';
-import Metrics from '../theme/Metrics';
+import { COLORS } from "../theme/Colors.js";
+import Font from "../theme/font";
+import GeneralStatusBar from "../../components/StatusBar/index";
+import Header from "../../components/header/index";
+import Metrics from "../theme/Metrics";
 // import firebase from '../../services/FirebaseDatabase/db';
 // import { getContact } from '../../services/FirebaseDatabase/getAllContact';
-import { TouchableHighlight } from 'react-native-gesture-handler';
+import { TouchableHighlight } from "react-native-gesture-handler";
 import { connect } from "react-redux";
-import edit from '../../assets/images/edit.png';
-import outerimg from '../../assets/images/outerimg.png';
-import plus from '../../assets/images/plus.png';
-import reset from '../../assets/images/reset.png';
-import styles from './style.js';
+import edit from "../../assets/images/edit.png";
+import outerimg from "../../assets/images/outerimg.png";
+import plus from "../../assets/images/plus.png";
+import reset from "../../assets/images/reset.png";
+import styles from "./style.js";
 
-var {width, height} = Dimensions.get('window');
+var { width, height } = Dimensions.get("window");
 
- class searchContact extends Component {
+class searchContact extends Component {
   constructor(props) {
     super(props);
     this.state = {
       contacts: [],
-    }
+    };
   }
 
   // componentDidMount() {
-  //     // getContact('1')  
+  //     // getContact('1')
   //     const contact = [];
   //     firebase.firestore().collection('1').get()
   //         .then((snap) => {
@@ -56,10 +56,10 @@ var {width, height} = Dimensions.get('window');
 
   renderHeader() {
     return (
-        <Header 
-          title="Search Contacts"
-          onPress={() => this.props.navigation.openDrawer()}
-        />
+      <Header
+        title="Search Contacts"
+        onPress={() => this.props.navigation.openDrawer()}
+      />
     );
   }
 
@@ -70,7 +70,7 @@ var {width, height} = Dimensions.get('window');
   //     <View style={styles.quardView}>
   //       <Image source={outerimg} style={styles.outerImgStyle} />
   //       <Text style={styles.personName}>{item.data.first_name} {item.data.last_name}</Text>
-  //       <TouchableHighlight underlayColor='transparant' 
+  //       <TouchableHighlight underlayColor='transparant'
   //         onPress={() => this.navigate(
   //           item.id,
   //           item.data.first_name,
@@ -110,67 +110,67 @@ var {width, height} = Dimensions.get('window');
   //   )
   // }
 
-//   navigate = (      
-//     id,      
-//     first_name,
-//     middle_name,
-//     last_name,
-//     nick_name,
-//     number1,
-//     number2,
-//     number3,
-//     email1,
-//     email2,
-//     address,
-//     messenger1,
-//     messenger2,
-//     social_media1,
-//     social_media2,
-//     website1,
-//     website2,
-//     dob,
-//     note,
-//     company,
-//     job_title,
-//     work_hour,
-// ) => {
-//     // this.props.navigation.navigate(screen:'editContact',
-//     //   params: { user: 'jane' }
-//     // })
-//     this.props.navigation.dispatch(
-//       CommonActions.navigate('editContact', {
-//         name: 'editContact',
-//         id: id,
-//         first_name: first_name,
-//         middle_name: middle_name,
-//         last_name: last_name,
-//         nick_name: nick_name,
-//         number1: number1,
-//         number2: number2,
-//         number3: number3,
-//         email1: email1,
-//         email2: email2,
-//         address: address,
-//         messenger1: messenger1,
-//         messenger2: messenger2,
-//         social_media1: social_media1,
-//         social_media2: social_media2,
-//         website1: website1,
-//         website2: website2,
-//         dob: dob,
-//         note: note,
-//         company: company,
-//         job_title: job_title,
-//         work_hour: work_hour,
-//         //routes: [{ name: 'Login' }],
-//       })
-//     );
-//   }
+  //   navigate = (
+  //     id,
+  //     first_name,
+  //     middle_name,
+  //     last_name,
+  //     nick_name,
+  //     number1,
+  //     number2,
+  //     number3,
+  //     email1,
+  //     email2,
+  //     address,
+  //     messenger1,
+  //     messenger2,
+  //     social_media1,
+  //     social_media2,
+  //     website1,
+  //     website2,
+  //     dob,
+  //     note,
+  //     company,
+  //     job_title,
+  //     work_hour,
+  // ) => {
+  //     // this.props.navigation.navigate(screen:'editContact',
+  //     //   params: { user: 'jane' }
+  //     // })
+  //     this.props.navigation.dispatch(
+  //       CommonActions.navigate('editContact', {
+  //         name: 'editContact',
+  //         id: id,
+  //         first_name: first_name,
+  //         middle_name: middle_name,
+  //         last_name: last_name,
+  //         nick_name: nick_name,
+  //         number1: number1,
+  //         number2: number2,
+  //         number3: number3,
+  //         email1: email1,
+  //         email2: email2,
+  //         address: address,
+  //         messenger1: messenger1,
+  //         messenger2: messenger2,
+  //         social_media1: social_media1,
+  //         social_media2: social_media2,
+  //         website1: website1,
+  //         website2: website2,
+  //         dob: dob,
+  //         note: note,
+  //         company: company,
+  //         job_title: job_title,
+  //         work_hour: work_hour,
+  //         //routes: [{ name: 'Login' }],
+  //       })
+  //     );
+  //   }
 
   renderMiddle() {
     return (
       <View style={styles.scrollStyle}>
-        <ScrollView style={{marginTop: Metrics.doubleBaseMargin}}>
+        <ScrollView style={{ marginTop: Metrics.doubleBaseMargin }}>
           <View style={styles.mainView}>
             <View style={styles.quardView}>
               <Image source={outerimg} style={styles.outerImgStyle} />
@@ -179,7 +179,7 @@ var {width, height} = Dimensions.get('window');
               <Image source={reset} style={styles.resetImgStyle} />
             </View>
 
-              {/* <FlatList
+            {/* <FlatList
                 refreshing={true}
                 keyExtractor={(item, index) => index.toString()}
                 data={this.state.contacts}
@@ -187,7 +187,7 @@ var {width, height} = Dimensions.get('window');
                 numColumns={1}
                 renderItem={this.renderItem.bind(this)}
               /> */}
-            
+
             <View style={styles.quardView}>
               <Image source={outerimg} style={styles.outerImgStyle} />
               <NormalText>Shelly Blimton</NormalText>
@@ -242,7 +242,6 @@ var {width, height} = Dimensions.get('window');
               <Image source={edit} style={styles.editImgStyle} />
               <Image source={reset} style={styles.resetImgStyle} />
             </View>
-           
           </View>
         </ScrollView>
       </View>
@@ -253,17 +252,17 @@ var {width, height} = Dimensions.get('window');
     return (
       <View
         style={{
-          alignItems: 'flex-end',
+          alignItems: "flex-end",
           flex: 1,
           marginRight: Metrics.baseMargin,
-        }}>
-        <View style={{flex: 1, bottom: 30, position: 'absolute'}}>
-          <TouchableOpacity style={styles.Whiteview}   onPress={this.plusnavigate}>
-            <Image
-              source={plus}
-              style={styles.plusStyle}
-            
-            />
+        }}
+      >
+        <View style={{ flex: 1, bottom: 30, position: "absolute" }}>
+          <TouchableOpacity
+            style={styles.Whiteview}
+            onPress={this.plusnavigate}
+          >
+            <Image source={plus} style={styles.plusStyle} />
           </TouchableOpacity>
         </View>
       </View>
@@ -271,27 +270,29 @@ var {width, height} = Dimensions.get('window');
   }
 
   plusnavigate = () => {
-    this.props.navigation.dispatch(
-      CommonActions.navigate({
-        name: 'manuallyAddContact',
-        //routes: [{ name: 'Login' }],
-      }),
-    );
+    this.props.navigation.navigate('ManuallyAddContact')
   };
 
   render() {
     return (
       <ThemeProvider theme={this.props.theme}>
-      <Container>
+        <GeneralStatusBar
+          backgroundColor={
+            this.props.theme.mode === "light" ? "white" : "black"
+          }
+          barStyle={
+            this.props.theme.mode === "dark" ? "light-content" : "dark-content"
+          }
+        />
+        <Container>
+          {/* <View style={{backgroundColor: COLORS.white, flex: 1}}> */}
+          {this.renderHeader()}
 
-      {/* <View style={{backgroundColor: COLORS.white, flex: 1}}> */}
-        {this.renderHeader()}
+          {this.renderMiddle()}
 
-        {this.renderMiddle()}
-
-        {this.renderLast()}
-      {/* </View> */}
-      </Container>
+          {this.renderLast()}
+          {/* </View> */}
+        </Container>
       </ThemeProvider>
     );
   }
@@ -313,5 +314,5 @@ const NormalText = styled.Text`
   font-family: Roboto-Regular;
   font-size: 17px;
   color: ${(props) => props.theme.textColor};
-  margin-left:5px;
+  margin-left: 5px;
 `;

@@ -11,8 +11,8 @@ import { darkTheme, lightTheme } from "../theme/themeProps";
 import styled, { ThemeProvider } from "styled-components/native";
 
 import { COLORS } from "../theme/Colors.js";
-import { CommonActions } from "@react-navigation/native";
 import Font from "../theme/font";
+import GeneralStatusBar from "../../components/StatusBar/index";
 import Header from "../../components/header/index";
 import Icon from "react-native-vector-icons/FontAwesome5";
 import Metrics from "../theme/Metrics";
@@ -172,17 +172,21 @@ class chooseContactFromLabel extends Component {
   }
 
   forAddContactNavigate = () => {
-    this.props.navigation.dispatch(
-      CommonActions.navigate({
-        name: "forAddContact",
-        //routes: [{ name: 'Login' }],
-      })
-    );
+    this.props.navigation.navigate('ForAddContact')
   };
 
   render() {
     return (
       <ThemeProvider theme={this.props.theme}>
+        <GeneralStatusBar
+          backgroundColor={
+            this.props.theme.mode === "light" ? "white" : "black"
+          }
+          barStyle={
+            this.props.theme.mode === "dark" ? "light-content" : "dark-content"
+          }
+        />
+
         <Container>
           {/* <View style={styles.container}> */}
 
@@ -213,11 +217,11 @@ const mapDispatchToProps = (dispatch) => ({
 export default connect(mapStateToProps)(chooseContactFromLabel);
 
 const Container = styled.View`
-flex: 1;
+  flex: 1;
 
-width: 100%;
-/* align-items: center; */
-background-color: ${(props) => props.theme.backColor};
+  width: 100%;
+  /* align-items: center; */
+  background-color: ${(props) => props.theme.backColor};
 `;
 const NormalText = styled.Text`
   font-family: Roboto-Light;
@@ -228,6 +232,6 @@ const LineText = styled.Text`
   font-family: Roboto-Light;
   font-size: 15px;
   color: ${(props) => props.theme.iconColor};
-  line-Height:30px;
-  text-Align: center;
+  line-height: 30px;
+  text-align: center;
 `;

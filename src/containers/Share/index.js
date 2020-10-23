@@ -11,12 +11,13 @@ import {
   View,
 } from "react-native";
 import React, { Component } from "react";
-import { darkTheme, lightTheme } from "../theme/themeProps";
 import styled, { ThemeProvider } from "styled-components/native";
 
 import { COLORS } from "../theme/Colors.js";
+import GeneralStatusBar from "../../components/StatusBar/index";
 import Header from "../../components/header/index";
 import Metrics from "../theme/Metrics";
+import QRCode from "react-native-qrcode-svg";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import styles from "./style.js";
@@ -29,7 +30,7 @@ class Share extends Component {
     return (
       <Header
         title="Share"
-        onPress={() => this.props.navigation.openDrawer()}
+        onPress={() => this.props.navigation.toggleDrawer()}
       />
     );
   }
@@ -37,24 +38,30 @@ class Share extends Component {
   render() {
     return (
       <ThemeProvider theme={this.props.theme}>
+        <GeneralStatusBar
+          backgroundColor={
+            this.props.theme.mode === "light" ? "white" : "black"
+          }
+          barStyle={
+            this.props.theme.mode === "dark" ? "light-content" : "dark-content"
+          }
+        />
         <Container>
+          {this.renderHeader()}
           <View style={styles.container}>
-            {this.renderHeader()}
-
-            {this.props.theme.mode === "light" ? (
-              <TouchableOpacity
-                onPress={() => this.props.switchTheme(darkTheme)}
-              >
-                <Text>Switch to Dark Theme</Text>
-              </TouchableOpacity>
-            ) : (
-              <TouchableOpacity
-                onPress={() => this.props.switchTheme(lightTheme)}
-              >
-                <Text style={{color:COLORS.main_text_color}}>Switch to Light Theme</Text>
-
-              </TouchableOpacity>
-            )}
+            <View style={styles.qrContainer}>
+              <Text style={styles.qrText}> Mr._Green_Jeans</Text>
+              <QRCode
+                value={"Mr._Green_Jeans"}
+                size={width * 0.4}
+                color={COLORS.white}
+                backgroundColor={COLORS.main_text_color}
+                logoSize={30}
+                logoMargin={2}
+                logoBorderRadius={15}
+                logoBackgroundColor="yellow"
+              />
+            </View>
           </View>
         </Container>
       </ThemeProvider>

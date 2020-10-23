@@ -17,6 +17,7 @@ import java.util.List;
 //firebase dependencies
 import io.invertase.firebase.database.RNFirebaseDatabasePackage;
 import io.invertase.firebase.firestore.RNFirebaseFirestorePackage;
+import io.invertase.firebase.messaging.RNFirebaseMessagingPackage;
 
 import com.rt2zz.reactnativecontacts.ReactNativeContacts; // <--- import
 
@@ -36,6 +37,7 @@ public class MainApplication extends Application implements ReactApplication {
           List<ReactPackage> packages = new PackageList(this).getPackages();
           // Packages that cannot be autolinked yet can be added manually here, for example:
           // packages.add(new MyReactNativePackage());
+            packages.add(new RNFirebaseMessagingPackage());
            packages.add(new RNFirebaseDatabasePackage());
            packages.add(new RNFirebaseFirestorePackage());
 

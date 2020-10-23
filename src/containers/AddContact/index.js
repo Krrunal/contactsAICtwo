@@ -7,12 +7,13 @@ import {
 import React, {Component} from 'react';
 import { darkTheme, lightTheme } from "../theme/themeProps";
 import styled, { ThemeProvider } from "styled-components/native";
+import { DrawerActions } from 'react-navigation-drawer';
 
-import { CommonActions } from '@react-navigation/native';
+import GeneralStatusBar from "../../components/StatusBar/index";
 import Header from '../../components/header/index';
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
-import {createDrawerNavigator} from '@react-navigation/drawer';
+// import {createDrawerNavigator} from '@react-navigation/drawer';
 import styles from './style';
 import { switchTheme } from "../../action/themeAction";
 
@@ -24,7 +25,7 @@ class Add extends Component {
     return (
         <Header 
           title="Add Contact(s)"
-          onPress={() => this.props.navigation.openDrawer()}
+          onPress={() => this.props.navigation.toggleDrawer()}
         />
     );
   }
@@ -38,12 +39,7 @@ class Add extends Component {
   }
 
   addContactNavigate = () => {
-    this.props.navigation.dispatch(
-        CommonActions.navigate({
-          name: 'chooseContactFromLabel',
-          //routes: [{ name: 'Login' }],
-        })
-    );
+    this.props.navigation.navigate('ManuallyAddContact')
   }
 
   renderSecond() {
@@ -56,12 +52,7 @@ class Add extends Component {
 
   // manuallyAddContact
   importmanuallyNavigate = () => {
-    this.props.navigation.dispatch(
-        CommonActions.navigate({
-          name: 'addmanuallyContact',
-          //routes: [{ name: 'Login' }],
-        })
-    );
+    this.props.navigation.navigate('AddmanuallyContact')
   }
 
   renderThird() {
@@ -74,17 +65,20 @@ class Add extends Component {
   }
 
   importNavigate = () => {
-    this.props.navigation.dispatch(
-        CommonActions.navigate({
-          name: 'ImportContacts',
-          //routes: [{ name: 'Login' }],
-        })
-    );
+    this.props.navigation.navigate('ImportContacts')
   }
 
   render() {
     return (
       <ThemeProvider theme={this.props.theme}>
+         <GeneralStatusBar
+          backgroundColor={
+            this.props.theme.mode === "light" ? "white" : "black"
+          }
+          barStyle={
+            this.props.theme.mode === "dark" ? "light-content" : "dark-content"
+          }
+        />
       <View style={styles.container}>
       <Container>
 
@@ -113,7 +107,6 @@ export default connect(mapStateToProps)(Add);
 
 const Container = styled.SafeAreaView`
   flex: 1;
-
   width: 100%;
   align-items: center;
   background-color: ${(props) => props.theme.backColor};

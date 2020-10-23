@@ -9,33 +9,33 @@ import {
     TouchableHighlight,
     TouchableOpacity,
     View,
-  } from 'react-native';
-  import React, {Component} from 'react';
-  
-  import {COLORS} from '../theme/Colors.js';
-  import ContactUs from '../ContactUs/index';
-  import Metrics from '../theme/Metrics';
-  import borderCorner from '../../assets/images/borderCorner.png';
-  import calender from '../../assets/images/calender.png';
-  import call from '../../assets/images/call.png';
-  import email from '../../assets/images/email.png';
-  import handshake from '../../assets/images/handshake.png';
-  import home from '../../assets/images/home.png';
-  import innerimg from '../../assets/images/innerimg.png';
-  import instagram from '../../assets/images/instagram.png';
-  import logo from '../../assets/images/logo.png';
-  import message from '../../assets/images/message.png';
-  import note from '../../assets/images/note.png';
-  import outerimg from '../../assets/images/outerimg.png';
-  import rigthLogo from '../../assets/icons/contact.png';
-  import sideBar from '../../assets/images/sideBAR.png';
-  import style from '../../components/drawerNavigation/style';
-  import styles from './style.js';
-  import website from '../../assets/images/website.png';
-  
-  import firebase from '../../services/FirebaseDatabase/db';
-  
-  /* eslint-disable react-native/no-inline-styles */
+} from 'react-native';
+import React, {Component} from 'react';
+
+import {COLORS} from '../theme/Colors.js';
+import ContactUs from '../ContactUs/index';
+import GeneralStatusBar from "../../components/StatusBar/index";
+import Metrics from '../theme/Metrics';
+import borderCorner from '../../assets/images/borderCorner.png';
+import calender from '../../assets/images/calender.png';
+import call from '../../assets/images/call.png';
+import email from '../../assets/images/email.png';
+import firebase from '../../services/FirebaseDatabase/db';
+import handshake from '../../assets/images/handshake.png';
+import home from '../../assets/images/home.png';
+import innerimg from '../../assets/images/innerimg.png';
+import instagram from '../../assets/images/instagram.png';
+import logo from '../../assets/images/logo.png';
+import message from '../../assets/images/message.png';
+import note from '../../assets/images/note.png';
+import outerimg from '../../assets/images/outerimg.png';
+import rigthLogo from '../../assets/icons/contact.png';
+import sideBar from '../../assets/images/sideBAR.png';
+import style from '../../components/drawerNavigation/style';
+import styles from './style.js';
+import website from '../../assets/images/website.png';
+
+/* eslint-disable react-native/no-inline-styles */
   /* eslint-disable prettier/prettier */
   
   var {width, height} = Dimensions.get('window');
@@ -761,6 +761,14 @@ import {
     render() {
       return (
         <View style={styles.container}>
+           <GeneralStatusBar
+          backgroundColor={
+            this.props.theme.mode === "light" ? "white" : "black"
+          }
+          barStyle={
+            this.props.theme.mode === "dark" ? "light-content" : "dark-content"
+          }
+        />
           {this.renderHeader()}
           <ScrollView style={{flex: 1, backgroundColor: COLORS.white}}>
             {this.renderMiddle()}

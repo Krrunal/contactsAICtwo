@@ -14,8 +14,8 @@ import React, { Component, useState } from "react";
 import styled, { ThemeProvider } from "styled-components/native";
 
 import { COLORS } from "../theme/Colors.js";
-import { CommonActions } from "@react-navigation/native";
 import Font from "../theme/font";
+import GeneralStatusBar from "../../components/StatusBar/index";
 import Icon from "react-native-vector-icons/FontAwesome5";
 import Metrics from "../theme/Metrics";
 import { Title } from "react-native-paper";
@@ -45,7 +45,7 @@ import websiteImg from "../../assets/images/website.png";
 
 const person = require("../../assets/images/person.png");
 var { width, height } = Dimensions.get("window");
- class Profile extends Component {
+class Profile extends Component {
   renderImg() {
     return (
       <View
@@ -83,12 +83,7 @@ var { width, height } = Dimensions.get("window");
   }
 
   Profilenavigate = () => {
-    this.props.navigation.dispatch(
-      CommonActions.navigate({
-        name: "AddContact",
-        //routes: [{ name: 'Login' }],
-      })
-    );
+    this.props.navigation.navigate('AddContact')
   };
 
   renderMiddle() {
@@ -763,7 +758,7 @@ var { width, height } = Dimensions.get("window");
             <View
               style={{
                 width: width * 0.5,
-                height: width * 0.350,
+                height: width * 0.35,
                 flexDirection: "row",
               }}
             >
@@ -796,7 +791,7 @@ var { width, height } = Dimensions.get("window");
               </View>
             </View>
             <Text style={styles.righttext}>Pacific Time Zone</Text>
-            <Text style={styles.righttext}>( Work Gours)</Text>
+            <Text style={styles.righttext}>( Work hours)</Text>
           </View>
         </View>
       </View>
@@ -806,44 +801,52 @@ var { width, height } = Dimensions.get("window");
   render() {
     return (
       <ThemeProvider theme={this.props.theme}>
-        <Container>
- 
-        <ScrollView style={{ flex: 1 }}>
-          {this.renderImg()}
-          {this.renderMiddle()}
+        <GeneralStatusBar
+          backgroundColor={
+            this.props.theme.mode === "light" ? "white" : "black"
+          }
+          barStyle={
+            this.props.theme.mode === "dark" ? "light-content" : "dark-content"
+          }
+        />
 
-          {this.renderFriend()}
-          {this.renderMobile()}
-          {this.renderEmail()}
-          {this.renderAddress()}
-          {this.renderMesssanger()}
-          {this.renderSocialMedia()}
-          {this.renderWebsite()}
-          {this.renderDate()}
-          {this.renderNote()}
-          {this.renderCompany()}
-        </ScrollView>
-        <View
-          style={{
-            width: width * 0.9,
-            flexDirection: "row",
-            alignItems: "center",
-            justifyContent: "flex-end",
-            flexDirection: "row",
-          }}
-        >
-          <TouchableHighlight style={styles.saveView}>
-            <Text
-              style={{
-                color: COLORS.main_text_color,
-                fontFamily: "Roboto-Bold",
-                fontSize: width * 0.04,
-              }}
-            >
-              Edit
-            </Text>
-          </TouchableHighlight>
-        </View>
+        <Container>
+          <ScrollView style={{ flex: 1 }}>
+            {this.renderImg()}
+            {this.renderMiddle()}
+
+            {this.renderFriend()}
+            {this.renderMobile()}
+            {this.renderEmail()}
+            {this.renderAddress()}
+            {this.renderMesssanger()}
+            {this.renderSocialMedia()}
+            {this.renderWebsite()}
+            {this.renderDate()}
+            {this.renderNote()}
+            {this.renderCompany()}
+          </ScrollView>
+          <View
+            style={{
+              width: width * 0.9,
+              flexDirection: "row",
+              alignItems: "center",
+              justifyContent: "flex-end",
+              flexDirection: "row",
+            }}
+          >
+            <TouchableHighlight style={styles.saveView}>
+              <Text
+                style={{
+                  color: COLORS.main_text_color,
+                  fontFamily: "Roboto-Bold",
+                  fontSize: width * 0.04,
+                }}
+              >
+                Edit
+              </Text>
+            </TouchableHighlight>
+          </View>
         </Container>
       </ThemeProvider>
     );
@@ -870,5 +873,4 @@ const Container = styled.View`
 const ScrollView = styled.ScrollView`
   color: ${(props) => props.theme.textColor};
   flex: 1;
- 
 `;

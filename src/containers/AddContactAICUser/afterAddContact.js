@@ -8,37 +8,35 @@ import {
   TextInput,
   TouchableOpacity,
   View,
-} from 'react-native';
-import React, {Component} from 'react';
+} from "react-native";
+import React, { Component } from "react";
 import styled, { ThemeProvider } from "styled-components/native";
 
-import {COLORS} from '../theme/Colors.js';
-import { CommonActions } from '@react-navigation/native';
-import Font from '../theme/font.js';
-import Header from '../../components/header/index';
-import Icon from 'react-native-vector-icons/FontAwesome5';
-import Metrics from '../theme/Metrics';
+import { COLORS } from "../theme/Colors.js";
+import Font from "../theme/font.js";
+import GeneralStatusBar from "../../components/StatusBar/index";
+import Header from "../../components/header/index";
+import Icon from "react-native-vector-icons/FontAwesome5";
+import Metrics from "../theme/Metrics";
 import { connect } from "react-redux";
-import styles from './afterAddContactStyle.js';
+import styles from "./afterAddContactStyle.js";
 
-var {width, height} = Dimensions.get('window');
+var { width, height } = Dimensions.get("window");
 
- class afterAddContact extends Component {
+class afterAddContact extends Component {
   renderHeader() {
     return (
-        <Header 
-          title="Add Contacts AIC User(s)"
-          onPress={() => this.props.navigation.openDrawer()}
-        />
+      <Header
+        title="Add Contacts AIC User(s)"
+        onPress={() => this.props.navigation.openDrawer()}
+      />
     );
   }
 
   renderMiddle() {
     return (
-     
-      <View style={{alignItems: 'center'}}>
-     
-        <View style={{marginTop: Metrics.baseMargin}}>
+      <View style={{ alignItems: "center" }}>
+        <View style={{ marginTop: Metrics.baseMargin }}>
           <View>
             <View>
               <NormalText>Username #1</NormalText>
@@ -52,7 +50,7 @@ var {width, height} = Dimensions.get('window');
             </View>
           </View>
         </View>
-        <View style={{marginTop: Metrics.baseMargin}}>
+        <View style={{ marginTop: Metrics.baseMargin }}>
           <View>
             <View>
               <NormalText>Username #2</NormalText>
@@ -66,7 +64,7 @@ var {width, height} = Dimensions.get('window');
             </View>
           </View>
         </View>
-        <View style={{marginTop: Metrics.baseMargin}}>
+        <View style={{ marginTop: Metrics.baseMargin }}>
           <View>
             <View>
               <NormalText>Username #3</NormalText>
@@ -80,8 +78,8 @@ var {width, height} = Dimensions.get('window');
             </View>
           </View>
         </View>
-        <View style={{marginTop: Metrics.baseMargin}}>
-          <View style={{marginBottom:Metrics.doubleBaseMargin}}>
+        <View style={{ marginTop: Metrics.baseMargin }}>
+          <View style={{ marginBottom: Metrics.doubleBaseMargin }}>
             <View>
               <NormalText>Username #4</NormalText>
             </View>
@@ -94,35 +92,48 @@ var {width, height} = Dimensions.get('window');
             </View>
           </View>
         </View>
-      
       </View>
-     
     );
   }
 
- renderLast() {
+  renderLast() {
     return (
-      <View style={{alignItems: 'center', flex: 1}}>
+      <View style={{ alignItems: "center", flex: 1 }}>
         <View
           style={{
             flex: 1,
             bottom: 40,
-            position: 'absolute',
-            flexDirection: 'row',
-          }}>
-          <TouchableOpacity style={styles.Whiteview} onPress={this.backNavigate}>
-            <Text style={{
-              color: COLORS.main_text_color, 
-              fontFamily: Font.medium,
-              fontSize: width * 0.045,
-            }}>Back</Text>
+            position: "absolute",
+            flexDirection: "row",
+          }}
+        >
+          <TouchableOpacity
+            style={styles.Whiteview}
+            onPress={this.backNavigate}
+          >
+            <Text
+              style={{
+                color: COLORS.main_text_color,
+                fontFamily: Font.medium,
+                fontSize: width * 0.045,
+              }}
+            >
+              Back
+            </Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.WhiteviewTwo} onPress={this.forAddContactNavigate}>
-            <Text style={{
-              color: COLORS.main_text_color, 
-              fontFamily: Font.medium,
-              fontSize: width * 0.045,
-            }}>Next</Text>
+          <TouchableOpacity
+            style={styles.WhiteviewTwo}
+            onPress={this.forAddContactNavigate}
+          >
+            <Text
+              style={{
+                color: COLORS.main_text_color,
+                fontFamily: Font.medium,
+                fontSize: width * 0.045,
+              }}
+            >
+              Next
+            </Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -130,45 +141,42 @@ var {width, height} = Dimensions.get('window');
   }
 
   backNavigate = () => {
-    this.props.navigation.dispatch(
-      CommonActions.navigate({
-        name: 'manuallyAddContact',
-        //routes: [{ name: 'Login' }],
-      })
-    );
-  }
+    this.props.navigation.navigate('ChooseContactFromLabel')
+  };
 
   forAddContactNavigate = () => {
-    this.props.navigation.dispatch(
-        CommonActions.navigate({
-          name: 'forAdd2',
-          //routes: [{ name: 'Login' }],
-        })
-    );
-  }
+    this.props.navigation.navigate('ForAdd2')
+  };
 
   render() {
     return (
       <ThemeProvider theme={this.props.theme}>
-      <Container>
-      {/* <View style={styles.container}> */}
-        {this.renderHeader()}
-        <View style={styles.headerLineContainer}>
-          <LineText> Enter Contact's Username </LineText>
-        </View>
-        {this.renderMiddle()}
-        {this.renderLast()}
-      {/* </View> */}
-      </Container>
-      </ThemeProvider>
+        <GeneralStatusBar
+          backgroundColor={
+            this.props.theme.mode === "light" ? "white" : "black"
+          }
+          barStyle={
+            this.props.theme.mode === "dark" ? "light-content" : "dark-content"
+          }
+        />
 
+        <Container>
+          {/* <View style={styles.container}> */}
+          {this.renderHeader()}
+          <View style={styles.headerLineContainer}>
+            <LineText> Enter Contact's Username </LineText>
+          </View>
+          {this.renderMiddle()}
+          {this.renderLast()}
+          {/* </View> */}
+        </Container>
+      </ThemeProvider>
     );
   }
 }
 const mapStateToProps = (state) => ({
   theme: state.themeReducer.theme,
 });
-
 
 export default connect(mapStateToProps)(afterAddContact);
 
@@ -189,6 +197,6 @@ const LineText = styled.Text`
   font-family: Roboto-Light;
   font-size: 17px;
   color: ${(props) => props.theme.iconColor};
-  line-Height:30px;
-  text-Align: center;
+  line-height: 30px;
+  text-align: center;
 `;

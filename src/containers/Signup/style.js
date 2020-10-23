@@ -30,40 +30,23 @@ export default StyleSheet.create({
         justifyContent:'center',
         marginBottom:Metrics.smallMargin
     },
-    mobileInputText: {
-        fontSize: width*0.04, 
-        fontFamily: Font.medium,
-        color:COLORS.main_text_color,
-    },
-
-    textInputViewSignup:{
-        fontSize: width*0.04, 
-        fontFamily: Font.medium,
-        justifyContent:'center',
-        alignItems:'center',
-        color:COLORS.main_text_color,
-        marginLeft:Metrics.baseMargin,
-        width: width * 0.650,
-    },
-
-    userView:{
-        backgroundColor:COLORS.main_sky_blue,
+    mobileInputView: {
         width:width*0.9,
-        height:height*0.065,
         borderRadius:10,
         marginTop:Metrics.xsmallMargin,
         justifyContent:'center',
-        flexDirection: 'row'
+        // borderWidth: 1
     },
 
     passView:{
         backgroundColor:COLORS.main_sky_blue,
-        marginTop:Metrics.xsmallMargin,
+        marginTop: height * 0.005,
         width: width * 0.9,
         height: height * 0.065,
         borderRadius: 8,
+        alignItems: 'center',
         justifyContent:'center',
-        flexDirection: 'row'
+        flexDirection: 'row',
     },
 
     userText:{
@@ -137,11 +120,9 @@ export default StyleSheet.create({
     },
 
     eyeView: {
-        width: width * 0.025,
-        alignItems: 'flex-end',
+        flex: 1,
+        alignItems: 'center',
         justifyContent: 'center',
-        flex:1,
-        marginRight:Metrics.baseMargin,
     },
 
     checkIcon: {
@@ -156,7 +137,6 @@ export default StyleSheet.create({
     
     footerModal: {
         justifyContent: 'center',
-        borderWidth: 40,
         flex: 1
     },
 
@@ -167,7 +147,7 @@ export default StyleSheet.create({
         backgroundColor: COLORS.white,
         alignSelf: 'center',
         justifyContent: 'center',
-        borderWidth: 1,
+        // borderWidth: 1,
         paddingVertical: height * 0.02,
         paddingHorizontal: width * 0.05,
         borderRadius: 10
@@ -181,5 +161,12 @@ export default StyleSheet.create({
         width: width * 0.02,
         height: width * 0.02,
         alignSelf: 'center'
+    },
+    error:{
+        fontSize:15,
+        color:COLORS.red,
+        // borderWidth: 1,
+        paddingLeft: width * 0.03,
+        paddingTop: height * 0.005
     }
 })

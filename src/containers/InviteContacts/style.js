@@ -17,6 +17,11 @@ export default StyleSheet.create({
         backgroundColor:COLORS.white,
     },
     
+    contactViewBlack:{
+        width:width*0.8,
+        flex: 1,
+        backgroundColor:COLORS.black,
+    },
     checkboxView:{
         flexDirection:'row',
         alignItems:'center',

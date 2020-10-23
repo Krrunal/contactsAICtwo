@@ -7,66 +7,58 @@ import {
   TouchableHighlight,
   TouchableOpacity,
   View,
-} from "react-native";
-import { DrawerContentScrollView, DrawerItem } from "@react-navigation/drawer";
-import React, { Component, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+} from 'react-native';
+// import {DrawerContentScrollView, DrawerItem} from '@rScrolleact-navigation/drawer';
+import React, {Component, useState} from 'react';
+import PropTypes from 'prop-types';
+import { StackActions, NavigationActions } from 'react-navigation';
+import { DrawerItems } from 'react-navigation-drawer';
 
-import AddContact from "../../containers/AddContact/index";
-import { COLORS } from "../../containers/theme/Colors";
-import { CommonActions } from "@react-navigation/native";
-import Icon from "react-native-vector-icons/FontAwesome5";
-import Metrics from "../../containers/theme/Metrics";
-import Share from "../../containers/Share/index";
-import { Text } from "react-native-paper";
-import contact from "../../assets/icons/contact.png";
-import help from "../../assets/icons/help.png";
-import info from "../../assets/icons/info.png";
-import innerimg from "../../assets/images/innerimg.png";
-import label from "../../assets/icons/label.png";
-import navIcon from "../../assets/icons/navIcon.png";
-import setting from "../../assets/icons/settings.png";
-import sideBAR from "../../assets/images/sideBAR.png";
-import { useTheme } from "@react-navigation/native";
+import {COLORS} from '../../containers/theme/Colors';
+import Font from '../../containers/theme/font';
+import Metrics from '../../containers/theme/Metrics';
+import { Text } from 'react-native-paper';
+import contact from '../../assets/icons/contact.png';
+import help from '../../assets/icons/help.png';
+import info from '../../assets/icons/info.png';
+import label from '../../assets/icons/label.png';
+import navIcon from '../../assets/icons/navIcon.png';
+import setting from '../../assets/icons/settings.png';
+import GeneralStatusBar from "../StatusBar/index";
 
-// import Share from '../../containers/Share /index';
-
-var { width, height } = Dimensions.get("window");
-// import styles from  './style'
-
-export function DrawerContent(props, navigation) {
+var {width, height} = Dimensions.get('window');
+    
+export function SideBar(props){
   state = {
     status: false,
   };
-
-  //theme
-  const { colors } = useTheme();
-  const dispatch = useDispatch();
-  const currentTheme = useSelector((state) => {
-    return state.myDarMode;
-  });
 
   const [shouldShowInfo, setShouldShowInfo] = useState(false);
   const [shouldShowContact, setShouldShowContact] = useState(false);
   const [shouldShowLabel, setShouldShowLabel] = useState(false);
   const [shouldShowSetting, setShouldShowSetting] = useState(false);
   const [shouldShowHelp, setShouldShowHelp] = useState(false);
-  //this.state = {
-  //   status: false,
-  //   show:true,
-  // };
 
   toggleStatus = () => {
     this.setState({
       status: !this.state.status,
     });
-    console.log("toggle button handler: " + this.state.status);
+    console.log('toggle button handler: ' + this.state.status);
   };
 
-  return (
+    return (
     <View style={styles.mainContent}>
+        {/* <GeneralStatusBar
+          backgroundColor={
+            this.props.theme.mode === "light" ? "white" : "black"
+          }
+          barStyle={
+            this.props.theme.mode === "dark" ? "light-content" : "dark-content"
+          }
+        /> */}
+
       <View style={styles.whiteView}>
-        <View style={{ width: width * 0.6, flexDirection: "row" }}>
+        <View style={{width: width * 0.6, flexDirection: 'row'}}>
           <View style={styles.sideBarViewContent}>
             <Image source={navIcon} style={styles.sidebarStyle} />
           </View>
@@ -75,41 +67,28 @@ export function DrawerContent(props, navigation) {
           </View>
         </View>
       </View>
-      <DrawerContentScrollView {...props}>
-        <View style={{ marginLeft: Metrics.doubleBaseMargin }}>
-          <TouchableHighlight activeOpacity={0.6} underlayColor="">
-            <View
-              styles={{
-                width: width,
-                height: height * 0.5,
-                backgroundColor: COLORS.main_text_color,
-              }}
-            >
-              <TouchableOpacity style={styles.item}>
-                {/* <Icon name={'info-circle'} size={15} color={COLORS.white}/> */}
-                <Image source={info} style={{ width: 14, height: 15 }} />
 
-                <TouchableOpacity
-                  onPress={() => setShouldShowInfo(!shouldShowInfo)}
-                >
+      <ScrollView>
+        <View>
+          <View style={shouldShowInfo ? styles.darkView : styles.lightView}> 
+              <TouchableOpacity style={styles.item} onPress={() => setShouldShowInfo(!shouldShowInfo)}>
+                  <Image source={info} style={{width: width*0.04, height: width * 0.04}} />
                   <Text style={styles.itemTextMain}>My Information</Text>
-                </TouchableOpacity>
               </TouchableOpacity>
-              <View style={{}}>
+
+              <View>
                 {shouldShowInfo ? (
                   <View style={styles.drawerStyle}>
                     <TouchableOpacity
                       onPress={() => {
-                        props.navigation.navigate("Share");
-                      }}
-                    >
+                        props.navigation.navigate('Share') && props.navigation.closeDrawer();
+                      }}>
                       <Text style={styles.itemText}>Share</Text>
                     </TouchableOpacity>
                     <TouchableOpacity
                       onPress={() => {
-                        props.navigation.navigate("MyContactInfromation");
-                      }}
-                    >
+                        props.navigation.navigate('MyContactInfromation') && props.navigation.closeDrawer();
+                      }}>
                       <Text style={styles.itemText}>
                         My Contact Information
                       </Text>
@@ -117,152 +96,139 @@ export function DrawerContent(props, navigation) {
                   </View>
                 ) : null}
               </View>
-            </View>
-          </TouchableHighlight>
-          <TouchableOpacity
-            onPress={() => setShouldShowContact(!shouldShowContact)}
-            style={styles.item}
-          >
-            <Image source={contact} style={{ width: 14, height: 15 }} />
-            <Text style={styles.itemTextMain}>Contacts(2)</Text>
-          </TouchableOpacity>
-          <View style={{}}>
+          </View>
+
+          <View style={shouldShowContact ? styles.darkView : styles.lightView}> 
+              <TouchableOpacity style={styles.item} onPress={() => setShouldShowContact(!shouldShowContact)}>
+                  <Image source={contact} style={{width: width*0.04, height: width * 0.04}} />
+                  <Text style={styles.itemTextMain}>Contacts(2)</Text>
+              </TouchableOpacity>
+
+              <View>
             {shouldShowContact ? (
               <View style={styles.drawerStyle}>
                 <TouchableOpacity
                   onPress={() => {
-                    props.navigation.navigate("SerachEditContact");
-                  }}
-                >
+                    props.navigation.navigate('SerachEditContact') && props.navigation.closeDrawer();
+                  }}>
                   <Text style={styles.itemText}>View</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
                   onPress={() => {
-                    props.navigation.navigate("pendingRequest");
-                  }}
-                >
+                    props.navigation.navigate('PendingRequest') && props.navigation.closeDrawer();
+                  }}>
                   <Text style={styles.itemText}>Pending Requests(2)</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
                   onPress={() => {
-                    props.navigation.navigate("AddContact");
-                  }}
-                >
+                    props.navigation.navigate('AddContact') && props.navigation.closeDrawer();
+                  }}>
                   <Text style={styles.itemText}>Add</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
                   onPress={() => {
-                    props.navigation.navigate("ImportContacts");
-                  }}
-                >
+                    props.navigation.navigate('ImportContacts') && props.navigation.closeDrawer();
+                  }}>
                   <Text style={styles.itemText}>Import</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
                   onPress={() => {
-                    props.navigation.navigate("Invite");
-                  }}
-                >
+                    props.navigation.navigate('Invite') && props.navigation.closeDrawer();
+                  }}>
                   <Text style={styles.itemText}>Invite</Text>
                 </TouchableOpacity>
               </View>
             ) : null}
           </View>
+          </View>
 
-          <TouchableOpacity
-            onPress={() => setShouldShowLabel(!shouldShowLabel)}
-            style={styles.item}
-          >
-            <Image source={label} style={{ width: 14, height: 15 }} />
-            <Text style={styles.itemTextMain}>My Labels</Text>
-          </TouchableOpacity>
-          <View style={{}}>
+          <View style={shouldShowLabel ? styles.darkView : styles.lightView}> 
+              <TouchableOpacity style={styles.item} onPress={() => setShouldShowLabel(!shouldShowLabel)}>
+                <Image source={label} style={{width: width*0.04, height: width * 0.04}} />
+                <Text style={styles.itemTextMain}>My Labels</Text>
+              </TouchableOpacity>
+
+              <View>
             {shouldShowLabel ? (
               <View style={styles.drawerStyle}>
                 <TouchableOpacity
                   onPress={() => {
-                    props.navigation.navigate("Label");
-                  }}
-                >
+                    props.navigation.navigate('Label') && props.navigation.closeDrawer();
+                  }}>
                   <Text style={styles.itemText}>Manage</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
                   onPress={() => {
-                    props.navigation.navigate("ViewLabel");
-                  }}
-                >
+                    props.navigation.navigate('ViewLabel') && props.navigation.closeDrawer();
+                  }}>
                   <Text style={styles.itemText}>View</Text>
                 </TouchableOpacity>
               </View>
             ) : null}
           </View>
+          </View>
 
-          <TouchableOpacity
-            onPress={() => setShouldShowSetting(!shouldShowSetting)}
-            style={styles.item}
-          >
-            <Image source={setting} style={{ width: 14, height: 15 }} />
-            <Text style={styles.itemTextMain}>Settings</Text>
-          </TouchableOpacity>
-          <View style={{}}>
+          <View style={shouldShowSetting ? styles.darkView : styles.lightView}> 
+              <TouchableOpacity style={styles.item} onPress={() => setShouldShowSetting(!shouldShowSetting)}>
+                <Image source={setting} style={{width: width*0.04, height: width * 0.04}} />
+                <Text style={styles.itemTextMain}>Settings</Text>
+              </TouchableOpacity>
+              <View>
             {shouldShowSetting ? (
               <View style={styles.drawerStyle}>
                 <TouchableOpacity
                   onPress={() => {
-                    props.navigation.navigate("display");
-                  }}
-                >
+                    props.navigation.navigate('Display') && props.navigation.closeDrawer();
+                  }}>
                   <Text style={styles.itemText}>Display</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
                   onPress={() => {
-                    props.navigation.navigate("Profile");
-                  }}
-                >
+                    props.navigation.navigate('Profile') && props.navigation.closeDrawer();
+                  }}>
                   <Text style={styles.itemText}>My Account</Text>
                 </TouchableOpacity>
               </View>
             ) : null}
           </View>
+          </View>
 
-          <TouchableOpacity
-            onPress={() => setShouldShowHelp(!shouldShowHelp)}
-            style={styles.itemHelp}
-          >
-            <Image source={help} style={{ width: 14, height: 15 }} />
+          <View style={shouldShowHelp ? styles.darkView : styles.lightView}> 
+              <TouchableOpacity style={styles.item} onPress={() => setShouldShowHelp(!shouldShowHelp)} >
+                <Image source={help} style={{width: width*0.04, height: width * 0.04}} />
+                <Text style={styles.itemTextMain}>Help/Support</Text>
+              </TouchableOpacity>
 
-            <Text style={styles.itemTextMain}>Help/Support</Text>
-          </TouchableOpacity>
-
-          <View style={{}}>
+              <View style={{}}>
             {shouldShowHelp ? (
               <View style={styles.drawerStyle}>
                 <TouchableOpacity
                   onPress={() => {
-                    props.navigation.navigate("About");
-                  }}
-                >
+                    props.navigation.navigate('About') && props.navigation.closeDrawer();
+                  }}>
                   <Text style={styles.itemText}>About</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
                   onPress={() => {
-                    props.navigation.navigate("ContactUs");
-                  }}
-                >
+                    props.navigation.navigate('ContactUs') && props.navigation.closeDrawer();
+                  }}>
                   <Text style={styles.itemText}>Contact</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
                   onPress={() => {
-                    props.navigation.navigate("help");
+                    props.navigation.navigate('Help') && props.navigation.closeDrawer();
                   }}
-                  style={{ marginBottom: Metrics.baseMargin }}
-                >
+                  style={{marginBottom: Metrics.baseMargin}}>
                   <Text style={styles.itemText}>Help</Text>
                 </TouchableOpacity>
               </View>
             ) : null}
           </View>
+          </View>
+
         </View>
-      </DrawerContentScrollView>
+        {/* </DrawerItems> */}
+      </ScrollView>
     </View>
   );
 }
@@ -271,67 +237,96 @@ const styles = StyleSheet.create({
   mainContent: {
     backgroundColor: COLORS.main_text_color,
     flex: 1,
+    paddingTop: height * 0.04
   },
+
   whiteView: {
     width: width * 0.6,
-    height: height * 0.075,
     backgroundColor: COLORS.white,
     borderRadius: 10,
-    justifyContent: "center",
-    alignItems: "center",
-    flexDirection: "row",
+    justifyContent: 'center',
+    alignItems: 'center',
+    flexDirection: 'row',
     marginLeft: Metrics.baseMargin,
-    marginTop: Metrics.baseMargin,
+    marginTop:Metrics.doubleBaseMargin
   },
+
   sideBarViewContent: {
-    justifyContent: "center",
+    justifyContent: 'center',
     margin: Metrics.xsmallMargin,
   },
+
   sidebarViewCenterContent: {
     width: width * 0.5,
-    //  justifyContent: 'center',
-    alignItems: "center",
-    flexDirection: "row",
+    alignItems: 'center',
+    flexDirection: 'row',
     marginLeft: Metrics.smallMargin,
   },
+
   centerText: {
-    fontSize: width * 0.045,
+    fontSize: width * 0.05,
     color: COLORS.main_text_color,
-    fontFamily: "Roboto-Bold",
+    fontFamily: Font.medium,
   },
+
   sidebarStyle: {
     width: width * 0.1,
     height: width * 0.1,
   },
+
   item: {
     width: width * 0.6,
     flex: 1,
-    flexDirection: "row",
-    alignItems: "center",
-    marginTop: Metrics.doubleBaseMargin,
+    flexDirection: 'row',
+    alignItems: 'center',
+    // marginVertical: Metrics.doubleBaseMargin,
   },
+
   itemText: {
     color: COLORS.white,
     marginLeft: Metrics.smallMargin,
-    fontSize: 17,
+    fontSize: width * 0.037,
     marginTop: Metrics.smallMargin,
+    fontFamily: Font.regular
   },
+
   itemTextMain: {
     color: COLORS.white,
     marginLeft: Metrics.smallMargin,
     fontSize: width * 0.045,
-    fontFamily: "Roboto-Bold",
+    fontFamily: Font.medium,
   },
+
   drawerStyle: {
     marginLeft: Metrics.baseMargin,
     marginTop: Metrics.smallMargin,
   },
+
   itemHelp: {
     width: width * 0.6,
     flex: 1,
-    flexDirection: "row",
-    alignItems: "center",
+    flexDirection: 'row',
+    alignItems: 'center',
     marginTop: Metrics.doubleBaseMargin,
     marginBottom: Metrics.smallMargin,
   },
+
+  darkView: {
+    width: width, 
+    paddingLeft: Metrics.doubleBaseMargin,
+    marginVertical: Metrics.baseMargin, 
+    paddingVertical: Metrics.baseMargin,
+    backgroundColor: COLORS.dark_blue,
+    width: width * 0.67,
+    borderTopRightRadius: 15,
+    borderBottomRightRadius: 15,
+  },
+
+  lightView: {
+    width: width, 
+    paddingLeft: Metrics.doubleBaseMargin,
+    marginTop: height * 0.01, 
+    paddingVertical: Metrics.baseMargin,
+    backgroundColor: COLORS.main_text_color
+  }
 });
