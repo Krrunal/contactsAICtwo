@@ -127,7 +127,7 @@ class addmanuallyContact extends Component {
   renderHeader() {
     return (
       <Header
-        title="My Contact Information"
+        title="Add Contact Manually"
         onPress={() => this.props.navigation.openDrawer()}
       />
     );

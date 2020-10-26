@@ -1,48 +1,49 @@
 import "react-native-gesture-handler";
+
 import * as React from "react";
-import { Dimensions } from 'react-native';
-import { createStackNavigator } from 'react-navigation-stack';
-import { createDrawerNavigator } from "react-navigation-drawer";
-import { createAppContainer } from 'react-navigation';
+
 import { Provider, useSelector } from "react-redux";
 import styled, { ThemeProvider } from "styled-components/native";
 
-import { themeReducer } from "../../reducer/themeReducer";
-import {SideBar} from './DrawerContent';
-import COLORS from '../../containers/theme/Colors';
-
-import Splash from "../../containers/SplashScreen/index";
-import Login from "../../containers/Login/index";
-import Signup from "../../containers/Signup/index";
-import AddContact from "../../containers/AddContact/index";
-import Share from "../../containers/Share/index";
-import MyContactInfromation from "../../containers/MyContactInformation/index";
-import Display from "../../containers/Display/index";
 import About from "../../containers/About/index";
-import ContactUs from "../../containers/ContactUs/index";
-import Help from "../../containers/Help/index";
+import AddContact from "../../containers/AddContact/index";
 import AddContactAICUser from "../../containers/AddContactAICUser/index";
-import ImportContacts from "../../containers/ImportContacts/index";
-import Invite from "../../containers/InviteContacts/index";
-import Label from "../../containers/Labels/index";
-import ManageLable from "../../containers/ManageLable/index";
-import Profile from "../../containers/Profile/index";
-import QRDetail from "../../containers/AddContactAICUser/QRDetails";
-import QRScanner from "../../containers/AddContactAICUser/QRScanner";
-import SerachEditContact from "../../containers/SearchEditContact/index";
-import ViewLabel from "../../containers/ViewLabel/index";
-import ViewLabelByName from '../../containers/ViewLabelByName/index'
 import AddmanuallyContact from "../../containers/ManuallyContact/index";
 import AfterAddContact from "../../containers/AddContactAICUser/afterAddContact";
 import AfterSentInvite from "../../containers/InviteContacts/afterSentInvite";
+import COLORS from '../../containers/theme/Colors';
 import ChooseContactFromLabel from "../../containers/AddContactAICUser/chooseContactFromLabel";
+import ContactUs from "../../containers/ContactUs/index";
+import { Dimensions } from 'react-native';
+import Display from "../../containers/Display/index";
 import EditContact from "../../containers/editContact/index";
 import ForAdd2 from "../../containers/AddContactAICUser/forAdd2";
 import ForAddContact from "../../containers/AddContactAICUser/forAddContact";
+import Help from "../../containers/Help/index";
 import ImportContact from "../../containers/ImportContacts/index";
+import ImportContacts from "../../containers/ImportContacts/index";
+import Invite from "../../containers/InviteContacts/index";
+import Label from "../../containers/Labels/index";
+import Login from "../../containers/Login/index";
+import ManageLable from "../../containers/ManageLable/index";
 import ManuallyAddContact from "../../containers/AddContactAICUser/manuallyAddContact";
+import MyContactInfromation from "../../containers/MyContactInformation/index";
 import PendingRequest from "../../containers/PndingRequests/index";
+import Profile from "../../containers/Profile/index";
+import QRDetail from "../../containers/AddContactAICUser/QRDetails";
+import QRScanner from "../../containers/AddContactAICUser/QRScanner";
 import SearchContact from "../../containers/SearchContact/index";
+import SerachEditContact from "../../containers/SearchEditContact/index";
+import Share from "../../containers/Share/index";
+import {SideBar} from './DrawerContent';
+import Signup from "../../containers/Signup/index";
+import Splash from "../../containers/SplashScreen/index";
+import ViewLabel from "../../containers/ViewLabel/index";
+import ViewLabelByName from '../../containers/ViewLabelByName/index'
+import { createAppContainer } from 'react-navigation';
+import { createDrawerNavigator } from "react-navigation-drawer";
+import { createStackNavigator } from 'react-navigation-stack';
+import { themeReducer } from "../../reducer/themeReducer";
 
 const RootNavigator = createStackNavigator({
     Splash: {
@@ -291,7 +292,7 @@ const DrawerNavigator = createDrawerNavigator({
     initialRouteName: 'Main',
     drawerPosition: 'left',
     contentComponent: SideBar,
-    drawerWidth: Dimensions.get('window').width - Dimensions.get('window').width * 25 / 100,
+    drawerWidth: Dimensions.get('window').width - Dimensions.get('window').width * 32 / 100,
     drawerType: "front"
     // overlayColor: COLORS.transparent,
   }

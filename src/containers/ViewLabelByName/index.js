@@ -54,7 +54,7 @@ class ViewLabelByName extends Component {
   }
 
   labelNavigate = () => {
-    this.state.navigation.navigate('ViewLabel')
+    this.props.navigation.navigate('ViewLabel')
   };
 
   renderBigView() {

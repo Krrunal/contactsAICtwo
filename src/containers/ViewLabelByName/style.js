@@ -107,7 +107,7 @@ middleView:{
     marginTop:Metrics.baseMargin,
     justifyContent:'center',
         
-          width:width,
+    width:width*0.940,
           height:height*0.170,
           backgroundColor:COLORS.white,
           shadowColor: COLORS.black,

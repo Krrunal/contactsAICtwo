@@ -41,7 +41,8 @@ class IntlInputCard extends Component {
           inputCardStyle.mobileInputText,
           {
             backgroundColor: COLORS.main_sky_blue,
-            height: height * 0.052,
+            // height: height * 0.052,
+       
           },
         ]}
         dialCodeTextStyle={inputCardStyle.mobileInputText}
@@ -71,6 +72,8 @@ const inputCardStyle = StyleSheet.create({
     fontSize: width * 0.04,
     fontFamily: Font.medium,
     color: COLORS.main_text_color,
+    // alignItems:'center',
+  
   },
 });
 export { IntlInputCard };

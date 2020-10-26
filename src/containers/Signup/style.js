@@ -52,7 +52,11 @@ export default StyleSheet.create({
     userText:{
         marginTop:Metrics.smallMargin,
         marginLeft:Metrics.baseMargin,
-        flexDirection:'row'
+        flexDirection:'row',
+      
+     
+     
+     
     },
 
     downText:{
@@ -160,7 +164,8 @@ export default StyleSheet.create({
     infoIcon: {
         width: width * 0.02,
         height: width * 0.02,
-        alignSelf: 'center'
+        alignSelf: 'center',
+        resizeMode:'contain'
     },
     error:{
         fontSize:15,

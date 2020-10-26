@@ -18,9 +18,9 @@ import { showToastError, showToastSuccess } from "./ToastAction";
 
 import Constants from "./Constants";
 import { NavigationActions } from "react-navigation";
+import NavigationService from './navigationService';
 import { Platform } from "react-native";
 import firebase from "react-native-firebase";
-import NavigationService from './navigationService';
 
 export const loadDataChange = (payload) => {
   return{
@@ -117,22 +117,22 @@ export const signUpUser = () => {
     .then((responseJson) => {
       var data = responseJson;
       if (data.status == true) {
-          // console.log('response true-->',data);
+          console.log('response true-->',data);
           // data.access_token = "Bearer " + data.access_token;
           showToastSuccess(data.message);
           regUserSuccess(data, dispatch);
         } else {
-          // console.log('response else-->',data);
+          console.log('response else-->',data);
           showToastSuccess(data.message);
           loginUserFail(dispatch);
-          // dispatch({ type: SHOW_LOADER_REG, payload: false });
+          dispatch({ type: SHOW_LOADER_REG, payload: false });
         }
       })
       .catch((error) => {
         // console.log('response eror-->',error);
         showToastError("No Internet Connection!");
         loginUserFail(dispatch);
-        // dispatch({ type: SHOW_LOADER_REG, payload: false });
+        dispatch({ type: SHOW_LOADER_REG, payload: false });
       });
   };
 };
@@ -166,14 +166,17 @@ export const loginUser = () => {
           // data.access_token = "Bearer "+data.access_token;
           showToastSuccess(data.message);
           loginUserSuccess(data, dispatch);
+          dispatch({ type: SHOW_LOADER_LOGIN, payload: false });
         } else {
           showToastError(data.message);
           loginUserFail(dispatch);
+          dispatch({ type: SHOW_LOADER_LOGIN, payload: false });
         }
       })
       .catch((error) => {
         showToastError("No Internet Connection!");
         loginUserFail(dispatch);
+        dispatch({ type: SHOW_LOADER_LOGIN, payload: false });
       });
   };
 };

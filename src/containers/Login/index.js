@@ -13,12 +13,13 @@ import {
 } from "react-native";
 import React, { Component } from "react";
 import {Root, Toast} from 'native-base';
-// import { showToastError, validateEmail } from "../../action/Validation";
 import styled, { ThemeProvider } from "styled-components/native";
+
 import { COLORS } from "../theme/Colors.js";
 import GeneralStatusBar from "../../components/StatusBar/index";
 import Icon from "react-native-vector-icons/FontAwesome";
 import { InputCard } from "../../components/InputCard";
+import {Spinner} from '../../components/Spinner';
 import { TouchableHighlight } from "react-native-gesture-handler";
 import { bindActionCreators } from "redux";
 import checked from "../../assets/icons/checked.png";
@@ -92,6 +93,12 @@ class Login extends Component {
     console.log(value);
   }
 
+  showLoader() {
+    if (this.props.loader == true) {
+      return <Spinner />
+    }
+  }
+
   render() {
     const { email, password, loginEmailChange, loginPassChange } = this.props;
 
@@ -127,7 +134,7 @@ class Login extends Component {
                   returnKey={"next"}
                   keyboardType={"email-address"}
                   secureEntry={false}
-                  placeholder={"Email"}
+                  placeholder={"Phone Number or Username"}
                 ></InputCard>
               </View>
               {this.state.unameError == undefined || this.state.unameError == "" 
@@ -137,7 +144,7 @@ class Login extends Component {
                 <InputCard
                   onChangeText={loginPassChange}
                   blurOnSubmit={false}
-                  autoCapitalize={true}
+                  autoCapitalize={false}
                   ref={"LoginpasswordCont"}
                   inputRef={"password"}
                   onSubmitEditing={(password) => this.onSubmit("password")}
@@ -154,17 +161,19 @@ class Login extends Component {
                     onPress={this.showPassword}
                   >
                     {this.state.show == false ? (
-                      <Icon
-                        name="eye"
-                        size={18}
-                        color={COLORS.main_text_color}
-                      />
+                       <Icon
+                       name="eye"
+                       size={18}
+                       color={COLORS.main_text_color}
+                     />
+                     
                     ) : (
                       <Icon
-                        name="eye-slash"
-                        size={18}
-                        color={COLORS.main_text_color}
-                      />
+                      name="eye-slash"
+                      size={18}
+                      color={COLORS.main_text_color}
+                    />
+                     
                     )}
                   </TouchableHighlight>
                 </View>
@@ -211,7 +220,8 @@ class Login extends Component {
                 <Text style={styles.loginText}>SIGN UP</Text>
                 
               </TouchableOpacity>
-            
+              {this.showLoader()}
+
             </View>
             </Root>
           </ScrollView>

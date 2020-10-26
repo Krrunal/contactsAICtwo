@@ -14,8 +14,8 @@ import {
   View,
 } from "react-native";
 import React, { Component } from "react";
+import { Root, Toast } from "native-base";
 import styled, { ThemeProvider } from "styled-components/native";
-import {Root, Toast} from 'native-base';
 
 import { COLORS } from "../theme/Colors.js";
 import Font from "../theme/font.js";
@@ -31,6 +31,7 @@ import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import firebase from "react-native-firebase";
 import helper from "../../util/helper";
+import iSquareWhite from "../../assets/icons/iSquareWhite.png";
 import iSqure from "../../assets/icons/iSquare.png";
 import logo from "../../assets/images/logo.png";
 import styles from "./style.js";
@@ -42,13 +43,15 @@ class Signup extends Component {
     checked: false,
     isKeyboardVisible: false,
     show: false,
-    showRender: false,
+
     isPassModelOpen: false,
     email: "",
     username: "",
     password: "",
     contact: "",
     confirmpassWord: "",
+    show: true,
+    showRender: true,
 
     passwordInfo: [
       { info: "1) Eight characters." },
@@ -59,13 +62,13 @@ class Signup extends Component {
     ],
   };
 
-  maxUname = uname => {
+  maxUname = (uname) => {
     return uname.length > 20;
   };
-  minUname = uname => {
+  minUname = (uname) => {
     return uname.length < 6;
   };
-  validateEmail = email => {
+  validateEmail = (email) => {
     let re = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
     return re.test(email);
   };
@@ -73,44 +76,44 @@ class Signup extends Component {
     const re = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/;
     return re.test(password);
   }
-  matchPassword(password, confirmpassWord){
+  matchPassword(password, confirmpassWord) {
     return password == confirmpassWord;
   }
   signUp = () => {
     const { contact, uname, email, password, confirmpassWord } = this.props;
-    console.log('contact-->',contact)
-    contact == "" 
-    ? this.setState({contactError: "Please enter phone number"}) 
-    : contact.unmaskedPhoneNumber.length !== 10 
-      ? this.setState({contactError: "Please enter valid phone number"}) 
-      : this.setState({contactError: ""});
-    
-    uname == "" 
-      ? this.setState({unameError: "Please enter username"}) 
-      : this.maxUname(uname) 
-        ? this.setState({unameError: "Username contain maximum 20 character"}) 
-        : this.minUname(uname) 
-          ? this.setState({unameError: "Username contain minimun 6 character"}) 
-          : this.setState({unameError: ""});
-    
-    email == "" 
-    ? this.setState({emailError: "Please enter email"}) 
-    : !this.validateEmail(email) 
-      ? this.setState({emailError: "Please enter valid email"}) 
-      : this.setState({emailError: ""});
+    console.log("contact-->", contact);
+    contact == ""
+      ? this.setState({ contactError: "Please enter phone number" })
+      : contact.unmaskedPhoneNumber.length !== 10
+      ? this.setState({ contactError: "Please enter valid phone number" })
+      : this.setState({ contactError: "" });
 
-    password == "" 
-    ? this.setState({passwordError: "Please enter password"}) 
-    : !this.ValidPass(password) 
-      ? this.setState({passwordError: "Please enter valid password"}) 
-      :this.setState({passwordError: ""});
-    
-    confirmpassWord == "" 
-    ? this.setState({confirmPassError: "Please enter password again"}) 
-    : !this.matchPassword(password, confirmpassWord) 
-      ? this.setState({confirmPassError: "Password not match"}) 
-      :this.setState({confirmPassError: ""});
-      
+    uname == ""
+      ? this.setState({ unameError: "Please enter username" })
+      : this.maxUname(uname)
+      ? this.setState({ unameError: "Username contain maximum 20 character" })
+      : this.minUname(uname)
+      ? this.setState({ unameError: "Username contain minimun 6 character" })
+      : this.setState({ unameError: "" });
+
+    email == ""
+      ? this.setState({ emailError: "Please enter email" })
+      : !this.validateEmail(email)
+      ? this.setState({ emailError: "Please enter valid email" })
+      : this.setState({ emailError: "" });
+
+    password == ""
+      ? this.setState({ passwordError: "Please enter password" })
+      : !this.ValidPass(password)
+      ? this.setState({ passwordError: "Please enter valid password" })
+      : this.setState({ passwordError: "" });
+
+    confirmpassWord == ""
+      ? this.setState({ confirmPassError: "Please enter password again" })
+      : !this.matchPassword(password, confirmpassWord)
+      ? this.setState({ confirmPassError: "Password not match" })
+      : this.setState({ confirmPassError: "" });
+
     this.props.signUpUser();
   };
 
@@ -133,7 +136,11 @@ class Signup extends Component {
         break;
     }
   }
-
+  showLoader() {
+    if (this.props.loader == true) {
+      return <Spinner />;
+    }
+  }
   passwordInfo({ item, index }) {
     return (
       <View>
@@ -141,11 +148,10 @@ class Signup extends Component {
       </View>
     );
   }
-
   showPassword = () => {
-    this.state.show == false
-      ? this.setState({ show: true })
-      : this.setState({ show: false });
+    this.state.show == true
+      ? this.setState({ show: false })
+      : this.setState({ show: true });
   };
 
   showrenderPassword = () => {
@@ -181,214 +187,250 @@ class Signup extends Component {
         <Container>
           <ScrollView>
             <Root>
-            <View style={{ flex: 1, alignItems: "center" }}>
-              <View style={{ paddingBottom: Metrics.ratio(10) }}>
-                <View style={styles.headerView}>
-                  <Image source={logo} style={styles.logoStyle} />
-                  <Text style={styles.logoText}>SIGN UP</Text>
-                </View>
-              </View>
-              <View>
-                <View>
-                  <View style={styles.mobileInputView}>
-                    <IntlInputCard
-                      defaultCountry="IN"
-                      value={contact}
-                      onChangeText={regcontactChange}
-                      ref={"contactCont"}
-                      inputRef={"contact"}
-                      onSubmitEditing={(contact) => this.onSubmit("contact")}
-                      returnKey={"next"}
-                    ></IntlInputCard>
+              <View style={{ flex: 1, alignItems: "center" }}>
+                <View style={{ paddingBottom: Metrics.ratio(10) }}>
+                  <View style={styles.headerView}>
+                    <Image source={logo} style={styles.logoStyle} />
+                    <Text style={styles.logoText}>SIGN UP</Text>
                   </View>
                 </View>
-                {this.state.contactError == undefined || this.state.contactError == "" 
-                ? null : <Text style={styles.error}>{this.state.contactError}</Text> }
-
                 <View>
-                  <View style={styles.userText}>
-                    <BoldBlack>*Username :</BoldBlack>
-                  </View>
-                  <View style={styles.mobileView}>
-                    <InputCard
-                      onChangeText={regunameChange}
-                      blurOnSubmit={false}
-                      autoCapitalize={true}
-                      ref={"unameCont"}
-                      inputRef={"uname"}
-                      onSubmitEditing={(uname) => this.onSubmit("uname")}
-                      value={uname}
-                      returnKey={"next"}
-                      // onFocus={() => this.setState({ userNameError: '' })}
-                      keyboardType={"default"}
-                      secureEntry={false}
-                      placeholder={"User name"}
-                    ></InputCard>
-                  </View>
-                  {this.state.unameError == undefined || this.state.unameError == "" 
-                  ? null : <Text style={styles.error}>{this.state.unameError}</Text> }
-                </View>
-                <View>
-                  <View style={styles.userText}>
-                    <BoldBlack>E-mail :</BoldBlack>
-                  </View>
-
-                  <View style={styles.mobileView}>
-                    <InputCard
-                      onChangeText={regEmailChange}
-                      blurOnSubmit={false}
-                      autoCapitalize={true}
-                      ref={"emailCont"}
-                      inputRef={"email"}
-                      onSubmitEditing={(email) => this.onSubmit("email")}
-                      value={email}
-                      onFocus={() => this.setState({ emailError: null })}
-                      returnKey={"next"}
-                      keyboardType={"email-address"}
-                      secureEntry={false}
-                      placeholder={"Email"}
-                    ></InputCard>
-                  </View>
-                  {this.state.emailError == undefined || this.state.emailError == "" 
-                  ? null : <Text style={styles.error}>{this.state.emailError}</Text> }
-                </View>
-
-                <View>
-                  <View style={styles.userText}>
-                    <BoldBlack>*Password :</BoldBlack>
-                    <View style={styles.RigthView}>
-                      <TouchableWithoutFeedback
-                        onPress={() => this.setState({ isPassModelOpen: true })}
-                        style={{ flexDirection: "row" }}
-                      >
-                        <RightImage source={iSqure} />
-                        <CountryText>Password Requirements</CountryText>
-                      </TouchableWithoutFeedback>
+                  <View>
+                    <View style={styles.mobileInputView}>
+                      <IntlInputCard
+                        defaultCountry="IN"
+                        value={contact}
+                        onChangeText={regcontactChange}
+                        ref={"contactCont"}
+                        inputRef={"contact"}
+                        onSubmitEditing={(contact) => this.onSubmit("contact")}
+                        returnKey={"next"}
+                      ></IntlInputCard>
                     </View>
                   </View>
+                  {this.state.contactError == undefined ||
+                  this.state.contactError == "" ? null : (
+                    <Text style={styles.error}>{this.state.contactError}</Text>
+                  )}
 
-                  <View style={styles.passView}>
-                    <InputCard
-                      onChangeText={regPassChange}
-                      blurOnSubmit={false}
-                      autoCapitalize={true}
-                      ref={"passwordCont"}
-                      inputRef={"password"}
-                      onSubmitEditing={(password) => this.onSubmit("password")}
-                      value={password}
-                      returnKey={"next"}
-                      keyboardType={"default"}
-                      secureEntry={true}
-                      placeholder={"Password"}
-                    ></InputCard>
-
-                    <View style={styles.eyeView}>
-                      <TouchableHighlight
-                        underlayColor="transparent"
-                        onPress={this.showPassword}
-                      >
-                        {this.state.show == false ? (
-                          <Icon
-                            name="eye-slash"
-                            size={18}
-                            color={COLORS.main_text_color}
-                          />
-                        ) : (
-                          <Icon
-                            name="eye"
-                            size={18}
-                            color={COLORS.main_text_color}
-                          />
-                        )}
-                      </TouchableHighlight>
+                  <View>
+                    <View style={styles.userText}>
+                      <BoldBlack>*Username :</BoldBlack>
                     </View>
-                  </View>
-                  <NormalText>Used for password / username recovery</NormalText>
-                  {this.state.passwordError == undefined || this.state.passwordError == "" 
-                  ? null : <Text style={styles.error}>{this.state.passwordError}</Text> }
-                </View>
-                <View>
-                  <View style={styles.userText}>
-                    <BoldBlack>*Re-Enter Password :</BoldBlack>
-                  </View>
-                  <View style={styles.passView}>
-                    <InputCard
-                      onChangeText={regconfirmpassWord}
-                      blurOnSubmit={false}
-                      autoCapitalize={true}
-                      ref={"confirmpasswordcont"}
-                      inputRef={"confirmpassWord"}
-                      onSubmitEditing={(confirmpassWord) => this.onSubmit("confirmpassWord")}
-                      value={confirmpassWord}
-                      returnKey={"next"}
-                      keyboardType={"default"}
-                      secureEntry={true}
-                      placeholder={"RE enter password"}
-                    ></InputCard>
-
-                    <View style={styles.eyeView}>
-                      <TouchableHighlight
-                        underlayColor="transparent"
-                        onPress={this.showrenderPassword}
-                      >
-                        {this.state.showRender == false ? (
-                          <Icon
-                            name="eye-slash"
-                            size={18}
-                            color={COLORS.main_text_color}
-                          />
-                        ) : (
-                          <Icon
-                            name="eye"
-                            size={18}
-                            color={COLORS.main_text_color}
-                          />
-                        )}
-                      </TouchableHighlight>
+                    <View style={styles.mobileView}>
+                      <InputCard
+                        onChangeText={regunameChange}
+                        blurOnSubmit={false}
+                        autoCapitalize={true}
+                        ref={"unameCont"}
+                        inputRef={"uname"}
+                        onSubmitEditing={(uname) => this.onSubmit("uname")}
+                        value={uname}
+                        returnKey={"next"}
+                        // onFocus={() => this.setState({ userNameError: '' })}
+                        keyboardType={"default"}
+                        secureEntry={false}
+                        placeholder={""}
+                      ></InputCard>
                     </View>
+                    {this.state.unameError == undefined ||
+                    this.state.unameError == "" ? null : (
+                      <Text style={styles.error}>{this.state.unameError}</Text>
+                    )}
                   </View>
-                  {this.state.confirmPassError == undefined || this.state.confirmPassError == "" 
-                  ? null : <Text style={styles.error}>{this.state.confirmPassError}</Text> }
-                </View>
-              </View>
-              <TouchableOpacity style={styles.submitView} onPress={this.signUp}>
-                <Text style={styles.submitText}>SUBMIT</Text>
-              </TouchableOpacity>
+                  <View>
+                    <View style={styles.userText}>
+                      <BoldBlack>E-mail :</BoldBlack>
+                    </View>
 
-              <Modal
-                    visible={this.state.isPassModelOpen}
-                    transparent={true}
-                    style={styles.footerModal}
-                    // onBackPress={() => this.setState({ isPassModelOpen: false })}
-                  >
-                    <View style={styles.contactContent}>
-                      <View style={styles.popupHeader}>
-                        <TouchableHighlight
+                    <View style={styles.mobileView}>
+                      <InputCard
+                        onChangeText={regEmailChange}
+                        blurOnSubmit={false}
+                        autoCapitalize={true}
+                        ref={"emailCont"}
+                        inputRef={"email"}
+                        onSubmitEditing={(email) => this.onSubmit("email")}
+                        value={email}
+                        onFocus={() => this.setState({ emailError: null })}
+                        returnKey={"next"}
+                        keyboardType={"email-address"}
+                        secureEntry={false}
+                        placeholder={""}
+                      ></InputCard>
+                    </View>
+                    {this.state.emailError == undefined ||
+                    this.state.emailError == "" ? null : (
+                      <Text style={styles.error}>{this.state.emailError}</Text>
+                    )}
+                  </View>
+
+                  <View>
+                    <View style={styles.userText}>
+                      <BoldBlack>*Password :</BoldBlack>
+                      <View style={styles.RigthView}>
+                        <TouchableWithoutFeedback
                           onPress={() =>
-                            this.setState({ isPassModelOpen: false })
+                            this.setState({ isPassModelOpen: true })
                           }
+                          style={{ flexDirection: "row" }}
                         >
-                          <Icon name="times" size={25} />
+                          {this.props.theme.mode === "light" ? (
+                            <Image
+                              source={require("../../../src/assets/icons/iSquare.png")}
+                              style={styles.infoIcon}
+                            />
+                          ) : (
+                            <Image
+                              source={require("../../../src/assets/icons/iSquareWhite.png")}
+                              style={styles.infoIcon}
+                            />
+                          )}
+
+                          <CountryText>Password Requirements</CountryText>
+                        </TouchableWithoutFeedback>
+                      </View>
+                    </View>
+
+                    <View style={styles.passView}>
+                      <InputCard
+                        onChangeText={regPassChange}
+                        blurOnSubmit={true}
+                        autoCapitalize={false}
+                        ref={"passwordCont"}
+                        inputRef={"password"}
+                        onSubmitEditing={(password) =>
+                          this.onSubmit("password")
+                        }
+                        value={password}
+                        returnKey={"next"}
+                        keyboardType={"default"}
+                        secureEntry={this.state.show}
+                        placeholder={""}
+                      ></InputCard>
+
+                      <View style={styles.eyeView}>
+                        <TouchableHighlight
+                          underlayColor="transparent"
+                          onPress={this.showPassword}
+                        >
+                          {this.state.show == false ? (
+                            <Icon
+                              name="eye"
+                              size={18}
+                              color={COLORS.main_text_color}
+                            />
+                          ) : (
+                            <Icon
+                              name="eye-slash"
+                              size={18}
+                              color={COLORS.main_text_color}
+                            />
+                          )}
                         </TouchableHighlight>
                       </View>
-                      <BoldBlack> Password must contain: </BoldBlack>
-
-                      <FlatList
-                        refreshing={true}
-                        keyExtractor={(item, index) => index.toString()}
-                        data={this.state.passwordInfo}
-                        extraData={this.state}
-                        numColumns={1}
-                        renderItem={this.passwordInfo.bind(this)}
-                        // scrollEnabled={true}
-                        style={styles.flatlist}
-                        // showsVerticalScrollIndicator={false}
-                        keyboardShouldPersistTaps={"always"}
-                      />
                     </View>
-                  </Modal>
+                    <NormalText>
+                      Used for password / username recovery
+                    </NormalText>
+                    {this.state.passwordError == undefined ||
+                    this.state.passwordError == "" ? null : (
+                      <Text style={styles.error}>
+                        {this.state.passwordError}
+                      </Text>
+                    )}
+                  </View>
+                  <View>
+                    <View style={styles.userText}>
+                      <BoldBlack>*Re-Enter Password :</BoldBlack>
+                    </View>
+                    <View style={styles.passView}>
+                      <InputCard
+                        onChangeText={regconfirmpassWord}
+                        blurOnSubmit={false}
+                        autoCapitalize={false}
+                        ref={"confirmpasswordcont"}
+                        inputRef={"confirmpassWord"}
+                        onSubmitEditing={(confirmpassWord) =>
+                          this.onSubmit("confirmpassWord")
+                        }
+                        value={confirmpassWord}
+                        returnKey={"next"}
+                        keyboardType={"default"}
+                        secureEntry={this.state.showRender}
+                        placeholder={""}
+                      ></InputCard>
 
-            </View>
+                      <View style={styles.eyeView}>
+                        <TouchableHighlight
+                          underlayColor="transparent"
+                          onPress={this.showrenderPassword}
+                        >
+                          {this.state.showRender == false ? (
+                            <Icon
+                              name="eye"
+                              size={18}
+                              color={COLORS.main_text_color}
+                            />
+                          ) : (
+                            <Icon
+                              name="eye-slash"
+                              size={18}
+                              color={COLORS.main_text_color}
+                            />
+                          )}
+                        </TouchableHighlight>
+                      </View>
+                    </View>
+                    {this.state.confirmPassError == undefined ||
+                    this.state.confirmPassError == "" ? null : (
+                      <Text style={styles.error}>
+                        {this.state.confirmPassError}
+                      </Text>
+                    )}
+                  </View>
+                </View>
+                <TouchableOpacity
+                  style={styles.submitView}
+                  onPress={this.signUp}
+                >
+                  <Text style={styles.submitText}>SUBMIT</Text>
+                </TouchableOpacity>
+
+                <Modal
+                  visible={this.state.isPassModelOpen}
+                  transparent={true}
+                  style={styles.footerModal}
+                  // onBackPress={() => this.setState({ isPassModelOpen: false })}
+                >
+                  <View style={styles.contactContent}>
+                    <View style={styles.popupHeader}>
+                      <TouchableHighlight
+                        onPress={() =>
+                          this.setState({ isPassModelOpen: false })
+                        }
+                      >
+                        <Icon name="times" size={25} />
+                      </TouchableHighlight>
+                    </View>
+                    <BoldBlack> Password must contain: </BoldBlack>
+
+                    <FlatList
+                      refreshing={true}
+                      keyExtractor={(item, index) => index.toString()}
+                      data={this.state.passwordInfo}
+                      extraData={this.state}
+                      numColumns={1}
+                      renderItem={this.passwordInfo.bind(this)}
+                      // scrollEnabled={true}
+                      style={styles.flatlist}
+                      // showsVerticalScrollIndicator={false}
+                      keyboardShouldPersistTaps={"always"}
+                    />
+                  </View>
+                </Modal>
+              </View>
+              {this.showLoader()}
             </Root>
           </ScrollView>
           {/* {this.showLoader()} */}
@@ -397,11 +439,11 @@ class Signup extends Component {
     );
   }
 
-  showLoader() {
-    if (this.props.loader == false && this.props.loading == true) {
-      return <Spinner />;
-    }
-  }
+  // showLoader() {
+  //   if (this.props.loader == false && this.props.loading == true) {
+  //     return <Spinner />;
+  //   }
+  // }
 }
 
 function mapStateToProps(state) {

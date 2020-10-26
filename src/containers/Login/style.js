@@ -9,6 +9,7 @@ var {width,height} =  Dimensions.get('window');
 export default StyleSheet.create({
     container:{
         flex:1,
+        height: height,
         // backgroundColor:COLORS.white,
         alignItems:'center',
     },
@@ -169,3 +170,4 @@ export default StyleSheet.create({
         marginTop: height * 0.005
     }
 });
+

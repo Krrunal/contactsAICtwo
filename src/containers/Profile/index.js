@@ -83,7 +83,7 @@ class Profile extends Component {
   }
 
   Profilenavigate = () => {
-    this.props.navigation.navigate('AddContact')
+    this.props.navigation.navigate("AddContact");
   };
 
   renderMiddle() {
@@ -181,16 +181,22 @@ class Profile extends Component {
 
   renderFriend() {
     return (
-      <View style={styles.renderView}>
-        <View style={{ flexDirection: "row" }}>
+      <View
+        style={{
+          marginLeft: Metrics.smallMargin,
+          marginTop: Metrics.smallMargin,
+        }}
+      >
+        <View style={{ flexDirection: "row", alignItems: "center" }}>
           <Image source={friendImg} style={styles.innerStyle} />
           <View style={styles.filedView}>
             <TextInput
-              placeholder=""
-              value="Friends,Universal Studio"
+              placeholder="Friends, Universal Studio"
               style={styles.stylefiledText}
               placeholderTextColor={COLORS.black}
+              maxLength={10}
             />
+           
           </View>
         </View>
       </View>

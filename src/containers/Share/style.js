@@ -56,6 +56,7 @@ export default StyleSheet.create({
     borderRadius: 15,
     padding: width * 0.1,
     backgroundColor: COLORS.main_text_color,
+    alignItems:'center'
   },
   qrText: {
     color: COLORS.white,

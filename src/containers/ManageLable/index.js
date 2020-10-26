@@ -735,7 +735,7 @@ const ScrollView = styled.ScrollView`
 const LineText = styled.Text`
   font-family: Roboto-Regular;
   font-size: 17px;
-  color: ${(props) => props.theme.iconColor};
+  color: ${(props) => props.theme.textColor};
   margin-top: 25px;
   text-align: center;
 `;

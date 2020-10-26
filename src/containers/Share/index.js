@@ -1,3 +1,5 @@
+import * as action from '../../action';
+
 import {
   Button,
   CheckBox,
@@ -50,9 +52,9 @@ class Share extends Component {
           {this.renderHeader()}
           <View style={styles.container}>
             <View style={styles.qrContainer}>
-              <Text style={styles.qrText}> Mr._Green_Jeans</Text>
+            <Text style={styles.qrText}> {this.props.data.username}</Text>
               <QRCode
-                value={"Mr._Green_Jeans"}
+                value={JSON.stringify(this.props.data)}
                 size={width * 0.4}
                 color={COLORS.white}
                 backgroundColor={COLORS.main_text_color}
@@ -68,15 +70,16 @@ class Share extends Component {
     );
   }
 }
-const mapStateToProps = (state) => ({
-  theme: state.themeReducer.theme,
-});
 
-const mapDispatchToProps = (dispatch) => ({
-  switchTheme: bindActionCreators(switchTheme, dispatch),
-});
+function mapStateToProps(state) {
+  console.log("state---->", state.login.shouldLoadData);
+  return {
+    data: state.login.shouldLoadData,
+    theme: state.themeReducer.theme,
+  };
+}
 
-export default connect(mapStateToProps, mapDispatchToProps)(Share);
+export default connect(mapStateToProps, action)(Share);
 
 const Container = styled.SafeAreaView`
   flex: 1;
