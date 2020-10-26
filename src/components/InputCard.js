@@ -1,17 +1,18 @@
-import React, { Component }  from 'react';
 import {
-  View,
+  Dimensions,
+  Image,
+  Platform,
+  StyleSheet,
   Text,
   TextInput,
-  Image,
-  StyleSheet,
-  Platform,
-  Dimensions
+  View
 } from 'react-native';
-var { width, height } = Dimensions.get("window");
+import React, { Component }  from 'react';
+
+import {COLORS} from '../containers/theme/Colors';
 import Font from '../containers/theme/font'
 import Metrics from '../containers/theme/Metrics';
-import {COLORS} from '../containers/theme/Colors';
+var { width, height } = Dimensions.get("window");
 
 class InputCard extends Component {
     render() {
@@ -50,7 +51,7 @@ class InputCard extends Component {
         color:COLORS.main_text_color,
         marginLeft:Metrics.baseMargin,
         width: width * 0.7,
-        paddingBottom: 2,
+    
         // borderWidth: 1
     },
   })

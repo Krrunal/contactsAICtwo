@@ -14,20 +14,20 @@ import {
 import React, { Component } from "react";
 import {Root, Toast} from 'native-base';
 import styled, { ThemeProvider } from "styled-components/native";
-import Icon from "react-native-vector-icons/FontAwesome";
-import { TouchableHighlight } from "react-native-gesture-handler";
-import { bindActionCreators } from "redux";
-import { connect } from "react-redux";
 
 import { COLORS } from "../theme/Colors.js";
 import GeneralStatusBar from "../../components/StatusBar/index";
+import Icon from "react-native-vector-icons/FontAwesome";
 import { InputCard } from "../../components/InputCard";
+import {Spinner} from '../../components/Spinner';
+import { TouchableHighlight } from "react-native-gesture-handler";
+import { bindActionCreators } from "redux";
 import checked from "../../assets/icons/checked.png";
+import { connect } from "react-redux";
 import innerimg from "../../assets/images/innerimg.png";
 import logo from "../../assets/images/logo.png";
 import styles from "./style.js";
 import unchecked from "../../assets/icons/unchecked.png";
-import {Spinner} from '../../components/Spinner';
 
 class Login extends Component {
   constructor(props) {
@@ -134,7 +134,7 @@ class Login extends Component {
                   returnKey={"next"}
                   keyboardType={"email-address"}
                   secureEntry={false}
-                  placeholder={"Email"}
+                  placeholder={"Phone Number Or Username"}
                 ></InputCard>
               </View>
               {this.state.unameError == undefined || this.state.unameError == "" 
@@ -144,7 +144,7 @@ class Login extends Component {
                 <InputCard
                   onChangeText={loginPassChange}
                   blurOnSubmit={false}
-                  autoCapitalize={true}
+                  autoCapitalize={false}
                   ref={"LoginpasswordCont"}
                   inputRef={"password"}
                   onSubmitEditing={(password) => this.onSubmit("password")}

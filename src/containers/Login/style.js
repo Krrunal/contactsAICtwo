@@ -25,16 +25,17 @@ export default StyleSheet.create({
         backgroundColor:COLORS.main_sky_blue,
         marginTop: height * 0.07,
         width: width * 0.85,
-        height: height * 0.065,
+        height:height*0.060,
         borderRadius: 8,
         justifyContent:'center',
+      
     },
 
     viewPassword:{
         backgroundColor:COLORS.main_sky_blue,
         marginTop: height * 0.025,
         width: width * 0.85,
-        height: height * 0.065,
+        height:height*0.060,
         borderRadius: 8,
         alignItems: 'center',
         justifyContent:'center',
