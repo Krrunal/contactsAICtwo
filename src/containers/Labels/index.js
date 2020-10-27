@@ -125,19 +125,35 @@ class labels extends Component {
             <View style={styles.manageView}>
               <Text style={styles.manageText}>Manage</Text>
             </View>
-            <TextInput
-              placeholder="No Label"
-              style={styles.stylefiledText}
-              value={this.state.label}
-              onSubmitEditing={this.labelApiCall}
-              onChangeText={(value) => this.setState({ label: value })}
-              ref={(input) => {
-                this.label = input;
-              }}
-              keyboardType={"default"}
-              autoCapitalize={false}
-              placeholderTextColor={COLORS.main_text_color}
-            />
+            {this.props.theme.mode === "light" ? (
+              <TextInput
+                placeholder="No Label"
+                style={styles.stylefiledText}
+                value={this.state.label}
+                onChangeText={(value) => this.setState({ label: value })}
+                ref={(input) => {
+                  this.label = input;
+                }}
+                keyboardType={"default"}
+                autoCapitalize={false}
+                onSubmitEditing={this.labelApiCall}
+                placeholderTextColor={COLORS.main_text_color}
+              />
+            ) : (
+              <TextInput
+                placeholder="No Label"
+                style={styles.stylefiledTextBlack}
+                value={this.state.label}
+                onChangeText={(value) => this.setState({ label: value })}
+                ref={(input) => {
+                  this.label = input;
+                }}
+                keyboardType={"default"}
+                autoCapitalize={false}
+                onSubmitEditing={this.labelApiCall}
+                placeholderTextColor={COLORS.white}
+              />
+            )}
           </View>
         );
       } else {
@@ -151,19 +167,35 @@ class labels extends Component {
             <View style={styles.manageView}>
               <Text style={styles.manageText}>Manage</Text>
             </View>
-            <TextInput
-              placeholder="No Label"
-              style={styles.stylefiledText}
-              value={this.state.label}
-              onChangeText={(value) => this.setState({ label: value })}
-              ref={(input) => {
-                this.label = input;
-              }}
-              keyboardType={"default"}
-              autoCapitalize={false}
-              onSubmitEditing={this.labelApiCall}
-              placeholderTextColor={COLORS.main_text_color}
-            />
+            {this.props.theme.mode === "light" ? (
+              <TextInput
+                placeholder="No Label"
+                style={styles.stylefiledText}
+                value={this.state.label}
+                onChangeText={(value) => this.setState({ label: value })}
+                ref={(input) => {
+                  this.label = input;
+                }}
+                keyboardType={"default"}
+                autoCapitalize={false}
+                onSubmitEditing={this.labelApiCall}
+                placeholderTextColor={COLORS.main_text_color}
+              />
+            ) : (
+              <TextInput
+                placeholder="No Label"
+                style={styles.stylefiledTextBlack}
+                value={this.state.label}
+                onChangeText={(value) => this.setState({ label: value })}
+                ref={(input) => {
+                  this.label = input;
+                }}
+                keyboardType={"default"}
+                autoCapitalize={false}
+                onSubmitEditing={this.labelApiCall}
+                placeholderTextColor={COLORS.white}
+              />
+            )}
           </View>
         );
       }
@@ -194,7 +226,7 @@ class labels extends Component {
               <NormalText> {item}</NormalText>
             </View>
           ))}
-         
+
           {arrayLabel}
         </View>
       </ScrollView>
@@ -208,7 +240,6 @@ class labels extends Component {
   renderLast() {
     return (
       <View style={{ alignItems: "center", flex: 1 }}>
-     
         <View
           style={{
             flex: 1,
@@ -274,7 +305,6 @@ const NormalText = styled.Text`
   color: ${(props) => props.theme.textColor};
   margin-left: 15px;
   text-transform: capitalize;
-  
 `;
 const IconColor = styled.Image`
   color: ${(props) => props.theme.textColor};
