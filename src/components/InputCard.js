@@ -12,6 +12,7 @@ import React, { Component }  from 'react';
 import {COLORS} from '../containers/theme/Colors';
 import Font from '../containers/theme/font'
 import Metrics from '../containers/theme/Metrics';
+
 var { width, height } = Dimensions.get("window");
 
 class InputCard extends Component {
@@ -40,7 +41,7 @@ class InputCard extends Component {
               style={inputCardStyle.textInputViewSignup}
                />
          )
-    }
+    }                      
   }
   const inputCardStyle = StyleSheet.create({
     textInputViewSignup:{

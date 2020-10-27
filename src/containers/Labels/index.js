@@ -12,6 +12,7 @@ import React, { Component, useState } from "react";
 import styled, { ThemeProvider } from "styled-components/native";
 
 import { COLORS } from "../theme/Colors.js";
+import Constants from "../../action/Constants";
 import Font from "../theme/font";
 import GeneralStatusBar from "../../components/StatusBar/index";
 import Header from "../../components/header/index";
@@ -28,6 +29,8 @@ class labels extends Component {
     this.state = {
       label: "",
       valueArrayLabel: [],
+      //api data
+      dataManage: [],
 
       disabledLabel: false,
       status: false,
@@ -35,6 +38,24 @@ class labels extends Component {
     this.indexlabel = 0;
     this.animatedValue = new Animated.Value(0);
   }
+
+  componentDidMount() {
+    const baseurl = Constants.baseurl;
+    fetch(baseurl + "get_label")
+      .then((response) => {
+        return response.json();
+      })
+      .then((responseJson) => {
+        var labelData = responseJson.data.relation.split(/[ ,]+/);
+        // var nameArr = dataManage.split(',');
+        // console.log("aarrayy   --->", labelData);
+        this.setState({ dataManage: labelData });
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }
+
   renderHeader() {
     return (
       <Header
@@ -70,6 +91,27 @@ class labels extends Component {
       }
     );
   };
+  labelApiCall = () => {
+    // console.log("yes")
+    const baseurl = Constants.baseurl;
+    const relation = this.state.label;
+    var _body = new FormData();
+    _body.append("relation", relation);
+
+    console.log("state value === > ", relation);
+    fetch("http://test.takedoodles.com/contact-app/apis/Api/add_label", {
+      method: "POST",
+      headers: {
+        "Content-Type":
+          Platform.OS == "ios" ? "application/json" : "multipart/form-data",
+      },
+      body: _body,
+    })
+      .then((response) => response.json())
+      .then((responseJson) => {
+        console.log("labelRespose ---- >", responseJson);
+      });
+  };
   renderMiddle() {
     let arrayLabel = this.state.valueArrayLabel.map((item, key) => {
       if (key == this.indexlabel) {
@@ -87,10 +129,14 @@ class labels extends Component {
               placeholder="No Label"
               style={styles.stylefiledText}
               value={this.state.label}
+              onSubmitEditing={this.labelApiCall}
               onChangeText={(value) => this.setState({ label: value })}
               ref={(input) => {
                 this.label = input;
               }}
+              keyboardType={"default"}
+              autoCapitalize={false}
+              placeholderTextColor={COLORS.main_text_color}
             />
           </View>
         );
@@ -113,6 +159,10 @@ class labels extends Component {
               ref={(input) => {
                 this.label = input;
               }}
+              keyboardType={"default"}
+              autoCapitalize={false}
+              onSubmitEditing={this.labelApiCall}
+              placeholderTextColor={COLORS.main_text_color}
             />
           </View>
         );
@@ -122,77 +172,29 @@ class labels extends Component {
     return (
       <ScrollView>
         <View style={{ flex: 1, marginBottom: Metrics.smallMargin }}>
-          <View style={styles.tripleView}>
-            {this.props.theme.mode === "light" ? (
-              <Icon name={"arrows-alt-v"} size={15} color={COLORS.black} />
-            ) : (
-              <Icon name={"arrows-alt-v"} size={15} color={COLORS.white} />
-            )}
+          {this.state.dataManage.map((item, key) => (
+            <View style={styles.tripleView} key={key}>
+              {this.props.theme.mode === "light" ? (
+                <Icon name={"arrows-alt-v"} size={15} color={COLORS.black} />
+              ) : (
+                <Icon name={"arrows-alt-v"} size={15} color={COLORS.white} />
+              )}
 
-            <TouchableOpacity
-              style={styles.manageView}
-              onPress={this.manageLabelnavigate}
-            >
-              <Text style={styles.manageText}>Manage</Text>
-            </TouchableOpacity>
-            <NormalText>Family</NormalText>
-          </View>
-          <View style={styles.tripleView}>
-            {this.props.theme.mode === "light" ? (
-              <Icon name={"arrows-alt-v"} size={15} color={COLORS.black} />
-            ) : (
-              <Icon name={"arrows-alt-v"} size={15} color={COLORS.white} />
-            )}
-            <View style={styles.manageView}>
-              <Text style={styles.manageText}>Manage</Text>
+              <TouchableOpacity
+                style={styles.manageView}
+                onPress={this.manageLabelnavigate}
+              >
+                <Text style={styles.manageText}>Manage</Text>
+              </TouchableOpacity>
+              {/* {this.props.theme.mode === "light" ? (
+                <Text> {item}</Text>
+              ) : (
+                <Text> {item}</Text>
+              )} */}
+              <NormalText> {item}</NormalText>
             </View>
-            <NormalText>Friend</NormalText>
-          </View>
-          <View style={styles.tripleView}>
-            {this.props.theme.mode === "light" ? (
-              <Icon name={"arrows-alt-v"} size={15} color={COLORS.black} />
-            ) : (
-              <Icon name={"arrows-alt-v"} size={15} color={COLORS.white} />
-            )}
-            <View style={styles.manageView}>
-              <Text style={styles.manageText}>Manage</Text>
-            </View>
-            <NormalText>Relative</NormalText>
-          </View>
-          <View style={styles.tripleView}>
-            {this.props.theme.mode === "light" ? (
-              <Icon name={"arrows-alt-v"} size={15} color={COLORS.black} />
-            ) : (
-              <Icon name={"arrows-alt-v"} size={15} color={COLORS.white} />
-            )}
-            <View style={styles.manageView}>
-              <Text style={styles.manageText}>Manage</Text>
-            </View>
-            <NormalText>Universal Studio</NormalText>
-          </View>
-          <View style={styles.tripleView}>
-            {this.props.theme.mode === "light" ? (
-              <Icon name={"arrows-alt-v"} size={15} color={COLORS.black} />
-            ) : (
-              <Icon name={"arrows-alt-v"} size={15} color={COLORS.white} />
-            )}
-            <View style={styles.manageView}>
-              <Text style={styles.manageText}>Manage</Text>
-            </View>
-            <NormalText>Sports Gambling Podcast</NormalText>
-          </View>
-          <View style={styles.tripleView}>
-            {this.props.theme.mode === "light" ? (
-              <Icon name={"arrows-alt-v"} size={15} color={COLORS.black} />
-            ) : (
-              <Icon name={"arrows-alt-v"} size={15} color={COLORS.white} />
-            )}
-            <View style={styles.manageView}>
-              <Text style={styles.manageText}>Manage</Text>
-            </View>
-            <NormalText>Green Inc.</NormalText>
-          </View>
-
+          ))}
+         
           {arrayLabel}
         </View>
       </ScrollView>
@@ -200,12 +202,13 @@ class labels extends Component {
   }
 
   manageLabelnavigate = () => {
-    this.props.navigation.navigate('ManageLable')
+    this.props.navigation.navigate("ManageLable");
   };
 
   renderLast() {
     return (
       <View style={{ alignItems: "center", flex: 1 }}>
+     
         <View
           style={{
             flex: 1,
@@ -270,6 +273,8 @@ const NormalText = styled.Text`
   font-size: 17px;
   color: ${(props) => props.theme.textColor};
   margin-left: 15px;
+  text-transform: capitalize;
+  
 `;
 const IconColor = styled.Image`
   color: ${(props) => props.theme.textColor};
@@ -285,4 +290,4 @@ const TextInput = styled.TextInput`
   font-size: 17px;
   color: ${(props) => props.theme.iconColor};
   margin-left: 15px;
-`
+`;

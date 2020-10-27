@@ -131,7 +131,6 @@ class importContact extends Component {
       <View style={styles.checkboxViewTwo}>
         <CheckBox
           value={this.state.checked1}
-          // onPress={this.selectOne()}
           onValueChange={() =>
             this.setState({ checked1: !this.state.checked1 })
           }
@@ -188,8 +187,8 @@ class importContact extends Component {
 
   renderLast() {
     return (
-      <View style={{ alignItems: "center", flex: 1 , width: width,}}>
-        <View style={{ flex: 1, position: "absolute",Bottom: 0,}}>
+      <View style={{ alignItems: "center", flex: 1, width: width }}>
+        <View style={{ flex: 1, position: "absolute", Bottom: 0 }}>
           <TouchableOpacity
             style={styles.Whiteview}
             onPress={this.importnavigate}
@@ -210,13 +209,13 @@ class importContact extends Component {
   }
 
   importnavigate = () => {
-    this.props.navigation.navigate('SerachEditContact')
+    this.props.navigation.navigate("SerachEditContact");
   };
 
   render() {
     return (
       <ThemeProvider theme={this.props.theme}>
-         <GeneralStatusBar
+        <GeneralStatusBar
           backgroundColor={
             this.props.theme.mode === "light" ? "white" : "black"
           }
@@ -243,7 +242,6 @@ class importContact extends Component {
 const mapStateToProps = (state) => ({
   theme: state.themeReducer.theme,
 });
-
 
 export default connect(mapStateToProps)(importContact);
 

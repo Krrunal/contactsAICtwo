@@ -96,13 +96,14 @@ export default StyleSheet.create({
     fontSize: width * 0.045,
   },
   stylefiledText: {
-    marginLeft: Metrics.smallMargin,
+    // marginLeft: Metrics.smallMargin,
     justifyContent: 'center',
     alignItems: 'center',
     color: COLORS.main_text_color,
-    fontSize: width * 0.03,
+    fontSize: width * 0.040,
     width: width * 0.55,
     fontFamily: Font.regular,
+    marginLeft:Metrics.baseMargin
   },
   addlabelView  :{
     flexDirection:'row',
