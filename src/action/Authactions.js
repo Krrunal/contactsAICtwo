@@ -34,7 +34,7 @@ const loginUserSuccess = (data, dispatch) => {
   dispatch({ type: RESET_LOGIN });
   dispatch({ type: RESET_REG });
   dispatch({ type: LOAD_DATA_SET, payload: data.data });
-  dispatch( NavigationService.navigate("AddContact") );
+  dispatch( NavigationService.navigate("SerachEditContact") );
 };
 
 const regUserSuccess = (data, dispatch) => {

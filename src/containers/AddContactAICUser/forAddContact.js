@@ -41,7 +41,7 @@ class forAddContact extends Component {
           <BoldText>Contact(s) to Add </BoldText>
         </View>
         <View style={styles.toptwo}>
-          <BoldText>Label (s)</BoldText>
+          <BoldText>Label(s)</BoldText>
         </View>
       </View>
     );

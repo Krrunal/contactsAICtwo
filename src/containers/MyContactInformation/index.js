@@ -121,9 +121,8 @@ class MyContactInfromation extends Component {
       (buttonIndex) => {
         switch (buttonIndex) {
           case 0:
-            this.takePhtotFromCamera();
+            this.takePhotoFromCamera();
             break;
-
           case 1:
             this.fromGallery();
             break;
@@ -144,7 +143,7 @@ class MyContactInfromation extends Component {
       (buttonIndex) => {
         switch (buttonIndex) {
           case 0:
-            this.takePhtotFromCamera2();
+            this.takePhotoFromCamera2();
             break;
 
           case 1:
@@ -167,9 +166,8 @@ class MyContactInfromation extends Component {
       (buttonIndex) => {
         switch (buttonIndex) {
           case 0:
-            this.takePhtotFromCamera3();
+            this.takePhotoFromCamera3();
             break;
-
           case 1:
             this.fromGallery3();
             break;
@@ -180,7 +178,7 @@ class MyContactInfromation extends Component {
     );
   };
 
-  takePhtotFromCamera = () => {
+  takePhotoFromCamera = () => {
     ImagePicker.openCamera({
       width: 300,
       height: 400,
@@ -218,7 +216,7 @@ class MyContactInfromation extends Component {
     });
   };
 
-  takePhtotFromCamera2 = () => {
+  takePhotoFromCamera2 = () => {
     ImagePicker.openCamera({
       width: 300,
       height: 400,
@@ -226,7 +224,7 @@ class MyContactInfromation extends Component {
     }).then((image2) => {
       console.log(image2);
       this.setState({
-        image: {
+        image2: {
           uri: image2.path,
           width: image2.width,
           height: image2.height,
@@ -256,7 +254,7 @@ class MyContactInfromation extends Component {
     });
   };
 
-  takePhtotFromCamera3 = () => {
+  takePhotoFromCamera3 = () => {
     ImagePicker.openCamera({
       width: 300,
       height: 400,
@@ -354,10 +352,7 @@ class MyContactInfromation extends Component {
               <View style={styles.squareBorder}>
                 {this.renderImage2(this.state.image2)}
               </View>
-              <TouchableOpacity
-                style={styles.first}
-                onPress={this.selectPhoto2}
-              >
+              <TouchableOpacity style={styles.first} onPress={this.selectPhoto2}>
                 <Text style={styles.firstText}>Select Photo</Text>
               </TouchableOpacity>
             </View>
@@ -365,10 +360,7 @@ class MyContactInfromation extends Component {
               <View style={styles.squareBorder}>
                 {this.renderImage3(this.state.image3)}
               </View>
-              <TouchableOpacity
-                style={styles.first}
-                onPress={this.selectPhoto3}
-              >
+              <TouchableOpacity style={styles.first} onPress={this.selectPhoto3}>
                 <Text style={styles.firstText}>Select Photo</Text>
               </TouchableOpacity>
             </View>
@@ -393,7 +385,7 @@ class MyContactInfromation extends Component {
                   placeholder=""
                   style={styles.stylefiledText}
                   placeholderTextColor={COLORS.main_text_color}
-                  maxLength={10}
+                  // maxLength={10}
                   // editable={this.state.TextInputDisableFirstName}
                 />
               ) : (
@@ -401,7 +393,7 @@ class MyContactInfromation extends Component {
                   placeholder=""
                   style={styles.stylefiledText}
                   placeholderTextColor={COLORS.main_text_color}
-                  maxLength={10}
+                  // maxLength={10}
                   editable={this.state.TextInputDisable}
                 />
               )}
@@ -417,7 +409,7 @@ class MyContactInfromation extends Component {
                   placeholder=""
                   style={styles.stylefiledText}
                   placeholderTextColor={COLORS.main_text_color}
-                  maxLength={10}
+                  // maxLength={10}
                   // editable={this.state.TextInputDisableFirstName}
                 />
               ) : (
@@ -425,7 +417,7 @@ class MyContactInfromation extends Component {
                   placeholder=""
                   style={styles.stylefiledText}
                   placeholderTextColor={COLORS.main_text_color}
-                  maxLength={10}
+                  // maxLength={10}
                   editable={this.state.TextInputDisable}
                 />
               )}
@@ -440,7 +432,7 @@ class MyContactInfromation extends Component {
                   placeholder=""
                   style={styles.stylefiledText}
                   placeholderTextColor={COLORS.main_text_color}
-                  maxLength={10}
+                  // maxLength={10}
                   // editable={this.state.TextInputDisableFirstName}
                 />
               ) : (
@@ -448,7 +440,7 @@ class MyContactInfromation extends Component {
                   placeholder=""
                   style={styles.stylefiledText}
                   placeholderTextColor={COLORS.main_text_color}
-                  maxLength={10}
+                  // maxLength={10}
                   editable={this.state.TextInputDisable}
                 />
               )}
@@ -464,7 +456,7 @@ class MyContactInfromation extends Component {
                   placeholder=""
                   style={styles.stylefiledText}
                   placeholderTextColor={COLORS.main_text_color}
-                  maxLength={10}
+                  // maxLength={10}
                   // editable={this.state.TextInputDisableFirstName}
                 />
               ) : (
@@ -472,7 +464,7 @@ class MyContactInfromation extends Component {
                   placeholder=""
                   style={styles.stylefiledText}
                   placeholderTextColor={COLORS.main_text_color}
-                  maxLength={10}
+                  // maxLength={10}
                   editable={this.state.TextInputDisable}
                 />
               )}
@@ -516,7 +508,7 @@ class MyContactInfromation extends Component {
               placeholder="Phone Number"
               style={styles.stylefiledText}
               placeholderTextColor={COLORS.main_text_color}
-              maxLength={10}
+              // maxLength={10}
               keyboardType={"numeric"}
             />
             <View style={styles.rightView}>
@@ -531,7 +523,7 @@ class MyContactInfromation extends Component {
               placeholder="Phone Number"
               style={styles.stylefiledText}
               placeholderTextColor={COLORS.main_text_color}
-              maxLength={10}
+              // maxLength={10}
               keyboardType={"numeric"}
             />
             <View style={styles.rightView}>
@@ -556,7 +548,7 @@ class MyContactInfromation extends Component {
                   placeholder="Phone Number -1"
                   style={styles.stylefiledText}
                   placeholderTextColor={COLORS.main_text_color}
-                  maxLength={10}
+                  // maxLength={10}
                   keyboardType={"numeric"}
                   // editable={this.state.TextInputDisableFirstName}
                 />
@@ -565,7 +557,7 @@ class MyContactInfromation extends Component {
                   placeholder="Phone Number -1"
                   style={styles.stylefiledText}
                   placeholderTextColor={COLORS.main_text_color}
-                  maxLength={10}
+                  // maxLength={10}
                   keyboardType={"numeric"}
                   editable={this.state.TextInputDisable}
                 />
@@ -710,7 +702,7 @@ class MyContactInfromation extends Component {
                   placeholder="E-mail Address -1"
                   style={styles.stylefiledText}
                   placeholderTextColor={COLORS.main_text_color}
-                  maxLength={10}
+                  // maxLength={10}
                   // editable={this.state.TextInputDisableFirstName}
                 />
               ) : (
@@ -718,7 +710,7 @@ class MyContactInfromation extends Component {
                   placeholder="E-mail Address -1"
                   style={styles.stylefiledText}
                   placeholderTextColor={COLORS.main_text_color}
-                  maxLength={10}
+                  // maxLength={10}
                   editable={this.state.TextInputDisable}
                 />
               )}
@@ -734,7 +726,7 @@ class MyContactInfromation extends Component {
                   placeholder="E-mail Address -2"
                   style={styles.stylefiledText}
                   placeholderTextColor={COLORS.main_text_color}
-                  maxLength={10}
+                  // maxLength={10}
                   // editable={this.state.TextInputDisableFirstName}
                 />
               ) : (
@@ -742,7 +734,7 @@ class MyContactInfromation extends Component {
                   placeholder="E-mail Address -2"
                   style={styles.stylefiledText}
                   placeholderTextColor={COLORS.main_text_color}
-                  maxLength={10}
+                  // maxLength={10}
                   editable={this.state.TextInputDisable}
                 />
               )}
@@ -906,7 +898,7 @@ class MyContactInfromation extends Component {
               placeholder="Messenger Account"
               style={styles.stylefiledText}
               placeholderTextColor={COLORS.main_text_color}
-              maxLength={10}
+              // maxLength={10}
             />
             <View style={styles.rightView}>
               <Text style={styles.righttext}>( Personal )</Text>
@@ -920,7 +912,7 @@ class MyContactInfromation extends Component {
               placeholder="Messenger Account"
               style={styles.stylefiledText}
               placeholderTextColor={COLORS.main_text_color}
-              maxLength={10}
+              // maxLength={10}
             />
             <View style={styles.rightView}>
               <Text style={styles.righttext}>( Personal )</Text>
@@ -944,14 +936,14 @@ class MyContactInfromation extends Component {
                   placeholder="Messenger Account -1"
                   style={styles.stylefiledText}
                   placeholderTextColor={COLORS.main_text_color}
-                  maxLength={10}
+                  // maxLength={10}
                 />
               ) : (
                 <TextInput
                   placeholder="Messenger Account -1"
                   style={styles.stylefiledText}
                   placeholderTextColor={COLORS.main_text_color}
-                  maxLength={10}
+                  // maxLength={10}
                   editable={this.state.TextInputDisable}
                 />
               )}
@@ -967,14 +959,14 @@ class MyContactInfromation extends Component {
                   placeholder="Messenger Account -2"
                   style={styles.stylefiledText}
                   placeholderTextColor={COLORS.main_text_color}
-                  maxLength={10}
+                  // maxLength={10}
                 />
               ) : (
                 <TextInput
                   placeholder="Messenger Account -2"
                   style={styles.stylefiledText}
                   placeholderTextColor={COLORS.main_text_color}
-                  maxLength={10}
+                  // maxLength={10}
                   editable={this.state.TextInputDisable}
                 />
               )}
@@ -1032,7 +1024,7 @@ class MyContactInfromation extends Component {
               placeholder="Social Media Account"
               style={styles.stylefiledText}
               placeholderTextColor={COLORS.main_text_color}
-              maxLength={10}
+              // maxLength={10}
             />
             <View style={styles.rightView}>
               <Text style={styles.righttext}>( Personal )</Text>
@@ -1046,7 +1038,7 @@ class MyContactInfromation extends Component {
               placeholder="Social Media Account"
               style={styles.stylefiledText}
               placeholderTextColor={COLORS.main_text_color}
-              maxLength={10}
+              // maxLength={10}
             />
             <View style={styles.rightView}>
               <Text style={styles.righttext}>( Personal )</Text>
@@ -1152,7 +1144,7 @@ class MyContactInfromation extends Component {
               placeholder="Website"
               style={styles.stylefiledText}
               placeholderTextColor={COLORS.main_text_color}
-              maxLength={10}
+              // maxLength={10}
             />
             <View style={styles.rightView}>
               <Text style={styles.righttext}>( podcast )</Text>
@@ -1166,7 +1158,7 @@ class MyContactInfromation extends Component {
               placeholder="Website"
               style={styles.stylefiledText}
               placeholderTextColor={COLORS.main_text_color}
-              maxLength={10}
+              // maxLength={10}
             />
             <View style={styles.rightView}>
               <Text style={styles.righttext}>( podcast )</Text>
@@ -1270,7 +1262,7 @@ class MyContactInfromation extends Component {
               placeholder="Date"
               style={styles.stylefiledText}
               placeholderTextColor={COLORS.main_text_color}
-              maxLength={10}
+              // maxLength={10}
             />
             <View style={styles.rightView}>
               <Text style={styles.righttext}>( Birthday )</Text>
@@ -1284,7 +1276,7 @@ class MyContactInfromation extends Component {
               placeholder="Date"
               style={styles.stylefiledText}
               placeholderTextColor={COLORS.main_text_color}
-              maxLength={10}
+              // maxLength={10}
             />
             <View style={styles.rightView}>
               <Text style={styles.righttext}>( Birthday )</Text>
@@ -1469,7 +1461,7 @@ class MyContactInfromation extends Component {
               placeholder="Company"
               style={styles.stylefiledText}
               placeholderTextColor={COLORS.main_text_color}
-              maxLength={10}
+              // maxLength={10}
             />
           </View>
         );
@@ -1480,7 +1472,7 @@ class MyContactInfromation extends Component {
               placeholder="Company"
               style={styles.stylefiledText}
               placeholderTextColor={COLORS.main_text_color}
-              maxLength={10}
+              // maxLength={10}
             />
           </View>
         );
@@ -1506,14 +1498,14 @@ class MyContactInfromation extends Component {
                   placeholder="Company"
                   style={styles.stylefiledText}
                   placeholderTextColor={COLORS.main_text_color}
-                  maxLength={15}
+                  // maxLength={15}
                 />
               ) : (
                 <TextInput
                   placeholder="Company"
                   style={styles.stylefiledText}
                   placeholderTextColor={COLORS.main_text_color}
-                  maxLength={15}
+                  // maxLength={15}
                   editable={this.state.TextInputDisable}
                 />
               )}
@@ -1528,14 +1520,14 @@ class MyContactInfromation extends Component {
                   placeholder="Job Title"
                   style={styles.stylefiledText}
                   placeholderTextColor={COLORS.main_text_color}
-                  maxLength={15}
+                  // maxLength={15}
                 />
               ) : (
                 <TextInput
                   placeholder="Job Title"
                   style={styles.stylefiledText}
                   placeholderTextColor={COLORS.main_text_color}
-                  maxLength={15}
+                  // maxLength={15}
                   editable={this.state.TextInputDisable}
                 />
               )}
@@ -1547,14 +1539,14 @@ class MyContactInfromation extends Component {
                   placeholder="Work Hours"
                   style={styles.stylefiledText}
                   placeholderTextColor={COLORS.main_text_color}
-                  maxLength={15}
+                  // maxLength={15}
                 />
               ) : (
                 <TextInput
                   placeholder="Work Hours"
                   style={styles.stylefiledText}
                   placeholderTextColor={COLORS.main_text_color}
-                  maxLength={15}
+                  // maxLength={15}
                   editable={this.state.TextInputDisable}
                 />
               )}
@@ -1601,15 +1593,17 @@ class MyContactInfromation extends Component {
               {this.renderNote()}
               {this.renderCompany()}
             </ScrollView>
-            <View
+            {/* <View
               style={{
-                width: width * 0.9,
+                width: width ,
                 flexDirection: "row",
                 alignItems: "center",
                 justifyContent: "flex-end",
                 flexDirection: "row",
+                borderWidth: 1,
+                backgroundColor: 'rgba(255,255,255,0.1)'
               }}
-            >
+            > */}
               <TouchableHighlight
                 underlayColor="transparent"
                 style={styles.saveView}
@@ -1638,7 +1632,7 @@ class MyContactInfromation extends Component {
                   </Text>
                 )}
               </TouchableHighlight>
-            </View>
+            {/* </View> */}
           </Container>
         </View>
       </ThemeProvider>

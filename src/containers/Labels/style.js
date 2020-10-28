@@ -45,10 +45,11 @@ export default StyleSheet.create({
         marginLeft:Metrics.baseMargin,
         fontFamily: Font.regular,
         fontSize: width * 0.04,
+        textTransform: "capitalize",
       },
 
       manageText:{
-        fontFamily: Font.light,
+        fontFamily: Font.regular,
         fontSize: width * 0.033,
       },
 
@@ -96,32 +97,32 @@ export default StyleSheet.create({
     fontSize: width * 0.045,
   },
   stylefiledText: {
-    // marginLeft: Metrics.smallMargin,
     justifyContent: 'center',
     alignItems: 'center',
     color: COLORS.main_text_color,
     fontSize: width * 0.040,
-    width: width * 0.55,
     fontFamily: Font.regular,
-    marginLeft:Metrics.baseMargin
+    paddingVertical: width * 0.005,
+    paddingHorizontal: width * 0.05,
+    borderRadius: 5,
+    backgroundColor: COLORS.main_sky_blue,
   },
   stylefiledTextBlack: {
-    // marginLeft: Metrics.smallMargin,
     justifyContent: 'center',
     alignItems: 'center',
-    color: COLORS.white,
+    color: COLORS.black,
     fontSize: width * 0.040,
-    width: width * 0.55,
     fontFamily: Font.regular,
-    marginLeft:Metrics.baseMargin
+    paddingVertical: width * 0.005,
+    paddingHorizontal: width * 0.05,
+    borderRadius: 5,
+    backgroundColor: COLORS.white,
   },
   addlabelView  :{
-    flexDirection:'row',
-    flex:1,
-    marginLeft:Metrics.doubleBaseMargin,
+    width: width,
     marginTop:Metrics.baseMargin,
     alignItems:'center',
-  // marginBottom:Metrics.baseMargin,
-
+    justifyContent: 'center',
+    marginTop:Metrics.doubleBaseMargin,
 }, 
  });

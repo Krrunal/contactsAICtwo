@@ -15,9 +15,11 @@ import * as action from '../../action';
 class Splash extends React.Component {
   async componentDidMount() {
     this.timeoutHandle = setTimeout(async () => {
-      this.props.navigation.reset(
-        [NavigationActions.navigate({ routeName: 'Login' })]
-        ,0)
+      this.props.isLogedIn == false 
+        ? this.props.navigation.reset(
+        [NavigationActions.navigate({ routeName: 'Login' })] ,0)
+        : this.props.navigation.reset(
+          [NavigationActions.navigate({ routeName: 'AddContact' })] ,0)
       // this.props.navigation.navigate('Login')
     }, 2000);
   }
@@ -49,10 +51,12 @@ class Splash extends React.Component {
   }
 }
 
-const mapStateToProps = (state) => {
+function mapStateToProps(state) {
+  console.log('splash----->',state.login.shouldLoadData)
   return {
-  nav: state.nav,
-  theme: state.themeReducer.theme,
+    // nav: state.nav,
+    theme: state.themeReducer.theme,
+    isLogedIn: state.login.shouldLoadData
   }
 }
 

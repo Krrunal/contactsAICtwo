@@ -10,16 +10,18 @@ import {
 } from "react-native";
 import React, { Component, useState } from "react";
 import styled, { ThemeProvider } from "styled-components/native";
+import { connect } from "react-redux";
+import Icon from "react-native-vector-icons/FontAwesome5";
+import Toast from 'react-native-easy-toast';
 
 import { COLORS } from "../theme/Colors.js";
 import Constants from "../../action/Constants";
 import Font from "../theme/font";
 import GeneralStatusBar from "../../components/StatusBar/index";
 import Header from "../../components/header/index";
-import Icon from "react-native-vector-icons/FontAwesome5";
 import Metrics from "../theme/Metrics";
-import { connect } from "react-redux";
 import styles from "./style.js";
+import {Spinner} from '../../components/Spinner';
 
 var { width, height } = Dimensions.get("window");
 class labels extends Component {
@@ -34,24 +36,26 @@ class labels extends Component {
 
       disabledLabel: false,
       status: false,
+      viewSection: false
     };
     this.indexlabel = 0;
     this.animatedValue = new Animated.Value(0);
   }
 
   componentDidMount() {
+    this.setState({loader: true})
     const baseurl = Constants.baseurl;
     fetch(baseurl + "get_label")
       .then((response) => {
         return response.json();
       })
       .then((responseJson) => {
+        this.setState({loader: false})
         var labelData = responseJson.data.relation.split(/[ ,]+/);
-        // var nameArr = dataManage.split(',');
-        // console.log("aarrayy   --->", labelData);
         this.setState({ dataManage: labelData });
       })
       .catch((error) => {
+        this.setState({loader: false})
         console.error(error);
       });
   }
@@ -64,6 +68,7 @@ class labels extends Component {
       />
     );
   }
+
   ShowHideTextComponentView = () => {
     if (this.state.status == true) {
       this.setState({ status: false });
@@ -71,35 +76,25 @@ class labels extends Component {
       this.setState({ status: true });
     }
   };
-  addLabel = () => {
-    this.animatedValue.setValue(0);
-    let newlyAddedValue = { indexlabel: this.indexlabel };
-    this.setState(
-      {
-        disabledLabel: true,
-        valueArrayLabel: [...this.state.valueArrayLabel, newlyAddedValue],
-      },
-      () => {
-        Animated.timing(this.animatedValue, {
-          toValue: 1,
-          duration: 500,
-          useNativeDriver: true,
-        }).start(() => {
-          this.indexlabel = this.indexlabel + 1;
-          this.setState({ disabledLabel: false });
-        });
-      }
-    );
-  };
+
+  message = () => {
+    this.state.label == ""
+    ? this.refs.toast.show('Please enter label name')
+    : this.labelApiCall()
+  }
+
+  onPressAddLabel=()=> {
+    this.setState({viewSection:true})
+  }
+
   labelApiCall = () => {
-    // console.log("yes")
     const baseurl = Constants.baseurl;
     const relation = this.state.label;
     var _body = new FormData();
     _body.append("relation", relation);
 
     console.log("state value === > ", relation);
-    fetch("http://test.takedoodles.com/contact-app/apis/Api/add_label", {
+    fetch(baseurl + "add_label", {
       method: "POST",
       headers: {
         "Content-Type":
@@ -109,98 +104,14 @@ class labels extends Component {
     })
       .then((response) => response.json())
       .then((responseJson) => {
-        console.log("labelRespose ---- >", responseJson);
+        // console.log("labelRespose ---- >", responseJson);
+        this.refs.toast.show(responseJson.message);
+        var labelData = responseJson.data.relation.split(/[ ,]+/);
+        this.setState({ dataManage: labelData, viewSection: false, label: '' });
       });
   };
-  renderMiddle() {
-    let arrayLabel = this.state.valueArrayLabel.map((item, key) => {
-      if (key == this.indexlabel) {
-        return (
-          <View style={styles.addlabelView}>
-            {this.props.theme.mode === "light" ? (
-              <Icon name={"arrows-alt-v"} size={15} color={COLORS.black} />
-            ) : (
-              <Icon name={"arrows-alt-v"} size={15} color={COLORS.white} />
-            )}
-            <View style={styles.manageView}>
-              <Text style={styles.manageText}>Manage</Text>
-            </View>
-            {this.props.theme.mode === "light" ? (
-              <TextInput
-                placeholder="No Label"
-                style={styles.stylefiledText}
-                value={this.state.label}
-                onChangeText={(value) => this.setState({ label: value })}
-                ref={(input) => {
-                  this.label = input;
-                }}
-                keyboardType={"default"}
-                autoCapitalize={false}
-                onSubmitEditing={this.labelApiCall}
-                placeholderTextColor={COLORS.main_text_color}
-              />
-            ) : (
-              <TextInput
-                placeholder="No Label"
-                style={styles.stylefiledTextBlack}
-                value={this.state.label}
-                onChangeText={(value) => this.setState({ label: value })}
-                ref={(input) => {
-                  this.label = input;
-                }}
-                keyboardType={"default"}
-                autoCapitalize={false}
-                onSubmitEditing={this.labelApiCall}
-                placeholderTextColor={COLORS.white}
-              />
-            )}
-          </View>
-        );
-      } else {
-        return (
-          <View style={styles.addlabelView}>
-            {this.props.theme.mode === "light" ? (
-              <Icon name={"arrows-alt-v"} size={15} color={COLORS.black} />
-            ) : (
-              <Icon name={"arrows-alt-v"} size={15} color={COLORS.white} />
-            )}
-            <View style={styles.manageView}>
-              <Text style={styles.manageText}>Manage</Text>
-            </View>
-            {this.props.theme.mode === "light" ? (
-              <TextInput
-                placeholder="No Label"
-                style={styles.stylefiledText}
-                value={this.state.label}
-                onChangeText={(value) => this.setState({ label: value })}
-                ref={(input) => {
-                  this.label = input;
-                }}
-                keyboardType={"default"}
-                autoCapitalize={false}
-                onSubmitEditing={this.labelApiCall}
-                placeholderTextColor={COLORS.main_text_color}
-              />
-            ) : (
-              <TextInput
-                placeholder="No Label"
-                style={styles.stylefiledTextBlack}
-                value={this.state.label}
-                onChangeText={(value) => this.setState({ label: value })}
-                ref={(input) => {
-                  this.label = input;
-                }}
-                keyboardType={"default"}
-                autoCapitalize={false}
-                onSubmitEditing={this.labelApiCall}
-                placeholderTextColor={COLORS.white}
-              />
-            )}
-          </View>
-        );
-      }
-    });
 
+  renderMiddle() {
     return (
       <ScrollView>
         <View style={{ flex: 1, marginBottom: Metrics.smallMargin }}>
@@ -218,16 +129,25 @@ class labels extends Component {
               >
                 <Text style={styles.manageText}>Manage</Text>
               </TouchableOpacity>
-              {/* {this.props.theme.mode === "light" ? (
-                <Text> {item}</Text>
-              ) : (
-                <Text> {item}</Text>
-              )} */}
               <NormalText> {item}</NormalText>
             </View>
           ))}
 
-          {arrayLabel}
+        {this.state.viewSection == true &&
+          <View style={styles.addlabelView}>
+            <TextInput
+              placeholder="New Label"
+              style={this.props.theme.mode === "light" ? styles.stylefiledText : styles.stylefiledTextBlack}
+              value={this.state.label}
+              onChangeText={(value) => this.setState({ label: value })}
+              ref={(input) => { this.label = input }}
+              keyboardType={"default"}
+              autoCapitalize={false}
+              // onSubmitEditing={this.labelApiCall}
+              placeholderTextColor={COLORS.black }
+            />
+          </View>
+        }
         </View>
       </ScrollView>
     );
@@ -236,6 +156,15 @@ class labels extends Component {
   manageLabelnavigate = () => {
     this.props.navigation.navigate("ManageLable");
   };
+
+  navigateToDelete = () => {
+    this.props.navigation.navigate("SelectLable");
+  }
+  showLoader() {
+    if (this.state.loader == true) {
+      return <Spinner />
+    }
+  }
 
   renderLast() {
     return (
@@ -250,15 +179,15 @@ class labels extends Component {
         >
           <TouchableOpacity
             style={styles.Whiteview}
-            onPress={this.addLabel}
+            onPress={this.state.viewSection == false ? this.onPressAddLabel : this.message}
             disable={this.state.disabledLabel}
           >
             <Text style={styles.bottomButton}>Add</Text>
           </TouchableOpacity>
 
-          <View style={styles.WhiteviewTwo}>
+          <TouchableOpacity style={styles.WhiteviewTwo} onPress={this.navigateToDelete} >
             <Text style={styles.bottomButton}>Delete</Text>
-          </View>
+          </TouchableOpacity>
         </View>
       </View>
     );
@@ -280,6 +209,25 @@ class labels extends Component {
           {this.renderHeader()}
           {this.renderMiddle()}
           {this.renderLast()}
+            <Toast
+              ref="toast"
+              style={{
+                backgroundColor: this.props.theme.mode === "light" ? 'black': 'white', 
+                width: width * 0.8, 
+                alignItems: 'center' 
+              }}
+              position='bottom'
+              positionValue={200}
+              fadeInDuration={1000}
+              fadeOutDuration={1000}
+              opacity={1}
+              textStyle={{
+                color: this.props.theme.mode === "light" ? 'white' : 'black',
+                fontFamily: Font.medium,
+                fontSize: width * 0.04
+              }}
+            />
+          {this.showLoader()}
         </Container>
       </ThemeProvider>
     );
@@ -294,17 +242,15 @@ export default connect(mapStateToProps)(labels);
 
 const Container = styled.View`
   flex: 1;
-
   width: 100%;
-
   background-color: ${(props) => props.theme.backColor};
 `;
 const NormalText = styled.Text`
-  font-family: Roboto-Regular;
+  font-family: Roboto-medium;
   font-size: 17px;
-  color: ${(props) => props.theme.textColor};
   margin-left: 15px;
   text-transform: capitalize;
+  color: ${(props) => props.theme.iconColor};
 `;
 const IconColor = styled.Image`
   color: ${(props) => props.theme.textColor};

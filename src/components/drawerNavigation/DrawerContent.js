@@ -47,7 +47,7 @@ export function SideBar(props){
   };
 
     return (
-    <View style={styles.mainContent}>
+    <View style={styles.mainContent} >
         {/* <GeneralStatusBar
           backgroundColor={
             this.props.theme.mode === "light" ? "white" : "black"
@@ -59,9 +59,9 @@ export function SideBar(props){
 
       <View style={styles.whiteView}>
         <View style={{width: width * 0.6, flexDirection: 'row'}}>
-          <View style={styles.sideBarViewContent}>
+          <TouchableOpacity style={styles.sideBarViewContent} onPress={()=>props.navigation.closeDrawer()}>
             <Image source={navIcon} style={styles.sidebarStyle} />
-          </View>
+          </TouchableOpacity>
           <View style={styles.sidebarViewCenterContent}>
             <Text style={styles.centerText}>CONTACTS AIC</Text>
           </View>
@@ -237,7 +237,8 @@ const styles = StyleSheet.create({
   mainContent: {
     backgroundColor: COLORS.main_text_color,
     flex: 1,
-    paddingTop: height * 0.04
+    paddingTop: height * 0.04,
+    // borderWidth: 10
   },
 
   whiteView: {

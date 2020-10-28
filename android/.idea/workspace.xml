@@ -27,7 +27,7 @@
   <component name="DefaultGradleProjectSettings">
     <option name="isMigrated" value="true" />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="90670ae7" />
+  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[32449cd6]" />
   <component name="ExternalProjectsData">
     <projectState path="$PROJECT_DIR$">
       <ProjectState />
@@ -204,8 +204,8 @@
   </component>
   <component name="PropertiesComponent">
     <property name="ASKED_SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
-    <property name="DeviceAndSnapshotComboBoxAction.selectedDevice" value="Pixel_2_API_28" />
-    <property name="DeviceAndSnapshotComboBoxAction.selectionTime" value="2020-09-21T05:47:28.686Z" />
+    <property name="DeviceAndSnapshotComboBoxAction.selectedDevice" value="6.3_inch" />
+    <property name="DeviceAndSnapshotComboBoxAction.selectionTime" value="2020-10-27T10:20:36.043Z" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
@@ -223,12 +223,13 @@
       </method>
     </configuration>
     <configuration name="app" type="AndroidRunConfigurationType" factoryName="Android App">
-      <module name="app" />
+      <module name="contactsAIC.app" />
       <option name="DEPLOY" value="true" />
       <option name="DEPLOY_APK_FROM_BUNDLE" value="false" />
       <option name="DEPLOY_AS_INSTANT" value="false" />
       <option name="ARTIFACT_NAME" value="" />
       <option name="PM_INSTALL_OPTIONS" value="" />
+      <option name="ALL_USERS" value="false" />
       <option name="DYNAMIC_FEATURES_DISABLED_LIST" value="" />
       <option name="ACTIVITY_EXTRA_FLAGS" value="" />
       <option name="MODE" value="default_activity" />
@@ -264,11 +265,16 @@
       </Native>
       <Profilers>
         <option name="ADVANCED_PROFILING_ENABLED" value="false" />
+        <option name="STARTUP_PROFILING_ENABLED" value="false" />
         <option name="STARTUP_CPU_PROFILING_ENABLED" value="false" />
         <option name="STARTUP_CPU_PROFILING_CONFIGURATION_NAME" value="Sample Java Methods" />
+        <option name="STARTUP_NATIVE_MEMORY_PROFILING_ENABLED" value="false" />
+        <option name="NATIVE_MEMORY_SAMPLE_RATE_BYTES" value="2048" />
       </Profilers>
       <option name="DEEP_LINK" value="" />
       <option name="ACTIVITY_CLASS" value="" />
+      <option name="SEARCH_ACTIVITY_IN_GLOBAL_SCOPE" value="false" />
+      <option name="SKIP_ACTIVITY_VALIDATION" value="false" />
       <method v="2">
         <option name="Android.Gradle.BeforeRunTask" enabled="true" />
       </method>
@@ -307,21 +313,25 @@
     <servers />
   </component>
   <component name="WindowStateProjectService">
-    <state width="1323" height="194" key="GridCell.Tab.0.bottom" timestamp="1603104384731">
-      <screen x="0" y="23" width="1920" height="994" />
+    <state width="1138" height="130" key="GridCell.Tab.0.bottom" timestamp="1603793964166">
+      <screen x="0" y="23" width="1366" height="687" />
     </state>
+    <state width="1138" height="130" key="GridCell.Tab.0.bottom/0.23.1366.687@0.23.1366.687" timestamp="1603793964166" />
     <state width="1323" height="194" key="GridCell.Tab.0.bottom/0.23.1920.994@0.23.1920.994" timestamp="1603104384731" />
-    <state width="1323" height="194" key="GridCell.Tab.0.center" timestamp="1603104384729">
-      <screen x="0" y="23" width="1920" height="994" />
+    <state width="1138" height="130" key="GridCell.Tab.0.center" timestamp="1603793964165">
+      <screen x="0" y="23" width="1366" height="687" />
     </state>
+    <state width="1138" height="130" key="GridCell.Tab.0.center/0.23.1366.687@0.23.1366.687" timestamp="1603793964165" />
     <state width="1323" height="194" key="GridCell.Tab.0.center/0.23.1920.994@0.23.1920.994" timestamp="1603104384729" />
-    <state width="1323" height="194" key="GridCell.Tab.0.left" timestamp="1603104384727">
-      <screen x="0" y="23" width="1920" height="994" />
+    <state width="1138" height="130" key="GridCell.Tab.0.left" timestamp="1603793964163">
+      <screen x="0" y="23" width="1366" height="687" />
     </state>
+    <state width="1138" height="130" key="GridCell.Tab.0.left/0.23.1366.687@0.23.1366.687" timestamp="1603793964163" />
     <state width="1323" height="194" key="GridCell.Tab.0.left/0.23.1920.994@0.23.1920.994" timestamp="1603104384727" />
-    <state width="1323" height="194" key="GridCell.Tab.0.right" timestamp="1603104384730">
-      <screen x="0" y="23" width="1920" height="994" />
+    <state width="1138" height="130" key="GridCell.Tab.0.right" timestamp="1603793964165">
+      <screen x="0" y="23" width="1366" height="687" />
     </state>
+    <state width="1138" height="130" key="GridCell.Tab.0.right/0.23.1366.687@0.23.1366.687" timestamp="1603793964165" />
     <state width="1323" height="194" key="GridCell.Tab.0.right/0.23.1920.994@0.23.1920.994" timestamp="1603104384730" />
     <state x="231" y="88" width="985" height="722" key="SettingsEditor" timestamp="1600675454609">
       <screen x="0" y="23" width="1920" height="989" />

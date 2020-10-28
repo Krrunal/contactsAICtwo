@@ -161,6 +161,8 @@ export default StyleSheet.create({
   saveView: {
     justifyContent: 'center',
     alignItems: 'center',
+    alignSelf: 'flex-end',
+    marginRight: width * 0.08,
     width: width * 0.2,
     height: height * 0.06,
     backgroundColor: COLORS.white,

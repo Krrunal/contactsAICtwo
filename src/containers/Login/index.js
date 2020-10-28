@@ -117,7 +117,6 @@ class Login extends Component {
           <ScrollView>
           <Root>
             <View style={styles.container}>
-            
               <View style={styles.headerView}>
                 <Image source={logo} style={styles.logoImg} />
                 <Text style={styles.logoText}>CONTACTS AIC</Text>

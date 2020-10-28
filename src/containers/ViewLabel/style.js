@@ -3,6 +3,7 @@ import { Dimensions, StyleSheet } from 'react-native';
 // eslint-disable-next-line prettier/prettier
 import { COLORS } from '../theme/Colors.js';
 import Metrics from '../theme/Metrics';
+import Font from '../theme/font';
 
 var {width,height} =  Dimensions.get('window');
 
@@ -48,33 +49,31 @@ export default StyleSheet.create({
         margin:Metrics.xsmallMargin
     },
     whiteText:{
-        fontFamily:'Roboto-Bold',
-        fontSize: width * 0.040,
+        fontFamily: Font.medium,
+        fontSize: width * 0.045,
         color:COLORS.white,
     },
-  blueText  :{
-    fontFamily:'Roboto-Bold',
-    fontSize: width * 0.040,
+    blueText  :{
+        fontFamily: Font.medium,
+        fontSize: width * 0.045,
         color:COLORS.main_text_color,
     },
-doubleView:{
-    
-    flexDirection:'row',
-    marginTop:Metrics.baseMargin,
-    marginLeft:Metrics.doubleBaseMargin,
-    marginRight:Metrics.doubleBaseMargin,
-    
-},
-middleView:{
-    flex:1,
-    flexDirection:'row',
-    marginTop:Metrics.baseMargin,
-    justifyContent:'center',
-        
-          width:width*0.940,
-          height:height*0.180,
-          backgroundColor:COLORS.white,
-          shadowColor: COLORS.black,
+    doubleView:{
+        flexDirection:'row',
+        marginTop:Metrics.baseMargin,
+        marginLeft:Metrics.doubleBaseMargin,
+        marginRight:Metrics.doubleBaseMargin,
+    },
+
+    middleView:{
+        flex:1,
+        flexDirection:'row',
+        marginTop:Metrics.baseMargin,
+        justifyContent:'center',
+        width:width*0.940,
+        height:height*0.180,
+        backgroundColor:COLORS.white,
+        shadowColor: COLORS.black,
         shadowOffset: {
             width: 3,
             height: 3,
@@ -84,32 +83,25 @@ middleView:{
         elevation: 5,
         borderRadius:5,
         marginBottom:Metrics.xsmallMargin
-},
-firstView:{
-    width:width*0.5,
-    marginLeft:Metrics.doubleBaseMargin,
-    
-    
-},
-secondView:{
-    width:width*0.4,
-    height:height*0.3,
-   
-   
-},
-FirstText:{
-    fontFamily:'Roboto-Light',
-    fontSize: width * 0.040,
-   
-    color:COLORS.main_text_color,
-    padding:Metrics.smallMargin
-},
-secondText:{
-    fontFamily:'Roboto-Light',
-    fontSize: width * 0.035,
-    marginRight:Metrics.smallMargin,
-    marginTop:Metrics.xsmallMargin,
-    
-    
-}
+    },
+    firstView:{
+        width:width*0.5,
+        marginLeft:Metrics.doubleBaseMargin,
+    },
+    secondView:{
+        width:width*0.4,
+        height:height*0.3,
+    },
+    FirstText:{
+        fontFamily:Font.medium,
+        fontSize: width * 0.045,
+        color:COLORS.main_text_color,
+        padding:Metrics.smallMargin
+    },
+    secondText:{
+        fontFamily:Font.medium,
+        fontSize: width * 0.035,
+        marginRight:Metrics.smallMargin,
+        marginTop:Metrics.xsmallMargin,
+    }
 })

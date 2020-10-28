@@ -73,11 +73,11 @@ class Signup extends Component {
     return re.test(email);
   };
   ValidPass(password: string) {
-    const re = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/;
+    const re = /^(?=(.*?[A-Z]){2})(?=(.*?[a-z]){2})(?=(.*?[0-9]){2})(?=(.*?[#?!@$%^&*-]){2}).{8,}$/;
     return re.test(password);
   }
-  matchPassword(password, confirmpassWord) {
-    return password == confirmpassWord;
+  matchPassword = (password, confirmpassWord) => {
+    return password === confirmpassWord;
   }
   signUp = () => {
     const { contact, uname, email, password, confirmpassWord } = this.props;
@@ -110,11 +110,13 @@ class Signup extends Component {
 
     confirmpassWord == ""
       ? this.setState({ confirmPassError: "Please enter password again" })
-      : !this.matchPassword(password, confirmpassWord)
+      : password !== confirmpassWord
       ? this.setState({ confirmPassError: "Password not match" })
       : this.setState({ confirmPassError: "" });
 
-    this.props.signUpUser();
+    if(contact && uname && this.maxUname && this.minUname && email && this.validateEmail && password && this.ValidPass && confirmpassWord && password == confirmpassWord) {
+      this.props.signUpUser();
+    }
   };
 
   onSubmit(value) {
@@ -439,11 +441,6 @@ class Signup extends Component {
     );
   }
 
-  // showLoader() {
-  //   if (this.props.loader == false && this.props.loading == true) {
-  //     return <Spinner />;
-  //   }
-  // }
 }
 
 function mapStateToProps(state) {
@@ -463,7 +460,6 @@ export default connect(mapStateToProps, actions)(Signup);
 
 const Container = styled.View`
   flex: 1;
-
   width: 100%;
   align-items: center;
   background-color: ${(props) => props.theme.backColor};
