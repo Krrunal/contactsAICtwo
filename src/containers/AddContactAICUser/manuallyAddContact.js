@@ -53,7 +53,7 @@ class manuallyAddContact extends Component {
   }
 
   QRScanner = () => {
-    this.props.navigation.navigate('ForAddContact')
+    this.props.navigation.navigate('QRScanner')
   };
 
   manuallyAddNavigate = () => {

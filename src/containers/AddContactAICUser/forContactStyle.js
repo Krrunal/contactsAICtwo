@@ -72,7 +72,7 @@ export default StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     width: width * 0.85,
-    height: height * 0.06,
+    // height: height * 0.06,
     backgroundColor: COLORS.white,
     shadowColor: COLORS.black,
     shadowOffset: {
@@ -113,7 +113,7 @@ export default StyleSheet.create({
   textRigh: {
     flex: 0.5,
     justifyContent: 'flex-end',
-    flexDirection: 'row',
+    flexDirection: 'column',
     margin: Metrics.smallMargin,
     width: width * 0.05,
   },
@@ -127,6 +127,7 @@ export default StyleSheet.create({
     textAlign: 'right',
     fontSize: width * 0.025,
     fontFamily:'Roboto-Light',
+    textTransform: "capitalize"
   },
 
   SmallMiddle: {

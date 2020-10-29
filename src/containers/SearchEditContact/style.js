@@ -16,15 +16,27 @@ export default StyleSheet.create({
           alignItems:'center',
           marginTop:Metrics.doubleBaseMargin
       },
-      outerImgStyle:{
-          width:width*0.1,
-          height:width*0.1
-      },
       personName:{
-          marginLeft:Metrics.smallMargin,
+          marginLeft:Metrics.baseMargin,
           fontFamily: Font.regular,
           fontSize: width * 0.040,
-         
+          textTransform: 'capitalize'
+      },
+      imgView:{
+        width:width*0.1,
+        height:width*0.1,
+        borderWidth: 2,
+        borderColor: COLORS.main_text_color,
+        borderRadius: 5,
+        alignItems: 'center',
+        justifyContent: 'center',
+        textAlign:'center',
+        padding: 0
+      },
+      img_text: {
+        fontFamily: Font.medium,
+        fontSize: width * 0.05,
+        textTransform: 'capitalize'
       },
       editImgStyle:{
         width:width*0.035,

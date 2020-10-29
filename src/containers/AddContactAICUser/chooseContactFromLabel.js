@@ -5,6 +5,7 @@ import {
   Text,
   TouchableOpacity,
   View,
+  ScrollView
 } from "react-native";
 import React, { Component } from "react";
 import { darkTheme, lightTheme } from "../theme/themeProps";
@@ -21,18 +22,49 @@ import { connect } from "react-redux";
 import plus from "../../assets/images/plus.png";
 import styles from "./chooseContactFromLabelStyle.js";
 import { switchTheme } from "../../action/themeAction";
+import Constants from "../../action/Constants";
 
 var { width, height } = Dimensions.get("window");
 
 class chooseContactFromLabel extends Component {
   state = {
+    dataManage: [],
     checked: false,
-    checked1: false,
-    checked2: false,
-    checked3: false,
-    checked4: false,
-    checked5: false,
-    checked6: false,
+    isSelected: false,
+    selectedRealetion: [],
+    data: ""
+  };
+
+  componentDidMount() {
+    this.setState({loader: true, data: this.props.navigation.state.params.data})
+    const baseurl = Constants.baseurl;
+    fetch(baseurl + "get_label")
+      .then((response) => {
+        return response.json();
+      })
+      .then((responseJson) => {
+        var arr = responseJson.data.relation.split(/[ ,]+/).map((item) => {
+          return { relation: item, isSelect: false };
+        });
+        this.setState({ dataManage: arr });
+        console.log("Array is in -->", arr);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }
+
+  onchecked = (keyInd, item) => {
+    const { dataManage, selectedRealetion } = this.state;
+    let arr = dataManage.map((item, key) => {
+      if (keyInd == key) {
+        item.isSelect = !item.isSelect;
+      }
+      return { ...item };
+    });
+    // console.log("after arr ===> ", arr);
+    this.setState({ dataManage: arr });
+    console.log("datatmanage arr ===> ", dataManage);
   };
 
   renderHeader() {
@@ -46,77 +78,38 @@ class chooseContactFromLabel extends Component {
 
   renderMiddle() {
     return (
-      <View>
-        <View style={styles.mainView}>
-          <CheckBox
-            value={this.state.checked}
-            onValueChange={() =>
-              this.setState({ checked: !this.state.checked })
-            }
-            tintColors={{ true: "#1374A3", false: "#000" }}
-          />
-          <NormalText>Family</NormalText>
-        </View>
-        <View style={styles.mainView}>
-          <CheckBox
-            value={this.state.checked1}
-            onValueChange={() =>
-              this.setState({ checked1: !this.state.checked1 })
-            }
-            tintColors={{ true: "#1374A3", false: "#000" }}
-          />
-          <NormalText>Friend</NormalText>
-        </View>
-        <View style={styles.mainView}>
-          <CheckBox
-            value={this.state.checked2}
-            onValueChange={() =>
-              this.setState({ checked2: !this.state.checked2 })
-            }
-            tintColors={{ true: "#1374A3", false: "#000" }}
-          />
-          <NormalText>Relative</NormalText>
-        </View>
-        <View style={styles.mainView}>
-          <CheckBox
-            value={this.state.checked3}
-            onValueChange={() =>
-              this.setState({ checked3: !this.state.checked3 })
-            }
-            tintColors={{ true: "#1374A3", false: "#000" }}
-          />
-          <NormalText>Universal Studio</NormalText>
-        </View>
-        <View style={styles.mainView}>
-          <CheckBox
-            value={this.state.checked4}
-            onValueChange={() =>
-              this.setState({ checked4: !this.state.checked4 })
-            }
-            tintColors={{ true: "#1374A3", false: "#000" }}
-          />
-          <NormalText>Sposrt Gambling Podcast</NormalText>
-        </View>
-        <View style={styles.mainView}>
-          <CheckBox
-            value={this.state.checked5}
-            onValueChange={() =>
-              this.setState({ checked5: !this.state.checked5 })
-            }
-            tintColors={{ true: "#1374A3", false: "#000" }}
-          />
-          <NormalText>Green Inc.</NormalText>
-        </View>
-        <View style={styles.mainView}>
-          <CheckBox
-            value={this.state.checked6}
-            onValueChange={() =>
-              this.setState({ checked6: !this.state.checked6 })
-            }
-            tintColors={{ true: "#1374A3", false: "#000" }}
-          />
-          <NormalText>UCLA</NormalText>
-        </View>
+      <View style={{ height: height * 0.65, marginBottom: Metrics.smallMargin }}>
+        <ScrollView>
+          {this.state.dataManage.map((item, key) => (
+            <View style={styles.mainView}>
+              <CheckBox
+                value={item.isSelect}
+                onChange={() => {
+                  this.onchecked(key,item.isSelect);
+                }}
+                // onValueChange={item.isSelect}
+                tintColors={{true: '#1374A3', false: '#000'}}
+              />
+              <NormalText>{item.relation}</NormalText>
+            </View>
+          ))}
+
+        {this.state.viewSection == true &&
+          <View style={styles.addlabelView}>
+            <TextInput
+              placeholder="New Label"
+              style={this.props.theme.mode === "light" ? styles.stylefiledText : styles.stylefiledTextBlack}
+              value={this.state.label}
+              onChangeText={(value) => this.setState({ label: value })}
+              ref={(input) => { this.label = input }}
+              keyboardType={"default"}
+              autoCapitalize={false}
+              // onSubmitEditing={this.labelApiCall}
+              placeholderTextColor={COLORS.black }
+            />
+          </View>
+        }
+
         <View style={styles.mainView}>
           <Image
             source={plus}
@@ -137,7 +130,8 @@ class chooseContactFromLabel extends Component {
             </Text>
           </View>
         </View>
-      </View>
+      </ScrollView>
+    </View>
     );
   }
 
@@ -172,7 +166,17 @@ class chooseContactFromLabel extends Component {
   }
 
   forAddContactNavigate = () => {
-    this.props.navigation.navigate('ForAddContact')
+    const { dataManage, selectedRealetion } = this.state;
+
+    dataManage.map((item) => {
+      item.isSelect == true ? selectedRealetion.push(item.relation) : console.log('selected------->',item.isSelect)
+    });
+
+    const selected = selectedRealetion.toString();
+    this.props.navigation.navigate('ForAddContact',
+      {label: selected, data: this.state.data})
+
+    this.setState({ selectedRealetion: []})
   };
 
   render() {

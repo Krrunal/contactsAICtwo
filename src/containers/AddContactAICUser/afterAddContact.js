@@ -141,7 +141,7 @@ class afterAddContact extends Component {
   }
 
   backNavigate = () => {
-    this.props.navigation.navigate('ChooseContactFromLabel')
+    this.props.navigation.navigate('ManuallyAddContact')
   };
 
   forAddContactNavigate = () => {

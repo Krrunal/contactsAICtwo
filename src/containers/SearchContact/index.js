@@ -10,6 +10,7 @@ import {
   View,
 } from "react-native";
 import React, { Component, useState } from "react";
+import { connect } from "react-redux";
 
 import { COLORS } from "../theme/Colors.js";
 import Font from "../theme/font";
@@ -17,37 +18,30 @@ import GeneralStatusBar from "../../components/StatusBar/index";
 import Header from "../../components/header/index";
 import Metrics from "../theme/Metrics";
 import styles from "./style.js";
+import firebase from '../../services/FirebaseDatabase/db';
 
 var { width, height } = Dimensions.get("window");
-export default class searchContact extends Component {
-  // state = {
-  //   checked: false,
-  //   checked1: false,
-  //   checked2: false,
-  //   checked3: false,
-  //   checked4: false,
-  //   checked5: false,
-  //   checked6: false,
-  //   checked8: false,
-  //   checked9: false,
-  //   checked10: false,
-  // };
 
-  // selectAll() {
-  //   const {checked, checked1, checked2, checked3} = this.state;
-  //   if (this.state.checked == true) {
-  //     this.state.checked1 = true;
-  //     this.state.checked2 = true;
-  //     this.state.checked3 = true;
-  //     this.state.checked4 = true;
-  //     this.state.checked5 = true;
-  //     this.state.checked6 = true;
-  //     this.state.checked7 = true;
-  //     this.state.checked8 = true;
-  //   } else {
+class searchContact extends Component {
+  state = {
+    contact: [],
+    contacts: '',
+  }
 
-  //   }
-  // }
+  componentDidMount() {
+    alert()
+    console.log(this.props.user_id)
+    firebase.firestore().collection(this.props.user_id).get()
+      .then((snap) => {
+      snap.forEach((doc) => {
+        this.state.contact.push(doc._data);
+      });
+    });
+
+    this.setState({ contacts: this.state.contact})
+    console.log('contact----->',this.state.contacts)
+
+  }
 
   renderHeader() {
     return (
@@ -185,6 +179,7 @@ export default class searchContact extends Component {
       </View>
     );
   }
+
   render() {
     return (
       <View style={{ backgroundColor: COLORS.white, flex: 1 }}>
@@ -204,3 +199,11 @@ export default class searchContact extends Component {
     );
   }
 }
+
+function mapStateToProps(state) {
+  return {
+    theme: state.themeReducer.theme,
+    user_id: state.login.shouldLoadData.user_id
+  };
+}
+export default connect(mapStateToProps)(searchContact);

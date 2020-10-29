@@ -52,7 +52,6 @@ class Splash extends React.Component {
 }
 
 function mapStateToProps(state) {
-  console.log('splash----->',state.login.shouldLoadData)
   return {
     // nav: state.nav,
     theme: state.themeReducer.theme,

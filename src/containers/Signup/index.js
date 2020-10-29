@@ -96,9 +96,7 @@ class Signup extends Component {
       ? this.setState({ unameError: "Username contain minimun 6 character" })
       : this.setState({ unameError: "" });
 
-    email == ""
-      ? this.setState({ emailError: "Please enter email" })
-      : !this.validateEmail(email)
+    !this.validateEmail(email)
       ? this.setState({ emailError: "Please enter valid email" })
       : this.setState({ emailError: "" });
 
@@ -114,7 +112,9 @@ class Signup extends Component {
       ? this.setState({ confirmPassError: "Password not match" })
       : this.setState({ confirmPassError: "" });
 
-    if(contact && uname && this.maxUname && this.minUname && email && this.validateEmail && password && this.ValidPass && confirmpassWord && password == confirmpassWord) {
+    if(contact && uname && uname.length < 20 && uname.length > 6 
+        && this.validateEmail && password && this.ValidPass && confirmpassWord 
+        && password == confirmpassWord) {
       this.props.signUpUser();
     }
   };

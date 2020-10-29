@@ -19,9 +19,9 @@ const INITIAL_STATE = {
       case 'Navigation/NAVIGATE':
         return {...state, currentRoute:action.routeName}
         break;
-      case RESET_LOGIN:
-        return INITIAL_STATE;
-        break;
+      // case RESET_LOGIN:
+      //   return INITIAL_STATE
+      //   break;
 
       case LOAD_DATA_SET:
         return {...state, shouldLoadData:action.payload}

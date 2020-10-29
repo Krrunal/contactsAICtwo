@@ -15,7 +15,7 @@ import Font from "../theme/font";
 import GeneralStatusBar from "../../components/StatusBar/index";
 import Header from "../../components/header/index";
 import Metrics from "../theme/Metrics";
-// import firebase from '../../services/FirebaseDatabase/db';
+import firebase from '../../services/FirebaseDatabase/db';
 // import { getContact } from '../../services/FirebaseDatabase/getAllContact';
 import { TouchableHighlight } from "react-native-gesture-handler";
 import { connect } from "react-redux";
@@ -24,6 +24,7 @@ import outerimg from "../../assets/images/outerimg.png";
 import plus from "../../assets/images/plus.png";
 import reset from "../../assets/images/reset.png";
 import styles from "./style.js";
+import style from "../../components/StatusBar/style.js";
 
 var { width, height } = Dimensions.get("window");
 
@@ -31,28 +32,24 @@ class searchContact extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      contacts: [],
-    };
+      contact: [],
+      contacts: '',
+      };
   }
 
-  // componentDidMount() {
-  //     // getContact('1')
-  //     const contact = [];
-  //     firebase.firestore().collection('1').get()
-  //         .then((snap) => {
-  //         // console.log('snap ==>', snap)
-  //         snap.forEach((doc) => {
-  //           var item = {};
-  //           // console.log('doc data ==>', doc)
-  //             item["data"] = doc._data;
-  //             item["id"] = doc.id;
+  componentDidMount() {
+    firebase.firestore().collection(this.props.user_id).get()
+      .then((snap) => {
+      snap.forEach((doc) => {
+        console.log(doc._data)
+        var item = doc._data;
+        this.state.contact.push(item);
+      });
+      this.setState({ contacts: this.state.contact})
+      console.log('contact----->',this.state.contacts)
+    });
+  }
 
-  //             contact.push(item);
-  //         });
-  //         this.setState({ contacts: contact})
-  //         console.log('collection ---->',this.state.contacts);
-  //     });
-  // }
 
   renderHeader() {
     return (
@@ -63,44 +60,58 @@ class searchContact extends Component {
     );
   }
 
-  // renderItem({ item, index }) {
-  //   const lengthArray = this.state.contacts.length;
-  //   // console.log('length===>',this.state.contacts)
-  //   return (
-  //     <View style={styles.quardView}>
-  //       <Image source={outerimg} style={styles.outerImgStyle} />
-  //       <Text style={styles.personName}>{item.data.first_name} {item.data.last_name}</Text>
-  //       <TouchableHighlight underlayColor='transparant'
-  //         onPress={() => this.navigate(
-  //           item.id,
-  //           item.data.first_name,
-  //           item.data.middle_name,
-  //           item.data.last_name,
-  //           item.data.nick_name,
-  //           item.data.number1,
-  //           item.data.number2,
-  //           item.data.number3,
-  //           item.data.email1,
-  //           item.data.email2,
-  //           item.data.address,
-  //           item.data.messenger1,
-  //           item.data.messenger2,
-  //           item.data.social_media1,
-  //           item.data.social_media2,
-  //           item.data.website1,
-  //           item.data.website2,
-  //           item.data.dob,
-  //           item.data.note,
-  //           item.data.company,
-  //           item.data.job_title,
-  //           item.data.work_hour
-  //   )}>
-  //         <Image source={edit} style={styles.editImgStyle} />
-  //       </TouchableHighlight>
-  //       <Image source={reset} style={styles.resetImgStyle} />
-  //     </View>
-  //   );
-  // }
+  renderItem({ item, index }) {
+    const lengthArray = this.state.contacts.length;
+    const character = (item.user_name || item.first_name).charAt(0)
+    // console.log('length===>',character)
+    return (
+      <View style={styles.quardView}>
+        <View style={styles.imgView}>
+          <Text style={[styles.img_text,{
+            color: this.props.theme.mode === "light" 
+            ? 'black' 
+            : "white"}]}>{character}
+              {/* {item.user_name.substring(0, 1) || item.first_name.substring(0, 1)} */}
+          </Text>
+        </View>
+        {/* <Image source={outerimg} style={styles.outerImgStyle} /> */}
+        <Text style={[styles.personName,
+          {color: this.props.theme.mode === "light" 
+            ? 'black' 
+            : "white"}]}>
+            {item.user_name || item.first_name}
+        </Text>
+        {/* <TouchableHighlight underlayColor='transparant'
+          onPress={() => this.navigate(
+            item.id,
+            item.data.first_name,
+            item.data.middle_name,
+            item.data.last_name,
+            item.data.nick_name,
+            item.data.number1,
+            item.data.number2,
+            item.data.number3,
+            item.data.email1,
+            item.data.email2,
+            item.data.address,
+            item.data.messenger1,
+            item.data.messenger2,
+            item.data.social_media1,
+            item.data.social_media2,
+            item.data.website1,
+            item.data.website2,
+            item.data.dob,
+            item.data.note,
+            item.data.company,
+            item.data.job_title,
+            item.data.work_hour
+    )}> */}
+          <Image source={edit} style={styles.editImgStyle} />
+        {/* </TouchableHighlight> */}
+        <Image source={reset} style={styles.resetImgStyle} />
+      </View>
+    );
+  }
 
   // navigate = ()=>{
   //   this.props.navigation.dispatch(
@@ -172,76 +183,16 @@ class searchContact extends Component {
       <View style={styles.scrollStyle}>
         <ScrollView style={{ marginTop: Metrics.doubleBaseMargin }}>
           <View style={styles.mainView}>
-            <View style={styles.quardView}>
-              <Image source={outerimg} style={styles.outerImgStyle} />
-              <NormalText>Ron Aron</NormalText>
-              <Image source={edit} style={styles.editImgStyle} />
-              <Image source={reset} style={styles.resetImgStyle} />
-            </View>
 
-            {/* <FlatList
+              <FlatList
                 refreshing={true}
                 keyExtractor={(item, index) => index.toString()}
                 data={this.state.contacts}
                 extraData={this.state}
                 numColumns={1}
                 renderItem={this.renderItem.bind(this)}
-              /> */}
+              />
 
-            <View style={styles.quardView}>
-              <Image source={outerimg} style={styles.outerImgStyle} />
-              <NormalText>Shelly Blimton</NormalText>
-              <Image source={edit} style={styles.editImgStyle} />
-              <Image source={reset} style={styles.resetImgStyle} />
-            </View>
-            <View style={styles.quardView}>
-              <Image source={outerimg} style={styles.outerImgStyle} />
-              <NormalText>Arnold Brosser</NormalText>
-              <Image source={edit} style={styles.editImgStyle} />
-              <Image source={reset} style={styles.resetImgStyle} />
-            </View>
-            <View style={styles.quardView}>
-              <Image source={outerimg} style={styles.outerImgStyle} />
-              <NormalText>Catherine Charcoal</NormalText>
-              <Image source={edit} style={styles.editImgStyle} />
-              <Image source={reset} style={styles.resetImgStyle} />
-            </View>
-            <View style={styles.quardView}>
-              <Image source={outerimg} style={styles.outerImgStyle} />
-              <NormalText>Amanda Hornberger </NormalText>
-              <Image source={edit} style={styles.editImgStyle} />
-              <Image source={reset} style={styles.resetImgStyle} />
-            </View>
-            <View style={styles.quardView}>
-              <Image source={outerimg} style={styles.outerImgStyle} />
-              <NormalText>Ron Aron</NormalText>
-              <Image source={edit} style={styles.editImgStyle} />
-              <Image source={reset} style={styles.resetImgStyle} />
-            </View>
-            <View style={styles.quardView}>
-              <Image source={outerimg} style={styles.outerImgStyle} />
-              <NormalText>Shelly Blimton</NormalText>
-              <Image source={edit} style={styles.editImgStyle} />
-              <Image source={reset} style={styles.resetImgStyle} />
-            </View>
-            <View style={styles.quardView}>
-              <Image source={outerimg} style={styles.outerImgStyle} />
-              <NormalText>Arnold Brosser</NormalText>
-              <Image source={edit} style={styles.editImgStyle} />
-              <Image source={reset} style={styles.resetImgStyle} />
-            </View>
-            <View style={styles.quardView}>
-              <Image source={outerimg} style={styles.outerImgStyle} />
-              <NormalText>Catherine Charcoal</NormalText>
-              <Image source={edit} style={styles.editImgStyle} />
-              <Image source={reset} style={styles.resetImgStyle} />
-            </View>
-            <View style={styles.quardView}>
-              <Image source={outerimg} style={styles.outerImgStyle} />
-              <NormalText>Amanda Hornberger </NormalText>
-              <Image source={edit} style={styles.editImgStyle} />
-              <Image source={reset} style={styles.resetImgStyle} />
-            </View>
           </View>
         </ScrollView>
       </View>
@@ -297,10 +248,13 @@ class searchContact extends Component {
     );
   }
 }
-const mapStateToProps = (state) => ({
-  theme: state.themeReducer.theme,
-});
 
+function mapStateToProps(state) {
+  return {
+    theme: state.themeReducer.theme,
+    user_id: state.login.shouldLoadData.user_id
+  };
+}
 export default connect(mapStateToProps)(searchContact);
 
 const Container = styled.View`

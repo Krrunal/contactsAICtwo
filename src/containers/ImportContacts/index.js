@@ -227,10 +227,9 @@ class importContact extends Component {
         <Container>
           {/* <View style={styles.container}> */}
           {this.renderHeader()}
-          <Text style={styles.importHeading}>
-            {" "}
-            Import contact(s) from Device{" "}
-          </Text>
+            <Text style={[styles.importHeading,{color: this.props.theme.mode === "light"? 'black': 'white'}]}>
+              Import contact(s) from Device
+            </Text>
           {this.renderMiddle()}
           {this.renderLast()}
         </Container>

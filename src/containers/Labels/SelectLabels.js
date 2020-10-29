@@ -66,9 +66,6 @@ class Selectlabels extends Component {
     this.setState({ dataManage: arr });
     console.log("datatmanage arr ===> ", dataManage);
     
-    // dataManage.map((item) => {
-    //   item.isSelect == true ?  selectedRealetion.push(item.relation): console.log('selected------->',item.isSelect)
-    // });
   };
 
   deleteApiCall = (isSelect,item,key) => {
@@ -131,7 +128,7 @@ class Selectlabels extends Component {
                 <View style={styles.manageView}>
                   <Text>Manage</Text>
                 </View>
-                <Text style={styles.tripleText}>{item.relation}</Text>
+                <NormalText>{item.relation}</NormalText>
               </View>
             ))}
           </ScrollView>
@@ -211,4 +208,11 @@ const Container = styled.View`
   flex: 1;
   width: 100%;
   background-color: ${(props) => props.theme.backColor};
+`;
+const NormalText = styled.Text`
+font-family: Roboto-medium;
+font-size: 17px;
+margin-left: 15px;
+text-transform: capitalize;
+color: ${(props) => props.theme.iconColor};
 `;

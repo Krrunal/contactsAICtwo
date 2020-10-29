@@ -12,6 +12,7 @@ import {
 import React, { Component } from "react";
 import { darkTheme, lightTheme } from "../theme/themeProps";
 import styled, { ThemeProvider } from "styled-components/native";
+import Toast from 'react-native-easy-toast';
 
 import { COLORS } from "../theme/Colors.js";
 import Font from "../theme/font.js";
@@ -21,10 +22,45 @@ import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import styles from "./forContactStyle.js";
 import { switchTheme } from "../../action/themeAction";
+import { addItem } from '../../services/FirebaseDatabase/addToFirebase';
+import firebase from '../../services/FirebaseDatabase/db';
+import { Spinner } from "../../components/Spinner";
 
 var { width, height } = Dimensions.get("window");
 
 class forAddContact extends Component {
+  state = {
+    label: '',
+    data: [],
+    contacts: "",
+    contact: [],
+    isUserExist: false,
+    loader: false,
+  }
+
+  componentDidMount() {
+    this.setState({ 
+      label: this.props.navigation.state.params.label,
+      data: JSON.parse(this.props.navigation.state.params.data)
+    })
+
+    const {data, label} = this.state;
+      firebase.firestore().collection(this.props.user_id).get()
+          .then((snap) => {
+          snap.forEach((doc) => {
+              if(this.state.isUserExist == false) {
+                console.log('is exist1----->',this.state.isUserExist)
+                console.log('data----->',doc._data.id,'user_id--->',JSON.parse(this.props.navigation.state.params.data).user_id)
+                if (doc._data.id === JSON.parse(this.props.navigation.state.params.data).user_id) {
+                  this.setState({isUserExist : true})
+                  console.log('is exist2----->',this.state.isUserExist)
+
+                }
+              }
+          });
+      });
+  }
+
   renderHeader() {
     return (
       <Header
@@ -51,21 +87,16 @@ class forAddContact extends Component {
     return (
       <View style={styles.WhiteBigview}>
         <TouchableOpacity style={styles.textLeft}>
-          <Text style={styles.sizeText}>[ USER NAME ]</Text>
+          <Text style={styles.sizeText}> {this.state.data.username} </Text>
         </TouchableOpacity>
         <View style={styles.textRigh}>
-          <Text style={styles.sizeTextSmall}>
-            Sport Gambling Podcast {" \n"}
-            Green Inc.
-          </Text>
+          { this.state.label.split(/[ ,]+/).map((item) => (
+            <Text style={styles.sizeTextSmall}> {item} </Text>
+          )) }
         </View>
       </View>
     );
   }
-  // onPress={this.afterContactNavigate}
-  afterContactNavigate = () => {
-    this.props.navigation.navigate('ManuallyAddContact')
-  };
 
   renderView() {
     return (
@@ -119,7 +150,7 @@ class forAddContact extends Component {
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.WhiteviewTwo}
-            onPress={this.finishtNavigate}
+            onPress={this.finishNavigate}
           >
             <Text
               style={{
@@ -140,8 +171,25 @@ class forAddContact extends Component {
     this.props.navigation.navigate('ChooseContactFromLabel')
   };
 
-  finishtNavigate = () => {
-    this.props.navigation.navigate('AddContact')
+  showLoader() {
+    if (this.state.loader == true) {
+      return <Spinner />;
+    }
+  }
+
+  finishNavigate = () => {
+    const {data, label} = this.state;
+
+      if(this.state.isUserExist == false) {
+        this.setState({ loader: false})
+        addItem(this.props.user_id, data.user_id, label, data.contact, data.email, data.username)
+        this.props.navigation.navigate('AddContact')
+      } else {
+        this.setState({ loader: false})
+        // this.refs.toast.show('Contact already exist ')
+        alert('Contact already exist ')
+        this.props.navigation.navigate('AddContact')
+      }
   };
 
   render() {
@@ -157,25 +205,44 @@ class forAddContact extends Component {
         />
 
         <Container>
-          <View>
             {this.renderHeader()}
             {this.renderHeaderLine()}
             {this.renderMiddle()}
             {this.renderView()}
             {this.renderLast()}
-          </View>
+            <Toast
+              ref="toast"
+              style={{
+                backgroundColor: this.props.theme.mode === "light" ? 'black': 'white', 
+                width: width * 0.8, 
+                alignItems: 'center' 
+              }}
+              position='bottom'
+              positionValue={220}
+              fadeInDuration={100}
+              fadeOutDuration={2000}
+              opacity={1}
+              textStyle={{
+                color: this.props.theme.mode === "light" ? 'white' : 'black',
+                fontFamily: Font.medium,
+                fontSize: width * 0.04
+              }}
+          />
+          {this.showLoader()}
+
         </Container>
       </ThemeProvider>
     );
   }
 }
-const mapStateToProps = (state) => ({
-  theme: state.themeReducer.theme,
-});
 
-const mapDispatchToProps = (dispatch) => ({
-  switchTheme: bindActionCreators(switchTheme, dispatch),
-});
+function mapStateToProps(state) {
+  return {
+    theme: state.themeReducer.theme,
+    user_id: state.login.shouldLoadData.user_id
+  };
+}
+
 
 export default connect(mapStateToProps)(forAddContact);
 

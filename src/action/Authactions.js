@@ -50,6 +50,9 @@ const regUserSuccess = (data, dispatch) => {
 const loginUserFail = (dispatch) => {
   dispatch({ type: SHOW_LOADER_LOGIN, payload:false });
   dispatch({ type: SHOW_LOADER_REG, payload:false });
+  dispatch({ type: RESET_LOGIN });
+  dispatch({ type: RESET_REG });
+
   //dispatch({ type: LOGIN_USER_SUCCESS, payload:{} });
 }
 
