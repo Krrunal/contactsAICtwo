@@ -3,48 +3,58 @@ import {
   Text,
   TouchableOpacity,
   View,
-} from 'react-native';
-import React, {Component} from 'react';
+  BackHandler,
+} from "react-native";
+import React, { Component } from "react";
 import { darkTheme, lightTheme } from "../theme/themeProps";
 import styled, { ThemeProvider } from "styled-components/native";
-import { DrawerActions } from 'react-navigation-drawer';
 
+import { DrawerActions } from "react-navigation-drawer";
 import GeneralStatusBar from "../../components/StatusBar/index";
-import Header from '../../components/header/index';
+import Header from "../../components/header/index";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 // import {createDrawerNavigator} from '@react-navigation/drawer';
-import styles from './style';
+import styles from "./style";
 import { switchTheme } from "../../action/themeAction";
 
-var {width, height} = Dimensions.get('window');
+var { width, height } = Dimensions.get("window");
 
 class Add extends Component {
-
+  // backButton = () => {
+  //   BackHandler.exitApp();
+  //   return true;
+  // };
   renderHeader() {
     return (
-        <Header 
-          title="Add Contact(s)"
-          onPress={() => this.props.navigation.toggleDrawer()}
-        />
+      <Header
+        title="Add Contact(s)"
+        onPress={() => this.props.navigation.toggleDrawer()}
+      />
     );
   }
 
   renderFirst() {
     return (
-      <TouchableOpacity style={styles.buttonView} onPress={this.addContactNavigate}>
+      <TouchableOpacity
+        style={styles.buttonView}
+        onPress={this.addContactNavigate}
+      >
         <Text style={styles.text}>Add Contacts AIC User(s)</Text>
       </TouchableOpacity>
     );
   }
 
   addContactNavigate = () => {
-    this.props.navigation.navigate('ManuallyAddContact')
-  }
+    this.props.navigation.navigate("ManuallyAddContact");
+  };
 
   renderSecond() {
     return (
-      <TouchableOpacity style={styles.buttonView} onPress={this.importmanuallyNavigate}>
+      <TouchableOpacity
+        style={styles.buttonView}
+        onPress={this.importmanuallyNavigate}
+      >
         <Text style={styles.text}>Add Contact Manually</Text>
       </TouchableOpacity>
     );
@@ -52,26 +62,27 @@ class Add extends Component {
 
   // manuallyAddContact
   importmanuallyNavigate = () => {
-    this.props.navigation.navigate('AddmanuallyContact')
-  }
+    this.props.navigation.navigate("AddmanuallyContact");
+  };
 
   renderThird() {
     return (
       <TouchableOpacity style={styles.buttonView}>
-        <Text style={styles.text} onPress={this.importNavigate} >
-          Import Contact(s) From My Device</Text>
+        <Text style={styles.text} onPress={this.importNavigate}>
+          Import Contact(s) From My Device
+        </Text>
       </TouchableOpacity>
     );
   }
 
   importNavigate = () => {
-    this.props.navigation.navigate('ImportContacts')
-  }
+    this.props.navigation.navigate("ImportContacts");
+  };
 
   render() {
     return (
       <ThemeProvider theme={this.props.theme}>
-         <GeneralStatusBar
+        <GeneralStatusBar
           backgroundColor={
             this.props.theme.mode === "light" ? "white" : "black"
           }
@@ -79,19 +90,17 @@ class Add extends Component {
             this.props.theme.mode === "dark" ? "light-content" : "dark-content"
           }
         />
-      <View style={styles.container}>
-      <Container>
-
-        {this.renderHeader()}
-        <View style={{ marginTop: height * 0.2, flex: 1}}>
-          {this.renderFirst()}
-          {this.renderSecond()}
-          {this.renderThird()}
+        <View style={styles.container}>
+          <Container>
+            {this.renderHeader()}
+            <View style={{ marginTop: height * 0.2, flex: 1 }}>
+              {this.renderFirst()}
+              {this.renderSecond()}
+              {this.renderThird()}
+            </View>
+          </Container>
         </View>
-        </Container>
-      </View>
       </ThemeProvider>
-
     );
   }
 }

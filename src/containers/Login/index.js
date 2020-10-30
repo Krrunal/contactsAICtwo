@@ -12,14 +12,15 @@ import {
   View,
 } from "react-native";
 import React, { Component } from "react";
-import {Root, Toast} from 'native-base';
+import { Root, Toast } from "native-base";
 import styled, { ThemeProvider } from "styled-components/native";
 
 import { COLORS } from "../theme/Colors.js";
 import GeneralStatusBar from "../../components/StatusBar/index";
 import Icon from "react-native-vector-icons/FontAwesome";
 import { InputCard } from "../../components/InputCard";
-import {Spinner} from '../../components/Spinner';
+import NetInfo from "@react-native-community/netinfo";
+import { Spinner } from "../../components/Spinner";
 import { TouchableHighlight } from "react-native-gesture-handler";
 import { bindActionCreators } from "redux";
 import checked from "../../assets/icons/checked.png";
@@ -68,16 +69,43 @@ class Login extends Component {
   };
 
   navigate = () => {
-    this.props.navigation.navigate('Signup')
+    this.props.navigation.navigate("Signup");
   };
 
   loginUser = () => {
-    const { email, password } = this.props;
-    email == "" ? this.setState({unameError: "Please enter username"}) : this.setState({unameError: ""});
-    password == "" ? this.setState({passwordError: "Please enter password"}) : this.setState({passwordError: ""});
-    if(email && password) {
-      this.props.loginUser();
-    }
+    NetInfo.fetch().then((state) => {
+      if (state.isConnected) {
+        const { email, password } = this.props;
+        email == ""
+          ? this.setState({ unameError: "Please enter username" })
+          : this.setState({ unameError: "" });
+        password == ""
+          ? this.setState({ passwordError: "Please enter password" })
+          : this.setState({ passwordError: "" });
+        if (email && password) {
+          this.props.loginUser();
+        }
+      } else {
+        alert("Net is not connected");
+      }
+    });
+    // const { email, password } = this.props;
+    // email == ""
+    //   ? this.setState({ unameError: "Please enter username" })
+    //   : this.setState({ unameError: "" });
+    // password == ""
+    //   ? this.setState({ passwordError: "Please enter password" })
+    //   : this.setState({ passwordError: "" });
+    // if (email && password) {
+    //   NetInfo.fetch().then((state) => {
+    //     if (state.isConnected) {
+    //       alert("yes");
+    //     } else {
+    //       alert("no");
+    //     }
+    //   });
+    //   // this.props.loginUser();
+    // }
   };
 
   onSubmit(value) {
@@ -95,7 +123,7 @@ class Login extends Component {
 
   showLoader() {
     if (this.props.loader == true) {
-      return <Spinner />
+      return <Spinner />;
     }
   }
 
@@ -115,111 +143,113 @@ class Login extends Component {
 
         <Container>
           <ScrollView>
-          <Root>
-            <View style={styles.container}>
-              <View style={styles.headerView}>
-                <Image source={logo} style={styles.logoImg} />
-                <Text style={styles.logoText}>CONTACTS AIC</Text>
-              </View>
-              <View style={styles.viewEmail}>
-                <InputCard
-                  onChangeText={loginEmailChange}
-                  blurOnSubmit={false}
-                  autoCapitalize={true}
-                  ref={"emailCont"}
-                  inputRef={"email"}
-                  onSubmitEditing={(email) => this.onSubmit("email")}
-                  value={email}
-                  returnKey={"next"}
-                  keyboardType={"email-address"}
-                  secureEntry={false}
-                  placeholder={"Phone Number Or Username"}
-                ></InputCard>
-              </View>
-              {this.state.unameError == undefined || this.state.unameError == "" 
-                ? null : <Text style={styles.error}>{this.state.unameError}</Text> }
+            <Root>
+              <View style={styles.container}>
+                <View style={styles.headerView}>
+                  <Image source={logo} style={styles.logoImg} />
+                  <Text style={styles.logoText}>CONTACTS AIC</Text>
+                </View>
+                <View style={styles.viewEmail}>
+                  <InputCard
+                    onChangeText={loginEmailChange}
+                    blurOnSubmit={false}
+                    autoCapitalize={true}
+                    ref={"emailCont"}
+                    inputRef={"email"}
+                    onSubmitEditing={(email) => this.onSubmit("email")}
+                    value={email}
+                    returnKey={"next"}
+                    keyboardType={"email-address"}
+                    secureEntry={false}
+                    placeholder={"Phone Number Or Username"}
+                  ></InputCard>
+                </View>
+                {this.state.unameError == undefined ||
+                this.state.unameError == "" ? null : (
+                  <Text style={styles.error}>{this.state.unameError}</Text>
+                )}
 
-              <View style={styles.viewPassword}>
-                <InputCard
-                  onChangeText={loginPassChange}
-                  blurOnSubmit={false}
-                  autoCapitalize={false}
-                  ref={"LoginpasswordCont"}
-                  inputRef={"password"}
-                  onSubmitEditing={(password) => this.onSubmit("password")}
-                  value={password}
-                  returnKey={"done"}
-                  keyboardType={"default"}
-                  secureEntry={this.state.show}
-                  placeholder={"Password"}
-                ></InputCard>
+                <View style={styles.viewPassword}>
+                  <InputCard
+                    onChangeText={loginPassChange}
+                    blurOnSubmit={false}
+                    autoCapitalize={false}
+                    ref={"LoginpasswordCont"}
+                    inputRef={"password"}
+                    onSubmitEditing={(password) => this.onSubmit("password")}
+                    value={password}
+                    returnKey={"done"}
+                    keyboardType={"default"}
+                    secureEntry={this.state.show}
+                    placeholder={"Password"}
+                  ></InputCard>
 
-                <View style={styles.eyeView}>
+                  <View style={styles.eyeView}>
+                    <TouchableHighlight
+                      underlayColor="transparent"
+                      onPress={this.showPassword}
+                    >
+                      {this.state.show == false ? (
+                        <Icon
+                          name="eye"
+                          size={18}
+                          color={COLORS.main_text_color}
+                        />
+                      ) : (
+                        <Icon
+                          name="eye-slash"
+                          size={18}
+                          color={COLORS.main_text_color}
+                        />
+                      )}
+                    </TouchableHighlight>
+                  </View>
+                </View>
+                {this.state.passwordError == undefined ||
+                this.state.passwordError == "" ? null : (
+                  <Text style={styles.error}>{this.state.passwordError}</Text>
+                )}
+
+                <TouchableOpacity
+                  style={styles.viewLogin}
+                  onPress={this.loginUser}
+                >
+                  <Text style={styles.loginText}>Log In</Text>
+                </TouchableOpacity>
+                <View style={styles.rememberView}>
                   <TouchableHighlight
                     underlayColor="transparent"
-                    onPress={this.showPassword}
+                    onPress={this.check}
                   >
-                    {this.state.show == false ? (
-                      <Icon
-                        name="eye"
-                        size={18}
-                        color={COLORS.main_text_color}
-                      />
+                    {this.state.checkedOff == true ? (
+                      <View style={styles.checkView}>
+                        <Image source={checked} style={styles.checkedStyle} />
+                      </View>
                     ) : (
-                      <Icon
-                        name="eye-slash"
-                        size={18}
-                        color={COLORS.main_text_color}
-                      />
+                      <View style={styles.checkView}></View>
+                      // <Image source={unchecked} style={styles.uncheckedStyle} />
                     )}
                   </TouchableHighlight>
-                </View>
-              </View>
-              {this.state.passwordError == undefined || this.state.passwordError == "" 
-                ? null : <Text style={styles.error}>{this.state.passwordError}</Text> }
-
-              <TouchableOpacity
-                style={styles.viewLogin}
-                onPress={this.loginUser}
-              >
-                <Text style={styles.loginText}>Log In</Text>
-              </TouchableOpacity>
-              <View style={styles.rememberView}>
-                <TouchableHighlight
-                  underlayColor="transparent"
-                  onPress={this.check}
-                >
-                  {this.state.checkedOff == true ? (
-                    <View style={styles.checkView}>
-                      <Image source={checked} style={styles.checkedStyle} />
-                    </View>
-                  ) : (
-                    <View style={styles.checkView}></View>
-                    // <Image source={unchecked} style={styles.uncheckedStyle} />
-                  )}
-                </TouchableHighlight>
-                {/* <CheckBox
+                  {/* <CheckBox
           value={this.state.checked}
           onValueChange={() => this.setState({checked: !this.state.checked})}
           tintColors={{true: '#1374A3', false: '#000'}}
         /> */}
-                <Text style={styles.rememberText}>Remember Me</Text>
+                  <Text style={styles.rememberText}>Remember Me</Text>
+                </View>
+                <View style={styles.lineStyle}>
+                  <View style={styles.lineView}></View>
+                  <Text style={styles.orText}>OR </Text>
+                  <View style={styles.lineViewTwo}></View>
+                </View>
+                <TouchableOpacity
+                  style={styles.signupInlogin}
+                  onPress={this.navigate}
+                >
+                  <Text style={styles.loginText}>SIGN UP</Text>
+                </TouchableOpacity>
+                {this.showLoader()}
               </View>
-              <View style={styles.lineStyle}>
-                <View style={styles.lineView}></View>
-                <Text style={styles.orText}>OR </Text>
-                <View style={styles.lineViewTwo}></View>
-              </View>
-              <TouchableOpacity
-                style={styles.signupInlogin}
-                onPress={this.navigate}
-              >
-                <Text style={styles.loginText}>SIGN UP</Text>
-                
-              </TouchableOpacity>
-              {this.showLoader()}
-
-            </View>
             </Root>
           </ScrollView>
         </Container>

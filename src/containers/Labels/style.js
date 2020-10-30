@@ -38,7 +38,8 @@ export default StyleSheet.create({
         shadowRadius:4,
         elevation: 5,
         borderRadius:5,
-        marginLeft:Metrics.baseMargin
+        marginLeft:Metrics.baseMargin,
+        marginBottom:Metrics.smallMargin
       },
       
       tripleText:{

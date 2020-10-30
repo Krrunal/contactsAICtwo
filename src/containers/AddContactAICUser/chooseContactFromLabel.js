@@ -5,7 +5,7 @@ import {
   Text,
   TouchableOpacity,
   View,
-  ScrollView
+  ScrollView,
 } from "react-native";
 import React, { Component } from "react";
 import { darkTheme, lightTheme } from "../theme/themeProps";
@@ -23,7 +23,7 @@ import plus from "../../assets/images/plus.png";
 import styles from "./chooseContactFromLabelStyle.js";
 import { switchTheme } from "../../action/themeAction";
 import Constants from "../../action/Constants";
-
+import AsyncStorage from '@react-native-community/async-storage'
 var { width, height } = Dimensions.get("window");
 
 class chooseContactFromLabel extends Component {
@@ -32,11 +32,12 @@ class chooseContactFromLabel extends Component {
     checked: false,
     isSelected: false,
     selectedRealetion: [],
-    data: ""
+    data: "",
   };
 
   componentDidMount() {
-    this.setState({loader: true, data: this.props.navigation.state.params.data})
+    // data: this.props.navigation.state.params.data
+    this.setState({ loader: true });
     const baseurl = Constants.baseurl;
     fetch(baseurl + "get_label")
       .then((response) => {
@@ -78,60 +79,68 @@ class chooseContactFromLabel extends Component {
 
   renderMiddle() {
     return (
-      <View style={{ height: height * 0.65, marginBottom: Metrics.smallMargin }}>
+      <View
+        style={{ height: height * 0.65, marginBottom: Metrics.smallMargin }}
+      >
         <ScrollView>
           {this.state.dataManage.map((item, key) => (
             <View style={styles.mainView}>
               <CheckBox
                 value={item.isSelect}
                 onChange={() => {
-                  this.onchecked(key,item.isSelect);
+                  this.onchecked(key, item.isSelect);
                 }}
                 // onValueChange={item.isSelect}
-                tintColors={{true: '#1374A3', false: '#000'}}
+                tintColors={{ true: "#1374A3", false: "#000" }}
               />
               <NormalText>{item.relation}</NormalText>
             </View>
           ))}
 
-        {this.state.viewSection == true &&
-          <View style={styles.addlabelView}>
-            <TextInput
-              placeholder="New Label"
-              style={this.props.theme.mode === "light" ? styles.stylefiledText : styles.stylefiledTextBlack}
-              value={this.state.label}
-              onChangeText={(value) => this.setState({ label: value })}
-              ref={(input) => { this.label = input }}
-              keyboardType={"default"}
-              autoCapitalize={false}
-              // onSubmitEditing={this.labelApiCall}
-              placeholderTextColor={COLORS.black }
-            />
-          </View>
-        }
+          {this.state.viewSection == true && (
+            <View style={styles.addlabelView}>
+              <TextInput
+                placeholder="New Label"
+                style={
+                  this.props.theme.mode === "light"
+                    ? styles.stylefiledText
+                    : styles.stylefiledTextBlack
+                }
+                value={this.state.label}
+                onChangeText={(value) => this.setState({ label: value })}
+                ref={(input) => {
+                  this.label = input;
+                }}
+                keyboardType={"default"}
+                autoCapitalize={false}
+                // onSubmitEditing={this.labelApiCall}
+                placeholderTextColor={COLORS.black}
+              />
+            </View>
+          )}
 
-        <View style={styles.mainView}>
-          <Image
-            source={plus}
-            style={{
-              width: width * 0.055,
-              height: width * 0.055,
-              marginLeft: Metrics.xsmallMargin,
-            }}
-          />
-          <View style={styles.smallWhiteview}>
-            <Text
+          <View style={styles.mainView}>
+            <Image
+              source={plus}
               style={{
-                fontSize: width * 0.03,
-                fontFamily: Font.regular,
+                width: width * 0.055,
+                height: width * 0.055,
+                marginLeft: Metrics.xsmallMargin,
               }}
-            >
-              Add
-            </Text>
+            />
+            <View style={styles.smallWhiteview}>
+              <Text
+                style={{
+                  fontSize: width * 0.03,
+                  fontFamily: Font.regular,
+                }}
+              >
+                Add
+              </Text>
+            </View>
           </View>
-        </View>
-      </ScrollView>
-    </View>
+        </ScrollView>
+      </View>
     );
   }
 
@@ -148,7 +157,7 @@ class chooseContactFromLabel extends Component {
         >
           <TouchableOpacity
             style={styles.Whiteview}
-            onPress={this.forAddContactNavigate}
+            onPress={() =>this.forAddContactNavigate()}
           >
             <Text
               style={{
@@ -165,19 +174,27 @@ class chooseContactFromLabel extends Component {
     );
   }
 
-  forAddContactNavigate = () => {
+  async forAddContactNavigate() {
+   
     const { dataManage, selectedRealetion } = this.state;
 
     dataManage.map((item) => {
-      item.isSelect == true ? selectedRealetion.push(item.relation) : console.log('selected------->',item.isSelect)
+      item.isSelect == true
+        ? selectedRealetion.push(item.relation)
+        : console.log("selected------->", item.isSelect);
     });
 
     const selected = selectedRealetion.toString();
-    this.props.navigation.navigate('ForAddContact',
-      {label: selected, data: this.state.data})
+    await AsyncStorage.setItem("@selectedLabel", selected);
 
-    this.setState({ selectedRealetion: []})
-  };
+    if(selected == '') {
+      alert('Please select label to associate with USERNAME')
+    } else {
+      this.props.navigation.navigate('ForAddContact');
+    }
+
+    this.setState({ selectedRealetion: [] });
+  }
 
   render() {
     return (
@@ -195,12 +212,7 @@ class chooseContactFromLabel extends Component {
           {/* <View style={styles.container}> */}
 
           {this.renderHeader()}
-          <View style={styles.headerLineContainer}>
-            <LineText>
-              {" "}
-              Select which label(s) to associate with [ USERNAME ]{" "}
-            </LineText>
-          </View>
+
           {this.renderMiddle()}
           {this.renderLast()}
 
@@ -231,6 +243,7 @@ const NormalText = styled.Text`
   font-family: Roboto-Light;
   font-size: 15px;
   color: ${(props) => props.theme.iconColor};
+  text-transform:capitalize
 `;
 const LineText = styled.Text`
   font-family: Roboto-Light;

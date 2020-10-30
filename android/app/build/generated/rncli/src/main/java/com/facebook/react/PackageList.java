@@ -17,6 +17,8 @@ import com.reactnativecommunity.asyncstorage.AsyncStoragePackage;
 import com.reactnativecommunity.checkbox.ReactCheckBoxPackage;
 // @react-native-community/masked-view
 import org.reactnative.maskedview.RNCMaskedViewPackage;
+// @react-native-community/netinfo
+import com.reactnativecommunity.netinfo.NetInfoPackage;
 // react-native-camera
 import org.reactnative.camera.RNCameraPackage;
 // react-native-contacts
@@ -87,6 +89,7 @@ public class PackageList {
       new AsyncStoragePackage(),
       new ReactCheckBoxPackage(),
       new RNCMaskedViewPackage(),
+      new NetInfoPackage(),
       new RNCameraPackage(),
       new ReactNativeContacts(),
       new RNFirebasePackage(),

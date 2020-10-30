@@ -6,6 +6,7 @@ import {
   Text,
   TouchableOpacity,
   View,
+
 } from "react-native";
 import React, { Component, useState } from "react";
 import styled, { ThemeProvider } from "styled-components/native";
@@ -15,7 +16,7 @@ import Font from "../theme/font";
 import GeneralStatusBar from "../../components/StatusBar/index";
 import Header from "../../components/header/index";
 import Metrics from "../theme/Metrics";
-import firebase from '../../services/FirebaseDatabase/db';
+import firebase from "../../services/FirebaseDatabase/db";
 // import { getContact } from '../../services/FirebaseDatabase/getAllContact';
 import { TouchableHighlight } from "react-native-gesture-handler";
 import { connect } from "react-redux";
@@ -33,23 +34,25 @@ class searchContact extends Component {
     super(props);
     this.state = {
       contact: [],
-      contacts: '',
-      };
+      contacts: "",
+    };
   }
-
+  
   componentDidMount() {
-    firebase.firestore().collection(this.props.user_id).get()
+    firebase
+      .firestore()
+      .collection(this.props.user_id)
+      .get()
       .then((snap) => {
-      snap.forEach((doc) => {
-        console.log(doc._data)
-        var item = doc._data;
-        this.state.contact.push(item);
+        snap.forEach((doc) => {
+          console.log(doc._data);
+          var item = doc._data;
+          this.state.contact.push(item);
+        });
+        this.setState({ contacts: this.state.contact });
+        console.log("contact----->", this.state.contacts);
       });
-      this.setState({ contacts: this.state.contact})
-      console.log('contact----->',this.state.contacts)
-    });
   }
-
 
   renderHeader() {
     return (
@@ -62,24 +65,31 @@ class searchContact extends Component {
 
   renderItem({ item, index }) {
     const lengthArray = this.state.contacts.length;
-    const character = (item.user_name || item.first_name).charAt(0)
+    const character = (item.user_name || item.first_name).charAt(0);
     // console.log('length===>',character)
     return (
       <View style={styles.quardView}>
         <View style={styles.imgView}>
-          <Text style={[styles.img_text,{
-            color: this.props.theme.mode === "light" 
-            ? 'black' 
-            : "white"}]}>{character}
-              {/* {item.user_name.substring(0, 1) || item.first_name.substring(0, 1)} */}
+          <Text
+            style={[
+              styles.img_text,
+              {
+                color: this.props.theme.mode === "light" ? "black" : "white",
+              },
+            ]}
+          >
+            {character}
+            {/* {item.user_name.substring(0, 1) || item.first_name.substring(0, 1)} */}
           </Text>
         </View>
         {/* <Image source={outerimg} style={styles.outerImgStyle} /> */}
-        <Text style={[styles.personName,
-          {color: this.props.theme.mode === "light" 
-            ? 'black' 
-            : "white"}]}>
-            {item.user_name || item.first_name}
+        <Text
+          style={[
+            styles.personName,
+            { color: this.props.theme.mode === "light" ? "black" : "white" },
+          ]}
+        >
+          {item.user_name || item.first_name}
         </Text>
         {/* <TouchableHighlight underlayColor='transparant'
           onPress={() => this.navigate(
@@ -106,7 +116,7 @@ class searchContact extends Component {
             item.data.job_title,
             item.data.work_hour
     )}> */}
-          <Image source={edit} style={styles.editImgStyle} />
+        <Image source={edit} style={styles.editImgStyle} />
         {/* </TouchableHighlight> */}
         <Image source={reset} style={styles.resetImgStyle} />
       </View>
@@ -183,16 +193,14 @@ class searchContact extends Component {
       <View style={styles.scrollStyle}>
         <ScrollView style={{ marginTop: Metrics.doubleBaseMargin }}>
           <View style={styles.mainView}>
-
-              <FlatList
-                refreshing={true}
-                keyExtractor={(item, index) => index.toString()}
-                data={this.state.contacts}
-                extraData={this.state}
-                numColumns={1}
-                renderItem={this.renderItem.bind(this)}
-              />
-
+            <FlatList
+              refreshing={true}
+              keyExtractor={(item, index) => index.toString()}
+              data={this.state.contacts}
+              extraData={this.state}
+              numColumns={1}
+              renderItem={this.renderItem.bind(this)}
+            />
           </View>
         </ScrollView>
       </View>
@@ -221,7 +229,7 @@ class searchContact extends Component {
   }
 
   plusnavigate = () => {
-    this.props.navigation.navigate('ManuallyAddContact')
+    this.props.navigation.navigate("ManuallyAddContact");
   };
 
   render() {
@@ -238,6 +246,9 @@ class searchContact extends Component {
         <Container>
           {/* <View style={{backgroundColor: COLORS.white, flex: 1}}> */}
           {this.renderHeader()}
+          {this.state.contacts == "" ? (
+            <LineText> No contact imported to show </LineText>
+          ) : null}
 
           {this.renderMiddle()}
 
@@ -252,7 +263,7 @@ class searchContact extends Component {
 function mapStateToProps(state) {
   return {
     theme: state.themeReducer.theme,
-    user_id: state.login.shouldLoadData.user_id
+    user_id: state.login.shouldLoadData.user_id,
   };
 }
 export default connect(mapStateToProps)(searchContact);
@@ -264,9 +275,12 @@ const Container = styled.View`
   /* align-items: center; */
   background-color: ${(props) => props.theme.backColor};
 `;
-const NormalText = styled.Text`
-  font-family: Roboto-Regular;
-  font-size: 17px;
-  color: ${(props) => props.theme.textColor};
-  margin-left: 5px;
+
+const LineText = styled.Text`
+font-family: Roboto-Regular;
+font-size: 15px;
+color: ${(props) => props.theme.iconColor};
+line-height: 30px;
+text-align: center;
+margin-top: 12px;
 `;

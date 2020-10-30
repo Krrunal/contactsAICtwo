@@ -2,22 +2,23 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/contactsAIC.iml" filepath="$PROJECT_DIR$/contactsAIC.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/contactsAIC.app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/contactsAIC.app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/1040186549/contactsAIC.react-native-camera.iml" filepath="$PROJECT_DIR$/.idea/modules/1040186549/contactsAIC.react-native-camera.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/1659550980/contactsAIC.react-native-community_async-storage.iml" filepath="$PROJECT_DIR$/.idea/modules/1659550980/contactsAIC.react-native-community_async-storage.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-359092119/contactsAIC.react-native-community_checkbox.iml" filepath="$PROJECT_DIR$/.idea/modules/-359092119/contactsAIC.react-native-community_checkbox.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/889949441/contactsAIC.react-native-community_masked-view.iml" filepath="$PROJECT_DIR$/.idea/modules/889949441/contactsAIC.react-native-community_masked-view.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/948994019/contactsAIC.react-native-contacts.iml" filepath="$PROJECT_DIR$/.idea/modules/948994019/contactsAIC.react-native-contacts.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/499916183/contactsAIC.react-native-firebase.iml" filepath="$PROJECT_DIR$/.idea/modules/499916183/contactsAIC.react-native-firebase.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-1493276938/contactsAIC.react-native-gesture-handler.iml" filepath="$PROJECT_DIR$/.idea/modules/-1493276938/contactsAIC.react-native-gesture-handler.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/1395331625/contactsAIC.react-native-image-crop-picker.iml" filepath="$PROJECT_DIR$/.idea/modules/1395331625/contactsAIC.react-native-image-crop-picker.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-2083035468/contactsAIC.react-native-permissions.iml" filepath="$PROJECT_DIR$/.idea/modules/-2083035468/contactsAIC.react-native-permissions.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-1789708954/contactsAIC.react-native-reanimated.iml" filepath="$PROJECT_DIR$/.idea/modules/-1789708954/contactsAIC.react-native-reanimated.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/131307999/contactsAIC.react-native-safe-area-context.iml" filepath="$PROJECT_DIR$/.idea/modules/131307999/contactsAIC.react-native-safe-area-context.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-588450633/contactsAIC.react-native-screens.iml" filepath="$PROJECT_DIR$/.idea/modules/-588450633/contactsAIC.react-native-screens.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/560341140/contactsAIC.react-native-svg.iml" filepath="$PROJECT_DIR$/.idea/modules/560341140/contactsAIC.react-native-svg.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/768869536/contactsAIC.react-native-vector-icons.iml" filepath="$PROJECT_DIR$/.idea/modules/768869536/contactsAIC.react-native-vector-icons.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/app.iml" group="contactsAIC/app" />
+      <module fileurl="file://$PROJECT_DIR$/contactsAIC.iml" filepath="$PROJECT_DIR$/contactsAIC.iml" group="contactsAIC" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-192341855/react-native-camera.iml" filepath="$PROJECT_DIR$/.idea/modules/-192341855/react-native-camera.iml" group="contactsAIC/react-native-camera" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/2056599024/react-native-community_async-storage.iml" filepath="$PROJECT_DIR$/.idea/modules/2056599024/react-native-community_async-storage.iml" group="contactsAIC/react-native-community_async-storage" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/2003391485/react-native-community_checkbox.iml" filepath="$PROJECT_DIR$/.idea/modules/2003391485/react-native-community_checkbox.iml" group="contactsAIC/react-native-community_checkbox" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/9916653/react-native-community_masked-view.iml" filepath="$PROJECT_DIR$/.idea/modules/9916653/react-native-community_masked-view.iml" group="contactsAIC/react-native-community_masked-view" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/1521145105/react-native-community_netinfo.iml" filepath="$PROJECT_DIR$/.idea/modules/1521145105/react-native-community_netinfo.iml" group="contactsAIC/react-native-community_netinfo" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/1900171471/react-native-contacts.iml" filepath="$PROJECT_DIR$/.idea/modules/1900171471/react-native-contacts.iml" group="contactsAIC/react-native-contacts" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/1451093635/react-native-firebase.iml" filepath="$PROJECT_DIR$/.idea/modules/1451093635/react-native-firebase.iml" group="contactsAIC/react-native-firebase" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/758641802/react-native-gesture-handler.iml" filepath="$PROJECT_DIR$/.idea/modules/758641802/react-native-gesture-handler.iml" group="contactsAIC/react-native-gesture-handler" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/825723581/react-native-image-crop-picker.iml" filepath="$PROJECT_DIR$/.idea/modules/825723581/react-native-image-crop-picker.iml" group="contactsAIC/react-native-image-crop-picker" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/545185352/react-native-permissions.iml" filepath="$PROJECT_DIR$/.idea/modules/545185352/react-native-permissions.iml" group="contactsAIC/react-native-permissions" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/1758755666/react-native-reanimated.iml" filepath="$PROJECT_DIR$/.idea/modules/1758755666/react-native-reanimated.iml" group="contactsAIC/react-native-reanimated" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-438300045/react-native-safe-area-context.iml" filepath="$PROJECT_DIR$/.idea/modules/-438300045/react-native-safe-area-context.iml" group="contactsAIC/react-native-safe-area-context" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-142125493/react-native-screens.iml" filepath="$PROJECT_DIR$/.idea/modules/-142125493/react-native-screens.iml" group="contactsAIC/react-native-screens" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-1409782744/react-native-svg.iml" filepath="$PROJECT_DIR$/.idea/modules/-1409782744/react-native-svg.iml" group="contactsAIC/react-native-svg" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/639336332/react-native-vector-icons.iml" filepath="$PROJECT_DIR$/.idea/modules/639336332/react-native-vector-icons.iml" group="contactsAIC/react-native-vector-icons" />
     </modules>
   </component>
 </project>

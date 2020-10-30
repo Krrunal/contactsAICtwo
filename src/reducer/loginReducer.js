@@ -13,15 +13,16 @@ const INITIAL_STATE = {
     LOGIN_PASS,
     RESET_LOGIN,
   } from '../action/types';
-  
+  import {AppState} from 'react-native';
   export default (state = INITIAL_STATE, action) => {
+    console.log(INITIAL_STATE.email)
     switch (action.type) {
       case 'Navigation/NAVIGATE':
         return {...state, currentRoute:action.routeName}
         break;
-      // case RESET_LOGIN:
-      //   return INITIAL_STATE
-      //   break;
+      case RESET_LOGIN:
+        return {...state,email : "",password:""}
+        break;
 
       case LOAD_DATA_SET:
         return {...state, shouldLoadData:action.payload}

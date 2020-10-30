@@ -78,7 +78,7 @@ class Signup extends Component {
   }
   matchPassword = (password, confirmpassWord) => {
     return password === confirmpassWord;
-  }
+  };
   signUp = () => {
     const { contact, uname, email, password, confirmpassWord } = this.props;
     console.log("contact-->", contact);
@@ -112,9 +112,18 @@ class Signup extends Component {
       ? this.setState({ confirmPassError: "Password not match" })
       : this.setState({ confirmPassError: "" });
 
-    if(contact && uname && uname.length < 20 && uname.length > 6 
-        && this.validateEmail && password && this.ValidPass && confirmpassWord 
-        && password == confirmpassWord) {
+    if (
+      contact &&
+      uname &&
+      !this.maxUname(uname) &&
+      !this.minUname(uname) &&
+      email &&
+      this.validateEmail(email) &&
+      password &&
+      this.ValidPass(password) &&
+      confirmpassWord &&
+      password == confirmpassWord
+    ) {
       this.props.signUpUser();
     }
   };
@@ -440,7 +449,6 @@ class Signup extends Component {
       </ThemeProvider>
     );
   }
-
 }
 
 function mapStateToProps(state) {

@@ -38,7 +38,7 @@ class afterSentInvite extends Component {
       >
         <TouchableOpacity
           style={styles.Whiteview}
-          onPress={this.invitenavigate}
+          onPress={this.oknavigate}
         >
           <Text
             style={{

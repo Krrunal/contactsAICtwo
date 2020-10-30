@@ -1,25 +1,29 @@
 import * as React from "react";
+import * as action from "../../action";
 
 import { Image, Text, View } from "react-native";
+import { NavigationActions, StackActions } from "react-navigation";
+import { darkTheme, lightTheme } from "../theme/themeProps";
 import styled, { ThemeProvider } from "styled-components/native";
-import { StackActions, NavigationActions } from 'react-navigation';
-import { bindActionCreators } from "redux";
-import { connect } from "react-redux";
 
 import GeneralStatusBar from "../../components/StatusBar/index";
-import { darkTheme, lightTheme } from "../theme/themeProps";
+import { bindActionCreators } from "redux";
+import { connect } from "react-redux";
 import styles from "./style";
 import { switchTheme } from "../../action/themeAction";
-import * as action from '../../action';
 
 class Splash extends React.Component {
   async componentDidMount() {
     this.timeoutHandle = setTimeout(async () => {
-      this.props.isLogedIn == false 
+      this.props.isLogedIn == false
         ? this.props.navigation.reset(
-        [NavigationActions.navigate({ routeName: 'Login' })] ,0)
+            [NavigationActions.navigate({ routeName: "Login" })],
+            0
+          )
         : this.props.navigation.reset(
-          [NavigationActions.navigate({ routeName: 'AddContact' })] ,0)
+            [NavigationActions.navigate({ routeName: "AddContact" })],
+            0
+          );
       // this.props.navigation.navigate('Login')
     }, 2000);
   }
@@ -55,8 +59,8 @@ function mapStateToProps(state) {
   return {
     // nav: state.nav,
     theme: state.themeReducer.theme,
-    isLogedIn: state.login.shouldLoadData
-  }
+    isLogedIn: state.login.shouldLoadData,
+  };
 }
 
 export default connect(mapStateToProps)(Splash);

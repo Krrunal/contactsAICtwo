@@ -18,23 +18,25 @@ import { showToastError, showToastSuccess } from "./ToastAction";
 
 import Constants from "./Constants";
 import { NavigationActions } from "react-navigation";
-import NavigationService from './navigationService';
+import NavigationService from "./navigationService";
 import { Platform } from "react-native";
 import firebase from "react-native-firebase";
 
 export const loadDataChange = (payload) => {
-  return{
-    type: LOAD_DATA_SET,payload: payload };
-}
+  return {
+    type: LOAD_DATA_SET,
+    payload: payload,
+  };
+};
 
 const loginUserSuccess = (data, dispatch) => {
   dispatch({ type: SHOW_LOADER_LOGIN, payload: false });
   dispatch({ type: SHOW_LOADER_REG, payload: false });
   dispatch({ type: LOGIN_USER_SUCCESS, payload: data });
   dispatch({ type: RESET_LOGIN });
-  dispatch({ type: RESET_REG });
+   dispatch({ type: RESET_REG });
   dispatch({ type: LOAD_DATA_SET, payload: data.data });
-  dispatch( NavigationService.navigate("SerachEditContact") );
+  dispatch(NavigationService.navigate("SerachEditContact"));
 };
 
 const regUserSuccess = (data, dispatch) => {
@@ -42,19 +44,20 @@ const regUserSuccess = (data, dispatch) => {
   dispatch({ type: SHOW_LOADER_REG, payload: false });
   dispatch({ type: LOGIN_USER_SUCCESS, payload: data });
   dispatch({ type: RESET_LOGIN });
-  dispatch({ type: RESET_REG });
+   dispatch({ type: RESET_REG });
   dispatch({ type: LOAD_DATA_SET, payload: data.data });
-  dispatch( NavigationService.navigate("AddContact") );
+
+  dispatch(NavigationService.navigate("AddContact"));
 };
 
 const loginUserFail = (dispatch) => {
-  dispatch({ type: SHOW_LOADER_LOGIN, payload:false });
-  dispatch({ type: SHOW_LOADER_REG, payload:false });
+  dispatch({ type: SHOW_LOADER_LOGIN, payload: false });
+  dispatch({ type: SHOW_LOADER_REG, payload: false });
   dispatch({ type: RESET_LOGIN });
   dispatch({ type: RESET_REG });
 
   //dispatch({ type: LOGIN_USER_SUCCESS, payload:{} });
-}
+};
 
 export const regEmailChange = (email) => {
   return { type: REG_EMAIL, payload: email };
@@ -106,7 +109,6 @@ export const signUpUser = () => {
     _body.append("contact", contact);
     _body.append("fcmToken", fcmToken);
     _body.append("platform", platform);
-    // console.log("body==============>", _body);
     dispatch({ type: SHOW_LOADER_REG, payload: true });
     fetch(baseurl + "register", {
       method: "POST",
@@ -116,25 +118,23 @@ export const signUpUser = () => {
       },
       body: _body,
     })
-    .then((response) => response.json())
-    .then((responseJson) => {
-      var data = responseJson;
-      if (data.status == true) {
-          console.log('response true-->',data);
-          // data.access_token = "Bearer " + data.access_token;
+      .then((response) => response.json())
+      .then((responseJson) => {
+        var data = responseJson;
+        if (data.status == true) {
+          console.log("response true-->", data);
           showToastSuccess(data.message);
           regUserSuccess(data, dispatch);
         } else {
-          console.log('response else-->',data);
+          console.log("response else-->", data);
           showToastSuccess(data.message);
           loginUserFail(dispatch);
           dispatch({ type: SHOW_LOADER_REG, payload: false });
         }
       })
       .catch((error) => {
-        // console.log('response eror-->',error);
-        showToastError("No Internet Connection!");
-        loginUserFail(dispatch);
+        // showToastError("No Internet Connection!");
+        // loginUserFail(dispatch);
         dispatch({ type: SHOW_LOADER_REG, payload: false });
       });
   };
@@ -143,8 +143,7 @@ export const signUpUser = () => {
 export const loginUser = () => {
   return (dispatch, getState) => {
     const state = getState();
-    // console.log('state=====>',getState())
-    const baseurl = Constants.baseurl; 
+    const baseurl = Constants.baseurl;
     const loginEmail = state.login.email;
     const loginPassword = state.login.password;
 
@@ -153,7 +152,6 @@ export const loginUser = () => {
     _body.append("password", loginPassword);
 
     dispatch({ type: SHOW_LOADER_LOGIN, payload: true });
-    // alert(baseurl)
     fetch(baseurl + "authentication", {
       method: "POST",
       headers: {
@@ -166,7 +164,6 @@ export const loginUser = () => {
       .then((responseJson) => {
         var data = responseJson;
         if (data.status == true) {
-          // data.access_token = "Bearer "+data.access_token;
           showToastSuccess(data.message);
           loginUserSuccess(data, dispatch);
           dispatch({ type: SHOW_LOADER_LOGIN, payload: false });
@@ -177,8 +174,9 @@ export const loginUser = () => {
         }
       })
       .catch((error) => {
-        showToastError("No Internet Connection!");
-        loginUserFail(dispatch);
+        console.log("Error ----->", error);
+        // showToastError("No Internet Connection!");
+        // loginUserFail(dispatch);
         dispatch({ type: SHOW_LOADER_LOGIN, payload: false });
       });
   };

@@ -1,6 +1,7 @@
 import 'react-native-gesture-handler'
 
 import * as React from "react";
+
 import { Provider, useSelector } from "react-redux";
 import styled, { ThemeProvider } from "styled-components/native";
 
@@ -25,7 +26,6 @@ import Invite from "../../containers/InviteContacts/index";
 import Label from "../../containers/Labels/index";
 import Login from "../../containers/Login/index";
 import ManageLable from "../../containers/ManageLable/index";
-import SelectLable from '../../containers/Labels/SelectLabels';
 import ManuallyAddContact from "../../containers/AddContactAICUser/manuallyAddContact";
 import MyContactInfromation from "../../containers/MyContactInformation/index";
 import PendingRequest from "../../containers/PndingRequests/index";
@@ -33,6 +33,7 @@ import Profile from "../../containers/Profile/index";
 import QRDetail from "../../containers/AddContactAICUser/QRDetails";
 import QRScanner from "../../containers/AddContactAICUser/QRScanner";
 import SearchContact from "../../containers/SearchContact/index";
+import SelectLable from '../../containers/Labels/SelectLabels';
 import SerachEditContact from "../../containers/SearchEditContact/index";
 import Share from "../../containers/Share/index";
 import {SideBar} from './DrawerContent';

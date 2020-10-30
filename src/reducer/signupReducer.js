@@ -3,8 +3,9 @@ const INITIAL_STATE = {
   email: "",
   uname: "",
   password: "",
-  contact:"",
+  contact: "",
   confirmpassWord: "",
+  shouldLoadData: false,
 };
 
 import {
@@ -15,16 +16,16 @@ import {
   REG_UNAME,
   RESET_REG,
   SHOW_LOADER_REG,
+  LOAD_DATA_SET,
 } from "../action/types";
 
 export default (state = INITIAL_STATE, action) => {
-  
   switch (action.type) {
     case RESET_REG:
-      return INITIAL_STATE;
+      return {...state,uname:"",email:"",contact:"",password:"",confirmpassWord:"",loader:false};
       break;
     case REG_UNAME:
-      console.log('reducer--->',action.payload)
+      console.log("reducer--->", action.payload);
       return { ...state, uname: action.payload };
       break;
     case REG_EMAIL:
@@ -38,9 +39,12 @@ export default (state = INITIAL_STATE, action) => {
       break;
     case REG_CONFIRMPASS:
       return { ...state, confirmpassWord: action.payload };
-      break;  
+      break;
     case SHOW_LOADER_REG:
       return { ...state, loader: action.payload };
+      break;
+    case LOAD_DATA_SET:
+      return { ...state, shouldLoadData: action.payload };
       break;
     default:
       return state;

@@ -25,6 +25,7 @@ import { switchTheme } from "../../action/themeAction";
 import { addItem } from '../../services/FirebaseDatabase/addToFirebase';
 import firebase from '../../services/FirebaseDatabase/db';
 import { Spinner } from "../../components/Spinner";
+import AsyncStorage from '@react-native-community/async-storage'
 
 var { width, height } = Dimensions.get("window");
 
@@ -38,20 +39,24 @@ class forAddContact extends Component {
     loader: false,
   }
 
-  componentDidMount() {
+ async componentDidMount() {
     this.setState({ 
-      label: this.props.navigation.state.params.label,
-      data: JSON.parse(this.props.navigation.state.params.data)
+      // label: this.props.navigation.state.params.label,
+      // data: JSON.parse(this.props.navigation.state.params.data)
+     label: await AsyncStorage.getItem('@selectedLabel'),
+     data: JSON.parse( await AsyncStorage.getItem('@qrData'))
+
     })
 
+    console.log(JSON.parse( await AsyncStorage.getItem('@qrData')))
     const {data, label} = this.state;
       firebase.firestore().collection(this.props.user_id).get()
           .then((snap) => {
-          snap.forEach((doc) => {
+          snap.forEach(async(doc) => {
               if(this.state.isUserExist == false) {
                 console.log('is exist1----->',this.state.isUserExist)
                 console.log('data----->',doc._data.id,'user_id--->',JSON.parse(this.props.navigation.state.params.data).user_id)
-                if (doc._data.id === JSON.parse(this.props.navigation.state.params.data).user_id) {
+                if (doc._data.id === JSON.parse( await AsyncStorage.getItem('@qrData')).user_id) {
                   this.setState({isUserExist : true})
                   console.log('is exist2----->',this.state.isUserExist)
 
