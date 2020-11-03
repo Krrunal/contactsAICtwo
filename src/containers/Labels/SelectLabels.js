@@ -10,30 +10,34 @@ import {
   View,
 } from 'react-native';
 import React, {Component, useState} from 'react';
-import { connect } from "react-redux";
 import styled, { ThemeProvider } from "styled-components/native";
-import Toast from 'react-native-easy-toast';
 
 import {COLORS} from '../theme/Colors.js';
+import Constants from "../../action/Constants";
+import { DataTable } from 'react-native-paper';
+import Font from "../theme/font";
+import GeneralStatusBar from "../../components/StatusBar/index";
+import Header from "../../components/header/index";
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import Metrics from '../theme/Metrics';
+import Toast from 'react-native-easy-toast';
+import { connect } from "react-redux";
 import logo from '../../assets/images/logo.png';
 import sideBar from '../../assets/images/sideBAR.png';
 import styles from './style.js';
-import Header from "../../components/header/index";
-import GeneralStatusBar from "../../components/StatusBar/index";
-import Constants from "../../action/Constants";
-import Font from "../theme/font";
 
 var {width, height} = Dimensions.get('window');
 
 class Selectlabels extends Component {
-  state = {
-    dataManage: [],
-    checked: false,
-    isSelected: false,
-    selectedRealetion: [],
-  };
+  constructor() {
+    super();
+    this.state = {
+      dataManage: [],
+      checked: false,
+      isSelected: false,
+      selectedRealetion: [],
+    };
+  }
 
   componentDidMount() {
     this.setState({loader: true})
@@ -43,11 +47,16 @@ class Selectlabels extends Component {
         return response.json();
       })
       .then((responseJson) => {
-        var arr = responseJson.data.relation.split(/[ ,]+/).map((item) => {
-          return { relation: item, isSelect: false };
-        });
-        this.setState({ dataManage: arr });
-        console.log("Array is in -->", arr);
+          if(responseJson.data.relation == "") {
+            console.log(responseJson.data.relation)
+            this.setState({ dataManage: "" });
+          } else {
+            var labelData = responseJson.data.relation.split(/,/).map((item) => {
+              console.log(labelData)
+              return { relation: item, isSelect: false }
+            });
+            this.setState({ dataManage: labelData });
+          }          
       })
       .catch((error) => {
         console.error(error);
@@ -62,7 +71,6 @@ class Selectlabels extends Component {
       }
       return { ...item };
     });
-    // console.log("after arr ===> ", arr);
     this.setState({ dataManage: arr });
     console.log("datatmanage arr ===> ", dataManage);
     
@@ -76,7 +84,6 @@ class Selectlabels extends Component {
     });
 
     const selected = selectedRealetion.toString();
-    console.log('selected------>',selected)
     
     const baseurl = Constants.baseurl;
     var _body = new FormData();
@@ -93,11 +100,14 @@ class Selectlabels extends Component {
       .then((response) => response.json())
       .then((responseJson) => {
         this.refs.toast.show(responseJson.message);
-        // console.log("labelRespose ---- >", responseJson);
-        var arr = responseJson.data.relation.split(/[ ,]+/).map((item) => {
-          return { relation: item, isSelect: false };
-        });
-        this.setState({ dataManage: arr });
+        if(responseJson.data.relation == "") {
+          this.setState({ dataManage: responseJson.data.relation });
+        } else {
+          var labelData = responseJson.data.relation.split(/,/).map((item) => {
+            return { relation: item, isSelect: false }
+          });
+          this.setState({ dataManage: labelData });
+        }          
       });
   };
 
@@ -115,14 +125,16 @@ class Selectlabels extends Component {
     return (
         <View style={{flex: 1,marginBottom:Metrics.smallMargin }}>
           <ScrollView>
-            {dataManage.map((item, key) => (
+          {this.state.dataManage === "" ?
+              null :
+
+            this.state.dataManage.map((item, key) => (
               <View style={styles.tripleView} key={key}>
                 <CheckBox
                 value={item.isSelect}
                 onChange={() => {
                   this.onchecked(key,item.isSelect);
                 }}
-                // onValueChange={item.isSelect}
                 tintColors={{true: '#1374A3', false: '#000'}}
               />    
                 <View style={styles.manageView}>

@@ -1,4 +1,5 @@
 import { Dimensions, StyleSheet } from 'react-native';
+
 import { COLORS } from '../theme/Colors.js';
 import Font from '../theme/font';
 import Metrics from '../theme/Metrics';
@@ -39,6 +40,10 @@ export default StyleSheet.create({
         flexDirection:'row',
         alignItems:'center',
         marginTop:Metrics.baseMargin,
+        // borderWidth: 1,
+        borderColor: 'white',
+        marginHorizontal: 0,
+        width: width * 0.8
     },
 
     Whiteview:{

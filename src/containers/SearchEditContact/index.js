@@ -6,7 +6,6 @@ import {
   Text,
   TouchableOpacity,
   View,
-
 } from "react-native";
 import React, { Component, useState } from "react";
 import styled, { ThemeProvider } from "styled-components/native";
@@ -16,16 +15,16 @@ import Font from "../theme/font";
 import GeneralStatusBar from "../../components/StatusBar/index";
 import Header from "../../components/header/index";
 import Metrics from "../theme/Metrics";
-import firebase from "../../services/FirebaseDatabase/db";
 // import { getContact } from '../../services/FirebaseDatabase/getAllContact';
 import { TouchableHighlight } from "react-native-gesture-handler";
 import { connect } from "react-redux";
 import edit from "../../assets/images/edit.png";
+import firebase from "../../services/FirebaseDatabase/db";
 import outerimg from "../../assets/images/outerimg.png";
 import plus from "../../assets/images/plus.png";
 import reset from "../../assets/images/reset.png";
-import styles from "./style.js";
 import style from "../../components/StatusBar/style.js";
+import styles from "./style.js";
 
 var { width, height } = Dimensions.get("window");
 
@@ -37,7 +36,7 @@ class searchContact extends Component {
       contacts: "",
     };
   }
-  
+
   componentDidMount() {
     firebase
       .firestore()
@@ -89,7 +88,7 @@ class searchContact extends Component {
             { color: this.props.theme.mode === "light" ? "black" : "white" },
           ]}
         >
-          {item.user_name || item.first_name}
+         {item.user_name || item.first_name} {item.last_name}
         </Text>
         {/* <TouchableHighlight underlayColor='transparant'
           onPress={() => this.navigate(
@@ -277,10 +276,10 @@ const Container = styled.View`
 `;
 
 const LineText = styled.Text`
-font-family: Roboto-Regular;
-font-size: 15px;
-color: ${(props) => props.theme.iconColor};
-line-height: 30px;
-text-align: center;
-margin-top: 12px;
+  font-family: Roboto-Regular;
+  font-size: 15px;
+  color: ${(props) => props.theme.iconColor};
+  line-height: 30px;
+  text-align: center;
+  margin-top: 12px;
 `;

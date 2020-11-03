@@ -20,6 +20,7 @@ export default StyleSheet.create({
         borderRadius:10,
         marginTop:Metrics.xsmallMargin,
         justifyContent:'center',
+      
     },
     numberView  :{
         backgroundColor:COLORS.main_sky_blue,
@@ -173,5 +174,10 @@ export default StyleSheet.create({
         // borderWidth: 1,
         paddingLeft: width * 0.03,
         paddingTop: height * 0.005
+    },
+    checkIcon  :{
+        width: width * 0.030,
+        height: width * 0.030,
+        resizeMode:'contain'
     }
 })

@@ -10,30 +10,28 @@ import {
 } from "react-native";
 import React, { Component, useState } from "react";
 import styled, { ThemeProvider } from "styled-components/native";
-import { connect } from "react-redux";
-import Icon from "react-native-vector-icons/FontAwesome5";
-import Toast from 'react-native-easy-toast';
 
 import { COLORS } from "../theme/Colors.js";
 import Constants from "../../action/Constants";
 import Font from "../theme/font";
 import GeneralStatusBar from "../../components/StatusBar/index";
 import Header from "../../components/header/index";
+import Icon from "react-native-vector-icons/FontAwesome5";
 import Metrics from "../theme/Metrics";
-import styles from "./style.js";
 import {Spinner} from '../../components/Spinner';
+import Toast from 'react-native-easy-toast';
+import { connect } from "react-redux";
+import styles from "./style.js";
 
 var { width, height } = Dimensions.get("window");
 class labels extends Component {
   constructor() {
     super();
-
     this.state = {
       label: "",
       valueArrayLabel: [],
       //api data
       dataManage: [],
-
       disabledLabel: false,
       status: false,
       viewSection: false
@@ -43,21 +41,35 @@ class labels extends Component {
   }
 
   componentDidMount() {
-    this.setState({loader: true})
+    const { navigation } = this.props;
+    this.focusListener = navigation.addListener("didFocus", async() => {
+      this.labelList()
+    });
+  }
+
+  labelList=()=>{
     const baseurl = Constants.baseurl;
     fetch(baseurl + "get_label")
       .then((response) => {
         return response.json();
       })
       .then((responseJson) => {
-        this.setState({loader: false})
-        var labelData = responseJson.data.relation.split(/[ ,]+/);
-        this.setState({ dataManage: labelData });
+        console.log('response',responseJson.data.relation)
+        if(responseJson.data.relation == "") {
+          this.setState({ dataManage: [] });
+        } else {
+          var labelData = responseJson.data.relation.split(/,/);
+          this.setState({ dataManage: labelData });
+        }
       })
       .catch((error) => {
-        this.setState({loader: false})
         console.error(error);
       });
+  }
+
+  componentWillUnmount() {
+    // Remove the event listener
+    // this.focusListener.remove();
   }
 
   renderHeader() {
@@ -104,10 +116,13 @@ class labels extends Component {
     })
       .then((response) => response.json())
       .then((responseJson) => {
-        // console.log("labelRespose ---- >", responseJson);
         this.refs.toast.show(responseJson.message);
-        var labelData = responseJson.data.relation.split(/[ ,]+/);
-        this.setState({ dataManage: labelData, viewSection: false, label: '' });
+        if(responseJson.data.relation == "") {
+          this.setState({ dataManage: responseJson.data.relation, viewSection: false, label: '' });
+        } else {
+          var labelData = responseJson.data.relation.split(/,/);
+          this.setState({ dataManage: labelData, viewSection: false, label: '' });
+        }
       });
   };
 
@@ -116,21 +131,23 @@ class labels extends Component {
       <ScrollView>
         <View style={{ flex: 1, marginBottom: Metrics.smallMargin }}>
           {this.state.dataManage.map((item, key) => (
-            <View style={styles.tripleView} key={key}>
-              {this.props.theme.mode === "light" ? (
-                <Icon name={"arrows-alt-v"} size={15} color={COLORS.black} />
-              ) : (
-                <Icon name={"arrows-alt-v"} size={15} color={COLORS.white} />
-              )}
+            this.state.dataManage === [""] ?
+              null :
+              <View style={styles.tripleView} key={key}>
+                {this.props.theme.mode === "light" ? (
+                  <Icon name={"arrows-alt-v"} size={15} color={COLORS.black} />
+                ) : (
+                  <Icon name={"arrows-alt-v"} size={15} color={COLORS.white} />
+                )}
 
-              <TouchableOpacity
-                style={styles.manageView}
-                onPress={this.manageLabelnavigate}
-              >
-                <Text style={styles.manageText}>Manage</Text>
-              </TouchableOpacity>
-              <NormalText> {item}</NormalText>
-            </View>
+                <TouchableOpacity
+                  style={styles.manageView}
+                  onPress={this.manageLabelnavigate}
+                >
+                  <Text style={styles.manageText}>Manage</Text>
+                </TouchableOpacity>
+                <NormalText> {item}</NormalText>
+              </View>
           ))}
 
         {this.state.viewSection == true &&

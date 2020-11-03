@@ -508,8 +508,8 @@ class MyContactInfromation extends Component {
               placeholder="Phone Number"
               style={styles.stylefiledText}
               placeholderTextColor={COLORS.main_text_color}
-              // maxLength={10}
-              keyboardType={"numeric"}
+             maxLength={10}
+                keyboardType={"numeric"}
             />
             <View style={styles.rightView}>
               <Text style={styles.righttext}>Personal</Text>
@@ -523,7 +523,7 @@ class MyContactInfromation extends Component {
               placeholder="Phone Number"
               style={styles.stylefiledText}
               placeholderTextColor={COLORS.main_text_color}
-              // maxLength={10}
+              maxLength={10}
               keyboardType={"numeric"}
             />
             <View style={styles.rightView}>
@@ -548,7 +548,7 @@ class MyContactInfromation extends Component {
                   placeholder="Phone Number -1"
                   style={styles.stylefiledText}
                   placeholderTextColor={COLORS.main_text_color}
-                  // maxLength={10}
+                 maxLength={10}
                   keyboardType={"numeric"}
                   // editable={this.state.TextInputDisableFirstName}
                 />
@@ -557,7 +557,7 @@ class MyContactInfromation extends Component {
                   placeholder="Phone Number -1"
                   style={styles.stylefiledText}
                   placeholderTextColor={COLORS.main_text_color}
-                  // maxLength={10}
+                maxLength={10}
                   keyboardType={"numeric"}
                   editable={this.state.TextInputDisable}
                 />

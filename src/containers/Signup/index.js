@@ -28,12 +28,14 @@ import Metrics from "../theme/Metrics";
 import { Spinner } from "../../components/Spinner";
 import { TouchableWithoutFeedback } from "react-native-gesture-handler";
 import { bindActionCreators } from "redux";
+import checked from "../../assets/icons/checked.png";
 import { connect } from "react-redux";
 import firebase from "react-native-firebase";
 import helper from "../../util/helper";
 import iSquareWhite from "../../assets/icons/iSquareWhite.png";
 import iSqure from "../../assets/icons/iSquare.png";
 import logo from "../../assets/images/logo.png";
+import style from "../../components/StatusBar/style";
 import styles from "./style.js";
 
 var { width, height } = Dimensions.get("window");
@@ -69,7 +71,8 @@ class Signup extends Component {
     return uname.length < 6;
   };
   validateEmail = (email) => {
-    let re = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+    let re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    // let re = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
     return re.test(email);
   };
   ValidPass(password: string) {

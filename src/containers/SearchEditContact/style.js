@@ -1,7 +1,8 @@
 import { Dimensions, StyleSheet } from 'react-native';
+
 import { COLORS } from '../theme/Colors.js';
-import Metrics from '../theme/Metrics';
 import Font from '../theme/font';
+import Metrics from '../theme/Metrics';
 
 var {width,height} =  Dimensions.get('window');
 export default StyleSheet.create({
@@ -41,12 +42,14 @@ export default StyleSheet.create({
       editImgStyle:{
         width:width*0.035,
         height:width*0.035,
-        marginLeft:Metrics.baseMargin
+        marginLeft:Metrics.baseMargin,
+        resizeMode:'contain'
       },
       resetImgStyle:{
         width:width*0.030,
         height:width*0.030,
-        marginLeft:Metrics.smallMargin
+        marginLeft:Metrics.smallMargin,
+        resizeMode:'contain'
       },
       plusStyle:{
         width: width * 0.130,

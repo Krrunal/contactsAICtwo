@@ -1,6 +1,7 @@
 import {
   CheckBox,
   Dimensions,
+  FlatList,
   Image,
   Keyboard,
   ScrollView,
@@ -12,14 +13,55 @@ import {
 import React, { Component } from "react";
 import styled, { ThemeProvider } from "styled-components/native";
 
+import { COLORS } from "../theme/Colors.js";
 import GeneralStatusBar from "../../components/StatusBar/index";
 import Header from "../../components/header/index";
+import Labels from "../Labels/index";
+import { Spinner } from "../../components/Spinner";
 import { connect } from "react-redux";
+import firebase from "../../services/FirebaseDatabase/db";
 import styles from "./style.js";
 
 var { width, height } = Dimensions.get("window");
 
 class ViewLabel extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      contact: [],
+      contacts: [],
+      label: [],
+      labels: [],
+      splitLabel: [],
+    };
+  }
+
+  componentDidMount() {
+    this.setState({ loader: true });
+    firebase
+      .firestore()
+      .collection(this.props.user_id)
+      .get()
+      .then((snap) => {
+        snap.forEach((doc) => {
+          this.setState({ loader: false });
+          console.log("doc data===>", doc._data);
+          var item = doc._data;
+          this.state.contact.push(item);
+
+          var arr = doc._data.label;
+
+          this.state.label.push(arr);
+        });
+        this.setState({ contacts: this.state.contact });
+        this.setState({ labels: this.state.label });
+
+        const data = this.state.labels.join(",").split(",");
+        this.setState({ splitLabel: data });
+        console.log("Label ===>", this.state.contacts);
+        console.log(" Split Label ===>", this.state.splitLabel);
+      });
+  }
   renderHeader() {
     return (
       <Header
@@ -46,42 +88,53 @@ class ViewLabel extends Component {
       </View>
     );
   }
-  
+
   labelNavigate = () => {
-    this.props.navigation.navigate("ViewLabelByName")
+    this.props.navigation.navigate("ViewLabelByName");
   };
 
   renderBigView() {
     return (
-      <View>
-        <ScrollView>
+      <View style={{ alignItems: "center" }}>
+        <ScrollView style={{ width: width, height: height, marginBottom: 200 }}>
           <View style={{ alignItems: "center" }}>
-            <View style={styles.middleView}>
-              <View style={styles.firstView}>
-                <Text style={styles.FirstText}>Ron Aron</Text>
+            {this.state.contacts.map((item, index) => (
+              <View style={styles.middleView}>
+                <View style={styles.firstView}>
+                  <Text
+                    style={[
+                      styles.FirstText,
+                      { color: COLORS.main_text_color },
+                    ]}
+                  >
+                    {" "}
+                    {item.user_name || item.first_name}
+                  </Text>
+                </View>
+                <View>
+                  <View style={styles.secondView}>
+                    <Text style={styles.FirstText}>{item.label}</Text>
+                  </View>
+                  {/* <View style={styles.secondView}> */}
+                  {/* {this.state.splitLabel.map((item) => (
+                  <View>
+                    <View>
+                      <Text style={styles.FirstText}>{item}</Text>
+                    </View>
+                  </View>
+                ))} */}
+                </View>
               </View>
-              <View style={styles.secondView}>
-                <Text style={styles.secondText}>Universal Studio</Text>
-                <Text style={styles.secondText}>Green Inc. </Text>
-                <Text style={styles.secondText}>Sports gambling podcast</Text>
-              </View>
-            </View>
-            <View style={styles.middleView}>
-              <View style={styles.firstView}>
-                <Text style={styles.FirstText}>Shelly Blimton</Text>
-              </View>
-              <View style={styles.secondView}>
-                <Text style={styles.secondText}>Friends</Text>
-
-                <Text style={styles.secondText}>Universal Studio</Text>
-                <Text style={styles.secondText}>Green Inc. </Text>
-                <Text style={styles.secondText}>Sports gambling podcast</Text>
-              </View>
-            </View>
+            ))}
           </View>
         </ScrollView>
       </View>
     );
+  }
+  showLoader() {
+    if (this.state.loader == true) {
+      return <Spinner />;
+    }
   }
   render() {
     return (
@@ -96,17 +149,26 @@ class ViewLabel extends Component {
         />
         <Container>
           {this.renderHeader()}
+
           {this.renderMiddle()}
+
           {this.renderBigView()}
+          {this.showLoader()}
         </Container>
       </ThemeProvider>
     );
   }
 }
-const mapStateToProps = (state) => ({
-  theme: state.themeReducer.theme,
-});
-
+// const mapStateToProps = (state) => ({
+//   theme: state.themeReducer.theme,
+//   user_id: state.login.shouldLoadData.user_id,
+// });
+function mapStateToProps(state) {
+  return {
+    theme: state.themeReducer.theme,
+    user_id: state.login.shouldLoadData.user_id,
+  };
+}
 export default connect(mapStateToProps)(ViewLabel);
 
 const Container = styled.View`
@@ -115,4 +177,12 @@ const Container = styled.View`
   width: 100%;
   align-items: center;
   background-color: ${(props) => props.theme.backColor};
+`;
+const LineText = styled.Text`
+  font-family: Roboto-Regular;
+  font-size: 15px;
+  color: ${(props) => props.theme.iconColor};
+  line-height: 30px;
+  text-align: center;
+  margin-top: 12px;
 `;
