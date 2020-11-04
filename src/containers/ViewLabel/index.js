@@ -17,6 +17,7 @@ import { COLORS } from "../theme/Colors.js";
 import GeneralStatusBar from "../../components/StatusBar/index";
 import Header from "../../components/header/index";
 import Labels from "../Labels/index";
+import Metrics from "../theme/Metrics";
 import { Spinner } from "../../components/Spinner";
 import { connect } from "react-redux";
 import firebase from "../../services/FirebaseDatabase/db";
@@ -56,7 +57,7 @@ class ViewLabel extends Component {
         this.setState({ contacts: this.state.contact });
         this.setState({ labels: this.state.label });
 
-        const data = this.state.labels.join(",").split(",");
+        const data = this.state.labels;
         this.setState({ splitLabel: data });
         console.log("Label ===>", this.state.contacts);
         console.log(" Split Label ===>", this.state.splitLabel);
@@ -96,7 +97,7 @@ class ViewLabel extends Component {
   renderBigView() {
     return (
       <View style={{ alignItems: "center" }}>
-        <ScrollView style={{ width: width, height: height, marginBottom: 200 }}>
+        <ScrollView style={{ width: width, marginBottom: 190 }}>
           <View style={{ alignItems: "center" }}>
             {this.state.contacts.map((item, index) => (
               <View style={styles.middleView}>
@@ -151,10 +152,14 @@ class ViewLabel extends Component {
           {this.renderHeader()}
 
           {this.renderMiddle()}
-
+          {this.state.contacts == "" ? (
+            <View style={{ marginTop: Metrics.doubleBaseMargin }}>
+              <LineText>Please wait a moment</LineText>
+            </View>
+          ) : null}
           {this.renderBigView()}
-          {this.showLoader()}
         </Container>
+        {/* {this.showLoader()} */}
       </ThemeProvider>
     );
   }
@@ -180,7 +185,7 @@ const Container = styled.View`
 `;
 const LineText = styled.Text`
   font-family: Roboto-Regular;
-  font-size: 15px;
+  font-size: 20px;
   color: ${(props) => props.theme.iconColor};
   line-height: 30px;
   text-align: center;

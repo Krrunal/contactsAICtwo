@@ -170,10 +170,21 @@ export default StyleSheet.create({
     },
     error:{
         fontSize:15,
-        color:COLORS.red,
-        // borderWidth: 1,
         paddingLeft: width * 0.03,
         paddingTop: height * 0.005
+    },
+ 
+    errorSuccess: {
+        fontSize:15,
+        color:COLORS.green,
+        paddingLeft: width * 0.03,
+        paddingTop: height * 0.005 
+    },
+    errorFail: {
+        fontSize:15,
+        color:COLORS.red,
+        paddingLeft: width * 0.03,
+        paddingTop: height * 0.005 
     },
     checkIcon  :{
         width: width * 0.030,

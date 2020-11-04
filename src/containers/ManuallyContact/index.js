@@ -14,7 +14,6 @@ import {
 import React, { Component } from "react";
 import { darkTheme, lightTheme } from "../theme/themeProps";
 import styled, { ThemeProvider } from "styled-components/native";
-import Toast from 'react-native-easy-toast';
 
 import { COLORS } from "../theme/Colors.js";
 import { Colors } from "react-native-paper";
@@ -24,6 +23,8 @@ import Header from "../../components/header/index";
 import ImagePicker from "react-native-image-crop-picker";
 import Metrics from "../theme/Metrics";
 import { ThemeContext } from "react-navigation";
+import Toast from "react-native-easy-toast";
+import { addManualContact } from "../../services/FirebaseDatabase/manualContactToFirebase";
 import { bindActionCreators } from "redux";
 import calender from "../../assets/images/calender.png";
 import call from "../../assets/images/call.png";
@@ -41,7 +42,6 @@ import sideBar from "../../assets/images/sideBAR.png";
 import styles from "./style.js";
 import { switchTheme } from "../../action/themeAction";
 import website from "../../assets/images/website.png";
-import { addManualContact } from '../../services/FirebaseDatabase/manualContactToFirebase';
 
 var { width, height } = Dimensions.get("window");
 
@@ -105,31 +105,114 @@ class addmanuallyContact extends Component {
       //inputText
       TextInputDisable: false,
     };
-
   }
 
   ShowHideTextComponentView = () => {
-    const {first_name, middle_name,last_name,nick_name,number1,number2,number3,numberArray,
-      email1,email2,emailArray,address1,addressArray,messenger1,messenger2,messangerArray,
-      social_media1,social_media2,socialMediaArray,website1,website2,websiteArray,dob,
-      dateArray,note,noteArray,company,companyArray,job_title,work_hour
-    } = this.state
-    const {user_id} = this.props
+    const {
+      first_name,
+      middle_name,
+      last_name,
+      nick_name,
+      number1,
+      number2,
+      number3,
+      numberArray,
+      email1,
+      email2,
+      emailArray,
+      address1,
+      addressArray,
+      messenger1,
+      messenger2,
+      messangerArray,
+      social_media1,
+      social_media2,
+      socialMediaArray,
+      website1,
+      website2,
+      websiteArray,
+      dob,
+      dateArray,
+      note,
+      noteArray,
+      company,
+      companyArray,
+      job_title,
+      work_hour,
+    } = this.state;
+    const { user_id } = this.props;
     if (this.state.status == true) {
-      alert('Add contact successfully');
-
-      addManualContact( user_id, first_name, middle_name,last_name,nick_name,number1,number2,number3,numberArray,
-        email1,email2,emailArray,address1,addressArray,messenger1,messenger2,messangerArray,
-        social_media1,social_media2,socialMediaArray,website1,website2,websiteArray,dob,
-        dateArray,note,noteArray,company,companyArray,job_title,work_hour
-      )
-      
-      this.setState({ status: false, first_name: "", middle_name: "",last_name: "",nick_name:"",
-        number1: "",number2:"",number3:"",numberArray:[],email1:"",email2:"",emailArray:[],
-        address1:"",addressArray:[],messenger1:"",messenger2:"",messangerArray:[],social_media1:"",
-        social_media2:"",socialMediaArray:[],website1:"",website2:"",websiteArray:[],dob:"",dateArray:[],
-        note:"",noteArray:[],company:"",companyArray:[],job_title:"",work_hour:"" });
-      
+      if( first_name !== "" && number1 !== "" ){
+            addManualContact(
+                  user_id,
+                  first_name,
+                  middle_name,
+                  last_name,
+                  nick_name,
+                  number1,
+                  number2,
+                  number3,
+                  numberArray,
+                  email1,
+                  email2,
+                  emailArray,
+                  address1,
+                  addressArray,
+                  messenger1,
+                  messenger2,
+                  messangerArray,
+                  social_media1,
+                  social_media2,
+                  socialMediaArray,
+                  website1,
+                  website2,
+                  websiteArray,
+                  dob,
+                  dateArray,
+                  note,
+                  noteArray,
+                  company,
+                  companyArray,
+                  job_title,
+                  work_hour
+                );
+        this.setState({
+          status: false,
+          first_name: "",
+          middle_name: "",
+          last_name: "",
+          nick_name: "",
+          number1: "",
+          number2: "",
+          number3: "",
+          numberArray: [],
+          email1: "",
+          email2: "",
+          emailArray: [],
+          address1: "",
+          addressArray: [],
+          messenger1: "",
+          messenger2: "",
+          messangerArray: [],
+          social_media1: "",
+          social_media2: "",
+          socialMediaArray: [],
+          website1: "",
+          website2: "",
+          websiteArray: [],
+          dob: "",
+          dateArray: [],
+          note: "",
+          noteArray: [],
+          company: "",
+          companyArray: [],
+          job_title: "",
+          work_hour: "",
+        });
+        alert("Add contact successfully");
+     } else {
+       alert('Please enter data to save contact')
+     }
     } else {
       this.setState({ status: true });
     }
@@ -406,73 +489,71 @@ class addmanuallyContact extends Component {
 
           <View>
             <View style={styles.filedView}>
-                <TextInput
-                  placeholder=""
-                  style={styles.stylefiledText}
-                  placeholderTextColor={COLORS.main_text_color}
-                  // maxLength={10}
-                  editable={this.state.status ? true: false}
-                  value={this.state.first_name}
-                  onChangeText={(value) => this.setState({ first_name: value })}
-                  ref={(input) => {
-                    this.first_name = input;
-                  }}
-                />
+              <TextInput
+                placeholder=""
+                style={styles.stylefiledText}
+                placeholderTextColor={COLORS.main_text_color}
+                // maxLength={10}
+                editable={this.state.status ? true : false}
+                value={this.state.first_name}
+                onChangeText={(value) => this.setState({ first_name: value })}
+                ref={(input) => {
+                  this.first_name = input;
+                }}
+              />
               <View style={styles.rightView}>
                 <Text style={styles.righttext}>First Name</Text>
               </View>
             </View>
 
             <View style={styles.filedView}>
-                <TextInput
-                  placeholder=""
-                  style={styles.stylefiledText}
-                  placeholderTextColor={COLORS.main_text_color}
-                  // maxLength={10}
-                  editable={this.state.status ? true: false}
-                  value={this.state.middle_name}
-                  onChangeText={(value) =>
-                    this.setState({ middle_name: value })
-                  }
-                  ref={(input) => {
-                    this.middle_name = input;
-                  }}
-                />
+              <TextInput
+                placeholder=""
+                style={styles.stylefiledText}
+                placeholderTextColor={COLORS.main_text_color}
+                // maxLength={10}
+                editable={this.state.status ? true : false}
+                value={this.state.middle_name}
+                onChangeText={(value) => this.setState({ middle_name: value })}
+                ref={(input) => {
+                  this.middle_name = input;
+                }}
+              />
               <View style={styles.rightView}>
                 <Text style={styles.righttext}>Middle Name</Text>
               </View>
             </View>
 
             <View style={styles.filedView}>
-                <TextInput
-                  placeholder=""
-                  style={styles.stylefiledText}
-                  placeholderTextColor={COLORS.main_text_color}
-                  // maxLength={10}
-                  editable={this.state.status ? true: false}
-                  value={this.state.last_name}
-                  onChangeText={(value) => this.setState({ last_name: value })}
-                  ref={(input) => {
-                    this.last_name = input;
-                  }}
-                />
+              <TextInput
+                placeholder=""
+                style={styles.stylefiledText}
+                placeholderTextColor={COLORS.main_text_color}
+                // maxLength={10}
+                editable={this.state.status ? true : false}
+                value={this.state.last_name}
+                onChangeText={(value) => this.setState({ last_name: value })}
+                ref={(input) => {
+                  this.last_name = input;
+                }}
+              />
               <View style={styles.rightView}>
                 <Text style={styles.righttext}>Last Name</Text>
               </View>
             </View>
 
             <View style={styles.filedView}>
-                <TextInput
-                  placeholder=""
-                  style={styles.stylefiledText}
-                  placeholderTextColor={COLORS.main_text_color}
-                  editable={this.state.status ? true: false}
-                  value={this.state.nick_name}
-                  onChangeText={(value) => this.setState({ nick_name: value })}
-                  ref={(input) => {
-                    this.nick_name = input;
-                  }}
-                />
+              <TextInput
+                placeholder=""
+                style={styles.stylefiledText}
+                placeholderTextColor={COLORS.main_text_color}
+                editable={this.state.status ? true : false}
+                value={this.state.nick_name}
+                onChangeText={(value) => this.setState({ nick_name: value })}
+                ref={(input) => {
+                  this.nick_name = input;
+                }}
+              />
               <View style={styles.rightView}>
                 <Text style={styles.righttext}>Nickname</Text>
               </View>
@@ -485,14 +566,14 @@ class addmanuallyContact extends Component {
 
   addNumber = () => {
     this.setState({
-      numberArray: [...this.state.numberArray, {number:'value'}]
-    })
+      numberArray: [...this.state.numberArray, { number: "value" }],
+    });
   };
 
-  onChangeNumber = (value,index) => {
+  onChangeNumber = (value, index) => {
     this.state.numberArray[index].number = value;
-    this.setState({numberArray: this.state.numberArray});
-  }
+    this.setState({ numberArray: this.state.numberArray });
+  };
 
   renderMobile() {
     return (
@@ -504,63 +585,63 @@ class addmanuallyContact extends Component {
 
           <View>
             <View style={styles.filedView}>
-                <TextInput
-                  placeholder="Phone Number -1"
-                  style={styles.stylefiledText}
-                  placeholderTextColor={COLORS.main_text_color}
-                  maxLength={10}
-                  editable={this.state.status ? true: false}
-                  keyboardType={"numeric"}
-                  value={this.state.number1}
-                  onChangeText={(value) => this.setState({ number1: value })}
-                  ref={(input) => {
-                    this.number1 = input;
-                  }}
-                />
+              <TextInput
+                placeholder="Phone Number -1"
+                style={styles.stylefiledText}
+                placeholderTextColor={COLORS.main_text_color}
+                maxLength={10}
+                editable={this.state.status ? true : false}
+                keyboardType={"numeric"}
+                value={this.state.number1}
+                onChangeText={(value) => this.setState({ number1: value })}
+                ref={(input) => {
+                  this.number1 = input;
+                }}
+              />
               <View style={styles.rightView}>
                 <Text style={styles.righttext}>Personal (Mobile)</Text>
               </View>
             </View>
 
             <View style={styles.filedView}>
-                <TextInput
-                  placeholder="Phone Number -2"
-                  style={styles.stylefiledText}
-                  placeholderTextColor={COLORS.main_text_color}
-                  maxLength={10}
-                  editable={this.state.status ? true: false}
-                  keyboardType={"numeric"}
-                  value={this.state.number2}
-                  onChangeText={(value) => this.setState({ number2: value })}
-                  ref={(input) => {
-                    this.number2 = input;
-                  }}
-                />
+              <TextInput
+                placeholder="Phone Number -2"
+                style={styles.stylefiledText}
+                placeholderTextColor={COLORS.main_text_color}
+                maxLength={10}
+                editable={this.state.status ? true : false}
+                keyboardType={"numeric"}
+                value={this.state.number2}
+                onChangeText={(value) => this.setState({ number2: value })}
+                ref={(input) => {
+                  this.number2 = input;
+                }}
+              />
               <View style={styles.rightView}>
                 <Text style={styles.righttext}>Personal (Landline)</Text>
               </View>
             </View>
 
             <View style={styles.filedView}>
-                <TextInput
-                  placeholder="Phone Number -3"
-                  style={styles.stylefiledText}
-                  placeholderTextColor={COLORS.main_text_color}
-                  maxLength={10}
-                  editable={this.state.status ? true: false}
-                  keyboardType={"numeric"}
-                  value={this.state.number3}
-                  onChangeText={(value) => this.setState({ number3: value })}
-                  ref={(input) => {
-                    this.number3 = input;
-                  }}
-                />
+              <TextInput
+                placeholder="Phone Number -3"
+                style={styles.stylefiledText}
+                placeholderTextColor={COLORS.main_text_color}
+                maxLength={10}
+                editable={this.state.status ? true : false}
+                keyboardType={"numeric"}
+                value={this.state.number3}
+                onChangeText={(value) => this.setState({ number3: value })}
+                ref={(input) => {
+                  this.number3 = input;
+                }}
+              />
               <View style={styles.rightView}>
                 <Text style={styles.righttext}>Work (Landline)</Text>
               </View>
             </View>
 
-            {this.state.numberArray.map((input,key) => {
+            {this.state.numberArray.map((input, key) => {
               return (
                 <View style={styles.filedView} key={key}>
                   <TextInput
@@ -569,11 +650,13 @@ class addmanuallyContact extends Component {
                     placeholderTextColor={COLORS.main_text_color}
                     maxLength={10}
                     key={key}
-                    keyboardType={'number-pad'}
-                    onChangeText={number => {this.onChangeNumber(number,key)}}
+                    keyboardType={"number-pad"}
+                    onChangeText={(number) => {
+                      this.onChangeNumber(number, key);
+                    }}
                   />
                 </View>
-              )
+              );
             })}
             <TouchableOpacity
               onPress={() => this.addNumber()}
@@ -591,14 +674,14 @@ class addmanuallyContact extends Component {
 
   addEmail = () => {
     this.setState({
-      emailArray: [...this.state.emailArray, {email:'value'}]
-    })
+      emailArray: [...this.state.emailArray, { email: "value" }],
+    });
   };
 
-  onChangeEmail = (value,index) => {
+  onChangeEmail = (value, index) => {
     this.state.emailArray[index].email = value;
-    this.setState({emailArray: this.state.emailArray});
-  }
+    this.setState({ emailArray: this.state.emailArray });
+  };
 
   renderEmail() {
     return (
@@ -610,40 +693,40 @@ class addmanuallyContact extends Component {
 
           <View>
             <View style={styles.filedView}>
-                <TextInput
-                  placeholder="E-mail Address -1"
-                  style={styles.stylefiledText}
-                  placeholderTextColor={COLORS.main_text_color}
-                  editable={this.state.status ? true: false}
-                  value={this.state.email1}
-                  onChangeText={(value) => this.setState({ email1: value })}
-                  ref={(input) => {
-                    this.email1 = input;
-                  }}
-                />
+              <TextInput
+                placeholder="E-mail Address -1"
+                style={styles.stylefiledText}
+                placeholderTextColor={COLORS.main_text_color}
+                editable={this.state.status ? true : false}
+                value={this.state.email1}
+                onChangeText={(value) => this.setState({ email1: value })}
+                ref={(input) => {
+                  this.email1 = input;
+                }}
+              />
               <View style={styles.rightView}>
                 <Text style={styles.righttext}>( Personal 1 )</Text>
               </View>
             </View>
 
             <View style={styles.filedView}>
-                <TextInput
-                  placeholder="E-mail Address -2"
-                  style={styles.stylefiledText}
-                  placeholderTextColor={COLORS.main_text_color}
-                  editable={this.state.status ? true: false}
-                  value={this.state.email2}
-                  onChangeText={(value) => this.setState({ email2: value })}
-                  ref={(input) => {
-                    this.email2 = input;
-                  }}
-                />
+              <TextInput
+                placeholder="E-mail Address -2"
+                style={styles.stylefiledText}
+                placeholderTextColor={COLORS.main_text_color}
+                editable={this.state.status ? true : false}
+                value={this.state.email2}
+                onChangeText={(value) => this.setState({ email2: value })}
+                ref={(input) => {
+                  this.email2 = input;
+                }}
+              />
               <View style={styles.rightView}>
                 <Text style={styles.righttext}>( Personal 2 )</Text>
               </View>
             </View>
 
-            {this.state.emailArray.map((input,key) => {
+            {this.state.emailArray.map((input, key) => {
               return (
                 <View style={styles.filedView} key={key}>
                   <TextInput
@@ -651,15 +734,17 @@ class addmanuallyContact extends Component {
                     style={styles.stylefiledText}
                     placeholderTextColor={COLORS.main_text_color}
                     key={key}
-                    keyboardType={'email-address'}
-                    onChangeText={email => {this.onChangeEmail(email,key)}}
+                    keyboardType={"email-address"}
+                    onChangeText={(email) => {
+                      this.onChangeEmail(email, key);
+                    }}
                   />
                 </View>
-              )
+              );
             })}
 
             <TouchableOpacity
-              onPress={()=>this.addEmail()}
+              onPress={() => this.addEmail()}
               disable={this.state.disabledEmail}
             >
               {this.state.status ? (
@@ -674,14 +759,14 @@ class addmanuallyContact extends Component {
 
   addAddress = () => {
     this.setState({
-      addressArray: [...this.state.addressArray, {address:'value'}]
-    })
+      addressArray: [...this.state.addressArray, { address: "value" }],
+    });
   };
 
-  onChangeAddress = (value,index) => {
+  onChangeAddress = (value, index) => {
     this.state.addressArray[index].address = value;
-    this.setState({addressArray: this.state.addressArray});
-  }
+    this.setState({ addressArray: this.state.addressArray });
+  };
 
   renderAddress() {
     return (
@@ -693,25 +778,25 @@ class addmanuallyContact extends Component {
 
           <View>
             <View style={styles.addressFieldContainer}>
-                <TextInput
-                  placeholder="Address"
-                  style={styles.addressField}
-                  placeholderTextColor={COLORS.main_text_color}
-                  multiline={true}
-                  numberOfLines={5}
-                  editable={this.state.status ? true: false}
-                  value={this.state.address1}
-                  onChangeText={(value) => this.setState({ address1: value })}
-                  ref={(input) => {
-                    this.address1 = input;
-                  }}
-                />
+              <TextInput
+                placeholder="Address"
+                style={styles.addressField}
+                placeholderTextColor={COLORS.main_text_color}
+                multiline={true}
+                numberOfLines={5}
+                editable={this.state.status ? true : false}
+                value={this.state.address1}
+                onChangeText={(value) => this.setState({ address1: value })}
+                ref={(input) => {
+                  this.address1 = input;
+                }}
+              />
               <View style={styles.addressRightView}>
                 <Text style={styles.addressRighttext}>( Personal 1 )</Text>
               </View>
             </View>
 
-            {this.state.addressArray.map((input,key) => {
+            {this.state.addressArray.map((input, key) => {
               return (
                 <View style={styles.addressFieldContainer} key={key}>
                   <TextInput
@@ -721,15 +806,17 @@ class addmanuallyContact extends Component {
                     multiline={true}
                     numberOfLines={5}
                     key={key}
-                    keyboardType={'default'}
-                    onChangeText={address => {this.onChangeAddress(address,key)}}
+                    keyboardType={"default"}
+                    onChangeText={(address) => {
+                      this.onChangeAddress(address, key);
+                    }}
                   />
                 </View>
-              )
+              );
             })}
 
             <TouchableOpacity
-              onPress={()=>this.addAddress()}
+              onPress={() => this.addAddress()}
               disable={this.state.disabledAddress}
             >
               {this.state.status ? (
@@ -744,14 +831,14 @@ class addmanuallyContact extends Component {
 
   addMessanger = () => {
     this.setState({
-      messangerArray: [...this.state.messangerArray, {messenger:'value'}]
-    })
+      messangerArray: [...this.state.messangerArray, { messenger: "value" }],
+    });
   };
 
-  onChangeMessenger = (value,index) => {
+  onChangeMessenger = (value, index) => {
     this.state.messangerArray[index].messenger = value;
-    this.setState({messangerArray: this.state.messangerArray});
-  }
+    this.setState({ messangerArray: this.state.messangerArray });
+  };
 
   renderMessage() {
     return (
@@ -763,17 +850,17 @@ class addmanuallyContact extends Component {
 
           <View>
             <View style={styles.filedView}>
-                <TextInput
-                  placeholder="Messenger Account -1"
-                  style={styles.stylefiledText}
-                  placeholderTextColor={COLORS.main_text_color}
-                  editable={this.state.status ? true: false}
-                  value={this.state.messenger1}
-                  onChangeText={(value) => this.setState({ messenger1: value })}
-                  ref={(input) => {
-                    this.messenger1 = input;
-                  }}
-                />
+              <TextInput
+                placeholder="Messenger Account -1"
+                style={styles.stylefiledText}
+                placeholderTextColor={COLORS.main_text_color}
+                editable={this.state.status ? true : false}
+                value={this.state.messenger1}
+                onChangeText={(value) => this.setState({ messenger1: value })}
+                ref={(input) => {
+                  this.messenger1 = input;
+                }}
+              />
 
               <View style={styles.rightView}>
                 <Text style={styles.righttext}>( Personal )</Text>
@@ -781,23 +868,23 @@ class addmanuallyContact extends Component {
             </View>
 
             <View style={styles.filedView}>
-                <TextInput
-                  placeholder="Messenger Account -2"
-                  style={styles.stylefiledText}
-                  placeholderTextColor={COLORS.main_text_color}
-                  editable={this.state.status ? true: false}
-                  value={this.state.messenger2}
-                  onChangeText={(value) => this.setState({ messenger2: value })}
-                  ref={(input) => {
-                    this.messenger2 = input;
-                  }}
-                />
+              <TextInput
+                placeholder="Messenger Account -2"
+                style={styles.stylefiledText}
+                placeholderTextColor={COLORS.main_text_color}
+                editable={this.state.status ? true : false}
+                value={this.state.messenger2}
+                onChangeText={(value) => this.setState({ messenger2: value })}
+                ref={(input) => {
+                  this.messenger2 = input;
+                }}
+              />
               <View style={styles.rightView}>
                 <Text style={styles.righttext}>( Work )</Text>
               </View>
             </View>
 
-            {this.state.messangerArray.map((input,key) => {
+            {this.state.messangerArray.map((input, key) => {
               return (
                 <View style={styles.filedView} key={key}>
                   <TextInput
@@ -805,15 +892,17 @@ class addmanuallyContact extends Component {
                     style={styles.stylefiledText}
                     placeholderTextColor={COLORS.main_text_color}
                     key={key}
-                    keyboardType={'default'}
-                    onChangeText={messenger => {this.onChangeMessenger(messenger,key)}}
+                    keyboardType={"default"}
+                    onChangeText={(messenger) => {
+                      this.onChangeMessenger(messenger, key);
+                    }}
                   />
                 </View>
-              )
+              );
             })}
 
             <TouchableOpacity
-              onPress={()=>this.addMessanger()}
+              onPress={() => this.addMessanger()}
               disable={this.state.disabledMessanger}
             >
               {this.state.status ? (
@@ -828,14 +917,17 @@ class addmanuallyContact extends Component {
 
   addSocialMedia = () => {
     this.setState({
-      socialMediaArray: [...this.state.socialMediaArray, {socialMedia:'value'}]
-    })
+      socialMediaArray: [
+        ...this.state.socialMediaArray,
+        { socialMedia: "value" },
+      ],
+    });
   };
 
-  onChangeSocialMedia= (value,index) => {
+  onChangeSocialMedia = (value, index) => {
     this.state.socialMediaArray[index].socialMedia = value;
-    this.setState({socialMediaArray: this.state.socialMediaArray});
-  }
+    this.setState({ socialMediaArray: this.state.socialMediaArray });
+  };
 
   renderSocialmedia() {
     return (
@@ -847,44 +939,44 @@ class addmanuallyContact extends Component {
 
           <View>
             <View style={styles.filedView}>
-                <TextInput
-                  placeholder="Social Media Account -1"
-                  style={styles.stylefiledText}
-                  placeholderTextColor={COLORS.main_text_color}
-                  value={this.state.social_media1}
-                  editable={this.state.status ? true: false}
-                  onChangeText={(value) =>
-                    this.setState({ social_media1: value })
-                  }
-                  ref={(input) => {
-                    this.social_media1 = input;
-                  }}
-                />
+              <TextInput
+                placeholder="Social Media Account -1"
+                style={styles.stylefiledText}
+                placeholderTextColor={COLORS.main_text_color}
+                value={this.state.social_media1}
+                editable={this.state.status ? true : false}
+                onChangeText={(value) =>
+                  this.setState({ social_media1: value })
+                }
+                ref={(input) => {
+                  this.social_media1 = input;
+                }}
+              />
               <View style={styles.rightView}>
                 <Text style={styles.righttext}>( Instagram Personal )</Text>
               </View>
             </View>
 
             <View style={styles.filedView}>
-                <TextInput
-                  placeholder="Social Media Account -2"
-                  style={styles.stylefiledText}
-                  placeholderTextColor={COLORS.main_text_color}
-                  value={this.state.social_media2}
-                  editable={this.state.status ? true: false}
-                  onChangeText={(value) =>
-                    this.setState({ social_media2: value })
-                  }
-                  ref={(input) => {
-                    this.social_media2 = input;
-                  }}
-                />
+              <TextInput
+                placeholder="Social Media Account -2"
+                style={styles.stylefiledText}
+                placeholderTextColor={COLORS.main_text_color}
+                value={this.state.social_media2}
+                editable={this.state.status ? true : false}
+                onChangeText={(value) =>
+                  this.setState({ social_media2: value })
+                }
+                ref={(input) => {
+                  this.social_media2 = input;
+                }}
+              />
               <View style={styles.rightView}>
                 <Text style={styles.righttext}>( Periscop Professional )</Text>
               </View>
             </View>
 
-            {this.state.socialMediaArray.map((input,key) => {
+            {this.state.socialMediaArray.map((input, key) => {
               return (
                 <View style={styles.filedView} key={key}>
                   <TextInput
@@ -892,15 +984,17 @@ class addmanuallyContact extends Component {
                     style={styles.stylefiledText}
                     placeholderTextColor={COLORS.main_text_color}
                     key={key}
-                    keyboardType={'default'}
-                    onChangeText={socialMedia => {this.onChangeSocialMedia(socialMedia,key)}}
+                    keyboardType={"default"}
+                    onChangeText={(socialMedia) => {
+                      this.onChangeSocialMedia(socialMedia, key);
+                    }}
                   />
                 </View>
-              )
+              );
             })}
 
             <TouchableOpacity
-              onPress={()=>this.addSocialMedia()}
+              onPress={() => this.addSocialMedia()}
               disable={this.state.disabledSocialMedia}
             >
               {this.state.status ? (
@@ -915,14 +1009,14 @@ class addmanuallyContact extends Component {
 
   addWebsite = () => {
     this.setState({
-      websiteArray: [...this.state.websiteArray, {website:'value'}]
-    })
+      websiteArray: [...this.state.websiteArray, { website: "value" }],
+    });
   };
 
-  onChangeWebsite= (value,index) => {
+  onChangeWebsite = (value, index) => {
     this.state.websiteArray[index].website = value;
-    this.setState({websiteArray: this.state.websiteArray});
-  }
+    this.setState({ websiteArray: this.state.websiteArray });
+  };
 
   renderWebsite() {
     return (
@@ -934,40 +1028,40 @@ class addmanuallyContact extends Component {
 
           <View>
             <View style={styles.filedView}>
-                <TextInput
-                  placeholder="Website -1"
-                  style={styles.stylefiledText}
-                  placeholderTextColor={COLORS.main_text_color}
-                  value={this.state.website1}
-                  editable={this.state.status ? true: false}
-                  onChangeText={(value) => this.setState({ website1: value })}
-                  ref={(input) => {
-                    this.website1 = input;
-                  }}
-                />
+              <TextInput
+                placeholder="Website -1"
+                style={styles.stylefiledText}
+                placeholderTextColor={COLORS.main_text_color}
+                value={this.state.website1}
+                editable={this.state.status ? true : false}
+                onChangeText={(value) => this.setState({ website1: value })}
+                ref={(input) => {
+                  this.website1 = input;
+                }}
+              />
               <View style={styles.rightView}>
                 <Text style={styles.righttext}>( Sport gambling podcast )</Text>
               </View>
             </View>
 
             <View style={styles.filedView}>
-                <TextInput
-                  placeholder="Website -2"
-                  style={styles.stylefiledText}
-                  placeholderTextColor={COLORS.main_text_color}
-                  value={this.state.website2}
-                  editable={this.state.status ? true: false}
-                  onChangeText={(value) => this.setState({ website2: value })}
-                  ref={(input) => {
-                    this.website2 = input;
-                  }}
-                />
+              <TextInput
+                placeholder="Website -2"
+                style={styles.stylefiledText}
+                placeholderTextColor={COLORS.main_text_color}
+                value={this.state.website2}
+                editable={this.state.status ? true : false}
+                onChangeText={(value) => this.setState({ website2: value })}
+                ref={(input) => {
+                  this.website2 = input;
+                }}
+              />
               <View style={styles.rightView}>
                 <Text style={styles.righttext}>( Universal Studio )</Text>
               </View>
             </View>
 
-            {this.state.websiteArray.map((input,key) => {
+            {this.state.websiteArray.map((input, key) => {
               return (
                 <View style={styles.filedView} key={key}>
                   <TextInput
@@ -975,15 +1069,17 @@ class addmanuallyContact extends Component {
                     style={styles.stylefiledText}
                     placeholderTextColor={COLORS.main_text_color}
                     key={key}
-                    keyboardType={'default'}
-                    onChangeText={website => {this.onChangeWebsite(website,key)}}
+                    keyboardType={"default"}
+                    onChangeText={(website) => {
+                      this.onChangeWebsite(website, key);
+                    }}
                   />
                 </View>
-              )
+              );
             })}
 
             <TouchableOpacity
-              onPress={()=>this.addWebsite()}
+              onPress={() => this.addWebsite()}
               disable={this.state.disableWebsite}
             >
               {this.state.status ? (
@@ -998,14 +1094,14 @@ class addmanuallyContact extends Component {
 
   addDate = () => {
     this.setState({
-      dateArray: [...this.state.dateArray, {date:'value'}]
-    })
+      dateArray: [...this.state.dateArray, { date: "value" }],
+    });
   };
 
-  onChangeDate= (value,index) => {
+  onChangeDate = (value, index) => {
     this.state.dateArray[index].date = value;
-    this.setState({dateArray: this.state.dateArray});
-  }
+    this.setState({ dateArray: this.state.dateArray });
+  };
 
   renderDate() {
     return (
@@ -1017,23 +1113,23 @@ class addmanuallyContact extends Component {
 
           <View>
             <View style={styles.filedView}>
-                <TextInput
-                  placeholder="Date"
-                  style={styles.stylefiledText}
-                  placeholderTextColor={COLORS.main_text_color}
-                  value={this.state.dob}
-                  editable={this.state.status ? true: false}
-                  onChangeText={(value) => this.setState({ dob: value })}
-                  ref={(input) => {
-                    this.dob = input;
-                  }}
-                />
+              <TextInput
+                placeholder="Date"
+                style={styles.stylefiledText}
+                placeholderTextColor={COLORS.main_text_color}
+                value={this.state.dob}
+                editable={this.state.status ? true : false}
+                onChangeText={(value) => this.setState({ dob: value })}
+                ref={(input) => {
+                  this.dob = input;
+                }}
+              />
               <View style={styles.rightView}>
                 <Text style={styles.righttext}>( Birthday )</Text>
               </View>
             </View>
 
-            {this.state.dateArray.map((input,key) => {
+            {this.state.dateArray.map((input, key) => {
               return (
                 <View style={styles.filedView} key={key}>
                   <TextInput
@@ -1041,15 +1137,17 @@ class addmanuallyContact extends Component {
                     style={styles.stylefiledText}
                     placeholderTextColor={COLORS.main_text_color}
                     key={key}
-                    keyboardType={'default'}
-                    onChangeText={date => {this.onChangeDate(date,key)}}
+                    keyboardType={"default"}
+                    onChangeText={(date) => {
+                      this.onChangeDate(date, key);
+                    }}
                   />
                 </View>
-              )
+              );
             })}
 
             <TouchableOpacity
-              onPress={()=>this.addDate()}
+              onPress={() => this.addDate()}
               disable={this.state.disabledDate}
             >
               {this.state.status ? <NormalText> + Add Date </NormalText> : null}
@@ -1062,14 +1160,14 @@ class addmanuallyContact extends Component {
 
   addNote = () => {
     this.setState({
-      noteArray: [...this.state.noteArray, {note:'value'}]
-    })
+      noteArray: [...this.state.noteArray, { note: "value" }],
+    });
   };
 
-  onChangeNote= (value,index) => {
+  onChangeNote = (value, index) => {
     this.state.noteArray[index].note = value;
-    this.setState({noteArray: this.state.noteArray});
-  }
+    this.setState({ noteArray: this.state.noteArray });
+  };
 
   renderNote() {
     return (
@@ -1081,25 +1179,25 @@ class addmanuallyContact extends Component {
 
           <View>
             <View style={styles.addressFieldContainer}>
-                <TextInput
-                  placeholder="Note"
-                  style={styles.addressField}
-                  placeholderTextColor={COLORS.main_text_color}
-                  multiline={true}
-                  numberOfLines={5}
-                  value={this.state.note}
-                  editable={this.state.status ? true: false}
-                  onChangeText={(value) => this.setState({ note: value })}
-                  ref={(input) => {
-                    this.note = input;
-                  }}
-                />
+              <TextInput
+                placeholder="Note"
+                style={styles.addressField}
+                placeholderTextColor={COLORS.main_text_color}
+                multiline={true}
+                numberOfLines={5}
+                value={this.state.note}
+                editable={this.state.status ? true : false}
+                onChangeText={(value) => this.setState({ note: value })}
+                ref={(input) => {
+                  this.note = input;
+                }}
+              />
               <View style={styles.addressRightView}>
                 <Text style={styles.addressRighttext}>( Note -1 )</Text>
               </View>
             </View>
 
-            {this.state.noteArray.map((input,key) => {
+            {this.state.noteArray.map((input, key) => {
               return (
                 <View style={styles.addressFieldContainer} key={key}>
                   <TextInput
@@ -1109,15 +1207,17 @@ class addmanuallyContact extends Component {
                     multiline={true}
                     numberOfLines={5}
                     key={key}
-                    keyboardType={'default'}
-                    onChangeText={note => {this.onChangeNote(note,key)}}
+                    keyboardType={"default"}
+                    onChangeText={(note) => {
+                      this.onChangeNote(note, key);
+                    }}
                   />
                 </View>
-              )
+              );
             })}
 
             <TouchableOpacity
-              onPress={()=>this.addNote()}
+              onPress={() => this.addNote()}
               disable={this.state.disabledNote}
             >
               {this.state.status ? <NormalText> + Add Note </NormalText> : null}
@@ -1130,14 +1230,14 @@ class addmanuallyContact extends Component {
 
   addCompany = () => {
     this.setState({
-      companyArray: [...this.state.companyArray, {company:'value'}]
-    })
+      companyArray: [...this.state.companyArray, { company: "value" }],
+    });
   };
 
-  onChangeCompany= (value,index) => {
+  onChangeCompany = (value, index) => {
     this.state.companyArray[index].company = value;
-    this.setState({companyArray: this.state.companyArray});
-  }
+    this.setState({ companyArray: this.state.companyArray });
+  };
 
   renderCompany() {
     return (
@@ -1154,51 +1254,51 @@ class addmanuallyContact extends Component {
 
           <View>
             <View style={styles.filedView}>
-                <TextInput
-                  placeholder="Company"
-                  style={styles.stylefiledText}
-                  placeholderTextColor={COLORS.main_text_color}
-                  value={this.state.company}
-                  editable={this.state.status ? true: false}
-                  onChangeText={(value) => this.setState({ company: value })}
-                  ref={(input) => {
-                    this.company = input;
-                  }}
-                />
+              <TextInput
+                placeholder="Company"
+                style={styles.stylefiledText}
+                placeholderTextColor={COLORS.main_text_color}
+                value={this.state.company}
+                editable={this.state.status ? true : false}
+                onChangeText={(value) => this.setState({ company: value })}
+                ref={(input) => {
+                  this.company = input;
+                }}
+              />
               <View style={styles.rightView}>
                 {/* <Text style={styles.righttext}>First Name</Text> */}
               </View>
             </View>
 
             <View style={styles.filedView}>
-                <TextInput
-                  placeholder="Job Title"
-                  style={styles.stylefiledText}
-                  placeholderTextColor={COLORS.main_text_color}
-                  editable={this.state.status ? true: false}
-                  value={this.state.job_title}
-                  onChangeText={(value) => this.setState({ job_title: value })}
-                  ref={(input) => {
-                    this.job_title = input;
-                  }}
-                />
+              <TextInput
+                placeholder="Job Title"
+                style={styles.stylefiledText}
+                placeholderTextColor={COLORS.main_text_color}
+                editable={this.state.status ? true : false}
+                value={this.state.job_title}
+                onChangeText={(value) => this.setState({ job_title: value })}
+                ref={(input) => {
+                  this.job_title = input;
+                }}
+              />
             </View>
 
             <View style={styles.filedView}>
-                <TextInput
-                  placeholder="Work Hours"
-                  style={styles.stylefiledText}
-                  placeholderTextColor={COLORS.main_text_color}
-                  value={this.state.work_hour}
-                  editable={this.state.status ? true: false}
-                  onChangeText={(value) => this.setState({ work_hour: value })}
-                  ref={(input) => {
-                    this.work_hour = input;
-                  }}
-                />
+              <TextInput
+                placeholder="Work Hours"
+                style={styles.stylefiledText}
+                placeholderTextColor={COLORS.main_text_color}
+                value={this.state.work_hour}
+                editable={this.state.status ? true : false}
+                onChangeText={(value) => this.setState({ work_hour: value })}
+                ref={(input) => {
+                  this.work_hour = input;
+                }}
+              />
             </View>
 
-            {this.state.companyArray.map((input,key) => {
+            {this.state.companyArray.map((input, key) => {
               return (
                 <View style={styles.filedView} key={key}>
                   <TextInput
@@ -1206,15 +1306,17 @@ class addmanuallyContact extends Component {
                     style={styles.addressField}
                     placeholderTextColor={COLORS.main_text_color}
                     key={key}
-                    keyboardType={'default'}
-                    onChangeText={company => {this.onChangeCompany(company,key)}}
+                    keyboardType={"default"}
+                    onChangeText={(company) => {
+                      this.onChangeCompany(company, key);
+                    }}
                   />
                 </View>
-              )
+              );
             })}
 
             <TouchableOpacity
-              onPress={()=>this.addCompany()}
+              onPress={() => this.addCompany()}
               disable={this.state.disabledCompany}
             >
               {this.state.status ? <NormalText> + Company </NormalText> : null}
@@ -1254,19 +1356,20 @@ class addmanuallyContact extends Component {
               <Toast
                 ref="toast"
                 style={{
-                  backgroundColor: this.props.theme.mode === "light" ? 'black': 'white', 
-                  width: width * 0.8, 
-                  alignItems: 'center' 
+                  backgroundColor:
+                    this.props.theme.mode === "light" ? "black" : "white",
+                  width: width * 0.8,
+                  alignItems: "center",
                 }}
-                position='bottom'
+                position="bottom"
                 positionValue={250}
                 fadeInDuration={100}
                 fadeOutDuration={2000}
                 opacity={1}
                 textStyle={{
-                  color: this.props.theme.mode === "light" ? 'white' : 'black',
+                  color: this.props.theme.mode === "light" ? "white" : "black",
                   fontFamily: Font.medium,
-                  fontSize: width * 0.04
+                  fontSize: width * 0.04,
                 }}
               />
             </ScrollView>
@@ -1284,12 +1387,15 @@ class addmanuallyContact extends Component {
                 style={styles.saveView}
                 onPress={this.ShowHideTextComponentView}
               >
-                  <Text style={{ 
+                <Text
+                  style={{
                     color: COLORS.main_text_color,
                     fontFamily: Font.medium,
-                    fontSize: width * 0.04}}> 
-                    {this.state.status == true ? 'Save' : 'Edit'}
-                  </Text>
+                    fontSize: width * 0.04,
+                  }}
+                >
+                  {this.state.status == true ? "Save" : "Edit"}
+                </Text>
               </TouchableHighlight>
             </View>
           </Container>
@@ -1302,7 +1408,7 @@ class addmanuallyContact extends Component {
 function mapStateToProps(state) {
   return {
     theme: state.themeReducer.theme,
-    user_id: state.login.shouldLoadData.user_id
+    user_id: state.login.shouldLoadData.user_id,
   };
 }
 

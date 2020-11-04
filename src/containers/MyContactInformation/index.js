@@ -45,7 +45,7 @@ var DESTRUCTIVE_INDEX = 3;
 var CANCEL_INDEX = 4;
 var BUTTONS = ["Take Photo", "Choose Photo From Gallery", "Cancel"];
 class MyContactInfromation extends Component {
-  static contextType = ThemeContext;
+ 
 
   constructor() {
     super();

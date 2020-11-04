@@ -35,6 +35,7 @@ import helper from "../../util/helper";
 import iSquareWhite from "../../assets/icons/iSquareWhite.png";
 import iSqure from "../../assets/icons/iSquare.png";
 import logo from "../../assets/images/logo.png";
+import { regEmailChange } from "../../action/Authactions";
 import style from "../../components/StatusBar/style";
 import styles from "./style.js";
 
@@ -84,7 +85,6 @@ class Signup extends Component {
   };
   signUp = () => {
     const { contact, uname, email, password, confirmpassWord } = this.props;
-    console.log("contact-->", contact);
     contact == ""
       ? this.setState({ contactError: "Please enter phone number" })
       : contact.unmaskedPhoneNumber.length !== 10
@@ -132,15 +132,50 @@ class Signup extends Component {
   };
 
   onSubmit(value) {
+    console.log('values--------->', value)
     switch (value) {
       case "uname":
         this.refs.unameCont.refs.uname.focus();
+        this.props.uname == ""
+          ? this.setState({ unameError: "Please enter username" })
+          : this.maxUname(this.props.uname)
+          ? this.setState({
+              unameError: "Username contain maximum 20 character",
+            })
+          : this.minUname(this.props.uname)
+          ? this.setState({
+              unameError: "Username contain minimun 6 character",
+            })
+          : this.setState({ unameError: "" });
+        if (
+          this.props.uname &&
+          !this.maxUname(this.props.uname) &&
+          !this.minUname(this.props.uname)
+        ) {
+          this.props.checkUsername();
+        }
+
         break;
       case "email":
         this.refs.emailCont.refs.email.focus();
+        !this.validateEmail(this.props.email)
+          ? this.setState({ emailError: "Please enter valid email" })
+          : this.setState({ emailError: "" });
+        if (this.props.email && this.validateEmail(this.props.email)) {
+          this.props.checkEmail();
+        }
         break;
       case "contact":
         this.refs.contactCont.refs.contact.focus();
+        this.props.contact == ""
+          ? this.setState({ contactError: "Please enter phone number" })
+          : this.props.contact.unmaskedPhoneNumber.length !== 10
+          ? this.setState({ contactError: "Please enter valid phone number" })
+          : this.setState({ contactError: "" });
+        if (this.props.contact) {
+          alert('hi')
+          this.props.checkContact();
+        }
         break;
       case "password":
         this.refs.passwordCont.refs.password.focus();
@@ -213,19 +248,37 @@ class Signup extends Component {
                     <View style={styles.mobileInputView}>
                       <IntlInputCard
                         defaultCountry="IN"
+                        blurOnSubmit={false}
+                        autoCapitalize={true}
                         value={contact}
                         onChangeText={regcontactChange}
                         ref={"contactCont"}
                         inputRef={"contact"}
                         onSubmitEditing={(contact) => this.onSubmit("contact")}
                         returnKey={"next"}
+                        keyboardType={"numeric"}
+                        secureEntry={false}
                       ></IntlInputCard>
                     </View>
+                    {this.props.contactMsg == true ? (
+                      <Text style={styles.error}>
+                        Contact <Text style={styles.errorSuccess}>is</Text>{" "}
+                        available
+                      </Text>
+                    ) : null}
+                    {this.props.contactMsg == false ? (
+                      <Text style={styles.error}>
+                        Contact <Text style={styles.errorFail}>is not</Text>{" "}
+                        available
+                      </Text>
+                    ) : null}
+                       {this.state.contactError == undefined ||
+                    this.state.contactError == "" ? null : (
+                      <Text style={[styles.error, { color: COLORS.red }]}>
+                        {this.state.contactError}
+                      </Text>
+                    )}
                   </View>
-                  {this.state.contactError == undefined ||
-                  this.state.contactError == "" ? null : (
-                    <Text style={styles.error}>{this.state.contactError}</Text>
-                  )}
 
                   <View>
                     <View style={styles.userText}>
@@ -247,9 +300,24 @@ class Signup extends Component {
                         placeholder={""}
                       ></InputCard>
                     </View>
+
+                    {this.props.usernameMsg == true ? (
+                      <Text style={styles.error}>
+                        Username <Text style={styles.errorSuccess}>is</Text>{" "}
+                        available
+                      </Text>
+                    ) : null}
+                    {this.props.usernameMsg == false ? (
+                      <Text style={styles.error}>
+                        Username <Text style={styles.errorFail}>is not</Text>{" "}
+                        available
+                      </Text>
+                    ) : null}
                     {this.state.unameError == undefined ||
                     this.state.unameError == "" ? null : (
-                      <Text style={styles.error}>{this.state.unameError}</Text>
+                      <Text style={[styles.error, { color: COLORS.red }]}>
+                        {this.state.unameError}
+                      </Text>
                     )}
                   </View>
                   <View>
@@ -266,16 +334,30 @@ class Signup extends Component {
                         inputRef={"email"}
                         onSubmitEditing={(email) => this.onSubmit("email")}
                         value={email}
-                        onFocus={() => this.setState({ emailError: null })}
+                        // onFocus={() => this.setState({ emailError: null })}
                         returnKey={"next"}
                         keyboardType={"email-address"}
                         secureEntry={false}
                         placeholder={""}
                       ></InputCard>
                     </View>
+                    {this.props.emailMsg == true ? (
+                      <Text style={styles.error}>
+                        Email <Text style={styles.errorSuccess}>is</Text>{" "}
+                        available
+                      </Text>
+                    ) : null}
+                    {this.props.emailMsg == false ? (
+                      <Text style={styles.error}>
+                        Email <Text style={styles.errorFail}>is not</Text>{" "}
+                        available
+                      </Text>
+                    ) : null}
                     {this.state.emailError == undefined ||
                     this.state.emailError == "" ? null : (
-                      <Text style={styles.error}>{this.state.emailError}</Text>
+                      <Text style={[styles.error, { color: COLORS.red }]}>
+                        {this.state.emailError}
+                      </Text>
                     )}
                   </View>
 
@@ -349,7 +431,7 @@ class Signup extends Component {
                     </NormalText>
                     {this.state.passwordError == undefined ||
                     this.state.passwordError == "" ? null : (
-                      <Text style={styles.error}>
+                      <Text style={[styles.error, { color: COLORS.red }]}>
                         {this.state.passwordError}
                       </Text>
                     )}
@@ -398,7 +480,7 @@ class Signup extends Component {
                     </View>
                     {this.state.confirmPassError == undefined ||
                     this.state.confirmPassError == "" ? null : (
-                      <Text style={styles.error}>
+                      <Text style={[styles.error, { color: COLORS.red }]}>
                         {this.state.confirmPassError}
                       </Text>
                     )}
@@ -444,10 +526,9 @@ class Signup extends Component {
                   </View>
                 </Modal>
               </View>
-              {this.showLoader()}
             </Root>
           </ScrollView>
-          {/* {this.showLoader()} */}
+          {this.showLoader()}
         </Container>
       </ThemeProvider>
     );
@@ -455,7 +536,10 @@ class Signup extends Component {
 }
 
 function mapStateToProps(state) {
-  // console.log("state===>", state);
+  // console.log("state===>", state.reg.usernameMsg.message);
+  // console.log("state===>", state.reg.emailMsg.message);
+  console.log("Contact===>", state.reg.contact);
+
   return {
     theme: state.themeReducer.theme,
     email: state.reg.email,
@@ -465,6 +549,9 @@ function mapStateToProps(state) {
     confirmpassWord: state.reg.confirmpassWord,
     loader: state.reg.loader,
     loading: state.reg.loading,
+    usernameMsg: state.reg.usernameMsg.status,
+    emailMsg: state.reg.emailMsg.status,
+    contactMsg: state.reg.contactMsg.status,
   };
 }
 export default connect(mapStateToProps, actions)(Signup);

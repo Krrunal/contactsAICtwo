@@ -52,7 +52,10 @@ class IntlInputCard extends Component {
         ref={inputRef}
         keyboardType={keyboardType}
         onSubmitEditing={onSubmitEditing}
+        blurOnSubmit={blurOnSubmit}
+        autoCapitalize={autoCapitalize}
         returnKeyType={returnKey}
+        secureEntry={secureEntry}
       />
     );
   }

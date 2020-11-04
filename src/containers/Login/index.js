@@ -161,7 +161,7 @@ class Login extends Component {
                     returnKey={"next"}
                     keyboardType={"email-address"}
                     secureEntry={false}
-                    placeholder={"Phone Number Or Username"}
+                    placeholder={"Phone Number or Username"}
                   ></InputCard>
                 </View>
                 {this.state.unameError == undefined ||

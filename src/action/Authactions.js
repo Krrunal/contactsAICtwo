@@ -1,5 +1,8 @@
 import {
+  LOAD_CONTACT_MSG,
   LOAD_DATA_SET,
+  LOAD_EMAIL_MSG,
+  LOAD_USERNAME_MSG,
   LOGIN_EMAIL,
   LOGIN_PASS,
   LOGIN_USER_SUCCESS,
@@ -9,8 +12,11 @@ import {
   REG_EMAIL,
   REG_PASS,
   REG_UNAME,
+  RESET_CONTACT,
+  RESET_EMAIL,
   RESET_LOGIN,
   RESET_REG,
+  RESET_USERNAME,
   SHOW_LOADER_LOGIN,
   SHOW_LOADER_REG,
 } from "./types";
@@ -34,7 +40,7 @@ const loginUserSuccess = (data, dispatch) => {
   dispatch({ type: SHOW_LOADER_REG, payload: false });
   dispatch({ type: LOGIN_USER_SUCCESS, payload: data });
   dispatch({ type: RESET_LOGIN });
-   dispatch({ type: RESET_REG });
+  dispatch({ type: RESET_REG });
   dispatch({ type: LOAD_DATA_SET, payload: data.data });
   dispatch(NavigationService.navigate("SerachEditContact"));
 };
@@ -44,7 +50,7 @@ const regUserSuccess = (data, dispatch) => {
   dispatch({ type: SHOW_LOADER_REG, payload: false });
   dispatch({ type: LOGIN_USER_SUCCESS, payload: data });
   dispatch({ type: RESET_LOGIN });
-   dispatch({ type: RESET_REG });
+  dispatch({ type: RESET_REG });
   dispatch({ type: LOAD_DATA_SET, payload: data.data });
 
   dispatch(NavigationService.navigate("AddContact"));
@@ -57,6 +63,30 @@ const loginUserFail = (dispatch) => {
   dispatch({ type: RESET_REG });
 
   //dispatch({ type: LOGIN_USER_SUCCESS, payload:{} });
+};
+
+const checkUsernameSuccess = (data, dispatch) => {
+  dispatch({ type: LOAD_USERNAME_MSG, payload: data });
+};
+const checkUsernameFail = (data, dispatch) => {
+  dispatch({ type: LOAD_USERNAME_MSG, payload: data });
+  dispatch({ type: RESET_USERNAME });
+};
+
+const checkEmailSuccess = (data, dispatch) => {
+  dispatch({ type: LOAD_EMAIL_MSG, payload: data });
+};
+const checkEmailFail = (data, dispatch) => {
+  dispatch({ type: LOAD_EMAIL_MSG, payload: data });
+  dispatch({ type: RESET_EMAIL });
+};
+
+const checkContactSuccess = (data, dispatch) => {
+  dispatch({ type: LOAD_CONTACT_MSG, payload: data });
+};
+const checkContactFail = (data, dispatch) => {
+  dispatch({ type: LOAD_CONTACT_MSG, payload: data });
+  dispatch({ type: RESET_CONTACT });
 };
 
 export const regEmailChange = (email) => {
@@ -89,6 +119,97 @@ export const loginPassChange = (pass) => {
   };
 };
 
+export const checkUsername = () => {
+  return async (dispatch, getState) => {
+    const state = getState();
+    console.log("getstate==============>", getState());
+    const baseurl = Constants.baseurl;
+    const username = state.reg.uname;
+    var _body = new FormData();
+    _body.append("username", username);
+    fetch(baseurl + "check_username", {
+      method: "POST",
+      headers: {
+        "Content-Type":
+          Platform.OS == "ios" ? "application/json" : "multipart/form-data",
+      },
+      body: _body,
+    })
+      .then((response) => response.json())
+      .then((responseJson) => {
+        var data = responseJson;
+        if (data.status == true) {
+          console.log("response true-->", data);
+          checkUsernameSuccess(data, dispatch);
+        } else {
+          console.log("response else-->", data);
+          checkUsernameFail(data, dispatch);
+        }
+      })
+      .catch((error) => {});
+  };
+};
+
+export const checkEmail = () => {
+  return async (dispatch, getState) => {
+    const state = getState();
+    const baseurl = Constants.baseurl;
+    const email = state.reg.email;
+    var _body = new FormData();
+    _body.append("email", email);
+    fetch(baseurl + "check_email", {
+      method: "POST",
+      headers: {
+        "Content-Type":
+          Platform.OS == "ios" ? "application/json" : "multipart/form-data",
+      },
+      body: _body,
+    })
+      .then((response) => response.json())
+      .then((responseJson) => {
+        var data = responseJson;
+        if (data.status == true) {
+          console.log("response true-->", data);
+          checkEmailSuccess(data, dispatch);
+        } else {
+          console.log("response else-->", data);
+          checkEmailFail(data, dispatch);
+        }
+      })
+      .catch((error) => {});
+  };
+};
+export const checkContact = () => {
+  return async (dispatch, getState) => {
+    const state = getState();
+    console.log('contact', getState())
+    const baseurl = Constants.baseurl;
+    const contact = state.reg.contact.dialCode + "-" + state.reg.contact.unmaskedPhoneNumber;
+    console.log("Conatc From Auth ---->",state.reg.contact.dialCode + "-" + state.reg.contact.unmaskedPhoneNumber)
+    var _body = new FormData();
+    _body.append("contact", contact);
+    fetch(baseurl + "check_contact", {
+      method: "POST",
+      headers: {
+        "Content-Type":
+          Platform.OS == "ios" ? "application/json" : "multipart/form-data",
+      },
+      body: _body,
+    })
+      .then((response) => response.json())
+      .then((responseJson) => {
+        var data = responseJson;
+        if (data.status == true) {
+          console.log("response true-->", data);
+          checkContactSuccess(data, dispatch);
+        } else {
+          console.log("response else-->", data);
+          checkContactFail(data, dispatch);
+        }
+      })
+      .catch((error) => {});
+  };
+};
 export const signUpUser = () => {
   return async (dispatch, getState) => {
     const state = getState();
@@ -126,7 +247,7 @@ export const signUpUser = () => {
           showToastSuccess(data.message);
           regUserSuccess(data, dispatch);
         } else {
-          console.log("response else-->", data);
+          console.log("response else-->", data.message);
           showToastSuccess(data.message);
           loginUserFail(dispatch);
           dispatch({ type: SHOW_LOADER_REG, payload: false });

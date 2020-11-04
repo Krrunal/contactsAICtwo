@@ -15,8 +15,8 @@ export default StyleSheet.create({
   smallWhiteView: {
     justifyContent: "center",
     alignItems: "center",
-    width: width * 0.195,
-    height: height * 0.055,
+    width: width * 0.210,
+    height: height * 0.045,
     backgroundColor: COLORS.white,
     shadowColor: COLORS.black,
     shadowOffset: {
@@ -32,8 +32,8 @@ export default StyleSheet.create({
   smallBlueView: {
     justifyContent: "center",
     alignItems: "center",
-    width: width * 0.195,
-    height: height * 0.055,
+    width: width * 0.210,
+    height: height * 0.045,
     backgroundColor: COLORS.main_text_color,
     shadowColor: COLORS.black,
     shadowOffset: {
@@ -48,12 +48,12 @@ export default StyleSheet.create({
   },
   whiteText: {
     fontFamily: Font.medium,
-    fontSize: width * 0.045,
+    fontSize: width * 0.040,
     color: COLORS.white,
   },
   blueText: {
     fontFamily: Font.medium,
-    fontSize: width * 0.045,
+    fontSize: width * 0.040,
     color: COLORS.main_text_color,
   },
   doubleView: {
@@ -69,7 +69,7 @@ export default StyleSheet.create({
     justifyContent: "center",
 
     width: width * 0.94,
-    height: height * 0.17,
+    height: height * 0.1,
     backgroundColor: COLORS.white,
     shadowColor: COLORS.black,
     shadowOffset: {
@@ -84,15 +84,21 @@ export default StyleSheet.create({
   },
   firstView: {
     width: width * 0.5,
-    marginLeft: Metrics.doubleBaseMargin,
+    marginRight:10,
+    marginLeft:Metrics.doubleBaseMargin,
+    marginTop:Metrics.baseMargin
   },
   secondView: {
-    width: width * 0.5,
+    width: width * 0.4,
+    height: height * 0.3,
+    marginLeft: Metrics.smallMargin,
+    marginTop: Metrics.smallMargin,
   },
   FirstText: {
     fontFamily: Font.medium,
-    fontSize: width * 0.045,
-    padding: Metrics.smallMargin,
+    fontSize: width * 0.04,
+ 
     textTransform: "capitalize",
+  
   },
 });

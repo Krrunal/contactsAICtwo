@@ -9,6 +9,13 @@ export const REG_PASS = "REG_PASS";
 export const REG_CONTACT = "REG_CONTACT";
 export const REG_UNAME = "REG_UNAME";
 export const REG_CONFIRMPASS = "REG_CONFIRMPASS";
+export const LOAD_USERNAME_MSG = "LOAD_USERNAME_MSG";
+export const RESET_USERNAME = "RESET_USERNAME";
+export const LOAD_EMAIL_MSG = "LOAD_EMAIL_MSG";
+export const RESET_EMAIL = "RESET_EMAIL";
+export const LOAD_CONTACT_MSG = "LOAD_CONTACT_MSG";
+export const RESET_CONTACT = "RESET_CONTACT";
+
 //log in types
 //Login Types
 export const LOGIN_EMAIL = "LOGIN_EMAIL";

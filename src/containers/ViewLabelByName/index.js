@@ -100,7 +100,7 @@ class ViewLabelByName extends Component {
   renderBigView() {
     return (
       <View style={{ alignItems: "center" }}>
-        <ScrollView style={{ width: width, height: height, marginBottom: 200 }}>
+        <ScrollView style={{ width: width, marginBottom: 190 }}>
           {/* <View style={{ alignItems: "center" }}>
             {this.state.contacts.map((item, index) => (
               <View style={styles.middleView}>
@@ -121,8 +121,22 @@ class ViewLabelByName extends Component {
           </View> */}
           <View style={{ alignItems: "center" }}>
             {/* <View style={styles.secondView}> */}
+
             {this.state.splitLabel.map((item) => (
               <View style={styles.middleView}>
+                {/* {this.state.contacts.map((item, index) => (
+                  <View style={styles.firstView} key={index}>
+                    <Text
+                      style={[
+                        styles.FirstText,
+                        { color: COLORS.main_text_color },
+                      ]}
+                    >
+                      {" "}
+                      {item.user_name || item.first_name}
+                    </Text>
+                  </View>
+                ))} */}
                 <View style={styles.firstView}>
                   <Text style={styles.FirstText}>Aron roy</Text>
                 </View>
@@ -159,15 +173,16 @@ class ViewLabelByName extends Component {
             this.props.theme.mode === "dark" ? "light-content" : "dark-content"
           }
         />
-
         <Container>
-          {/* // <View style={styles.container}> */}
           {this.renderHeader()}
-        
-
           {this.renderMiddle()}
+
+          {this.state.contacts == "" ? (
+            <View style={{ marginTop: Metrics.doubleBaseMargin }}>
+              <LineText>Please wait a moment</LineText>
+            </View>
+          ) : null}
           {this.renderBigView()}
-          {this.showLoader()}
         </Container>
       </ThemeProvider>
     );
@@ -190,7 +205,7 @@ const Container = styled.View`
 `;
 const LineText = styled.Text`
   font-family: Roboto-Regular;
-  font-size: 15px;
+  font-size: 20px;
   color: ${(props) => props.theme.iconColor};
   line-height: 30px;
   text-align: center;

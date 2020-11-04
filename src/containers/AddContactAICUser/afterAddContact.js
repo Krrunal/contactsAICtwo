@@ -35,7 +35,9 @@ class afterAddContact extends Component {
 
   renderMiddle() {
     return (
+ 
       <View style={{ alignItems: "center" }}>
+       
         <View style={{ marginTop: Metrics.baseMargin }}>
           <View>
             <View>
@@ -92,7 +94,9 @@ class afterAddContact extends Component {
             </View>
           </View>
         </View>
+       
       </View>
+    
     );
   }
 
@@ -102,8 +106,8 @@ class afterAddContact extends Component {
         <View
           style={{
             flex: 1,
-            bottom: 40,
-            position: "absolute",
+            bottom:0,
+          position: "relative",
             flexDirection: "row",
           }}
         >
@@ -166,7 +170,10 @@ class afterAddContact extends Component {
           <View style={styles.headerLineContainer}>
             <LineText> Enter Contact's Username </LineText>
           </View>
+          <ScrollView style={{width:width}}>
           {this.renderMiddle()}
+          </ScrollView>
+        
           {this.renderLast()}
           {/* </View> */}
         </Container>
