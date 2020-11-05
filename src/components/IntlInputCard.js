@@ -33,14 +33,15 @@ class IntlInputCard extends Component {
       inputRef,
       onSubmitEditing,
       autoCapitalize,
+      icon
     } = this.props;
     return (
       <IntlPhoneInput
-        containerStyle={{ height: height * 0.065, backgroundColor: COLORS.main_sky_blue, justifyContent: 'center'}}
+        containerStyle={{ height: height * 0.065, backgroundColor: COLORS.main_sky_blue,}}
         phoneInputStyle={[
           inputCardStyle.mobileInputText,
           {
-            backgroundColor: COLORS.main_sky_blue,
+            // backgroundColor: COLORS.main_sky_blue,
             // height: height * 0.052,
        
           },
@@ -52,10 +53,12 @@ class IntlInputCard extends Component {
         ref={inputRef}
         keyboardType={keyboardType}
         onSubmitEditing={onSubmitEditing}
-        blurOnSubmit={blurOnSubmit}
-        autoCapitalize={autoCapitalize}
-        returnKeyType={returnKey}
-        secureEntry={secureEntry}
+        onChangeText={onChangeText}
+        icon={icon}
+        // blurOnSubmit={blurOnSubmit}
+        // autoCapitalize={autoCapitalize}
+        // returnKeyType={returnKey}
+        // secureEntry={secureEntry}
       />
     );
   }
@@ -69,14 +72,12 @@ const inputCardStyle = StyleSheet.create({
     color: COLORS.main_text_color,
     marginLeft: Metrics.baseMargin,
     width: width * 0.65,
-    
   },
   mobileInputText: {
     fontSize: width * 0.04,
     fontFamily: Font.medium,
     color: COLORS.main_text_color,
     // alignItems:'center',
-  
   },
 });
 export { IntlInputCard };

@@ -19,8 +19,9 @@ export default StyleSheet.create({
         height:height*0.065,
         borderRadius:10,
         marginTop:Metrics.xsmallMargin,
-        justifyContent:'center',
-      
+        // justifyContent:'center',
+        flexDirection: "row",
+        alignItems:'center',
     },
     numberView  :{
         backgroundColor:COLORS.main_sky_blue,
@@ -31,12 +32,12 @@ export default StyleSheet.create({
         justifyContent:'center',
         marginBottom:Metrics.smallMargin
     },
+
     mobileInputView: {
         width:width*0.9,
         borderRadius:10,
         marginTop:Metrics.xsmallMargin,
         justifyContent:'center',
-        // borderWidth: 1
     },
 
     passView:{
@@ -54,10 +55,6 @@ export default StyleSheet.create({
         marginTop:Metrics.smallMargin,
         marginLeft:Metrics.baseMargin,
         flexDirection:'row',
-      
-     
-     
-     
     },
 
     downText:{
@@ -133,11 +130,7 @@ export default StyleSheet.create({
     checkIcon: {
         width: width * 0.045,
         height: width * 0.045,
-    },
-
-    checkIcon: {
-        width: width * 0.045,
-        height: width * 0.045,
+        resizeMode: 'contain'
     },
     
     footerModal: {
@@ -186,9 +179,4 @@ export default StyleSheet.create({
         paddingLeft: width * 0.03,
         paddingTop: height * 0.005 
     },
-    checkIcon  :{
-        width: width * 0.030,
-        height: width * 0.030,
-        resizeMode:'contain'
-    }
 })

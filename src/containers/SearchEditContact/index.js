@@ -38,13 +38,10 @@ class searchContact extends Component {
   }
 
   componentDidMount() {
-    firebase
-      .firestore()
-      .collection(this.props.user_id)
-      .get()
+    firebase.firestore().collection(this.props.user_id).get()
       .then((snap) => {
         snap.forEach((doc) => {
-          console.log(doc._data);
+          // console.log(doc._data);
           var item = doc._data;
           this.state.contact.push(item);
         });

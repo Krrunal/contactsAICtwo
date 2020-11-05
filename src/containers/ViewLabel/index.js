@@ -39,28 +39,22 @@ class ViewLabel extends Component {
 
   componentDidMount() {
     this.setState({ loader: true });
-    firebase
-      .firestore()
-      .collection(this.props.user_id)
-      .get()
+    firebase.firestore().collection(this.props.user_id).get()
       .then((snap) => {
         snap.forEach((doc) => {
           this.setState({ loader: false });
           console.log("doc data===>", doc._data);
           var item = doc._data;
           this.state.contact.push(item);
-
-          var arr = doc._data.label;
-
-          this.state.label.push(arr);
+          // var arr = doc._data.label;
+          // this.state.label.push(arr);
         });
         this.setState({ contacts: this.state.contact });
-        this.setState({ labels: this.state.label });
-
-        const data = this.state.labels;
-        this.setState({ splitLabel: data });
-        console.log("Label ===>", this.state.contacts);
-        console.log(" Split Label ===>", this.state.splitLabel);
+        // this.setState({ labels: this.state.label });
+        // const data = this.state.labels;
+        // this.setState({ splitLabel: data });
+        // console.log("Label ===>", this.state.contacts);
+        // console.log(" Split Label ===>", this.state.splitLabel);
       });
   }
   renderHeader() {
@@ -94,11 +88,48 @@ class ViewLabel extends Component {
     this.props.navigation.navigate("ViewLabelByName");
   };
 
+  contactsList({item,index}) {
+    var labelArray = item.label
+    var nameArr = labelArray !== undefined && labelArray.split(',')
+    console.log(nameArr)
+
+    return(
+      <View style={{ alignItems: "center" }}>
+        <View style={styles.middleView}>
+          <View style={styles.firstView}>
+            <Text style={[styles.FirstText,{ color: COLORS.main_text_color }]}>
+              {item.user_name || item.first_name} {item.last_name}
+            </Text>
+          </View>
+          <View>
+            <View style={styles.secondView}>
+              {nameArr !== false && nameArr.map((item, key) => (
+              <Text style={styles.FirstText}>{item}</Text>
+              ))
+            }
+            </View>
+          </View>
+        </View>
+      </View>
+    )
+  }
+
   renderBigView() {
     return (
-      <View style={{ alignItems: "center" }}>
-        <ScrollView style={{ width: width, marginBottom: 190 }}>
-          <View style={{ alignItems: "center" }}>
+      <View style={{ alignItems: "center", flex: 1, paddingTop: 10}}>
+        <ScrollView style={{ width: width }}>
+          <FlatList
+            refreshing={true}
+            keyExtractor={(item, index) => index.toString()}
+            data={this.state.contacts}
+            extraData={this.state}
+            numColumns={1}
+            renderItem={this.contactsList.bind(this)}
+            scrollEnabled={true}
+            showsVerticalScrollIndicator={false}
+          />
+
+          {/* <View style={{ alignItems: "center" }}>
             {this.state.contacts.map((item, index) => (
               <View style={styles.middleView}>
                 <View style={styles.firstView}>
@@ -114,29 +145,17 @@ class ViewLabel extends Component {
                 </View>
                 <View>
                   <View style={styles.secondView}>
-                    <Text style={styles.FirstText}>{item.label}</Text>
+                    <Text style={styles.FirstText}>{item}</Text>
                   </View>
-                  {/* <View style={styles.secondView}> */}
-                  {/* {this.state.splitLabel.map((item) => (
-                  <View>
-                    <View>
-                      <Text style={styles.FirstText}>{item}</Text>
-                    </View>
-                  </View>
-                ))} */}
                 </View>
               </View>
             ))}
-          </View>
+          </View> */}
         </ScrollView>
       </View>
     );
   }
-  showLoader() {
-    if (this.state.loader == true) {
-      return <Spinner />;
-    }
-  }
+
   render() {
     return (
       <ThemeProvider theme={this.props.theme}>
@@ -154,7 +173,7 @@ class ViewLabel extends Component {
           {this.renderMiddle()}
           {this.state.contacts == "" ? (
             <View style={{ marginTop: Metrics.doubleBaseMargin }}>
-              <LineText>Please wait a moment</LineText>
+              <LineText>Nothing to show</LineText>
             </View>
           ) : null}
           {this.renderBigView()}
@@ -164,11 +183,9 @@ class ViewLabel extends Component {
     );
   }
 }
-// const mapStateToProps = (state) => ({
-//   theme: state.themeReducer.theme,
-//   user_id: state.login.shouldLoadData.user_id,
-// });
+
 function mapStateToProps(state) {
+  console.log('state',state)
   return {
     theme: state.themeReducer.theme,
     user_id: state.login.shouldLoadData.user_id,

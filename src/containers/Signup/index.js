@@ -29,6 +29,8 @@ import { Spinner } from "../../components/Spinner";
 import { TouchableWithoutFeedback } from "react-native-gesture-handler";
 import { bindActionCreators } from "redux";
 import checked from "../../assets/icons/checked.png";
+import wrong from "../../assets/icons/close.png";
+
 import { connect } from "react-redux";
 import firebase from "react-native-firebase";
 import helper from "../../util/helper";
@@ -83,108 +85,11 @@ class Signup extends Component {
   matchPassword = (password, confirmpassWord) => {
     return password === confirmpassWord;
   };
+
   signUp = () => {
-    const { contact, uname, email, password, confirmpassWord } = this.props;
-    contact == ""
-      ? this.setState({ contactError: "Please enter phone number" })
-      : contact.unmaskedPhoneNumber.length !== 10
-      ? this.setState({ contactError: "Please enter valid phone number" })
-      : this.setState({ contactError: "" });
-
-    uname == ""
-      ? this.setState({ unameError: "Please enter username" })
-      : this.maxUname(uname)
-      ? this.setState({ unameError: "Username contain maximum 20 character" })
-      : this.minUname(uname)
-      ? this.setState({ unameError: "Username contain minimun 6 character" })
-      : this.setState({ unameError: "" });
-
-    !this.validateEmail(email)
-      ? this.setState({ emailError: "Please enter valid email" })
-      : this.setState({ emailError: "" });
-
-    password == ""
-      ? this.setState({ passwordError: "Please enter password" })
-      : !this.ValidPass(password)
-      ? this.setState({ passwordError: "Please enter valid password" })
-      : this.setState({ passwordError: "" });
-
-    confirmpassWord == ""
-      ? this.setState({ confirmPassError: "Please enter password again" })
-      : password !== confirmpassWord
-      ? this.setState({ confirmPassError: "Password not match" })
-      : this.setState({ confirmPassError: "" });
-
-    if (
-      contact &&
-      uname &&
-      !this.maxUname(uname) &&
-      !this.minUname(uname) &&
-      email &&
-      this.validateEmail(email) &&
-      password &&
-      this.ValidPass(password) &&
-      confirmpassWord &&
-      password == confirmpassWord
-    ) {
-      this.props.signUpUser();
-    }
+    this.props.signUpUser();
   };
 
-  onSubmit(value) {
-    console.log('values--------->', value)
-    switch (value) {
-      case "uname":
-        this.refs.unameCont.refs.uname.focus();
-        this.props.uname == ""
-          ? this.setState({ unameError: "Please enter username" })
-          : this.maxUname(this.props.uname)
-          ? this.setState({
-              unameError: "Username contain maximum 20 character",
-            })
-          : this.minUname(this.props.uname)
-          ? this.setState({
-              unameError: "Username contain minimun 6 character",
-            })
-          : this.setState({ unameError: "" });
-        if (
-          this.props.uname &&
-          !this.maxUname(this.props.uname) &&
-          !this.minUname(this.props.uname)
-        ) {
-          this.props.checkUsername();
-        }
-
-        break;
-      case "email":
-        this.refs.emailCont.refs.email.focus();
-        !this.validateEmail(this.props.email)
-          ? this.setState({ emailError: "Please enter valid email" })
-          : this.setState({ emailError: "" });
-        if (this.props.email && this.validateEmail(this.props.email)) {
-          this.props.checkEmail();
-        }
-        break;
-      case "contact":
-        this.refs.contactCont.refs.contact.focus();
-        this.props.contact == ""
-          ? this.setState({ contactError: "Please enter phone number" })
-          : this.props.contact.unmaskedPhoneNumber.length !== 10
-          ? this.setState({ contactError: "Please enter valid phone number" })
-          : this.setState({ contactError: "" });
-        if (this.props.contact) {
-          alert('hi')
-          this.props.checkContact();
-        }
-        break;
-      case "password":
-        this.refs.passwordCont.refs.password.focus();
-        break;
-      case "confirmpassWord":
-        this.refs.confirmpasswordcont.refs.confirmpassWord.focus();
-        break;
-    }
-  }
   showLoader() {
     if (this.props.loader == true) {
       return <Spinner />;
@@ -209,6 +114,80 @@ class Signup extends Component {
       : this.setState({ showRender: false });
   };
 
+  onChangeNumber = ({dialCode, unmaskedPhoneNumber, phoneNumber, isVerified}) => {
+    if(isVerified == true){
+      this.props.regcontactChange(dialCode+'-'+unmaskedPhoneNumber)
+      this.setState({contactError: ''}) 
+      this.props.checkContact()
+    } else {
+      this.props.regcontactChange(unmaskedPhoneNumber)
+      this.setState({contactError: 'Please enter valid number' });
+    }
+  };
+
+  changeUname=(uname)=>{
+    // const uname= this.props;
+    this.props.regunameChange(uname)
+
+    if(uname == ""){
+      this.setState({ unameError: "Please enter username" })
+    }
+    if(this.maxUname(uname)){
+      this.setState({
+        unameError: "Username contain maximum 20 character",
+      })
+    }
+    if(this.minUname(uname)){
+      this.setState({
+        unameError: "Username contain minimun 6 character",
+      })
+    }    
+    if (
+      uname &&
+      !this.maxUname(uname) &&
+      !this.minUname(uname)
+    ) {
+      this.setState({ unameError: "" });      
+      this.props.checkUsername();
+    }
+  }
+  changeEmail=(email)=>{
+    this.props.regEmailChange(email)
+    if(!this.validateEmail(email)){
+      this.setState({ emailError: "Please enter valid email" })
+    }
+    if(email && this.validateEmail(email)) {
+      this.setState({ emailError: "" });
+      this.props.checkEmail();
+    }
+  }
+
+  changePassword=(password)=>{
+    this.props.regPassChange(password)
+    if(password == ""){
+      this.setState({ passwordError: "Please enter password" })
+    }
+    if(!this.ValidPass(password)){
+      this.setState({ passwordError: "Please enter valid password" })
+    }
+    if(password && this.ValidPass(password)){
+      this.setState({ passwordError: "" });
+    } 
+  }
+
+  changeConfirmPassword=(confirmpassWord)=>{
+    this.props.regconfirmpassWord(confirmpassWord)
+    if(confirmpassWord == ""){
+      this.setState({ confirmPassError: "Please enter password again" })
+    }
+    if(confirmpassWord !== "" && this.props.password !== confirmpassWord){
+      this.setState({ confirmPassError: "Password not match" })
+    }
+    if(confirmpassWord !== "" && this.props.password == confirmpassWord){
+      this.setState({ confirmPassError: "" });
+    } 
+
+  }
   render() {
     const {
       email,
@@ -216,11 +195,6 @@ class Signup extends Component {
       password,
       contact,
       confirmpassWord,
-      regEmailChange,
-      regunameChange,
-      regcontactChange,
-      regPassChange,
-      regconfirmpassWord,
     } = this.props;
     return (
       <ThemeProvider theme={this.props.theme}>
@@ -248,25 +222,29 @@ class Signup extends Component {
                     <View style={styles.mobileInputView}>
                       <IntlInputCard
                         defaultCountry="IN"
-                        blurOnSubmit={false}
-                        autoCapitalize={true}
                         value={contact}
-                        onChangeText={regcontactChange}
+                        onChangeText={this.onChangeNumber}
                         ref={"contactCont"}
                         inputRef={"contact"}
-                        onSubmitEditing={(contact) => this.onSubmit("contact")}
-                        returnKey={"next"}
+                        // onSubmitEditing={(contact) => this.onSubmit("contact")}
                         keyboardType={"numeric"}
-                        secureEntry={false}
+                        icon={ contact !== "" && this.props.contactMsg == true ? (
+                          require('../../assets/icons/checked.png')
+                          ) : contact !== "" && (this.state.contactError !== "" 
+                          || this.props.contactMsg == false) 
+                          ? require('../../assets/icons/close.png') : null
+                        }
                       ></IntlInputCard>
                     </View>
-                    {this.props.contactMsg == true ? (
+                    {(this.state.contactError == undefined ||
+                    this.state.contactError == "") && this.props.contactMsg == true ? (
                       <Text style={styles.error}>
                         Contact <Text style={styles.errorSuccess}>is</Text>{" "}
                         available
                       </Text>
                     ) : null}
-                    {this.props.contactMsg == false ? (
+                    {(this.state.contactError == undefined ||
+                    this.state.contactError == "" ) && this.props.contactMsg == false ? (
                       <Text style={styles.error}>
                         Contact <Text style={styles.errorFail}>is not</Text>{" "}
                         available
@@ -286,12 +264,12 @@ class Signup extends Component {
                     </View>
                     <View style={styles.mobileView}>
                       <InputCard
-                        onChangeText={regunameChange}
+                        onChangeText={(uname)=>this.changeUname(uname)}
                         blurOnSubmit={false}
                         autoCapitalize={true}
                         ref={"unameCont"}
                         inputRef={"uname"}
-                        onSubmitEditing={(uname) => this.onSubmit("uname")}
+                        // onSubmitEditing={(uname) => this.onSubmit("uname")}
                         value={uname}
                         returnKey={"next"}
                         // onFocus={() => this.setState({ userNameError: '' })}
@@ -299,15 +277,24 @@ class Signup extends Component {
                         secureEntry={false}
                         placeholder={""}
                       ></InputCard>
+                        <View style={styles.eyeView}>
+                          { uname !== "" && this.props.usernameMsg == true ? (
+                            <Image source={checked} style={styles.checkIcon} />
+                            ) : uname !== "" && (this.state.unameError !== "" 
+                            || this.props.usernameMsg == false) 
+                            ? <Image source={wrong} style={styles.checkIcon} /> : null
+                          }
+                        </View>
                     </View>
-
-                    {this.props.usernameMsg == true ? (
+                    {(this.state.unameError == undefined ||
+                    this.state.unameError == "" ) && this.props.usernameMsg == true ? (
                       <Text style={styles.error}>
                         Username <Text style={styles.errorSuccess}>is</Text>{" "}
                         available
                       </Text>
                     ) : null}
-                    {this.props.usernameMsg == false ? (
+                    {(this.state.unameError == undefined ||
+                    this.state.unameError == "" ) && this.props.usernameMsg == false ? (
                       <Text style={styles.error}>
                         Username <Text style={styles.errorFail}>is not</Text>{" "}
                         available
@@ -320,6 +307,7 @@ class Signup extends Component {
                       </Text>
                     )}
                   </View>
+                  
                   <View>
                     <View style={styles.userText}>
                       <BoldBlack>E-mail :</BoldBlack>
@@ -327,12 +315,13 @@ class Signup extends Component {
 
                     <View style={styles.mobileView}>
                       <InputCard
-                        onChangeText={regEmailChange}
+                        // onChangeText={regEmailChange}
+                        onChangeText={(email)=>this.changeEmail(email)}
                         blurOnSubmit={false}
                         autoCapitalize={true}
                         ref={"emailCont"}
                         inputRef={"email"}
-                        onSubmitEditing={(email) => this.onSubmit("email")}
+                        // onSubmitEditing={(email) => this.onSubmit("email")}
                         value={email}
                         // onFocus={() => this.setState({ emailError: null })}
                         returnKey={"next"}
@@ -340,14 +329,24 @@ class Signup extends Component {
                         secureEntry={false}
                         placeholder={""}
                       ></InputCard>
+                        <View style={styles.eyeView}>
+                          { email !== "" && this.props.emailMsg == true ? (
+                            <Image source={checked} style={styles.checkIcon} />
+                            ) : email !== "" && (this.state.emailError !== "" 
+                            || this.props.emailMsg == false) 
+                            ? <Image source={wrong} style={styles.checkIcon} /> : null
+                          }
+                        </View>
                     </View>
-                    {this.props.emailMsg == true ? (
+                    {(this.state.emailError == undefined ||
+                    this.state.emailError == "" ) && this.props.emailMsg == true ? (
                       <Text style={styles.error}>
                         Email <Text style={styles.errorSuccess}>is</Text>{" "}
                         available
                       </Text>
                     ) : null}
-                    {this.props.emailMsg == false ? (
+                    {(this.state.emailError == undefined ||
+                    this.state.emailError == "" ) && this.props.emailMsg == false ? (
                       <Text style={styles.error}>
                         Email <Text style={styles.errorFail}>is not</Text>{" "}
                         available
@@ -382,7 +381,6 @@ class Signup extends Component {
                               style={styles.infoIcon}
                             />
                           )}
-
                           <CountryText>Password Requirements</CountryText>
                         </TouchableWithoutFeedback>
                       </View>
@@ -390,14 +388,14 @@ class Signup extends Component {
 
                     <View style={styles.passView}>
                       <InputCard
-                        onChangeText={regPassChange}
+                        onChangeText={(password)=>this.changePassword(password)}
                         blurOnSubmit={true}
                         autoCapitalize={false}
                         ref={"passwordCont"}
                         inputRef={"password"}
-                        onSubmitEditing={(password) =>
-                          this.onSubmit("password")
-                        }
+                        // onSubmitEditing={(password) =>
+                        //   this.onSubmit("password")
+                        // }
                         value={password}
                         returnKey={"next"}
                         keyboardType={"default"}
@@ -436,20 +434,21 @@ class Signup extends Component {
                       </Text>
                     )}
                   </View>
+                  
                   <View>
                     <View style={styles.userText}>
                       <BoldBlack>*Re-Enter Password :</BoldBlack>
                     </View>
                     <View style={styles.passView}>
                       <InputCard
-                        onChangeText={regconfirmpassWord}
+                        onChangeText={(confirmpassWord)=>this.changeConfirmPassword(confirmpassWord)}
                         blurOnSubmit={false}
                         autoCapitalize={false}
                         ref={"confirmpasswordcont"}
                         inputRef={"confirmpassWord"}
-                        onSubmitEditing={(confirmpassWord) =>
-                          this.onSubmit("confirmpassWord")
-                        }
+                        // onSubmitEditing={(confirmpassWord) =>
+                        //   this.onSubmit("confirmpassWord")
+                        // }
                         value={confirmpassWord}
                         returnKey={"next"}
                         keyboardType={"default"}
@@ -486,18 +485,22 @@ class Signup extends Component {
                     )}
                   </View>
                 </View>
-                <TouchableOpacity
+                <TouchableHighlight
                   style={styles.submitView}
-                  onPress={this.signUp}
+                  onPress={()=> (
+                  uname!=="" && this.state.unameError=="" && this.props.usernameMsg == true && 
+                  contact!=="" && this.state.contactError == "" && this.props.contactMsg == true &&
+                  email!== "" && this.state.emailError == "" && this.props.emailMsg == true &&
+                  password !== "" && this.state.passwordError == "" && confirmpassWord !== "" 
+                  && this.state.confirmPassError == "" && password == confirmpassWord ? this.signUp() : console.log('error'))}
                 >
                   <Text style={styles.submitText}>SUBMIT</Text>
-                </TouchableOpacity>
+                </TouchableHighlight>
 
                 <Modal
                   visible={this.state.isPassModelOpen}
                   transparent={true}
                   style={styles.footerModal}
-                  // onBackPress={() => this.setState({ isPassModelOpen: false })}
                 >
                   <View style={styles.contactContent}>
                     <View style={styles.popupHeader}>
@@ -536,10 +539,6 @@ class Signup extends Component {
 }
 
 function mapStateToProps(state) {
-  // console.log("state===>", state.reg.usernameMsg.message);
-  // console.log("state===>", state.reg.emailMsg.message);
-  console.log("Contact===>", state.reg.contact);
-
   return {
     theme: state.themeReducer.theme,
     email: state.reg.email,

@@ -1,0 +1,342 @@
+[
+    {
+        "merged": "/Users/techdodles/Desktop/mansi/PROJECTS/git/contactsAICtwo/android/app/build/intermediates/res/merged/debug/drawable-mdpi_src_assets_images_innerimg.png.flat",
+        "source": "/Users/techdodles/Desktop/mansi/PROJECTS/git/contactsAICtwo/android/app/src/main/res/drawable-mdpi/src_assets_images_innerimg.png"
+    },
+    {
+        "merged": "/Users/techdodles/Desktop/mansi/PROJECTS/git/contactsAICtwo/android/app/build/intermediates/res/merged/debug/drawable-mdpi_node_modules_reactnativepaper_src_assets_backchevron.png.flat",
+        "source": "/Users/techdodles/Desktop/mansi/PROJECTS/git/contactsAICtwo/android/app/src/main/res/drawable-mdpi/node_modules_reactnativepaper_src_assets_backchevron.png"
+    },
+    {
+        "merged": "/Users/techdodles/Desktop/mansi/PROJECTS/git/contactsAICtwo/android/app/build/intermediates/res/merged/debug/drawable-mdpi_src_assets_images_outerimg.png.flat",
+        "source": "/Users/techdodles/Desktop/mansi/PROJECTS/git/contactsAICtwo/android/app/src/main/res/drawable-mdpi/src_assets_images_outerimg.png"
+    },
+    {
+        "merged": "/Users/techdodles/Desktop/mansi/PROJECTS/git/contactsAICtwo/android/app/build/intermediates/res/merged/debug/drawable-mdpi_src_assets_images_call.png.flat",
+        "source": "/Users/techdodles/Desktop/mansi/PROJECTS/git/contactsAICtwo/android/app/src/main/res/drawable-mdpi/src_assets_images_call.png"
+    },
+    {
+        "merged": "/Users/techdodles/Desktop/mansi/PROJECTS/git/contactsAICtwo/android/app/build/intermediates/res/merged/debug/raw_node_modules_reactnativevectoricons_glyphmaps_materialicons.json.flat",
+        "source": "/Users/techdodles/Desktop/mansi/PROJECTS/git/contactsAICtwo/android/app/src/main/res/raw/node_modules_reactnativevectoricons_glyphmaps_materialicons.json"
+    },
+    {
+        "merged": "/Users/techdodles/Desktop/mansi/PROJECTS/git/contactsAICtwo/android/app/build/intermediates/res/merged/debug/drawable-mdpi_src_assets_icons_checked.png.flat",
+        "source": "/Users/techdodles/Desktop/mansi/PROJECTS/git/contactsAICtwo/android/app/src/main/res/drawable-mdpi/src_assets_icons_checked.png"
+    },
+    {
+        "merged": "/Users/techdodles/Desktop/mansi/PROJECTS/git/contactsAICtwo/android/app/build/intermediates/res/merged/debug/drawable-hdpi_node_modules_reactnavigation_stack_src_views_assets_backicon.png.flat",
+        "source": "/Users/techdodles/Desktop/mansi/PROJECTS/git/contactsAICtwo/android/app/src/main/res/drawable-hdpi/node_modules_reactnavigation_stack_src_views_assets_backicon.png"
+    },
+    {
+        "merged": "/Users/techdodles/Desktop/mansi/PROJECTS/git/contactsAICtwo/android/app/build/intermediates/res/merged/debug/drawable-mdpi_src_assets_icons_contact.png.flat",
+        "source": "/Users/techdodles/Desktop/mansi/PROJECTS/git/contactsAICtwo/android/app/src/main/res/drawable-mdpi/src_assets_icons_contact.png"
+    },
+    {
+        "merged": "/Users/techdodles/Desktop/mansi/PROJECTS/git/contactsAICtwo/android/app/build/intermediates/res/merged/debug/raw_node_modules_reactnativevectoricons_glyphmaps_fontisto.json.flat",
+        "source": "/Users/techdodles/Desktop/mansi/PROJECTS/git/contactsAICtwo/android/app/src/main/res/raw/node_modules_reactnativevectoricons_glyphmaps_fontisto.json"
+    },
+    {
+        "merged": "/Users/techdodles/Desktop/mansi/PROJECTS/git/contactsAICtwo/android/app/build/intermediates/res/merged/debug/drawable-mdpi_src_assets_icons_isquare.png.flat",
+        "source": "/Users/techdodles/Desktop/mansi/PROJECTS/git/contactsAICtwo/android/app/src/main/res/drawable-mdpi/src_assets_icons_isquare.png"
+    },
+    {
+        "merged": "/Users/techdodles/Desktop/mansi/PROJECTS/git/contactsAICtwo/android/app/build/intermediates/res/merged/debug/raw_node_modules_nativebase_dist_src_basic_icon_nbicons.json.flat",
+        "source": "/Users/techdodles/Desktop/mansi/PROJECTS/git/contactsAICtwo/android/app/src/main/res/raw/node_modules_nativebase_dist_src_basic_icon_nbicons.json"
+    },
+    {
+        "merged": "/Users/techdodles/Desktop/mansi/PROJECTS/git/contactsAICtwo/android/app/build/intermediates/res/merged/debug/mipmap-xxhdpi_ic_launcher_round.png.flat",
+        "source": "/Users/techdodles/Desktop/mansi/PROJECTS/git/contactsAICtwo/android/app/src/main/res/mipmap-xxhdpi/ic_launcher_round.png"
+    },
+    {
+        "merged": "/Users/techdodles/Desktop/mansi/PROJECTS/git/contactsAICtwo/android/app/build/intermediates/res/merged/debug/drawable-mdpi_src_assets_images_message.png.flat",
+        "source": "/Users/techdodles/Desktop/mansi/PROJECTS/git/contactsAICtwo/android/app/src/main/res/drawable-mdpi/src_assets_images_message.png"
+    },
+    {
+        "merged": "/Users/techdodles/Desktop/mansi/PROJECTS/git/contactsAICtwo/android/app/build/intermediates/res/merged/debug/raw_node_modules_reactnativevectoricons_glyphmaps_fontawesome.json.flat",
+        "source": "/Users/techdodles/Desktop/mansi/PROJECTS/git/contactsAICtwo/android/app/src/main/res/raw/node_modules_reactnativevectoricons_glyphmaps_fontawesome.json"
+    },
+    {
+        "merged": "/Users/techdodles/Desktop/mansi/PROJECTS/git/contactsAICtwo/android/app/build/intermediates/res/merged/debug/drawable-mdpi_node_modules_reactnavigationstack_lib_module_vendor_views_assets_backicon.png.flat",
+        "source": "/Users/techdodles/Desktop/mansi/PROJECTS/git/contactsAICtwo/android/app/src/main/res/drawable-mdpi/node_modules_reactnavigationstack_lib_module_vendor_views_assets_backicon.png"
+    },
+    {
+        "merged": "/Users/techdodles/Desktop/mansi/PROJECTS/git/contactsAICtwo/android/app/build/intermediates/res/merged/debug/raw_node_modules_reactnativevectoricons_glyphmaps_foundation.json.flat",
+        "source": "/Users/techdodles/Desktop/mansi/PROJECTS/git/contactsAICtwo/android/app/src/main/res/raw/node_modules_reactnativevectoricons_glyphmaps_foundation.json"
+    },
+    {
+        "merged": "/Users/techdodles/Desktop/mansi/PROJECTS/git/contactsAICtwo/android/app/build/intermediates/res/merged/debug/drawable-mdpi_src_assets_icons_isquarewhite.png.flat",
+        "source": "/Users/techdodles/Desktop/mansi/PROJECTS/git/contactsAICtwo/android/app/src/main/res/drawable-mdpi/src_assets_icons_isquarewhite.png"
+    },
+    {
+        "merged": "/Users/techdodles/Desktop/mansi/PROJECTS/git/contactsAICtwo/android/app/build/intermediates/res/merged/debug/drawable-hdpi_node_modules_reactnavigationstack_lib_module_vendor_views_assets_backicon.png.flat",
+        "source": "/Users/techdodles/Desktop/mansi/PROJECTS/git/contactsAICtwo/android/app/src/main/res/drawable-hdpi/node_modules_reactnavigationstack_lib_module_vendor_views_assets_backicon.png"
+    },
+    {
+        "merged": "/Users/techdodles/Desktop/mansi/PROJECTS/git/contactsAICtwo/android/app/build/intermediates/res/merged/debug/raw_node_modules_cssselect_lib_procedure.json.flat",
+        "source": "/Users/techdodles/Desktop/mansi/PROJECTS/git/contactsAICtwo/android/app/src/main/res/raw/node_modules_cssselect_lib_procedure.json"
+    },
+    {
+        "merged": "/Users/techdodles/Desktop/mansi/PROJECTS/git/contactsAICtwo/android/app/build/intermediates/res/merged/debug/mipmap-xxxhdpi_ic_launcher_round.png.flat",
+        "source": "/Users/techdodles/Desktop/mansi/PROJECTS/git/contactsAICtwo/android/app/src/main/res/mipmap-xxxhdpi/ic_launcher_round.png"
+    },
+    {
+        "merged": "/Users/techdodles/Desktop/mansi/PROJECTS/git/contactsAICtwo/android/app/build/intermediates/res/merged/debug/drawable-mdpi_src_assets_images_handshake.png.flat",
+        "source": "/Users/techdodles/Desktop/mansi/PROJECTS/git/contactsAICtwo/android/app/src/main/res/drawable-mdpi/src_assets_images_handshake.png"
+    },
+    {
+        "merged": "/Users/techdodles/Desktop/mansi/PROJECTS/git/contactsAICtwo/android/app/build/intermediates/res/merged/debug/raw_node_modules_csstree_dist_defaultsyntax.json.flat",
+        "source": "/Users/techdodles/Desktop/mansi/PROJECTS/git/contactsAICtwo/android/app/src/main/res/raw/node_modules_csstree_dist_defaultsyntax.json"
+    },
+    {
+        "merged": "/Users/techdodles/Desktop/mansi/PROJECTS/git/contactsAICtwo/android/app/build/intermediates/res/merged/debug/drawable-xxhdpi_node_modules_reactnavigationstack_lib_module_vendor_views_assets_backicon.png.flat",
+        "source": "/Users/techdodles/Desktop/mansi/PROJECTS/git/contactsAICtwo/android/app/src/main/res/drawable-xxhdpi/node_modules_reactnavigationstack_lib_module_vendor_views_assets_backicon.png"
+    },
+    {
+        "merged": "/Users/techdodles/Desktop/mansi/PROJECTS/git/contactsAICtwo/android/app/build/intermediates/res/merged/debug/mipmap-xxxhdpi_ic_launcher.png.flat",
+        "source": "/Users/techdodles/Desktop/mansi/PROJECTS/git/contactsAICtwo/android/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png"
+    },
+    {
+        "merged": "/Users/techdodles/Desktop/mansi/PROJECTS/git/contactsAICtwo/android/app/build/intermediates/res/merged/debug/drawable-mdpi_src_assets_icons_close.png.flat",
+        "source": "/Users/techdodles/Desktop/mansi/PROJECTS/git/contactsAICtwo/android/app/src/main/res/drawable-mdpi/src_assets_icons_close.png"
+    },
+    {
+        "merged": "/Users/techdodles/Desktop/mansi/PROJECTS/git/contactsAICtwo/android/app/build/intermediates/res/merged/debug/drawable-mdpi_src_assets_icons_unchecked.png.flat",
+        "source": "/Users/techdodles/Desktop/mansi/PROJECTS/git/contactsAICtwo/android/app/src/main/res/drawable-mdpi/src_assets_icons_unchecked.png"
+    },
+    {
+        "merged": "/Users/techdodles/Desktop/mansi/PROJECTS/git/contactsAICtwo/android/app/build/intermediates/res/merged/debug/drawable-mdpi_src_assets_images_logo.png.flat",
+        "source": "/Users/techdodles/Desktop/mansi/PROJECTS/git/contactsAICtwo/android/app/src/main/res/drawable-mdpi/src_assets_images_logo.png"
+    },
+    {
+        "merged": "/Users/techdodles/Desktop/mansi/PROJECTS/git/contactsAICtwo/android/app/build/intermediates/res/merged/debug/raw_node_modules_reactnativevectoricons_glyphmaps_materialcommunityicons.json.flat",
+        "source": "/Users/techdodles/Desktop/mansi/PROJECTS/git/contactsAICtwo/android/app/src/main/res/raw/node_modules_reactnativevectoricons_glyphmaps_materialcommunityicons.json"
+    },
+    {
+        "merged": "/Users/techdodles/Desktop/mansi/PROJECTS/git/contactsAICtwo/android/app/build/intermediates/res/merged/debug/raw_node_modules_entities_lib_maps_xml.json.flat",
+        "source": "/Users/techdodles/Desktop/mansi/PROJECTS/git/contactsAICtwo/android/app/src/main/res/raw/node_modules_entities_lib_maps_xml.json"
+    },
+    {
+        "merged": "/Users/techdodles/Desktop/mansi/PROJECTS/git/contactsAICtwo/android/app/build/intermediates/res/merged/debug/drawable-mdpi_src_assets_images_website.png.flat",
+        "source": "/Users/techdodles/Desktop/mansi/PROJECTS/git/contactsAICtwo/android/app/src/main/res/drawable-mdpi/src_assets_images_website.png"
+    },
+    {
+        "merged": "/Users/techdodles/Desktop/mansi/PROJECTS/git/contactsAICtwo/android/app/build/intermediates/res/merged/debug/drawable-xhdpi_node_modules_reactnavigationstack_lib_module_vendor_views_assets_backicon.png.flat",
+        "source": "/Users/techdodles/Desktop/mansi/PROJECTS/git/contactsAICtwo/android/app/src/main/res/drawable-xhdpi/node_modules_reactnavigationstack_lib_module_vendor_views_assets_backicon.png"
+    },
+    {
+        "merged": "/Users/techdodles/Desktop/mansi/PROJECTS/git/contactsAICtwo/android/app/build/intermediates/res/merged/debug/drawable-mdpi_node_modules_reactnavigation_stack_src_views_assets_backicon.png.flat",
+        "source": "/Users/techdodles/Desktop/mansi/PROJECTS/git/contactsAICtwo/android/app/src/main/res/drawable-mdpi/node_modules_reactnavigation_stack_src_views_assets_backicon.png"
+    },
+    {
+        "merged": "/Users/techdodles/Desktop/mansi/PROJECTS/git/contactsAICtwo/android/app/build/intermediates/res/merged/debug/raw_node_modules_entities_lib_maps_legacy.json.flat",
+        "source": "/Users/techdodles/Desktop/mansi/PROJECTS/git/contactsAICtwo/android/app/src/main/res/raw/node_modules_entities_lib_maps_legacy.json"
+    },
+    {
+        "merged": "/Users/techdodles/Desktop/mansi/PROJECTS/git/contactsAICtwo/android/app/build/intermediates/res/merged/debug/drawable-mdpi_src_assets_icons_label.png.flat",
+        "source": "/Users/techdodles/Desktop/mansi/PROJECTS/git/contactsAICtwo/android/app/src/main/res/drawable-mdpi/src_assets_icons_label.png"
+    },
+    {
+        "merged": "/Users/techdodles/Desktop/mansi/PROJECTS/git/contactsAICtwo/android/app/build/intermediates/res/merged/debug/drawable-xxxhdpi_node_modules_reactnavigation_stack_src_views_assets_backicon.png.flat",
+        "source": "/Users/techdodles/Desktop/mansi/PROJECTS/git/contactsAICtwo/android/app/src/main/res/drawable-xxxhdpi/node_modules_reactnavigation_stack_src_views_assets_backicon.png"
+    },
+    {
+        "merged": "/Users/techdodles/Desktop/mansi/PROJECTS/git/contactsAICtwo/android/app/build/intermediates/res/merged/debug/drawable-mdpi_node_modules_reactnavigation_stack_src_views_assets_backiconmask.png.flat",
+        "source": "/Users/techdodles/Desktop/mansi/PROJECTS/git/contactsAICtwo/android/app/src/main/res/drawable-mdpi/node_modules_reactnavigation_stack_src_views_assets_backiconmask.png"
+    },
+    {
+        "merged": "/Users/techdodles/Desktop/mansi/PROJECTS/git/contactsAICtwo/android/app/build/intermediates/res/merged/debug/drawable-mdpi_src_assets_images_friendimg.jpg.flat",
+        "source": "/Users/techdodles/Desktop/mansi/PROJECTS/git/contactsAICtwo/android/app/src/main/res/drawable-mdpi/src_assets_images_friendimg.jpg"
+    },
+    {
+        "merged": "/Users/techdodles/Desktop/mansi/PROJECTS/git/contactsAICtwo/android/app/build/intermediates/res/merged/debug/raw_node_modules_reactnativevectoricons_glyphmaps_simplelineicons.json.flat",
+        "source": "/Users/techdodles/Desktop/mansi/PROJECTS/git/contactsAICtwo/android/app/src/main/res/raw/node_modules_reactnativevectoricons_glyphmaps_simplelineicons.json"
+    },
+    {
+        "merged": "/Users/techdodles/Desktop/mansi/PROJECTS/git/contactsAICtwo/android/app/build/intermediates/res/merged/debug/drawable-mdpi_src_assets_icons_iconmap.png.flat",
+        "source": "/Users/techdodles/Desktop/mansi/PROJECTS/git/contactsAICtwo/android/app/src/main/res/drawable-mdpi/src_assets_icons_iconmap.png"
+    },
+    {
+        "merged": "/Users/techdodles/Desktop/mansi/PROJECTS/git/contactsAICtwo/android/app/build/intermediates/res/merged/debug/raw_node_modules_reactnativevectoricons_glyphmaps_zocial.json.flat",
+        "source": "/Users/techdodles/Desktop/mansi/PROJECTS/git/contactsAICtwo/android/app/src/main/res/raw/node_modules_reactnativevectoricons_glyphmaps_zocial.json"
+    },
+    {
+        "merged": "/Users/techdodles/Desktop/mansi/PROJECTS/git/contactsAICtwo/android/app/build/intermediates/res/merged/debug/drawable-mdpi_src_assets_icons_iconvideo.png.flat",
+        "source": "/Users/techdodles/Desktop/mansi/PROJECTS/git/contactsAICtwo/android/app/src/main/res/drawable-mdpi/src_assets_icons_iconvideo.png"
+    },
+    {
+        "merged": "/Users/techdodles/Desktop/mansi/PROJECTS/git/contactsAICtwo/android/app/build/intermediates/res/merged/debug/drawable-mdpi_src_assets_images_sidebar.png.flat",
+        "source": "/Users/techdodles/Desktop/mansi/PROJECTS/git/contactsAICtwo/android/app/src/main/res/drawable-mdpi/src_assets_images_sidebar.png"
+    },
+    {
+        "merged": "/Users/techdodles/Desktop/mansi/PROJECTS/git/contactsAICtwo/android/app/build/intermediates/res/merged/debug/raw_app.json.flat",
+        "source": "/Users/techdodles/Desktop/mansi/PROJECTS/git/contactsAICtwo/android/app/src/main/res/raw/app.json"
+    },
+    {
+        "merged": "/Users/techdodles/Desktop/mansi/PROJECTS/git/contactsAICtwo/android/app/build/intermediates/res/merged/debug/drawable-mdpi_src_assets_images_person.png.flat",
+        "source": "/Users/techdodles/Desktop/mansi/PROJECTS/git/contactsAICtwo/android/app/src/main/res/drawable-mdpi/src_assets_images_person.png"
+    },
+    {
+        "merged": "/Users/techdodles/Desktop/mansi/PROJECTS/git/contactsAICtwo/android/app/build/intermediates/res/merged/debug/drawable-mdpi_src_assets_icons_info.png.flat",
+        "source": "/Users/techdodles/Desktop/mansi/PROJECTS/git/contactsAICtwo/android/app/src/main/res/drawable-mdpi/src_assets_icons_info.png"
+    },
+    {
+        "merged": "/Users/techdodles/Desktop/mansi/PROJECTS/git/contactsAICtwo/android/app/build/intermediates/res/merged/debug/mipmap-mdpi_ic_launcher_round.png.flat",
+        "source": "/Users/techdodles/Desktop/mansi/PROJECTS/git/contactsAICtwo/android/app/src/main/res/mipmap-mdpi/ic_launcher_round.png"
+    },
+    {
+        "merged": "/Users/techdodles/Desktop/mansi/PROJECTS/git/contactsAICtwo/android/app/build/intermediates/res/merged/debug/drawable-mdpi_src_assets_images_email.png.flat",
+        "source": "/Users/techdodles/Desktop/mansi/PROJECTS/git/contactsAICtwo/android/app/src/main/res/drawable-mdpi/src_assets_images_email.png"
+    },
+    {
+        "merged": "/Users/techdodles/Desktop/mansi/PROJECTS/git/contactsAICtwo/android/app/build/intermediates/res/merged/debug/raw_node_modules_reactnativevectoricons_glyphmaps_feather.json.flat",
+        "source": "/Users/techdodles/Desktop/mansi/PROJECTS/git/contactsAICtwo/android/app/src/main/res/raw/node_modules_reactnativevectoricons_glyphmaps_feather.json"
+    },
+    {
+        "merged": "/Users/techdodles/Desktop/mansi/PROJECTS/git/contactsAICtwo/android/app/build/intermediates/res/merged/debug/mipmap-hdpi_ic_launcher.png.flat",
+        "source": "/Users/techdodles/Desktop/mansi/PROJECTS/git/contactsAICtwo/android/app/src/main/res/mipmap-hdpi/ic_launcher.png"
+    },
+    {
+        "merged": "/Users/techdodles/Desktop/mansi/PROJECTS/git/contactsAICtwo/android/app/build/intermediates/res/merged/debug/raw_node_modules_reactnativevectoricons_glyphmaps_octicons.json.flat",
+        "source": "/Users/techdodles/Desktop/mansi/PROJECTS/git/contactsAICtwo/android/app/src/main/res/raw/node_modules_reactnativevectoricons_glyphmaps_octicons.json"
+    },
+    {
+        "merged": "/Users/techdodles/Desktop/mansi/PROJECTS/git/contactsAICtwo/android/app/build/intermediates/res/merged/debug/drawable-xxhdpi_node_modules_reactnavigation_stack_src_views_assets_backicon.png.flat",
+        "source": "/Users/techdodles/Desktop/mansi/PROJECTS/git/contactsAICtwo/android/app/src/main/res/drawable-xxhdpi/node_modules_reactnavigation_stack_src_views_assets_backicon.png"
+    },
+    {
+        "merged": "/Users/techdodles/Desktop/mansi/PROJECTS/git/contactsAICtwo/android/app/build/intermediates/res/merged/debug/drawable-mdpi_src_assets_icons_settings.png.flat",
+        "source": "/Users/techdodles/Desktop/mansi/PROJECTS/git/contactsAICtwo/android/app/src/main/res/drawable-mdpi/src_assets_icons_settings.png"
+    },
+    {
+        "merged": "/Users/techdodles/Desktop/mansi/PROJECTS/git/contactsAICtwo/android/app/build/intermediates/res/merged/debug/drawable-xhdpi_node_modules_reactnavigation_stack_src_views_assets_backicon.png.flat",
+        "source": "/Users/techdodles/Desktop/mansi/PROJECTS/git/contactsAICtwo/android/app/src/main/res/drawable-xhdpi/node_modules_reactnavigation_stack_src_views_assets_backicon.png"
+    },
+    {
+        "merged": "/Users/techdodles/Desktop/mansi/PROJECTS/git/contactsAICtwo/android/app/build/intermediates/res/merged/debug/raw_node_modules_entities_lib_maps_entities.json.flat",
+        "source": "/Users/techdodles/Desktop/mansi/PROJECTS/git/contactsAICtwo/android/app/src/main/res/raw/node_modules_entities_lib_maps_entities.json"
+    },
+    {
+        "merged": "/Users/techdodles/Desktop/mansi/PROJECTS/git/contactsAICtwo/android/app/build/intermediates/res/merged/debug/drawable-mdpi_src_assets_images_calender.png.flat",
+        "source": "/Users/techdodles/Desktop/mansi/PROJECTS/git/contactsAICtwo/android/app/src/main/res/drawable-mdpi/src_assets_images_calender.png"
+    },
+    {
+        "merged": "/Users/techdodles/Desktop/mansi/PROJECTS/git/contactsAICtwo/android/app/build/intermediates/res/merged/debug/mipmap-xxhdpi_ic_launcher.png.flat",
+        "source": "/Users/techdodles/Desktop/mansi/PROJECTS/git/contactsAICtwo/android/app/src/main/res/mipmap-xxhdpi/ic_launcher.png"
+    },
+    {
+        "merged": "/Users/techdodles/Desktop/mansi/PROJECTS/git/contactsAICtwo/android/app/build/intermediates/res/merged/debug/raw_node_modules_reactnativevectoricons_glyphmaps_fontawesome5free.json.flat",
+        "source": "/Users/techdodles/Desktop/mansi/PROJECTS/git/contactsAICtwo/android/app/src/main/res/raw/node_modules_reactnativevectoricons_glyphmaps_fontawesome5free.json"
+    },
+    {
+        "merged": "/Users/techdodles/Desktop/mansi/PROJECTS/git/contactsAICtwo/android/app/build/intermediates/res/merged/debug/raw_node_modules_reactnativevectoricons_glyphmaps_evilicons.json.flat",
+        "source": "/Users/techdodles/Desktop/mansi/PROJECTS/git/contactsAICtwo/android/app/src/main/res/raw/node_modules_reactnativevectoricons_glyphmaps_evilicons.json"
+    },
+    {
+        "merged": "/Users/techdodles/Desktop/mansi/PROJECTS/git/contactsAICtwo/android/app/build/intermediates/res/merged/debug/drawable-mdpi_src_assets_images_home.png.flat",
+        "source": "/Users/techdodles/Desktop/mansi/PROJECTS/git/contactsAICtwo/android/app/src/main/res/drawable-mdpi/src_assets_images_home.png"
+    },
+    {
+        "merged": "/Users/techdodles/Desktop/mansi/PROJECTS/git/contactsAICtwo/android/app/build/intermediates/res/merged/debug/raw_node_modules_reactnativevectoricons_glyphmaps_antdesign.json.flat",
+        "source": "/Users/techdodles/Desktop/mansi/PROJECTS/git/contactsAICtwo/android/app/src/main/res/raw/node_modules_reactnativevectoricons_glyphmaps_antdesign.json"
+    },
+    {
+        "merged": "/Users/techdodles/Desktop/mansi/PROJECTS/git/contactsAICtwo/android/app/build/intermediates/res/merged/debug/raw_src_assets_icons_info.svg.flat",
+        "source": "/Users/techdodles/Desktop/mansi/PROJECTS/git/contactsAICtwo/android/app/src/main/res/raw/src_assets_icons_info.svg"
+    },
+    {
+        "merged": "/Users/techdodles/Desktop/mansi/PROJECTS/git/contactsAICtwo/android/app/build/intermediates/res/merged/debug/drawable-mdpi_src_assets_icons_help.png.flat",
+        "source": "/Users/techdodles/Desktop/mansi/PROJECTS/git/contactsAICtwo/android/app/src/main/res/drawable-mdpi/src_assets_icons_help.png"
+    },
+    {
+        "merged": "/Users/techdodles/Desktop/mansi/PROJECTS/git/contactsAICtwo/android/app/build/intermediates/res/merged/debug/drawable-mdpi_src_assets_icons_iconmessage.png.flat",
+        "source": "/Users/techdodles/Desktop/mansi/PROJECTS/git/contactsAICtwo/android/app/src/main/res/drawable-mdpi/src_assets_icons_iconmessage.png"
+    },
+    {
+        "merged": "/Users/techdodles/Desktop/mansi/PROJECTS/git/contactsAICtwo/android/app/build/intermediates/res/merged/debug/drawable-xxxhdpi_node_modules_reactnavigationstack_lib_module_vendor_views_assets_backicon.png.flat",
+        "source": "/Users/techdodles/Desktop/mansi/PROJECTS/git/contactsAICtwo/android/app/src/main/res/drawable-xxxhdpi/node_modules_reactnavigationstack_lib_module_vendor_views_assets_backicon.png"
+    },
+    {
+        "merged": "/Users/techdodles/Desktop/mansi/PROJECTS/git/contactsAICtwo/android/app/build/intermediates/res/merged/debug/raw_node_modules_domserializer_foreignnames.json.flat",
+        "source": "/Users/techdodles/Desktop/mansi/PROJECTS/git/contactsAICtwo/android/app/src/main/res/raw/node_modules_domserializer_foreignnames.json"
+    },
+    {
+        "merged": "/Users/techdodles/Desktop/mansi/PROJECTS/git/contactsAICtwo/android/app/build/intermediates/res/merged/debug/raw_node_modules_reactnativevectoricons_glyphmaps_fontawesome5free_meta.json.flat",
+        "source": "/Users/techdodles/Desktop/mansi/PROJECTS/git/contactsAICtwo/android/app/src/main/res/raw/node_modules_reactnativevectoricons_glyphmaps_fontawesome5free_meta.json"
+    },
+    {
+        "merged": "/Users/techdodles/Desktop/mansi/PROJECTS/git/contactsAICtwo/android/app/build/intermediates/res/merged/debug/mipmap-mdpi_ic_launcher.png.flat",
+        "source": "/Users/techdodles/Desktop/mansi/PROJECTS/git/contactsAICtwo/android/app/src/main/res/mipmap-mdpi/ic_launcher.png"
+    },
+    {
+        "merged": "/Users/techdodles/Desktop/mansi/PROJECTS/git/contactsAICtwo/android/app/build/intermediates/res/merged/debug/drawable-mdpi_node_modules_reactnavigationstack_lib_module_vendor_views_assets_backiconmask.png.flat",
+        "source": "/Users/techdodles/Desktop/mansi/PROJECTS/git/contactsAICtwo/android/app/src/main/res/drawable-mdpi/node_modules_reactnavigationstack_lib_module_vendor_views_assets_backiconmask.png"
+    },
+    {
+        "merged": "/Users/techdodles/Desktop/mansi/PROJECTS/git/contactsAICtwo/android/app/build/intermediates/res/merged/debug/raw_node_modules_csscolorkeywords_colors.json.flat",
+        "source": "/Users/techdodles/Desktop/mansi/PROJECTS/git/contactsAICtwo/android/app/src/main/res/raw/node_modules_csscolorkeywords_colors.json"
+    },
+    {
+        "merged": "/Users/techdodles/Desktop/mansi/PROJECTS/git/contactsAICtwo/android/app/build/intermediates/res/merged/debug/drawable-mdpi_src_assets_icons_navicon.png.flat",
+        "source": "/Users/techdodles/Desktop/mansi/PROJECTS/git/contactsAICtwo/android/app/src/main/res/drawable-mdpi/src_assets_icons_navicon.png"
+    },
+    {
+        "merged": "/Users/techdodles/Desktop/mansi/PROJECTS/git/contactsAICtwo/android/app/build/intermediates/res/merged/debug/raw_node_modules_reactnativevectoricons_glyphmaps_entypo.json.flat",
+        "source": "/Users/techdodles/Desktop/mansi/PROJECTS/git/contactsAICtwo/android/app/src/main/res/raw/node_modules_reactnativevectoricons_glyphmaps_entypo.json"
+    },
+    {
+        "merged": "/Users/techdodles/Desktop/mansi/PROJECTS/git/contactsAICtwo/android/app/build/intermediates/res/merged/debug/drawable-mdpi_src_assets_images_reset.png.flat",
+        "source": "/Users/techdodles/Desktop/mansi/PROJECTS/git/contactsAICtwo/android/app/src/main/res/drawable-mdpi/src_assets_images_reset.png"
+    },
+    {
+        "merged": "/Users/techdodles/Desktop/mansi/PROJECTS/git/contactsAICtwo/android/app/build/intermediates/res/merged/debug/mipmap-xhdpi_ic_launcher_round.png.flat",
+        "source": "/Users/techdodles/Desktop/mansi/PROJECTS/git/contactsAICtwo/android/app/src/main/res/mipmap-xhdpi/ic_launcher_round.png"
+    },
+    {
+        "merged": "/Users/techdodles/Desktop/mansi/PROJECTS/git/contactsAICtwo/android/app/build/intermediates/res/merged/debug/drawable-mdpi_src_assets_icons_iconemail.png.flat",
+        "source": "/Users/techdodles/Desktop/mansi/PROJECTS/git/contactsAICtwo/android/app/src/main/res/drawable-mdpi/src_assets_icons_iconemail.png"
+    },
+    {
+        "merged": "/Users/techdodles/Desktop/mansi/PROJECTS/git/contactsAICtwo/android/app/build/intermediates/res/merged/debug/raw_node_modules_entities_lib_maps_decode.json.flat",
+        "source": "/Users/techdodles/Desktop/mansi/PROJECTS/git/contactsAICtwo/android/app/src/main/res/raw/node_modules_entities_lib_maps_decode.json"
+    },
+    {
+        "merged": "/Users/techdodles/Desktop/mansi/PROJECTS/git/contactsAICtwo/android/app/build/intermediates/res/merged/debug/drawable-mdpi_src_assets_icons_iconpay.png.flat",
+        "source": "/Users/techdodles/Desktop/mansi/PROJECTS/git/contactsAICtwo/android/app/src/main/res/drawable-mdpi/src_assets_icons_iconpay.png"
+    },
+    {
+        "merged": "/Users/techdodles/Desktop/mansi/PROJECTS/git/contactsAICtwo/android/app/build/intermediates/res/merged/debug/drawable-mdpi_src_assets_images_plus.png.flat",
+        "source": "/Users/techdodles/Desktop/mansi/PROJECTS/git/contactsAICtwo/android/app/src/main/res/drawable-mdpi/src_assets_images_plus.png"
+    },
+    {
+        "merged": "/Users/techdodles/Desktop/mansi/PROJECTS/git/contactsAICtwo/android/app/build/intermediates/res/merged/debug/mipmap-hdpi_ic_launcher_round.png.flat",
+        "source": "/Users/techdodles/Desktop/mansi/PROJECTS/git/contactsAICtwo/android/app/src/main/res/mipmap-hdpi/ic_launcher_round.png"
+    },
+    {
+        "merged": "/Users/techdodles/Desktop/mansi/PROJECTS/git/contactsAICtwo/android/app/build/intermediates/res/merged/debug/mipmap-xhdpi_ic_launcher.png.flat",
+        "source": "/Users/techdodles/Desktop/mansi/PROJECTS/git/contactsAICtwo/android/app/src/main/res/mipmap-xhdpi/ic_launcher.png"
+    },
+    {
+        "merged": "/Users/techdodles/Desktop/mansi/PROJECTS/git/contactsAICtwo/android/app/build/intermediates/res/merged/debug/drawable-mdpi_src_assets_images_bordercorner.png.flat",
+        "source": "/Users/techdodles/Desktop/mansi/PROJECTS/git/contactsAICtwo/android/app/src/main/res/drawable-mdpi/src_assets_images_bordercorner.png"
+    },
+    {
+        "merged": "/Users/techdodles/Desktop/mansi/PROJECTS/git/contactsAICtwo/android/app/build/intermediates/res/merged/debug/drawable-mdpi_src_assets_images_edit.png.flat",
+        "source": "/Users/techdodles/Desktop/mansi/PROJECTS/git/contactsAICtwo/android/app/src/main/res/drawable-mdpi/src_assets_images_edit.png"
+    },
+    {
+        "merged": "/Users/techdodles/Desktop/mansi/PROJECTS/git/contactsAICtwo/android/app/build/intermediates/res/merged/debug/drawable-mdpi_src_assets_images_note.png.flat",
+        "source": "/Users/techdodles/Desktop/mansi/PROJECTS/git/contactsAICtwo/android/app/src/main/res/drawable-mdpi/src_assets_images_note.png"
+    },
+    {
+        "merged": "/Users/techdodles/Desktop/mansi/PROJECTS/git/contactsAICtwo/android/app/build/intermediates/res/merged/debug/drawable-mdpi_src_assets_images_instagram.png.flat",
+        "source": "/Users/techdodles/Desktop/mansi/PROJECTS/git/contactsAICtwo/android/app/src/main/res/drawable-mdpi/src_assets_images_instagram.png"
+    },
+    {
+        "merged": "/Users/techdodles/Desktop/mansi/PROJECTS/git/contactsAICtwo/android/app/build/intermediates/res/merged/debug/drawable-mdpi_src_assets_icons_iconcall.png.flat",
+        "source": "/Users/techdodles/Desktop/mansi/PROJECTS/git/contactsAICtwo/android/app/src/main/res/drawable-mdpi/src_assets_icons_iconcall.png"
+    },
+    {
+        "merged": "/Users/techdodles/Desktop/mansi/PROJECTS/git/contactsAICtwo/android/app/build/intermediates/res/merged/debug/raw_node_modules_reactnativevectoricons_glyphmaps_ionicons.json.flat",
+        "source": "/Users/techdodles/Desktop/mansi/PROJECTS/git/contactsAICtwo/android/app/src/main/res/raw/node_modules_reactnativevectoricons_glyphmaps_ionicons.json"
+    }
+]

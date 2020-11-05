@@ -41,10 +41,7 @@ class ViewLabelByName extends Component {
 
   componentDidMount() {
     this.setState({ loader: true });
-    firebase
-      .firestore()
-      .collection(this.props.user_id)
-      .get()
+    firebase.firestore().collection(this.props.user_id).get()
       .then((snap) => {
         snap.forEach((doc) => {
           this.setState({ loader: false });
@@ -101,42 +98,10 @@ class ViewLabelByName extends Component {
     return (
       <View style={{ alignItems: "center" }}>
         <ScrollView style={{ width: width, marginBottom: 190 }}>
-          {/* <View style={{ alignItems: "center" }}>
-            {this.state.contacts.map((item, index) => (
-              <View style={styles.middleView}>
-                <View style={styles.firstView}>
-                  <Text
-                    style={[
-                      styles.FirstText,
-                      { color: COLORS.main_text_color },
-                    ]}
-                  >
-                    {" "}
-                    {item.user_name || item.first_name}
-                  </Text>
-                </View>
-          
-              </View>
-            ))}
-          </View> */}
           <View style={{ alignItems: "center" }}>
-            {/* <View style={styles.secondView}> */}
 
             {this.state.splitLabel.map((item) => (
               <View style={styles.middleView}>
-                {/* {this.state.contacts.map((item, index) => (
-                  <View style={styles.firstView} key={index}>
-                    <Text
-                      style={[
-                        styles.FirstText,
-                        { color: COLORS.main_text_color },
-                      ]}
-                    >
-                      {" "}
-                      {item.user_name || item.first_name}
-                    </Text>
-                  </View>
-                ))} */}
                 <View style={styles.firstView}>
                   <Text style={styles.FirstText}>Aron roy</Text>
                 </View>

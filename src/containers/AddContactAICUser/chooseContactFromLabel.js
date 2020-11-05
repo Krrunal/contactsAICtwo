@@ -44,7 +44,7 @@ class chooseContactFromLabel extends Component {
         return response.json();
       })
       .then((responseJson) => {
-        var arr = responseJson.data.relation.split(/[ ,]+/).map((item) => {
+        var arr = responseJson.data.relation.split(/,/).map((item) => {
           return { relation: item, isSelect: false };
         });
         this.setState({ dataManage: arr });

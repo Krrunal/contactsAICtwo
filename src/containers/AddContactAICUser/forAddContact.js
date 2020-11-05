@@ -46,13 +46,10 @@ class forAddContact extends Component {
       label: await AsyncStorage.getItem("@selectedLabel"),
       data: JSON.parse(await AsyncStorage.getItem("@qrData")),
     });
-    console.log("Username  ---->", this.state.data);
-    console.log(JSON.parse(await AsyncStorage.getItem("@qrData")));
+    // console.log("Username  ---->", this.state.data);
+    // console.log(JSON.parse(await AsyncStorage.getItem("@qrData")));
     const { data, label } = this.state;
-    firebase
-      .firestore()
-      .collection(this.props.user_id)
-      .get()
+    firebase.firestore().collection(this.props.user_id).get()
       .then((snap) => {
         snap.forEach(async (doc) => {
           if (this.state.isUserExist == false) {
@@ -116,7 +113,7 @@ class forAddContact extends Component {
           </View>
         ) : (
           <View style={styles.textRigh}>
-            {this.state.label.split(/[ ,]+/).map((item) => (
+            {this.state.label.split(/,/).map((item) => (
               <Text style={styles.sizeTextSmall}> {item} </Text>
             ))}
           </View>

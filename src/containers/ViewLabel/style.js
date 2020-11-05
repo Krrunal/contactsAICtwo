@@ -65,12 +65,11 @@ export default StyleSheet.create({
   },
 
   middleView: {
-    flex: 1,
     flexDirection: "row",
-    marginTop: Metrics.baseMargin,
+    // marginTop: Metrics.smallMargin,
+    marginBottom: Metrics.baseMargin,
     justifyContent: "center",
-    width: width * 0.94,
-    height: height * 0.1,
+    width: width * 0.9,
     backgroundColor: COLORS.white,
     shadowColor: COLORS.black,
     shadowOffset: {
@@ -81,21 +80,20 @@ export default StyleSheet.create({
     shadowRadius: 4,
     elevation: 5,
     borderRadius: 5,
-    marginBottom: Metrics.xsmallMargin,
   },
-  firstView: {
-    width: width * 0.49,
 
-    marginRight: 10,
+  firstView: {
+    width: width * 0.4,
     marginRight: Metrics.smallMargin,
-    marginLeft: Metrics.baseMargin,
     marginTop: Metrics.smallMargin,
+    marginVertical: Metrics.baseMargin,
   },
+
   secondView: {
     width: width * 0.4,
-    height: height * 0.3,
     marginRight: Metrics.smallMargin,
     marginTop: Metrics.smallMargin,
+    marginBottom: Metrics.baseMargin,
   },
   FirstText: {
     fontFamily: Font.medium,

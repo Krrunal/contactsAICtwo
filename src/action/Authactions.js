@@ -52,7 +52,6 @@ const regUserSuccess = (data, dispatch) => {
   dispatch({ type: RESET_LOGIN });
   dispatch({ type: RESET_REG });
   dispatch({ type: LOAD_DATA_SET, payload: data.data });
-
   dispatch(NavigationService.navigate("AddContact"));
 };
 
@@ -70,7 +69,7 @@ const checkUsernameSuccess = (data, dispatch) => {
 };
 const checkUsernameFail = (data, dispatch) => {
   dispatch({ type: LOAD_USERNAME_MSG, payload: data });
-  dispatch({ type: RESET_USERNAME });
+  // dispatch({ type: RESET_USERNAME });
 };
 
 const checkEmailSuccess = (data, dispatch) => {
@@ -78,7 +77,7 @@ const checkEmailSuccess = (data, dispatch) => {
 };
 const checkEmailFail = (data, dispatch) => {
   dispatch({ type: LOAD_EMAIL_MSG, payload: data });
-  dispatch({ type: RESET_EMAIL });
+  // dispatch({ type: RESET_EMAIL });
 };
 
 const checkContactSuccess = (data, dispatch) => {
@@ -86,7 +85,7 @@ const checkContactSuccess = (data, dispatch) => {
 };
 const checkContactFail = (data, dispatch) => {
   dispatch({ type: LOAD_CONTACT_MSG, payload: data });
-  dispatch({ type: RESET_CONTACT });
+  // dispatch({ type: RESET_CONTACT });
 };
 
 export const regEmailChange = (email) => {
@@ -122,7 +121,6 @@ export const loginPassChange = (pass) => {
 export const checkUsername = () => {
   return async (dispatch, getState) => {
     const state = getState();
-    console.log("getstate==============>", getState());
     const baseurl = Constants.baseurl;
     const username = state.reg.uname;
     var _body = new FormData();
@@ -139,10 +137,8 @@ export const checkUsername = () => {
       .then((responseJson) => {
         var data = responseJson;
         if (data.status == true) {
-          console.log("response true-->", data);
           checkUsernameSuccess(data, dispatch);
         } else {
-          console.log("response else-->", data);
           checkUsernameFail(data, dispatch);
         }
       })
@@ -155,6 +151,7 @@ export const checkEmail = () => {
     const state = getState();
     const baseurl = Constants.baseurl;
     const email = state.reg.email;
+    console.log(email)
     var _body = new FormData();
     _body.append("email", email);
     fetch(baseurl + "check_email", {
@@ -169,23 +166,20 @@ export const checkEmail = () => {
       .then((responseJson) => {
         var data = responseJson;
         if (data.status == true) {
-          console.log("response true-->", data);
           checkEmailSuccess(data, dispatch);
         } else {
-          console.log("response else-->", data);
           checkEmailFail(data, dispatch);
         }
       })
       .catch((error) => {});
   };
 };
+
 export const checkContact = () => {
   return async (dispatch, getState) => {
     const state = getState();
-    console.log('contact', getState())
     const baseurl = Constants.baseurl;
-    const contact = state.reg.contact.dialCode + "-" + state.reg.contact.unmaskedPhoneNumber;
-    console.log("Conatc From Auth ---->",state.reg.contact.dialCode + "-" + state.reg.contact.unmaskedPhoneNumber)
+    const contact = state.reg.contact;
     var _body = new FormData();
     _body.append("contact", contact);
     fetch(baseurl + "check_contact", {
@@ -200,10 +194,10 @@ export const checkContact = () => {
       .then((responseJson) => {
         var data = responseJson;
         if (data.status == true) {
-          console.log("response true-->", data);
+          // console.log("response true-->", data);
           checkContactSuccess(data, dispatch);
         } else {
-          console.log("response else-->", data);
+          // console.log("response else-->", data);
           checkContactFail(data, dispatch);
         }
       })
@@ -211,14 +205,14 @@ export const checkContact = () => {
   };
 };
 export const signUpUser = () => {
+
   return async (dispatch, getState) => {
     const state = getState();
-    // console.log("getstate==============>", getState());
+    console.log("getstate==============>", getState());
     const baseurl = Constants.baseurl;
     const email = state.reg.email;
     const password = state.reg.password;
-    const contact =
-      state.reg.contact.dialCode + "-" + state.reg.contact.unmaskedPhoneNumber;
+    const contact = state.reg.contact;
     const username = state.reg.uname;
     const fcmToken = await firebase.messaging().getToken();
     const platform = Platform.OS;
@@ -230,6 +224,8 @@ export const signUpUser = () => {
     _body.append("contact", contact);
     _body.append("fcmToken", fcmToken);
     _body.append("platform", platform);
+
+    console.log('_body',_body)
     dispatch({ type: SHOW_LOADER_REG, payload: true });
     fetch(baseurl + "register", {
       method: "POST",
