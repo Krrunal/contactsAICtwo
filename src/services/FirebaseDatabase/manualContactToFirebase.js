@@ -1,11 +1,12 @@
 import firebase from './db';
 
 export const addManualContact = 
-    (user_id, first_name, middle_name,last_name,nick_name,number1,number2,number3,numberArray,
+    (user_id, profile_image, first_name, middle_name,last_name,nick_name,number1,number2,number3,numberArray,
         email1,email2,emailArray,address1,addressArray,messenger1,messenger2,messangerArray,
         social_media1,social_media2,socialMediaArray,website1,website2,websiteArray,dob,
         dateArray,note,noteArray,company,companyArray,job_title,work_hour) => {
     firebase.firestore().collection(`${user_id}`).add({
+        profile_image: profile_image,
         first_name: first_name,
         middle_name: middle_name, 
         last_name: last_name,

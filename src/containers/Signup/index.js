@@ -239,8 +239,6 @@ class Signup extends Component {
                         value={contact}
                         onChangeText={this.onChangeNumber}
                         inputRef={(ref) => this.phoneInput = ref}
-                        // inputRef={"contact"}
-                        // onSubmitEditing={(contact) => this.onSubmit("contact")}
                         keyboardType={"numeric"}
                         // icon={ (contact !== "" && (this.state.contactError !== ("" || undefined) 
                         //   || this.props.contactMsg == false)) 
@@ -255,16 +253,10 @@ class Signup extends Component {
                         // }
                       > </IntlInputCard>
                         <View style={styles.contactEyeView}>  
-                          { (contact !== "" && (this.state.contactError !== ("" || undefined) 
-                          || this.props.contactMsg == false)) 
-                          ? <Image source={wrong} style={styles.contactIcon} /> : 
-                          (contact !== "" && this.props.contactMsg == true) ? 
-                          <Image source={checked} style={styles.contactIcon} /> : null
-                        // (contact !== "" && this.props.contactMsg == true) ? (
-                        //     <Image source={checked} style={styles.contactIcon} />
-                        //     ) : (contact !== "" && (this.state.contactError !== "" 
-                        //     || this.props.contactMsg == false)) 
-                        //     ? <Image source={wrong} style={styles.contactIcon} /> : null
+                          { contact !== "" && this.props.contactMsg == true ? 
+                          <Image source={checked} style={styles.contactIcon} /> 
+                          : contact !== "" && (this.state.contactError !== "" || this.props.contactMsg == false)
+                          ? <Image source={wrong} style={styles.contactIcon} /> : null
                           }
                         </View>
                     </View>

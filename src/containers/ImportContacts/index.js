@@ -212,7 +212,7 @@ class importContact extends Component {
         if(item.isSelected == true) {
           console.log('final---->',item.phoneNumbers[0].number)
               addManualContact( 
-                user_id, item.givenName, item.middleName, item.familyName, "", "", "",
+                user_id,"", item.givenName, item.middleName, item.familyName, "", "", "",
                 "", item.phoneNumbers, "", "", item.emailAddresses, "", item.postalAddresses,
                 "", "", "", "", "", "", "", "", "", item.birthday, "", "", item.note, 
                 item.company, "", item.jobTitle,""
