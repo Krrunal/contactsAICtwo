@@ -6,16 +6,11 @@ import Metrics from '../theme/Metrics';
 
 var {width,height} =  Dimensions.get('window');
 export default StyleSheet.create({
-      mainView:{
-      
-            width:width*0.8,
-          
-          //  backgroundColor:COLORS.transparent
-      },
       quardView:{
           flexDirection:'row',
           alignItems:'center',
-          marginTop:Metrics.doubleBaseMargin
+          marginTop:Metrics.doubleBaseMargin,
+          width:width*0.8,
       },
       personName:{
           marginLeft:Metrics.baseMargin,
@@ -56,6 +51,7 @@ export default StyleSheet.create({
         height: width * 0.120,
       },
       scrollStyle:{
-        alignItems: 'center', height:height*0.7,
-       }
+        alignItems: 'center', 
+        height:height*0.75,
+      }
  });

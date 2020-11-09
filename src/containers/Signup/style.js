@@ -38,6 +38,7 @@ export default StyleSheet.create({
         borderRadius:10,
         marginTop:Metrics.xsmallMargin,
         justifyContent:'center',
+        flexDirection: 'row'
     },
 
     passView:{
@@ -133,6 +134,22 @@ export default StyleSheet.create({
         resizeMode: 'contain'
     },
     
+    contactEyeView: {
+        position: 'absolute',
+        right: 0,
+        width: width * 0.15,
+        alignItems: 'center',
+        justifyContent:'center',
+        bottom: '15%'
+    },
+
+    contactIcon: {
+        bottom: '20%',
+        width: width * 0.045,
+        height: width * 0.045,
+        resizeMode: 'contain',
+    },
+
     footerModal: {
         justifyContent: 'center',
         flex: 1

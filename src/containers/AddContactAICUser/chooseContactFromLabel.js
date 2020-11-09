@@ -24,6 +24,9 @@ import styles from "./chooseContactFromLabelStyle.js";
 import { switchTheme } from "../../action/themeAction";
 import Constants from "../../action/Constants";
 import AsyncStorage from '@react-native-community/async-storage'
+import { Spinner } from "../../components/Spinner";
+import Toast from 'react-native-easy-toast';
+
 var { width, height } = Dimensions.get("window");
 
 class chooseContactFromLabel extends Component {
@@ -33,26 +36,34 @@ class chooseContactFromLabel extends Component {
     isSelected: false,
     selectedRealetion: [],
     data: "",
+    isLoading: false
   };
 
   componentDidMount() {
-    // data: this.props.navigation.state.params.data
-    this.setState({ loader: true });
-    const baseurl = Constants.baseurl;
-    fetch(baseurl + "get_label")
-      .then((response) => {
-        return response.json();
-      })
-      .then((responseJson) => {
-        var arr = responseJson.data.relation.split(/,/).map((item) => {
-          return { relation: item, isSelect: false };
+    const { navigation } = this.props;
+    this.focusListener = navigation.addListener("didFocus", async() => {
+      this.labelList()
+    });
+  }
+
+  labelList=()=>{
+    this.setState({ isLoading: true }, async () => {
+      const baseurl = Constants.baseurl;
+      fetch(baseurl + "get_label")
+        .then((response) => {
+          return response.json();
+        })
+        .then((responseJson) => {
+          var arr = responseJson.data.relation.split(/,/).map((item) => {
+            return { relation: item, isSelect: false };
+          });
+          this.setState({ dataManage: arr, isLoading: false });
+        })
+        .catch((error) => {
+          console.error(error);
+          this.setState({ isLoading: false });
         });
-        this.setState({ dataManage: arr });
-        console.log("Array is in -->", arr);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
+    })
   }
 
   onchecked = (keyInd, item) => {
@@ -188,12 +199,18 @@ class chooseContactFromLabel extends Component {
     await AsyncStorage.setItem("@selectedLabel", selected);
 
     if(selected == '') {
-      alert('Please select label to associate with USERNAME')
+      this.refs.toast.show('Please select label to associate with USERNAME')
     } else {
       this.props.navigation.navigate('ForAddContact');
     }
 
     this.setState({ selectedRealetion: [] });
+  }
+
+  showLoader() {
+    if (this.state.isLoading == true) {
+      return <Spinner />;
+    }
   }
 
   render() {
@@ -208,16 +225,33 @@ class chooseContactFromLabel extends Component {
           }
         />
 
+      <View style={{flex: 1}}>
         <Container>
-          {/* <View style={styles.container}> */}
-
           {this.renderHeader()}
-
           {this.renderMiddle()}
           {this.renderLast()}
-
-          {/* </View> */}
         </Container>
+        <Toast
+          ref="toast"
+          style={{
+            backgroundColor:
+              this.props.theme.mode === "light" ? "black" : "white",
+            width: width * 0.8,
+            alignItems: "center",
+          }}
+          position="bottom"
+          positionValue={250}
+          fadeInDuration={100}
+          fadeOutDuration={2000}
+          opacity={1}
+          textStyle={{
+            color: this.props.theme.mode === "light" ? "white" : "black",
+            fontFamily: Font.medium,
+            fontSize: width * 0.04,
+          }}
+        />
+        {this.showLoader()}
+      </View>
       </ThemeProvider>
     );
   }
@@ -234,7 +268,6 @@ export default connect(mapStateToProps)(chooseContactFromLabel);
 
 const Container = styled.View`
   flex: 1;
-
   width: 100%;
   /* align-items: center; */
   background-color: ${(props) => props.theme.backColor};
@@ -244,11 +277,4 @@ const NormalText = styled.Text`
   font-size: 15px;
   color: ${(props) => props.theme.iconColor};
   text-transform:capitalize
-`;
-const LineText = styled.Text`
-  font-family: Roboto-Light;
-  font-size: 15px;
-  color: ${(props) => props.theme.iconColor};
-  line-height: 30px;
-  text-align: center;
 `;

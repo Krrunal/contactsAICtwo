@@ -47,12 +47,13 @@ class IntlInputCard extends Component {
           },
         ]}
         dialCodeTextStyle={inputCardStyle.mobileInputText}
-        defaultCountry="IN"
+        // defaultCountry="IN"
+        placeholder={placeholder}
         value={value}
         onChangeText={onChangeText}
         ref={inputRef}
         keyboardType={keyboardType}
-        onSubmitEditing={onSubmitEditing}
+        // onSubmitEditing={onSubmitEditing}
         onChangeText={onChangeText}
         icon={icon}
         // blurOnSubmit={blurOnSubmit}
@@ -64,15 +65,6 @@ class IntlInputCard extends Component {
   }
 }
 const inputCardStyle = StyleSheet.create({
-  textInputViewSignup: {
-    fontSize: width * 0.04,
-    fontFamily: Font.medium,
-    justifyContent: "center",
-    alignItems: "center",
-    color: COLORS.main_text_color,
-    marginLeft: Metrics.baseMargin,
-    width: width * 0.65,
-  },
   mobileInputText: {
     fontSize: width * 0.04,
     fontFamily: Font.medium,

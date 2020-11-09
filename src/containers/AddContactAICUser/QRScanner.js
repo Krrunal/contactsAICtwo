@@ -27,8 +27,9 @@ import { connect } from "react-redux";
 import styles from "./manuallyAddContactStyle.js";
 import { switchTheme } from "../../action/themeAction";
 import AsyncStorage from '@react-native-community/async-storage'
+import { color } from "react-native-reanimated";
 
-var { width, height } = Dimensions.get("window");
+var { width, height } = Dimensions.get("screen");
 
 class QRScanner extends Component {
   state = {
@@ -47,20 +48,11 @@ class QRScanner extends Component {
   onSuccess = async (e) => {
     // Linking.openURL(e.data).catch(err =>
     console.error("An error occured", e);
-    // );
-    // this.props.navigation.navigate('ChooseContactFromLabel',{data: e.data})
 
     let str = e.data;
     if (str.indexOf("contactAIC" && "app") !== -1) {
       await AsyncStorage.setItem("@qrData", e.data);
-
-      this.props.navigation.navigate(
-        "ChooseContactFromLabel"
-
-        // this.props.navigation.navigate("ChooseContactFromLabel", {
-        //   data: e.data,
-        // }
-      );
+      this.props.navigation.navigate("ChooseContactFromLabel");
     } else {
       console.log("Not getting");
     }
@@ -68,21 +60,15 @@ class QRScanner extends Component {
 
   renderCamera() {
     return (
-      <View
-        style={{
-          width: width,
-          height: height * 0.8,
-          marginTop: height * 0.056,
-        }}
-      >
         <QRCodeScanner
           onRead={this.onSuccess}
           reactivate={true}
           showMarker={true}
+          markerStyle={{borderColor: COLORS.main_text_color, borderRadius: 10}}
           checkAndroid6Permissions={true}
-          cameraStyle={{ height: height * 0.5 }}
+          cameraStyle={{ height: height}}
+          containerStyle={{height: height}}
         />
-      </View>
     );
   }
 
@@ -99,7 +85,7 @@ class QRScanner extends Component {
         />
 
         <Container>
-          {this.renderHeader()}
+          {/* {this.renderHeader()} */}
           {this.renderCamera()}
         </Container>
       </ThemeProvider>

@@ -24,6 +24,7 @@ import firebase from '../../services/FirebaseDatabase/db';
 import { isRequired } from "react-native/Libraries/DeprecatedPropTypes/DeprecatedColorPropType";
 import sideBar from "../../assets/images/sideBAR.png";
 import styles from "./style.js";
+import { Spinner } from "../../components/Spinner";
 
 var { width, height } = Dimensions.get("window");
 
@@ -33,6 +34,7 @@ class importContact extends Component {
     inserFlag: false,
     fetchedContacts: [],
     selectedContact: [],
+    isLoading: false
   };
 
   componentDidMount() {
@@ -221,6 +223,12 @@ class importContact extends Component {
     });
   };
 
+  showLoader() {
+    if (this.state.isLoading == true) {
+      return <Spinner />;
+    }
+  }
+
   render() {
     return (
       <ThemeProvider theme={this.props.theme}>
@@ -232,16 +240,18 @@ class importContact extends Component {
             this.props.theme.mode === "dark" ? "light-content" : "dark-content"
           }
         />
-
+      
+      <View style={{flex: 1}}>
         <Container>
-          {/* <View style={styles.container}> */}
-          {this.renderHeader()}
-            <Text style={[styles.importHeading,{color: this.props.theme.mode === "light"? 'black': 'white'}]}>
-              Import contact(s) from Device
-            </Text>
-          {this.renderMiddle()}
-          {this.renderLast()}
+            {this.renderHeader()}
+              <Text style={[styles.importHeading,{color: this.props.theme.mode === "light"? 'black': 'white'}]}>
+                Import contact(s) from Device
+              </Text>
+            {this.renderMiddle()}
+            {this.renderLast()}
         </Container>
+        {this.showLoader()}
+      </View>
       </ThemeProvider>
     );
   }

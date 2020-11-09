@@ -14,8 +14,9 @@ import {
   View,
 } from "react-native";
 import React, { Component } from "react";
-import { Root, Toast } from "native-base";
+import { Root } from "native-base";
 import styled, { ThemeProvider } from "styled-components/native";
+import Toast from 'react-native-easy-toast';
 
 import { COLORS } from "../theme/Colors.js";
 import Font from "../theme/font.js";
@@ -87,7 +88,20 @@ class Signup extends Component {
   };
 
   signUp = () => {
-    this.props.signUpUser();
+    const {uname, contact, email, password, confirmpassWord} = this.props;
+
+      if(uname && this.state.unameError==(""|| undefined) && this.props.usernameMsg == true && 
+      contact && this.state.contactError == (""|| undefined) && this.props.contactMsg == true &&
+      email && this.state.emailError == (""|| undefined) && this.props.emailMsg == true &&
+      password && this.state.passwordError == (""|| undefined) && 
+      confirmpassWord && this.state.confirmPassError == (""|| undefined) && 
+      password == confirmpassWord) {
+        this.props.signUpUser()
+      } else {
+        this.refs.toast.show('Please fill all required filed')
+      }
+      // : alert('hi')
+      // this.refs.toast.show('Please fill all required filed')
   };
 
   showLoader() {
@@ -221,20 +235,38 @@ class Signup extends Component {
                   <View>
                     <View style={styles.mobileInputView}>
                       <IntlInputCard
-                        defaultCountry="IN"
+                        // defaultCountry="IN"
                         value={contact}
                         onChangeText={this.onChangeNumber}
-                        ref={"contactCont"}
-                        inputRef={"contact"}
+                        inputRef={(ref) => this.phoneInput = ref}
+                        // inputRef={"contact"}
                         // onSubmitEditing={(contact) => this.onSubmit("contact")}
                         keyboardType={"numeric"}
-                        icon={ contact !== "" && this.props.contactMsg == true ? (
-                          require('../../assets/icons/checked.png')
-                          ) : contact !== "" && (this.state.contactError !== "" 
-                          || this.props.contactMsg == false) 
-                          ? require('../../assets/icons/close.png') : null
-                        }
-                      ></IntlInputCard>
+                        // icon={ (contact !== "" && (this.state.contactError !== ("" || undefined) 
+                        //   || this.props.contactMsg == false)) 
+                        //   ? require('../../assets/icons/close.png') : 
+                        //   (contact !== "" && this.props.contactMsg == true) ? 
+                        //   null : null
+                        //   // contact && this.props.contactMsg == true ? (
+                        //   // require('../../assets/icons/checked.png')
+                        //   // ) : (contact && (this.state.contactError !== "" 
+                        //   // || this.props.contactMsg == false)) 
+                        //   // ? require('../../assets/icons/close.png') : null
+                        // }
+                      > </IntlInputCard>
+                        <View style={styles.contactEyeView}>  
+                          { (contact !== "" && (this.state.contactError !== ("" || undefined) 
+                          || this.props.contactMsg == false)) 
+                          ? <Image source={wrong} style={styles.contactIcon} /> : 
+                          (contact !== "" && this.props.contactMsg == true) ? 
+                          <Image source={checked} style={styles.contactIcon} /> : null
+                        // (contact !== "" && this.props.contactMsg == true) ? (
+                        //     <Image source={checked} style={styles.contactIcon} />
+                        //     ) : (contact !== "" && (this.state.contactError !== "" 
+                        //     || this.props.contactMsg == false)) 
+                        //     ? <Image source={wrong} style={styles.contactIcon} /> : null
+                          }
+                        </View>
                     </View>
                     {(this.state.contactError == undefined ||
                     this.state.contactError == "") && this.props.contactMsg == true ? (
@@ -486,13 +518,9 @@ class Signup extends Component {
                   </View>
                 </View>
                 <TouchableHighlight
+                  underlayColor='transparant'
                   style={styles.submitView}
-                  onPress={()=> (
-                  uname!=="" && this.state.unameError=="" && this.props.usernameMsg == true && 
-                  contact!=="" && this.state.contactError == "" && this.props.contactMsg == true &&
-                  email!== "" && this.state.emailError == "" && this.props.emailMsg == true &&
-                  password !== "" && this.state.passwordError == "" && confirmpassWord !== "" 
-                  && this.state.confirmPassError == "" && password == confirmpassWord ? this.signUp() : console.log('error'))}
+                  onPress={()=> this.signUp()}
                 >
                   <Text style={styles.submitText}>SUBMIT</Text>
                 </TouchableHighlight>
@@ -528,6 +556,24 @@ class Signup extends Component {
                     />
                   </View>
                 </Modal>
+                <Toast
+                  ref="toast"
+                  style={{
+                    backgroundColor: this.props.theme.mode === "light" ? 'black': 'white', 
+                    width: width * 0.8, 
+                    alignItems: 'center' 
+                  }}
+                  position='bottom'
+                  positionValue={200}
+                  fadeInDuration={1000}
+                  fadeOutDuration={1000}
+                  opacity={1}
+                  textStyle={{
+                    color: this.props.theme.mode === "light" ? 'white' : 'black',
+                    fontFamily: Font.medium,
+                    fontSize: width * 0.04
+                  }}
+                />
               </View>
             </Root>
           </ScrollView>
@@ -539,10 +585,11 @@ class Signup extends Component {
 }
 
 function mapStateToProps(state) {
+  console.log('state---->',state.reg)
   return {
     theme: state.themeReducer.theme,
     email: state.reg.email,
-    contact: state.reg.contact,
+    contact: state.reg.contact.split("-")[1],
     uname: state.reg.uname,
     password: state.reg.password,
     confirmpassWord: state.reg.confirmpassWord,

@@ -18,7 +18,7 @@ import GeneralStatusBar from "../../components/StatusBar/index";
 import Header from "../../components/header/index";
 import Icon from "react-native-vector-icons/FontAwesome5";
 import Metrics from "../theme/Metrics";
-import {Spinner} from '../../components/Spinner';
+import { Spinner } from "../../components/Spinner";
 import Toast from 'react-native-easy-toast';
 import { connect } from "react-redux";
 import styles from "./style.js";
@@ -34,7 +34,8 @@ class labels extends Component {
       dataManage: [],
       disabledLabel: false,
       status: false,
-      viewSection: false
+      viewSection: false,
+      isLoading: false,
     };
     this.indexlabel = 0;
     this.animatedValue = new Animated.Value(0);
@@ -48,23 +49,25 @@ class labels extends Component {
   }
 
   labelList=()=>{
-    const baseurl = Constants.baseurl;
-    fetch(baseurl + "get_label")
-      .then((response) => {
-        return response.json();
-      })
-      .then((responseJson) => {
-        console.log('response',responseJson.data.relation)
-        if(responseJson.data.relation == "") {
-          this.setState({ dataManage: [] });
-        } else {
-          var labelData = responseJson.data.relation.split(/,/);
-          this.setState({ dataManage: labelData });
-        }
-      })
-      .catch((error) => {
-        console.error(error);
-      });
+    this.setState({ isLoading: true }, async () => {
+      const baseurl = Constants.baseurl;
+      fetch(baseurl + "get_label")
+        .then((response) => {
+          return response.json();
+        })
+        .then((responseJson) => {
+          if(responseJson.data.relation == "") {
+            this.setState({ dataManage: [], isLoading: false });
+          } else {
+            var labelData = responseJson.data.relation.split(/,/);
+            this.setState({ dataManage: labelData, isLoading: false });
+          }
+        })
+        .catch((error) => {
+          console.error(error);
+          this.setState({ isLoading: false });
+        });
+    })
   }
 
   componentWillUnmount() {
@@ -177,11 +180,6 @@ class labels extends Component {
   navigateToDelete = () => {
     this.props.navigation.navigate("SelectLable");
   }
-  showLoader() {
-    if (this.state.loader == true) {
-      return <Spinner />
-    }
-  }
 
   renderLast() {
     return (
@@ -210,6 +208,12 @@ class labels extends Component {
     );
   }
 
+  showLoader() {
+    if (this.state.isLoading == true) {
+      return <Spinner />;
+    }
+  }
+
   render() {
     return (
       <ThemeProvider theme={this.props.theme}>
@@ -222,30 +226,33 @@ class labels extends Component {
           }
         />
 
-        <Container>
-          {this.renderHeader()}
-          {this.renderMiddle()}
-          {this.renderLast()}
-            <Toast
-              ref="toast"
-              style={{
-                backgroundColor: this.props.theme.mode === "light" ? 'black': 'white', 
-                width: width * 0.8, 
-                alignItems: 'center' 
-              }}
-              position='bottom'
-              positionValue={200}
-              fadeInDuration={1000}
-              fadeOutDuration={1000}
-              opacity={1}
-              textStyle={{
-                color: this.props.theme.mode === "light" ? 'white' : 'black',
-                fontFamily: Font.medium,
-                fontSize: width * 0.04
-              }}
-            />
+        <View style={{flex: 1}}>
+          <Container>
+            {this.renderHeader()}
+            {this.renderMiddle()}
+            {this.renderLast()}
+              <Toast
+                ref="toast"
+                style={{
+                  backgroundColor:
+                    this.props.theme.mode === "light" ? "black" : "white",
+                  width: width * 0.8,
+                  alignItems: "center",
+                }}
+                position="bottom"
+                positionValue={250}
+                fadeInDuration={100}
+                fadeOutDuration={2000}
+                opacity={1}
+                textStyle={{
+                  color: this.props.theme.mode === "light" ? "white" : "black",
+                  fontFamily: Font.medium,
+                  fontSize: width * 0.04,
+                }}
+              />
+          </Container>
           {this.showLoader()}
-        </Container>
+        </View>
       </ThemeProvider>
     );
   }

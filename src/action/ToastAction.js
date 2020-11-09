@@ -1,4 +1,7 @@
+import {Dimensions} from 'react-native';
 import {Toast} from 'native-base';
+var {width,height} =  Dimensions.get('window');
+
 export const showToastSuccess = (msg) => {
     Toast.show({
       text: msg,
@@ -10,7 +13,8 @@ export const showToastSuccess = (msg) => {
         borderWidth:0.7,
         width: "90%",
         alignSelf: 'center',
-        borderRadius: 5
+        borderRadius: 5,
+        bottom: height * 0.05
       }
     });
   }
@@ -26,7 +30,8 @@ export const showToastSuccess = (msg) => {
         borderWidth:0.7,
         width: "90%",
         alignSelf: 'center',
-        borderRadius: 5
+        borderRadius: 5,
+        bottom: height * 0.05
       }
     });
   }

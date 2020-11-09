@@ -29,7 +29,6 @@ class searchContact extends Component {
   }
 
   componentDidMount() {
-    alert()
     console.log(this.props.user_id)
     firebase.firestore().collection(this.props.user_id).get()
       .then((snap) => {

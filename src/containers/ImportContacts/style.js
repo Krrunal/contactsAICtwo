@@ -61,7 +61,7 @@ export default StyleSheet.create({
         shadowRadius:4,
         elevation: 5,
         borderRadius:5,
-        // marginTop:Metrics.baseMargin,
+        marginTop:Metrics.baseMargin,
     },
 
     smallWhiteView:{

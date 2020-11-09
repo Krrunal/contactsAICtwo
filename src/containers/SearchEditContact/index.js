@@ -25,8 +25,9 @@ import plus from "../../assets/images/plus.png";
 import reset from "../../assets/images/reset.png";
 import style from "../../components/StatusBar/style.js";
 import styles from "./style.js";
+import { Spinner } from "../../components/Spinner";
 
-var { width, height } = Dimensions.get("window");
+var { width, height } = Dimensions.get("screen");
 
 class searchContact extends Component {
   constructor(props) {
@@ -34,10 +35,19 @@ class searchContact extends Component {
     this.state = {
       contact: [],
       contacts: "",
+      isLoading: false,
     };
   }
 
   componentDidMount() {
+    const { navigation } = this.props;
+    this.focusListener = navigation.addListener("didFocus", async() => {
+      this.contactList()
+    });
+  }
+
+  contactList(){
+    this.setState({ isLoading: true }, async () => {
     firebase.firestore().collection(this.props.user_id).get()
       .then((snap) => {
         snap.forEach((doc) => {
@@ -45,9 +55,9 @@ class searchContact extends Component {
           var item = doc._data;
           this.state.contact.push(item);
         });
-        this.setState({ contacts: this.state.contact });
-        console.log("contact----->", this.state.contacts);
+        this.setState({ contacts: this.state.contact, isLoading: false });
       });
+    })
   }
 
   renderHeader() {
@@ -62,7 +72,6 @@ class searchContact extends Component {
   renderItem({ item, index }) {
     const lengthArray = this.state.contacts.length;
     const character = (item.user_name || item.first_name).charAt(0);
-    // console.log('length===>',character)
     return (
       <View style={styles.quardView}>
         <View style={styles.imgView}>
@@ -75,10 +84,8 @@ class searchContact extends Component {
             ]}
           >
             {character}
-            {/* {item.user_name.substring(0, 1) || item.first_name.substring(0, 1)} */}
           </Text>
         </View>
-        {/* <Image source={outerimg} style={styles.outerImgStyle} /> */}
         <Text
           style={[
             styles.personName,
@@ -87,31 +94,6 @@ class searchContact extends Component {
         >
          {item.user_name || item.first_name} {item.last_name}
         </Text>
-        {/* <TouchableHighlight underlayColor='transparant'
-          onPress={() => this.navigate(
-            item.id,
-            item.data.first_name,
-            item.data.middle_name,
-            item.data.last_name,
-            item.data.nick_name,
-            item.data.number1,
-            item.data.number2,
-            item.data.number3,
-            item.data.email1,
-            item.data.email2,
-            item.data.address,
-            item.data.messenger1,
-            item.data.messenger2,
-            item.data.social_media1,
-            item.data.social_media2,
-            item.data.website1,
-            item.data.website2,
-            item.data.dob,
-            item.data.note,
-            item.data.company,
-            item.data.job_title,
-            item.data.work_hour
-    )}> */}
         <Image source={edit} style={styles.editImgStyle} />
         {/* </TouchableHighlight> */}
         <Image source={reset} style={styles.resetImgStyle} />
@@ -119,86 +101,17 @@ class searchContact extends Component {
     );
   }
 
-  // navigate = ()=>{
-  //   this.props.navigation.dispatch(
-  //     CommonActions.navigate('editContact', {
-  //       name: 'editContact',
-  //     })
-  //   )
-  // }
-
-  //   navigate = (
-  //     id,
-  //     first_name,
-  //     middle_name,
-  //     last_name,
-  //     nick_name,
-  //     number1,
-  //     number2,
-  //     number3,
-  //     email1,
-  //     email2,
-  //     address,
-  //     messenger1,
-  //     messenger2,
-  //     social_media1,
-  //     social_media2,
-  //     website1,
-  //     website2,
-  //     dob,
-  //     note,
-  //     company,
-  //     job_title,
-  //     work_hour,
-  // ) => {
-  //     // this.props.navigation.navigate(screen:'editContact',
-  //     //   params: { user: 'jane' }
-  //     // })
-  //     this.props.navigation.dispatch(
-  //       CommonActions.navigate('editContact', {
-  //         name: 'editContact',
-  //         id: id,
-  //         first_name: first_name,
-  //         middle_name: middle_name,
-  //         last_name: last_name,
-  //         nick_name: nick_name,
-  //         number1: number1,
-  //         number2: number2,
-  //         number3: number3,
-  //         email1: email1,
-  //         email2: email2,
-  //         address: address,
-  //         messenger1: messenger1,
-  //         messenger2: messenger2,
-  //         social_media1: social_media1,
-  //         social_media2: social_media2,
-  //         website1: website1,
-  //         website2: website2,
-  //         dob: dob,
-  //         note: note,
-  //         company: company,
-  //         job_title: job_title,
-  //         work_hour: work_hour,
-  //         //routes: [{ name: 'Login' }],
-  //       })
-  //     );
-  //   }
-
   renderMiddle() {
     return (
       <View style={styles.scrollStyle}>
-        <ScrollView style={{ marginTop: Metrics.doubleBaseMargin }}>
-          <View style={styles.mainView}>
-            <FlatList
-              refreshing={true}
-              keyExtractor={(item, index) => index.toString()}
-              data={this.state.contacts}
-              extraData={this.state}
-              numColumns={1}
-              renderItem={this.renderItem.bind(this)}
-            />
-          </View>
-        </ScrollView>
+        <FlatList
+          refreshing={true}
+          keyExtractor={(item, index) => index.toString()}
+          data={this.state.contacts}
+          extraData={this.state}
+          numColumns={1}
+          renderItem={this.renderItem.bind(this)}
+        />
       </View>
     );
   }
@@ -228,6 +141,12 @@ class searchContact extends Component {
     this.props.navigation.navigate("ManuallyAddContact");
   };
 
+  showLoader() {
+    if (this.state.isLoading == true) {
+      return <Spinner />;
+    }
+  }
+
   render() {
     return (
       <ThemeProvider theme={this.props.theme}>
@@ -239,7 +158,8 @@ class searchContact extends Component {
             this.props.theme.mode === "dark" ? "light-content" : "dark-content"
           }
         />
-        <Container>
+        <View style={{flex: 1}}>
+          <Container>
           {/* <View style={{backgroundColor: COLORS.white, flex: 1}}> */}
           {this.renderHeader()}
           {this.state.contacts == "" ? (
@@ -247,10 +167,10 @@ class searchContact extends Component {
           ) : null}
 
           {this.renderMiddle()}
-
           {this.renderLast()}
-          {/* </View> */}
         </Container>
+        {this.showLoader()}
+        </View>
       </ThemeProvider>
     );
   }
@@ -266,7 +186,6 @@ export default connect(mapStateToProps)(searchContact);
 
 const Container = styled.View`
   flex: 1;
-
   width: 100%;
   /* align-items: center; */
   background-color: ${(props) => props.theme.backColor};

@@ -27,7 +27,7 @@ import firebase from "../../services/FirebaseDatabase/db";
 import styles from "./forContactStyle.js";
 import { switchTheme } from "../../action/themeAction";
 
-var { width, height } = Dimensions.get("window");
+var { width, height } = Dimensions.get("screen");
 
 class forAddContact extends Component {
   state = {

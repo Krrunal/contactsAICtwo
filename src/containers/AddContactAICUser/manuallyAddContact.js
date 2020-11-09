@@ -92,7 +92,6 @@ export default connect(mapStateToProps)(manuallyAddContact);
 
 const Container = styled.View`
   flex: 1;
-
   width: 100%;
   align-items: center;
   background-color: ${(props) => props.theme.backColor};
