@@ -41,6 +41,12 @@ export default StyleSheet.create({
         flexDirection: 'row'
     },
 
+    mobileInputText: {
+        fontSize: width * 0.04,
+        fontFamily: Font.medium,
+        color: COLORS.main_text_color,    
+    },
+
     passView:{
         backgroundColor:COLORS.main_sky_blue,
         marginTop: height * 0.005,

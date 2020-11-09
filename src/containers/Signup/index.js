@@ -234,7 +234,19 @@ class Signup extends Component {
                 <View>
                   <View>
                     <View style={styles.mobileInputView}>
-                      <IntlInputCard
+                      <IntlPhoneInput
+                        containerStyle={{ height: height * 0.065, backgroundColor: COLORS.main_sky_blue,}}
+                        phoneInputStyle={style.mobileInputText}
+                        dialCodeTextStyle={style.mobileInputText}
+                        // defaultCountry="IN"
+                        placeholder={placeholder}
+                        value={contact}
+                        inputRef={(ref) => this.phoneInput = ref}
+                        keyboardType={'numeric'}
+                        onChangeText={this.onChangeNumber}
+                        icon={icon}
+                      />
+                      {/* <IntlInputCard
                         // defaultCountry="IN"
                         value={contact}
                         onChangeText={this.onChangeNumber}
@@ -251,7 +263,7 @@ class Signup extends Component {
                         //   // || this.props.contactMsg == false)) 
                         //   // ? require('../../assets/icons/close.png') : null
                         // }
-                      > </IntlInputCard>
+                      > </IntlInputCard> */}
                         <View style={styles.contactEyeView}>  
                           { contact !== "" && this.props.contactMsg == true ? 
                           <Image source={checked} style={styles.contactIcon} /> 
