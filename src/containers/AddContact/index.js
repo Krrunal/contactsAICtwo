@@ -8,6 +8,7 @@ import {
 import React, { Component } from "react";
 import { darkTheme, lightTheme } from "../theme/themeProps";
 import styled, { ThemeProvider } from "styled-components/native";
+import { addManualContact } from '../../services/FirebaseDatabase/manualContactToFirebase';
 
 import { DrawerActions } from "react-navigation-drawer";
 import GeneralStatusBar from "../../components/StatusBar/index";
@@ -21,10 +22,6 @@ import { switchTheme } from "../../action/themeAction";
 var { width, height } = Dimensions.get("window");
 
 class Add extends Component {
-  // backButton = () => {
-  //   BackHandler.exitApp();
-  //   return true;
-  // };
   renderHeader() {
     return (
       <Header
@@ -104,9 +101,15 @@ class Add extends Component {
     );
   }
 }
-const mapStateToProps = (state) => ({
-  theme: state.themeReducer.theme,
-});
+function mapStateToProps(state) {
+  return {
+    theme: state.themeReducer.theme,
+    user_id: (state.login.shouldLoadData.user_id || state.reg.shouldLoadData.user_id),
+    contact: (state.login.shouldLoadData.contact || state.reg.shouldLoadData.contact),
+    email: (state.login.shouldLoadData.email || state.reg.shouldLoadData.email),
+    username: (state.login.shouldLoadData.username || state.reg.shouldLoadData.username),
+  };
+}
 
 const mapDispatchToProps = (dispatch) => ({
   switchTheme: bindActionCreators(switchTheme, dispatch),

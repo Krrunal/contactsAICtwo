@@ -27,6 +27,7 @@ import { NavigationActions } from "react-navigation";
 import NavigationService from "./navigationService";
 import { Platform } from "react-native";
 import firebase from "react-native-firebase";
+import AsyncStorage from '@react-native-community/async-storage';
 
 export const loadDataChange = (payload) => {
   return {

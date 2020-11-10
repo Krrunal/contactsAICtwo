@@ -46,18 +46,20 @@ class searchContact extends Component {
     });
   }
 
-  contactList(){
-    this.setState({ isLoading: true }, async () => {
+  componentWillUnmount() {
+    this.focusListener.remove();
+    this.setState({ contacts: "" });
+  }
+
+  async contactList(){
     firebase.firestore().collection(this.props.user_id).get()
-      .then((snap) => {
+    .then((snap) => {
         snap.forEach((doc) => {
-          // console.log(doc._data);
           var item = doc._data;
           this.state.contact.push(item);
         });
-        this.setState({ contacts: this.state.contact, isLoading: false });
+        this.setState({ contacts: this.state.contact,});
       });
-    })
   }
 
   renderHeader() {
@@ -179,7 +181,7 @@ class searchContact extends Component {
 function mapStateToProps(state) {
   return {
     theme: state.themeReducer.theme,
-    user_id: state.login.shouldLoadData.user_id,
+    user_id: (state.login.shouldLoadData.user_id || state.reg.shouldLoadData.user_id),
   };
 }
 export default connect(mapStateToProps)(searchContact);

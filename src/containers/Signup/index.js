@@ -23,7 +23,7 @@ import Font from "../theme/font.js";
 import GeneralStatusBar from "../../components/StatusBar/index";
 import Icon from "react-native-vector-icons/FontAwesome";
 import { InputCard } from "../../components/InputCard";
-import { IntlInputCard } from "../../components/IntlInputCard";
+// import { IntlInputCard } from "../../components/IntlInputCard";
 import IntlPhoneInput from "react-native-intl-phone-input";
 import Metrics from "../theme/Metrics";
 import { Spinner } from "../../components/Spinner";
@@ -95,13 +95,11 @@ class Signup extends Component {
       email && this.state.emailError == (""|| undefined) && this.props.emailMsg == true &&
       password && this.state.passwordError == (""|| undefined) && 
       confirmpassWord && this.state.confirmPassError == (""|| undefined) && 
-      password == confirmpassWord) {
+      (password == confirmpassWord)) {
         this.props.signUpUser()
       } else {
         this.refs.toast.show('Please fill all required filed')
       }
-      // : alert('hi')
-      // this.refs.toast.show('Please fill all required filed')
   };
 
   showLoader() {
@@ -109,6 +107,7 @@ class Signup extends Component {
       return <Spinner />;
     }
   }
+
   passwordInfo({ item, index }) {
     return (
       <View>
@@ -116,6 +115,7 @@ class Signup extends Component {
       </View>
     );
   }
+
   showPassword = () => {
     this.state.show == true
       ? this.setState({ show: false })
@@ -130,10 +130,12 @@ class Signup extends Component {
 
   onChangeNumber = ({dialCode, unmaskedPhoneNumber, phoneNumber, isVerified}) => {
     if(isVerified == true){
+      console.log('unmaskedPhoneNumber', dialCode, '-', unmaskedPhoneNumber)
       this.props.regcontactChange(dialCode+'-'+unmaskedPhoneNumber)
       this.setState({contactError: ''}) 
       this.props.checkContact()
     } else {
+      console.log('unmaskedPhoneNumber', unmaskedPhoneNumber)
       this.props.regcontactChange(unmaskedPhoneNumber)
       this.setState({contactError: 'Please enter valid number' });
     }
@@ -165,6 +167,7 @@ class Signup extends Component {
       this.props.checkUsername();
     }
   }
+
   changeEmail=(email)=>{
     this.props.regEmailChange(email)
     if(!this.validateEmail(email)){
@@ -202,12 +205,28 @@ class Signup extends Component {
     } 
 
   }
+
+  showContactError() {
+    const {contact} = this.props
+    if(contact !== "" && this.props.contactMsg == true){
+      return <Image source={checked} style={styles.contactIcon} />
+    }
+    if(contact !== "" && this.props.contactMsg == false){
+      return <Image source={wrong} style={styles.contactIcon} />
+    }
+    if(contact !== "" && this.state.contactError !== ("" || undefined)){
+      return <Image source={wrong} style={styles.contactIcon} />
+    } 
+  }
+
   render() {
     const {
       email,
       uname,
       password,
       contact,
+      dialCode,
+      number,
       confirmpassWord,
     } = this.props;
     return (
@@ -236,44 +255,21 @@ class Signup extends Component {
                     <View style={styles.mobileInputView}>
                       <IntlPhoneInput
                         containerStyle={{ height: height * 0.065, backgroundColor: COLORS.main_sky_blue,}}
-                        phoneInputStyle={style.mobileInputText}
-                        dialCodeTextStyle={style.mobileInputText}
-                        // defaultCountry="IN"
-                        placeholder={placeholder}
-                        value={contact}
+                        phoneInputStyle={styles.mobileInputText}
+                        dialCodeTextStyle={styles.mobileInputText}
+                        dialCode={dialCode}
+                        // placeholder='3265'
+                        value={number}
                         inputRef={(ref) => this.phoneInput = ref}
                         keyboardType={'numeric'}
                         onChangeText={this.onChangeNumber}
-                        icon={icon}
                       />
-                      {/* <IntlInputCard
-                        // defaultCountry="IN"
-                        value={contact}
-                        onChangeText={this.onChangeNumber}
-                        inputRef={(ref) => this.phoneInput = ref}
-                        keyboardType={"numeric"}
-                        // icon={ (contact !== "" && (this.state.contactError !== ("" || undefined) 
-                        //   || this.props.contactMsg == false)) 
-                        //   ? require('../../assets/icons/close.png') : 
-                        //   (contact !== "" && this.props.contactMsg == true) ? 
-                        //   null : null
-                        //   // contact && this.props.contactMsg == true ? (
-                        //   // require('../../assets/icons/checked.png')
-                        //   // ) : (contact && (this.state.contactError !== "" 
-                        //   // || this.props.contactMsg == false)) 
-                        //   // ? require('../../assets/icons/close.png') : null
-                        // }
-                      > </IntlInputCard> */}
                         <View style={styles.contactEyeView}>  
-                          { contact !== "" && this.props.contactMsg == true ? 
-                          <Image source={checked} style={styles.contactIcon} /> 
-                          : contact !== "" && (this.state.contactError !== "" || this.props.contactMsg == false)
-                          ? <Image source={wrong} style={styles.contactIcon} /> : null
-                          }
+                          {this.showContactError()}
                         </View>
                     </View>
-                    {(this.state.contactError == undefined ||
-                    this.state.contactError == "") && this.props.contactMsg == true ? (
+                    {(this.state.contactError == undefined || this.state.contactError == "") 
+                    && this.props.contactMsg == true ? (
                       <Text style={styles.error}>
                         Contact <Text style={styles.errorSuccess}>is</Text>{" "}
                         available
@@ -590,10 +586,13 @@ class Signup extends Component {
 
 function mapStateToProps(state) {
   console.log('state---->',state.reg)
+  console.log('state---->',state.reg.contact.split('-')[1])
   return {
     theme: state.themeReducer.theme,
     email: state.reg.email,
-    contact: state.reg.contact.split("-")[1],
+    contact: state.reg.contact,
+    dialCode: state.reg.contact.indexOf("-") !== -1 && state.reg.contact.split('-')[0],
+    number: state.reg.contact.split('-')[1],
     uname: state.reg.uname,
     password: state.reg.password,
     confirmpassWord: state.reg.confirmpassWord,

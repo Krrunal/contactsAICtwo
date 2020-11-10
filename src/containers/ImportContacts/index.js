@@ -76,7 +76,7 @@ class importContact extends Component {
               }
               // console.log(number)
             });
-            console.log(contactNumber);
+            // console.log(contactNumber);
 
             // return {contactNumber};
 
@@ -219,7 +219,7 @@ class importContact extends Component {
               )
         }
       })
-      this.props.navigation.navigate("SerachEditContact");
+      // this.props.navigation.navigate("SerachEditContact");
     });
   };
 
@@ -258,6 +258,7 @@ class importContact extends Component {
 }
 
 function mapStateToProps(state) {
+  console.log(state)
   return {
     theme: state.themeReducer.theme,
     user_id: state.login.shouldLoadData.user_id
