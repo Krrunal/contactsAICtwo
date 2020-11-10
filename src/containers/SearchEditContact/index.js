@@ -15,6 +15,7 @@ import Font from "../theme/font";
 import GeneralStatusBar from "../../components/StatusBar/index";
 import Header from "../../components/header/index";
 import Metrics from "../theme/Metrics";
+import { Spinner } from "../../components/Spinner";
 // import { getContact } from '../../services/FirebaseDatabase/getAllContact';
 import { TouchableHighlight } from "react-native-gesture-handler";
 import { connect } from "react-redux";
@@ -25,7 +26,6 @@ import plus from "../../assets/images/plus.png";
 import reset from "../../assets/images/reset.png";
 import style from "../../components/StatusBar/style.js";
 import styles from "./style.js";
-import { Spinner } from "../../components/Spinner";
 
 var { width, height } = Dimensions.get("screen");
 
@@ -52,7 +52,8 @@ class searchContact extends Component {
   }
 
   async contactList(){
-    firebase.firestore().collection(this.props.user_id).get()
+    const id = JSON.stringify(this.props.user_id);
+    firebase.firestore().collection(id).get()
     .then((snap) => {
         snap.forEach((doc) => {
           var item = doc._data;
@@ -76,6 +77,7 @@ class searchContact extends Component {
     const character = (item.user_name || item.first_name).charAt(0);
     return (
       <View style={styles.quardView}>
+        <Image source={item.profile_image}/>
         <View style={styles.imgView}>
           <Text
             style={[
