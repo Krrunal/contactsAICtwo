@@ -1,7 +1,6 @@
 import { ActionSheet, Root } from "native-base";
 import {
   Animated,
-  CheckBox,
   Dimensions,
   Image,
   Keyboard,

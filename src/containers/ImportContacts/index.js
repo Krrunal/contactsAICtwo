@@ -1,18 +1,18 @@
 import {
-  CheckBox,
-  Dimensions,
-  FlatList,
-  Image,
-  PermissionsAndroid,
-  ScrollView,
-  Text,
-  TouchableOpacity,
-  View,
+Dimensions,
+FlatList,
+Image,
+PermissionsAndroid,
+ScrollView,
+Text,
+TouchableOpacity,
+View,
 } from "react-native";
 import React, { Component, useState } from "react";
 import styled, { ThemeProvider } from "styled-components/native";
 
 import { COLORS } from "../theme/Colors.js";
+import CheckBox from '@react-native-community/checkbox';
 import Contacts from "react-native-contacts";
 import Font from "../theme/font.js";
 import GeneralStatusBar from "../../components/StatusBar/index";
@@ -130,7 +130,7 @@ class importContact extends Component {
             onChange={() => {
               this.selectAll();
             }}
-            tintColors={{ true: "#1374A3", false: "#000" }}
+            tintColors={{ true: "#1374A3", false: "#1374A3" }}
           />
           <NormalText>Select (De-select) All</NormalText>
         </View>
@@ -143,7 +143,7 @@ class importContact extends Component {
                 onChange={() => {
                   this.onchecked(key, item.isSelected);
                 }}
-                tintColors={{ true: "#1374A3", false: "#000" }}
+                tintColors={{ true: "#1374A3", false: "#1374A3" }}
               />
               <NormalText>{item.displayName}</NormalText>
               {/* {item.contact.displayName}, */}
@@ -181,11 +181,10 @@ class importContact extends Component {
     const { fetchedContacts, selectedContact } = this.state;
      const { user_id } = this.props;
       const id = JSON.stringify(user_id);
-    console.log("userid ---->",this.props.user_id);
    
     firebase
       .firestore()
-      .collection(id)
+      .collection(this.props.user_id)
       .get()
       .then((snap) => {
         if (!snap.empty) {
@@ -205,7 +204,6 @@ class importContact extends Component {
           });
           fetchedContacts.map((item) => {
             if (item.isSelected == true) {
-              console.log("final---->", item.phoneNumbers[0].number);
               addManualContact(
                 user_id,
                 "",

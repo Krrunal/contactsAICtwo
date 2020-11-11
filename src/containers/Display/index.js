@@ -1,19 +1,19 @@
 import {
-  CheckBox,
-  Dimensions,
-  Image,
-  Keyboard,
-  ScrollView,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  View,
+Dimensions,
+Image,
+Keyboard,
+ScrollView,
+Text,
+TextInput,
+TouchableOpacity,
+View,
 } from "react-native";
 import React, { Component } from "react";
 import { connect, useDispatch, useSelector } from "react-redux";
 import { darkTheme, lightTheme } from "../theme/themeProps";
 import styled, { ThemeProvider } from "styled-components/native";
 
+import CheckBox from "@react-native-community/checkbox";
 import Font from "../theme/font";
 import GeneralStatusBar from "../../components/StatusBar/index";
 import Header from "../../components/header/index";
@@ -85,7 +85,7 @@ class display extends Component {
                   onValueChange={() =>
                     this.setState({ checked: !this.state.checked })
                   }
-                  tintColors={{ true: "#1374A3", false: "#000" }}
+                  tintColors={{ true: "#1374A3", false: "#1374A3"}}
                 />
                 <NormalText>First Name</NormalText>
               </View>
@@ -95,7 +95,7 @@ class display extends Component {
                   onValueChange={() =>
                     this.setState({ checked1: !this.state.checked1 })
                   }
-                  tintColors={{ true: "#1374A3", false: "#000" }}
+                  tintColors={{ true: "#1374A3", false: "#1374A3"}}
                 />
                 <NormalText>Last Name</NormalText>
               </View>
@@ -111,7 +111,7 @@ class display extends Component {
                   onValueChange={() =>
                     this.setState({ checked2: !this.state.checked2 })
                   }
-                  tintColors={{ true: "#1374A3", false: "#000" }}
+                  tintColors={{ true: "#1374A3", false: "#1374A3"}}
                 />
                 <NormalText>First Name First</NormalText>
               </View>
@@ -121,7 +121,7 @@ class display extends Component {
                   onValueChange={() =>
                     this.setState({ checked3: !this.state.checked3 })
                   }
-                  tintColors={{ true: "#1374A3", false: "#000" }}
+                  tintColors={{ true: "#1374A3", false: "#1374A3"}}
                 />
                 <NormalText>Last Name First</NormalText>
               </View>
@@ -132,7 +132,7 @@ class display extends Component {
                 <CheckBox
                   value={this.state.checked4}
                   onValueChange={this.check}
-                  tintColors={{ true: "#1374A3", false: "#000" }}
+                  tintColors={{ true: "#1374A3", false: "#1374A3"}}
                 />
                 <NormalText>On</NormalText>
               </TouchableOpacity>
@@ -140,7 +140,7 @@ class display extends Component {
                 <CheckBox
                   value={this.state.checked5}
                   onValueChange={this.check}
-                  tintColors={{ true: "#1374A3", false: "#000" }}
+                  tintColors={{ true: "#1374A3", false: "#1374A3"}}
                 />
                 <NormalText>Off</NormalText>
               </View>
@@ -153,7 +153,7 @@ class display extends Component {
                   onValueChange={() =>
                     this.setState({ checked6: !this.state.checked6 })
                   }
-                  tintColors={{ true: "#1374A3", false: "#000" }}
+                  tintColors={{ true: "#1374A3", false: "#1374A3"}}
                 />
                 <NormalText>On</NormalText>
               </View>
@@ -163,7 +163,7 @@ class display extends Component {
                   onValueChange={() =>
                     this.setState({ checked7: !this.state.checked7 })
                   }
-                  tintColors={{ true: "#1374A3", false: "#000" }}
+                  tintColors={{ true: "#1374A3", false: "#1374A3"}}
                 />
                 <NormalText>Off</NormalText>
               </View>

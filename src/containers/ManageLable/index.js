@@ -1,18 +1,18 @@
 import {
-  CheckBox,
-  Dimensions,
-  Image,
-  Keyboard,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  View,
+Dimensions,
+Image,
+Keyboard,
+Text,
+TextInput,
+TouchableOpacity,
+View,
 } from "react-native";
 import React, { Component, useState } from "react";
 import styled, { ThemeProvider } from "styled-components/native";
 
 import Add from "../AddContact/index";
 import { COLORS } from "../theme/Colors.js";
+import CheckBox from "@react-native-community/checkbox"
 import Font from "../theme/font";
 import GeneralStatusBar from "../../components/StatusBar/index";
 import Header from "../../components/header/index";
@@ -87,7 +87,7 @@ class ManageLable extends Component {
             onValueChange={() =>
               this.setState({ checked: !this.state.checked })
             }
-            tintColors={{ true: "#1374A3" }}
+            tintColors={{ true: "#1374A3" , false : "#1374A3" }}
           />
           <View style={styles.filedView}>
             <TextInput
@@ -104,7 +104,7 @@ class ManageLable extends Component {
             onValueChange={() =>
               this.setState({ checked: !this.state.checked })
             }
-            tintColors={{ true: "#1374A3" }}
+            tintColors={{ true: "#1374A3" , false : "#1374A3" }}
           />
           <View style={styles.filedView}>
             <TextInput
@@ -121,8 +121,7 @@ class ManageLable extends Component {
             onValueChange={() =>
               this.setState({ checked: !this.state.checked })
             }
-            tintColors={{ true: "#1374A3" }}
-          />
+            tintColors={{ true: "#1374A3" , false : "#1374A3" }} />
           <View style={styles.filedView}>
             <TextInput
               placeholder="Last Name"
@@ -138,7 +137,7 @@ class ManageLable extends Component {
             onValueChange={() =>
               this.setState({ checked: !this.state.checked })
             }
-            tintColors={{ true: "#1374A3" }}
+            tintColors={{ true: "#1374A3" , false : "#1374A3" }}
           />
           <View style={styles.filedView}>
             <TextInput
@@ -168,7 +167,7 @@ class ManageLable extends Component {
             onValueChange={() =>
               this.setState({ checked: !this.state.checked })
             }
-            tintColors={{ true: "#1374A3" }}
+            tintColors={{ true: "#1374A3" , false : "#1374A3" }}
           />
           <View style={styles.filedView}>
             <TextInput
@@ -188,7 +187,7 @@ class ManageLable extends Component {
             onValueChange={() =>
               this.setState({ checked: !this.state.checked })
             }
-            tintColors={{ true: "#1374A3" }}
+            tintColors={{ true: "#1374A3" , false : "#1374A3" }}
           />
           <View style={styles.filedView}>
             <TextInput
@@ -220,7 +219,7 @@ class ManageLable extends Component {
             onValueChange={() =>
               this.setState({ checked: !this.state.checked })
             }
-            tintColors={{ true: "#1374A3" }}
+            tintColors={{ true: "#1374A3" , false : "#1374A3" }}
           />
           <View style={styles.filedView}>
             <TextInput
@@ -240,7 +239,7 @@ class ManageLable extends Component {
             onValueChange={() =>
               this.setState({ checked: !this.state.checked })
             }
-            tintColors={{ true: "#1374A3" }}
+            tintColors={{ true: "#1374A3" , false : "#1374A3" }}
           />
           <View style={styles.filedView}>
             <TextInput
@@ -272,7 +271,7 @@ class ManageLable extends Component {
             onValueChange={() =>
               this.setState({ checked: !this.state.checked })
             }
-            tintColors={{ true: "#1374A3" }}
+            tintColors={{ true: "#1374A3" , false : "#1374A3" }}
           />
           <View style={styles.filedViewAddress}>
             <TextInput
@@ -317,7 +316,7 @@ class ManageLable extends Component {
             onValueChange={() =>
               this.setState({ checked: !this.state.checked })
             }
-            tintColors={{ true: "#1374A3" }}
+            tintColors={{ true: "#1374A3" , false : "#1374A3" }}
           />
           <View style={styles.filedView}>
             <TextInput
@@ -337,7 +336,7 @@ class ManageLable extends Component {
             onValueChange={() =>
               this.setState({ checked: !this.state.checked })
             }
-            tintColors={{ true: "#1374A3" }}
+            tintColors={{ true: "#1374A3" , false : "#1374A3" }}
           />
           <View style={styles.filedView}>
             <TextInput
@@ -383,7 +382,7 @@ class ManageLable extends Component {
             onValueChange={() =>
               this.setState({ checked: !this.state.checked })
             }
-            tintColors={{ true: "#1374A3" }}
+            tintColors={{ true: "#1374A3" , false : "#1374A3" }}
           />
           <View style={styles.filedView}>
             <TextInput
@@ -403,7 +402,7 @@ class ManageLable extends Component {
             onValueChange={() =>
               this.setState({ checked: !this.state.checked })
             }
-            tintColors={{ true: "#1374A3" }}
+            tintColors={{ true: "#1374A3" , false : "#1374A3" }}
           />
           <View style={styles.filedView}>
             <TextInput
@@ -449,7 +448,7 @@ class ManageLable extends Component {
             onValueChange={() =>
               this.setState({ checked: !this.state.checked })
             }
-            tintColors={{ true: "#1374A3" }}
+            tintColors={{ true: "#1374A3" , false : "#1374A3" }}
           />
           <View style={styles.filedView}>
             <TextInput
@@ -469,7 +468,7 @@ class ManageLable extends Component {
             onValueChange={() =>
               this.setState({ checked: !this.state.checked })
             }
-            tintColors={{ true: "#1374A3" }}
+            tintColors={{ true: "#1374A3" , false : "#1374A3" }}
           />
           <View style={styles.filedView}>
             <TextInput
@@ -515,7 +514,7 @@ class ManageLable extends Component {
             onValueChange={() =>
               this.setState({ checked: !this.state.checked })
             }
-            tintColors={{ true: "#1374A3" }}
+            tintColors={{ true: "#1374A3" , false : "#1374A3" }}
           />
           <View style={styles.filedView}>
             <TextInput
@@ -561,7 +560,7 @@ class ManageLable extends Component {
             onValueChange={() =>
               this.setState({ checked: !this.state.checked })
             }
-            tintColors={{ true: "#1374A3" }}
+            tintColors={{ true: "#1374A3" , false : "#1374A3" }}
           />
           <View style={styles.filedViewNote}>
             <TextInput
@@ -596,7 +595,7 @@ class ManageLable extends Component {
             onValueChange={() =>
               this.setState({ checked: !this.state.checked })
             }
-            tintColors={{ true: "#1374A3" }}
+            tintColors={{ true: "#1374A3" , false : "#1374A3" }}
           />
           <View style={styles.filedView}>
             <TextInput
@@ -613,7 +612,7 @@ class ManageLable extends Component {
             onValueChange={() =>
               this.setState({ checked: !this.state.checked })
             }
-            tintColors={{ true: "#1374A3" }}
+            tintColors={{ true: "#1374A3" , false : "#1374A3" }}
           />
           <View style={styles.filedView}>
             <TextInput
@@ -630,7 +629,7 @@ class ManageLable extends Component {
             onValueChange={() =>
               this.setState({ checked: !this.state.checked })
             }
-            tintColors={{ true: "#1374A3" }}
+            tintColors={{ true: "#1374A3" , false : "#1374A3" }}
           />
           <View style={styles.filedView}>
             <TextInput

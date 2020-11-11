@@ -1,5 +1,4 @@
 import {
-  CheckBox,
   Dimensions,
   FlatList,
   Image,
@@ -40,25 +39,34 @@ class ViewLabel extends Component {
 
   componentDidMount() {
     const { navigation } = this.props;
-    this.focusListener = navigation.addListener("didFocus", async() => {
-      this.contactList()
+    this.focusListener = navigation.addListener("didFocus", async () => {
+      this.contactList();
     });
   }
 
-  contactList=()=>{
-    this.setState({ loader: true }, async() => {
-    firebase.firestore().collection(this.props.user_id).get()
-      .then((snap) => {
-        snap.forEach((doc) => {
-          console.log("doc data===>", doc._data);
-          var item = doc._data;
-          this.state.contact.push(item);
-        });
-
-        this.setState({ contacts: this.state.contact, loader: false });
-      });
-    })
+  componentWillUnmount() {
+    this.setState({ contacts: "" });
+    this.focusListener.remove();
   }
+
+  contactList = () => {
+    const id = JSON.stringify(this.props.user_id);
+    this.setState({ loader: true }, async () => {
+      firebase
+        .firestore()
+        .collection(this.props.user_id)
+        .get()
+        .then((snap) => {
+          snap.forEach((doc) => {
+            console.log("doc data===>", doc._data);
+            var item = doc._data;
+            this.state.contact.push(item);
+          });
+
+          this.setState({ contacts: this.state.contact, loader: false });
+        });
+    });
+  };
 
   renderHeader() {
     return (
@@ -91,35 +99,35 @@ class ViewLabel extends Component {
     this.props.navigation.navigate("ViewLabelByName");
   };
 
-  contactsList({item,index}) {
-    var labelArray = item.label
-    var nameArr = labelArray !== undefined && labelArray.split(',')
-    console.log(nameArr)
+  contactsList({ item, index }) {
+    var labelArray = item.label;
+    var nameArr = labelArray !== undefined && labelArray.split(",");
+    console.log(nameArr);
 
-    return(
+    return (
       <View style={{ alignItems: "center" }}>
         <View style={styles.middleView}>
           <View style={styles.firstView}>
-            <Text style={[styles.FirstText,{ color: COLORS.main_text_color }]}>
+            <Text style={[styles.FirstText, { color: COLORS.main_text_color }]}>
               {item.user_name || item.first_name} {item.last_name}
             </Text>
           </View>
           <View>
             <View style={styles.secondView}>
-              {nameArr !== false && nameArr.map((item, key) => (
-              <Text style={styles.FirstText}>{item}</Text>
-              ))
-            }
+              {nameArr !== false &&
+                nameArr.map((item, key) => (
+                  <Text style={styles.FirstText}>{item}</Text>
+                ))}
             </View>
           </View>
         </View>
       </View>
-    )
+    );
   }
 
   renderBigView() {
     return (
-      <View style={{ alignItems: "center", flex: 1, paddingTop: 10}}>
+      <View style={{ alignItems: "center", flex: 1, paddingTop: 10 }}>
         <ScrollView style={{ width: width }}>
           <FlatList
             refreshing={true}
@@ -131,7 +139,6 @@ class ViewLabel extends Component {
             scrollEnabled={true}
             showsVerticalScrollIndicator={false}
           />
-
         </ScrollView>
       </View>
     );
@@ -154,7 +161,7 @@ class ViewLabel extends Component {
             this.props.theme.mode === "dark" ? "light-content" : "dark-content"
           }
         />
-        <View style={{flex: 1}}>
+        <View style={{ flex: 1 }}>
           <Container>
             {this.renderHeader()}
             {this.renderMiddle()}
@@ -165,7 +172,7 @@ class ViewLabel extends Component {
             ) : null}
             {this.renderBigView()}
           </Container>
-          {this.showLoader()}   
+          {this.showLoader()}
         </View>
       </ThemeProvider>
     );
@@ -173,7 +180,7 @@ class ViewLabel extends Component {
 }
 
 function mapStateToProps(state) {
-  console.log('state',state)
+  console.log("state", state);
   return {
     theme: state.themeReducer.theme,
     user_id: state.login.shouldLoadData.user_id,

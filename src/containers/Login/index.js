@@ -3,13 +3,12 @@ import * as actions from "../../action";
 /* eslint-disable no-undef */
 // eslint-disable-next-line prettier/prettier
 import {
-  CheckBox,
-  Image,
-  Keyboard,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  View,
+Image,
+Keyboard,
+Text,
+TextInput,
+TouchableOpacity,
+View,
 } from "react-native";
 import React, { Component } from "react";
 import { Root, Toast } from "native-base";

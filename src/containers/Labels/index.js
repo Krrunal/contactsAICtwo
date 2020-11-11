@@ -1,6 +1,5 @@
 import {
   Animated,
-  CheckBox,
   Dimensions,
   Image,
   Keyboard,

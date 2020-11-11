@@ -1,17 +1,17 @@
 import {
-  CheckBox,
-  Dimensions,
-  Image,
-  Keyboard,
-  ScrollView,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  View,
+Dimensions,
+Image,
+Keyboard,
+ScrollView,
+Text,
+TextInput,
+TouchableOpacity,
+View,
 } from "react-native";
 import React, { Component, useState } from "react";
 
 import { COLORS } from "../theme/Colors.js";
+import CheckBox from "@react-native-community/checkbox";
 import Font from "../theme/font";
 import GeneralStatusBar from "../../components/StatusBar/index";
 import Header from "../../components/header/index";
@@ -57,7 +57,7 @@ export default class searchContact extends Component {
                 onValueChange={() =>
                   this.setState({ checked: !this.state.checked })
                 }
-                tintColors={{ true: "#1374A3", false: "#000" }}
+                tintColors={{ true: "#1374A3", false: "#1374A3"}}
               />
               <Text style={styles.personName}>Ron Aron</Text>
             </View>

@@ -1,24 +1,24 @@
 import {
-  CheckBox,
-  Dimensions,
-  Image,
-  Keyboard,
-  ScrollView,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  View,
+ Dimensions,
+ Image,
+ Keyboard,
+ ScrollView,
+ Text,
+ TextInput,
+ TouchableOpacity,
+ View,
 } from "react-native";
 import React, { Component, useState } from "react";
-import { connect } from "react-redux";
 
 import { COLORS } from "../theme/Colors.js";
+import CheckBox from "@react-native-community/checkbox";
 import Font from "../theme/font";
 import GeneralStatusBar from "../../components/StatusBar/index";
 import Header from "../../components/header/index";
 import Metrics from "../theme/Metrics";
-import styles from "./style.js";
+import { connect } from "react-redux";
 import firebase from '../../services/FirebaseDatabase/db';
+import styles from "./style.js";
 
 var { width, height } = Dimensions.get("window");
 

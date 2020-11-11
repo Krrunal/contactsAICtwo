@@ -1,13 +1,12 @@
 import {
-  CheckBox,
-  Dimensions,
-  Image,
-  Keyboard,
-  ScrollView,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  View,
+Dimensions,
+Image,
+Keyboard,
+ScrollView,
+Text,
+TextInput,
+TouchableOpacity,
+View,
 } from "react-native";
 import React, { Component, useState } from "react";
 import styled, { ThemeProvider } from "styled-components/native";

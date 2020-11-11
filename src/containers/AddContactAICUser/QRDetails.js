@@ -1,6 +1,5 @@
 import {
   Button,
-  CheckBox,
   Dimensions,
   Image,
   Keyboard,

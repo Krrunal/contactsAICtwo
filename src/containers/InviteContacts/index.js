@@ -1,5 +1,4 @@
 import {
-  CheckBox,
   Dimensions,
   FlatList,
   PermissionsAndroid,
@@ -12,6 +11,7 @@ import React, { Component, useState } from "react";
 import styled, { ThemeProvider } from "styled-components/native";
 
 import { COLORS } from "../theme/Colors.js";
+import CheckBox from "@react-native-community/checkbox";
 import Contacts from "react-native-contacts";
 import Font from "../theme/font";
 import GeneralStatusBar from "../../components/StatusBar/index";
@@ -21,42 +21,14 @@ import { connect } from "react-redux";
 import styles from "./style.js";
 
 var { width, height } = Dimensions.get("window");
- class InviteContact extends Component {
+class InviteContact extends Component {
   state = {
     checked: false,
-    checked1: false,
-    checked2: false,
-    checked3: false,
-    checked4: false,
-    checked5: false,
-    checked6: false,
-    checked8: false,
-    checked9: false,
-    checked10: false,
+    inserFlag: false,
+    fetchedContacts: [],
+    selectedContact: [],
+    isLoading: false,
   };
-
-  selectAll() {
-    const { checked, checked1, checked2, checked3 } = this.state;
-    if (this.state.checked == true) {
-      this.state.checked1 = true;
-      this.state.checked2 = true;
-      this.state.checked3 = true;
-      this.state.checked4 = true;
-      this.state.checked5 = true;
-      this.state.checked6 = true;
-      this.state.checked7 = true;
-      this.state.checked8 = true;
-    } else {
-      this.state.checked1 = false;
-      this.state.checked2 = false;
-      this.state.checked3 = false;
-      this.state.checked4 = false;
-      this.state.checked5 = false;
-      this.state.checked6 = false;
-      this.state.checked7 = false;
-      this.state.checked8 = false;
-    }
-  }
 
   componentDidMount() {
     this.getContact();
@@ -76,10 +48,8 @@ var { width, height } = Dimensions.get("window");
       const granted = await PermissionsAndroid.request(
         PermissionsAndroid.PERMISSIONS.READ_CONTACTS,
         {
-          title: "Cool Photo App READ_CONTACTS Permission",
-          message:
-            "Cool Photo App needs access to your CONTACTS " +
-            "so you can take awesome pictures.",
+          title: "ContactAIC App READ_CONTACTS Permission",
+          message: "ContactAIC App needs access to your CONTACTS ",
           buttonNeutral: "Ask Me Later",
           buttonNegative: "Cancel",
           buttonPositive: "OK",
@@ -128,67 +98,134 @@ var { width, height } = Dimensions.get("window");
     }
   };
 
-  renderItem({ item, index }) {
-    const lengthArray = this.state.fetchedContacts.length;
-    return (
-      <View style={styles.checkboxViewTwo}>
-        <CheckBox
-          value={this.state.checked1}
-          // onPress={this.selectOne()}
-          onValueChange={() =>
-            this.setState({ checked1: !this.state.checked1 })
-          }
-          tintColors={{ true: "#1374A3", false: "#000" }}
-        />
-        <ImportText>{item.displayName}</ImportText>
-      </View>
-    );
-  }
+  // renderItem({ item, index }) {
+  //   const lengthArray = this.state.fetchedContacts.length;
+  //   return (
+  //     <View style={styles.checkboxViewTwo}>
+  //       <CheckBox
+  //         value={this.state.checked1}
+  //         // onPress={this.selectOne()}
+  //         onValueChange={() =>
+  //           this.setState({ checked1: !this.state.checked1 })
+  //         }
+  //         tintColors={{ true: "#1374A3", false: "#000" }}
+  //       />
+  //       <ImportText>{item.displayName}</ImportText>
+  //     </View>
+  //   );
+  // }
+  onchecked = (keyInd, item) => {
+    const { fetchedContacts } = this.state;
+    let contactArr = fetchedContacts.map((item, key) => {
+      if (keyInd == key) {
+        item.isSelected = !item.isSelected;
+      }
+      this.setState({ checked: false });
+      return { ...item };
+    });
+    this.setState({ fetchedContacts: contactArr });
+  };
 
+  selectAll = () => {
+    const { fetchedContacts } = this.state;
+    let contactArr = fetchedContacts.map((item, key) => {
+      this.state.checked == true
+        ? (item.isSelected = true)
+        : (item.isSelected = false);
+      item.isSelected = !item.isSelected;
+      this.setState({ checked: !this.state.checked });
+      return { ...item };
+    });
+    this.setState({ fetchedContacts: contactArr });
+  };
   renderMiddle() {
+    const { fetchedContacts } = this.state;
     return (
-      <View style={{ alignItems: "center", height: height * 0.65 ,marginTop:Metrics.baseMargin}}>
+      <View
+        style={{
+          alignItems: "center",
+          height: height * 0.65,
+          paddingHorizontal: 0,
+        }}
+      >
         <View style={styles.checkboxView}>
           <CheckBox
             value={this.state.checked}
-            onPress={this.selectAll()}
-            onValueChange={() =>
-              this.setState({ checked: !this.state.checked })
-            }
-            tintColors={{ true: "#1374A3", false: "#000" }}
+            onChange={() => {
+              this.selectAll();
+            }}
+            tintColors={{ true: "#1374A3", false: "#1374A3" }}
           />
-          <ImportText>Select (De-select) All</ImportText>
+          <NormalText>Select (De-select) All</NormalText>
         </View>
 
         <ScrollView>
-        {this.props.theme.mode === 'light' ? (
-          <View style={styles.contactView}>
-          <FlatList
-            refreshing={true}
-            keyExtractor={(item, index) => index.toString()}
-            data={this.state.fetchedContacts}
-            extraData={this.state}
-            numColumns={1}
-            renderItem={this.renderItem.bind(this)}
-          />
-        </View>
-          ) : (
-            <View style={styles.contactViewBlack}>
-            <FlatList
-              refreshing={true}
-              keyExtractor={(item, index) => index.toString()}
-              data={this.state.fetchedContacts}
-              extraData={this.state}
-              numColumns={1}
-              renderItem={this.renderItem.bind(this)}
-            />
-          </View>
-          )}
-          
+          {fetchedContacts.map((item, key) => (
+            <View style={styles.checkboxViewTwo} key={key}>
+              <CheckBox
+                value={item.isSelected}
+                onChange={() => {
+                  this.onchecked(key, item.isSelected);
+                }}
+                tintColors={{ true: "#1374A3", false: "#1374A3" }}
+              />
+              <NormalText>{item.displayName}</NormalText>
+              {/* {item.contact.displayName}, */}
+            </View>
+          ))}
         </ScrollView>
       </View>
     );
   }
+  // renderMiddle() {
+  //   return (
+  //     <View
+  //       style={{
+  //         alignItems: "center",
+  //         height: height * 0.65,
+  //         marginTop: Metrics.baseMargin,
+  //       }}
+  //     >
+  //       <View style={styles.checkboxView}>
+  //         <CheckBox
+  //           value={this.state.checked}
+  //           onPress={this.selectAll()}
+  //           onValueChange={() =>
+  //             this.setState({ checked: !this.state.checked })
+  //           }
+  //           tintColors={{ true: "#1374A3", false: "#000" }}
+  //         />
+  //         <ImportText>Select (De-select) All</ImportText>
+  //       </View>
+
+  //       <ScrollView>
+  //         {this.props.theme.mode === "light" ? (
+  //           <View style={styles.contactView}>
+  //             <FlatList
+  //               refreshing={true}
+  //               keyExtractor={(item, index) => index.toString()}
+  //               data={this.state.fetchedContacts}
+  //               extraData={this.state}
+  //               numColumns={1}
+  //               renderItem={this.renderItem.bind(this)}
+  //             />
+  //           </View>
+  //         ) : (
+  //           <View style={styles.contactViewBlack}>
+  //             <FlatList
+  //               refreshing={true}
+  //               keyExtractor={(item, index) => index.toString()}
+  //               data={this.state.fetchedContacts}
+  //               extraData={this.state}
+  //               numColumns={1}
+  //               renderItem={this.renderItem.bind(this)}
+  //             />
+  //           </View>
+  //         )}
+  //       </ScrollView>
+  //     </View>
+  //   );
+  // }
 
   renderLast() {
     return (
@@ -214,7 +251,7 @@ var { width, height } = Dimensions.get("window");
   }
 
   invitenavigate = () => {
-    this.props.navigation.navigate('AfterSentInvite')
+    this.props.navigation.navigate("AfterSentInvite");
   };
 
   render() {
@@ -231,10 +268,17 @@ var { width, height } = Dimensions.get("window");
 
         <Container>
           {this.renderHeader()}
-          <NormalText>
-            {" "}
-            Invite People to join Contact AIC{" "}
-          </NormalText>
+          <Text
+            style={[
+              styles.importHeading,
+              {
+                color: this.props.theme.mode === "light" ? "black" : "white",
+              },
+            ]}
+          >
+            Invite People to join Contact AIC
+          </Text>
+          {/* <NormalText> Invite People to join Contact AIC </NormalText> */}
           {this.renderMiddle()}
           {this.renderLast()}
         </Container>
@@ -246,7 +290,6 @@ const mapStateToProps = (state) => ({
   theme: state.themeReducer.theme,
 });
 
-
 export default connect(mapStateToProps)(InviteContact);
 
 const Container = styled.View`
@@ -257,14 +300,7 @@ const Container = styled.View`
 `;
 const NormalText = styled.Text`
   font-family: Roboto-Regular;
-  font-size: 17px;
+  font-size: 16px;
   color: ${(props) => props.theme.iconColor};
-  margin-top:20px
-`;
-
-const ImportText = styled.Text`
-  font-family: Roboto-Regular;
-  font-size: 17px;
-  color: ${(props) => props.theme.iconColor};
-  margin-left:7px
+  margin-left: 10px;
 `;

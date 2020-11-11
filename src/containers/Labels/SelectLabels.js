@@ -1,18 +1,18 @@
 import {
-  CheckBox,
-  Dimensions,
-  Image,
-  Keyboard,
-  ScrollView,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  View,
+Dimensions,
+Image,
+Keyboard,
+ScrollView,
+Text,
+TextInput,
+TouchableOpacity,
+View,
 } from 'react-native';
 import React, {Component, useState} from 'react';
 import styled, { ThemeProvider } from "styled-components/native";
 
 import {COLORS} from '../theme/Colors.js';
+import CheckBox from '@react-native-community/checkbox'
 import Constants from "../../action/Constants";
 import { DataTable } from 'react-native-paper';
 import Font from "../theme/font";
@@ -135,7 +135,7 @@ class Selectlabels extends Component {
                 onChange={() => {
                   this.onchecked(key,item.isSelect);
                 }}
-                tintColors={{true: '#1374A3', false: '#000'}}
+                tintColors={{true: '#1374A3', false: '#1374A3'}}
               />    
                 <View style={styles.manageView}>
                   <Text>Manage</Text>

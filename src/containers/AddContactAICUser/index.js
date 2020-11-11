@@ -1,10 +1,9 @@
 import {
-  CheckBox,
-  Dimensions,
-  Image,
-  Text,
-  TouchableOpacity,
-  View,
+Dimensions,
+Image,
+Text,
+TouchableOpacity,
+View,
 } from "react-native";
 import React, { Component } from "react";
 import styled, { ThemeProvider } from "styled-components/native";

@@ -73,6 +73,7 @@ export default StyleSheet.create({
         elevation: 5,
         borderRadius:5,
         marginLeft:Metrics.smallMargin,
+        marginBottom:Metrics.smallMargin
     },
 
   

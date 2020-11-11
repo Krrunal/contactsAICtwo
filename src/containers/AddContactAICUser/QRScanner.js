@@ -1,20 +1,19 @@
 import {
-  CheckBox,
-  Dimensions,
-  Image,
-  Keyboard,
-  Linking,
-  ScrollView,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  View,
-  
+Dimensions,
+Image,
+Keyboard,
+Linking,
+ScrollView,
+Text,
+TextInput,
+TouchableOpacity,
+View,
 } from "react-native";
 import React, { Component } from "react";
 import { darkTheme, lightTheme } from "../theme/themeProps";
 import styled, { ThemeProvider } from "styled-components/native";
 
+import AsyncStorage from '@react-native-community/async-storage'
 import { COLORS } from "../theme/Colors.js";
 import Font from "../theme/font.js";
 import GeneralStatusBar from "../../components/StatusBar/index";
@@ -23,11 +22,10 @@ import Metrics from "../theme/Metrics";
 import QRCodeScanner from "react-native-qrcode-scanner";
 import { RNCamera } from "react-native-camera";
 import { bindActionCreators } from "redux";
+import { color } from "react-native-reanimated";
 import { connect } from "react-redux";
 import styles from "./manuallyAddContactStyle.js";
 import { switchTheme } from "../../action/themeAction";
-import AsyncStorage from '@react-native-community/async-storage'
-import { color } from "react-native-reanimated";
 
 var { width, height } = Dimensions.get("screen");
 

@@ -1,31 +1,31 @@
 import {
-  CheckBox,
-  Dimensions,
-  Image,
-  Text,
-  TouchableOpacity,
-  View,
-  ScrollView,
+Dimensions,
+Image,
+ScrollView,
+Text,
+TouchableOpacity,
+View,
 } from "react-native";
 import React, { Component } from "react";
 import { darkTheme, lightTheme } from "../theme/themeProps";
 import styled, { ThemeProvider } from "styled-components/native";
 
+import AsyncStorage from '@react-native-community/async-storage'
 import { COLORS } from "../theme/Colors.js";
+import CheckBox from "@react-native-community/checkbox";
+import Constants from "../../action/Constants";
 import Font from "../theme/font";
 import GeneralStatusBar from "../../components/StatusBar/index";
 import Header from "../../components/header/index";
 import Icon from "react-native-vector-icons/FontAwesome5";
 import Metrics from "../theme/Metrics";
+import { Spinner } from "../../components/Spinner";
+import Toast from 'react-native-easy-toast';
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import plus from "../../assets/images/plus.png";
 import styles from "./chooseContactFromLabelStyle.js";
 import { switchTheme } from "../../action/themeAction";
-import Constants from "../../action/Constants";
-import AsyncStorage from '@react-native-community/async-storage'
-import { Spinner } from "../../components/Spinner";
-import Toast from 'react-native-easy-toast';
 
 var { width, height } = Dimensions.get("window");
 
@@ -102,7 +102,7 @@ class chooseContactFromLabel extends Component {
                   this.onchecked(key, item.isSelect);
                 }}
                 // onValueChange={item.isSelect}
-                tintColors={{ true: "#1374A3", false: "#000" }}
+                tintColors={{ true: "#1374A3", false:"#1374A3"}}
               />
               <NormalText>{item.relation}</NormalText>
             </View>

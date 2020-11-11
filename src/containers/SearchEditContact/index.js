@@ -41,25 +41,31 @@ class searchContact extends Component {
 
   componentDidMount() {
     const { navigation } = this.props;
-    this.focusListener = navigation.addListener("didFocus", async() => {
-      this.contactList()
+    this.focusListener = navigation.addListener("didFocus", async () => {
+      this.contactList();
     });
   }
 
   componentWillUnmount() {
-    this.focusListener.remove();
     this.setState({ contacts: "" });
+    this.focusListener.remove();
   }
 
-  async contactList(){
+  async contactList() {
     const id = JSON.stringify(this.props.user_id);
-    firebase.firestore().collection(id).get()
-    .then((snap) => {
+    firebase
+      .firestore()
+      .collection(this.props.user_id)
+      .get()
+      .then((snap) => {
         snap.forEach((doc) => {
           var item = doc._data;
+          console.log("doc data---->", doc._data);
+
           this.state.contact.push(item);
         });
-        this.setState({ contacts: this.state.contact,});
+        this.setState({ contacts: this.state.contact });
+        console.log("Contats---->", this.state.contacts);
       });
   }
 
@@ -77,7 +83,7 @@ class searchContact extends Component {
     const character = (item.user_name || item.first_name).charAt(0);
     return (
       <View style={styles.quardView}>
-        <Image source={item.profile_image}/>
+        <Image source={item.profile_image} />
         <View style={styles.imgView}>
           <Text
             style={[
@@ -96,7 +102,7 @@ class searchContact extends Component {
             { color: this.props.theme.mode === "light" ? "black" : "white" },
           ]}
         >
-         {item.user_name || item.first_name} {item.last_name}
+          {item.user_name || item.first_name} {item.last_name}
         </Text>
         <Image source={edit} style={styles.editImgStyle} />
         {/* </TouchableHighlight> */}
@@ -162,18 +168,18 @@ class searchContact extends Component {
             this.props.theme.mode === "dark" ? "light-content" : "dark-content"
           }
         />
-        <View style={{flex: 1}}>
+        <View style={{ flex: 1 }}>
           <Container>
-          {/* <View style={{backgroundColor: COLORS.white, flex: 1}}> */}
-          {this.renderHeader()}
-          {this.state.contacts == "" ? (
-            <LineText> No contact imported to show </LineText>
-          ) : null}
+            {/* <View style={{backgroundColor: COLORS.white, flex: 1}}> */}
+            {this.renderHeader()}
+            {this.state.contacts == "" ? (
+              <LineText> No contact imported to show </LineText>
+            ) : null}
 
-          {this.renderMiddle()}
-          {this.renderLast()}
-        </Container>
-        {this.showLoader()}
+            {this.renderMiddle()}
+            {this.renderLast()}
+          </Container>
+          {this.showLoader()}
         </View>
       </ThemeProvider>
     );
@@ -183,7 +189,8 @@ class searchContact extends Component {
 function mapStateToProps(state) {
   return {
     theme: state.themeReducer.theme,
-    user_id: (state.login.shouldLoadData.user_id || state.reg.shouldLoadData.user_id),
+    user_id:
+      state.login.shouldLoadData.user_id || state.reg.shouldLoadData.user_id,
   };
 }
 export default connect(mapStateToProps)(searchContact);
