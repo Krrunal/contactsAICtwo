@@ -20,7 +20,7 @@ export default StyleSheet.create({
     height: height * 0.045,
     backgroundColor: COLORS.white,
     shadowColor: COLORS.black,
-    shadowOffset: {                                                                                           
+    shadowOffset: {
       width: 3,
       height: 3,
     },
@@ -66,8 +66,8 @@ export default StyleSheet.create({
 
   middleView: {
     flexDirection: "row",
-    // marginTop: Metrics.smallMargin,
-    marginBottom: Metrics.baseMargin,
+    marginTop: Metrics.smallMargin,
+    marginBottom: Metrics.smallMargin,
     justifyContent: "center",
     width: width * 0.9,
     backgroundColor: COLORS.white,

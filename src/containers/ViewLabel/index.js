@@ -45,8 +45,8 @@ class ViewLabel extends Component {
   }
 
   componentWillUnmount() {
-    this.setState({ contacts: "" });
     this.focusListener.remove();
+    this.setState({ contact: [] });
   }
 
   contactList = () => {
@@ -96,6 +96,7 @@ class ViewLabel extends Component {
   }
 
   labelNavigate = () => {
+    this.setState({ contact: [] });
     this.props.navigation.navigate("ViewLabelByName");
   };
 

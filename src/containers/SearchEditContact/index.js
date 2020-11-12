@@ -47,8 +47,8 @@ class searchContact extends Component {
   }
 
   componentWillUnmount() {
-    this.setState({ contacts: "" });
     this.focusListener.remove();
+    this.setState({ contact: [] });
   }
 
   async contactList() {
@@ -60,12 +60,12 @@ class searchContact extends Component {
       .then((snap) => {
         snap.forEach((doc) => {
           var item = doc._data;
-          console.log("doc data---->", doc._data);
+          // console.log("doc data---->", doc._data);
 
           this.state.contact.push(item);
         });
         this.setState({ contacts: this.state.contact });
-        console.log("Contats---->", this.state.contacts);
+        // console.log("Contats---->", this.state.contacts);
       });
   }
 
@@ -148,6 +148,7 @@ class searchContact extends Component {
   }
 
   plusnavigate = () => {
+    this.setState({ contact: [] });
     this.props.navigation.navigate("ManuallyAddContact");
   };
 

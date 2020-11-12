@@ -18,6 +18,22 @@
       <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/checksums/checksums.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/checksums/checksums.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/caches/build_file_checksums.ser" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/caches/build_file_checksums.ser" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules/-1409782744/react-native-svg.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules/-1409782744/react-native-svg.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules/-142125493/react-native-screens.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules/-142125493/react-native-screens.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules/-192341855/react-native-camera.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules/-192341855/react-native-camera.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules/-438300045/react-native-safe-area-context.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules/-438300045/react-native-safe-area-context.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules/1451093635/react-native-firebase.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules/1451093635/react-native-firebase.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules/1521145105/react-native-community_netinfo.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules/1521145105/react-native-community_netinfo.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules/1758755666/react-native-reanimated.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules/1758755666/react-native-reanimated.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules/1900171471/react-native-contacts.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules/1900171471/react-native-contacts.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules/2003391485/react-native-community_checkbox.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules/2003391485/react-native-community_checkbox.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules/2056599024/react-native-community_async-storage.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules/2056599024/react-native-community_async-storage.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules/545185352/react-native-permissions.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules/545185352/react-native-permissions.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules/639336332/react-native-vector-icons.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules/639336332/react-native-vector-icons.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules/758641802/react-native-gesture-handler.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules/758641802/react-native-gesture-handler.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules/825723581/react-native-image-crop-picker.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules/825723581/react-native-image-crop-picker.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules/9916653/react-native-community_masked-view.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules/9916653/react-native-community_masked-view.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules/app/app.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules/app/app.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/build/generated/res/google-services/debug/values/values.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/app/build/generated/res/resValues/debug/values/gradleResValues.xml" beforeDir="false" />
@@ -2131,34 +2147,11 @@
       <change beforePath="$PROJECT_DIR$/../node_modules/react-native-vector-icons/android/build/intermediates/runtime_library_classes_jar/debug/classes.jar" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/../node_modules/react-native-vector-icons/android/build/intermediates/symbol_list_with_package_name/debug/package-aware-r.txt" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/../node_modules/react-native-vector-icons/android/build/outputs/logs/manifest-merger-debug-report.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/containers/AddContactAICUser/QRDetails.js" beforeDir="false" afterPath="$PROJECT_DIR$/../src/containers/AddContactAICUser/QRDetails.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/containers/AddContactAICUser/QRScanner.js" beforeDir="false" afterPath="$PROJECT_DIR$/../src/containers/AddContactAICUser/QRScanner.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/containers/AddContactAICUser/afterAddContact.js" beforeDir="false" afterPath="$PROJECT_DIR$/../src/containers/AddContactAICUser/afterAddContact.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/containers/AddContactAICUser/chooseContactFromLabel.js" beforeDir="false" afterPath="$PROJECT_DIR$/../src/containers/AddContactAICUser/chooseContactFromLabel.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/containers/AddContactAICUser/chooseContactFromLabelStyle.js" beforeDir="false" afterPath="$PROJECT_DIR$/../src/containers/AddContactAICUser/chooseContactFromLabelStyle.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/containers/AddContactAICUser/forAdd2.js" beforeDir="false" afterPath="$PROJECT_DIR$/../src/containers/AddContactAICUser/forAdd2.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/containers/AddContactAICUser/forAddContact.js" beforeDir="false" afterPath="$PROJECT_DIR$/../src/containers/AddContactAICUser/forAddContact.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/containers/AddContactAICUser/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/../src/containers/AddContactAICUser/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/containers/AddContactAICUser/manuallyAddContact.js" beforeDir="false" afterPath="$PROJECT_DIR$/../src/containers/AddContactAICUser/manuallyAddContact.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/containers/Display/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/../src/containers/Display/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/containers/ImportContacts/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/../src/containers/ImportContacts/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/containers/InviteContacts/afterSentInvite.js" beforeDir="false" afterPath="$PROJECT_DIR$/../src/containers/InviteContacts/afterSentInvite.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/containers/InviteContacts/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/../src/containers/InviteContacts/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/containers/InviteContacts/style.js" beforeDir="false" afterPath="$PROJECT_DIR$/../src/containers/InviteContacts/style.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/containers/Labels/SelectLabels.js" beforeDir="false" afterPath="$PROJECT_DIR$/../src/containers/Labels/SelectLabels.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/containers/Labels/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/../src/containers/Labels/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/containers/Login/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/../src/containers/Login/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/containers/ManageLable/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/../src/containers/ManageLable/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/containers/ManuallyContact/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/../src/containers/ManuallyContact/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/containers/MyContactInformation/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/../src/containers/MyContactInformation/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/containers/PndingRequests/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/../src/containers/PndingRequests/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/containers/Profile/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/../src/containers/Profile/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/containers/SearchContact/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/../src/containers/SearchContact/index.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../src/containers/SearchEditContact/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/../src/containers/SearchEditContact/index.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../src/containers/ViewLabel/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/../src/containers/ViewLabel/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../src/containers/ViewLabel/style.js" beforeDir="false" afterPath="$PROJECT_DIR$/../src/containers/ViewLabel/style.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../src/containers/ViewLabelByName/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/../src/containers/ViewLabelByName/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/containers/contactAddToLabel/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/../src/containers/contactAddToLabel/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/containers/editContact/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/../src/containers/editContact/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../src/containers/ViewLabelByName/style.js" beforeDir="false" afterPath="$PROJECT_DIR$/../src/containers/ViewLabelByName/style.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -2168,7 +2161,7 @@
   <component name="DefaultGradleProjectSettings">
     <option name="isMigrated" value="true" />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="Pixel_2_API_28" />
+  <component name="ExecutionTargetManager" SELECTED_TARGET="90670ae7" />
   <component name="ExternalProjectsData">
     <projectState path="$PROJECT_DIR$">
       <ProjectState />
@@ -2482,18 +2475,18 @@
     </state>
     <state x="267" y="133" width="1004" height="748" key="com.android.tools.idea.avdmanager.AvdListDialog/0.23.1920.988@0.23.1920.988" timestamp="1603457151917" />
     <state x="267" y="133" width="1004" height="748" key="com.android.tools.idea.avdmanager.AvdListDialog/0.23.1920.989@0.23.1920.989" timestamp="1600675246957" />
-    <state x="609" y="349" key="com.intellij.ide.util.TipDialog" timestamp="1605085663498">
+    <state x="609" y="349" key="com.intellij.ide.util.TipDialog" timestamp="1605154770930">
       <screen x="0" y="23" width="1920" height="989" />
     </state>
     <state x="609" y="354" key="com.intellij.ide.util.TipDialog/0.23.1920.1004@0.23.1920.1004" timestamp="1603255607837" />
     <state x="609" y="356" key="com.intellij.ide.util.TipDialog/0.23.1920.1006@0.23.1920.1006" timestamp="1603096085812" />
     <state x="609" y="349" key="com.intellij.ide.util.TipDialog/0.23.1920.987@0.23.1920.987" timestamp="1601702199705" />
     <state x="609" y="349" key="com.intellij.ide.util.TipDialog/0.23.1920.988@0.23.1920.988" timestamp="1605074367283" />
-    <state x="609" y="349" key="com.intellij.ide.util.TipDialog/0.23.1920.989@0.23.1920.989" timestamp="1605085663498" />
+    <state x="609" y="349" key="com.intellij.ide.util.TipDialog/0.23.1920.989@0.23.1920.989" timestamp="1605154770930" />
     <state x="609" y="350" key="com.intellij.ide.util.TipDialog/0.23.1920.991@0.23.1920.991" timestamp="1605000365022" />
     <state x="609" y="351" key="com.intellij.ide.util.TipDialog/0.23.1920.992@0.23.1920.992" timestamp="1605082433910" />
     <state x="609" y="351" key="com.intellij.ide.util.TipDialog/0.23.1920.994@0.23.1920.994" timestamp="1603104363787" />
-    <state x="609" y="351" key="com.intellij.ide.util.TipDialog/0.23.1920.995@0.23.1920.995" timestamp="1604375523755" />
+    <state x="609" y="351" key="com.intellij.ide.util.TipDialog/0.23.1920.995@0.23.1920.995" timestamp="1605096943615" />
     <state x="412" y="237" key="run.anything.popup" timestamp="1601635385548">
       <screen x="0" y="23" width="1920" height="988" />
     </state>
