@@ -333,6 +333,7 @@ class MyContactInfromation extends Component {
       />
     );
   };
+  
   renderMiddle() {
     return (
       <Root>

@@ -52,20 +52,14 @@ class searchContact extends Component {
   }
 
   async contactList() {
-    const id = JSON.stringify(this.props.user_id);
-    firebase
-      .firestore()
-      .collection(this.props.user_id)
-      .get()
+    const {username} = this.props;
+    firebase.firestore().collection('user').doc(username).collection('contacts').get()
       .then((snap) => {
         snap.forEach((doc) => {
           var item = doc._data;
-          // console.log("doc data---->", doc._data);
-
           this.state.contact.push(item);
         });
         this.setState({ contacts: this.state.contact });
-        // console.log("Contats---->", this.state.contacts);
       });
   }
 
@@ -190,8 +184,8 @@ class searchContact extends Component {
 function mapStateToProps(state) {
   return {
     theme: state.themeReducer.theme,
-    user_id:
-      state.login.shouldLoadData.user_id || state.reg.shouldLoadData.user_id,
+    user_id: state.login.shouldLoadData.user_id || state.reg.shouldLoadData.user_id,
+    username: state.login.shouldLoadData.username || state.reg.shouldLoadData.username,
   };
 }
 export default connect(mapStateToProps)(searchContact);

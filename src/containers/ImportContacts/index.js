@@ -179,16 +179,11 @@ class importContact extends Component {
 
   importnavigate = (isSelect, item, key) => {
     const { fetchedContacts, selectedContact } = this.state;
-     const { user_id } = this.props;
-      const id = JSON.stringify(user_id);
+     const { user_id, username } = this.props;
    
-    firebase
-      .firestore()
-      .collection(this.props.user_id)
-      .get()
+    firebase.firestore().collection('user').doc(username).collection('contacts').get()
       .then((snap) => {
         if (!snap.empty) {
-          console.log('snap---->',snap)
           snap.forEach(async (doc) => {
             fetchedContacts.map((item) => {
               if (item.isSelected == true) {
@@ -205,7 +200,7 @@ class importContact extends Component {
           fetchedContacts.map((item) => {
             if (item.isSelected == true) {
               addManualContact(
-                user_id,
+                username,
                 "",
                 item.givenName,
                 item.middleName,
@@ -242,12 +237,10 @@ class importContact extends Component {
           });
           this.props.navigation.navigate("SerachEditContact");
         } else {
-             console.log('Empty')
           fetchedContacts.map((item) => {
             if (item.isSelected == true) {
-              console.log('hjkdhfjkdhf')
               addManualContact(
-                user_id,
+                username,
                 "",
                 item.givenName,
                 item.middleName,
@@ -332,6 +325,7 @@ function mapStateToProps(state) {
   return {
     theme: state.themeReducer.theme,
     user_id: state.login.shouldLoadData.user_id,
+    username: state.login.shouldLoadData.username,
   };
 }
 

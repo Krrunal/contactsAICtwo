@@ -28,6 +28,7 @@ import NavigationService from "./navigationService";
 import { Platform } from "react-native";
 import firebase from "react-native-firebase";
 import AsyncStorage from '@react-native-community/async-storage';
+import { addItem } from '../services/FirebaseDatabase/addAfterSignup';
 
 export const loadDataChange = (payload) => {
   return {
@@ -53,7 +54,11 @@ const regUserSuccess = (data, dispatch) => {
   dispatch({ type: RESET_LOGIN });
   dispatch({ type: RESET_REG });
   dispatch({ type: LOAD_DATA_SET, payload: data.data });
+  console.log('data---->',data.data)
+  addItem( data.data.username, data.data.user_id, data.data.is_active, data.data.fcmToken, data.data.contact, data.data.email)
+
   dispatch(NavigationService.navigate("AddContact"));
+
 };
 
 const loginUserFail = (dispatch) => {
@@ -152,7 +157,6 @@ export const checkEmail = () => {
     const state = getState();
     const baseurl = Constants.baseurl;
     const email = state.reg.email;
-    console.log(email)
     var _body = new FormData();
     _body.append("email", email);
     fetch(baseurl + "check_email", {
@@ -209,7 +213,6 @@ export const signUpUser = () => {
 
   return async (dispatch, getState) => {
     const state = getState();
-    console.log("getstate==============>", getState());
     const baseurl = Constants.baseurl;
     const email = state.reg.email;
     const password = state.reg.password;
@@ -226,7 +229,6 @@ export const signUpUser = () => {
     _body.append("fcmToken", fcmToken);
     _body.append("platform", platform);
 
-    console.log('_body',_body)
     dispatch({ type: SHOW_LOADER_REG, payload: true });
     fetch(baseurl + "register", {
       method: "POST",
@@ -240,11 +242,11 @@ export const signUpUser = () => {
       .then((responseJson) => {
         var data = responseJson;
         if (data.status == true) {
-          console.log("response true-->", data);
+          // console.log("response true-->", data);
           showToastSuccess(data.message);
           regUserSuccess(data, dispatch);
         } else {
-          console.log("response else-->", data.message);
+          // console.log("response else-->", data.message);
           showToastSuccess(data.message);
           loginUserFail(dispatch);
           dispatch({ type: SHOW_LOADER_REG, payload: false });
@@ -292,7 +294,6 @@ export const loginUser = () => {
         }
       })
       .catch((error) => {
-        console.log("Error ----->", error);
         // showToastError("No Internet Connection!");
         // loginUserFail(dispatch);
         dispatch({ type: SHOW_LOADER_LOGIN, payload: false });

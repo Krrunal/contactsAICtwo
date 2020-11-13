@@ -72,7 +72,7 @@ class Share extends Component {
 }
 
 function mapStateToProps(state) {
-  console.log("state---->", state.login.shouldLoadData);
+  // console.log("state---->", state.login.shouldLoadData);
   return {
     data: state.login.shouldLoadData,
     theme: state.themeReducer.theme,

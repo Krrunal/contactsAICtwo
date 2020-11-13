@@ -48,15 +48,6 @@ export function SideBar(props){
 
     return (
     <View style={styles.mainContent} >
-        {/* <GeneralStatusBar
-          backgroundColor={
-            this.props.theme.mode === "light" ? "white" : "black"
-          }
-          barStyle={
-            this.props.theme.mode === "dark" ? "light-content" : "dark-content"
-          }
-        /> */}
-
       <View style={styles.whiteView}>
         <View style={{width: width * 0.6, flexDirection: 'row'}}>
           <TouchableOpacity style={styles.sideBarViewContent} onPress={()=>props.navigation.closeDrawer()}>
