@@ -2,15 +2,16 @@ import { ActionSheet, Root } from "native-base";
 import {
   Animated,
   Dimensions,
+  FlatList,
   Image,
   Keyboard,
+  LayoutAnimation,
+  Modal,
   Text,
   TextInput,
   TouchableHighlight,
   TouchableOpacity,
   View,
-  Modal,
-  FlatList
 } from "react-native";
 import React, { Component } from "react";
 import { darkTheme, lightTheme } from "../theme/themeProps";
@@ -18,11 +19,14 @@ import styled, { ThemeProvider } from "styled-components/native";
 
 import { COLORS } from "../theme/Colors.js";
 import { Colors } from "react-native-paper";
+import DateTimePickerModal from "react-native-modal-datetime-picker";
 import Font from "../theme/font";
 import GeneralStatusBar from "../../components/StatusBar/index";
 import Header from "../../components/header/index";
+import Icon from "react-native-vector-icons/Entypo";
 import ImagePicker from "react-native-image-crop-picker";
 import Metrics from "../theme/Metrics";
+import Swipeable from "react-native-gesture-handler/Swipeable";
 import { ThemeContext } from "react-navigation";
 import Toast from "react-native-easy-toast";
 import { addManualContact } from "../../services/FirebaseDatabase/manualContactToFirebase";
@@ -38,6 +42,7 @@ import home from "../../assets/images/home.png";
 import innerimg from "../../assets/images/innerimg.png";
 import instagram from "../../assets/images/instagram.png";
 import message from "../../assets/images/message.png";
+import moment from "moment";
 import note from "../../assets/images/note.png";
 import rigthLogo from "../../assets/icons/contact.png";
 import sideBar from "../../assets/images/sideBAR.png";
@@ -45,7 +50,6 @@ import { storage } from "react-native-firebase";
 import styles from "./style.js";
 import { switchTheme } from "../../action/themeAction";
 import website from "../../assets/images/website.png";
-import Icon from 'react-native-vector-icons/Entypo';
 
 var { width, height } = Dimensions.get("window");
 
@@ -59,6 +63,10 @@ class addmanuallyContact extends Component {
     super();
 
     this.state = {
+      isVisible: false,
+      isVisibleArray: false,
+      choosenDate: "",
+      choosenDateArray: "",
       first_name: "",
       middle_name: "",
       last_name: "",
@@ -67,12 +75,36 @@ class addmanuallyContact extends Component {
       number2: "",
       number3: "",
       email: {
-        email: '',
-        label: ''
+        email: "",
+        label: "",
       },
       address: {
-        address: '',
-        label: ''
+        address: "",
+        label: "",
+      },
+      messanger: {
+        messanger: "",
+        label: "",
+      },
+      socialMedia: {
+        socialMedia: "",
+        label: "",
+      },
+      website: {
+        website: "",
+        label: "",
+      },
+      date: {
+        date: "",
+        label: "",
+      },
+      note: {
+        note: "",
+        label: "",
+      },
+      company: {
+        company: "",
+        label: "",
       },
       messenger1: "",
       messenger2: "",
@@ -81,8 +113,8 @@ class addmanuallyContact extends Component {
       website1: "",
       website2: "",
       dob: "",
-      note: "",
-      company: "",
+      note1: "",
+      company1: "",
       job_title: "",
       work_hour: "",
       image: null,
@@ -116,47 +148,104 @@ class addmanuallyContact extends Component {
       //mobile modal
       isMobileModelOpen: false,
       mobileLabelList: [
-        { label: 'Personal' },
-        { label: 'Work' },
-        { label: 'Home' },
-        { label: 'Main' },
-        { label: 'Other' },
+        { label: "Personal" },
+        { label: "Work" },
+        { label: "Home" },
+        { label: "Main" },
+        { label: "Other" },
       ],
-      mobileLabel: '',
+      mobileLabel: "",
       isAddMobileLabel: false,
       // email modal
       isEmailModelOpen: false,
       emailLabelList: [
-        { label: 'Personal' },
-        { label: 'Work' },
-        { label: 'Main' },
-        { label: 'Other' },
+        { label: "Personal" },
+        { label: "Work" },
+        { label: "Main" },
+        { label: "Other" },
       ],
-      emailLabel: '',
+      emailLabel: "",
       isAddEmailLabel: false,
       isEmailArrrayModelOpen: false,
       isAddEmailArrayLabel: false,
       //address modal
       isAddressModelOpen: false,
       addressLabelList: [
-        { label: 'Home' },
-        { label: 'Work' },
-        { label: 'Other' },
+        { label: "Home" },
+        { label: "Work" },
+        { label: "Other" },
       ],
-      addressLabel: '',
+      addressLabel: "",
       isAddAddressLabel: false,
       isAddressArrayModelOpen: false,
       isAddAddressArrayLabel: false,
+      //messnger model
+      isMessangerModelOpen: false,
+      mesangerLabelList: [{ label: "Work" }, { label: "Personal" }],
+      messengerLabel: "",
+      isAddMessangerLabel: false,
+      isMessangerArrayModelOpen: false,
+      isAddMessangerArrayLabel: false,
+      //social Media
+      isSocialMediaModelOpen: false,
+      socialMediaLabelList: [
+        { label: "Instagram Personal " },
+        { label: "Periscop Professional" },
+      ],
+      socialMediaLabel: "",
+      isAddSocialMediaLabel: false,
+      isSocialMediaArrayModelOpen: false,
+      isSocialMediaModelOpen: false,
+      isAddSocialMediaArrayLabel: false,
+      //website
+      isWebsiteModelOpen: false,
+      websiteLableList: [
+        { label: " Sport gambling podcast" },
+        { label: " Universal Studio" },
+      ],
+      websiteLabel: "",
+      isAddWebsiteLabel: false,
+      isWebsiteArrayModelOpen: false,
+      isWebsiteModelOpen: false,
+      isAddWebsiteArrayLabel: false,
+      //date
+      isDateModelOpen: false,
+      dateLableList: [
+        { label: " Sport gambling podcast" },
+        { label: " Universal Studio" },
+      ],
+      dateLabel: "",
+      isAddDateLabel: false,
+      isDateArrayModelOpen: false,
+      isDateModelOpen: false,
+      isAddDateArrayLabel: false,
+      //note
+      isNoteModelOpen: false,
+      noteLabelList: [{ label: "Note" }],
+      noteLabel: "",
+      isAddNoteLabel: false,
+      isNoteArrayModelOpen: false,
+      isNoteModelOpen: false,
+      isAddNoteArrayLabel: false,
+      //company
+
+      isCompanyModelOpen: false,
+      companyLableList: [{ label: "Job Ttile" }, { label: "Work Hours" }],
+      companyLabel: "",
+      isAddCompanyLabel: false,
+      isCompanyArrayModelOpen: false,
+      isCompanyModelOpen: false,
+      isAddCompanyArrayLabel: false,
     };
   }
 
   ShowHideTextComponentView = () => {
-    if(this.state.status == false) {
-      this.setState({status: true})
+    if (this.state.status == false) {
+      this.setState({ status: true });
     } else {
-      this.setState({status: false})
-      console.log('email--->',this.state.email)
-      console.log('array--->',this.state.emailArray)
+      this.setState({ status: false });
+      console.log("email--->", this.state.email);
+      console.log("array--->", this.state.emailArray);
     }
     // const {
     //   profile_image,
@@ -295,8 +384,6 @@ class addmanuallyContact extends Component {
     // } else {
     //   this.setState({ status: true });
     // }
-
-
   };
 
   renderHeader() {
@@ -433,9 +520,8 @@ class addmanuallyContact extends Component {
     upload.on("state_changed", (snapshot) => {
       console.log("Snapshopt=====>", snapshot);
     });
-
   };
-  
+
   takePhotoFromCamera2 = () => {
     ImagePicker.openCamera({
       width: 300,
@@ -573,7 +659,10 @@ class addmanuallyContact extends Component {
               <View style={styles.squareBorder}>
                 {this.renderImage2(this.state.image2)}
               </View>
-              <TouchableOpacity style={styles.first} onPress={this.selectPhoto2}>
+              <TouchableOpacity
+                style={styles.first}
+                onPress={this.selectPhoto2}
+              >
                 <Text style={styles.firstText}>Select Photo</Text>
               </TouchableOpacity>
             </View>
@@ -581,7 +670,10 @@ class addmanuallyContact extends Component {
               <View style={styles.squareBorder}>
                 {this.renderImage3(this.state.image3)}
               </View>
-              <TouchableOpacity style={styles.first} onPress={this.selectPhoto3}>
+              <TouchableOpacity
+                style={styles.first}
+                onPress={this.selectPhoto3}
+              >
                 <Text style={styles.firstText}>Select Photo</Text>
               </TouchableOpacity>
             </View>
@@ -686,16 +778,41 @@ class addmanuallyContact extends Component {
     this.state.numberArray[index].number = value;
     this.setState({ numberArray: this.state.numberArray });
   };
+  removeItem = (key) => {
 
-  renderMobileLabel = ({item, index}) => {
-    return(
-      <TouchableHighlight 
-        underlayColor="transparent" 
-        onPress={() => this.setState({ mobileLabel: item.label , isMobileModelOpen: false})}>
-          <Text style={styles.labelName}> {item.label} </Text>
-      </TouchableHighlight>
+
+    const {numberArray } = this.state;
+    numberArray.splice(key,1);
+    this.setState({
+      deleteArray :  numberArray
+    })
+  };
+
+  leftAction = (key) => {
+
+     
+    return (
+    <TouchableOpacity onPress={this.removeItem}>
+      <View style={styles.deleteBox}>
+        <Text>
+          Delete
+        </Text>
+      </View>
+    </TouchableOpacity>
     )
-  }
+  };
+  renderMobileLabel = ({ item, index }) => {
+    return (
+      <TouchableHighlight
+        underlayColor="transparent"
+        onPress={() =>
+          this.setState({ mobileLabel: item.label, isMobileModelOpen: false })
+        }
+      >
+        <Text style={styles.labelName}> {item.label} </Text>
+      </TouchableHighlight>
+    );
+  };
 
   renderMobile() {
     return (
@@ -720,38 +837,46 @@ class addmanuallyContact extends Component {
                   this.number1 = input;
                 }}
               />
-              {this.state.status ? 
-                <TouchableHighlight 
-                  underlayColor="transparent" 
-                  style={styles.rightView} 
-                  onPress={() =>this.setState({ isMobileModelOpen: true })}>
-                    <Icon style={styles.iconSize} size={width * 0.06} name="chevron-small-down" />
+              {this.state.status ? (
+                <TouchableHighlight
+                  underlayColor="transparent"
+                  style={styles.rightView}
+                  onPress={() => this.setState({ isMobileModelOpen: true })}
+                >
+                  <Icon
+                    style={styles.iconSize}
+                    size={width * 0.06}
+                    name="chevron-small-down"
+                  />
                 </TouchableHighlight>
-              : null}
-              {this.state.status && this.state.mobileLabel !== "" ?
-                <View style={styles.rightView} >
+              ) : null}
+              {this.state.status && this.state.mobileLabel !== "" ? (
+                <View style={styles.rightView}>
                   <Text style={styles.righttext}>{this.state.mobileLabel}</Text>
                 </View>
-              : null}
+              ) : null}
             </View>
 
             {this.state.numberArray.map((input, key) => {
               return (
-                <View style={styles.filedView} key={key}>
-                  <TextInput
-                    placeholder="Phone Number"
-                    style={styles.stylefiledText}
-                    placeholderTextColor={COLORS.main_text_color}
-                    maxLength={10}
-                    key={key}
-                    keyboardType={"number-pad"}
-                    onChangeText={(number) => {
-                      this.onChangeNumber(number, key);
-                    }}
-                  />
-                </View>
+                <Swipeable renderLeftActions={this.leftAction} >
+                  <View style={styles.filedView} key={key}>
+                    <TextInput
+                      placeholder="Phone Number"
+                      style={styles.stylefiledText}
+                      placeholderTextColor={COLORS.main_text_color}
+                      maxLength={10}
+                      key={key}
+                      keyboardType={"number-pad"}
+                      onChangeText={(number) => {
+                        this.onChangeNumber(number, key);
+                      }}
+                    />
+                  </View>
+                </Swipeable>
               );
             })}
+
             <TouchableOpacity
               onPress={() => this.addNumber()}
               disable={this.state.disabledNumber}
@@ -761,77 +886,94 @@ class addmanuallyContact extends Component {
               ) : null}
             </TouchableOpacity>
 
-              <Modal
-                style={styles.footerModal}
-                visible={this.state.isMobileModelOpen}
-                transparent={true}
-                animationType="fade"
-                onRequestClose={()=>this.setState({isMobileModelOpen: false})}
-              >
-                <View style={styles.contactContent}>
-                  <View style={styles.content}>
-                    <Text style={styles.modalHeader}>Phone</Text>
-                    <View style={{flexDirection:'column'}}>
-                      <FlatList
-                        refreshing={true}
-                        keyExtractor={(item, index) => index.toString()}
-                        data={this.state.mobileLabelList}
-                        extraData={this.state}
-                        numColumns={1}
-                        renderItem={this.renderMobileLabel.bind(this)}
-                        style={styles.flatlist}
-                        keyboardShouldPersistTaps={"always"}
-                      />
-                      <TouchableHighlight underlayColor="transparent" onPress={()=>this.setState({isAddMobileLabel: true, mobileLabel: ''})}>
-                        <Text style={styles.labelName}> Custom </Text>
-                      </TouchableHighlight>
-                    </View>
+            <Modal
+              style={styles.footerModal}
+              visible={this.state.isMobileModelOpen}
+              transparent={true}
+              animationType="fade"
+              onRequestClose={() => this.setState({ isMobileModelOpen: false })}
+            >
+              <View style={styles.contactContent}>
+                <View style={styles.content}>
+                  <Text style={styles.modalHeader}>Phone</Text>
+                  <View style={{ flexDirection: "column" }}>
+                    <FlatList
+                      refreshing={true}
+                      keyExtractor={(item, index) => index.toString()}
+                      data={this.state.mobileLabelList}
+                      extraData={this.state}
+                      numColumns={1}
+                      renderItem={this.renderMobileLabel.bind(this)}
+                      style={styles.flatlist}
+                      keyboardShouldPersistTaps={"always"}
+                    />
+                    <TouchableHighlight
+                      underlayColor="transparent"
+                      onPress={() =>
+                        this.setState({
+                          isAddMobileLabel: true,
+                          mobileLabel: "",
+                        })
+                      }
+                    >
+                      <Text style={styles.labelName}> Custom </Text>
+                    </TouchableHighlight>
                   </View>
                 </View>
-              </Modal>
-              <Modal
-                style={styles.footerModal}
-                visible={this.state.isAddMobileLabel}
-                transparent={true}
-                animationType="fade"
-                // onRequestClose={()=>this.setState({isAddMobileLabel: false})}
-              >
-                <View style={styles.contactContent}>
-                  <View style={styles.content}>
-                    <Text style={styles.modalHeader}>Custom label name</Text>
-                    <View style={{flexDirection:'column'}}>
-                      <TextInput                 
-                        placeholder="Custom label name"
-                        style={styles.addLabelField}
-                        placeholderTextColor={COLORS.main_text_color}
-                        editable={this.state.status ? true : false}
-                        keyboardType={"default"}
-                        value={this.state.mobileLabel}
-                        onChangeText={(value) => this.setState({ mobileLabel: value })}
-                        ref={(input) => {
-                          this.mobileLabel = input;
+              </View>
+            </Modal>
+            <Modal
+              style={styles.footerModal}
+              visible={this.state.isAddMobileLabel}
+              transparent={true}
+              animationType="fade"
+              // onRequestClose={()=>this.setState({isAddMobileLabel: false})}
+            >
+              <View style={styles.contactContent}>
+                <View style={styles.content}>
+                  <Text style={styles.modalHeader}>Custom label name</Text>
+                  <View style={{ flexDirection: "column" }}>
+                    <TextInput
+                      placeholder="Custom label name"
+                      style={styles.addLabelField}
+                      placeholderTextColor={COLORS.main_text_color}
+                      editable={this.state.status ? true : false}
+                      keyboardType={"default"}
+                      value={this.state.mobileLabel}
+                      onChangeText={(value) =>
+                        this.setState({ mobileLabel: value })
+                      }
+                      ref={(input) => {
+                        this.mobileLabel = input;
+                      }}
+                    />
+                    <TouchableHighlight
+                      underlayColor="transparent"
+                      style={styles.saveView}
+                      onPress={() =>
+                        this.state.mobileLabel !== ""
+                          ? this.setState({
+                              isAddMobileLabel: false,
+                              isMobileModelOpen: false,
+                            })
+                          : this.setState({ isAddMobileLabel: false })
+                      }
+                    >
+                      <Text
+                        style={{
+                          color: COLORS.main_text_color,
+                          fontFamily: Font.medium,
+                          fontSize: width * 0.04,
                         }}
-                      />
-                      <TouchableHighlight
-                        underlayColor="transparent"
-                        style={styles.saveView}
-                        onPress={()=>
-                          this.state.mobileLabel !== "" 
-                          ? this.setState({isAddMobileLabel: false, isMobileModelOpen: false})
-                          : this.setState({isAddMobileLabel: false})}
                       >
-                        <Text
-                          style={{
-                            color: COLORS.main_text_color,
-                            fontFamily: Font.medium,
-                            fontSize: width * 0.04,
-                          }}
-                        > Ok </Text>
-                      </TouchableHighlight>
-                    </View>
+                        {" "}
+                        Ok{" "}
+                      </Text>
+                    </TouchableHighlight>
                   </View>
                 </View>
-              </Modal>
+              </View>
+            </Modal>
           </View>
         </View>
       </View>
@@ -843,28 +985,26 @@ class addmanuallyContact extends Component {
       emailArray: [...this.state.emailArray, { email: "", label: "" }],
     });
   };
-
+  onChangeEmail = (value) => {
+    this.state.email.email = value;
+    this.setState({ email: this.state.email });
+  };
   onChangeEmailArray = (value, index) => {
     this.state.emailArray[index].email = value;
     this.setState({ emailArray: this.state.emailArray });
   };
 
   changeEmailLabelArray = (label, index) => {
-    this.setState({isEmailArrrayModelOpen: false})
+    this.setState({ isEmailArrrayModelOpen: false });
     this.state.emailArray[index].label = label;
     this.setState({ emailArray: this.state.emailArray });
-  }
-
-  onChangeEmail = (value) => {
-    this.state.email.email = value;
-    this.setState({ email: this.state.email });
   };
 
   changeEmailLabel = (label) => {
-    this.setState({isEmailModelOpen: false})
+    this.setState({ isEmailModelOpen: false });
     this.state.email.label = label;
     this.setState({ email: this.state.email });
-  }
+  };
 
   renderEmail() {
     return (
@@ -883,20 +1023,25 @@ class addmanuallyContact extends Component {
                 editable={this.state.status ? true : false}
                 onChangeText={(value) => this.onChangeEmail(value)}
               />
-              {this.state.status ? 
-                <TouchableHighlight 
-                  underlayColor="transparent" 
-                  style={styles.rightView} 
-                  onPress={() =>this.setState({ isEmailModelOpen: true })}>
-                    <Icon style={styles.iconSize} size={width * 0.06} name="chevron-small-down" />
+              {this.state.status ? (
+                <TouchableHighlight
+                  underlayColor="transparent"
+                  style={styles.rightView}
+                  onPress={() => this.setState({ isEmailModelOpen: true })}
+                >
+                  <Icon
+                    style={styles.iconSize}
+                    size={width * 0.06}
+                    name="chevron-small-down"
+                  />
                 </TouchableHighlight>
-              : null}
+              ) : null}
 
-              {this.state.status && this.state.email.label!== "" ?
-                <View style={styles.rightView} >
+              {this.state.status && this.state.email.label !== "" ? (
+                <View style={styles.rightView}>
                   <Text style={styles.righttext}>{this.state.email.label}</Text>
                 </View>
-              : null}
+              ) : null}
             </View>
 
             {this.state.emailArray.map((input, key) => {
@@ -912,92 +1057,122 @@ class addmanuallyContact extends Component {
                       this.onChangeEmailArray(email, key);
                     }}
                   />
-                    <TouchableHighlight 
-                      underlayColor="transparent" 
-                      style={styles.rightView} 
-                      // key={key}
-                      onPress={() =>this.setState({ isEmailArrrayModelOpen: true })}>
-                        <Icon style={styles.iconSize} size={width * 0.06} name="chevron-small-down" />
-                    </TouchableHighlight>
+                  <TouchableHighlight
+                    underlayColor="transparent"
+                    style={styles.rightView}
+                    // key={key}
+                    onPress={() =>
+                      this.setState({ isEmailArrrayModelOpen: true })
+                    }
+                  >
+                    <Icon
+                      style={styles.iconSize}
+                      size={width * 0.06}
+                      name="chevron-small-down"
+                    />
+                  </TouchableHighlight>
 
-                    {this.state.emailArray[key].label !== "" ? 
-                    <View style={styles.rightView} >
-                      <Text style={styles.righttext}>{this.state.emailArray[key].label}</Text>
+                  {this.state.emailArray[key].label !== "" ? (
+                    <View style={styles.rightView}>
+                      <Text style={styles.righttext}>
+                        {this.state.emailArray[key].label}
+                      </Text>
                     </View>
-                    : null }
-                <Modal
-                style={styles.footerModal}
-                visible={this.state.isEmailArrrayModelOpen}
-                transparent={true}
-                animationType="fade"
-                // key={key}
-                onRequestClose={()=>this.setState({isEmailArrrayModelOpen: false})}
-              >
-                <View style={styles.contactContent}>
-                  <View style={styles.content}>
-                    <Text style={styles.modalHeader}>Email</Text>
-                    <View style={{flexDirection:'column'}}>
-                      {this.state.emailLabelList.map((item, index) => {
-                        return(
-                          <TouchableHighlight 
-                            underlayColor="transparent" 
-                            onPress={() => { this.changeEmailLabelArray(item.label, key) }}
-                            >
-                              <Text style={styles.labelName}> {item.label} </Text>
+                  ) : null}
+                  <Modal
+                    style={styles.footerModal}
+                    visible={this.state.isEmailArrrayModelOpen}
+                    transparent={true}
+                    animationType="fade"
+                    // key={key}
+                    onRequestClose={() =>
+                      this.setState({ isEmailArrrayModelOpen: false })
+                    }
+                  >
+                    <View style={styles.contactContent}>
+                      <View style={styles.content}>
+                        <Text style={styles.modalHeader}>Email</Text>
+                        <View style={{ flexDirection: "column" }}>
+                          {this.state.emailLabelList.map((item, index) => {
+                            return (
+                              <TouchableHighlight
+                                underlayColor="transparent"
+                                onPress={() => {
+                                  this.changeEmailLabelArray(item.label, key);
+                                }}
+                              >
+                                <Text style={styles.labelName}>
+                                  {" "}
+                                  {item.label}{" "}
+                                </Text>
+                              </TouchableHighlight>
+                            );
+                          })}
+                          <TouchableHighlight
+                            underlayColor="transparent"
+                            onPress={() =>
+                              this.setState({
+                                isAddEmailArrayLabel: true,
+                                emailLabel: "",
+                              })
+                            }
+                          >
+                            <Text style={styles.labelName}> Custom </Text>
                           </TouchableHighlight>
-                        )
-                      })}
-                      <TouchableHighlight 
-                        underlayColor="transparent" 
-                        onPress={()=>this.setState({isAddEmailArrayLabel: true, emailLabel: ''})}>
-                          <Text style={styles.labelName}> Custom </Text>
-                      </TouchableHighlight>
+                        </View>
+                      </View>
                     </View>
-                  </View>
-                </View>
-              </Modal>
-              <Modal
-                style={styles.footerModal}
-                  visible={this.state.isAddEmailArrayLabel}
-                  transparent={true}
-                  // key={key}
-                  animationType="fade"
-                >
-                  <View style={styles.contactContent}>
-                    <View style={styles.content}>
-                      <Text style={styles.modalHeader}>Custom label name</Text>
-                      <View style={{flexDirection:'column'}}>
-                        <TextInput                 
-                          placeholder="Custom label name"
-                          style={styles.addLabelField}
-                          placeholderTextColor={COLORS.main_text_color}
-                          editable={this.state.status ? true : false}
-                          keyboardType={"default"}
-                          onChangeText={(label) => {
-                            this.changeEmailLabelArray(label, key);
-                          }}
-                      />
-                      <TouchableHighlight
-                        underlayColor="transparent"
-                        style={styles.saveView}
-                        onPress={()=>
-                          this.state.emailLabel !== "" 
-                          ? this.setState({isAddEmailArrayLabel: false, isEmailArrrayModelOpen: false})
-                          : this.setState({isAddEmailArrayLabel: false})}
-                      >
-                        <Text
-                          style={{
-                            color: COLORS.main_text_color,
-                            fontFamily: Font.medium,
-                            fontSize: width * 0.04,
-                          }}
-                        > Ok </Text>
-                      </TouchableHighlight>
+                  </Modal>
+                  <Modal
+                    style={styles.footerModal}
+                    visible={this.state.isAddEmailArrayLabel}
+                    transparent={true}
+                    // key={key}
+                    animationType="fade"
+                  >
+                    <View style={styles.contactContent}>
+                      <View style={styles.content}>
+                        <Text style={styles.modalHeader}>
+                          Custom label name
+                        </Text>
+                        <View style={{ flexDirection: "column" }}>
+                          <TextInput
+                            placeholder="Custom label name"
+                            style={styles.addLabelField}
+                            placeholderTextColor={COLORS.main_text_color}
+                            editable={this.state.status ? true : false}
+                            keyboardType={"default"}
+                            onChangeText={(label) => {
+                              this.changeEmailLabelArray(label, key);
+                            }}
+                          />
+                          <TouchableHighlight
+                            underlayColor="transparent"
+                            style={styles.saveView}
+                            onPress={() =>
+                              this.state.emailLabel !== ""
+                                ? this.setState({
+                                    isAddEmailArrayLabel: false,
+                                    isEmailArrrayModelOpen: false,
+                                  })
+                                : this.setState({ isAddEmailArrayLabel: false })
+                            }
+                          >
+                            <Text
+                              style={{
+                                color: COLORS.main_text_color,
+                                fontFamily: Font.medium,
+                                fontSize: width * 0.04,
+                              }}
+                            >
+                              {" "}
+                              Ok{" "}
+                            </Text>
+                          </TouchableHighlight>
+                        </View>
+                      </View>
                     </View>
-                  </View>
-                </View>
-              </Modal>
-
+                  </Modal>
                 </View>
               );
             })}
@@ -1011,77 +1186,88 @@ class addmanuallyContact extends Component {
               ) : null}
             </TouchableOpacity>
             <Modal
-                style={styles.footerModal}
-                visible={this.state.isEmailModelOpen}
-                transparent={true}
-                animationType="fade"
-                onRequestClose={()=>this.setState({isEmailModelOpen: false})}
-              >
-                <View style={styles.contactContent}>
-                  <View style={styles.content}>
-                    <Text style={styles.modalHeader}>Email</Text>
-                    <View style={{flexDirection:'column'}}>
-                      {this.state.emailLabelList.map((item, index) => {
-                        return (
-                          <TouchableHighlight 
-                            underlayColor="transparent" 
-                            onPress={() => { this.changeEmailLabel(item.label) }}
-                          >
-                            <Text style={styles.labelName}> {item.label} </Text>
-                          </TouchableHighlight>
-                        )
-                      })}
-                      <TouchableHighlight 
-                        underlayColor="transparent" 
-                        onPress={()=>this.setState({isAddEmailLabel: true, emailLabel: ''})}>
-                          <Text style={styles.labelName}> Custom </Text>
-                      </TouchableHighlight>
-                    </View>
-                  </View>
-                </View>
-              </Modal>
-            <Modal
-                style={styles.footerModal}
-                visible={this.state.isAddEmailLabel}
-                transparent={true}
-                animationType="fade"
-              >
-                <View style={styles.contactContent}>
-                  <View style={styles.content}>
-                    <Text style={styles.modalHeader}>Custom label name</Text>
-                    <View style={{flexDirection:'column'}}>
-                      <TextInput                 
-                        placeholder="Custom label name"
-                        style={styles.addLabelField}
-                        placeholderTextColor={COLORS.main_text_color}
-                        editable={this.state.status ? true : false}
-                        keyboardType={"default"}
-                        // value={this.state.emailLabel}
-                        onChangeText={(label) => {
-                          this.changeEmailLabel(label);
-                        }}
-                    />
-                      <TouchableHighlight
-                        underlayColor="transparent"
-                        style={styles.saveView}
-                        onPress={()=>
-                          this.state.emailLabel !== "" 
-                          ? this.setState({isAddEmailLabel: false, isEmailModelOpen: false})
-                          : this.setState({isAddEmailLabel: false})}
-                      >
-                        <Text
-                          style={{
-                            color: COLORS.main_text_color,
-                            fontFamily: Font.medium,
-                            fontSize: width * 0.04,
+              style={styles.footerModal}
+              visible={this.state.isEmailModelOpen}
+              transparent={true}
+              animationType="fade"
+              onRequestClose={() => this.setState({ isEmailModelOpen: false })}
+            >
+              <View style={styles.contactContent}>
+                <View style={styles.content}>
+                  <Text style={styles.modalHeader}>Email</Text>
+                  <View style={{ flexDirection: "column" }}>
+                    {this.state.emailLabelList.map((item, index) => {
+                      return (
+                        <TouchableHighlight
+                          underlayColor="transparent"
+                          onPress={() => {
+                            this.changeEmailLabel(item.label);
                           }}
-                        > Ok </Text>
-                      </TouchableHighlight>
-                    </View>
+                        >
+                          <Text style={styles.labelName}> {item.label} </Text>
+                        </TouchableHighlight>
+                      );
+                    })}
+                    <TouchableHighlight
+                      underlayColor="transparent"
+                      onPress={() =>
+                        this.setState({ isAddEmailLabel: true, emailLabel: "" })
+                      }
+                    >
+                      <Text style={styles.labelName}> Custom </Text>
+                    </TouchableHighlight>
                   </View>
                 </View>
-              </Modal>
-
+              </View>
+            </Modal>
+            <Modal
+              style={styles.footerModal}
+              visible={this.state.isAddEmailLabel}
+              transparent={true}
+              animationType="fade"
+            >
+              <View style={styles.contactContent}>
+                <View style={styles.content}>
+                  <Text style={styles.modalHeader}>Custom label name</Text>
+                  <View style={{ flexDirection: "column" }}>
+                    <TextInput
+                      placeholder="Custom label name"
+                      style={styles.addLabelField}
+                      placeholderTextColor={COLORS.main_text_color}
+                      editable={this.state.status ? true : false}
+                      keyboardType={"default"}
+                      // value={this.state.emailLabel}
+                      onChangeText={(label) => {
+                        this.changeEmailLabel(label);
+                      }}
+                    />
+                    <TouchableHighlight
+                      underlayColor="transparent"
+                      style={styles.saveView}
+                      onPress={() =>
+                        this.state.emailLabel !== ""
+                          ? this.setState({
+                              isAddEmailLabel: false,
+                              isEmailModelOpen: false,
+                            })
+                          : this.setState({ isAddEmailLabel: false })
+                      }
+                    >
+                      <Text
+                        style={{
+                          color: COLORS.main_text_color,
+                          fontFamily: Font.medium,
+                          fontSize: width * 0.04,
+                        }}
+                      >
+                        {" "}
+                        Ok{" "}
+                      </Text>
+                    </TouchableHighlight>
+                  </View>
+                </View>
+              </View>
+            </Modal>
           </View>
         </View>
       </View>
@@ -1094,27 +1280,27 @@ class addmanuallyContact extends Component {
     });
   };
 
+  onChangeAddress = (value) => {
+    this.state.address.address = value;
+    this.setState({ address: this.state.address });
+  };
+
   onChangeAddressArray = (value, index) => {
     this.state.addressArray[index].address = value;
     this.setState({ addressArray: this.state.addressArray });
   };
 
   changeAddressLabelArray = (label, index) => {
-    this.setState({isAddressArrayModelOpen: false})
+    this.setState({ isAddressArrayModelOpen: false });
     this.state.addressArray[index].label = label;
     this.setState({ AddressArray: this.state.addressArray });
-  }
-
-  onChangeAddress = (value) => {
-    this.state.address.address = value;
-    this.setState({ address: this.state.address });
   };
 
   changeAddressLabel = (label) => {
-    this.setState({isAddressModelOpen: false})
+    this.setState({ isAddressModelOpen: false });
     this.state.address.label = label;
     this.setState({ Address: this.state.address });
-  }
+  };
 
   renderAddress() {
     return (
@@ -1135,20 +1321,27 @@ class addmanuallyContact extends Component {
                 editable={this.state.status ? true : false}
                 onChangeText={(value) => this.onChangeAddress(value)}
               />
-              {this.state.status ? 
-                <TouchableHighlight 
-                  underlayColor="transparent" 
-                  style={styles.addressRightView} 
-                  onPress={() =>this.setState({ isAddressModelOpen: true })}>
-                    <Icon style={styles.iconSize} size={width * 0.06} name="chevron-small-down" />
+              {this.state.status ? (
+                <TouchableHighlight
+                  underlayColor="transparent"
+                  style={styles.addressRightView}
+                  onPress={() => this.setState({ isAddressModelOpen: true })}
+                >
+                  <Icon
+                    style={styles.iconSize}
+                    size={width * 0.06}
+                    name="chevron-small-down"
+                  />
                 </TouchableHighlight>
-              : null}
+              ) : null}
 
-              {this.state.status && this.state.address.label!== "" ?
-                <View style={styles.addressRightView} >
-                  <Text style={styles.addressRighttext}>{this.state.address.label}</Text>
+              {this.state.status && this.state.address.label !== "" ? (
+                <View style={styles.addressRightView}>
+                  <Text style={styles.addressRighttext}>
+                    {this.state.address.label}
+                  </Text>
                 </View>
-              : null}
+              ) : null}
             </View>
 
             {this.state.addressArray.map((input, key) => {
@@ -1164,91 +1357,123 @@ class addmanuallyContact extends Component {
                       this.onChangeAddressArray(address, key);
                     }}
                   />
-                    <TouchableHighlight 
-                      underlayColor="transparent" 
-                      style={styles.addressRightView} 
-                      // key={key}
-                      onPress={() =>this.setState({ isAddressArrayModelOpen: true })}>
-                        <Icon style={styles.iconSize} size={width * 0.06} name="chevron-small-down" />
-                    </TouchableHighlight>
+                  <TouchableHighlight
+                    underlayColor="transparent"
+                    style={styles.addressRightView}
+                    // key={key}
+                    onPress={() =>
+                      this.setState({ isAddressArrayModelOpen: true })
+                    }
+                  >
+                    <Icon
+                      style={styles.iconSize}
+                      size={width * 0.06}
+                      name="chevron-small-down"
+                    />
+                  </TouchableHighlight>
 
-                    {this.state.addressArray[key].label !== "" ? 
-                    <View style={styles.addressRightView} >
-                      <Text style={styles.addressRighttext}>{this.state.addressArray[key].label}</Text>
+                  {this.state.addressArray[key].label !== "" ? (
+                    <View style={styles.addressRightView}>
+                      <Text style={styles.addressRighttext}>
+                        {this.state.addressArray[key].label}
+                      </Text>
                     </View>
-                    : null }
-                <Modal
-                style={styles.footerModal}
-                visible={this.state.isAddressArrayModelOpen}
-                transparent={true}
-                animationType="fade"
-                onRequestClose={()=>this.setState({isAddressArrayModelOpen: false})}
-              >
-                <View style={styles.contactContent}>
-                  <View style={styles.content}>
-                    <Text style={styles.modalHeader}>Address</Text>
-                    <View style={{flexDirection:'column'}}>
-                      {this.state.addressLabelList.map((item, index) => {
-                        return(
-                          <TouchableHighlight 
-                            underlayColor="transparent" 
-                            onPress={() => { this.changeAddressLabelArray(item.label, key) }}
-                            >
-                              <Text style={styles.labelName}> {item.label} </Text>
+                  ) : null}
+                  <Modal
+                    style={styles.footerModal}
+                    visible={this.state.isAddressArrayModelOpen}
+                    transparent={true}
+                    animationType="fade"
+                    onRequestClose={() =>
+                      this.setState({ isAddressArrayModelOpen: false })
+                    }
+                  >
+                    <View style={styles.contactContent}>
+                      <View style={styles.content}>
+                        <Text style={styles.modalHeader}>Address</Text>
+                        <View style={{ flexDirection: "column" }}>
+                          {this.state.addressLabelList.map((item, index) => {
+                            return (
+                              <TouchableHighlight
+                                underlayColor="transparent"
+                                onPress={() => {
+                                  this.changeAddressLabelArray(item.label, key);
+                                }}
+                              >
+                                <Text style={styles.labelName}>
+                                  {" "}
+                                  {item.label}{" "}
+                                </Text>
+                              </TouchableHighlight>
+                            );
+                          })}
+                          <TouchableHighlight
+                            underlayColor="transparent"
+                            onPress={() =>
+                              this.setState({
+                                isAddAddressArrayLabel: true,
+                                addressLabel: "",
+                              })
+                            }
+                          >
+                            <Text style={styles.labelName}> Custom </Text>
                           </TouchableHighlight>
-                        )
-                      })}
-                      <TouchableHighlight 
-                        underlayColor="transparent" 
-                        onPress={()=>this.setState({isAddAddressArrayLabel: true, addressLabel: ''})}>
-                          <Text style={styles.labelName}> Custom </Text>
-                      </TouchableHighlight>
+                        </View>
+                      </View>
                     </View>
-                  </View>
-                </View>
-              </Modal>
-              <Modal
-                style={styles.footerModal}
-                  visible={this.state.isAddAddressArrayLabel}
-                  transparent={true}
-                  // key={key}
-                  animationType="fade"
-                >
-                  <View style={styles.contactContent}>
-                    <View style={styles.content}>
-                      <Text style={styles.modalHeader}>Custom label name</Text>
-                      <View style={{flexDirection:'column'}}>
-                        <TextInput                 
-                          placeholder="Custom label name"
-                          style={styles.addLabelField}
-                          placeholderTextColor={COLORS.main_text_color}
-                          editable={this.state.status ? true : false}
-                          keyboardType={"default"}
-                          onChangeText={(label) => {
-                            this.changeAddressLabelArray(label, key);
-                          }}
-                      />
-                      <TouchableHighlight
-                        underlayColor="transparent"
-                        style={styles.saveView}
-                        onPress={()=>
-                          this.state.addressLabel !== "" 
-                          ? this.setState({isAddAddressArrayLabel: false, isAddressArrayModelOpen: false})
-                          : this.setState({isAddAddressArrayLabel: false})}
-                      >
-                        <Text
-                          style={{
-                            color: COLORS.main_text_color,
-                            fontFamily: Font.medium,
-                            fontSize: width * 0.04,
-                          }}
-                        > Ok </Text>
-                      </TouchableHighlight>
+                  </Modal>
+                  <Modal
+                    style={styles.footerModal}
+                    visible={this.state.isAddAddressArrayLabel}
+                    transparent={true}
+                    // key={key}
+                    animationType="fade"
+                  >
+                    <View style={styles.contactContent}>
+                      <View style={styles.content}>
+                        <Text style={styles.modalHeader}>
+                          Custom label name
+                        </Text>
+                        <View style={{ flexDirection: "column" }}>
+                          <TextInput
+                            placeholder="Custom label name"
+                            style={styles.addLabelField}
+                            placeholderTextColor={COLORS.main_text_color}
+                            editable={this.state.status ? true : false}
+                            keyboardType={"default"}
+                            onChangeText={(label) => {
+                              this.changeAddressLabelArray(label, key);
+                            }}
+                          />
+                          <TouchableHighlight
+                            underlayColor="transparent"
+                            style={styles.saveView}
+                            onPress={() =>
+                              this.state.addressLabel !== ""
+                                ? this.setState({
+                                    isAddAddressArrayLabel: false,
+                                    isAddressArrayModelOpen: false,
+                                  })
+                                : this.setState({
+                                    isAddAddressArrayLabel: false,
+                                  })
+                            }
+                          >
+                            <Text
+                              style={{
+                                color: COLORS.main_text_color,
+                                fontFamily: Font.medium,
+                                fontSize: width * 0.04,
+                              }}
+                            >
+                              {" "}
+                              Ok{" "}
+                            </Text>
+                          </TouchableHighlight>
+                        </View>
+                      </View>
                     </View>
-                  </View>
-                </View>
-              </Modal>
-
+                  </Modal>
                 </View>
               );
             })}
@@ -1262,76 +1487,92 @@ class addmanuallyContact extends Component {
               ) : null}
             </TouchableOpacity>
             <Modal
-                style={styles.footerModal}
-                visible={this.state.isAddressModelOpen}
-                transparent={true}
-                animationType="fade"
-                onRequestClose={()=>this.setState({isAddressModelOpen: false})}
-              >
-                <View style={styles.contactContent}>
-                  <View style={styles.content}>
-                    <Text style={styles.modalHeader}>Address</Text>
-                    <View style={{flexDirection:'column'}}>
-                      {this.state.addressLabelList.map((item, index) => {
-                        return (
-                          <TouchableHighlight 
-                            underlayColor="transparent" 
-                            onPress={() => { this.changeAddressLabel(item.label) }}
-                          >
-                            <Text style={styles.labelName}> {item.label} </Text>
-                          </TouchableHighlight>
-                        )
-                      })}
-                      <TouchableHighlight 
-                        underlayColor="transparent" 
-                        onPress={()=>this.setState({isAddAddressLabel: true, addressLabel: ''})}>
-                          <Text style={styles.labelName}> Custom </Text>
-                      </TouchableHighlight>
-                    </View>
-                  </View>
-                </View>
-              </Modal>
-            <Modal
-                style={styles.footerModal}
-                visible={this.state.isAddAddressLabel}
-                transparent={true}
-                animationType="fade"
-              >
-                <View style={styles.contactContent}>
-                  <View style={styles.content}>
-                    <Text style={styles.modalHeader}>Custom label name</Text>
-                    <View style={{flexDirection:'column'}}>
-                      <TextInput                 
-                        placeholder="Custom label name"
-                        style={styles.addLabelField}
-                        placeholderTextColor={COLORS.main_text_color}
-                        editable={this.state.status ? true : false}
-                        keyboardType={"default"}
-                        onChangeText={(label) => {
-                          this.changeAddressLabel(label);
-                        }}
-                    />
-                      <TouchableHighlight
-                        underlayColor="transparent"
-                        style={styles.saveView}
-                        onPress={()=>
-                          this.state.addressLabel !== "" 
-                          ? this.setState({isAddAddressLabel: false, isAddressModelOpen: false})
-                          : this.setState({isAddAddressLabel: false})}
-                      >
-                        <Text
-                          style={{
-                            color: COLORS.main_text_color,
-                            fontFamily: Font.medium,
-                            fontSize: width * 0.04,
+              style={styles.footerModal}
+              visible={this.state.isAddressModelOpen}
+              transparent={true}
+              animationType="fade"
+              onRequestClose={() =>
+                this.setState({ isAddressModelOpen: false })
+              }
+            >
+              <View style={styles.contactContent}>
+                <View style={styles.content}>
+                  <Text style={styles.modalHeader}>Address</Text>
+                  <View style={{ flexDirection: "column" }}>
+                    {this.state.addressLabelList.map((item, index) => {
+                      return (
+                        <TouchableHighlight
+                          underlayColor="transparent"
+                          onPress={() => {
+                            this.changeAddressLabel(item.label);
                           }}
-                        > Ok </Text>
-                      </TouchableHighlight>
-                    </View>
+                        >
+                          <Text style={styles.labelName}> {item.label} </Text>
+                        </TouchableHighlight>
+                      );
+                    })}
+                    <TouchableHighlight
+                      underlayColor="transparent"
+                      onPress={() =>
+                        this.setState({
+                          isAddAddressLabel: true,
+                          addressLabel: "",
+                        })
+                      }
+                    >
+                      <Text style={styles.labelName}> Custom </Text>
+                    </TouchableHighlight>
                   </View>
                 </View>
-              </Modal>
-
+              </View>
+            </Modal>
+            <Modal
+              style={styles.footerModal}
+              visible={this.state.isAddAddressLabel}
+              transparent={true}
+              animationType="fade"
+            >
+              <View style={styles.contactContent}>
+                <View style={styles.content}>
+                  <Text style={styles.modalHeader}>Custom label name</Text>
+                  <View style={{ flexDirection: "column" }}>
+                    <TextInput
+                      placeholder="Custom label name"
+                      style={styles.addLabelField}
+                      placeholderTextColor={COLORS.main_text_color}
+                      editable={this.state.status ? true : false}
+                      keyboardType={"default"}
+                      onChangeText={(label) => {
+                        this.changeAddressLabel(label);
+                      }}
+                    />
+                    <TouchableHighlight
+                      underlayColor="transparent"
+                      style={styles.saveView}
+                      onPress={() =>
+                        this.state.addressLabel !== ""
+                          ? this.setState({
+                              isAddAddressLabel: false,
+                              isAddressModelOpen: false,
+                            })
+                          : this.setState({ isAddAddressLabel: false })
+                      }
+                    >
+                      <Text
+                        style={{
+                          color: COLORS.main_text_color,
+                          fontFamily: Font.medium,
+                          fontSize: width * 0.04,
+                        }}
+                      >
+                        {" "}
+                        Ok{" "}
+                      </Text>
+                    </TouchableHighlight>
+                  </View>
+                </View>
+              </View>
+            </Modal>
           </View>
         </View>
       </View>
@@ -1340,13 +1581,32 @@ class addmanuallyContact extends Component {
 
   addMessanger = () => {
     this.setState({
-      messangerArray: [...this.state.messangerArray, { messenger: "value" }],
+      messangerArray: [
+        ...this.state.messangerArray,
+        { messenger: "", label: "" },
+      ],
     });
   };
 
-  onChangeMessenger = (value, index) => {
-    this.state.messangerArray[index].messenger = value;
+  onChangeMessenger = (value) => {
+    this.state.messanger.messanger = value;
+    this.setState({ messanger: this.state.messanger });
+  };
+
+  onChangeMessengerArray = (value, index) => {
+    this.state.messangerArray[index].messanger = value;
     this.setState({ messangerArray: this.state.messangerArray });
+  };
+
+  changeMessengerLabelArray = (label, index) => {
+    this.setState({ isMessangerArrayModelOpen: false });
+    this.state.messangerArray[index].label = label;
+    this.setState({ MessangerArray: this.state.messangerArray });
+  };
+  changeMessangerLabel = (label) => {
+    this.setState({ isMessangerModelOpen: false });
+    this.state.messanger.label = label;
+    this.setState({ Messanger: this.state.messanger });
   };
 
   renderMessage() {
@@ -1360,37 +1620,33 @@ class addmanuallyContact extends Component {
           <View>
             <View style={styles.filedView}>
               <TextInput
-                placeholder="Messenger Account -1"
+                placeholder="Messenger Account"
                 style={styles.stylefiledText}
                 placeholderTextColor={COLORS.main_text_color}
                 editable={this.state.status ? true : false}
-                value={this.state.messenger1}
-                onChangeText={(value) => this.setState({ messenger1: value })}
-                ref={(input) => {
-                  this.messenger1 = input;
-                }}
+                onChangeText={(value) => this.onChangeMessenger(value)}
               />
+              {this.state.status ? (
+                <TouchableHighlight
+                  underlayColor="transparent"
+                  style={styles.addressRightView}
+                  onPress={() => this.setState({ isMessangerModelOpen: true })}
+                >
+                  <Icon
+                    style={styles.iconSize}
+                    size={width * 0.06}
+                    name="chevron-small-down"
+                  />
+                </TouchableHighlight>
+              ) : null}
 
-              <View style={styles.rightView}>
-                <Text style={styles.righttext}>( Personal )</Text>
-              </View>
-            </View>
-
-            <View style={styles.filedView}>
-              <TextInput
-                placeholder="Messenger Account -2"
-                style={styles.stylefiledText}
-                placeholderTextColor={COLORS.main_text_color}
-                editable={this.state.status ? true : false}
-                value={this.state.messenger2}
-                onChangeText={(value) => this.setState({ messenger2: value })}
-                ref={(input) => {
-                  this.messenger2 = input;
-                }}
-              />
-              <View style={styles.rightView}>
-                <Text style={styles.righttext}>( Work )</Text>
-              </View>
+              {this.state.status && this.state.messanger.label !== "" ? (
+                <View style={styles.addressRightView}>
+                  <Text style={styles.addressRighttext}>
+                    {this.state.messanger.label}
+                  </Text>
+                </View>
+              ) : null}
             </View>
 
             {this.state.messangerArray.map((input, key) => {
@@ -1403,9 +1659,128 @@ class addmanuallyContact extends Component {
                     key={key}
                     keyboardType={"default"}
                     onChangeText={(messenger) => {
-                      this.onChangeMessenger(messenger, key);
+                      this.changeMessengerLabelArray(messenger, key);
                     }}
                   />
+                  <TouchableHighlight
+                    underlayColor="transparent"
+                    style={styles.addressRightView}
+                    onPress={() =>
+                      this.setState({ isMessangerArrayModelOpen: true })
+                    }
+                  >
+                    <Icon
+                      style={styles.iconSize}
+                      size={width * 0.06}
+                      name="chevron-small-down"
+                    />
+                  </TouchableHighlight>
+                  {this.state.messangerArray[key].label !== "" ? (
+                    <View style={styles.addressRightView}>
+                      <Text style={styles.addressRighttext}>
+                        {this.state.messangerArray[key].label}
+                      </Text>
+                    </View>
+                  ) : null}
+                  <Modal
+                    style={styles.footerModal}
+                    visible={this.state.isMessangerArrayModelOpen}
+                    transparent={true}
+                    animationType="fade"
+                    onRequestClose={() =>
+                      this.setState({ isMessangerArrayModelOpen: false })
+                    }
+                  >
+                    <View style={styles.contactContent}>
+                      <View style={styles.content}>
+                        <Text style={styles.modalHeader}>
+                          Messanger Account
+                        </Text>
+                        <View style={{ flexDirection: "column" }}>
+                          {this.state.mesangerLabelList.map((item, index) => {
+                            return (
+                              <TouchableHighlight
+                                underlayColor="transparent"
+                                onPress={() => {
+                                  this.changeMessengerLabelArray(
+                                    item.label,
+                                    key
+                                  );
+                                }}
+                              >
+                                <Text style={styles.labelName}>
+                                  {" "}
+                                  {item.label}{" "}
+                                </Text>
+                              </TouchableHighlight>
+                            );
+                          })}
+                          <TouchableHighlight
+                            underlayColor="transparent"
+                            onPress={() =>
+                              this.setState({
+                                isAddMessangerArrayLabel: true,
+                                messangerLabel: "",
+                              })
+                            }
+                          >
+                            <Text style={styles.labelName}> Custom </Text>
+                          </TouchableHighlight>
+                        </View>
+                      </View>
+                    </View>
+                  </Modal>
+                  <Modal
+                    style={styles.footerModal}
+                    visible={this.state.isAddMessangerArrayLabel}
+                    transparent={true}
+                    animationType="fade"
+                  >
+                    <View style={styles.contactContent}>
+                      <View style={styles.content}>
+                        <Text style={styles.modalHeader}>
+                          Custom label name
+                        </Text>
+                        <View style={{ flexDirection: "column" }}>
+                          <TextInput
+                            placeholder="Custom label name"
+                            style={styles.addLabelField}
+                            placeholderTextColor={COLORS.main_text_color}
+                            editable={this.state.status ? true : false}
+                            keyboardType={"default"}
+                            onChangeText={(label) => {
+                              this.changeMessengerLabelArray(label, key);
+                            }}
+                          />
+                          <TouchableHighlight
+                            underlayColor="transparent"
+                            style={styles.saveView}
+                            onPress={() =>
+                              this.state.addressLabel !== ""
+                                ? this.setState({
+                                    isAddMessangerArrayLabel: false,
+                                    isMessangerArrayModelOpen: false,
+                                  })
+                                : this.setState({
+                                    isAddMessangerArrayLabel: false,
+                                  })
+                            }
+                          >
+                            <Text
+                              style={{
+                                color: COLORS.main_text_color,
+                                fontFamily: Font.medium,
+                                fontSize: width * 0.04,
+                              }}
+                            >
+                              {" "}
+                              Ok{" "}
+                            </Text>
+                          </TouchableHighlight>
+                        </View>
+                      </View>
+                    </View>
+                  </Modal>
                 </View>
               );
             })}
@@ -1418,6 +1793,93 @@ class addmanuallyContact extends Component {
                 <NormalText> + Add Messenger Account </NormalText>
               ) : null}
             </TouchableOpacity>
+            <Modal
+              style={styles.footerModal}
+              visible={this.state.isMessangerModelOpen}
+              transparent={true}
+              animationType="fade"
+              onRequestClose={() =>
+                this.setState({ isMessangerModelOpen: false })
+              }
+            >
+              <View style={styles.contactContent}>
+                <View style={styles.content}>
+                  <Text style={styles.modalHeader}>Messanger Account</Text>
+                  <View style={{ flexDirection: "column" }}>
+                    {this.state.mesangerLabelList.map((item, index) => {
+                      return (
+                        <TouchableHighlight
+                          underlayColor="transparent"
+                          onPress={() => {
+                            this.changeMessangerLabel(item.label);
+                          }}
+                        >
+                          <Text style={styles.labelName}> {item.label} </Text>
+                        </TouchableHighlight>
+                      );
+                    })}
+                    <TouchableHighlight
+                      underlayColor="transparent"
+                      onPress={() =>
+                        this.setState({
+                          isAddMessangerLabel: true,
+                          messangerLabel: "",
+                        })
+                      }
+                    >
+                      <Text style={styles.labelName}> Custom </Text>
+                    </TouchableHighlight>
+                  </View>
+                </View>
+              </View>
+            </Modal>
+            <Modal
+              style={styles.footerModal}
+              visible={this.state.isAddMessangerLabel}
+              transparent={true}
+              animationType="fade"
+            >
+              <View style={styles.contactContent}>
+                <View style={styles.content}>
+                  <Text style={styles.modalHeader}>Custom label name</Text>
+                  <View style={{ flexDirection: "column" }}>
+                    <TextInput
+                      placeholder="Custom label name"
+                      style={styles.addLabelField}
+                      placeholderTextColor={COLORS.main_text_color}
+                      editable={this.state.status ? true : false}
+                      keyboardType={"default"}
+                      onChangeText={(label) => {
+                        this.changeMessangerLabel(label);
+                      }}
+                    />
+                    <TouchableHighlight
+                      underlayColor="transparent"
+                      style={styles.saveView}
+                      onPress={() =>
+                        this.state.messangerLabel !== ""
+                          ? this.setState({
+                              isAddMessangerLabel: false,
+                              isMessangerModelOpen: false,
+                            })
+                          : this.setState({ isAddMessangerLabel: false })
+                      }
+                    >
+                      <Text
+                        style={{
+                          color: COLORS.main_text_color,
+                          fontFamily: Font.medium,
+                          fontSize: width * 0.04,
+                        }}
+                      >
+                        {" "}
+                        Ok{" "}
+                      </Text>
+                    </TouchableHighlight>
+                  </View>
+                </View>
+              </View>
+            </Modal>
           </View>
         </View>
       </View>
@@ -1428,14 +1890,31 @@ class addmanuallyContact extends Component {
     this.setState({
       socialMediaArray: [
         ...this.state.socialMediaArray,
-        { socialMedia: "value" },
+        { socialMedia: "", label: "" },
       ],
     });
   };
 
-  onChangeSocialMedia = (value, index) => {
+  onChangeSocialMedia = (value) => {
+    this.state.socialMedia.socialMedia = value;
+    this.setState({ socialMedia: this.state.socialMedia });
+  };
+
+  onChangeSocialMediaArray = (value, index) => {
     this.state.socialMediaArray[index].socialMedia = value;
     this.setState({ socialMediaArray: this.state.socialMediaArray });
+  };
+
+  changeSocialMediaLabelArray = (label, index) => {
+    this.setState({ isSocialMediaArrayModelOpen: false });
+    this.state.socialMediaArray[index].label = label;
+    this.setState({ SocialMediaArray: this.state.socialMediaArray });
+  };
+
+  changeSocialMediaLabel = (label) => {
+    this.setState({ isSocialMediaModelOpen: false });
+    this.state.socialMedia.label = label;
+    this.setState({ SocialMedia: this.state.socialMedia });
   };
 
   renderSocialmedia() {
@@ -1449,40 +1928,36 @@ class addmanuallyContact extends Component {
           <View>
             <View style={styles.filedView}>
               <TextInput
-                placeholder="Social Media Account -1"
+                placeholder="Social Media Account"
                 style={styles.stylefiledText}
                 placeholderTextColor={COLORS.main_text_color}
                 value={this.state.social_media1}
                 editable={this.state.status ? true : false}
-                onChangeText={(value) =>
-                  this.setState({ social_media1: value })
-                }
-                ref={(input) => {
-                  this.social_media1 = input;
-                }}
+                onChangeText={(value) => this.onChangeSocialMedia(value)}
               />
-              <View style={styles.rightView}>
-                <Text style={styles.righttext}>( Instagram Personal )</Text>
-              </View>
-            </View>
+              {this.state.status ? (
+                <TouchableHighlight
+                  underlayColor="transparent"
+                  style={styles.addressRightView}
+                  onPress={() =>
+                    this.setState({ isSocialMediaModelOpen: true })
+                  }
+                >
+                  <Icon
+                    style={styles.iconSize}
+                    size={width * 0.06}
+                    name="chevron-small-down"
+                  />
+                </TouchableHighlight>
+              ) : null}
 
-            <View style={styles.filedView}>
-              <TextInput
-                placeholder="Social Media Account -2"
-                style={styles.stylefiledText}
-                placeholderTextColor={COLORS.main_text_color}
-                value={this.state.social_media2}
-                editable={this.state.status ? true : false}
-                onChangeText={(value) =>
-                  this.setState({ social_media2: value })
-                }
-                ref={(input) => {
-                  this.social_media2 = input;
-                }}
-              />
-              <View style={styles.rightView}>
-                <Text style={styles.righttext}>( Periscop Professional )</Text>
-              </View>
+              {this.state.status && this.state.socialMedia.label !== "" ? (
+                <View style={styles.addressRightView}>
+                  <Text style={styles.addressRighttext}>
+                    {this.state.socialMedia.label}
+                  </Text>
+                </View>
+              ) : null}
             </View>
 
             {this.state.socialMediaArray.map((input, key) => {
@@ -1495,9 +1970,131 @@ class addmanuallyContact extends Component {
                     key={key}
                     keyboardType={"default"}
                     onChangeText={(socialMedia) => {
-                      this.onChangeSocialMedia(socialMedia, key);
+                      this.onChangeSocialMediaArray(socialMedia, key);
                     }}
                   />
+                  <TouchableHighlight
+                    underlayColor="transparent"
+                    style={styles.addressRightView}
+                    // key={key}
+                    onPress={() =>
+                      this.setState({ isSocialMediaArrayModelOpen: true })
+                    }
+                  >
+                    <Icon
+                      style={styles.iconSize}
+                      size={width * 0.06}
+                      name="chevron-small-down"
+                    />
+                  </TouchableHighlight>
+                  {this.state.socialMediaArray[key].label !== "" ? (
+                    <View style={styles.addressRightView}>
+                      <Text style={styles.addressRighttext}>
+                        {this.state.socialMediaArray[key].label}
+                      </Text>
+                    </View>
+                  ) : null}
+
+                  <Modal
+                    style={styles.footerModal}
+                    visible={this.state.isSocialMediaArrayModelOpen}
+                    transparent={true}
+                    animationType="fade"
+                    onRequestClose={() =>
+                      this.setState({ isSocialMediaArrayModelOpen: false })
+                    }
+                  >
+                    <View style={styles.contactContent}>
+                      <View style={styles.content}>
+                        <Text style={styles.modalHeader}>Social Media</Text>
+                        <View style={{ flexDirection: "column" }}>
+                          {this.state.socialMediaLabelList.map(
+                            (item, index) => {
+                              return (
+                                <TouchableHighlight
+                                  underlayColor="transparent"
+                                  onPress={() => {
+                                    this.changeSocialMediaLabelArray(
+                                      item.label,
+                                      key
+                                    );
+                                  }}
+                                >
+                                  <Text style={styles.labelName}>
+                                    {" "}
+                                    {item.label}{" "}
+                                  </Text>
+                                </TouchableHighlight>
+                              );
+                            }
+                          )}
+                          <TouchableHighlight
+                            underlayColor="transparent"
+                            onPress={() =>
+                              this.setState({
+                                isAddSocialMediaArrayLabel: true,
+                                socialMedia: "",
+                              })
+                            }
+                          >
+                            <Text style={styles.labelName}> Custom </Text>
+                          </TouchableHighlight>
+                        </View>
+                      </View>
+                    </View>
+                  </Modal>
+                  <Modal
+                    style={styles.footerModal}
+                    visible={this.state.isAddSocialMediaArrayLabel}
+                    transparent={true}
+                    // key={key}
+                    animationType="fade"
+                  >
+                    <View style={styles.contactContent}>
+                      <View style={styles.content}>
+                        <Text style={styles.modalHeader}>
+                          Custom label name
+                        </Text>
+                        <View style={{ flexDirection: "column" }}>
+                          <TextInput
+                            placeholder="Custom label name"
+                            style={styles.addLabelField}
+                            placeholderTextColor={COLORS.main_text_color}
+                            editable={this.state.status ? true : false}
+                            keyboardType={"default"}
+                            onChangeText={(label) => {
+                              this.changeSocialMediaLabelArray(label, key);
+                            }}
+                          />
+                          <TouchableHighlight
+                            underlayColor="transparent"
+                            style={styles.saveView}
+                            onPress={() =>
+                              this.state.socialMediaLabel !== ""
+                                ? this.setState({
+                                    isAddSocialMediaArrayLabel: false,
+                                    isSocialMediaArrayModelOpen: false,
+                                  })
+                                : this.setState({
+                                    isAddSocialMediaArrayLabel: false,
+                                  })
+                            }
+                          >
+                            <Text
+                              style={{
+                                color: COLORS.main_text_color,
+                                fontFamily: Font.medium,
+                                fontSize: width * 0.04,
+                              }}
+                            >
+                              {" "}
+                              Ok{" "}
+                            </Text>
+                          </TouchableHighlight>
+                        </View>
+                      </View>
+                    </View>
+                  </Modal>
                 </View>
               );
             })}
@@ -1510,6 +2107,97 @@ class addmanuallyContact extends Component {
                 <NormalText> + Add Social Media Account </NormalText>
               ) : null}
             </TouchableOpacity>
+
+            <Modal
+              style={styles.footerModal}
+              visible={this.state.isSocialMediaModelOpen}
+              transparent={true}
+              animationType="fade"
+              onRequestClose={() =>
+                this.setState({ isSocialMediaModelOpen: false })
+              }
+            >
+              <View style={styles.contactContent}>
+                <View style={styles.content}>
+                  <Text style={styles.modalHeader}>Social Media</Text>
+                  <View style={{ flexDirection: "column" }}>
+                    {this.state.socialMediaLabelList.map((item, index) => {
+                      return (
+                        <TouchableHighlight
+                          underlayColor="transparent"
+                          onPress={() => {
+                            this.changeSocialMediaLabel(item.label);
+                          }}
+                        >
+                          <Text style={styles.labelName}> {item.label} </Text>
+                        </TouchableHighlight>
+                      );
+                    })}
+                    <TouchableHighlight
+                      underlayColor="transparent"
+                      onPress={() =>
+                        this.setState({
+                          isAddSocialMediaLabel: true,
+                          socialMedia: "",
+                        })
+                      }
+                    >
+                      <Text style={styles.labelName}> Custom </Text>
+                    </TouchableHighlight>
+                  </View>
+                </View>
+              </View>
+            </Modal>
+            <Modal
+              style={styles.footerModal}
+              visible={this.state.isAddSocialMediaLabel}
+              transparent={true}
+              // key={key}
+              animationType="fade"
+            >
+              <View style={styles.contactContent}>
+                <View style={styles.content}>
+                  <Text style={styles.modalHeader}>Custom label name</Text>
+                  <View style={{ flexDirection: "column" }}>
+                    <TextInput
+                      placeholder="Custom label name"
+                      style={styles.addLabelField}
+                      placeholderTextColor={COLORS.main_text_color}
+                      editable={this.state.status ? true : false}
+                      keyboardType={"default"}
+                      onChangeText={(label) => {
+                        this.changeSocialMediaLabel(label);
+                      }}
+                    />
+                    <TouchableHighlight
+                      underlayColor="transparent"
+                      style={styles.saveView}
+                      onPress={() =>
+                        this.state.socialMediaLabel !== ""
+                          ? this.setState({
+                              isAddSocialMediaLabel: false,
+                              isSocialMediaModelOpen: false,
+                            })
+                          : this.setState({
+                              isAddSocialMediaLabel: false,
+                            })
+                      }
+                    >
+                      <Text
+                        style={{
+                          color: COLORS.main_text_color,
+                          fontFamily: Font.medium,
+                          fontSize: width * 0.04,
+                        }}
+                      >
+                        {" "}
+                        Ok{" "}
+                      </Text>
+                    </TouchableHighlight>
+                  </View>
+                </View>
+              </View>
+            </Modal>
           </View>
         </View>
       </View>
@@ -1518,13 +2206,31 @@ class addmanuallyContact extends Component {
 
   addWebsite = () => {
     this.setState({
-      websiteArray: [...this.state.websiteArray, { website: "value" }],
+      websiteArray: [...this.state.websiteArray, { website: "", label: "" }],
     });
   };
 
   onChangeWebsite = (value, index) => {
+    this.state.website.website = value;
+    this.setState({ website: this.state.website });
+  };
+
+  onChangeWebsiteArray = (value, index) => {
+    console.log("website---->", value);
+    console.log("website---->", index);
     this.state.websiteArray[index].website = value;
     this.setState({ websiteArray: this.state.websiteArray });
+  };
+
+  changeWebsiteLabelArray = (label, index) => {
+    this.setState({ isWebsiteArrayModelOpen: false });
+    this.state.websiteArray[index].label = label;
+    this.setState({ WebsiteArray: this.state.websiteArray });
+  };
+  changeWebsiteLabel = (label) => {
+    this.setState({ isWebsiteModelOpen: false });
+    this.state.website.label = label;
+    this.setState({ Website: this.state.website });
   };
 
   renderWebsite() {
@@ -1538,38 +2244,35 @@ class addmanuallyContact extends Component {
           <View>
             <View style={styles.filedView}>
               <TextInput
-                placeholder="Website -1"
+                placeholder="Website"
                 style={styles.stylefiledText}
                 placeholderTextColor={COLORS.main_text_color}
                 value={this.state.website1}
                 editable={this.state.status ? true : false}
-                onChangeText={(value) => this.setState({ website1: value })}
-                ref={(input) => {
-                  this.website1 = input;
-                }}
+                onChangeText={(value) => this.onChangeWebsite(value)}
               />
-              <View style={styles.rightView}>
-                <Text style={styles.righttext}>( Sport gambling podcast )</Text>
-              </View>
-            </View>
+              {this.state.status ? (
+                <TouchableHighlight
+                  underlayColor="transparent"
+                  style={styles.addressRightView}
+                  onPress={() => this.setState({ isWebsiteModelOpen: true })}
+                >
+                  <Icon
+                    style={styles.iconSize}
+                    size={width * 0.06}
+                    name="chevron-small-down"
+                  />
+                </TouchableHighlight>
+              ) : null}
 
-            <View style={styles.filedView}>
-              <TextInput
-                placeholder="Website -2"
-                style={styles.stylefiledText}
-                placeholderTextColor={COLORS.main_text_color}
-                value={this.state.website2}
-                editable={this.state.status ? true : false}
-                onChangeText={(value) => this.setState({ website2: value })}
-                ref={(input) => {
-                  this.website2 = input;
-                }}
-              />
-              <View style={styles.rightView}>
-                <Text style={styles.righttext}>( Universal Studio )</Text>
-              </View>
+              {this.state.status && this.state.website.label !== "" ? (
+                <View style={styles.addressRightView}>
+                  <Text style={styles.addressRighttext}>
+                    {this.state.website.label}
+                  </Text>
+                </View>
+              ) : null}
             </View>
-
             {this.state.websiteArray.map((input, key) => {
               return (
                 <View style={styles.filedView} key={key}>
@@ -1580,9 +2283,123 @@ class addmanuallyContact extends Component {
                     key={key}
                     keyboardType={"default"}
                     onChangeText={(website) => {
-                      this.onChangeWebsite(website, key);
+                      this.changeWebsiteLabelArray(website, key);
                     }}
                   />
+                  <TouchableHighlight
+                    underlayColor="transparent"
+                    style={styles.addressRightView}
+                    onPress={() =>
+                      this.setState({ isWebsiteArrayModelOpen: true })
+                    }
+                  >
+                    <Icon
+                      style={styles.iconSize}
+                      size={width * 0.06}
+                      name="chevron-small-down"
+                    />
+                  </TouchableHighlight>
+                  {this.state.websiteArray[key].label !== "" ? (
+                    <View style={styles.addressRightView}>
+                      <Text style={styles.addressRighttext}>
+                        {this.state.websiteArray[key].label}
+                      </Text>
+                    </View>
+                  ) : null}
+                  <Modal
+                    style={styles.footerModal}
+                    visible={this.state.isWebsiteArrayModelOpen}
+                    transparent={true}
+                    animationType="fade"
+                    onRequestClose={() =>
+                      this.setState({ isWebsiteArrayModelOpen: false })
+                    }
+                  >
+                    <View style={styles.contactContent}>
+                      <View style={styles.content}>
+                        <Text style={styles.modalHeader}>Website</Text>
+                        <View style={{ flexDirection: "column" }}>
+                          {this.state.websiteLableList.map((item, index) => {
+                            return (
+                              <TouchableHighlight
+                                underlayColor="transparent"
+                                onPress={() => {
+                                  this.changeWebsiteLabelArray(item.label, key);
+                                }}
+                              >
+                                <Text style={styles.labelName}>
+                                  {" "}
+                                  {item.label}{" "}
+                                </Text>
+                              </TouchableHighlight>
+                            );
+                          })}
+                          <TouchableHighlight
+                            underlayColor="transparent"
+                            onPress={() =>
+                              this.setState({
+                                isAddWebsiteArrayLabel: true,
+                                websiteLabel: "",
+                              })
+                            }
+                          >
+                            <Text style={styles.labelName}> Custom </Text>
+                          </TouchableHighlight>
+                        </View>
+                      </View>
+                    </View>
+                  </Modal>
+                  <Modal
+                    style={styles.footerModal}
+                    visible={this.state.isAddWebsiteArrayLabel}
+                    transparent={true}
+                    animationType="fade"
+                  >
+                    <View style={styles.contactContent}>
+                      <View style={styles.content}>
+                        <Text style={styles.modalHeader}>
+                          Custom label name
+                        </Text>
+                        <View style={{ flexDirection: "column" }}>
+                          <TextInput
+                            placeholder="Custom label name"
+                            style={styles.addLabelField}
+                            placeholderTextColor={COLORS.main_text_color}
+                            editable={this.state.status ? true : false}
+                            keyboardType={"default"}
+                            onChangeText={(label) => {
+                              this.changeWebsiteLabelArray(label, key);
+                            }}
+                          />
+                          <TouchableHighlight
+                            underlayColor="transparent"
+                            style={styles.saveView}
+                            onPress={() =>
+                              this.state.addressLabel !== ""
+                                ? this.setState({
+                                    isAddWebsiteArrayLabel: false,
+                                    isWebsiteArrayModelOpen: false,
+                                  })
+                                : this.setState({
+                                    isAddWebsiteArrayLabel: false,
+                                  })
+                            }
+                          >
+                            <Text
+                              style={{
+                                color: COLORS.main_text_color,
+                                fontFamily: Font.medium,
+                                fontSize: width * 0.04,
+                              }}
+                            >
+                              {" "}
+                              Ok{" "}
+                            </Text>
+                          </TouchableHighlight>
+                        </View>
+                      </View>
+                    </View>
+                  </Modal>
                 </View>
               );
             })}
@@ -1595,6 +2412,93 @@ class addmanuallyContact extends Component {
                 <NormalText> + Add Website </NormalText>
               ) : null}
             </TouchableOpacity>
+            <Modal
+              style={styles.footerModal}
+              visible={this.state.isWebsiteModelOpen}
+              transparent={true}
+              animationType="fade"
+              onRequestClose={() =>
+                this.setState({ isWebsiteModelOpen: false })
+              }
+            >
+              <View style={styles.contactContent}>
+                <View style={styles.content}>
+                  <Text style={styles.modalHeader}>Website</Text>
+                  <View style={{ flexDirection: "column" }}>
+                    {this.state.websiteLableList.map((item, index) => {
+                      return (
+                        <TouchableHighlight
+                          underlayColor="transparent"
+                          onPress={() => {
+                            this.changeWebsiteLabel(item.label);
+                          }}
+                        >
+                          <Text style={styles.labelName}> {item.label} </Text>
+                        </TouchableHighlight>
+                      );
+                    })}
+                    <TouchableHighlight
+                      underlayColor="transparent"
+                      onPress={() =>
+                        this.setState({
+                          isAddWebsiteLabel: true,
+                          WebsiteLabel: "",
+                        })
+                      }
+                    >
+                      <Text style={styles.labelName}> Custom </Text>
+                    </TouchableHighlight>
+                  </View>
+                </View>
+              </View>
+            </Modal>
+            <Modal
+              style={styles.footerModal}
+              visible={this.state.isAddWebsiteLabel}
+              transparent={true}
+              animationType="fade"
+            >
+              <View style={styles.contactContent}>
+                <View style={styles.content}>
+                  <Text style={styles.modalHeader}>Custom label name</Text>
+                  <View style={{ flexDirection: "column" }}>
+                    <TextInput
+                      placeholder="Custom label name"
+                      style={styles.addLabelField}
+                      placeholderTextColor={COLORS.main_text_color}
+                      editable={this.state.status ? true : false}
+                      keyboardType={"default"}
+                      onChangeText={(label) => {
+                        this.changeWebsiteLabel(label);
+                      }}
+                    />
+                    <TouchableHighlight
+                      underlayColor="transparent"
+                      style={styles.saveView}
+                      onPress={() =>
+                        this.state.WebsiteLabel !== ""
+                          ? this.setState({
+                              isAddWebsiteLabel: false,
+                              isWebsiteModelOpen: false,
+                            })
+                          : this.setState({ isAddWebsiteLabel: false })
+                      }
+                    >
+                      <Text
+                        style={{
+                          color: COLORS.main_text_color,
+                          fontFamily: Font.medium,
+                          fontSize: width * 0.04,
+                        }}
+                      >
+                        {" "}
+                        Ok{" "}
+                      </Text>
+                    </TouchableHighlight>
+                  </View>
+                </View>
+              </View>
+            </Modal>
           </View>
         </View>
       </View>
@@ -1603,15 +2507,58 @@ class addmanuallyContact extends Component {
 
   addDate = () => {
     this.setState({
-      dateArray: [...this.state.dateArray, { date: "value" }],
+      dateArray: [...this.state.dateArray, { date: "", label: "" }],
     });
   };
 
-  onChangeDate = (value, index) => {
-    this.state.dateArray[index].date = value;
+  onChangeDate = (date) => {
+    console.log("A date has been picked: ", date);
+    this.setState({
+      isVisible: false,
+      choosenDate: moment(date).format("MMMM, Do YYYY"),
+    });
+    // this.state.date.date = value;
+    // this.setState({ date: this.state.date });
+  };
+
+  onChangeDateArray = (formateDate, index) => {
+    var datemoment = moment(formateDate).format("MMMM, Do YYYY");
+
+    this.state.dateArray[index].date = datemoment;
+
+    this.setState({
+      isVisibleArray: false,
+      dateArray: this.state.dateArray,
+    });
+
+    // this.state.dateArray[index].date = value;
+    // this.setState({ dateArray: this.state.dateArray });
+  };
+
+  changeDateLabelArray = (label, index) => {
+    this.setState({ isDateArrayModelOpen: false });
+    this.state.dateArray[index].label = label;
     this.setState({ dateArray: this.state.dateArray });
   };
 
+  changeDateLabel = (label) => {
+    this.setState({ isDateModelOpen: false });
+    this.state.date.label = label;
+    this.setState({ date: this.state.date });
+  };
+  handlePicker = (date) => {
+    this.setState({ isVisible: false });
+    console.log("A date has been picked: ", date);
+  };
+  hidePicker = () => {
+    this.setState({ isVisible: false });
+  };
+  showDateTimePicker = () => {
+    this.setState({ isVisible: true });
+  };
+  showDateTimePickerArray = () => {
+    this.setState({ isVisibleArray: true });
+  };
   renderDate() {
     return (
       <View style={{ marginTop: Metrics.doubleBaseMargin }}>
@@ -1621,36 +2568,211 @@ class addmanuallyContact extends Component {
           </View>
 
           <View>
-            <View style={styles.filedView}>
-              <TextInput
+            <TouchableOpacity
+              style={[styles.filedView, { alignItems: "center" }]}
+              onPress={this.showDateTimePicker}
+            >
+              {this.state.isVisible == false && this.state.choosenDate == "" ? (
+                <Text style={styles.dateText}>Date</Text>
+              ) : null}
+
+              <Text style={styles.dateText}>{this.state.choosenDate}</Text>
+
+              <DateTimePickerModal
+                isVisible={this.state.isVisible}
+                onConfirm={this.onChangeDate}
+                onCancel={this.hidePicker}
+              />
+              {/* <TextInput
                 placeholder="Date"
                 style={styles.stylefiledText}
                 placeholderTextColor={COLORS.main_text_color}
                 value={this.state.dob}
                 editable={this.state.status ? true : false}
-                onChangeText={(value) => this.setState({ dob: value })}
-                ref={(input) => {
-                  this.dob = input;
-                }}
-              />
-              <View style={styles.rightView}>
-                <Text style={styles.righttext}>( Birthday )</Text>
-              </View>
-            </View>
+                onChangeText={(value) => this.onChangeDate(value)}
+              /> */}
+              {this.state.status ? (
+                <TouchableHighlight
+                  underlayColor="transparent"
+                  style={styles.addressRightView}
+                  onPress={() => this.setState({ isDateModelOpen: true })}
+                >
+                  <Icon
+                    style={styles.iconSize}
+                    size={width * 0.06}
+                    name="chevron-small-down"
+                  />
+                </TouchableHighlight>
+              ) : null}
+
+              {this.state.status && this.state.date.label !== "" ? (
+                <View style={styles.addressRightView}>
+                  <Text style={styles.addressRighttext}>
+                    {this.state.date.label}
+                  </Text>
+                </View>
+              ) : null}
+            </TouchableOpacity>
 
             {this.state.dateArray.map((input, key) => {
               return (
                 <View style={styles.filedView} key={key}>
-                  <TextInput
+                  {/* <TextInput
                     placeholder="Date"
                     style={styles.stylefiledText}
                     placeholderTextColor={COLORS.main_text_color}
                     key={key}
                     keyboardType={"default"}
                     onChangeText={(date) => {
-                      this.onChangeDate(date, key);
+                      this.onChangeDateArray(date, key);
                     }}
+                  /> */}
+
+                  <TouchableOpacity
+                    onPress={this.showDateTimePickerArray}
+                    style={{ justifyContent: "center", width: width * 0.45 }}
+                  >
+                    {this.state.isVisibleArray == false &&
+                    this.state.dateArray[key].date == "" ? (
+                      <View
+                        style={{
+                          justifyContent: "center",
+                          height: height * 0.065,
+                          marginTop: Metrics.baseMargin,
+                        }}
+                      >
+                        <Text style={styles.dateText}>Date</Text>
+                      </View>
+                    ) : null}
+
+                    <Text style={styles.dateText}>
+                      {this.state.dateArray[key].date}
+                    </Text>
+                  </TouchableOpacity>
+                  <DateTimePickerModal
+                    isVisible={this.state.isVisibleArray}
+                    onConfirm={(date) => this.onChangeDateArray(date, key)}
+                    onCancel={this.hidePicker}
+                    //   key={key}
                   />
+
+                  <TouchableHighlight
+                    underlayColor="transparent"
+                    style={styles.addressRightView}
+                    // key={key}
+                    onPress={() =>
+                      this.setState({ isDateArrayModelOpen: true })
+                    }
+                  >
+                    <Icon
+                      style={styles.iconSize}
+                      size={width * 0.06}
+                      name="chevron-small-down"
+                    />
+                  </TouchableHighlight>
+
+                  {this.state.dateArray[key].label !== "" ? (
+                    <View style={styles.addressRightView}>
+                      <Text style={styles.addressRighttext}>
+                        {this.state.dateArray[key].label}
+                      </Text>
+                    </View>
+                  ) : null}
+                  <Modal
+                    style={styles.footerModal}
+                    visible={this.state.isDateArrayModelOpen}
+                    transparent={true}
+                    animationType="fade"
+                    onRequestClose={() =>
+                      this.setState({ isDateArrayModelOpen: false })
+                    }
+                  >
+                    <View style={styles.contactContent}>
+                      <View style={styles.content}>
+                        <Text style={styles.modalHeader}>Date</Text>
+                        <View style={{ flexDirection: "column" }}>
+                          {this.state.dateLableList.map((item, index) => {
+                            return (
+                              <TouchableHighlight
+                                underlayColor="transparent"
+                                onPress={() => {
+                                  this.changeDateLabelArray(item.label, key);
+                                }}
+                              >
+                                <Text style={styles.labelName}>
+                                  {" "}
+                                  {item.label}{" "}
+                                </Text>
+                              </TouchableHighlight>
+                            );
+                          })}
+                          <TouchableHighlight
+                            underlayColor="transparent"
+                            onPress={() =>
+                              this.setState({
+                                isAddDateArrayLabel: true,
+                                dateLabel: "",
+                              })
+                            }
+                          >
+                            <Text style={styles.labelName}> Custom </Text>
+                          </TouchableHighlight>
+                        </View>
+                      </View>
+                    </View>
+                  </Modal>
+                  <Modal
+                    style={styles.footerModal}
+                    visible={this.state.isAddDateArrayLabel}
+                    transparent={true}
+                    // key={key}
+                    animationType="fade"
+                  >
+                    <View style={styles.contactContent}>
+                      <View style={styles.content}>
+                        <Text style={styles.modalHeader}>
+                          Custom label name
+                        </Text>
+                        <View style={{ flexDirection: "column" }}>
+                          <TextInput
+                            placeholder="Custom label name"
+                            style={styles.addLabelField}
+                            placeholderTextColor={COLORS.main_text_color}
+                            editable={this.state.status ? true : false}
+                            keyboardType={"default"}
+                            onChangeText={(label) => {
+                              this.changeDateLabelArray(label, key);
+                            }}
+                          />
+                          <TouchableHighlight
+                            underlayColor="transparent"
+                            style={styles.saveView}
+                            onPress={() =>
+                              this.state.addressLabel !== ""
+                                ? this.setState({
+                                    isAddDateArrayLabel: false,
+                                    isDateArrayModelOpen: false,
+                                  })
+                                : this.setState({
+                                    isAddDateArrayLabel: false,
+                                  })
+                            }
+                          >
+                            <Text
+                              style={{
+                                color: COLORS.main_text_color,
+                                fontFamily: Font.medium,
+                                fontSize: width * 0.04,
+                              }}
+                            >
+                              {" "}
+                              Ok{" "}
+                            </Text>
+                          </TouchableHighlight>
+                        </View>
+                      </View>
+                    </View>
+                  </Modal>
                 </View>
               );
             })}
@@ -1661,6 +2783,89 @@ class addmanuallyContact extends Component {
             >
               {this.state.status ? <NormalText> + Add Date </NormalText> : null}
             </TouchableOpacity>
+            <Modal
+              style={styles.footerModal}
+              visible={this.state.isDateModelOpen}
+              transparent={true}
+              animationType="fade"
+              onRequestClose={() => this.setState({ isDateModelOpen: false })}
+            >
+              <View style={styles.contactContent}>
+                <View style={styles.content}>
+                  <Text style={styles.modalHeader}>Date</Text>
+                  <View style={{ flexDirection: "column" }}>
+                    {this.state.dateLableList.map((item, index) => {
+                      return (
+                        <TouchableHighlight
+                          underlayColor="transparent"
+                          onPress={() => {
+                            this.changeDateLabel(item.label);
+                          }}
+                        >
+                          <Text style={styles.labelName}> {item.label} </Text>
+                        </TouchableHighlight>
+                      );
+                    })}
+                    <TouchableHighlight
+                      underlayColor="transparent"
+                      onPress={() =>
+                        this.setState({ isAddDateLabel: true, dateLabel: "" })
+                      }
+                    >
+                      <Text style={styles.labelName}> Custom </Text>
+                    </TouchableHighlight>
+                  </View>
+                </View>
+              </View>
+            </Modal>
+            <Modal
+              style={styles.footerModal}
+              visible={this.state.isAddDateLabel}
+              transparent={true}
+              animationType="fade"
+            >
+              <View style={styles.contactContent}>
+                <View style={styles.content}>
+                  <Text style={styles.modalHeader}>Custom label name</Text>
+                  <View style={{ flexDirection: "column" }}>
+                    <TextInput
+                      placeholder="Custom label name"
+                      style={styles.addLabelField}
+                      placeholderTextColor={COLORS.main_text_color}
+                      editable={this.state.status ? true : false}
+                      keyboardType={"default"}
+                      // value={this.state.emailLabel}
+                      onChangeText={(label) => {
+                        this.changeDateLabel(label);
+                      }}
+                    />
+                    <TouchableHighlight
+                      underlayColor="transparent"
+                      style={styles.saveView}
+                      onPress={() =>
+                        this.state.dateLabel !== ""
+                          ? this.setState({
+                              isAddDateLabel: false,
+                              isDateModelOpen: false,
+                            })
+                          : this.setState({ isAddDateLabel: false })
+                      }
+                    >
+                      <Text
+                        style={{
+                          color: COLORS.main_text_color,
+                          fontFamily: Font.medium,
+                          fontSize: width * 0.04,
+                        }}
+                      >
+                        {" "}
+                        Ok{" "}
+                      </Text>
+                    </TouchableHighlight>
+                  </View>
+                </View>
+              </View>
+            </Modal>
           </View>
         </View>
       </View>
@@ -1669,13 +2874,30 @@ class addmanuallyContact extends Component {
 
   addNote = () => {
     this.setState({
-      noteArray: [...this.state.noteArray, { note: "value" }],
+      noteArray: [...this.state.noteArray, { note: "", label: "" }],
     });
   };
 
-  onChangeNote = (value, index) => {
+  onChangeNote = (value) => {
+    this.state.note.note = value;
+    this.setState({ note: this.state.note });
+  };
+
+  onChangeNoteArray = (value, index) => {
     this.state.noteArray[index].note = value;
     this.setState({ noteArray: this.state.noteArray });
+  };
+
+  changeNoteLabelArray = (label, index) => {
+    this.setState({ isNoteArrayModelOpen: false });
+    this.state.noteArray[index].label = label;
+    this.setState({ NoteArray: this.state.noteArray });
+  };
+
+  changeNoteLabel = (label) => {
+    this.setState({ isNoteModelOpen: false });
+    this.state.note.label = label;
+    this.setState({ Note: this.state.note });
   };
 
   renderNote() {
@@ -1694,16 +2916,31 @@ class addmanuallyContact extends Component {
                 placeholderTextColor={COLORS.main_text_color}
                 multiline={true}
                 numberOfLines={5}
-                value={this.state.note}
+                value={this.state.note1}
                 editable={this.state.status ? true : false}
-                onChangeText={(value) => this.setState({ note: value })}
-                ref={(input) => {
-                  this.note = input;
-                }}
+                onChangeText={(value) => this.onChangeNote(value)}
               />
-              <View style={styles.addressRightView}>
-                <Text style={styles.addressRighttext}>( Note -1 )</Text>
-              </View>
+              {this.state.status ? (
+                <TouchableHighlight
+                  underlayColor="transparent"
+                  style={styles.addressRightView}
+                  onPress={() => this.setState({ isNoteModelOpen: true })}
+                >
+                  <Icon
+                    style={styles.iconSize}
+                    size={width * 0.06}
+                    name="chevron-small-down"
+                  />
+                </TouchableHighlight>
+              ) : null}
+
+              {this.state.status && this.state.note.label !== "" ? (
+                <View style={styles.addressRightView}>
+                  <Text style={styles.addressRighttext}>
+                    {this.state.note.label}
+                  </Text>
+                </View>
+              ) : null}
             </View>
 
             {this.state.noteArray.map((input, key) => {
@@ -1718,9 +2955,126 @@ class addmanuallyContact extends Component {
                     key={key}
                     keyboardType={"default"}
                     onChangeText={(note) => {
-                      this.onChangeNote(note, key);
+                      this.onChangeNoteArray(note, key);
                     }}
                   />
+                  <TouchableHighlight
+                    underlayColor="transparent"
+                    style={styles.rightView}
+                    // key={key}
+                    onPress={() =>
+                      this.setState({ isNoteArrayModelOpen: true })
+                    }
+                  >
+                    <Icon
+                      style={styles.iconSize}
+                      size={width * 0.06}
+                      name="chevron-small-down"
+                    />
+                  </TouchableHighlight>
+                  {this.state.noteArray[key].label !== "" ? (
+                    <View style={styles.rightView}>
+                      <Text style={styles.righttext}>
+                        {this.state.noteArray[key].label}
+                      </Text>
+                    </View>
+                  ) : null}
+
+                  <Modal
+                    style={styles.footerModal}
+                    visible={this.state.isNoteArrayModelOpen}
+                    transparent={true}
+                    animationType="fade"
+                    // key={key}
+                    onRequestClose={() =>
+                      this.setState({ isNoteArrayModelOpen: false })
+                    }
+                  >
+                    <View style={styles.contactContent}>
+                      <View style={styles.content}>
+                        <Text style={styles.modalHeader}>Note</Text>
+                        <View style={{ flexDirection: "column" }}>
+                          {this.state.noteLabelList.map((item, index) => {
+                            return (
+                              <TouchableHighlight
+                                underlayColor="transparent"
+                                onPress={() => {
+                                  this.changeNoteLabelArray(item.label, key);
+                                }}
+                              >
+                                <Text style={styles.labelName}>
+                                  {" "}
+                                  {item.label}{" "}
+                                </Text>
+                              </TouchableHighlight>
+                            );
+                          })}
+                          <TouchableHighlight
+                            underlayColor="transparent"
+                            onPress={() =>
+                              this.setState({
+                                isAddNoteArrayLabel: true,
+                                noteLabel: "",
+                              })
+                            }
+                          >
+                            <Text style={styles.labelName}> Custom </Text>
+                          </TouchableHighlight>
+                        </View>
+                      </View>
+                    </View>
+                  </Modal>
+
+                  <Modal
+                    style={styles.footerModal}
+                    visible={this.state.isAddNoteArrayLabel}
+                    transparent={true}
+                    // key={key}
+                    animationType="fade"
+                  >
+                    <View style={styles.contactContent}>
+                      <View style={styles.content}>
+                        <Text style={styles.modalHeader}>
+                          Custom label name
+                        </Text>
+                        <View style={{ flexDirection: "column" }}>
+                          <TextInput
+                            placeholder="Custom label name"
+                            style={styles.addLabelField}
+                            placeholderTextColor={COLORS.main_text_color}
+                            editable={this.state.status ? true : false}
+                            keyboardType={"default"}
+                            onChangeText={(label) => {
+                              this.changeNoteLabelArray(label, key);
+                            }}
+                          />
+                          <TouchableHighlight
+                            underlayColor="transparent"
+                            style={styles.saveView}
+                            onPress={() =>
+                              this.state.noteLabel !== ""
+                                ? this.setState({
+                                    isAddNoteArrayLabel: false,
+                                    isNoteArrayModelOpen: false,
+                                  })
+                                : this.setState({ isAddNoteArrayLabel: false })
+                            }
+                          >
+                            <Text
+                              style={{
+                                color: COLORS.main_text_color,
+                                fontFamily: Font.medium,
+                                fontSize: width * 0.04,
+                              }}
+                            >
+                              {" "}
+                              Ok{" "}
+                            </Text>
+                          </TouchableHighlight>
+                        </View>
+                      </View>
+                    </View>
+                  </Modal>
                 </View>
               );
             })}
@@ -1731,6 +3085,89 @@ class addmanuallyContact extends Component {
             >
               {this.state.status ? <NormalText> + Add Note </NormalText> : null}
             </TouchableOpacity>
+            <Modal
+              style={styles.footerModal}
+              visible={this.state.isNoteModelOpen}
+              transparent={true}
+              animationType="fade"
+              onRequestClose={() => this.setState({ isNoteModelOpen: false })}
+            >
+              <View style={styles.contactContent}>
+                <View style={styles.content}>
+                  <Text style={styles.modalHeader}>Note</Text>
+                  <View style={{ flexDirection: "column" }}>
+                    {this.state.noteLabelList.map((item, index) => {
+                      return (
+                        <TouchableHighlight
+                          underlayColor="transparent"
+                          onPress={() => {
+                            this.changeNoteLabel(item.label);
+                          }}
+                        >
+                          <Text style={styles.labelName}> {item.label} </Text>
+                        </TouchableHighlight>
+                      );
+                    })}
+                    <TouchableHighlight
+                      underlayColor="transparent"
+                      onPress={() =>
+                        this.setState({ isAddNoteLabel: true, noteLabel: "" })
+                      }
+                    >
+                      <Text style={styles.labelName}> Custom </Text>
+                    </TouchableHighlight>
+                  </View>
+                </View>
+              </View>
+            </Modal>
+            <Modal
+              style={styles.footerModal}
+              visible={this.state.isAddNoteLabel}
+              transparent={true}
+              animationType="fade"
+            >
+              <View style={styles.contactContent}>
+                <View style={styles.content}>
+                  <Text style={styles.modalHeader}>Custom label name</Text>
+                  <View style={{ flexDirection: "column" }}>
+                    <TextInput
+                      placeholder="Custom label name"
+                      style={styles.addLabelField}
+                      placeholderTextColor={COLORS.main_text_color}
+                      editable={this.state.status ? true : false}
+                      keyboardType={"default"}
+                      // value={this.state.emailLabel}
+                      onChangeText={(label) => {
+                        this.changeNoteLabel(label);
+                      }}
+                    />
+                    <TouchableHighlight
+                      underlayColor="transparent"
+                      style={styles.saveView}
+                      onPress={() =>
+                        this.state.noteLabel !== ""
+                          ? this.setState({
+                              isAddNoteLabel: false,
+                              isNoteModelOpen: false,
+                            })
+                          : this.setState({ isAddNoteLabel: false })
+                      }
+                    >
+                      <Text
+                        style={{
+                          color: COLORS.main_text_color,
+                          fontFamily: Font.medium,
+                          fontSize: width * 0.04,
+                        }}
+                      >
+                        {" "}
+                        Ok{" "}
+                      </Text>
+                    </TouchableHighlight>
+                  </View>
+                </View>
+              </View>
+            </Modal>
           </View>
         </View>
       </View>
@@ -1739,13 +3176,30 @@ class addmanuallyContact extends Component {
 
   addCompany = () => {
     this.setState({
-      companyArray: [...this.state.companyArray, { company: "value" }],
+      companyArray: [...this.state.companyArray, { company: "", label: "" }],
     });
   };
 
-  onChangeCompany = (value, index) => {
+  onChangeCompany = (value) => {
+    this.state.company.company = value;
+    this.setState({ company: this.state.company });
+  };
+
+  onChangeCompanyArray = (value, index) => {
     this.state.companyArray[index].company = value;
     this.setState({ companyArray: this.state.companyArray });
+  };
+
+  changeCompanyLabelArray = (label, index) => {
+    this.setState({ isCompanyArrayModelOpen: false });
+    this.state.companyArray[index].label = label;
+    this.setState({ CompanyArray: this.state.companyArray });
+  };
+
+  changeCompanyLabel = (label) => {
+    this.setState({ isCompanyModelOpen: false });
+    this.state.company.label = label;
+    this.setState({ Company: this.state.company });
   };
 
   renderCompany() {
@@ -1767,44 +3221,30 @@ class addmanuallyContact extends Component {
                 placeholder="Company"
                 style={styles.stylefiledText}
                 placeholderTextColor={COLORS.main_text_color}
-                value={this.state.company}
+                value={this.state.company1}
                 editable={this.state.status ? true : false}
-                onChangeText={(value) => this.setState({ company: value })}
-                ref={(input) => {
-                  this.company = input;
-                }}
+                onChangeText={(value) => this.onChangeCompany(value)}
               />
-              <View style={styles.rightView}>
-                {/* <Text style={styles.righttext}>First Name</Text> */}
-              </View>
-            </View>
-
-            <View style={styles.filedView}>
-              <TextInput
-                placeholder="Job Title"
-                style={styles.stylefiledText}
-                placeholderTextColor={COLORS.main_text_color}
-                editable={this.state.status ? true : false}
-                value={this.state.job_title}
-                onChangeText={(value) => this.setState({ job_title: value })}
-                ref={(input) => {
-                  this.job_title = input;
-                }}
-              />
-            </View>
-
-            <View style={styles.filedView}>
-              <TextInput
-                placeholder="Work Hours"
-                style={styles.stylefiledText}
-                placeholderTextColor={COLORS.main_text_color}
-                value={this.state.work_hour}
-                editable={this.state.status ? true : false}
-                onChangeText={(value) => this.setState({ work_hour: value })}
-                ref={(input) => {
-                  this.work_hour = input;
-                }}
-              />
+              {this.state.status ? (
+                <TouchableHighlight
+                  underlayColor="transparent"
+                  style={styles.addressRightView}
+                  onPress={() => this.setState({ isCompanyModelOpen: true })}
+                >
+                  <Icon
+                    style={styles.iconSize}
+                    size={width * 0.06}
+                    name="chevron-small-down"
+                  />
+                </TouchableHighlight>
+              ) : null}
+              {this.state.status && this.state.company.label !== "" ? (
+                <View style={styles.addressRightView}>
+                  <Text style={styles.addressRighttext}>
+                    {this.state.company.label}
+                  </Text>
+                </View>
+              ) : null}
             </View>
 
             {this.state.companyArray.map((input, key) => {
@@ -1817,9 +3257,126 @@ class addmanuallyContact extends Component {
                     key={key}
                     keyboardType={"default"}
                     onChangeText={(company) => {
-                      this.onChangeCompany(company, key);
+                      this.onChangeCompanyArray(company, key);
                     }}
                   />
+                  <TouchableHighlight
+                    underlayColor="transparent"
+                    style={styles.addressRightView}
+                    // key={key}
+                    onPress={() =>
+                      this.setState({ isCompanyArrayModelOpen: true })
+                    }
+                  >
+                    <Icon
+                      style={styles.iconSize}
+                      size={width * 0.06}
+                      name="chevron-small-down"
+                    />
+                  </TouchableHighlight>
+                  {this.state.companyArray[key].label !== "" ? (
+                    <View style={styles.addressRightView}>
+                      <Text style={styles.addressRighttext}>
+                        {this.state.companyArray[key].label}
+                      </Text>
+                    </View>
+                  ) : null}
+
+                  <Modal
+                    style={styles.footerModal}
+                    visible={this.state.isCompanyArrayModelOpen}
+                    transparent={true}
+                    animationType="fade"
+                    onRequestClose={() =>
+                      this.setState({ isCompanyArrayModelOpen: false })
+                    }
+                  >
+                    <View style={styles.contactContent}>
+                      <View style={styles.content}>
+                        <Text style={styles.modalHeader}>Company</Text>
+                        <View style={{ flexDirection: "column" }}>
+                          {this.state.companyLableList.map((item, index) => {
+                            return (
+                              <TouchableHighlight
+                                underlayColor="transparent"
+                                onPress={() => {
+                                  this.changeCompanyLabelArray(item.label, key);
+                                }}
+                              >
+                                <Text style={styles.labelName}>
+                                  {" "}
+                                  {item.label}{" "}
+                                </Text>
+                              </TouchableHighlight>
+                            );
+                          })}
+                          <TouchableHighlight
+                            underlayColor="transparent"
+                            onPress={() =>
+                              this.setState({
+                                isAddCompanyArrayLabel: true,
+                                company: "",
+                              })
+                            }
+                          >
+                            <Text style={styles.labelName}> Custom </Text>
+                          </TouchableHighlight>
+                        </View>
+                      </View>
+                    </View>
+                  </Modal>
+                  <Modal
+                    style={styles.footerModal}
+                    visible={this.state.isAddCompanyArrayLabel}
+                    transparent={true}
+                    // key={key}
+                    animationType="fade"
+                  >
+                    <View style={styles.contactContent}>
+                      <View style={styles.content}>
+                        <Text style={styles.modalHeader}>
+                          Custom label name
+                        </Text>
+                        <View style={{ flexDirection: "column" }}>
+                          <TextInput
+                            placeholder="Custom label name"
+                            style={styles.addLabelField}
+                            placeholderTextColor={COLORS.main_text_color}
+                            editable={this.state.status ? true : false}
+                            keyboardType={"default"}
+                            onChangeText={(label) => {
+                              this.changeCompanyLabelArray(label, key);
+                            }}
+                          />
+                          <TouchableHighlight
+                            underlayColor="transparent"
+                            style={styles.saveView}
+                            onPress={() =>
+                              this.state.companyLabel !== ""
+                                ? this.setState({
+                                    isAddCompanyArrayLabel: false,
+                                    isCompanyArrayModelOpen: false,
+                                  })
+                                : this.setState({
+                                    isAddCompanyArrayLabel: false,
+                                  })
+                            }
+                          >
+                            <Text
+                              style={{
+                                color: COLORS.main_text_color,
+                                fontFamily: Font.medium,
+                                fontSize: width * 0.04,
+                              }}
+                            >
+                              {" "}
+                              Ok{" "}
+                            </Text>
+                          </TouchableHighlight>
+                        </View>
+                      </View>
+                    </View>
+                  </Modal>
                 </View>
               );
             })}
@@ -1830,6 +3387,97 @@ class addmanuallyContact extends Component {
             >
               {this.state.status ? <NormalText> + Company </NormalText> : null}
             </TouchableOpacity>
+
+            <Modal
+              style={styles.footerModal}
+              visible={this.state.isCompanyModelOpen}
+              transparent={true}
+              animationType="fade"
+              onRequestClose={() =>
+                this.setState({ isCompanyModelOpen: false })
+              }
+            >
+              <View style={styles.contactContent}>
+                <View style={styles.content}>
+                  <Text style={styles.modalHeader}>Company</Text>
+                  <View style={{ flexDirection: "column" }}>
+                    {this.state.companyLableList.map((item, index) => {
+                      return (
+                        <TouchableHighlight
+                          underlayColor="transparent"
+                          onPress={() => {
+                            this.changeCompanyLabel(item.label);
+                          }}
+                        >
+                          <Text style={styles.labelName}> {item.label} </Text>
+                        </TouchableHighlight>
+                      );
+                    })}
+                    <TouchableHighlight
+                      underlayColor="transparent"
+                      onPress={() =>
+                        this.setState({
+                          isAddCompanyLabel: true,
+                          company: "",
+                        })
+                      }
+                    >
+                      <Text style={styles.labelName}> Custom </Text>
+                    </TouchableHighlight>
+                  </View>
+                </View>
+              </View>
+            </Modal>
+            <Modal
+              style={styles.footerModal}
+              visible={this.state.isAddCompanyLabel}
+              transparent={true}
+              // key={key}
+              animationType="fade"
+            >
+              <View style={styles.contactContent}>
+                <View style={styles.content}>
+                  <Text style={styles.modalHeader}>Custom label name</Text>
+                  <View style={{ flexDirection: "column" }}>
+                    <TextInput
+                      placeholder="Custom label name"
+                      style={styles.addLabelField}
+                      placeholderTextColor={COLORS.main_text_color}
+                      editable={this.state.status ? true : false}
+                      keyboardType={"default"}
+                      onChangeText={(label) => {
+                        this.changeCompanyLabel(label);
+                      }}
+                    />
+                    <TouchableHighlight
+                      underlayColor="transparent"
+                      style={styles.saveView}
+                      onPress={() =>
+                        this.state.companyLabel !== ""
+                          ? this.setState({
+                              isAddCompanyLabel: false,
+                              isCompanyModelOpen: false,
+                            })
+                          : this.setState({
+                              isAddCompanyLabel: false,
+                            })
+                      }
+                    >
+                      <Text
+                        style={{
+                          color: COLORS.main_text_color,
+                          fontFamily: Font.medium,
+                          fontSize: width * 0.04,
+                        }}
+                      >
+                        {" "}
+                        Ok{" "}
+                      </Text>
+                    </TouchableHighlight>
+                  </View>
+                </View>
+              </View>
+            </Modal>
           </View>
         </View>
       </View>
@@ -1934,10 +3582,10 @@ class addmanuallyContact extends Component {
 }
 
 function mapStateToProps(state) {
-  console.log('state======>',state)
+  // console.log("state======>", state);
   return {
     theme: state.themeReducer.theme,
-    user_id: state.login.shouldLoadData.user_id,   
+    user_id: state.login.shouldLoadData.user_id,
     username: state.login.shouldLoadData.username,
   };
 }

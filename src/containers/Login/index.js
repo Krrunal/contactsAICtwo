@@ -3,12 +3,12 @@ import * as actions from "../../action";
 /* eslint-disable no-undef */
 // eslint-disable-next-line prettier/prettier
 import {
-Image,
-Keyboard,
-Text,
-TextInput,
-TouchableOpacity,
-View,
+  Image,
+  Keyboard,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
 } from "react-native";
 import React, { Component } from "react";
 import { Root, Toast } from "native-base";
@@ -185,6 +185,7 @@ class Login extends Component {
 
                   <View style={styles.eyeView}>
                     <TouchableHighlight
+                      style={styles.eyeContain}
                       underlayColor="transparent"
                       onPress={this.showPassword}
                     >
@@ -217,6 +218,7 @@ class Login extends Component {
                 </TouchableOpacity>
                 <View style={styles.rememberView}>
                   <TouchableHighlight
+                    style={styles.rememberContain}
                     underlayColor="transparent"
                     onPress={this.check}
                   >
@@ -226,14 +228,9 @@ class Login extends Component {
                       </View>
                     ) : (
                       <View style={styles.checkView}></View>
-                      // <Image source={unchecked} style={styles.uncheckedStyle} />
                     )}
                   </TouchableHighlight>
-                  {/* <CheckBox
-          value={this.state.checked}
-          onValueChange={() => this.setState({checked: !this.state.checked})}
-          tintColors={{true: '#1374A3', false: '#000'}}
-        /> */}
+
                   <Text style={styles.rememberText}>Remember Me</Text>
                 </View>
                 <View style={styles.lineStyle}>

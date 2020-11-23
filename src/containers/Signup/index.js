@@ -89,23 +89,24 @@ class Signup extends Component {
   signUp = () => {
     const { uname, contact, email, password, confirmpassWord } = this.props;
 
-    if ( contact && (this.state.contactError == undefined ||
-      this.state.contactError == "") && this.props.contactMsg == true
-      &&
-      uname && (this.state.unameError == undefined ||
-      this.state.unameError == "") && this.props.usernameMsg == true
-      &&
-      email && (this.state.emailError == undefined ||
-      this.state.emailError == "") && this.props.emailMsg == true
-      &&
-      password && (this.state.passwordError == undefined ||
-      this.state.passwordError == "")
-      &&
-      confirmpassWord && (this.state.confirmPassError == undefined ||
-      this.state.confirmPassError == "")
-      &&
-      (password == confirmpassWord)
-      ){
+    if (
+      contact &&
+      (this.state.contactError == undefined || this.state.contactError == "") &&
+      this.props.contactMsg == true &&
+      uname &&
+      (this.state.unameError == undefined || this.state.unameError == "") &&
+      this.props.usernameMsg == true &&
+      email &&
+      (this.state.emailError == undefined || this.state.emailError == "") &&
+      this.props.emailMsg == true &&
+      password &&
+      (this.state.passwordError == undefined ||
+        this.state.passwordError == "") &&
+      confirmpassWord &&
+      (this.state.confirmPassError == undefined ||
+        this.state.confirmPassError == "") &&
+      password == confirmpassWord
+    ) {
       console.log("Sucess");
       this.props.signUpUser();
     } else {
@@ -459,7 +460,21 @@ class Signup extends Component {
                               style={styles.infoIcon}
                             />
                           )}
-                          <CountryText>Password Requirements</CountryText>
+
+                          {this.props.theme.mode === "light" ? (
+                            <Text
+                              style={[styles.reqtext, { color: COLORS.black }]}
+                            >
+                              Password Requirements
+                            </Text>
+                          ) : (
+                            <Text
+                              style={[styles.reqtext, { color: COLORS.white }]}
+                            >
+                              Password Requirements
+                            </Text>
+                          )}
+                          {/* <CountryText>Password Requirements</CountryText> */}
                         </TouchableWithoutFeedback>
                       </View>
                     </View>
@@ -485,6 +500,7 @@ class Signup extends Component {
 
                       <View style={styles.eyeView}>
                         <TouchableHighlight
+                          style={styles.eyeContain}
                           underlayColor="transparent"
                           onPress={this.showPassword}
                         >
@@ -540,6 +556,7 @@ class Signup extends Component {
 
                       <View style={styles.eyeView}>
                         <TouchableHighlight
+                        style={styles.eyeContain}
                           underlayColor="transparent"
                           onPress={this.showrenderPassword}
                         >
@@ -579,7 +596,7 @@ class Signup extends Component {
                   visible={this.state.isPassModelOpen}
                   transparent={true}
                   style={styles.footerModal}
-                  onBackPress={()=>this.setState({isPassModelOpen: false })}
+                  onBackPress={() => this.setState({ isPassModelOpen: false })}
                 >
                   <View style={styles.contactContent}>
                     <View style={styles.popupHeader}>
@@ -683,14 +700,9 @@ const CountryText = styled.Text`
   font-size: 8px;
   color: ${(props) => props.theme.iconColor};
 `;
-const RightImage = styled.Image`
-  width: 10px;
-  height: 10px;
-  align-self: center;
-`;
+
 const BoldBlack = styled.Text`
   font-family: Roboto-Medium;
   font-size: 17px;
   color: ${(props) => props.theme.iconColor};
 `;
-

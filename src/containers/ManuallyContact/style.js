@@ -85,6 +85,7 @@ export default StyleSheet.create({
     marginLeft: Metrics.smallMargin,
     marginBottom: Metrics.baseMargin,
     flexDirection: 'row',
+    marginRight: Metrics.smallMargin,
   },
 
   stylefiledText: {
@@ -113,7 +114,8 @@ export default StyleSheet.create({
 
   iconSize: {
     color: COLORS.main_text_color,
-    textAlign: 'right'
+    textAlign: 'right',
+    
   },
 
   addFieldText: {
@@ -288,5 +290,19 @@ export default StyleSheet.create({
     borderColor: COLORS.main_text_color,
     borderRadius: 5,
     marginTop: Metrics.baseMargin
-  }
+  },
+  dateText:{
+    fontFamily: Font.regular,
+    fontSize: width * 0.03,
+    color: COLORS.main_text_color,
+    marginLeft:Metrics.smallMargin,
+  
+  },
+  deleteBox: {
+    backgroundColor: 'red',
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: 100,
+    height: height * 0.056,
+  },
 });

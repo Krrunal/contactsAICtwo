@@ -36,6 +36,7 @@ class searchContact extends Component {
       contact: [],
       contacts: "",
       isLoading: false,
+       shortcontacts: "",
     };
   }
 
@@ -52,14 +53,25 @@ class searchContact extends Component {
   }
 
   async contactList() {
-    const {username} = this.props;
-    firebase.firestore().collection('user').doc(username).collection('contacts').get()
+    const { username } = this.props;
+    firebase
+      .firestore()
+      .collection("user")
+      .doc(username)
+      .collection("contacts")
+      .get()
       .then((snap) => {
         snap.forEach((doc) => {
           var item = doc._data;
           this.state.contact.push(item);
         });
         this.setState({ contacts: this.state.contact });
+        const sort = this.state.contacts.sort(function (a, b) {
+          if (a.first_name.toLowerCase() < b.first_name.toLowerCase())  return -1;
+          if (a.first_name.toLowerCase() > b.first_name.toLowerCase()) return 1;
+          return 0;
+        });
+        this.setState({ shortcontacts: sort });
       });
   }
 
@@ -111,7 +123,7 @@ class searchContact extends Component {
         <FlatList
           refreshing={true}
           keyExtractor={(item, index) => index.toString()}
-          data={this.state.contacts}
+          data={this.state.shortcontacts}
           extraData={this.state}
           numColumns={1}
           renderItem={this.renderItem.bind(this)}
@@ -184,8 +196,10 @@ class searchContact extends Component {
 function mapStateToProps(state) {
   return {
     theme: state.themeReducer.theme,
-    user_id: state.login.shouldLoadData.user_id || state.reg.shouldLoadData.user_id,
-    username: state.login.shouldLoadData.username || state.reg.shouldLoadData.username,
+    user_id:
+      state.login.shouldLoadData.user_id || state.reg.shouldLoadData.user_id,
+    username:
+      state.login.shouldLoadData.username || state.reg.shouldLoadData.username,
   };
 }
 export default connect(mapStateToProps)(searchContact);

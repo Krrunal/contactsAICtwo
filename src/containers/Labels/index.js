@@ -18,7 +18,7 @@ import Header from "../../components/header/index";
 import Icon from "react-native-vector-icons/FontAwesome5";
 import Metrics from "../theme/Metrics";
 import { Spinner } from "../../components/Spinner";
-import Toast from 'react-native-easy-toast';
+import Toast from "react-native-easy-toast";
 import { connect } from "react-redux";
 import styles from "./style.js";
 
@@ -42,12 +42,12 @@ class labels extends Component {
 
   componentDidMount() {
     const { navigation } = this.props;
-    this.focusListener = navigation.addListener("didFocus", async() => {
-      this.labelList()
+    this.focusListener = navigation.addListener("didFocus", async () => {
+      this.labelList();
     });
   }
 
-  labelList=()=>{
+  labelList = () => {
     this.setState({ isLoading: true }, async () => {
       const baseurl = Constants.baseurl;
       fetch(baseurl + "get_label")
@@ -55,7 +55,7 @@ class labels extends Component {
           return response.json();
         })
         .then((responseJson) => {
-          if(responseJson.data.relation == "") {
+          if (responseJson.data.relation == "") {
             this.setState({ dataManage: [], isLoading: false });
           } else {
             var labelData = responseJson.data.relation.split(/,/);
@@ -66,13 +66,10 @@ class labels extends Component {
           console.error(error);
           this.setState({ isLoading: false });
         });
-    })
-  }
+    });
+  };
 
-  componentWillUnmount() {
-    // Remove the event listener
-    // this.focusListener.remove();
-  }
+  componentWillUnmount() {}
 
   renderHeader() {
     return (
@@ -93,13 +90,13 @@ class labels extends Component {
 
   message = () => {
     this.state.label == ""
-    ? this.refs.toast.show('Please enter label name')
-    : this.labelApiCall()
-  }
+      ? this.refs.toast.show("Please enter label name")
+      : this.textChange();
+  };
 
-  onPressAddLabel=()=> {
-    this.setState({viewSection:true})
-  }
+  onPressAddLabel = () => {
+    this.setState({ viewSection: true });
+  };
 
   labelApiCall = () => {
     const baseurl = Constants.baseurl;
@@ -119,22 +116,38 @@ class labels extends Component {
       .then((response) => response.json())
       .then((responseJson) => {
         this.refs.toast.show(responseJson.message);
-        if(responseJson.data.relation == "") {
-          this.setState({ dataManage: responseJson.data.relation, viewSection: false, label: '' });
+        if (responseJson.data.relation == "") {
+          this.setState({
+            dataManage: responseJson.data.relation,
+            viewSection: false,
+            label: "",
+          });
         } else {
           var labelData = responseJson.data.relation.split(/,/);
-          this.setState({ dataManage: labelData, viewSection: false, label: '' });
+          this.setState({
+            dataManage: labelData,
+            viewSection: false,
+            label: "",
+          });
         }
       });
   };
 
+  textChange = (value) => {
+    var valueLength = this.state.label;
+
+    if (valueLength.length <= 3) {
+      alert("Label contain maximum 3 character");
+    } else {
+      this.labelApiCall();
+    }
+  };
   renderMiddle() {
     return (
       <ScrollView>
         <View style={{ flex: 1, marginBottom: Metrics.smallMargin }}>
-          {this.state.dataManage.map((item, key) => (
-            this.state.dataManage === [""] ?
-              null :
+          {this.state.dataManage.map((item, key) =>
+            this.state.dataManage === [""] ? null : (
               <View style={styles.tripleView} key={key}>
                 {this.props.theme.mode === "light" ? (
                   <Icon name={"arrows-alt-v"} size={15} color={COLORS.black} />
@@ -150,23 +163,31 @@ class labels extends Component {
                 </TouchableOpacity>
                 <NormalText> {item}</NormalText>
               </View>
-          ))}
+            )
+          )}
 
-        {this.state.viewSection == true &&
-          <View style={styles.addlabelView}>
-            <TextInput
-              placeholder="New Label"
-              style={this.props.theme.mode === "light" ? styles.stylefiledText : styles.stylefiledTextBlack}
-              value={this.state.label}
-              onChangeText={(value) => this.setState({ label: value })}
-              ref={(input) => { this.label = input }}
-              keyboardType={"default"}
-              autoCapitalize={false}
-              // onSubmitEditing={this.labelApiCall}
-              placeholderTextColor={COLORS.black }
-            />
-          </View>
-        }
+          {this.state.viewSection == true && (
+            <View style={styles.addlabelView}>
+              <TextInput
+                placeholder="New Label"
+                style={
+                  this.props.theme.mode === "light"
+                    ? styles.stylefiledText
+                    : styles.stylefiledTextBlack
+                }
+                value={this.state.label}
+                onChangeText={(value) => this.setState({ label: value })}
+                // onChangeText={ (value)=> this.textChange(value)}
+                ref={(input) => {
+                  this.label = input;
+                }}
+                keyboardType={"default"}
+                autoCapitalize={false}
+                // onSubmitEditing={this.labelApiCall}
+                placeholderTextColor={COLORS.black}
+              />
+            </View>
+          )}
         </View>
       </ScrollView>
     );
@@ -178,7 +199,7 @@ class labels extends Component {
 
   navigateToDelete = () => {
     this.props.navigation.navigate("SelectLable");
-  }
+  };
 
   renderLast() {
     return (
@@ -193,13 +214,20 @@ class labels extends Component {
         >
           <TouchableOpacity
             style={styles.Whiteview}
-            onPress={this.state.viewSection == false ? this.onPressAddLabel : this.message}
+            onPress={
+              this.state.viewSection == false
+                ? this.onPressAddLabel
+                : this.message
+            }
             disable={this.state.disabledLabel}
           >
             <Text style={styles.bottomButton}>Add</Text>
           </TouchableOpacity>
 
-          <TouchableOpacity style={styles.WhiteviewTwo} onPress={this.navigateToDelete} >
+          <TouchableOpacity
+            style={styles.WhiteviewTwo}
+            onPress={this.navigateToDelete}
+          >
             <Text style={styles.bottomButton}>Delete</Text>
           </TouchableOpacity>
         </View>
@@ -225,30 +253,30 @@ class labels extends Component {
           }
         />
 
-        <View style={{flex: 1}}>
+        <View style={{ flex: 1 }}>
           <Container>
             {this.renderHeader()}
             {this.renderMiddle()}
             {this.renderLast()}
-              <Toast
-                ref="toast"
-                style={{
-                  backgroundColor:
-                    this.props.theme.mode === "light" ? "black" : "white",
-                  width: width * 0.8,
-                  alignItems: "center",
-                }}
-                position="bottom"
-                positionValue={250}
-                fadeInDuration={100}
-                fadeOutDuration={2000}
-                opacity={1}
-                textStyle={{
-                  color: this.props.theme.mode === "light" ? "white" : "black",
-                  fontFamily: Font.medium,
-                  fontSize: width * 0.04,
-                }}
-              />
+            <Toast
+              ref="toast"
+              style={{
+                backgroundColor:
+                  this.props.theme.mode === "light" ? "black" : "white",
+                width: width * 0.8,
+                alignItems: "center",
+              }}
+              position="bottom"
+              positionValue={250}
+              fadeInDuration={100}
+              fadeOutDuration={2000}
+              opacity={1}
+              textStyle={{
+                color: this.props.theme.mode === "light" ? "white" : "black",
+                fontFamily: Font.medium,
+                fontSize: width * 0.04,
+              }}
+            />
           </Container>
           {this.showLoader()}
         </View>
