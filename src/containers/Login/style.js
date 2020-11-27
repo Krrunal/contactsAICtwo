@@ -181,5 +181,15 @@ export default StyleSheet.create({
     height: width * 0.09,
     alignItems: "center",
     justifyContent: "center",
-  }
+  },
+  uText:{
+    fontSize: width*0.04, 
+    fontFamily: Font.medium,
+    justifyContent:'center',
+    alignItems:'center',
+   // color:COLORS.main_text_color,
+    marginLeft:Metrics.baseMargin,
+    width: width * 0.7,
+    color:COLORS.main_text_color
+  },
 });

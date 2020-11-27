@@ -54,10 +54,12 @@ export default {
   screenWidth,
   screenHeight,
   generatedFontSize,
+  xxsmallMargin:ratio(3),
   xsmallMargin:ratio(4),
   smallMargin: ratio(8),
   baseMargin: ratio(16),
   doubleBaseMargin: ratio(32),
+  cdoubleBaseMargin: ratio(35),
   xdoubleBaseMargin: ratio(45),
 
   verificationBoxSize: ratio(20),

@@ -38,13 +38,14 @@ export default StyleSheet.create({
     borderRadius: 10,
     marginTop: Metrics.xsmallMargin,
     justifyContent: "center",
-    flexDirection: "row",
+    //flexDirection: "row",
   },
 
   mobileInputText: {
     fontSize: width * 0.04,
     fontFamily: Font.medium,
     color: COLORS.main_text_color,
+ //   borderWidth:2
   },
 
   passView: {
@@ -213,4 +214,24 @@ export default StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
+  uText:{
+    fontSize: width*0.04, 
+    fontFamily: Font.medium,
+    justifyContent:'center',
+    alignItems:'center',
+   // color:COLORS.main_text_color,
+    marginLeft:Metrics.baseMargin,
+    width: width * 0.7,
+    color:COLORS.main_text_color
+  },
+  uTextGreen:{
+    fontSize: width*0.04, 
+    fontFamily: Font.medium,
+    justifyContent:'center',
+    alignItems:'center',
+   // color:COLORS.main_text_color,
+    marginLeft:Metrics.baseMargin,
+    width: width * 0.7,
+    color:COLORS.green
+  }
 });

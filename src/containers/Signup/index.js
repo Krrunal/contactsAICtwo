@@ -284,6 +284,11 @@ class Signup extends Component {
                 <View>
                   <View>
                     <View style={styles.mobileInputView}>
+                      <View
+                        style={{  width: width * 0.4,  position: "absolute",  top: 0,   left: 10, }}
+                      >
+                        <BoldBlack>*Phone number : </BoldBlack>
+                      </View>
                       <IntlPhoneInput
                         containerStyle={{
                           height: height * 0.065,
@@ -298,6 +303,7 @@ class Signup extends Component {
                         keyboardType={"numeric"}
                         onChangeText={this.onChangeNumber}
                       />
+                      {/* <Text>hi</Text> */}
                       <View style={styles.contactEyeView}>
                         {this.showContactError()}
                       </View>
@@ -341,6 +347,7 @@ class Signup extends Component {
                         // onSubmitEditing={(uname) => this.onSubmit("uname")}
                         value={uname}
                         returnKey={"next"}
+                        style={styles.uText}
                         // onFocus={() => this.setState({ userNameError: '' })}
                         keyboardType={"default"}
                         secureEntry={false}
@@ -400,6 +407,7 @@ class Signup extends Component {
                         // onSubmitEditing={(email) => this.onSubmit("email")}
                         value={email}
                         // onFocus={() => this.setState({ emailError: null })}
+                        style={styles.uText}
                         returnKey={"next"}
                         keyboardType={"email-address"}
                         secureEntry={false}
@@ -491,6 +499,12 @@ class Signup extends Component {
                         // onSubmitEditing={(password) =>
                         // this.onSubmit("password")
                         // }
+
+                        style={
+                          this.props.password && this.ValidPass(password)
+                            ? styles.uTextGreen
+                            : styles.uText
+                        }
                         value={password}
                         returnKey={"next"}
                         keyboardType={"default"}
@@ -547,6 +561,12 @@ class Signup extends Component {
                         // onSubmitEditing={(confirmpassWord) =>
                         // this.onSubmit("confirmpassWord")
                         // }
+                        style={
+                          confirmpassWord !== "" &&
+                          this.props.password == confirmpassWord
+                            ? styles.uTextGreen
+                            : styles.uText
+                        }
                         value={confirmpassWord}
                         returnKey={"next"}
                         keyboardType={"default"}
@@ -556,7 +576,7 @@ class Signup extends Component {
 
                       <View style={styles.eyeView}>
                         <TouchableHighlight
-                        style={styles.eyeContain}
+                          style={styles.eyeContain}
                           underlayColor="transparent"
                           onPress={this.showrenderPassword}
                         >
@@ -655,12 +675,12 @@ class Signup extends Component {
 }
 
 function mapStateToProps(state) {
+ 
   return {
     theme: state.themeReducer.theme,
     email: state.reg.email,
     contact: state.reg.contact,
-    dialCode:
-      state.reg.contact.indexOf("-") !== -1 && state.reg.contact.split("-")[0],
+    dialCode: state.reg.contact.indexOf("-") !== -1 && state.reg.contact.split("-")[0],
     number: state.reg.contact.split("-")[1],
     uname: state.reg.uname,
     password: state.reg.password,

@@ -18,7 +18,7 @@ var { width, height } = Dimensions.get("window");
 class InputCard extends Component {
     render() {
       const {onChangeText,blurOnSubmit,maxLength, label,value,returnKey,placeholder,
-        keyboardType,children,multiline, secureEntry,inputRef,onSubmitEditing, autoCapitalize,onfocus} = this.props;
+        keyboardType,children,multiline, secureEntry,inputRef,onSubmitEditing, autoCapitalize,onfocus,style} = this.props;
         return( 
             <TextInput
               underlineColorAndroid="transparent"
@@ -38,7 +38,8 @@ class InputCard extends Component {
               textAlignVertical={"top"}
               onFocus={onfocus}
               placeholderTextColor={COLORS.main_text_color}
-              style={inputCardStyle.textInputViewSignup}
+             style={style}
+             // style={inputCardStyle.textInputViewSignup}
                />
          )
     }                      
@@ -49,7 +50,7 @@ class InputCard extends Component {
         fontFamily: Font.medium,
         justifyContent:'center',
         alignItems:'center',
-        color:COLORS.main_text_color,
+       // color:COLORS.main_text_color,
         marginLeft:Metrics.baseMargin,
         width: width * 0.7,
     

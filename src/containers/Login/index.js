@@ -161,6 +161,7 @@ class Login extends Component {
                     keyboardType={"email-address"}
                     secureEntry={false}
                     placeholder={"Phone Number or Username"}
+                    style={styles.uText}
                   ></InputCard>
                 </View>
                 {this.state.unameError == undefined ||
@@ -181,6 +182,7 @@ class Login extends Component {
                     keyboardType={"default"}
                     secureEntry={this.state.show}
                     placeholder={"Password"}
+                    style={styles.uText}
                   ></InputCard>
 
                   <View style={styles.eyeView}>

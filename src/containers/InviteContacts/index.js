@@ -230,7 +230,7 @@ class InviteContact extends Component {
   renderLast() {
     return (
       <View style={{ alignItems: "center", flex: 1 }}>
-        <View style={{ flex: 1, bottom: 40, position: "absolute" }}>
+        <View style={{ flex: 1, bottom: 0, position: "absolute" }}>
           <TouchableOpacity
             style={styles.Whiteview}
             onPress={this.invitenavigate}

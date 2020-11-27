@@ -207,6 +207,7 @@
     <orderEntry type="module" module-name="react-native-contacts" />
     <orderEntry type="module" module-name="react-native-community_async-storage" />
     <orderEntry type="module" module-name="react-native-community_checkbox" />
+    <orderEntry type="module" module-name="react-native-community_datetimepicker" />
     <orderEntry type="module" module-name="react-native-community_masked-view" />
     <orderEntry type="module" module-name="react-native-community_netinfo" />
     <orderEntry type="module" module-name="react-native-camera" />

@@ -137,6 +137,7 @@ class labels extends Component {
     var valueLength = this.state.label;
 
     if (valueLength.length <= 3) {
+      //this.refs.toast.show("Label contain maximum 3 character")
       alert("Label contain maximum 3 character");
     } else {
       this.labelApiCall();
