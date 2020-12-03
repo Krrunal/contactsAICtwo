@@ -98,8 +98,7 @@ class searchContact extends Component {
         // this.setState({ nameContacts: this.state.contact });
 
         const sort = this.state.contacts.sort(function (a, b) {
-          if (a.last_name.toLowerCase() < b.last_name.toLowerCase())
-            return -1;
+          if (a.last_name.toLowerCase() < b.last_name.toLowerCase()) return -1;
           if (a.last_name.toLowerCase() > b.last_name.toLowerCase()) return 1;
           return 0;
         });
@@ -133,14 +132,20 @@ class searchContact extends Component {
             {character}
           </Text>
         </View>
-        <Text
-          style={[
-            styles.personName,
-            { color: this.props.theme.mode === "light" ? "black" : "white" },
-          ]}
-        >
-          {item.user_name || item.first_name} {item.last_name}
-        </Text>
+
+        {this.props.nameChange.mode == "firstName" ? (
+          <Text
+            style={[
+              styles.personName,
+              { color: this.props.theme.mode === "light" ? "black" : "white" }, ]}>
+            {item.user_name || item.first_name} {item.last_name}
+          </Text>
+        ) : (
+          <Text  style={[styles.personName, { color: this.props.theme.mode === "light" ? "black" : "white" },]} >
+            {item.last_name} {item.user_name || item.first_name}
+          </Text>
+        )}
+
         <Image source={edit} style={styles.editImgStyle} />
         {/* </TouchableHighlight> */}
         <Image source={reset} style={styles.resetImgStyle} />
@@ -232,6 +237,7 @@ function mapStateToProps(state) {
     username:
       state.login.shouldLoadData.username || state.reg.shouldLoadData.username,
     contactChange: state.sortContactsReducer.contactChange,
+    nameChange: state.switchNameReducer.nameChange,
   };
 }
 export default connect(mapStateToProps)(searchContact);

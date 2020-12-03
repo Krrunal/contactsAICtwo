@@ -1,15 +1,16 @@
 import {
-  firstNameFirst,
-  lastNameFirst,
-} from "../containers/theme/nameFirstProps";
+  firstnamefirst,
+  lastnamefirst,
+} from '../containers/theme/nameFirstProps';
 
-import { SWITCH_NAME } from "../action/switchName";
+import { SWITCH_NAME } from '../action/switchName'
 
 const initialState = {
-  nameChange: { ...firstNameFirst },
+  nameChange: { ...firstnamefirst }
 };
 
 const switchNameReducer = (state = initialState, action) => {
+  
   switch (action.type) {
     case SWITCH_NAME:
       let newState = {

@@ -11,6 +11,7 @@ import {
 import React, { Component } from "react";
 import { connect, useDispatch, useSelector } from "react-redux";
 import { darkTheme, lightTheme } from "../theme/themeProps";
+import { firstNameFirst, lastNameFirst } from "../theme/nameFirstProps";
 import { shortFirstName, shortLastName } from "../theme/sortNameProps";
 import styled, { ThemeProvider } from "styled-components/native";
 
@@ -23,6 +24,7 @@ import { bindActionCreators } from "redux";
 import { checkContact } from "../../action/Authactions";
 import styles from "./style.js";
 import { switchContact } from "../../action/switchContactAction";
+import {switchName} from '../../action/switchName';
 import { switchTheme } from "../../action/themeAction";
 
 var { width, height } = Dimensions.get("window");
@@ -54,16 +56,23 @@ class display extends Component {
         this.setState({ checked: true });
         this.setState({ checked1: false });
       }
+      if (this.props.nameChange.mode === "firstName") {
+        this.setState({ checked2: false });
+        this.setState({ checked3: true });
+      } else {
+        this.setState({ checked2: true });
+        this.setState({ checked3: false });
+      }
     }
   };
 
   checkName = () => {
     if (this.state.checked2 == true) {
       this.setState({ checked2: false, checked3: true });
-      //this.props.switchContact(shortFirstName);
+      this.props.switchName(firstNameFirst)
     } else {
       this.setState({ checked2: true, checked3: false });
-     // this.props.switchContact(shortLastName);
+     this.props.switchName(lastNameFirst)
     }
   };
 
@@ -123,7 +132,7 @@ class display extends Component {
             </TouchableOpacity>
             <TouchableOpacity
               style={styles.FirstView}
-              onPress={() => this.props.switchTheme(lightTheme)}
+              //onPress={() => this.props.switchTheme(lightTheme)}
             >
               <BoldText>Display Contact's Name by</BoldText>
               <View style={styles.checkView}>
@@ -196,6 +205,10 @@ function mapStateToProps(state) {
     "State from display--->",
     state.switchNameReducer.nameChange
   );
+  console.log(
+    "State from display--->",
+    state.sortContactsReducer.contactChange
+  );
   return {
     theme: state.themeReducer.theme,
     contactChange: state.sortContactsReducer.contactChange,
@@ -206,6 +219,7 @@ function mapStateToProps(state) {
 const mapDispatchToProps = (dispatch) => ({
   switchTheme: bindActionCreators(switchTheme, dispatch),
   switchContact: bindActionCreators(switchContact, dispatch),
+  switchName : bindActionCreators(switchName,dispatch),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(display);
