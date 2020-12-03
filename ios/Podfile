@@ -20,8 +20,7 @@ target 'contactsAIC' do
 
 
   pod 'RNImageCropPicker', :path => '../node_modules/react-native-image-crop-picker'
-  pod 'Firebase/Core', '~> 6.32.2'
-  pod 'Firebase/Storage', '~> 6.13.0'
+
 
   target 'contactsAICTests' do
     inherit! :complete
