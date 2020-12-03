@@ -59,7 +59,7 @@ export default {
   smallMargin: ratio(8),
   baseMargin: ratio(16),
   doubleBaseMargin: ratio(32),
-  cdoubleBaseMargin: ratio(35),
+ cdoubleBaseMargin: ratio(35),
   xdoubleBaseMargin: ratio(45),
 
   verificationBoxSize: ratio(20),

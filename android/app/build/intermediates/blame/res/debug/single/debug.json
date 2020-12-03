@@ -16,6 +16,10 @@
         "source": "/Users/macmini/Desktop/contactsAICtwo/android/app/src/main/res/drawable-mdpi/src_assets_images_sidebar.png"
     },
     {
+        "merged": "/Users/macmini/Desktop/contactsAICtwo/android/app/build/intermediates/res/merged/debug/drawable-mdpi_src_assets_icons_greencheck.png.flat",
+        "source": "/Users/macmini/Desktop/contactsAICtwo/android/app/src/main/res/drawable-mdpi/src_assets_icons_greencheck.png"
+    },
+    {
         "merged": "/Users/macmini/Desktop/contactsAICtwo/android/app/build/intermediates/res/merged/debug/drawable-mdpi_src_assets_images_website.png.flat",
         "source": "/Users/macmini/Desktop/contactsAICtwo/android/app/src/main/res/drawable-mdpi/src_assets_images_website.png"
     },
@@ -26,6 +30,10 @@
     {
         "merged": "/Users/macmini/Desktop/contactsAICtwo/android/app/build/intermediates/res/merged/debug/drawable-mdpi_src_assets_icons_unchecked.png.flat",
         "source": "/Users/macmini/Desktop/contactsAICtwo/android/app/src/main/res/drawable-mdpi/src_assets_icons_unchecked.png"
+    },
+    {
+        "merged": "/Users/macmini/Desktop/contactsAICtwo/android/app/build/intermediates/res/merged/debug/drawable-mdpi_src_assets_icons_redwrong.png.flat",
+        "source": "/Users/macmini/Desktop/contactsAICtwo/android/app/src/main/res/drawable-mdpi/src_assets_icons_redwrong.png"
     },
     {
         "merged": "/Users/macmini/Desktop/contactsAICtwo/android/app/build/intermediates/res/merged/debug/drawable-mdpi_node_modules_reactnavigation_stack_src_views_assets_backiconmask.png.flat",

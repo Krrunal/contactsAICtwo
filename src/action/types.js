@@ -15,6 +15,7 @@ export const LOAD_EMAIL_MSG = "LOAD_EMAIL_MSG";
 export const RESET_EMAIL = "RESET_EMAIL";
 export const LOAD_CONTACT_MSG = "LOAD_CONTACT_MSG";
 export const RESET_CONTACT = "RESET_CONTACT";
+export const ONLYSIGNPROP = "ONLYSIGNPROP"
 
 //log in types
 //Login Types
@@ -25,3 +26,5 @@ export const RESET_LOGIN = "RESET_LOGIN";
 export const LOGOUT_USER_SUCCESS = "LOGOUT_USER_SUCCESS";
 export const LOGIN_USER_SUCCESS = "LOGIN_USER_SUCCESS";
 export const RESET_USER = "RESET_USER";
+export const LOGIN_PHONE ="LOGIN_PHONE";
+export const LOGIN_NUMBER = "LOGIN_NUMBER";

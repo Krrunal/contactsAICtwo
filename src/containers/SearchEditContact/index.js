@@ -2,7 +2,6 @@ import {
   Dimensions,
   FlatList,
   Image,
-  ScrollView,
   Text,
   TouchableOpacity,
   View,
@@ -17,11 +16,9 @@ import Header from "../../components/header/index";
 import Metrics from "../theme/Metrics";
 import { Spinner } from "../../components/Spinner";
 // import { getContact } from '../../services/FirebaseDatabase/getAllContact';
-import { TouchableHighlight } from "react-native-gesture-handler";
 import { connect } from "react-redux";
 import edit from "../../assets/images/edit.png";
 import firebase from "../../services/FirebaseDatabase/db";
-import outerimg from "../../assets/images/outerimg.png";
 import plus from "../../assets/images/plus.png";
 import reset from "../../assets/images/reset.png";
 import style from "../../components/StatusBar/style.js";
@@ -36,14 +33,21 @@ class searchContact extends Component {
       contact: [],
       contacts: "",
       isLoading: false,
-       shortcontacts: "",
+      shortcontacts: "",
+      nameContacts: "",
     };
   }
 
   componentDidMount() {
     const { navigation } = this.props;
     this.focusListener = navigation.addListener("didFocus", async () => {
-      this.contactList();
+      if (this.props.contactChange.mode === "first") {
+        this.contactList();
+        console.log("first");
+      } else {
+        this.contactListFirst();
+        console.log("Last");
+      }
     });
   }
 
@@ -66,15 +70,42 @@ class searchContact extends Component {
           this.state.contact.push(item);
         });
         this.setState({ contacts: this.state.contact });
+        // this.setState({ nameContacts: this.state.contact });
+
         const sort = this.state.contacts.sort(function (a, b) {
-          if (a.first_name.toLowerCase() < b.first_name.toLowerCase())  return -1;
+          if (a.first_name.toLowerCase() < b.first_name.toLowerCase())
+            return -1;
           if (a.first_name.toLowerCase() > b.first_name.toLowerCase()) return 1;
           return 0;
         });
         this.setState({ shortcontacts: sort });
       });
   }
+  async contactListFirst() {
+    const { username } = this.props;
+    firebase
+      .firestore()
+      .collection("user")
+      .doc(username)
+      .collection("contacts")
+      .get()
+      .then((snap) => {
+        snap.forEach((doc) => {
+          var item = doc._data;
+          this.state.contact.push(item);
+        });
+        this.setState({ contacts: this.state.contact });
+        // this.setState({ nameContacts: this.state.contact });
 
+        const sort = this.state.contacts.sort(function (a, b) {
+          if (a.last_name.toLowerCase() < b.last_name.toLowerCase())
+            return -1;
+          if (a.last_name.toLowerCase() > b.last_name.toLowerCase()) return 1;
+          return 0;
+        });
+        this.setState({ shortcontacts: sort });
+      });
+  }
   renderHeader() {
     return (
       <Header
@@ -200,6 +231,7 @@ function mapStateToProps(state) {
       state.login.shouldLoadData.user_id || state.reg.shouldLoadData.user_id,
     username:
       state.login.shouldLoadData.username || state.reg.shouldLoadData.username,
+    contactChange: state.sortContactsReducer.contactChange,
   };
 }
 export default connect(mapStateToProps)(searchContact);

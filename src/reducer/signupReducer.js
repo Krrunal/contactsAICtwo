@@ -9,6 +9,7 @@ const INITIAL_STATE = {
   usernameMsg: "",
   contactMsg: "",
   emailMsg: "",
+  onlySignProp:false,
 };
 
 import {
@@ -16,6 +17,7 @@ import {
   LOAD_DATA_SET,
   LOAD_EMAIL_MSG,
   LOAD_USERNAME_MSG,
+  ONLYSIGNPROP,
   REG_CONFIRMPASS,
   REG_CONTACT,
   REG_EMAIL,
@@ -25,7 +27,7 @@ import {
   RESET_EMAIL,
   RESET_REG,
   RESET_USERNAME,
-  SHOW_LOADER_REG,
+  SHOW_LOADER_REG
 } from "../action/types";
 
 export default (state = INITIAL_STATE, action) => {
@@ -80,6 +82,9 @@ export default (state = INITIAL_STATE, action) => {
       break;
     case RESET_CONTACT:
       return { ...state, contact: "" };
+      break;
+    case ONLYSIGNPROP:
+      return {...state,onlySignProp:action.payload};
       break;
     default:
       return state;

@@ -4,6 +4,7 @@ import {
   LOAD_EMAIL_MSG,
   LOAD_USERNAME_MSG,
   LOGIN_EMAIL,
+  LOGIN_NUMBER,
   LOGIN_PASS,
   LOGIN_USER_SUCCESS,
   REG,
@@ -18,17 +19,17 @@ import {
   RESET_REG,
   RESET_USERNAME,
   SHOW_LOADER_LOGIN,
-  SHOW_LOADER_REG,
+  SHOW_LOADER_REG
 } from "./types";
 import { showToastError, showToastSuccess } from "./ToastAction";
 
+import AsyncStorage from '@react-native-community/async-storage';
 import Constants from "./Constants";
 import { NavigationActions } from "react-navigation";
 import NavigationService from "./navigationService";
 import { Platform } from "react-native";
-import firebase from "react-native-firebase";
-import AsyncStorage from '@react-native-community/async-storage';
 import { addItem } from '../services/FirebaseDatabase/addAfterSignup';
+import firebase from "react-native-firebase";
 
 export const loadDataChange = (payload) => {
   return {
@@ -123,7 +124,12 @@ export const loginPassChange = (pass) => {
     payload: pass,
   };
 };
-
+export const loginNumberChange = (number) => {
+  return {
+    type: LOGIN_NUMBER,
+    payload: number,
+  };
+}
 export const checkUsername = () => {
   return async (dispatch, getState) => {
     const state = getState();
@@ -176,7 +182,9 @@ export const checkEmail = () => {
           checkEmailFail(data, dispatch);
         }
       })
-      .catch((error) => {});
+      .catch((error) => {
+        
+      });
   };
 };
 
@@ -262,6 +270,8 @@ export const signUpUser = () => {
 
 export const loginUser = () => {
   return (dispatch, getState) => {
+    console.log("GET STATE ---->",getState());
+
     const state = getState();
     const baseurl = Constants.baseurl;
     const loginEmail = state.login.email;

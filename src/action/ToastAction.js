@@ -5,7 +5,7 @@ var {width,height} =  Dimensions.get('window');
 export const showToastSuccess = (msg) => {
     Toast.show({
       text: msg,
-      duration: 3000,
+      duration: 5000,
       type: 'success',
       style: {
         backgroundColor: "black",
@@ -22,7 +22,7 @@ export const showToastSuccess = (msg) => {
   export const showToastError = (msg) => {
     Toast.show({
       text: msg,
-      duration: 3000,
+      duration: 5000,
       type: 'danger',
       style: {
         backgroundColor: "black",

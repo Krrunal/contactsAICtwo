@@ -6,14 +6,22 @@ platform :ios, '10.0'
 target 'contactsAIC' do
   config = use_native_modules!
 
+  permissions_path = '../node_modules/react-native-permissions/ios'
+
+  pod 'Permission-Camera', :path => "#{permissions_path}/Camera.podspec"
+  pod 'Permission-Contacts', :path => "#{permissions_path}/Contacts.podspec" 
+
   use_react_native!(:path => config["reactNativePath"])
 
   pod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons'
 
   pod 'RNCCheckbox', :path => '../node_modules/@react-native-community/checkbox'
-  # pod 'RNFirebase', :path => '../node_modules/react-native-firebase/ios'
+  pod 'RNFirebase', :path => '../node_modules/react-native-firebase/ios'
+
 
   pod 'RNImageCropPicker', :path => '../node_modules/react-native-image-crop-picker'
+  pod 'Firebase/Core', '~> 6.32.2'
+  pod 'Firebase/Storage', '~> 6.13.0'
 
   target 'contactsAICTests' do
     inherit! :complete

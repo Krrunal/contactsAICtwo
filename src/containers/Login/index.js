@@ -1,8 +1,7 @@
 import * as actions from "../../action";
 
-/* eslint-disable no-undef */
-// eslint-disable-next-line prettier/prettier
 import {
+  Dimensions,
   Image,
   Keyboard,
   Text,
@@ -11,14 +10,17 @@ import {
   View,
 } from "react-native";
 import React, { Component } from "react";
-import { Root, Toast } from "native-base";
 import styled, { ThemeProvider } from "styled-components/native";
 
 import { COLORS } from "../theme/Colors.js";
+import Font from "../theme/font";
 import GeneralStatusBar from "../../components/StatusBar/index";
 import Icon from "react-native-vector-icons/FontAwesome";
 import { InputCard } from "../../components/InputCard";
+import IntlPhoneInput from "react-native-intl-phone-input";
+import Metrics from "../theme/Metrics";
 import NetInfo from "@react-native-community/netinfo";
+import { Root } from "native-base";
 import { Spinner } from "../../components/Spinner";
 import { TouchableHighlight } from "react-native-gesture-handler";
 import { bindActionCreators } from "redux";
@@ -26,8 +28,11 @@ import checked from "../../assets/icons/checked.png";
 import { connect } from "react-redux";
 import innerimg from "../../assets/images/innerimg.png";
 import logo from "../../assets/images/logo.png";
+import { showToastError } from "../../action/ToastAction";
 import styles from "./style.js";
 import unchecked from "../../assets/icons/unchecked.png";
+
+var { width, height } = Dimensions.get("window");
 
 class Login extends Component {
   constructor(props) {
@@ -35,11 +40,13 @@ class Login extends Component {
     this.state = {
       checked: false,
       isKeyboardVisible: false,
-      show: true,
+      show: false,
       phone_number: "",
       password: "",
       checkedOff: false,
       email: "",
+      viewIntl: false,
+      emailLogin: "",
     };
   }
 
@@ -74,60 +81,93 @@ class Login extends Component {
   loginUser = () => {
     NetInfo.fetch().then((state) => {
       if (state.isConnected) {
-        const { email, password } = this.props;
-        email == ""
-          ? this.setState({ unameError: "Please enter username" })
-          : this.setState({ unameError: "" });
-        password == ""
-          ? this.setState({ passwordError: "Please enter password" })
-          : this.setState({ passwordError: "" });
-        if (email && password) {
-          this.props.loginUser();
+        const { phone_number, emailLogin } = this.state;
+        if (emailLogin == "" && phone_number == "") {
+          showToastError("Please fill all required fileds");
         }
+        if (emailLogin !== "" && phone_number !== "") {
+          showToastError("Only one filed required");
+        } else {
+          if (phone_number != "") {
+            this.props.loginEmailChange(phone_number);
+            this.props.loginUser();
+          }
+          if (emailLogin != "") {
+            this.props.loginEmailChange(emailLogin);
+            this.props.loginUser();
+          }
+        }
+
+        //const { password } = this.props;
+
+        // emailLogin == ""
+        //   ? this.setState({ unameError: "Please enter username" })
+        //   : this.setState({ unameError: "" });
+        // password == ""
+        //   ? this.setState({ passwordError: "Please enter password" })
+        //   : this.setState({ passwordError: "" });
+
+        // if (emailLogin && password) {
+        //   //alert("yes");
+        //   this.props.loginUser();
+        // }
       } else {
         alert("Net is not connected");
       }
     });
-    // const { email, password } = this.props;
-    // email == ""
-    //   ? this.setState({ unameError: "Please enter username" })
-    //   : this.setState({ unameError: "" });
-    // password == ""
-    //   ? this.setState({ passwordError: "Please enter password" })
-    //   : this.setState({ passwordError: "" });
-    // if (email && password) {
-    //   NetInfo.fetch().then((state) => {
-    //     if (state.isConnected) {
-    //       alert("yes");
-    //     } else {
-    //       alert("no");
-    //     }
-    //   });
-    //   // this.props.loginUser();
-    // }
   };
 
   onSubmit(value) {
     switch (value) {
-      case "email":
-        this.refs.emailCont.refs.email.focus();
+      case "emailLogin":
+        this.refs.emailCont.refs.emailLogin.focus();
         break;
-
       case "password":
         this.refs.LoginpasswordCont.refs.password.focus();
+        break;
+      case "phone":
+        this.refs.phoneCont.refs.phone.focus();
         break;
     }
     console.log(value);
   }
-
+  onChangeNumber = ({
+    dialCode,
+    unmaskedPhoneNumber,
+    phoneNumber,
+    isVerified,
+  }) => {
+    if (isVerified == true) {
+      this.setState({ phone_number: dialCode + "-" + unmaskedPhoneNumber });
+    } else {
+      this.setState({ phone_number: unmaskedPhoneNumber });
+    }
+  };
+  changeEmailLogin = (emailLogin) => {
+    this.setState({ email_login: emailLogin });
+  };
   showLoader() {
     if (this.props.loader == true) {
       return <Spinner />;
     }
   }
-
+  viewIntlToggle = () => {
+    if (this.state.viewIntl == true) {
+      this.setState({ viewIntl: false });
+    } else {
+      this.setState({ viewIntl: true });
+    }
+  };
   render() {
-    const { email, password, loginEmailChange, loginPassChange } = this.props;
+    const {
+      email,
+      password,
+      loginEmailChange,
+      loginPassChange,
+      loginNumberChange,
+      phone,
+      emailLogin,
+    } = this.props;
 
     return (
       <ThemeProvider theme={this.props.theme}>
@@ -148,19 +188,94 @@ class Login extends Component {
                   <Image source={logo} style={styles.logoImg} />
                   <Text style={styles.logoText}>CONTACTS AIC</Text>
                 </View>
-                <View style={styles.viewEmail}>
+                <TouchableOpacity onPress={this.viewIntlToggle}>
+                  {this.state.viewIntl == true ? (
+                    <View>
+                      <IntlPhoneInput
+                        containerStyle={{
+                          width: width * 0.85,
+                          height: height * 0.06,
+                          backgroundColor: COLORS.main_sky_blue,
+                          marginTop: Metrics.doubleBaseMargin,
+                        }}
+                        phoneInputStyle={styles.mobileInputText}
+                        dialCodeTextStyle={styles.mobileInputText}
+                        dialCode={this.state.dialCode}
+                        value={phone}
+                        inputRef={"phone"}
+                        keyboardType={"numeric"}
+                        onChangeText={this.onChangeNumber}
+                        defaultCountry="CA"
+                        isShowLabelManually={false}
+                      />
+                    </View>
+                  ) : (
+                    <TouchableHighlight
+                      style={styles.viewEmail}
+                      onPress={() => this.setState({ viewIntl: true })}
+                    >
+                      <Text style={styles.phnText}>Phone Number</Text>
+                    </TouchableHighlight>
+                  )}
+                </TouchableOpacity>
+                {/* <View>
+                  <IntlPhoneInput
+                    containerStyle={{
+                      width: width * 0.85,
+                      height: height * 0.06,
+                      backgroundColor: COLORS.main_sky_blue,
+                      marginTop: Metrics.doubleBaseMargin,
+                    }}
+                    phoneInputStyle={styles.mobileInputText}
+                    dialCodeTextStyle={styles.mobileInputText}
+                    dialCode={this.state.dialCode}
+                    value={phone}
+                    inputRef={(ref) => (this.phoneInput = ref)}
+                    keyboardType={"numeric"}
+                    onChangeText={this.onChangeNumber}
+                    defaultCountry="CA"
+                    isShowLabelManually={false}
+                  />
+                </View> */}
+                {this.state.contactError == undefined ||
+                this.state.contactError == "" ? null : (
+                  <Text style={styles.error}>{this.state.contactError}</Text>
+                )}
+                {/* <View style={[styles.viewEmail, { marginTop: height * 0.07 }]}>
+              
                   <InputCard
-                    onChangeText={loginEmailChange}
+                    onChangeText={loginNumberChange}
+                    blurOnSubmit={false}
+                    autoCapitalize={true}
+                    ref={"phoneCont"}
+                    inputRef={"phone"}
+                    onSubmitEditing={(phone) => this.onSubmit("phone")}
+                    value={phone}
+                    returnKey={"next"}
+                    keyboardType={"numeric"}
+                    secureEntry={false}
+                    placeholder={"Phone Number"}
+                    style={styles.uText}
+                  ></InputCard>
+                </View> */}
+                <View style={styles.orView}>
+                  <Text style={styles.orText}>OR</Text>
+                </View>
+                <View style={[styles.viewEmail, { marginTop: height * 0.01 }]}>
+                  <InputCard
+                    onChangeText={(emailLogin) => this.setState({ emailLogin })}
                     blurOnSubmit={false}
                     autoCapitalize={true}
                     ref={"emailCont"}
-                    inputRef={"email"}
-                    onSubmitEditing={(email) => this.onSubmit("email")}
-                    value={email}
+                    inputRef={"emailLogin"}
+                    onSubmitEditing={(emailLogin) =>
+                      this.onSubmit("emailLogin")
+                    }
+                    value={emailLogin}
                     returnKey={"next"}
                     keyboardType={"email-address"}
                     secureEntry={false}
-                    placeholder={"Phone Number or Username"}
+                    placeholder={"Username"}
                     style={styles.uText}
                   ></InputCard>
                 </View>
@@ -169,7 +284,9 @@ class Login extends Component {
                   <Text style={styles.error}>{this.state.unameError}</Text>
                 )}
 
-                <View style={styles.viewPassword}>
+                <View
+                  style={[styles.viewPassword, { marginTop: height * 0.03 }]}
+                >
                   <InputCard
                     onChangeText={loginPassChange}
                     blurOnSubmit={false}
@@ -218,12 +335,13 @@ class Login extends Component {
                 >
                   <Text style={styles.loginText}>Log In</Text>
                 </TouchableOpacity>
-                <View style={styles.rememberView}>
-                  <TouchableHighlight
-                    style={styles.rememberContain}
-                    underlayColor="transparent"
-                    onPress={this.check}
-                  >
+
+                <TouchableHighlight
+                  //style={styles.rememberContain}
+                  underlayColor="transparent"
+                  onPress={this.check}
+                >
+                  <View style={styles.rememberView}>
                     {this.state.checkedOff == true ? (
                       <View style={styles.checkView}>
                         <Image source={checked} style={styles.checkedStyle} />
@@ -231,10 +349,11 @@ class Login extends Component {
                     ) : (
                       <View style={styles.checkView}></View>
                     )}
-                  </TouchableHighlight>
 
-                  <Text style={styles.rememberText}>Remember Me</Text>
-                </View>
+                    <Text style={styles.rememberText}>Remember Me</Text>
+                  </View>
+                </TouchableHighlight>
+
                 <View style={styles.lineStyle}>
                   <View style={styles.lineView}></View>
                   <Text style={styles.orText}>OR </Text>
@@ -257,6 +376,8 @@ class Login extends Component {
 }
 
 function mapStateToProps(state) {
+  //console.log("State From Log -- in------->", state);
+
   return {
     response: state.login.response,
     theme: state.themeReducer.theme,

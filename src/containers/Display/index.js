@@ -11,7 +11,7 @@ import {
 import React, { Component } from "react";
 import { connect, useDispatch, useSelector } from "react-redux";
 import { darkTheme, lightTheme } from "../theme/themeProps";
-import {shortFirstName, shortLastName} from "../theme/sortNameProps";
+import { shortFirstName, shortLastName } from "../theme/sortNameProps";
 import styled, { ThemeProvider } from "styled-components/native";
 
 import CheckBox from "@react-native-community/checkbox";
@@ -47,20 +47,23 @@ class display extends Component {
         this.setState({ checked4: true });
         this.setState({ checked5: false });
       }
-      if (this.props.contactChange.mode === "first"){
+      if (this.props.contactChange.mode === "first") {
         this.setState({ checked: false });
         this.setState({ checked1: true });
-      }else{
+      } else {
         this.setState({ checked: true });
         this.setState({ checked1: false });
       }
-      // if (this.props.contactChange.mode === "first"){
-      //   this.setState({ checked: true });
-      //   this.setState({ checked1: false });
-      // }else{
-      //   this.setState({ checked: false });
-      //   this.setState({ checked1: true });
-      // }
+    }
+  };
+
+  checkName = () => {
+    if (this.state.checked2 == true) {
+      this.setState({ checked2: false, checked3: true });
+      //this.props.switchContact(shortFirstName);
+    } else {
+      this.setState({ checked2: true, checked3: false });
+     // this.props.switchContact(shortLastName);
     }
   };
 
@@ -126,9 +129,7 @@ class display extends Component {
               <View style={styles.checkView}>
                 <CheckBox
                   value={this.state.checked2}
-                  onValueChange={() =>
-                    this.setState({ checked2: !this.state.checked2 })
-                  }
+                  onValueChange={this.checkName}
                   tintColors={{ true: "#1374A3", false: "#1374A3" }}
                 />
                 <NormalText>First Name First</NormalText>
@@ -136,9 +137,7 @@ class display extends Component {
               <View style={styles.checkViewtwo}>
                 <CheckBox
                   value={this.state.checked3}
-                  onValueChange={() =>
-                    this.setState({ checked3: !this.state.checked3 })
-                  }
+                  onValueChange={this.checkName}
                   tintColors={{ true: "#1374A3", false: "#1374A3" }}
                 />
                 <NormalText>Last Name First</NormalText>
@@ -195,17 +194,18 @@ class display extends Component {
 function mapStateToProps(state) {
   console.log(
     "State from display--->",
-    state.sortContactsReducer.contactChange
+    state.switchNameReducer.nameChange
   );
   return {
     theme: state.themeReducer.theme,
     contactChange: state.sortContactsReducer.contactChange,
+    nameChange:state.switchNameReducer.nameChange,
   };
 }
 
 const mapDispatchToProps = (dispatch) => ({
   switchTheme: bindActionCreators(switchTheme, dispatch),
-  switchContact:bindActionCreators(switchContact,dispatch)
+  switchContact: bindActionCreators(switchContact, dispatch),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(display);

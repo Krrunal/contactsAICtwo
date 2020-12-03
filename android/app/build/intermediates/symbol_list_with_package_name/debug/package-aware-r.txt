@@ -1484,6 +1484,7 @@ drawable redbox_top_border_background
 drawable src_assets_icons_checked
 drawable src_assets_icons_close
 drawable src_assets_icons_contact
+drawable src_assets_icons_greencheck
 drawable src_assets_icons_help
 drawable src_assets_icons_iconcall
 drawable src_assets_icons_iconemail
@@ -1496,6 +1497,7 @@ drawable src_assets_icons_isquare
 drawable src_assets_icons_isquarewhite
 drawable src_assets_icons_label
 drawable src_assets_icons_navicon
+drawable src_assets_icons_redwrong
 drawable src_assets_icons_settings
 drawable src_assets_icons_unchecked
 drawable src_assets_images_bordercorner

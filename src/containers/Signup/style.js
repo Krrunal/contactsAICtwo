@@ -3,6 +3,7 @@ import { Dimensions, StyleSheet } from "react-native";
 import { COLORS } from "../theme/Colors.js";
 import Font from "../theme/font";
 import Metrics from "../theme/Metrics";
+import {Modal} from 'react-native-paper';
 
 var { width, height } = Dimensions.get("window");
 
@@ -18,7 +19,7 @@ export default StyleSheet.create({
     width: width * 0.9,
     height: height * 0.065,
     borderRadius: 10,
-    marginTop: Metrics.xsmallMargin,
+    marginTop: Metrics.doubleBaseMargin,
     // justifyContent:'center',
     flexDirection: "row",
     alignItems: "center",
@@ -50,7 +51,7 @@ export default StyleSheet.create({
 
   passView: {
     backgroundColor: COLORS.main_sky_blue,
-    marginTop: height * 0.005,
+  
     width: width * 0.9,
     height: height * 0.065,
     borderRadius: 8,
@@ -111,6 +112,8 @@ export default StyleSheet.create({
     width: width,
     justifyContent: "center",
     alignItems: "center",
+    marginTop: Metrics.doubleBaseMargin,
+
   },
 
   normalText: {
@@ -133,6 +136,8 @@ export default StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
+    marginRight: Metrics.baseMargin,
+
   },
 
   checkIcon: {
@@ -206,6 +211,7 @@ export default StyleSheet.create({
   reqtext: {
     fontSize: width * 0.026,
     marginLeft: width * 0.01,
+    fontFamily:Font.regular
   },
   eyeContain: {
   //  borderWidth: 2,
@@ -220,7 +226,7 @@ export default StyleSheet.create({
     justifyContent:'center',
     alignItems:'center',
    // color:COLORS.main_text_color,
-    marginLeft:Metrics.baseMargin,
+    marginLeft:Metrics.xdoubleBaseMargin,
     width: width * 0.7,
     color:COLORS.main_text_color
   },
@@ -233,5 +239,26 @@ export default StyleSheet.create({
     marginLeft:Metrics.baseMargin,
     width: width * 0.7,
     color:COLORS.green
-  }
+  },
+  errorView:{
+    marginLeft:Metrics.smallMargin,
+
+  },
+  modalView : {
+    flexDirection:"row",
+    marginTop:Metrics.baseMargin,
+    alignItems:'center',
+   
+  },
+  modelText:{
+    marginLeft:Metrics.baseMargin,
+    fontSize: width*0.04, 
+    fontFamily: Font.medium,
+  },
+  modelIcon: {
+  width: width * 0.045,
+    height: width * 0.045,
+    resizeMode: "contain",
+  },
+
 });

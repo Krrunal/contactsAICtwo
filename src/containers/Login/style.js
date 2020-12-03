@@ -10,24 +10,25 @@ export default StyleSheet.create({
   container: {
     flex: 1,
     height: height,
-    // backgroundColor:COLORS.white,
     alignItems: "center",
+    justifyContent: "center",
   },
 
   headerView: {
     width: width,
     alignItems: "center",
     justifyContent: "center",
-    marginTop: height * 0.15,
+    // marginTop: height * 0.10,
   },
 
   viewEmail: {
     backgroundColor: COLORS.main_sky_blue,
-    marginTop: height * 0.07,
     width: width * 0.85,
     height: height * 0.06,
     borderRadius: 8,
     justifyContent: "center",
+
+    marginTop: Metrics.doubleBaseMargin,
   },
 
   viewPassword: {
@@ -62,6 +63,9 @@ export default StyleSheet.create({
     marginTop: Metrics.baseMargin,
     justifyContent: "center",
     alignItems: "center",
+
+    width: width * 0.5,
+    height: width * 0.1,
   },
 
   rememberText: {
@@ -163,33 +167,47 @@ export default StyleSheet.create({
 
   error: {
     color: COLORS.red,
-    // borderWidth: 1,
     alignSelf: "center",
     width: width * 0.75,
     marginTop: height * 0.005,
   },
   eyeContain: {
-    // borderWidth: 2,
     width: width * 0.08,
     height: width * 0.08,
     alignItems: "center",
     justifyContent: "center",
   },
-  rememberContain:{
-  //  borderWidth: 2,
+  rememberContain: {
     width: width * 0.09,
     height: width * 0.09,
-    alignItems: "center",
-    justifyContent: "center",
   },
-  uText:{
-    fontSize: width*0.04, 
+  uText: {
+    fontSize: width * 0.04,
     fontFamily: Font.medium,
-    justifyContent:'center',
-    alignItems:'center',
-   // color:COLORS.main_text_color,
-    marginLeft:Metrics.baseMargin,
+    justifyContent: "center",
+    alignItems: "center",
+    marginLeft: Metrics.baseMargin,
     width: width * 0.7,
-    color:COLORS.main_text_color
+    color: COLORS.main_text_color,
+  },
+  orView: {
+    marginTop: height * 0.01,
+  },
+  orText: {
+    fontSize: width * 0.04,
+    fontFamily: Font.regular,
+    color: COLORS.main_text_color,
+  },
+  mobileInputText: {
+    fontSize: width * 0.04,
+    fontFamily: Font.medium,
+    color: COLORS.main_text_color,
+
+  },
+  phnText: {
+    fontSize: width * 0.04,
+    fontFamily: Font.medium,
+    color: COLORS.main_text_color,
+    marginLeft: Metrics.baseMargin,
   },
 });

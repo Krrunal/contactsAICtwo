@@ -29,7 +29,7 @@ import { Spinner } from "../../components/Spinner";
 import Toast from "react-native-easy-toast";
 import { TouchableWithoutFeedback } from "react-native-gesture-handler";
 import { bindActionCreators } from "redux";
-import checked from "../../assets/icons/checked.png";
+import checked from "../../assets/icons/greenCheck.png";
 import { connect } from "react-redux";
 import firebase from "react-native-firebase";
 import helper from "../../util/helper";
@@ -39,7 +39,7 @@ import logo from "../../assets/images/logo.png";
 import { regEmailChange } from "../../action/Authactions";
 import style from "../../components/StatusBar/style";
 import styles from "./style.js";
-import wrong from "../../assets/icons/close.png";
+import wrong from "../../assets/icons/redWrong.png";
 
 var { width, height } = Dimensions.get("window");
 
@@ -55,18 +55,22 @@ class Signup extends Component {
     password: "",
     contact: "",
     confirmpassWord: "",
-    show: true,
-    showRender: true,
-
-    passwordInfo: [
-      { info: "1) Eight characters." },
-      { info: "2) Two lowercase letters." },
-      { info: "3) Two uppercase letters." },
-      { info: "4) Two special characters." },
-      { info: "5) Two numbers." },
-    ],
+    show: false,
+    showRender: false,
+    SignProp: false,
+    passSign: "",
+   
   };
+  // componentDidMount = () => {
 
+  //   // const {SignProp} = this.state;
+
+  //   // this.setState({SignProp : true})
+  //   // this.props.onlySignProp(SignProp);
+  //    // console.log("signin propSignPropthis.props.onlySignProp);
+
+  //    // this.props.regunameChange(uname);
+  // }
   maxUname = (uname) => {
     return uname.length > 20;
   };
@@ -80,6 +84,25 @@ class Signup extends Component {
   };
   ValidPass(password: string) {
     const re = /^(?=(.*?[A-Z]){2})(?=(.*?[a-z]){2})(?=(.*?[0-9]){2})(?=(.*?[#?!@$%^&*-]){2}).{8,}$/;
+    return re.test(password);
+  }
+  ValidLower(password: string) {
+    const re = /(?=(.*?[a-z]){2})/;
+    return re.test(password);
+  }
+  ValidUper(password: string) {
+    const re = /(?=(.*?[A-Z]){2})/;
+    return re.test(password);
+  }
+  ValidEightChar = (password) => {
+    return password.length > 7;
+  }
+  ValidSpecialChar(password: string) {
+    const re = /(?=(.*?[#?!@$%^&*-]){2})/;
+    return re.test(password);
+  }
+  ValidTwoNumber(password: string) {
+    const re = /(?=(.*?[0-9]){2})/;
     return re.test(password);
   }
   matchPassword = (password, confirmpassWord) => {
@@ -110,7 +133,7 @@ class Signup extends Component {
       console.log("Sucess");
       this.props.signUpUser();
     } else {
-      this.refs.toast.show("Please fill all required filed");
+      this.refs.toast.show("Please fill all required fileds", 1000);
     }
     // if(uname && this.state.unameError==(""|| undefined) && this.props.usernameMsg == true &&
     // contact && this.state.contactError == (""|| undefined) && this.props.contactMsg == true &&
@@ -157,17 +180,17 @@ class Signup extends Component {
     isVerified,
   }) => {
     if (isVerified == true) {
+
       this.props.regcontactChange(dialCode + "-" + unmaskedPhoneNumber);
       this.setState({ contactError: "" });
       this.props.checkContact();
     } else {
       this.props.regcontactChange(unmaskedPhoneNumber);
-      this.setState({ contactError: "Please enter valid number" });
+      this.setState({ contactError: "Please enter valid Phone number" });
     }
   };
 
   changeUname = (uname) => {
-    // const uname= this.props;
     this.props.regunameChange(uname);
 
     if (uname == "") {
@@ -201,6 +224,7 @@ class Signup extends Component {
   };
 
   changePassword = (password) => {
+    this.setState({ passSign: password });
     this.props.regPassChange(password);
     if (password == "") {
       this.setState({ passwordError: "Please enter password" });
@@ -212,7 +236,54 @@ class Signup extends Component {
       this.setState({ passwordError: "" });
     }
   };
-
+  submitEdit = () => {
+    this.setState({ isPassModelOpen: true });
+  };
+  showModelData = () => {
+    const { passSign } = this.state;
+    if (this.ValidUper(passSign)) {
+      return <Image source={checked} style={styles.modelIcon} />;
+    }
+    if (!this.ValidUper(passSign)) {
+      return <Image source={wrong} style={styles.modelIcon} />;
+    }
+  };
+  showModelLower = () => {
+    const { passSign } = this.state;
+    if (this.ValidLower(passSign)) {
+      return <Image source={checked} style={styles.modelIcon} />;
+    }
+    if (!this.ValidLower(passSign)) {
+      return <Image source={wrong} style={styles.modelIcon} />;
+    }
+  };
+  showModelEightChar = () => {
+    const { passSign } = this.state;
+    if (this.ValidEightChar(passSign)) {
+      return <Image source={checked} style={styles.modelIcon} />;
+    }
+    if (!this.ValidEightChar(passSign)) {
+      return <Image source={wrong} style={styles.modelIcon} />;
+    }
+  };
+  showModelSpecialChar = () => {
+    const { passSign } = this.state;
+    if (this.ValidSpecialChar(passSign)) {
+      return <Image source={checked} style={styles.modelIcon} />;
+    }
+    if (!this.ValidSpecialChar(passSign)) {
+      return <Image source={wrong} style={styles.modelIcon} />;
+    }
+  }
+  showModelTwoNnumber = () => {
+    const { passSign } = this.state;
+    if (this.ValidTwoNumber(passSign)) {
+      return <Image source={checked} style={styles.modelIcon} />;
+    }
+    if (!this.ValidTwoNumber(passSign)) {
+      return <Image source={wrong} style={styles.modelIcon} />;
+    }
+  }
   changeConfirmPassword = (confirmpassWord) => {
     this.props.regconfirmpassWord(confirmpassWord);
     if (confirmpassWord == "") {
@@ -284,11 +355,7 @@ class Signup extends Component {
                 <View>
                   <View>
                     <View style={styles.mobileInputView}>
-                      <View
-                        style={{  width: width * 0.4,  position: "absolute",  top: 0,   left: 10, }}
-                      >
-                        <BoldBlack>*Phone number : </BoldBlack>
-                      </View>
+                    
                       <IntlPhoneInput
                         containerStyle={{
                           height: height * 0.065,
@@ -296,47 +363,49 @@ class Signup extends Component {
                         }}
                         phoneInputStyle={styles.mobileInputText}
                         dialCodeTextStyle={styles.mobileInputText}
-                        dialCode={dialCode}
-                        // placeholder='3265'
                         value={number}
                         inputRef={(ref) => (this.phoneInput = ref)}
                         keyboardType={"numeric"}
                         onChangeText={this.onChangeNumber}
+                        defaultCountry="CA"
+                        isShowLabel={false}
                       />
                       {/* <Text>hi</Text> */}
                       <View style={styles.contactEyeView}>
                         {this.showContactError()}
                       </View>
                     </View>
-                    {(this.state.contactError == undefined ||
-                      this.state.contactError == "") &&
-                    this.props.contactMsg == true &&
-                    contact.indexOf("+") !== -1 ? (
-                      <Text style={styles.error}>
-                        Contact <Text style={styles.errorSuccess}>is</Text>{" "}
-                        available
-                      </Text>
-                    ) : null}
-                    {(this.state.contactError == undefined ||
-                      this.state.contactError == "") &&
-                    this.props.contactMsg == false ? (
-                      <Text style={styles.error}>
-                        Contact <Text style={styles.errorFail}>is not</Text>{" "}
-                        available
-                      </Text>
-                    ) : null}
-                    {this.state.contactError == undefined ||
-                    this.state.contactError == "" ? null : (
-                      <Text style={[styles.error, { color: COLORS.red }]}>
-                        {this.state.contactError}
-                      </Text>
-                    )}
+                    <View style={styles.errorView}>
+                      {(this.state.contactError == undefined ||
+                        this.state.contactError == "") &&
+                      this.props.contactMsg == true &&
+                      contact.indexOf("+") !== -1 ? (
+                        <Text style={styles.error}>
+                          Phone number{" "}
+                          <Text style={styles.errorSuccess}>is</Text> available
+                        </Text>
+                      ) : null}
+                      {(this.state.contactError == undefined ||
+                        this.state.contactError == "") &&
+                      this.props.contactMsg == false ? (
+                        <Text style={styles.error}>
+                          Phone number{" "}
+                          <Text style={styles.errorFail}>is not</Text> available
+                        </Text>
+                      ) : null}
+                      {this.state.contactError == undefined ||
+                      this.state.contactError == "" ? null : (
+                        <Text style={[styles.error, { color: COLORS.red }]}>
+                          {this.state.contactError}
+                        </Text>
+                      )}
+                    </View>
                   </View>
 
                   <View>
-                    <View style={styles.userText}>
+                    {/* <View style={styles.userText}>
                       <BoldBlack>*Username :</BoldBlack>
-                    </View>
+                    </View> */}
                     <View style={styles.mobileView}>
                       <InputCard
                         onChangeText={(uname) => this.changeUname(uname)}
@@ -344,14 +413,12 @@ class Signup extends Component {
                         autoCapitalize={true}
                         ref={"unameCont"}
                         inputRef={"uname"}
-                        // onSubmitEditing={(uname) => this.onSubmit("uname")}
                         value={uname}
                         returnKey={"next"}
                         style={styles.uText}
-                        // onFocus={() => this.setState({ userNameError: '' })}
                         keyboardType={"default"}
                         secureEntry={false}
-                        placeholder={""}
+                        placeholder={"Username"}
                       ></InputCard>
                       <View style={styles.eyeView}>
                         {uname !== "" &&
@@ -365,36 +432,38 @@ class Signup extends Component {
                         ) : null}
                       </View>
                     </View>
-                    {uname !== "" &&
-                    (this.state.unameError == undefined ||
-                      this.state.unameError == "") &&
-                    this.props.usernameMsg == true ? (
-                      <Text style={styles.error}>
-                        Username <Text style={styles.errorSuccess}>is</Text>{" "}
-                        available
-                      </Text>
-                    ) : null}
-                    {uname !== "" &&
-                    (this.state.unameError == undefined ||
-                      this.state.unameError == "") &&
-                    this.props.usernameMsg == false ? (
-                      <Text style={styles.error}>
-                        Username <Text style={styles.errorFail}>is not</Text>{" "}
-                        available
-                      </Text>
-                    ) : null}
-                    {this.state.unameError == undefined ||
-                    this.state.unameError == "" ? null : (
-                      <Text style={[styles.error, { color: COLORS.red }]}>
-                        {this.state.unameError}
-                      </Text>
-                    )}
+                    <View style={styles.errorView}>
+                      {uname !== "" &&
+                      (this.state.unameError == undefined ||
+                        this.state.unameError == "") &&
+                      this.props.usernameMsg == true ? (
+                        <Text style={styles.error}>
+                          Username <Text style={styles.errorSuccess}>is</Text>{" "}
+                          available
+                        </Text>
+                      ) : null}
+                      {uname !== "" &&
+                      (this.state.unameError == undefined ||
+                        this.state.unameError == "") &&
+                      this.props.usernameMsg == false ? (
+                        <Text style={styles.error}>
+                          Username <Text style={styles.errorFail}>is not</Text>{" "}
+                          available
+                        </Text>
+                      ) : null}
+                      {this.state.unameError == undefined ||
+                      this.state.unameError == "" ? null : (
+                        <Text style={[styles.error, { color: COLORS.red }]}>
+                          {this.state.unameError}
+                        </Text>
+                      )}
+                    </View>
                   </View>
 
                   <View>
-                    <View style={styles.userText}>
+                    {/* <View style={styles.userText}>
                       <BoldBlack>E-mail :</BoldBlack>
-                    </View>
+                    </View> */}
 
                     <View style={styles.mobileView}>
                       <InputCard
@@ -411,7 +480,7 @@ class Signup extends Component {
                         returnKey={"next"}
                         keyboardType={"email-address"}
                         secureEntry={false}
-                        placeholder={""}
+                        placeholder={"E-mail"}
                       ></InputCard>
                       <View style={styles.eyeView}>
                         {email !== "" && this.props.emailMsg == true ? (
@@ -423,39 +492,41 @@ class Signup extends Component {
                         ) : null}
                       </View>
                     </View>
-                    {(this.state.emailError == undefined ||
-                      this.state.emailError == "") &&
-                    this.props.emailMsg == true ? (
-                      <Text style={styles.error}>
-                        Email <Text style={styles.errorSuccess}>is</Text>{" "}
-                        available
-                      </Text>
-                    ) : null}
-                    {(this.state.emailError == undefined ||
-                      this.state.emailError == "") &&
-                    this.props.emailMsg == false ? (
-                      <Text style={styles.error}>
-                        Email <Text style={styles.errorFail}>is not</Text>{" "}
-                        available
-                      </Text>
-                    ) : null}
-                    {this.state.emailError == undefined ||
-                    this.state.emailError == "" ? null : (
-                      <Text style={[styles.error, { color: COLORS.red }]}>
-                        {this.state.emailError}
-                      </Text>
-                    )}
+                    <View style={styles.errorView}>
+                      {(this.state.emailError == undefined ||
+                        this.state.emailError == "") &&
+                      this.props.emailMsg == true ? (
+                        <Text style={styles.error}>
+                          Email <Text style={styles.errorSuccess}>is</Text>{" "}
+                          available
+                        </Text>
+                      ) : null}
+                      {(this.state.emailError == undefined ||
+                        this.state.emailError == "") &&
+                      this.props.emailMsg == false ? (
+                        <Text style={styles.error}>
+                          Email <Text style={styles.errorFail}>is not</Text>{" "}
+                          available
+                        </Text>
+                      ) : null}
+                      {this.state.emailError == undefined ||
+                      this.state.emailError == "" ? null : (
+                        <Text style={[styles.error, { color: COLORS.red }]}>
+                          {this.state.emailError}
+                        </Text>
+                      )}
+                    </View>
                   </View>
 
                   <View>
-                    <View style={styles.userText}>
-                      <BoldBlack>*Password :</BoldBlack>
+                    {/* <View style={styles.userText}>
+                    
                       <View style={styles.RigthView}>
                         <TouchableWithoutFeedback
                           onPress={() =>
                             this.setState({ isPassModelOpen: true })
                           }
-                          style={{ flexDirection: "row" }}
+                          style={{ flexDirection: "row" ,  marginTop: Metrics.smallMargin,}}
                         >
                           {this.props.theme.mode === "light" ? (
                             <Image
@@ -482,12 +553,17 @@ class Signup extends Component {
                               Password Requirements
                             </Text>
                           )}
-                          {/* <CountryText>Password Requirements</CountryText> */}
+                       
                         </TouchableWithoutFeedback>
                       </View>
-                    </View>
+                    </View> */}
 
-                    <View style={styles.passView}>
+                    <View
+                      style={[
+                        styles.passView,
+                        { marginTop: Metrics.doubleBaseMargin },
+                      ]}
+                    >
                       <InputCard
                         onChangeText={(password) =>
                           this.changePassword(password)
@@ -496,20 +572,16 @@ class Signup extends Component {
                         autoCapitalize={false}
                         ref={"passwordCont"}
                         inputRef={"password"}
-                        // onSubmitEditing={(password) =>
-                        // this.onSubmit("password")
+                        // onSubmitEditing={(confirmpassWord) =>
+                        // this.onSubmit("confirmpassWord")
                         // }
-
-                        style={
-                          this.props.password && this.ValidPass(password)
-                            ? styles.uTextGreen
-                            : styles.uText
-                        }
+                        onSubmitEditing={this.submitEdit}
+                        style={styles.uText}
                         value={password}
                         returnKey={"next"}
                         keyboardType={"default"}
                         secureEntry={this.state.show}
-                        placeholder={""}
+                        placeholder={"Password"}
                       ></InputCard>
 
                       <View style={styles.eyeView}>
@@ -534,9 +606,9 @@ class Signup extends Component {
                         </TouchableHighlight>
                       </View>
                     </View>
-                    <NormalText>
+                    {/* <NormalText>
                       Used for password / username recovery
-                    </NormalText>
+                    </NormalText> */}
                     {this.state.passwordError == undefined ||
                     this.state.passwordError == "" ? null : (
                       <Text style={[styles.error, { color: COLORS.red }]}>
@@ -546,10 +618,15 @@ class Signup extends Component {
                   </View>
 
                   <View>
-                    <View style={styles.userText}>
+                    {/* <View style={styles.userText}>
                       <BoldBlack>*Re-Enter Password :</BoldBlack>
-                    </View>
-                    <View style={styles.passView}>
+                    </View> */}
+                    <View
+                      style={[
+                        styles.passView,
+                        { marginTop: Metrics.doubleBaseMargin },
+                      ]}
+                    >
                       <InputCard
                         onChangeText={(confirmpassWord) =>
                           this.changeConfirmPassword(confirmpassWord)
@@ -561,17 +638,12 @@ class Signup extends Component {
                         // onSubmitEditing={(confirmpassWord) =>
                         // this.onSubmit("confirmpassWord")
                         // }
-                        style={
-                          confirmpassWord !== "" &&
-                          this.props.password == confirmpassWord
-                            ? styles.uTextGreen
-                            : styles.uText
-                        }
+                        style={styles.uText}
                         value={confirmpassWord}
                         returnKey={"next"}
                         keyboardType={"default"}
                         secureEntry={this.state.showRender}
-                        placeholder={""}
+                        placeholder={"Re-Enter Password"}
                       ></InputCard>
 
                       <View style={styles.eyeView}>
@@ -616,7 +688,7 @@ class Signup extends Component {
                   visible={this.state.isPassModelOpen}
                   transparent={true}
                   style={styles.footerModal}
-                  onBackPress={() => this.setState({ isPassModelOpen: false })}
+                  // onBackPress={() => this.setState({ isPassModelOpen: false })}
                 >
                   <View style={styles.contactContent}>
                     <View style={styles.popupHeader}>
@@ -630,18 +702,62 @@ class Signup extends Component {
                     </View>
                     <BoldBlack> Password must contain: </BoldBlack>
 
-                    <FlatList
+                    <View style={styles.modalView}>
+                      <View>{this.showModelData()}</View>
+                      <Text style={styles.modelText}>Two Uppercase letters.</Text>
+                    </View>
+                    <View style={styles.modalView}>
+                      <View>{this.showModelLower()}</View>
+                      <View >
+                        <Text style={styles.modelText}>Two lowercase letters.</Text>
+                      </View>
+                    </View>
+                    <View style={styles.modalView}>
+                      <View>{this.showModelEightChar()}</View>
+                      <View >
+                        <Text style={styles.modelText}>Eight characters.</Text>
+                      </View>
+                    </View>
+                    <View style={styles.modalView}>
+                      <View>{this.showModelSpecialChar()}</View>
+                      <View >
+                        <Text style={styles.modelText}> Two special characters.</Text>
+                      </View>
+                    </View>
+                    <View style={styles.modalView}>
+                      <View>{this.showModelTwoNnumber()}</View>
+                      <View >
+                        <Text style={styles.modelText}>Two numbers.</Text>
+                      </View>
+                    </View>
+                    {/* <View style={{ flexDirection: "row" }}>
+                      <View>
+                    
+                      </View>
+                      <View>
+                        <Text> Two lowercase letters.</Text>
+                      </View>
+                    </View> */}
+
+                    {/* passwordInfo: [
+                                { info: "1) Eight characters." },
+                                { info: "2) Two lowercase letters." },
+                                { info: "3) Two uppercase letters." },
+                                { info: "4) Two special characters." },
+                                { info: "5) Two numbers." },
+                              ], */}
+                    {/* <FlatList
                       refreshing={true}
                       keyExtractor={(item, index) => index.toString()}
                       data={this.state.passwordInfo}
                       extraData={this.state}
                       numColumns={1}
                       renderItem={this.passwordInfo.bind(this)}
-                      // scrollEnabled={true}
+                     
                       style={styles.flatlist}
-                      // showsVerticalScrollIndicator={false}
+                     
                       keyboardShouldPersistTaps={"always"}
-                    />
+                    /> */}
                   </View>
                 </Modal>
                 <Toast
@@ -675,12 +791,14 @@ class Signup extends Component {
 }
 
 function mapStateToProps(state) {
- 
+ /// console.log("State From Sign in------->", state);
+
   return {
     theme: state.themeReducer.theme,
     email: state.reg.email,
     contact: state.reg.contact,
-    dialCode: state.reg.contact.indexOf("-") !== -1 && state.reg.contact.split("-")[0],
+    dialCode:
+      state.reg.contact.indexOf("-") !== -1 && state.reg.contact.split("-")[0],
     number: state.reg.contact.split("-")[1],
     uname: state.reg.uname,
     password: state.reg.password,

@@ -601,7 +601,6 @@ class addmanuallyContact extends Component {
         },
         images: null,
       });
-      // this.uploadImage();
     });
   };
 
@@ -976,7 +975,7 @@ class addmanuallyContact extends Component {
                   inputRef={(ref) => (this.phoneInput = ref)}
                   keyboardType={"numeric"}
                   onChangeText={this.onChangeNumber}
-                  //editable={this.state.status ? true : false}
+                  isShowLabelManually={false}
                 />
               ) : (
                 <Text
@@ -986,18 +985,13 @@ class addmanuallyContact extends Component {
                     color: COLORS.main_text_color,
                     marginLeft: Metrics.baseMargin,
                   }}
-                >
-                  +90
-                </Text>
+                > +90  </Text>
               )}
 
               {this.state.status ? (
                 <TouchableHighlight
                   underlayColor="transparent"
-                  style={[
-                    styles.rightView,
-                    //   { marginTop: Metrics.doubleBaseMargin },
-                  ]}
+                  style={[styles.rightView]}
                   onPress={() => this.setState({ isMobileModelOpen: true })}
                 >
                   <Icon
@@ -1008,12 +1002,7 @@ class addmanuallyContact extends Component {
                 </TouchableHighlight>
               ) : null}
               {this.state.status && this.state.mobileLabel !== "" ? (
-                <View
-                  style={[
-                    styles.rightView,
-                    //  { marginTop: Metrics.doubleBaseMargin },
-                  ]}
-                >
+                <View style={[styles.rightView]}>
                   <Text style={styles.righttext}>{this.state.mobileLabel}</Text>
                 </View>
               ) : null}
@@ -1033,25 +1022,13 @@ class addmanuallyContact extends Component {
                         phoneInputStyle={styles.mobileInputText}
                         dialCodeTextStyle={styles.dialcodeText}
                         dialCode={this.state.dialCode}
-                        // placeholder='3265'
-                        //value={this.state.number2}
                         inputRef={(ref) => (this.phoneInput = ref)}
                         keyboardType={"numeric"}
                         onChangeText={(number) =>
                           this.onChangeNumberArray(number, key)
                         }
+                        isShowLabelManually={false}
                       />
-                      {/* <TextInput
-                      placeholder="Phone Number"
-                      style={styles.stylefiledText}
-                      placeholderTextColor={COLORS.main_text_color}
-                      maxLength={10}
-                      key={key}
-                      keyboardType={"number-pad"}
-                      onChangeText={(number) => {
-                        this.onChangeNumber(number, key);
-                      }}
-                    /> */}
                     </View>
                   </Swipeable>
                 );
@@ -1107,7 +1084,6 @@ class addmanuallyContact extends Component {
               visible={this.state.isAddMobileLabel}
               transparent={true}
               animationType="fade"
-              // onRequestClose={()=>this.setState({isAddMobileLabel: false})}
             >
               <View style={styles.contactContent}>
                 <View style={styles.content}>
@@ -3754,9 +3730,9 @@ class addmanuallyContact extends Component {
           companyCounter: this.state.companyCounter + 1,
           companySection: true,
           companyArray: [
-                ...this.state.companyArray,
-                { company: "", label: "", time: "", timeto: "" },
-              ],
+            ...this.state.companyArray,
+            { company: "", label: "", time: "", timeto: "" },
+          ],
         });
       }
     }
@@ -3779,7 +3755,7 @@ class addmanuallyContact extends Component {
       }
     }
     // this.setState({
-      
+
     //   companyArray: [
     //     ...this.state.companyArray,
     //     { company: "", label: "", time: "", timeto: "" },
@@ -3788,7 +3764,7 @@ class addmanuallyContact extends Component {
   };
 
   onChangeCompany = (value) => {
-    console.log("Comapny-------->",value)
+    console.log("Comapny-------->", value);
     this.state.company.company = value;
     this.setState({ company: this.state.company });
   };
@@ -4030,176 +4006,177 @@ class addmanuallyContact extends Component {
                 mode="time"
               />
             </TouchableOpacity>
-            {this.state.companySection == true &&this.state.companyArray.map((input, key) => {
-              return (
-                <Swipeable renderLeftActions={this.CompanyLeftAction}>
-                  <View key={key}>
-                    <View style={styles.filedView}>
-                      <TextInput
-                        placeholder="Company"
-                        style={styles.addressField}
-                        placeholderTextColor={COLORS.main_text_color}
-                        key={key}
-                        keyboardType={"default"}
-                        onChangeText={(company) => {
-                          this.onChangeCompanyArray(company, key);
-                        }}
-                      />
-                      <TouchableHighlight
-                        underlayColor="transparent"
-                        style={styles.addressRightView}
-                        // key={key}
-                        onPress={() =>
-                          this.setState({ isCompanyArrayModelOpen: true })
-                        }
-                      >
-                        <Icon
-                          style={styles.iconSize}
-                          size={width * 0.06}
-                          name="chevron-small-down"
+            {this.state.companySection == true &&
+              this.state.companyArray.map((input, key) => {
+                return (
+                  <Swipeable renderLeftActions={this.CompanyLeftAction}>
+                    <View key={key}>
+                      <View style={styles.filedView}>
+                        <TextInput
+                          placeholder="Company"
+                          style={styles.addressField}
+                          placeholderTextColor={COLORS.main_text_color}
+                          key={key}
+                          keyboardType={"default"}
+                          onChangeText={(company) => {
+                            this.onChangeCompanyArray(company, key);
+                          }}
                         />
-                      </TouchableHighlight>
-                      {this.state.companyArray[key].label !== "" ? (
-                        <View style={styles.addressRightView}>
-                          <Text style={styles.addressRighttext}>
-                            {this.state.companyArray[key].label}
-                          </Text>
-                        </View>
-                      ) : null}
-
-                      <Modal
-                        style={styles.footerModal}
-                        visible={this.state.isCompanyArrayModelOpen}
-                        transparent={true}
-                        animationType="fade"
-                        onRequestClose={() =>
-                          this.setState({ isCompanyArrayModelOpen: false })
-                        }
-                      >
-                        <View style={styles.contactContent}>
-                          <View style={styles.content}>
-                            <Text style={styles.modalHeader}>Company</Text>
-                            <View style={{ flexDirection: "column" }}>
-                              {this.state.companyLableList.map(
-                                (item, index) => {
-                                  return (
-                                    <TouchableHighlight
-                                      underlayColor="transparent"
-                                      onPress={() => {
-                                        this.changeCompanyLabelArray(
-                                          item.label,
-                                          key
-                                        );
-                                      }}
-                                    >
-                                      <Text style={styles.labelName}>
-                                        {" "}
-                                        {item.label}{" "}
-                                      </Text>
-                                    </TouchableHighlight>
-                                  );
-                                }
-                              )}
-                              <TouchableHighlight
-                                underlayColor="transparent"
-                                onPress={() =>
-                                  this.setState({
-                                    isAddCompanyArrayLabel: true,
-                                    company: "",
-                                  })
-                                }
-                              >
-                                <Text style={styles.labelName}> Custom </Text>
-                              </TouchableHighlight>
-                            </View>
-                          </View>
-                        </View>
-                      </Modal>
-                      <Modal
-                        style={styles.footerModal}
-                        visible={this.state.isAddCompanyArrayLabel}
-                        transparent={true}
-                        // key={key}
-                        animationType="fade"
-                      >
-                        <View style={styles.contactContent}>
-                          <View style={styles.content}>
-                            <Text style={styles.modalHeader}>
-                              Custom label name
+                        <TouchableHighlight
+                          underlayColor="transparent"
+                          style={styles.addressRightView}
+                          // key={key}
+                          onPress={() =>
+                            this.setState({ isCompanyArrayModelOpen: true })
+                          }
+                        >
+                          <Icon
+                            style={styles.iconSize}
+                            size={width * 0.06}
+                            name="chevron-small-down"
+                          />
+                        </TouchableHighlight>
+                        {this.state.companyArray[key].label !== "" ? (
+                          <View style={styles.addressRightView}>
+                            <Text style={styles.addressRighttext}>
+                              {this.state.companyArray[key].label}
                             </Text>
-                            <View style={{ flexDirection: "column" }}>
-                              <TextInput
-                                placeholder="Custom label name"
-                                style={styles.addLabelField}
-                                placeholderTextColor={COLORS.main_text_color}
-                                editable={this.state.status ? true : false}
-                                keyboardType={"default"}
-                                onChangeText={(label) => {
-                                  this.changeCompanyLabelArray(label, key);
-                                }}
-                              />
-                              <TouchableHighlight
-                                underlayColor="transparent"
-                                style={styles.saveView}
-                                onPress={() =>
-                                  this.state.companyLabel !== ""
-                                    ? this.setState({
-                                        isAddCompanyArrayLabel: false,
-                                        isCompanyArrayModelOpen: false,
-                                      })
-                                    : this.setState({
-                                        isAddCompanyArrayLabel: false,
-                                      })
-                                }
-                              >
-                                <Text
-                                  style={{
-                                    color: COLORS.main_text_color,
-                                    fontFamily: Font.medium,
-                                    fontSize: width * 0.04,
-                                  }}
+                          </View>
+                        ) : null}
+
+                        <Modal
+                          style={styles.footerModal}
+                          visible={this.state.isCompanyArrayModelOpen}
+                          transparent={true}
+                          animationType="fade"
+                          onRequestClose={() =>
+                            this.setState({ isCompanyArrayModelOpen: false })
+                          }
+                        >
+                          <View style={styles.contactContent}>
+                            <View style={styles.content}>
+                              <Text style={styles.modalHeader}>Company</Text>
+                              <View style={{ flexDirection: "column" }}>
+                                {this.state.companyLableList.map(
+                                  (item, index) => {
+                                    return (
+                                      <TouchableHighlight
+                                        underlayColor="transparent"
+                                        onPress={() => {
+                                          this.changeCompanyLabelArray(
+                                            item.label,
+                                            key
+                                          );
+                                        }}
+                                      >
+                                        <Text style={styles.labelName}>
+                                          {" "}
+                                          {item.label}{" "}
+                                        </Text>
+                                      </TouchableHighlight>
+                                    );
+                                  }
+                                )}
+                                <TouchableHighlight
+                                  underlayColor="transparent"
+                                  onPress={() =>
+                                    this.setState({
+                                      isAddCompanyArrayLabel: true,
+                                      company: "",
+                                    })
+                                  }
                                 >
-                                  {" "}
-                                  Ok{" "}
-                                </Text>
-                              </TouchableHighlight>
+                                  <Text style={styles.labelName}> Custom </Text>
+                                </TouchableHighlight>
+                              </View>
                             </View>
                           </View>
-                        </View>
-                      </Modal>
-                    </View>
-                    {/* Job Title" */}
-                    <View style={styles.filedView}>
-                      <TextInput
-                        placeholder="Job Title"
-                        style={styles.stylefiledText}
-                        placeholderTextColor={COLORS.main_text_color}
-                        value={this.state.job_title}
-                        editable={this.state.status ? true : false}
-                        onChangeText={(value) => this.onChangeJobTitle(value)}
-                      />
-                    </View>
-                    {/* Job Title finish */}
-                    <TouchableOpacity
-                      style={styles.filedView}
-                      onPress={this.showTimePickerArray}
-                    >
-                      {this.state.isVisibleWorkArray == false &&
-                      this.state.companyArray[key].time == "" ? (
-                        <View style={{ flexDirection: "row" }}>
-                          <Text style={styles.dateText}>Work Hour</Text>
-                        </View>
-                      ) : null}
+                        </Modal>
+                        <Modal
+                          style={styles.footerModal}
+                          visible={this.state.isAddCompanyArrayLabel}
+                          transparent={true}
+                          // key={key}
+                          animationType="fade"
+                        >
+                          <View style={styles.contactContent}>
+                            <View style={styles.content}>
+                              <Text style={styles.modalHeader}>
+                                Custom label name
+                              </Text>
+                              <View style={{ flexDirection: "column" }}>
+                                <TextInput
+                                  placeholder="Custom label name"
+                                  style={styles.addLabelField}
+                                  placeholderTextColor={COLORS.main_text_color}
+                                  editable={this.state.status ? true : false}
+                                  keyboardType={"default"}
+                                  onChangeText={(label) => {
+                                    this.changeCompanyLabelArray(label, key);
+                                  }}
+                                />
+                                <TouchableHighlight
+                                  underlayColor="transparent"
+                                  style={styles.saveView}
+                                  onPress={() =>
+                                    this.state.companyLabel !== ""
+                                      ? this.setState({
+                                          isAddCompanyArrayLabel: false,
+                                          isCompanyArrayModelOpen: false,
+                                        })
+                                      : this.setState({
+                                          isAddCompanyArrayLabel: false,
+                                        })
+                                  }
+                                >
+                                  <Text
+                                    style={{
+                                      color: COLORS.main_text_color,
+                                      fontFamily: Font.medium,
+                                      fontSize: width * 0.04,
+                                    }}
+                                  >
+                                    {" "}
+                                    Ok{" "}
+                                  </Text>
+                                </TouchableHighlight>
+                              </View>
+                            </View>
+                          </View>
+                        </Modal>
+                      </View>
+                      {/* Job Title" */}
+                      <View style={styles.filedView}>
+                        <TextInput
+                          placeholder="Job Title"
+                          style={styles.stylefiledText}
+                          placeholderTextColor={COLORS.main_text_color}
+                          value={this.state.job_title}
+                          editable={this.state.status ? true : false}
+                          onChangeText={(value) => this.onChangeJobTitle(value)}
+                        />
+                      </View>
+                      {/* Job Title finish */}
+                      <TouchableOpacity
+                        style={styles.filedView}
+                        onPress={this.showTimePickerArray}
+                      >
+                        {this.state.isVisibleWorkArray == false &&
+                        this.state.companyArray[key].time == "" ? (
+                          <View style={{ flexDirection: "row" }}>
+                            <Text style={styles.dateText}>Work Hour</Text>
+                          </View>
+                        ) : null}
 
-                      <Text style={styles.dateText}>
-                        {this.state.companyArray[key].time}
-                      </Text>
-                      {/* <Text style={styles.dateBlack}>To</Text> */}
-                      {this.state.companyArray[key].time !== "" ? (
-                        <Text style={styles.dateBlack}>To</Text>
-                      ) : null}
+                        <Text style={styles.dateText}>
+                          {this.state.companyArray[key].time}
+                        </Text>
+                        {/* <Text style={styles.dateBlack}>To</Text> */}
+                        {this.state.companyArray[key].time !== "" ? (
+                          <Text style={styles.dateBlack}>To</Text>
+                        ) : null}
 
-                      {/* <TouchableOpacity
+                        {/* <TouchableOpacity
                                   style={styles.dateView}
                                   onPress={this.showTimeToPickerArray}
                                 >  
@@ -4207,51 +4184,51 @@ class addmanuallyContact extends Component {
                                         00:00:00 AM/PM
                                       </Text>
                              </TouchableOpacity> */}
-                      {this.state.companyArray[key].time !== "" ? (
-                        <TouchableOpacity
-                          style={styles.dateView}
-                          onPress={this.showTimeToPickerArray}
-                        >
-                          {this.state.companyArray[key].timeto == "" ? (
-                            <View
-                              style={{
-                                justifyContent: "center",
-                                height: height * 0.05,
-                                marginTop: Metrics.baseMargin,
-                              }}
-                            >
-                              <Text style={styles.dateText}>
-                                00:00:00 AM/PM
-                              </Text>
-                            </View>
-                          ) : null}
-                          <Text style={styles.dateText}>
-                            {this.state.companyArray[key].timeto}
-                          </Text>
-                        </TouchableOpacity>
-                      ) : null}
-                    </TouchableOpacity>
-                    <DateTimePickerModal
-                      isVisible={this.state.isVisibleWorkArray}
-                      onConfirm={(time) =>
-                        this.onChangeWorkHoursArray(time, key)
-                      }
-                      onCancel={this.arrayPickerHide}
-                      mode="time"
-                    />
+                        {this.state.companyArray[key].time !== "" ? (
+                          <TouchableOpacity
+                            style={styles.dateView}
+                            onPress={this.showTimeToPickerArray}
+                          >
+                            {this.state.companyArray[key].timeto == "" ? (
+                              <View
+                                style={{
+                                  justifyContent: "center",
+                                  height: height * 0.05,
+                                  marginTop: Metrics.baseMargin,
+                                }}
+                              >
+                                <Text style={styles.dateText}>
+                                  00:00:00 AM/PM
+                                </Text>
+                              </View>
+                            ) : null}
+                            <Text style={styles.dateText}>
+                              {this.state.companyArray[key].timeto}
+                            </Text>
+                          </TouchableOpacity>
+                        ) : null}
+                      </TouchableOpacity>
+                      <DateTimePickerModal
+                        isVisible={this.state.isVisibleWorkArray}
+                        onConfirm={(time) =>
+                          this.onChangeWorkHoursArray(time, key)
+                        }
+                        onCancel={this.arrayPickerHide}
+                        mode="time"
+                      />
 
-                    <DateTimePickerModal
-                      isVisible={this.state.isVisibleWorkToArray}
-                      onConfirm={(timeto) =>
-                        this.onChangeWorkHoursToArray(timeto, key)
-                      }
-                      onCancel={this.arrayPickerHideTwo}
-                      mode="time"
-                    />
-                  </View>
-                </Swipeable>
-              );
-            })}
+                      <DateTimePickerModal
+                        isVisible={this.state.isVisibleWorkToArray}
+                        onConfirm={(timeto) =>
+                          this.onChangeWorkHoursToArray(timeto, key)
+                        }
+                        onCancel={this.arrayPickerHideTwo}
+                        mode="time"
+                      />
+                    </View>
+                  </Swipeable>
+                );
+              })}
 
             <TouchableOpacity
               onPress={() => this.addCompany()}
@@ -4638,6 +4615,8 @@ class addmanuallyContact extends Component {
 }
 
 function mapStateToProps(state) {
+  console.log("State From Add contact------->",state.login)
+
   return {
     theme: state.themeReducer.theme,
     user_id: state.login.shouldLoadData.user_id,
