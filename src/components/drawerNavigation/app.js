@@ -71,9 +71,9 @@ const RootNavigator = createStackNavigator({
     AddContact: {
       screen: AddContact,
       navigationOptions: {
-        gesturesEnabled: false,
+       // gesturesEnabled: true,
         header: null,
-        // drawerLockMode: 'unlocked',
+       // drawerLockMode: 'locked-open',
     }},
     Share: {
       screen: Share,

@@ -194,6 +194,7 @@ export default StyleSheet.create({
     fontSize: 15,
     paddingLeft: width * 0.03,
     paddingTop: height * 0.005,
+    fontFamily: Font.medium,
   },
 
   errorSuccess: {
@@ -201,6 +202,7 @@ export default StyleSheet.create({
     color: COLORS.green,
     paddingLeft: width * 0.03,
     paddingTop: height * 0.005,
+    fontFamily: Font.medium,
   },
   errorFail: {
     fontSize: 15,

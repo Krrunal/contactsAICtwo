@@ -1,7 +1,8 @@
 import {Dimensions, StyleSheet} from 'react-native';
+
 import {COLORS} from '../theme/Colors.js';
-import Metrics from '../theme/Metrics';
 import Font from '../theme/font';
+import Metrics from '../theme/Metrics';
 
 var {width, height} = Dimensions.get('window');
 export default StyleSheet.create({
@@ -62,6 +63,7 @@ export default StyleSheet.create({
   smallText: {
     fontFamily: Font.light,
     fontSize: width * 0.028,
+    color:COLORS.main_text_color
   },
 
   Whiteview:{

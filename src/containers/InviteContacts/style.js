@@ -97,5 +97,10 @@ export default StyleSheet.create({
         fontFamily: Font.regular,
         fontSize: width * 0.037,
         marginVertical: Metrics.doubleBaseMargin,
-    }
+    },
+    selectText: {
+  
+        fontFamily: Font.medium,
+        fontSize: width * 0.040,
+      },
 });

@@ -1,7 +1,8 @@
 import {Dimensions, StyleSheet} from 'react-native';
+
 import {COLORS} from '../theme/Colors.js';
-import Metrics from '../theme/Metrics';
 import Font from '../theme/font';
+import Metrics from '../theme/Metrics';
 
 var {width, height} = Dimensions.get('window');
 
@@ -46,6 +47,7 @@ export default StyleSheet.create({
   sizeText: {
     fontSize: width * 0.040,
     fontFamily: Font.regular,
+    color:COLORS.main_text_color
   },
 
   Whiteview: {
@@ -141,6 +143,7 @@ export default StyleSheet.create({
     textAlign: 'right',
     fontSize: width * 0.025,
     fontFamily:'Roboto-Light',
+    color:COLORS.main_text_color
   },
 
   SmallMiddle: {

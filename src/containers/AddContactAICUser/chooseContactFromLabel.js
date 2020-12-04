@@ -275,6 +275,6 @@ const Container = styled.View`
 const NormalText = styled.Text`
   font-family: Roboto-Light;
   font-size: 15px;
-  color: ${(props) => props.theme.iconColor};
+  color: ${(props) => props.theme.textColor};
   text-transform:capitalize
 `;

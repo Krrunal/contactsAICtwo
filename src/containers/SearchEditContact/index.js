@@ -40,7 +40,7 @@ class searchContact extends Component {
 
   componentDidMount() {
     const { navigation } = this.props;
-    this.focusListener = navigation.addListener("didFocus", async () => {
+    // this.focusListener = navigation.addListener("didFocus", async () => {
       if (this.props.contactChange.mode === "first") {
         this.contactList();
         console.log("first");
@@ -48,12 +48,18 @@ class searchContact extends Component {
         this.contactListFirst();
         console.log("Last");
       }
-    });
+    // });
+   // this.focusListener.remove();
   }
-
+  
   componentWillUnmount() {
-    this.focusListener.remove();
-    this.setState({ contact: [] });
+    // this.focusListener.remove();
+    // this.setState({ shortcontacts  : "" });
+    // this.focusListener.forEach(focusListener => {
+    //   focusListener.remove();
+    //   this.setState({ shortcontacts  : "" });
+    // })
+  //  this.focusListener();
   }
 
   async contactList() {
@@ -67,10 +73,11 @@ class searchContact extends Component {
       .then((snap) => {
         snap.forEach((doc) => {
           var item = doc._data;
+          //  console.log("Item data ------> ", doc._data)
           this.state.contact.push(item);
         });
         this.setState({ contacts: this.state.contact });
-        // this.setState({ nameContacts: this.state.contact });
+        console.log("Item data ------> ", this.state.contacts.first_name);
 
         const sort = this.state.contacts.sort(function (a, b) {
           if (a.first_name.toLowerCase() < b.first_name.toLowerCase())
@@ -95,8 +102,6 @@ class searchContact extends Component {
           this.state.contact.push(item);
         });
         this.setState({ contacts: this.state.contact });
-        // this.setState({ nameContacts: this.state.contact });
-
         const sort = this.state.contacts.sort(function (a, b) {
           if (a.last_name.toLowerCase() < b.last_name.toLowerCase()) return -1;
           if (a.last_name.toLowerCase() > b.last_name.toLowerCase()) return 1;
@@ -105,6 +110,7 @@ class searchContact extends Component {
         this.setState({ shortcontacts: sort });
       });
   }
+
   renderHeader() {
     return (
       <Header
@@ -125,7 +131,7 @@ class searchContact extends Component {
             style={[
               styles.img_text,
               {
-                color: this.props.theme.mode === "light" ? "black" : "white",
+                color: this.props.theme.mode === "light" ? "#1374A3" : "white",
               },
             ]}
           >
@@ -137,11 +143,18 @@ class searchContact extends Component {
           <Text
             style={[
               styles.personName,
-              { color: this.props.theme.mode === "light" ? "black" : "white" }, ]}>
+              { color: this.props.theme.mode === "light" ? "#1374A3" : "white" },
+            ]}
+          >
             {item.user_name || item.first_name} {item.last_name}
           </Text>
         ) : (
-          <Text  style={[styles.personName, { color: this.props.theme.mode === "light" ? "black" : "white" },]} >
+          <Text
+            style={[
+              styles.personName,
+              { color: this.props.theme.mode === "light" ? "#1374A3" : "white" },
+            ]}
+          >
             {item.last_name} {item.user_name || item.first_name}
           </Text>
         )}
@@ -252,7 +265,7 @@ const Container = styled.View`
 const LineText = styled.Text`
   font-family: Roboto-Regular;
   font-size: 15px;
-  color: ${(props) => props.theme.iconColor};
+  color: ${(props) => props.theme.textColor};
   line-height: 30px;
   text-align: center;
   margin-top: 12px;

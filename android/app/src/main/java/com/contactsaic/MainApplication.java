@@ -22,6 +22,7 @@ import io.invertase.firebase.messaging.RNFirebaseMessagingPackage;
 import com.rt2zz.reactnativecontacts.ReactNativeContacts; // <--- import
 
 
+
 public class MainApplication extends Application implements ReactApplication {
 
   private final ReactNativeHost mReactNativeHost =

@@ -94,11 +94,7 @@ class Profile extends Component {
               <Image source={iconcall} style={styles.callImg} />
             </View>
             <Text
-              style={{
-                marginTop: Metrics.xsmallMargin,
-                fontFamily: Font.medium,
-                fontSize: width * 0.03,
-              }}
+              style={styles.textIcon}
             >
               Call
             </Text>
@@ -108,11 +104,7 @@ class Profile extends Component {
               <Image source={iconMessage} style={styles.callImg} />
             </View>
             <Text
-              style={{
-                marginTop: Metrics.xsmallMargin,
-                fontFamily: Font.medium,
-                fontSize: width * 0.03,
-              }}
+              style={styles.textIcon}
             >
               Text
             </Text>
@@ -122,11 +114,7 @@ class Profile extends Component {
               <Image source={iconVideo} style={styles.callImg} />
             </View>
             <Text
-              style={{
-                marginTop: Metrics.xsmallMargin,
-                fontFamily: Font.medium,
-                fontSize: width * 0.03,
-              }}
+              style={styles.textIcon}
             >
               Video
             </Text>
@@ -136,11 +124,7 @@ class Profile extends Component {
               <Image source={iconEmail} style={styles.callImg} />
             </View>
             <Text
-              style={{
-                marginTop: Metrics.xsmallMargin,
-                fontFamily: Font.medium,
-                fontSize: width * 0.03,
-              }}
+              style={styles.textIcon}
             >
               E-mail
             </Text>
@@ -150,11 +134,7 @@ class Profile extends Component {
               <Image source={iconMap} style={styles.callImg} />
             </View>
             <Text
-              style={{
-                marginTop: Metrics.xsmallMargin,
-                fontFamily: Font.medium,
-                fontSize: width * 0.03,
-              }}
+              style={styles.textIcon}
             >
               Direction
             </Text>
@@ -164,11 +144,7 @@ class Profile extends Component {
               <Image source={iconPay} style={styles.callImg} />
             </View>
             <Text
-              style={{
-                marginTop: Metrics.xsmallMargin,
-                fontFamily: Font.medium,
-                fontSize: width * 0.03,
-              }}
+              style={styles.textIcon}
             >
               Pay
             </Text>
@@ -192,7 +168,7 @@ class Profile extends Component {
             <TextInput
               placeholder="Friends, Universal Studio"
               style={styles.stylefiledText}
-              placeholderTextColor={COLORS.black}
+              placeholderTextColor={COLORS.main_text_color}
               maxLength={10}
             />
            
@@ -217,7 +193,7 @@ class Profile extends Component {
             <TextInput
               placeholder="+1 (303) 123-4567"
               style={styles.stylefiledText}
-              placeholderTextColor={COLORS.black}
+              placeholderTextColor={COLORS.main_text_color}
               keyboardType={"numeric"}
               maxLength={10}
             />
@@ -249,7 +225,7 @@ class Profile extends Component {
             <TextInput
               placeholder="+1 (303) 123-4567"
               style={styles.stylefiledText}
-              placeholderTextColor={COLORS.black}
+              placeholderTextColor={COLORS.main_text_color}
               keyboardType={"numeric"}
               maxLength={10}
             />
@@ -279,7 +255,7 @@ class Profile extends Component {
             <TextInput
               placeholder="+1 (303) 123-4567"
               style={styles.stylefiledText}
-              placeholderTextColor={COLORS.black}
+              placeholderTextColor={COLORS.main_text_color}
               keyboardType={"numeric"}
               maxLength={10}
             />
@@ -316,7 +292,7 @@ class Profile extends Component {
             <TextInput
               placeholder="Sean@gmail.com"
               style={styles.stylefiledText}
-              placeholderTextColor={COLORS.black}
+              placeholderTextColor={COLORS.main_text_color}
               maxLength={10}
             />
             <View style={styles.rightView}>
@@ -359,7 +335,7 @@ class Profile extends Component {
               <TextInput
                 placeholder="Sean "
                 style={styles.stylefiledText}
-                placeholderTextColor={COLORS.black}
+                placeholderTextColor={COLORS.main_text_color}
                 multiline={true}
               />
               <View style={styles.rightView}>
@@ -404,7 +380,7 @@ class Profile extends Component {
             <TextInput
               placeholder="Sean@gmail.com"
               style={styles.stylefiledText}
-              placeholderTextColor={COLORS.black}
+              placeholderTextColor={COLORS.main_text_color}
               maxLength={10}
             />
             <View style={styles.rightView}>
@@ -449,7 +425,7 @@ class Profile extends Component {
             <TextInput
               placeholder="@usernamesean"
               style={styles.stylefiledText}
-              placeholderTextColor={COLORS.black}
+              placeholderTextColor={COLORS.main_text_color}
               keyboardType={"numeric"}
               maxLength={10}
             />
@@ -481,7 +457,7 @@ class Profile extends Component {
             <TextInput
               placeholder="Seanusername"
               style={styles.stylefiledText}
-              placeholderTextColor={COLORS.black}
+              placeholderTextColor={COLORS.main_text_color}
               keyboardType={"numeric"}
               maxLength={10}
             />
@@ -526,7 +502,7 @@ class Profile extends Component {
             <TextInput
               placeholder="www.seamuser.com"
               style={styles.stylefiledText}
-              placeholderTextColor={COLORS.black}
+              placeholderTextColor={COLORS.main_text_color}
               maxLength={10}
             />
             <View style={styles.rightView}>
@@ -571,7 +547,7 @@ class Profile extends Component {
             <TextInput
               placeholder="1st January,1970"
               style={styles.stylefiledText}
-              placeholderTextColor={COLORS.black}
+              placeholderTextColor={COLORS.main_text_color}
               keyboardType={"numeric"}
               maxLength={10}
             />
@@ -603,7 +579,7 @@ class Profile extends Component {
             <TextInput
               placeholder="3rd Febrauary,1999"
               style={styles.stylefiledText}
-              placeholderTextColor={COLORS.black}
+              placeholderTextColor={COLORS.main_text_color}
               keyboardType={"numeric"}
               maxLength={10}
             />
@@ -655,7 +631,7 @@ class Profile extends Component {
               <TextInput
                 placeholder="To book me Comedian E-mail me at workmail@company.com"
                 style={styles.stylefiledText}
-                placeholderTextColor={COLORS.black}
+                placeholderTextColor={COLORS.main_text_color}
                 multiline={true}
               />
               <View style={styles.rightView}>
@@ -701,7 +677,7 @@ class Profile extends Component {
             <TextInput
               placeholder="IBM"
               style={styles.stylefiledText}
-              placeholderTextColor={COLORS.black}
+              placeholderTextColor={COLORS.main_text_color}
             />
             <View style={styles.rightView}>
               <View>
@@ -731,7 +707,7 @@ class Profile extends Component {
             <TextInput
               placeholder="Software Engineer"
               style={styles.stylefiledText}
-              placeholderTextColor={COLORS.black}
+              placeholderTextColor={COLORS.main_text_color}
               keyboardType={"numeric"}
               maxLength={10}
             />
@@ -775,7 +751,7 @@ class Profile extends Component {
              Saturday off
              Sunday off "
                 style={styles.stylefiledTextCompany}
-                placeholderTextColor={COLORS.black}
+                placeholderTextColor={COLORS.main_text_color}
                 multiline={true}
               />
               <View style={styles.rightView}>

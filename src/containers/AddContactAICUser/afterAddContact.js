@@ -188,8 +188,7 @@ export default connect(mapStateToProps)(afterAddContact);
 
 const Container = styled.View`
   flex: 1;
-
-  width: 100%;
+   width: 100%;
   align-items: center;
   background-color: ${(props) => props.theme.backColor};
 `;
@@ -197,12 +196,12 @@ const Container = styled.View`
 const NormalText = styled.Text`
   font-family: Roboto-Regular;
   font-size: 17px;
-  color: ${(props) => props.theme.iconColor};
+  color: ${(props) => props.theme.textColor};
 `;
 const LineText = styled.Text`
   font-family: Roboto-Light;
   font-size: 17px;
-  color: ${(props) => props.theme.iconColor};
+  color: ${(props) => props.theme.textColor};
   line-height: 30px;
   text-align: center;
 `;

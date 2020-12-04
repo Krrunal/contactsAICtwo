@@ -1,18 +1,18 @@
 import {
-Dimensions,
-FlatList,
-Image,
-PermissionsAndroid,
-ScrollView,
-Text,
-TouchableOpacity,
-View,
+  Dimensions,
+  FlatList,
+  Image,
+  PermissionsAndroid,
+  ScrollView,
+  Text,
+  TouchableOpacity,
+  View,
 } from "react-native";
 import React, { Component, useState } from "react";
 import styled, { ThemeProvider } from "styled-components/native";
 
 import { COLORS } from "../theme/Colors.js";
-import CheckBox from '@react-native-community/checkbox';
+import CheckBox from "@react-native-community/checkbox";
 import Contacts from "react-native-contacts";
 import Font from "../theme/font.js";
 import GeneralStatusBar from "../../components/StatusBar/index";
@@ -35,6 +35,8 @@ class importContact extends Component {
     fetchedContacts: [],
     selectedContact: [],
     isLoading: false,
+    aicGivenName: [],
+    aicGivenNames: [],
   };
 
   componentDidMount() {
@@ -66,16 +68,27 @@ class importContact extends Component {
         this.setState({ isLoading: true }, async () => {
           Contacts.getAll((err, contacts) => {
             if (err) throw err;
+
             // const contactNumber = contacts.filter((number) => {
             const contactNumber = contacts.filter((item) => {
               if (item.phoneNumbers.length != 0) {
                 return { contact: item, isSelected: false };
               }
             });
+            console.log("Import contact------>", contacts);
+
+            const sort = contacts.sort(function (a, b) {
+              if (a.givenName.toLowerCase() < b.givenName.toLowerCase())
+                return -1;
+              if (a.givenName.toLowerCase() > b.givenName.toLowerCase())
+                return 1;
+              return 0;
+            });
 
             this.setState({
               isLoading: false,
-              fetchedContacts: contactNumber,
+              // fetchedContacts: contactNumber,
+              fetchedContacts: sort,
               oldContacts: contactNumber,
               isModalVisible: true,
             });
@@ -132,7 +145,20 @@ class importContact extends Component {
             }}
             tintColors={{ true: "#1374A3", false: "#1374A3" }}
           />
-          <NormalText>Select (De-select) All</NormalText>
+
+          <Text
+            style={[
+              styles.selectText,
+              {
+                color: this.props.theme.mode === "light" ? "#1374A3" : "white",
+              },
+            ]}
+          >
+            {" "}
+            Select (De-select) All{" "}
+          </Text>
+
+          {/* <NormalText>Select (De-select) All</NormalText> */}
         </View>
 
         <ScrollView>
@@ -145,8 +171,9 @@ class importContact extends Component {
                 }}
                 tintColors={{ true: "#1374A3", false: "#1374A3" }}
               />
-              <NormalText>{item.displayName}</NormalText>
-              {/* {item.contact.displayName}, */}
+              <Text  style={[ styles.selectText,{ color:  this.props.theme.mode === "light" ? "#1374A3" : "white",  },    ]} >{item.displayName}  </Text>
+
+           
             </View>
           ))}
         </ScrollView>
@@ -179,9 +206,14 @@ class importContact extends Component {
 
   importnavigate = (isSelect, item, key) => {
     const { fetchedContacts, selectedContact } = this.state;
-     const { user_id, username } = this.props;
-   
-    firebase.firestore().collection('user').doc(username).collection('contacts').get()
+    const { user_id, username } = this.props;
+
+    firebase
+      .firestore()
+      .collection("user")
+      .doc(username)
+      .collection("contacts")
+      .get()
       .then((snap) => {
         if (!snap.empty) {
           snap.forEach(async (doc) => {
@@ -304,7 +336,8 @@ class importContact extends Component {
               style={[
                 styles.importHeading,
                 {
-                  color: this.props.theme.mode === "light" ? "black" : "white",
+                  color:
+                    this.props.theme.mode === "light" ? "#1374A3" : "white",
                 },
               ]}
             >
@@ -339,7 +372,7 @@ const Container = styled.View`
 `;
 const NormalText = styled.Text`
   font-family: Roboto-Regular;
-  font-size: 16px;
+  font-size: 18px;
   color: ${(props) => props.theme.iconColor};
   margin-left: 10px;
 `;

@@ -48,6 +48,8 @@ export default StyleSheet.create({
     marginLeft: Metrics.smallMargin,
     fontFamily: Font.medium,
     fontSize: width * 0.04,
+    color: COLORS.main_text_color,
+
   },
 
   profileText: {
@@ -149,7 +151,7 @@ export default StyleSheet.create({
 
   stylefiledText: {
     marginLeft: Metrics.smallMargin,
-    color: COLORS.black,
+    color: COLORS.main_text_color,
     fontFamily: Font.regular,
     width: width * 0.55,
   },
@@ -306,4 +308,10 @@ export default StyleSheet.create({
     borderRadius: 5,
     marginBottom: Metrics.baseMargin,
   },
+  textIcon:{
+    marginTop: Metrics.xsmallMargin,
+    fontFamily: Font.medium,
+    fontSize: width * 0.03,
+    color:COLORS.main_text_color
+  }
 });

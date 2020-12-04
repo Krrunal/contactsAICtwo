@@ -141,6 +141,7 @@ class forAddContact extends Component {
               fontSize: width * 0.035,
               fontFamily: Font.medium,
               fontSize: width * 0.043,
+              color:COLORS.main_text_color
             }}
           >
             Add Contact
@@ -295,5 +296,5 @@ const Container = styled.View`
 const BoldText = styled.Text`
   font-family: Roboto-Regular;
   font-size: 17px;
-  color: ${(props) => props.theme.iconColor};
+  color: ${(props) => props.theme.textColor};
 `;

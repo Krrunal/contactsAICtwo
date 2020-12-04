@@ -156,7 +156,18 @@ class InviteContact extends Component {
             }}
             tintColors={{ true: "#1374A3", false: "#1374A3" }}
           />
-          <NormalText>Select (De-select) All</NormalText>
+         
+         <Text
+            style={[
+              styles.selectText,
+              {
+                color: this.props.theme.mode === "light" ? "#1374A3" : "white",
+              },
+            ]}
+          >
+            {" "}
+            Select (De-select) All{" "}
+          </Text>
         </View>
 
         <ScrollView>
@@ -169,8 +180,8 @@ class InviteContact extends Component {
                 }}
                 tintColors={{ true: "#1374A3", false: "#1374A3" }}
               />
-              <NormalText>{item.displayName}</NormalText>
-              {/* {item.contact.displayName}, */}
+          <Text  style={[ styles.selectText,{ color:  this.props.theme.mode === "light" ? "#1374A3" : "white",  },    ]} >{item.displayName}  </Text>
+
             </View>
           ))}
         </ScrollView>
@@ -272,7 +283,7 @@ class InviteContact extends Component {
             style={[
               styles.importHeading,
               {
-                color: this.props.theme.mode === "light" ? "black" : "white",
+                color: this.props.theme.mode === "light" ? "#1374A3" : "white",
               },
             ]}
           >

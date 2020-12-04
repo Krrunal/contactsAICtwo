@@ -379,105 +379,108 @@ class addmanuallyContact extends Component {
     } = this.state;
     const { user_id, username } = this.props;
     if (this.state.status == true) {
-      if (
-        first_name !== "" ||
-        middle_name !== "" ||
-        last_name !== "" ||
-        nick_name !== "" ||
-        number1 !== "" ||
-        number2 !== "" ||
-        number3 !== "" ||
-        email !== "" ||
-        email2 !== "" ||
-        address !== "" ||
-        messenger1 !== "" ||
-        messenger2 !== "" ||
-        social_media1 !== "" ||
-        social_media2 !== "" ||
-        website1 !== "" ||
-        website2 !== "" ||
-        dob !== "" ||
-        note !== "" ||
-        company !== "" ||
-        job_title !== "" ||
-        work_hour !== ""
-      ) {
-        addManualContact(
-          // user_id,
-          username,
-          profile_image,
-          first_name,
-          middle_name,
-          last_name,
-          nick_name,
-          number1,
-          number2,
-          number3,
-          numberArray,
-          email,
-          email2,
-          emailArray,
-          address,
-          addressArray,
-          messenger1,
-          messenger2,
-          messangerArray,
-          social_media1,
-          social_media2,
-          socialMediaArray,
-          website1,
-          website2,
-          websiteArray,
-          dob,
-          dateArray,
-          note,
-          noteArray,
-          company,
-          companyArray,
-          job_title,
-          work_hour
-        );
-        this.setState({
-          status: false,
-          image: "",
-          image2: "",
-          image3: "",
-
-          first_name: "",
-          middle_name: "",
-          last_name: "",
-          nick_name: "",
-          number1: "",
-          number2: "",
-          number3: "",
-          numberArray: [],
-          email: "",
-          email2: "",
-          emailArray: [],
-          address: "",
-          addressArray: [],
-          messenger1: "",
-          messenger2: "",
-          messangerArray: [],
-          social_media1: "",
-          social_media2: "",
-          socialMediaArray: [],
-          website1: "",
-          website2: "",
-          websiteArray: [],
-          dob: "",
-          dateArray: [],
-          note: "",
-          noteArray: [],
-          company: "",
-          companyArray: [],
-          job_title: "",
-          work_hour: "",
-        });
-        alert("Add contact successfully");
-      } else {
+      if(first_name == ""){
         this.refs.toast.show("Please enter data to save contact");
+      }else{
+        if (
+          first_name !== "" ||
+          middle_name !== "" ||
+          last_name !== "" ||
+          nick_name !== "" ||
+          number1 !== "" ||
+          number2 !== "" ||
+          number3 !== "" ||
+          email !== "" ||
+          email2 !== "" ||
+          address !== "" ||
+          messenger1 !== "" ||
+          messenger2 !== "" ||
+          social_media1 !== "" ||
+          social_media2 !== "" ||
+          website1 !== "" ||
+          website2 !== "" ||
+          dob !== "" ||
+          note !== "" ||
+          company !== "" ||
+          job_title !== "" ||
+          work_hour !== ""
+        ) {
+          addManualContact(
+            // user_id,
+            username,
+            profile_image,
+            first_name,
+            middle_name,
+            last_name,
+            nick_name,
+            number1,
+            number2,
+            number3,
+            numberArray,
+            email,
+            email2,
+            emailArray,
+            address,
+            addressArray,
+            messenger1,
+            messenger2,
+            messangerArray,
+            social_media1,
+            social_media2,
+            socialMediaArray,
+            website1,
+            website2,
+            websiteArray,
+            dob,
+            dateArray,
+            note,
+            noteArray,
+            company,
+            companyArray,
+            job_title,
+            work_hour
+          );
+          this.setState({
+            status: false,
+            image: "",
+            image2: "",
+            image3: "",
+  
+            first_name: "",
+            middle_name: "",
+            last_name: "",
+            nick_name: "",
+            number1: "",
+            number2: "",
+            number3: "",
+            numberArray: [],
+            email: "",
+            email2: "",
+            emailArray: [],
+            address: "",
+            addressArray: [],
+            messenger1: "",
+            messenger2: "",
+            messangerArray: [],
+            social_media1: "",
+            social_media2: "",
+            socialMediaArray: [],
+            website1: "",
+            website2: "",
+            websiteArray: [],
+            dob: "",
+            dateArray: [],
+            note: "",
+            noteArray: [],
+            company: "",
+            companyArray: [],
+            job_title: "",
+            work_hour: "",
+          });
+          alert("Add contact successfully");
+        }
       }
+       
     } else {
       this.setState({ status: true });
     }
