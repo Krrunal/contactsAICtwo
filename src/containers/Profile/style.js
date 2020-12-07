@@ -10,7 +10,7 @@ var { width, height } = Dimensions.get("window");
 export default StyleSheet.create({
   ImgBigView: {
     justifyContent: "center",
-    width: width * 0.98,
+    width: width * 0.970,
     height: height * 0.4,
     backgroundColor: COLORS.white,
     shadowColor: COLORS.black,
@@ -22,18 +22,25 @@ export default StyleSheet.create({
     shadowRadius: 4,
     elevation: 5,
     borderRadius: 5,
+    padding:12
+    //borderWidth:5,
+    // borderColor:COLORS.main_sky_blue
   },
 
   imgView: {
     justifyContent: "center",
     alignItems: "center",
-    width: width,
-    paddingHorizontal: width * 0.05,
+    width: width * 0.9,
+    height: height * 0.3,
+   
+   
   },
 
   imgStyle: {
-    width: width * 0.85,
-    height: height * 0.3,
+    width:width * 0.85,
+    height: height * 0.28,
+    resizeMode:'contain',
+   
   },
 
   OverImageText: {
@@ -54,8 +61,8 @@ export default StyleSheet.create({
 
   profileText: {
     color: COLORS.main_text_color,
-    marginLeft: Metrics.doubleBaseMargin,
-    marginTop: Metrics.smallMargin,
+    marginLeft: Metrics.baseMargin,
+    marginTop: Metrics.xsmallMargin,
     fontFamily: Font.medium,
     fontSize: width * 0.06,
   },
@@ -76,6 +83,7 @@ export default StyleSheet.create({
     marginTop: Metrics.xsmallMargin,
     alignItems: "center",
     alignSelf: "center",
+  // borderWidth:1
   },
 
   IconView: {
@@ -307,6 +315,7 @@ export default StyleSheet.create({
     elevation: 5,
     borderRadius: 5,
     marginBottom: Metrics.baseMargin,
+    marginTop: Metrics.baseMargin,
   },
   textIcon:{
     marginTop: Metrics.xsmallMargin,

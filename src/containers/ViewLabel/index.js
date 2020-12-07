@@ -199,7 +199,7 @@ const Container = styled.View`
 const LineText = styled.Text`
   font-family: Roboto-Regular;
   font-size: 20px;
-  color: ${(props) => props.theme.iconColor};
+  color: ${(props) => props.theme.textColor};
   line-height: 30px;
   text-align: center;
   margin-top: 12px;

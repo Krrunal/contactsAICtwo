@@ -47,6 +47,7 @@ class Login extends Component {
       email: "",
       viewIntl: false,
       emailLogin: "",
+      viewPhone:true
     };
   }
 
@@ -152,12 +153,16 @@ class Login extends Component {
     }
   }
   viewIntlToggle = () => {
-    if (this.state.viewIntl == true) {
+    
       this.setState({ viewIntl: false });
-    } else {
-      this.setState({ viewIntl: true });
-    }
+      this.setState({ viewPhone :true})
+     
+  
   };
+  viewPhoneToggle = () => {
+    this.setState({ viewIntl: true });
+    this.setState({ viewPhone :false})
+  }
   render() {
     const {
       email,
@@ -188,10 +193,7 @@ class Login extends Component {
                   <Image source={logo} style={styles.logoImg} />
                   <Text style={styles.logoText}>CONTACTS AIC</Text>
                 </View>
-                <TouchableOpacity onPress={this.viewIntlToggle}>
-                  {this.state.viewIntl == true ? (
-                    <View>
-                      <IntlPhoneInput
+                {/* <IntlPhoneInput
                         containerStyle={{
                           width: width * 0.85,
                           height: height * 0.06,
@@ -206,18 +208,43 @@ class Login extends Component {
                         keyboardType={"numeric"}
                         onChangeText={this.onChangeNumber}
                         defaultCountry="CA"
-                        isShowLabelManually={false}
-                      />
-                    </View>
+                        // isShowLabel={false}
+                      /> */}
+
+            
+                  {this.state.viewIntl  ? (
+                    <IntlPhoneInput
+                      containerStyle={{
+                        width: width * 0.85,
+                        height: height * 0.06,
+                        backgroundColor: COLORS.main_sky_blue,
+                        marginTop: Metrics.doubleBaseMargin,
+                     
+                      }}
+                      phoneInputStyle={styles.mobileInputText}
+                      dialCodeTextStyle={styles.mobileInputText}
+                      dialCode={this.state.dialCode}
+                      value={phone}
+                      inputRef={"phone"}
+                      keyboardType={"numeric"}
+                      onChangeText={this.onChangeNumber}
+                      defaultCountry="CA"
+                      isShowLabelManually={false}
+                    />
                   ) : (
-                    <TouchableHighlight
-                      style={styles.viewEmail}
-                      onPress={() => this.setState({ viewIntl: true })}
-                    >
-                      <Text style={styles.phnText}>Phone Number</Text>
-                    </TouchableHighlight>
+                   null
                   )}
-                </TouchableOpacity>
+               
+                {this.state.viewPhone ? (
+                    <TouchableHighlight
+                    style={styles.viewEmail}
+                    onPress={this.viewPhoneToggle}
+                  >
+                    <Text style={styles.phnText}>Phone Number</Text>
+                  </TouchableHighlight>
+                ) : ( null)
+                }
+              
                 {/* <View>
                   <IntlPhoneInput
                     containerStyle={{

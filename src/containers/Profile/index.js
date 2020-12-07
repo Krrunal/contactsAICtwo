@@ -50,11 +50,14 @@ class Profile extends Component {
       <View
         style={{
           alignItems: "center",
-          padding: Metrics.smallMargin,
+          width:width,
+         // padding: Metrics.smallMargin,
+         marginTop:Metrics.baseMargin
         }}
       >
         <View style={styles.ImgBigView}>
           <View style={styles.imgView}>
+          
             <ImageBackground
               source={require("../../assets/images/person.png")}
               style={styles.imgStyle}
@@ -66,8 +69,8 @@ class Profile extends Component {
                 >
                   <Icon
                     name={"angle-left"}
-                    size={25}
-                    color={COLORS.transparent}
+                    size={27}
+                    color={COLORS.main_text_color}
                   />
                   <Text style={styles.backText}>Back</Text>
                 </TouchableOpacity>
@@ -77,6 +80,7 @@ class Profile extends Component {
 
           <Text style={styles.profileText}>Sean Green</Text>
         </View>
+        
       </View>
     );
   }
@@ -87,6 +91,9 @@ class Profile extends Component {
 
   renderMiddle() {
     return (
+      <View style={{width:width , alignItems:'center'}}>
+
+     
       <View style={styles.middleView}>
         <View style={styles.mainView}>
           <View style={styles.IconView}>
@@ -150,6 +157,7 @@ class Profile extends Component {
             </Text>
           </View>
         </View>
+      </View>
       </View>
     );
   }

@@ -230,6 +230,7 @@ export default StyleSheet.create({
         elevation: 5,
         borderRadius:5,
         marginBottom:Metrics.baseMargin,
+        marginTop:Metrics.baseMargin,
     },
 
     righttext:{

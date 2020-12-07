@@ -151,18 +151,19 @@ class labels extends Component {
             this.state.dataManage === [""] ? null : (
               <View style={styles.tripleView} key={key}>
                 {this.props.theme.mode === "light" ? (
-                  <Icon name={"arrows-alt-v"} size={15} color={COLORS.black} />
+                  <Icon name={"arrows-alt-v"} size={20} color={COLORS.main_text_color} />
                 ) : (
-                  <Icon name={"arrows-alt-v"} size={15} color={COLORS.white} />
+                  <Icon name={"arrows-alt-v"} size={20} color={COLORS.white} />
                 )}
-
-                <TouchableOpacity
-                  style={styles.manageView}
-                  onPress={this.manageLabelnavigate}
-                >
-                  <Text style={styles.manageText}>Manage</Text>
-                </TouchableOpacity>
-                <NormalText> {item}</NormalText>
+            
+                  <TouchableOpacity
+                    style={styles.manageView}
+                    onPress={this.manageLabelnavigate}
+                  >
+                    <Text style={styles.manageText}>Manage</Text>
+                  </TouchableOpacity>
+                  <Text style={[styles.itemText,{ color: this.props.theme.mode === "light" ? "#1374A3" : "white"} ]}>{item}</Text>
+             
               </View>
             )
           )}
@@ -208,7 +209,7 @@ class labels extends Component {
         <View
           style={{
             flex: 1,
-            bottom: 35,
+            bottom: 10,
             position: "absolute",
             flexDirection: "row",
           }}

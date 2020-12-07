@@ -15,13 +15,11 @@ export default StyleSheet.create({
 
       tripleView:{
           flexDirection:'row',
+          alignItems:'center',
           flex:1,
           marginLeft:Metrics.doubleBaseMargin,
           marginTop:Metrics.doubleBaseMargin,
-        alignItems:'center',
-        // marginBottom:Metrics.baseMargin,
-
-      },
+          },
 
       manageView:{
         justifyContent:'center',
@@ -39,7 +37,8 @@ export default StyleSheet.create({
         elevation: 5,
         borderRadius:5,
         marginLeft:Metrics.baseMargin,
-        marginBottom:Metrics.smallMargin
+        marginBottom:Metrics.smallMargin,
+        marginTop:Metrics.xsmallMargin
       },
       
       tripleText:{
@@ -47,11 +46,13 @@ export default StyleSheet.create({
         fontFamily: Font.regular,
         fontSize: width * 0.04,
         textTransform: "capitalize",
+        color:COLORS.main_text_color
       },
 
       manageText:{
         fontFamily: Font.regular,
         fontSize: width * 0.033,
+        color:COLORS.main_text_color,
       },
 
       Whiteview:{
@@ -126,4 +127,10 @@ export default StyleSheet.create({
     justifyContent: 'center',
     marginTop:Metrics.doubleBaseMargin,
 }, 
+itemText:{
+  fontSize: width * 0.040,
+  fontFamily: Font.regular,
+  color:COLORS.main_text_color,
+  marginLeft:Metrics.baseMargin
+}
  });

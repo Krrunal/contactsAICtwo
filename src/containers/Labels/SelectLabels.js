@@ -138,9 +138,14 @@ class Selectlabels extends Component {
                 tintColors={{true: '#1374A3', false: '#1374A3'}}
               />    
                 <View style={styles.manageView}>
-                  <Text>Manage</Text>
+                <Text style={styles.manageText}>Manage</Text>
                 </View>
-                <NormalText>{item.relation}</NormalText>
+                <Text 
+                style={[styles.itemText,{ color: this.props.theme.mode === "light" ? "#1374A3" : "white"} ]}>
+                  {item.relation}
+                </Text>
+
+                
               </View>
             ))}
           </ScrollView>
@@ -154,7 +159,7 @@ class Selectlabels extends Component {
       <View
         style={{
           flex: 1,
-          bottom: 35,
+          bottom:10,
           position: "absolute",
           flexDirection: "row",
         }}

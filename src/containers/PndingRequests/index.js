@@ -73,7 +73,7 @@ class pendingRequest extends Component {
   renderLast() {
     return (
       <View style={{ alignItems: "center", flex: 1 }}>
-        <View style={{ flex: 1, bottom: 40, position: "absolute" }}>
+        <View style={{ flex: 1, bottom: 10, position: "absolute" }}>
           <TouchableOpacity
             style={styles.Whiteview}
             onPress={this.navigateSearch}

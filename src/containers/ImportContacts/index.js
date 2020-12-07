@@ -183,8 +183,8 @@ class importContact extends Component {
 
   renderLast() {
     return (
-      <View style={{ alignItems: "center", flex: 1, width: width }}>
-        <View style={{ flex: 1, position: "absolute", Bottom: 0 }}>
+      <View style={{ alignItems: "center", flex: 1,}}>
+           <View style={{ flex: 1, bottom: 10, position: "absolute" }}>
           <TouchableOpacity
             style={styles.Whiteview}
             onPress={this.importnavigate}

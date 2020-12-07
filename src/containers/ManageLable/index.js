@@ -694,7 +694,7 @@ class ManageLable extends Component {
               flexDirection: "row",
               alignItems: "center",
               justifyContent: "flex-end",
-              flexDirection: "row",
+         
             }}
           >
             <View style={styles.saveView}>

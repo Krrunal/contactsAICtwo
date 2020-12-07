@@ -40,7 +40,7 @@ class searchContact extends Component {
 
   componentDidMount() {
     const { navigation } = this.props;
-    // this.focusListener = navigation.addListener("didFocus", async () => {
+ //   this.focusListener = navigation.addListener("didFocus", async () => {
       if (this.props.contactChange.mode === "first") {
         this.contactList();
         console.log("first");
@@ -48,18 +48,22 @@ class searchContact extends Component {
         this.contactListFirst();
         console.log("Last");
       }
-    // });
-   // this.focusListener.remove();
-  }
-  
-  componentWillUnmount() {
+   // });
     // this.focusListener.remove();
-    // this.setState({ shortcontacts  : "" });
+  }
+
+  componentWillUnmount() {
+
+    // this.focusListener.remove();
+    // this.setState({ shortcontacts: this.state.nameContacts });
+
+    // this.setState({ contact : "" });
+
     // this.focusListener.forEach(focusListener => {
     //   focusListener.remove();
     //   this.setState({ shortcontacts  : "" });
     // })
-  //  this.focusListener();
+    //  this.focusListener();
   }
 
   async contactList() {
@@ -143,7 +147,9 @@ class searchContact extends Component {
           <Text
             style={[
               styles.personName,
-              { color: this.props.theme.mode === "light" ? "#1374A3" : "white" },
+              {
+                color: this.props.theme.mode === "light" ? "#1374A3" : "white",
+              },
             ]}
           >
             {item.user_name || item.first_name} {item.last_name}
@@ -152,7 +158,9 @@ class searchContact extends Component {
           <Text
             style={[
               styles.personName,
-              { color: this.props.theme.mode === "light" ? "#1374A3" : "white" },
+              {
+                color: this.props.theme.mode === "light" ? "#1374A3" : "white",
+              },
             ]}
           >
             {item.last_name} {item.user_name || item.first_name}
