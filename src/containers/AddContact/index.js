@@ -9,6 +9,8 @@ import React, { Component } from "react";
 import { darkTheme, lightTheme } from "../theme/themeProps";
 import styled, { ThemeProvider } from "styled-components/native";
 import { addManualContact } from '../../services/FirebaseDatabase/manualContactToFirebase';
+import { addMyInfo } from "../../services/FirebaseDatabase/myInfoToFirebase";
+import firebase from "../../services/FirebaseDatabase/db";
 
 import { DrawerActions } from "react-navigation-drawer";
 import GeneralStatusBar from "../../components/StatusBar/index";
@@ -22,6 +24,122 @@ import { switchTheme } from "../../action/themeAction";
 var { width, height } = Dimensions.get("window");
 
 class Add extends Component {
+  constructor() {
+    super();
+
+    this.state = {
+      profile_image:"",
+      first_name:"Abc",
+      middle_name:"",
+      last_name:"",
+      nick_name:"",
+      number1:"",
+      number2:"",
+      number3:"",
+      numberArray:"",
+      email:"",
+      email2:"",
+      emailArray:"",
+      address:"",
+      addressArray:"",
+      messenger1:"",
+      messenger2:"",
+      messangerArray:"",
+      social_media1:"",
+      social_media2:"",
+      socialMediaArray:"",
+      website1:"",
+      website2:"",
+      websiteArray:"",
+      dob:"",
+      dateArray:"",
+      note:"",
+      noteArray:"",
+      company:"",
+      companyArray:"",
+      job_title:"",
+      work_hour:"",
+        }}
+
+  componentDidMount = () => {
+    const {  username } = this.props;
+    firebase
+    .firestore()
+    .collection('user')
+    .doc(username)
+    .collection("myInfo")
+    .get()
+    .then((snap) => {
+      if(!snap.empty){
+        //alert("empty")
+      }else{
+        this.addFirebaseData();
+       // alert("full")
+      }
+    
+         
+    });
+  
+  }
+  addFirebaseData = () =>{
+    const {  username } = this.props;
+     const {
+      profile_image,
+      first_name,
+      middle_name,
+      last_name,
+      nick_name,
+      number1,
+      number2,
+      number3,
+      numberArray,
+      email,
+      email2,
+      emailArray,
+      address,
+      addressArray,
+      messenger1,
+      messenger2,
+      messangerArray,
+      social_media1,
+      social_media2,
+      socialMediaArray,
+      website1,
+      website2,
+      websiteArray,
+      dob,
+      dateArray,
+      note,
+      noteArray,
+      company,
+      companyArray,
+      job_title,
+      work_hour,
+      
+    } = this.state;
+          addMyInfo( username, profile_image, first_name, middle_name,last_name,nick_name,number1, number2,number3,  numberArray, email, email2, emailArray,
+            address,
+            addressArray,
+            messenger1,
+            messenger2,
+            messangerArray,
+            social_media1,
+            social_media2,
+            socialMediaArray,
+            website1,
+            website2,
+            websiteArray,
+            dob,
+            dateArray,
+            note,
+            noteArray,
+            company,
+            companyArray,
+            job_title,
+            work_hour,
+           
+          );
+  }
   renderHeader() {
     return (
       <Header
@@ -108,6 +226,8 @@ function mapStateToProps(state) {
     contact: (state.login.shouldLoadData.contact || state.reg.shouldLoadData.contact),
     email: (state.login.shouldLoadData.email || state.reg.shouldLoadData.email),
     username: (state.login.shouldLoadData.username || state.reg.shouldLoadData.username),
+    username: state.login.shouldLoadData.username,
+
   };
 }
 

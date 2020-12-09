@@ -138,8 +138,15 @@ export default StyleSheet.create({
     borderRadius: 5,
     marginLeft: Metrics.xsmallMargin,
     flexDirection: "row",
+    alignItems:'center',
+   
   },
+  mobileInputText: {
+    fontSize: width * 0.035,
+    fontFamily: Font.regular,
+    color: COLORS.main_text_color,
 
+  },
   filedViewtwo: {
     width: width * 0.8,
     height: height * 0.06,
@@ -162,6 +169,10 @@ export default StyleSheet.create({
     color: COLORS.main_text_color,
     fontFamily: Font.regular,
     width: width * 0.55,
+    fontSize: width * 0.035,
+      padding:10,
+   
+    marginBottom:Metrics.smallMargin
   },
 
   renderView: {
@@ -193,6 +204,7 @@ export default StyleSheet.create({
     fontFamily: Font.light,
     textAlign: "right",
     marginRight: Metrics.smallMargin,
+    marginBottom:Metrics.smallMargin
   },
 
   righttextAdreess: {
@@ -224,12 +236,14 @@ export default StyleSheet.create({
     borderRadius: 5,
     marginTop: Metrics.smallMargin,
     flexDirection: "row",
+    alignItems:'center',
   },
 
   editImg: {
     width: width * 0.04,
     height: width * 0.04,
     marginRight: 12,
+    resizeMode:'contain'
   },
 
   rightTwoImg: {
@@ -245,7 +259,7 @@ export default StyleSheet.create({
 
   filedViewAddress: {
     width: width * 0.8,
-    height: height * 0.13,
+   // height: height * 0.13,
     backgroundColor: COLORS.white,
     shadowColor: COLORS.black,
     shadowOffset: {
@@ -269,7 +283,7 @@ export default StyleSheet.create({
 
   filedViewRightTwoCompany: {
     width: width * 0.8,
-    height: height * 0.25,
+   // height: height * 0.25,
     backgroundColor: COLORS.white,
     shadowColor: COLORS.black,
     shadowOffset: {
@@ -286,7 +300,7 @@ export default StyleSheet.create({
 
   stylefiledTextCompany: {
     marginLeft: Metrics.smallMargin,
-    color: COLORS.black,
+    color: COLORS.main_text_color,
     fontFamily: Font.regular,
     width: width * 0.5,
   },
@@ -322,5 +336,11 @@ export default StyleSheet.create({
     fontFamily: Font.medium,
     fontSize: width * 0.03,
     color:COLORS.main_text_color
-  }
+  },
+  dateText: {
+    fontFamily: Font.regular,
+    fontSize: width * 0.036,
+    color: COLORS.main_text_color,
+    marginLeft: Metrics.smallMargin,
+  },
 });

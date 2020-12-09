@@ -59,6 +59,7 @@ class Signup extends Component {
     showRender: false,
     SignProp: false,
     passSign: "",
+  //  first_name:""
    
   };
   // componentDidMount = () => {
@@ -135,16 +136,7 @@ class Signup extends Component {
     } else {
       this.refs.toast.show("Please fill all required fileds", 1000);
     }
-    // if(uname && this.state.unameError==(""|| undefined) && this.props.usernameMsg == true &&
-    // contact && this.state.contactError == (""|| undefined) && this.props.contactMsg == true &&
-    // email && this.state.emailError == (""|| undefined) && this.props.emailMsg == true &&
-    // password && this.state.passwordError == (""|| undefined) &&
-    // confirmpassWord && this.state.confirmPassError == (""|| undefined) &&
-    // (password == confirmpassWord)) {
-    // this.props.signUpUser()
-    // } else {
-    // this.refs.toast.show('Please fill all required filed')
-    // }
+   
   };
 
   showLoader() {
@@ -461,10 +453,7 @@ class Signup extends Component {
                   </View>
 
                   <View>
-                    {/* <View style={styles.userText}>
-                      <BoldBlack>E-mail :</BoldBlack>
-                    </View> */}
-
+                  
                     <View style={styles.mobileView}>
                       <InputCard
                         // onChangeText={regEmailChange}
@@ -473,9 +462,7 @@ class Signup extends Component {
                         autoCapitalize={true}
                         ref={"emailCont"}
                         inputRef={"email"}
-                        // onSubmitEditing={(email) => this.onSubmit("email")}
                         value={email}
-                        // onFocus={() => this.setState({ emailError: null })}
                         style={styles.uText}
                         returnKey={"next"}
                         keyboardType={"email-address"}
@@ -791,7 +778,7 @@ class Signup extends Component {
 }
 
 function mapStateToProps(state) {
- /// console.log("State From Sign in------->", state);
+// console.log("State From Sign in------->", );
 
   return {
     theme: state.themeReducer.theme,
@@ -809,6 +796,8 @@ function mapStateToProps(state) {
     emailMsg: state.reg.emailMsg.status,
     contactMsg: state.reg.contactMsg.status,
     state: state,
+    username: state.login.shouldLoadData.username,
+
   };
 }
 export default connect(mapStateToProps, actions)(Signup);

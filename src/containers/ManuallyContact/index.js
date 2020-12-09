@@ -19,7 +19,6 @@ import { darkTheme, lightTheme } from "../theme/themeProps";
 import styled, { ThemeProvider } from "styled-components/native";
 
 import { COLORS } from "../theme/Colors.js";
-import { Colors } from "react-native-paper";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import Font from "../theme/font";
 import GeneralStatusBar from "../../components/StatusBar/index";
@@ -60,7 +59,6 @@ var DESTRUCTIVE_INDEX = 3;
 var CANCEL_INDEX = 4;
 var BUTTONS = ["Take Photo", "Choose Photo From Gallery", "Cancel"];
 class addmanuallyContact extends Component {
-  static contextType = ThemeContext;
 
   constructor() {
     super();
@@ -405,6 +403,7 @@ class addmanuallyContact extends Component {
           job_title !== "" ||
           work_hour !== ""
         ) {
+          console.log("Messanger ",messenger1 )
           addManualContact(
             // user_id,
             username,
@@ -1906,7 +1905,7 @@ class addmanuallyContact extends Component {
 
   onChangeMessenger = (value) => {
     this.state.messanger.messanger = value;
-    this.setState({ messanger: this.state.messanger });
+    this.setState({ messenger1: this.state.messanger });
   };
 
   onChangeMessengerArray = (value, index) => {
@@ -3393,9 +3392,7 @@ class addmanuallyContact extends Component {
         alert("Please Fill the Field");
       }
     }
-    // this.setState({
-    //   noteArray: [...this.state.noteArray, { note: "", label: "" }],
-    // });
+  
   };
 
   onChangeNote = (value) => {
@@ -4618,7 +4615,7 @@ class addmanuallyContact extends Component {
 }
 
 function mapStateToProps(state) {
-  console.log("State From Add contact------->",state.login)
+  //console.log("State From Add contact------->",state.login)
 
   return {
     theme: state.themeReducer.theme,

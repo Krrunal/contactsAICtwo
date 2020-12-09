@@ -57,7 +57,6 @@ const regUserSuccess = (data, dispatch) => {
   dispatch({ type: LOAD_DATA_SET, payload: data.data });
   console.log('data---->',data.data)
   addItem( data.data.username, data.data.user_id, data.data.is_active, data.data.fcmToken, data.data.contact, data.data.email)
-
   dispatch(NavigationService.navigate("AddContact"));
 
 };

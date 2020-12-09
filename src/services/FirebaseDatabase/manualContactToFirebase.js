@@ -5,8 +5,7 @@ export const addManualContact =
         email1,email2,emailArray,address1,addressArray,messenger1,messenger2,messangerArray,
         social_media1,social_media2,socialMediaArray,website1,website2,websiteArray,dob,
         dateArray,note,noteArray,company,companyArray,job_title,work_hour) => {
-            // firebase.firestore().collection(`${user_id}`).add({
-    
+          
     firebase.firestore().collection('user').doc(`${username}`).collection('contacts').add({        
         profile_image: profile_image,
         first_name: first_name,
