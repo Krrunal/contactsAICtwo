@@ -48,7 +48,7 @@ export default StyleSheet.create({
         marginLeft:Metrics.doubleBaseMargin,
         alignItems:'center',
         marginTop:Metrics.baseMargin,
-        // borderWidth: 1
+       // borderWidth: 1
     },
 
     contactText:{
@@ -75,6 +75,39 @@ export default StyleSheet.create({
         marginLeft:Metrics.smallMargin,
         marginBottom:Metrics.smallMargin
     },
-
-  
+    addlabelView  :{
+        width: width,
+        marginTop:Metrics.baseMargin,
+        alignItems:'center',
+        justifyContent: 'center',
+        marginTop:Metrics.doubleBaseMargin,
+         }, 
+    stylefiledText: {
+        justifyContent: 'center',
+        alignItems: 'center',
+        color: COLORS.main_text_color,
+        fontSize: width * 0.040,
+        fontFamily: Font.regular,
+        paddingVertical: width * 0.005,
+        paddingHorizontal: width * 0.05,
+        borderRadius: 5,
+        backgroundColor: COLORS.main_sky_blue,
+      },
+      stylefiledTextBlack: {
+        justifyContent: 'center',
+        alignItems: 'center',
+        color: COLORS.black,
+        fontSize: width * 0.040,
+        fontFamily: Font.regular,
+        paddingVertical: width * 0.005,
+        paddingHorizontal: width * 0.05,
+        borderRadius: 5,
+        backgroundColor: COLORS.white,
+      },
+      itemText:{
+        fontSize: width * 0.040,
+        fontFamily: Font.regular,
+        color:COLORS.main_text_color,
+        marginLeft:Metrics.baseMargin
+      }
  });

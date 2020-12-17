@@ -57,9 +57,7 @@ class ViewLabelByName extends Component {
     firebase.firestore().collection(this.props.user_id).get()
       .then((snap) => { 
         if (!snap.empty){
-          
-       
-        snap.forEach((doc) => {
+          snap.forEach((doc) => {
           this.setState({ loader: false });
           // load labels 
           var arr = doc._data.label

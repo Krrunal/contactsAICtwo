@@ -1,22 +1,20 @@
 import {
+  BackHandler,
   Dimensions,
   Text,
   TouchableOpacity,
   View,
-  BackHandler,
 } from "react-native";
 import React, { Component } from "react";
 import { darkTheme, lightTheme } from "../theme/themeProps";
 import styled, { ThemeProvider } from "styled-components/native";
-import { addManualContact } from '../../services/FirebaseDatabase/manualContactToFirebase';
-import { addMyInfo } from "../../services/FirebaseDatabase/myInfoToFirebase";
-import firebase from "../../services/FirebaseDatabase/db";
 
-import { DrawerActions } from "react-navigation-drawer";
 import GeneralStatusBar from "../../components/StatusBar/index";
 import Header from "../../components/header/index";
+import { addManualContact } from '../../services/FirebaseDatabase/manualContactToFirebase';
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
+import firebase from "../../services/FirebaseDatabase/db";
 // import {createDrawerNavigator} from '@react-navigation/drawer';
 import styles from "./style";
 import { switchTheme } from "../../action/themeAction";
@@ -61,85 +59,7 @@ class Add extends Component {
       work_hour:"",
         }}
 
-  componentDidMount = () => {
-    const {  username } = this.props;
-    firebase
-    .firestore()
-    .collection('user')
-    .doc(username)
-    .collection("myInfo")
-    .get()
-    .then((snap) => {
-      if(!snap.empty){
-        //alert("empty")
-      }else{
-        this.addFirebaseData();
-       // alert("full")
-      }
-    
-         
-    });
   
-  }
-  addFirebaseData = () =>{
-    const {  username } = this.props;
-     const {
-      profile_image,
-      first_name,
-      middle_name,
-      last_name,
-      nick_name,
-      number1,
-      number2,
-      number3,
-      numberArray,
-      email,
-      email2,
-      emailArray,
-      address,
-      addressArray,
-      messenger1,
-      messenger2,
-      messangerArray,
-      social_media1,
-      social_media2,
-      socialMediaArray,
-      website1,
-      website2,
-      websiteArray,
-      dob,
-      dateArray,
-      note,
-      noteArray,
-      company,
-      companyArray,
-      job_title,
-      work_hour,
-      
-    } = this.state;
-          addMyInfo( username, profile_image, first_name, middle_name,last_name,nick_name,number1, number2,number3,  numberArray, email, email2, emailArray,
-            address,
-            addressArray,
-            messenger1,
-            messenger2,
-            messangerArray,
-            social_media1,
-            social_media2,
-            socialMediaArray,
-            website1,
-            website2,
-            websiteArray,
-            dob,
-            dateArray,
-            note,
-            noteArray,
-            company,
-            companyArray,
-            job_title,
-            work_hour,
-           
-          );
-  }
   renderHeader() {
     return (
       <Header

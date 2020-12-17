@@ -52,19 +52,7 @@ class searchContact extends Component {
     // this.focusListener.remove();
   }
 
-  componentWillUnmount() {
 
-    // this.focusListener.remove();
-    // this.setState({ shortcontacts: this.state.nameContacts });
-
-    // this.setState({ contact : "" });
-
-    // this.focusListener.forEach(focusListener => {
-    //   focusListener.remove();
-    //   this.setState({ shortcontacts  : "" });
-    // })
-    //  this.focusListener();
-  }
 
   async contactList() {
     const { username } = this.props;
@@ -77,11 +65,12 @@ class searchContact extends Component {
       .then((snap) => {
         snap.forEach((doc) => {
           var item = doc._data;
-          //  console.log("Item data ------> ", doc._data)
           this.state.contact.push(item);
+
         });
         this.setState({ contacts: this.state.contact });
-        console.log("Item data ------> ", this.state.contacts.first_name);
+
+       // console.log("Item data ------> ", this.state.contacts.first_name);
 
         const sort = this.state.contacts.sort(function (a, b) {
           if (a.first_name.toLowerCase() < b.first_name.toLowerCase())
@@ -104,6 +93,9 @@ class searchContact extends Component {
         snap.forEach((doc) => {
           var item = doc._data;
           this.state.contact.push(item);
+         // console.log("Item data ------> ",  this.state.contact)
+
+
         });
         this.setState({ contacts: this.state.contact });
         const sort = this.state.contacts.sort(function (a, b) {

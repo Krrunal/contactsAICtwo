@@ -1,16 +1,17 @@
 import {
-Dimensions,
-Image,
-ScrollView,
-Text,
-TouchableOpacity,
-View,
+  Dimensions,
+  Image,
+  ScrollView,
+  Text,
+  TouchableOpacity,
+  View,
+  TextInput,
 } from "react-native";
 import React, { Component } from "react";
 import { darkTheme, lightTheme } from "../theme/themeProps";
 import styled, { ThemeProvider } from "styled-components/native";
 
-import AsyncStorage from '@react-native-community/async-storage'
+import AsyncStorage from "@react-native-community/async-storage";
 import { COLORS } from "../theme/Colors.js";
 import CheckBox from "@react-native-community/checkbox";
 import Constants from "../../action/Constants";
@@ -20,7 +21,7 @@ import Header from "../../components/header/index";
 import Icon from "react-native-vector-icons/FontAwesome5";
 import Metrics from "../theme/Metrics";
 import { Spinner } from "../../components/Spinner";
-import Toast from 'react-native-easy-toast';
+import Toast from "react-native-easy-toast";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import plus from "../../assets/images/plus.png";
@@ -31,22 +32,24 @@ var { width, height } = Dimensions.get("window");
 
 class chooseContactFromLabel extends Component {
   state = {
+    label: "",
     dataManage: [],
     checked: false,
     isSelected: false,
     selectedRealetion: [],
     data: "",
-    isLoading: false
+    isLoading: false,
+    viewSection: false,
+    disabledLabel: false,
   };
 
   componentDidMount() {
     const { navigation } = this.props;
-    this.focusListener = navigation.addListener("didFocus", async() => {
-      this.labelList()
+    this.focusListener = navigation.addListener("didFocus", async () => {
+      this.labelList();
     });
   }
-
-  labelList=()=>{
+  labelList = () => {
     this.setState({ isLoading: true }, async () => {
       const baseurl = Constants.baseurl;
       fetch(baseurl + "get_label")
@@ -54,17 +57,73 @@ class chooseContactFromLabel extends Component {
           return response.json();
         })
         .then((responseJson) => {
-          var arr = responseJson.data.relation.split(/,/).map((item) => {
-            return { relation: item, isSelect: false };
-          });
-          this.setState({ dataManage: arr, isLoading: false });
+          if (responseJson.data.relation == "") {
+            this.setState({ dataManage: [], isLoading: false });
+          } else {
+            var labelData = responseJson.data.relation.split(/,/);
+            this.setState({ dataManage: labelData, isLoading: false });
+          }
         })
         .catch((error) => {
           console.error(error);
           this.setState({ isLoading: false });
         });
+    });
+  };
+  // labelList = () => {
+  //   this.setState({ isLoading: true }, async () => {
+  //     const baseurl = Constants.baseurl;
+  //     fetch(baseurl + "get_label")
+  //       .then((response) => {
+  //         return response.json();
+  //       })
+  //       .then((responseJson) => {
+  //         var arr = responseJson.data.relation.split(/,/).map((item) => {
+  //           return { relation: item, isSelect: false };
+  //         });
+  //         this.setState({ dataManage: arr, isLoading: false });
+  //       })
+  //       .catch((error) => {
+  //         console.error(error);
+  //         this.setState({ isLoading: false });
+  //       });
+  //   });
+  // };
+
+  labelApiCall = () => {
+    const baseurl = Constants.baseurl;
+    const relation = this.state.label;
+    var _body = new FormData();
+    _body.append("relation", relation);
+
+    console.log("state value === > ", relation);
+    fetch(baseurl + "add_label", {
+      method: "POST",
+      headers: {
+        "Content-Type":
+          Platform.OS == "ios" ? "application/json" : "multipart/form-data",
+      },
+      body: _body,
     })
-  }
+      .then((response) => response.json())
+      .then((responseJson) => {
+        this.refs.toast.show(responseJson.message);
+        if (responseJson.data.relation == "") {
+          this.setState({
+            dataManage: responseJson.data.relation,
+            viewSection: false,
+            label: "",
+          });
+        } else {
+          var labelData = responseJson.data.relation.split(/,/);
+          this.setState({
+            dataManage: labelData,
+            viewSection: false,
+            label: "",
+          });
+        }
+      });
+  };
 
   onchecked = (keyInd, item) => {
     const { dataManage, selectedRealetion } = this.state;
@@ -78,7 +137,24 @@ class chooseContactFromLabel extends Component {
     this.setState({ dataManage: arr });
     console.log("datatmanage arr ===> ", dataManage);
   };
+  onPressAddLabel = () => {
+    this.setState({ viewSection: true });
+  };
+  message = () => {
+    this.state.label == ""
+      ? this.refs.toast.show("Please enter label name")
+      : this.textChange();
+  };
+  textChange = (value) => {
+    var valueLength = this.state.label;
 
+    if (valueLength.length <= 3) {
+      //this.refs.toast.show("Label contain maximum 3 character")
+      alert("Label contain maximum 3 character");
+    } else {
+      this.labelApiCall();
+    }
+  };
   renderHeader() {
     return (
       <Header
@@ -90,11 +166,10 @@ class chooseContactFromLabel extends Component {
 
   renderMiddle() {
     return (
-      <View
-        style={{ height: height * 0.65, marginBottom: Metrics.smallMargin }}
-      >
         <ScrollView>
-          {this.state.dataManage.map((item, key) => (
+        <View style={{ flex: 1, marginBottom: Metrics.xxdoubleBaseMargin }}>
+          {this.state.dataManage.map((item, key) => 
+           this.state.dataManage === [""] ? null : (
             <View style={styles.mainView}>
               <CheckBox
                 value={item.isSelect}
@@ -102,9 +177,9 @@ class chooseContactFromLabel extends Component {
                   this.onchecked(key, item.isSelect);
                 }}
                 // onValueChange={item.isSelect}
-                tintColors={{ true: "#1374A3", false:"#1374A3"}}
+                tintColors={{ true: "#1374A3", false: "#1374A3" }}
               />
-              <NormalText>{item.relation}</NormalText>
+           <Text style={[styles.itemText,{ color: this.props.theme.mode === "light" ? "#1374A3" : "white"} ]}>{item}</Text>
             </View>
           ))}
 
@@ -130,7 +205,15 @@ class chooseContactFromLabel extends Component {
             </View>
           )}
 
-          <View style={styles.mainView}>
+          <TouchableOpacity
+            style={styles.mainView}
+            onPress={
+              this.state.viewSection == false
+                ? this.onPressAddLabel
+                : this.message
+            }
+            disable={this.state.disabledLabel}
+          >
             <Image
               source={plus}
               style={{
@@ -149,9 +232,13 @@ class chooseContactFromLabel extends Component {
                 Add
               </Text>
             </View>
-          </View>
-        </ScrollView>
-      </View>
+          </TouchableOpacity>
+        
+   </View>     
+   </ScrollView>
+        
+        
+     
     );
   }
 
@@ -168,7 +255,7 @@ class chooseContactFromLabel extends Component {
         >
           <TouchableOpacity
             style={styles.Whiteview}
-            onPress={() =>this.forAddContactNavigate()}
+            onPress={() => this.forAddContactNavigate()}
           >
             <Text
               style={{
@@ -186,7 +273,6 @@ class chooseContactFromLabel extends Component {
   }
 
   async forAddContactNavigate() {
-   
     const { dataManage, selectedRealetion } = this.state;
 
     dataManage.map((item) => {
@@ -198,10 +284,10 @@ class chooseContactFromLabel extends Component {
     const selected = selectedRealetion.toString();
     await AsyncStorage.setItem("@selectedLabel", selected);
 
-    if(selected == '') {
-      this.refs.toast.show('Please select label to associate with USERNAME')
+    if (selected == "") {
+      this.refs.toast.show("Please select label to associate with USERNAME");
     } else {
-      this.props.navigation.navigate('ForAddContact');
+      this.props.navigation.navigate("ForAddContact");
     }
 
     this.setState({ selectedRealetion: [] });
@@ -225,33 +311,34 @@ class chooseContactFromLabel extends Component {
           }
         />
 
-      <View style={{flex: 1}}>
-        <Container>
-          {this.renderHeader()}
-          {this.renderMiddle()}
-          {this.renderLast()}
-        </Container>
-        <Toast
-          ref="toast"
-          style={{
-            backgroundColor:
-              this.props.theme.mode === "light" ? "black" : "white",
-            width: width * 0.8,
-            alignItems: "center",
-          }}
-          position="bottom"
-          positionValue={250}
-          fadeInDuration={100}
-          fadeOutDuration={2000}
-          opacity={1}
-          textStyle={{
-            color: this.props.theme.mode === "light" ? "white" : "black",
-            fontFamily: Font.medium,
-            fontSize: width * 0.04,
-          }}
-        />
-        {this.showLoader()}
-      </View>
+        <View style={{ flex: 1 }}>
+          <Container>
+            {this.renderHeader()}
+
+            {this.renderMiddle()}
+            {this.renderLast()}
+          </Container>
+          <Toast
+            ref="toast"
+            style={{
+              backgroundColor:
+                this.props.theme.mode === "light" ? "black" : "white",
+              width: width * 0.8,
+              alignItems: "center",
+            }}
+            position="bottom"
+            positionValue={250}
+            fadeInDuration={100}
+            fadeOutDuration={2000}
+            opacity={1}
+            textStyle={{
+              color: this.props.theme.mode === "light" ? "white" : "black",
+              fontFamily: Font.medium,
+              fontSize: width * 0.04,
+            }}
+          />
+          {this.showLoader()}
+        </View>
       </ThemeProvider>
     );
   }
@@ -276,5 +363,5 @@ const NormalText = styled.Text`
   font-family: Roboto-Light;
   font-size: 15px;
   color: ${(props) => props.theme.textColor};
-  text-transform:capitalize
+  text-transform: capitalize;
 `;

@@ -8,8 +8,6 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import { NavigationActions, StackActions } from "react-navigation";
-// import {DrawerContentScrollView, DrawerItem} from '@rScrolleact-navigation/drawer';
 import React, { Component, useState } from "react";
 
 import { COLORS } from "../../containers/theme/Colors";
@@ -456,3 +454,18 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.main_text_color,
   },
 });
+
+// function mapStateToProps(state) {
+//   return {
+//     theme: state.themeReducer.theme,
+   
+//     username: (state.login.shouldLoadData.username || state.reg.shouldLoadData.username),
+
+//   };
+// }
+
+// const mapDispatchToProps = (dispatch) => ({
+//   switchTheme: bindActionCreators(switchTheme, dispatch),
+// });
+
+// export default connect(mapStateToProps)(Add);

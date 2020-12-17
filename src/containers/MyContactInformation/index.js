@@ -17,7 +17,6 @@ import {
 import React, { Component } from "react";
 import { darkTheme, lightTheme } from "../theme/themeProps";
 import styled, { ThemeProvider } from "styled-components/native";
-import firebase from "../../services/FirebaseDatabase/db";
 
 import { COLORS } from "../theme/Colors.js";
 import { Colors } from "react-native-paper";
@@ -33,8 +32,7 @@ import Swipeable from "react-native-gesture-handler/Swipeable";
 import { ThemeContext } from "react-navigation";
 import Toast from "react-native-easy-toast";
 import { addItem } from "../../services/FirebaseDatabase/addAfterSignup";
-import { addMyInfo } from "../../services/FirebaseDatabase/myInfoToFirebase";
-import { updateMyInfo } from "../../services/FirebaseDatabase/updateMyInfo";
+//import { addMyInfo } from "../../services/FirebaseDatabase/myInfoToFirebase";
 import { bindActionCreators } from "redux";
 import calender from "../../assets/images/calender.png";
 import call from "../../assets/images/call.png";
@@ -42,6 +40,7 @@ import { color } from "react-native-reanimated";
 import { connect } from "react-redux";
 import data from "../../../node_modules/react-native-intl-phone-input/src/Countries";
 import email from "../../assets/images/email.png";
+import firebase from "../../services/FirebaseDatabase/db";
 import handshake from "../../assets/images/handshake.png";
 import home from "../../assets/images/home.png";
 import innerimg from "../../assets/images/innerimg.png";
@@ -51,6 +50,7 @@ import moment from "moment";
 import note from "../../assets/images/note.png";
 import styles from "./style.js";
 import { switchTheme } from "../../action/themeAction";
+import { updateMyInfo } from "../../services/FirebaseDatabase/updateMyInfo";
 import website from "../../assets/images/website.png";
 
 var { width, height } = Dimensions.get("window");
@@ -118,7 +118,7 @@ class MyContactInfromation extends Component {
         label: "",
       },
 
-      messenger1: "",
+      messanger1: "",
       messenger2: "",
       social_media1: "",
       social_media2: "",
@@ -164,9 +164,8 @@ class MyContactInfromation extends Component {
       isMobileModelOpen: false,
       mobileLabelList: [
         { label: "Personal" },
-        { label: "Work" },
-        { label: "Home" },
-        { label: "Main" },
+        { label: "Lanline" },
+        { label: "Business" },
         { label: "Other" },
       ],
       mobileLabel: "",
@@ -174,9 +173,8 @@ class MyContactInfromation extends Component {
       // email modal
       isEmailModelOpen: false,
       emailLabelList: [
-        { label: "Personal" },
-        { label: "Work" },
-        { label: "Main" },
+        { label: "Personal 1" },
+        { label: "Personal 2" },
         { label: "Other" },
       ],
       emailLabel: "",
@@ -185,11 +183,7 @@ class MyContactInfromation extends Component {
       isAddEmailArrayLabel: false,
       //address modal
       isAddressModelOpen: false,
-      addressLabelList: [
-        { label: "Home" },
-        { label: "Work" },
-        { label: "Other" },
-      ],
+      addressLabelList: [{ label: "Personal 1" }, { label: "Other" }],
       addressLabel: "",
       isAddAddressLabel: false,
       isAddressArrayModelOpen: false,
@@ -225,10 +219,7 @@ class MyContactInfromation extends Component {
       isAddWebsiteArrayLabel: false,
       //date
       isDateModelOpen: false,
-      dateLableList: [
-        { label: " Sport gambling podcast" },
-        { label: " Universal Studio" },
-      ],
+      dateLableList: [{ label: "Birthday" }, { label: "Other" }],
       dateLabel: "",
       isAddDateLabel: false,
       isDateArrayModelOpen: false,
@@ -236,7 +227,7 @@ class MyContactInfromation extends Component {
       isAddDateArrayLabel: false,
       //note
       isNoteModelOpen: false,
-      noteLabelList: [{ label: "Note" }],
+      noteLabelList: [{ label: "Note 1 " }],
       noteLabel: "",
       isAddNoteLabel: false,
       isNoteArrayModelOpen: false,
@@ -343,9 +334,9 @@ class MyContactInfromation extends Component {
       .get()
       .then((snap) => {
         if (!snap.empty) {
-        //  alert("empty");
+          //  alert("empty");
         } else {
-         // alert("full");
+          // alert("full");
         }
         snap.forEach((doc) => {
           var item = doc._data;
@@ -358,7 +349,7 @@ class MyContactInfromation extends Component {
       this.setState({ status: true });
     } else {
       this.setState({ status: false });
-  }
+    }
     const {
       profile_image,
       first_name,
@@ -374,7 +365,7 @@ class MyContactInfromation extends Component {
       emailArray,
       address,
       addressArray,
-      messenger1,
+      messanger1,
       messenger2,
       messangerArray,
       social_media1,
@@ -422,41 +413,65 @@ class MyContactInfromation extends Component {
           job_title !== "" ||
           work_hour !== ""
         ) {
-          updateMyInfo(
-            // user_id,
-            username,
-            profile_image,
-            first_name,
-            middle_name,
-            last_name,
-            nick_name,
-            number1,
-            number2,
-            number3,
-            numberArray,
-            email,
-            email2,
-            emailArray,
-            address,
-            addressArray,
-            messenger1,
-            messenger2,
-            messangerArray,
-            social_media1,
-            social_media2,
-            socialMediaArray,
-            website1,
-            website2,
-            websiteArray,
-            dob,
-            dateArray,
-            note,
-            noteArray,
-            company,
-            companyArray,
-            job_title,
-            work_hour
-          );
+          if (first_name !== "") {
+            firebase .firestore().collection("user").doc(`${username}`).update({ first_name: first_name });
+          }
+          if (number1 !== "") {
+            firebase .firestore().collection("user").doc(`${username}`).update({ number1 : number1 });
+          }
+          if(email !== ""){
+            firebase .firestore().collection("user").doc(`${username}`).update({ email: email });
+           }
+           if(emailArray !== ""){
+            firebase .firestore().collection("user").doc(`${username}`).update({ emailArray: emailArray });
+           }
+          if(address !== ""){
+            firebase .firestore().collection("user").doc(`${username}`).update({ address: address });
+           }
+           if(addressArray !== ""){
+            firebase .firestore().collection("user").doc(`${username}`).update({ addressArray: addressArray });
+           }
+           if(messanger1 !== ""){
+            firebase .firestore().collection("user").doc(`${username}`).update({ messanger1: messanger1 });
+           }
+           if(messangerArray !== ""){
+            firebase .firestore().collection("user").doc(`${username}`).update({ messangerArray: messangerArray });
+           }
+           if(social_media1 !== ""){
+            firebase .firestore().collection("user").doc(`${username}`).update({ social_media1: social_media1 });
+           }
+           if(socialMediaArray !== ""){
+            firebase .firestore().collection("user").doc(`${username}`).update({ socialMediaArray: socialMediaArray });
+           }
+           if(website1 !== ""){
+            firebase .firestore().collection("user").doc(`${username}`).update({ website1: website1 });
+           }
+           if(websiteArray !== ""){
+            firebase .firestore().collection("user").doc(`${username}`).update({ websiteArray: websiteArray });
+           }
+           if(dob !== ""){
+            firebase .firestore().collection("user").doc(`${username}`).update({ dob: dob });
+           }
+           if(dateArray !== ""){
+            firebase .firestore().collection("user").doc(`${username}`).update({ dateArray: dateArray });
+           }
+           if(note !== ""){
+            firebase .firestore().collection("user").doc(`${username}`).update({ note: note });
+           }
+           if(noteArray !== ""){
+            firebase .firestore().collection("user").doc(`${username}`).update({ noteArray: noteArray });
+           }
+         
+           if(company !== ""){
+            firebase .firestore().collection("user").doc(`${username}`).update({ company: company });
+           }
+           if(job_title !== ""){
+            firebase .firestore().collection("user").doc(`${username}`).update({ job_title: job_title });
+           }
+           console.log("worrk hours---->",work_hour)
+           if(work_hour !== ""){
+            firebase .firestore().collection("user").doc(`${username}`).update({ work_hour: work_hour });
+           }
           this.setState({
             status: false,
             image: "",
@@ -1888,7 +1903,7 @@ class MyContactInfromation extends Component {
 
   onChangeMessenger = (value) => {
     this.state.messanger.messanger = value;
-    this.setState({ messenger1: this.state.messanger });
+    this.setState({ messanger1: this.state.messanger });
   };
 
   onChangeMessengerArray = (value, index) => {
@@ -3781,19 +3796,9 @@ class MyContactInfromation extends Component {
     this.state.jobTitleArray[index].label = label;
     this.setState({ JobTitleArray: this.state.jobTitleArray });
   };
-
-  //work hours
-  // onChangeWebsite = (value, index) => {
-  //   this.state.website.website = value;
-  //   this.setState({ website1: this.state.website });
-  // };
   onChangeWorkHours = (value, index) => {
     this.state.workHours.workHours = value;
     this.setState({ work_hour: this.state.workHours });
-    // this.setState({
-    //   isVisibleWork: false,
-    //   choosenWork: moment(value).format("LTS"),
-    // });
   };
 
   changeWorkHoursLabel = (label) => {
@@ -3906,26 +3911,7 @@ class MyContactInfromation extends Component {
                 editable={this.state.status ? true : false}
                 onChangeText={(value) => this.onChangeCompany(value)}
               />
-              {this.state.status ? (
-                <TouchableHighlight
-                  underlayColor="transparent"
-                  style={styles.addressRightView}
-                  onPress={() => this.setState({ isCompanyModelOpen: true })}
-                >
-                  <Icon
-                    style={styles.iconSize}
-                    size={width * 0.06}
-                    name="chevron-small-down"
-                  />
-                </TouchableHighlight>
-              ) : null}
-              {this.state.status && this.state.company.label !== "" ? (
-                <View style={styles.addressRightView}>
-                  <Text style={styles.addressRighttext}>
-                    {this.state.company.label}
-                  </Text>
-                </View>
-              ) : null}
+            
             </View>
             <View style={styles.filedView}>
               <TextInput
@@ -3947,57 +3933,7 @@ class MyContactInfromation extends Component {
                 onChangeText={(value) => this.onChangeWorkHours(value)}
               />
             </View>
-            {/* <TouchableOpacity
-              style={[styles.filedView, { alignItems: "center" }]}
-              onPress={this.showTimePicker}
-            >
-              {this.state.isVisibleWork == false &&
-              this.state.choosenWork == "" ? (
-                <Text style={styles.dateText}>Work Hours</Text>
-              ) : null}
-
-              <Text style={styles.dateText}>{this.state.choosenWork}</Text>
-
-              {this.state.choosenWork !== "" ? (
-                <Text style={styles.dateBlack}>To</Text>
-              ) : null}
-
-              {this.state.choosenWork !== "" ? (
-                <TouchableOpacity
-                  style={styles.dateView}
-                  onPress={this.showTimeToPicker}
-                >
-                  {this.state.choosenWorkTo == "" ? (
-                    <View
-                      style={{
-                        justifyContent: "center",
-                        height: height * 0.05,
-                        marginTop: Metrics.baseMargin,
-                      }}
-                    >
-                      <Text style={styles.dateText}> 00:00:00 AM/PM </Text>
-                    </View>
-                  ) : null}
-
-                  <Text style={styles.dateText}>
-                    {this.state.choosenWorkTo}
-                  </Text>
-                </TouchableOpacity>
-              ) : null}
-
-              <DateTimePickerModal
-                isVisible={this.state.isVisibleWorkTo}
-                onConfirm={this.onChangeWorkHoursTo}
-                onCancel={this.hidePickerTo}
-                mode="time"
-              />
-              <DateTimePickerModal
-                isVisible={this.state.isVisibleWork}
-                onConfirm={this.onChangeWorkHours}
-                onCancel={this.hidePicker}
-                mode="time"
-              />
-            </TouchableOpacity> */}
+         
             {this.state.companySection == true &&
               this.state.companyArray.map((input, key) => {
                 return (
@@ -4014,20 +3950,7 @@ class MyContactInfromation extends Component {
                             this.onChangeCompanyArray(company, key);
                           }}
                         />
-                        <TouchableHighlight
-                          underlayColor="transparent"
-                          style={styles.addressRightView}
-                          // key={key}
-                          onPress={() =>
-                            this.setState({ isCompanyArrayModelOpen: true })
-                          }
-                        >
-                          <Icon
-                            style={styles.iconSize}
-                            size={width * 0.06}
-                            name="chevron-small-down"
-                          />
-                        </TouchableHighlight>
+                       
                         {this.state.companyArray[key].label !== "" ? (
                           <View style={styles.addressRightView}>
                             <Text style={styles.addressRighttext}>
@@ -4156,77 +4079,12 @@ class MyContactInfromation extends Component {
                           placeholderTextColor={COLORS.main_text_color}
                           value={this.state.job_title}
                           editable={this.state.status ? true : false}
-                          onChangeText={(value) => this.onChangeJobTitle(value)}
+                          onChangeText={(value) => this.onChangeWorkHours(value)}
                         />
                       </View>
-                      {/* <TouchableOpacity
-                        style={styles.filedView}
-                        onPress={this.showTimePickerArray}
-                      >
-                        {this.state.isVisibleWorkArray == false &&
-                        this.state.companyArray[key].time == "" ? (
-                          <View style={{ flexDirection: "row" }}>
-                            <Text style={styles.dateText}>Work Hour</Text>
-                          </View>
-                        ) : null}
-
-                        <Text style={styles.dateText}>
-                          {this.state.companyArray[key].time}
-                        </Text> */}
-                      {/* <Text style={styles.dateBlack}>To</Text>
-                        {this.state.companyArray[key].time !== "" ? (
-                          <Text style={styles.dateBlack}>To</Text>
-                        ) : null}
-
-                        {/* <TouchableOpacity
-                                    style={styles.dateView}
-                                    onPress={this.showTimeToPickerArray}
-                                  >  
-                                   <Text style={styles.dateText}>
-                                          00:00:00 AM/PM
-                                        </Text>
-                               </TouchableOpacity> */}
-                      {/* {this.state.companyArray[key].time !== "" ? (
-                          <TouchableOpacity
-                            style={styles.dateView}
-                            onPress={this.showTimeToPickerArray}
-                          >
-                            {this.state.companyArray[key].timeto == "" ? (
-                              <View
-                                style={{
-                                  justifyContent: "center",
-                                  height: height * 0.05,
-                                  marginTop: Metrics.baseMargin,
-                                }}
-                              >
-                                <Text style={styles.dateText}>
-                                  00:00:00 AM/PM
-                                </Text>
-                              </View>
-                            ) : null}
-                            <Text style={styles.dateText}>
-                              {this.state.companyArray[key].timeto}
-                            </Text>
-                          </TouchableOpacity>
-                        ) : null}
-                      </TouchableOpacity> */}
-                      <DateTimePickerModal
-                        isVisible={this.state.isVisibleWorkArray}
-                        onConfirm={(time) =>
-                          this.onChangeWorkHoursArray(time, key)
-                        }
-                        onCancel={this.arrayPickerHide}
-                        mode="time"
-                      />
-
-                      <DateTimePickerModal
-                        isVisible={this.state.isVisibleWorkToArray}
-                        onConfirm={(timeto) =>
-                          this.onChangeWorkHoursToArray(timeto, key)
-                        }
-                        onCancel={this.arrayPickerHideTwo}
-                        mode="time"
-                      />
+                     
+                  
+                  
                     </View>
                   </Swipeable>
                 );
@@ -4329,190 +4187,7 @@ class MyContactInfromation extends Component {
                 </View>
               </View>
             </Modal>
-            {/* Job Title Model*/}
-            <Modal
-              style={styles.footerModal}
-              visible={this.state.isJobTitleModelOpen}
-              transparent={true}
-              animationType="fade"
-              onRequestClose={() =>
-                this.setState({ isJobTitleModelOpen: false })
-              }
-            >
-              <View style={styles.contactContent}>
-                <View style={styles.content}>
-                  <Text style={styles.modalHeader}>Job Title</Text>
-                  <View style={{ flexDirection: "column" }}>
-                    {this.state.jobTitleLableList.map((item, index) => {
-                      return (
-                        <TouchableHighlight
-                          underlayColor="transparent"
-                          onPress={() => {
-                            this.changeJobTitleLabel(item.label);
-                          }}
-                        >
-                          <Text style={styles.labelName}> {item.label} </Text>
-                        </TouchableHighlight>
-                      );
-                    })}
-                    <TouchableHighlight
-                      underlayColor="transparent"
-                      onPress={() =>
-                        this.setState({
-                          isAddjobTitleLabel: true,
-                          jobTitle: "",
-                        })
-                      }
-                    >
-                      <Text style={styles.labelName}> Custom </Text>
-                    </TouchableHighlight>
-                  </View>
-                </View>
-              </View>
-            </Modal>
-            <Modal
-              style={styles.footerModal}
-              visible={this.state.isAddjobTitleLabel}
-              transparent={true}
-              // key={key}
-              animationType="fade"
-            >
-              <View style={styles.contactContent}>
-                <View style={styles.content}>
-                  <Text style={styles.modalHeader}>Custom label name</Text>
-                  <View style={{ flexDirection: "column" }}>
-                    <TextInput
-                      placeholder="Custom label name"
-                      style={styles.addLabelField}
-                      placeholderTextColor={COLORS.main_text_color}
-                      editable={this.state.status ? true : false}
-                      keyboardType={"default"}
-                      onChangeText={(label) => {
-                        this.changeJobTitleLabel(label);
-                      }}
-                    />
-                    <TouchableHighlight
-                      underlayColor="transparent"
-                      style={styles.saveView}
-                      onPress={() =>
-                        this.state.jobTitleLabel !== ""
-                          ? this.setState({
-                              isAddjobTitleLabel: false,
-                              isJobTitleModelOpen: false,
-                            })
-                          : this.setState({
-                              isAddjobTitleLabel: false,
-                            })
-                      }
-                    >
-                      <Text
-                        style={{
-                          color: COLORS.main_text_color,
-                          fontFamily: Font.medium,
-                          fontSize: width * 0.04,
-                        }}
-                      >
-                        {" "}
-                        Ok{" "}
-                      </Text>
-                    </TouchableHighlight>
-                  </View>
-                </View>
-              </View>
-            </Modal>
-            {/* Job Title Finish */}
-            {/* Work Hours Model*/}
-            <Modal
-              style={styles.footerModal}
-              visible={this.state.isWorkHourseModelOpen}
-              transparent={true}
-              animationType="fade"
-              onRequestClose={() =>
-                this.setState({ isWorkHourseModelOpen: false })
-              }
-            >
-              <View style={styles.contactContent}>
-                <View style={styles.content}>
-                  <Text style={styles.modalHeader}>Job Title</Text>
-                  <View style={{ flexDirection: "column" }}>
-                    {this.state.workHoursLableList.map((item, index) => {
-                      return (
-                        <TouchableHighlight
-                          underlayColor="transparent"
-                          onPress={() => {
-                            this.changeWorkHoursLabel(item.label);
-                          }}
-                        >
-                          <Text style={styles.labelName}> {item.label} </Text>
-                        </TouchableHighlight>
-                      );
-                    })}
-                    <TouchableHighlight
-                      underlayColor="transparent"
-                      onPress={() =>
-                        this.setState({
-                          isAddworkHoursLabel: true,
-                          workHours: "",
-                        })
-                      }
-                    >
-                      <Text style={styles.labelName}> Custom </Text>
-                    </TouchableHighlight>
-                  </View>
-                </View>
-              </View>
-            </Modal>
-            <Modal
-              style={styles.footerModal}
-              visible={this.state.isAddworkHoursLabel}
-              transparent={true}
-              // key={key}
-              animationType="fade"
-            >
-              <View style={styles.contactContent}>
-                <View style={styles.content}>
-                  <Text style={styles.modalHeader}>Custom label name</Text>
-                  <View style={{ flexDirection: "column" }}>
-                    <TextInput
-                      placeholder="Custom label name"
-                      style={styles.addLabelField}
-                      placeholderTextColor={COLORS.main_text_color}
-                      editable={this.state.status ? true : false}
-                      keyboardType={"default"}
-                      onChangeText={(label) => {
-                        this.changeWorkHoursLabel(label);
-                      }}
-                    />
-                    <TouchableHighlight
-                      underlayColor="transparent"
-                      style={styles.saveView}
-                      onPress={() =>
-                        this.state.workHoursLabel !== ""
-                          ? this.setState({
-                              isAddworkHoursLabel: false,
-                              isWorkHourseModelOpen: false,
-                            })
-                          : this.setState({
-                              isAddworkHoursLabel: false,
-                            })
-                      }
-                    >
-                      <Text
-                        style={{
-                          color: COLORS.main_text_color,
-                          fontFamily: Font.medium,
-                          fontSize: width * 0.04,
-                        }}
-                      >
-                        {" "}
-                        Ok{" "}
-                      </Text>
-                    </TouchableHighlight>
-                  </View>
-                </View>
-              </View>
-            </Modal>
-            {/* Work Hours Finish */}
+          
           </View>
         </View>
       </View>

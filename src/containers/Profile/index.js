@@ -1,5 +1,6 @@
 import {
   Dimensions,
+  FlatList,
   Image,
   ImageBackground,
   Keyboard,
@@ -8,11 +9,9 @@ import {
   TouchableHighlight,
   TouchableOpacity,
   View,
-  FlatList,
 } from "react-native";
 import React, { Component, useState } from "react";
 import styled, { ThemeProvider } from "styled-components/native";
-import firebase from "../../services/FirebaseDatabase/db";
 
 import { COLORS } from "../theme/Colors.js";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
@@ -27,6 +26,7 @@ import call from "../../assets/images/call.png";
 import { connect } from "react-redux";
 import edit from "../../assets/images/edit.png";
 import email from "../../assets/images/email.png";
+import firebase from "../../services/FirebaseDatabase/db";
 import friendImg from "../../assets/images/friendImg.jpg";
 import handshake from "../../assets/images/handshake.png";
 import home from "../../assets/images/home.png";
@@ -44,6 +44,7 @@ import moment from "moment";
 import note from "../../assets/images/note.png";
 import reset from "../../assets/images/reset.png";
 import styles from "./style.js";
+import { updateMyInfo } from "../../services/FirebaseDatabase/updateMyInfo";
 import website from "../../assets/images/website.png";
 import websiteImg from "../../assets/images/website.png";
 
@@ -55,22 +56,18 @@ class Profile extends Component {
     this.state = {
       contact: [],
       contacts: "",
-      // number: "",
-      // number1: "",
-      friends: "",
-      number2: "",
-      number3: "",
-      email: "",
+    
+      //data from firebase
       address: "",
-
       company: "",
       date: "",
       dob1: "",
+      email: "",
       job_title: "",
       messenger: "",
       messenger1: "",
       messenger2: "",
-      note1: "",
+      // note1: "",
       number: "",
       number1: "",
       number2: "",
@@ -78,14 +75,55 @@ class Profile extends Component {
       social_media: "",
       website: "",
       work_hour: "",
+      friends: "",
+      //  data from firebase finish
       isVisible: false,
       isVisible2: false,
       mobileSection: false,
       status: false,
 
-      birthday: "",
-      address_profile: "",
+      //profile data
+      friends_profile: "",
+      phonenumber_1: "",
+      phonenumber_2: "",
+      phonenumber_3: "",
+      email_profile: { email :"" , label : ""},
+      birthday:"",
+      address_profile: { address :"" , label : ""},
+      messenger_profile: { messanger :"" , label : ""},
+      facebook_profile: { socialMedia :"" , label : ""},
+      instagram_profile: { instagam :"" , label : ""},
+      website_profile: { website :"" , label : ""},
       wedding_anniversary: "",
+      note_profile: { note :"" , label : ""},
+      work_hour_profile:{ workHours :"" , label : ""},
+      company_profile: { company :"" , label : ""},
+      job_title_profile: { jobTitle :"" , label : ""},
+      social_media1:"",
+      website1: "",
+      website2: "",
+      dob: "",
+      note1: "",
+      company1: "",
+      job_title: "",
+      work_hour: "",
+      image: null,
+      images: null,
+      image2: null,
+      image3: null,
+      profile_image: "",
+
+      numberArray: [],
+      emailArray: [],
+      addressArray: [],
+      messangerArray: [],
+      socialMediaArray: [],
+      websiteArray: [],
+      dateArray: [],
+      noteArray: [],
+      companyArray: [],
+      jobTitleArray: [],
+      workHoursArray: [],
     };
   }
 
@@ -98,27 +136,30 @@ class Profile extends Component {
       .get()
       .then((snap) => {
         var item = snap._data;
-        console.log("Number--->", item.address);
-        // this.setState({ contact: item });
-        this.setState({ address: item.address });
-        this.setState({ company: item.company });
+        this.setState({ contact: item });
+        console.log("social media ---->",item.social_media1.socialMedia)
+        this.setState({ email :item.email.email})
+        this.setState({ emailLabel :item.email.label})
+        this.setState({ address: item.address.address });
+        this.setState({ company: item.company.company });
         this.setState({ date: item.date });
-        this.setState({ dob1: item.dob1 });
-        this.setState({ email: item.email });
-        this.setState({ job_title: item.job_title });
+        this.setState({ dob: item.dob });
+        this.setState({ job_title: item.job_title.jobTitle });
         this.setState({ messenger: item.messenger });
-        this.setState({ messenger1: item.messenger1 });
+        this.setState({ messenger1: item.messanger1.messanger });
         this.setState({ messenger2: item.messenger2 });
-        this.setState({ note1: item.note1 });
+        this.setState({ note1: item.note.note });
         this.setState({ number: item.number });
         this.setState({ number1: item.number1 });
         this.setState({ number2: item.number2 });
         this.setState({ number3: item.number3 });
         this.setState({ social_media: item.social_media });
-        this.setState({ website: item.website });
-        this.setState({ work_hour: item.work_hour });
+        this.setState({ social_media1: item.social_media1.socialMedia });
+        this.setState({ website: item.website1.website });
+        this.setState({ work_hour: item.work_hour.workHours });
+        this.setState({ friends: item.friend });
       });
-  }
+    }
 
   renderImg() {
     return (
@@ -226,8 +267,10 @@ class Profile extends Component {
                 placeholder="Friends, Universal Studio"
                 style={styles.stylefiledText}
                 placeholderTextColor={COLORS.main_text_color}
-                value={this.state.friends}
-                onChangeText={(friends) => this.setState({ friends })}
+                value={this.state.friends_profile}
+                onChangeText={(friends_profile) =>
+                  this.setState({ friends_profile })
+                }
               />
             ) : (
               <Text style={styles.stylefiledText}>{this.state.friends}</Text>
@@ -294,10 +337,10 @@ class Profile extends Component {
                 phoneInputStyle={styles.mobileInputText}
                 dialCodeTextStyle={styles.mobileInputText}
                 dialCode={this.state.dialCode}
-                value={this.state.phonenumber_2}
+                value={this.state.phonenumber_1}
                 inputRef={"phone"}
                 keyboardType={"numeric"}
-                onChangeText={this.onChangeNumber2}
+                onChangeText={this.onChangeNumber}
                 defaultCountry="CA"
                 isProfile={false}
               />
@@ -328,7 +371,7 @@ class Profile extends Component {
             </View>
           </View>
         </View>
-        <View style={styles.fieldMain}>
+        {/* <View style={styles.fieldMain}>
           <View style={styles.filedViewRightTwo}>
             {this.state.status == true ? (
               <IntlPhoneInput
@@ -348,8 +391,14 @@ class Profile extends Component {
                 isProfile={false}
               />
             ) : (
+              //  ( this.state.number2 == "" ? (
+              //     <Text style={styles.stylefiledText}>+1 (303) 123-4567</Text>
+              //   ) : (
+
+              //   ))
               <Text style={styles.stylefiledText}>{this.state.number2}</Text>
             )}
+
             <View style={styles.rightView}>
               <View>
                 <View
@@ -383,14 +432,17 @@ class Profile extends Component {
                 phoneInputStyle={styles.mobileInputText}
                 dialCodeTextStyle={styles.mobileInputText}
                 dialCode={this.state.dialCode}
-                value={this.state.phonenumber_2}
+                value={this.state.phonenumber_3}
                 inputRef={"phone"}
                 keyboardType={"numeric"}
-                onChangeText={this.onChangeNumber2}
+                onChangeText={this.onChangeNumber3}
                 defaultCountry="CA"
                 isProfile={false}
               />
             ) : (
+              // this.state.number3 == "" ? (
+              //   <Text style={styles.stylefiledText}>+1 (303) 123-4567</Text>
+              // ) :
               <Text style={styles.stylefiledText}>{this.state.number3}</Text>
             )}
             <View style={styles.rightView}>
@@ -407,11 +459,14 @@ class Profile extends Component {
               </View>
             </View>
           </View>
-        </View>
+        </View> */}
       </View>
     );
   }
-
+  onChangeEmail = (value) => {
+    this.state.email_profile.email = value;
+    this.setState({ email_profile: this.state.email_profile });
+  };
   renderEmail() {
     return (
       <View
@@ -430,9 +485,7 @@ class Profile extends Component {
                 placeholderTextColor={COLORS.main_text_color}
                 keyboardType={"email-address"}
                 value={this.state.email_profile}
-                onChangeText={(email_profile) =>
-                  this.setState({ email_profile })
-                }
+                onChangeText={(value) => this.onChangeEmail(value)}
               />
             ) : (
               <Text style={styles.stylefiledText}>{this.state.email}</Text>
@@ -456,6 +509,11 @@ class Profile extends Component {
       </View>
     );
   }
+
+  onChangeAddress = (value) => {
+    this.state.address_profile.address = value;
+    this.setState({ address_profile: this.state.address_profile });
+  };
 
   renderAddress() {
     return (
@@ -490,9 +548,7 @@ class Profile extends Component {
                     multiline={true}
                     keyboardType={"default"}
                     value={this.state.address_profile}
-                    onChangeText={(address_profile) =>
-                      this.setState({ address_profile })
-                    }
+                    onChangeText={(value) => this.onChangeAddress(value)}
                   />
                 </View>
               ) : (
@@ -537,6 +593,11 @@ class Profile extends Component {
     );
   }
 
+  onChangeMessenger = (value) => {
+    this.state.messenger_profile.messanger = value;
+    this.setState({ messenger_profile: this.state.messenger_profile });
+  };
+
   renderMesssanger() {
     return (
       <View
@@ -555,9 +616,7 @@ class Profile extends Component {
                 placeholderTextColor={COLORS.main_text_color}
                 keyboardType={"default"}
                 value={this.state.messenger_profile}
-                onChangeText={(messenger_profile) =>
-                  this.setState({ messenger_profile })
-                }
+                onChangeText={(value) => this.onChangeMessenger(value)}
               />
             ) : (
               <Text style={styles.stylefiledText}>{this.state.messenger1}</Text>
@@ -590,6 +649,14 @@ class Profile extends Component {
     );
   }
 
+  onChangeSocialMedia = (value) => {
+    this.state.facebook_profile.socialMedia = value;
+    this.setState({ facebook_profile: this.state.facebook_profile });
+  };
+  onChangeSocialMedia2 = (value) => {
+    this.state.instagram_profile.socialMedia = value;
+    this.setState({ instagram_profile: this.state.instagram_profile });
+  };
   renderSocialMedia() {
     return (
       <View
@@ -609,8 +676,8 @@ class Profile extends Component {
                 placeholderTextColor={COLORS.main_text_color}
                 keyboardType={"numeric"}
                 keyboardType={"default"}
-                value={this.state.facebook}
-                onChangeText={(facebook) => this.setState({ facebook })}
+                value={this.state.facebook_profile}
+                onChangeText={(value) => this.onChangeSocialMedia(value)}
               />
             ) : (
               <Text style={styles.stylefiledText}>{this.state.messenger2}</Text>
@@ -647,8 +714,8 @@ class Profile extends Component {
                 style={styles.stylefiledText}
                 placeholderTextColor={COLORS.main_text_color}
                 keyboardType={"default"}
-                value={this.state.instagram}
-                onChangeText={(instagram) => this.setState({ instagram })}
+                value={this.state.instagram_profile}
+                onChangeText={(value) => this.onChangeSocialMedia2(value)}
               />
             ) : (
               <Text style={styles.stylefiledText}>{this.state.messenger}</Text>
@@ -680,6 +747,10 @@ class Profile extends Component {
       </View>
     );
   }
+  onChangeWebsite = (value, index) => {
+    this.state.website_profile.website = value;
+    this.setState({ website_profile: this.state.website_profile });
+  };
 
   renderWebsite() {
     return (
@@ -699,9 +770,7 @@ class Profile extends Component {
                 placeholderTextColor={COLORS.main_text_color}
                 keyboardType={"default"}
                 value={this.state.website_profile}
-                onChangeText={(website_profile) =>
-                  this.setState({ website_profile })
-                }
+                onChangeText={(value) => this.onChangeWebsite(value)}
               />
             ) : (
               <Text style={styles.stylefiledText}>{this.state.website}</Text>
@@ -835,76 +904,84 @@ class Profile extends Component {
         </View>
         <View style={styles.fieldMain}>
           {this.state.status == true ? (
-               <TouchableOpacity
-               style={styles.filedViewRightTwo}
-               onPress={this.showDateTimePicker2}
-             >
-               {this.state.isVisible2 == false &&
-               this.state.wedding_anniversary == "" ? (
-                 <Text style={styles.dateText}>3rd Febrauary,1999</Text>
-               ) : null}
-               <Text style={styles.dateText}>
-                 {this.state.wedding_anniversary}
-               </Text>
-               <DateTimePickerModal
-                 isVisible={this.state.isVisible2}
-                 onConfirm={this.onChangeDate2}
-                 onCancel={this.hidePicker2}
-               />
-   
-               <View style={styles.rightView}>
-                 <View>
-                   <View
-                     style={{
-                       flex: 1,
-                       alignItems: "flex-end",
-                       width: width * 0.4,
-                     }}
-                   >
-                     <View style={styles.rightTwoImg}>
-                       <View>
-                         <Image source={edit} style={styles.editImg} />
-                       </View>
-                       <View style={styles.resetImg}>
-                         <Image source={reset} style={styles.editImg} />
-                       </View>
-                     </View>
-                     <Text style={styles.righttext}>( wedding anniversary )</Text>
-                   </View>
-                 </View>
-               </View>
-             </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.filedViewRightTwo}
+              onPress={this.showDateTimePicker2}
+            >
+              {this.state.isVisible2 == false &&
+              this.state.wedding_anniversary == "" ? (
+                <Text style={styles.dateText}>3rd Febrauary,1999</Text>
+              ) : null}
+              <Text style={styles.dateText}>
+                {this.state.wedding_anniversary}
+              </Text>
+              <DateTimePickerModal
+                isVisible={this.state.isVisible2}
+                onConfirm={this.onChangeDate2}
+                onCancel={this.hidePicker2}
+              />
+
+              <View style={styles.rightView}>
+                <View>
+                  <View
+                    style={{
+                      flex: 1,
+                      alignItems: "flex-end",
+                      width: width * 0.4,
+                    }}
+                  >
+                    <View style={styles.rightTwoImg}>
+                      <View>
+                        <Image source={edit} style={styles.editImg} />
+                      </View>
+                      <View style={styles.resetImg}>
+                        <Image source={reset} style={styles.editImg} />
+                      </View>
+                    </View>
+                    <Text style={styles.righttext}>
+                      ( wedding anniversary )
+                    </Text>
+                  </View>
+                </View>
+              </View>
+            </TouchableOpacity>
           ) : (
             <View style={styles.filedViewRightTwo}>
-            <Text style={styles.stylefiledText}>{this.state.dob1}</Text>
-            <View style={styles.rightView}>
-              <View>
-                <View
-                  style={{
-                    flex: 1,
-                    alignItems: "flex-end",
-                    width: width * 0.3,
-                  }}
-                >
-                  <View style={styles.rightTwoImg}>
-                    <View>
-                      <Image source={edit} style={styles.editImg} />
+              <Text style={styles.stylefiledText}>{this.state.dob}</Text>
+              <View style={styles.rightView}>
+                <View>
+                  <View
+                    style={{
+                      flex: 1,
+                      alignItems: "flex-end",
+                      width: width * 0.3,
+                    }}
+                  >
+                    <View style={styles.rightTwoImg}>
+                      <View>
+                        <Image source={edit} style={styles.editImg} />
+                      </View>
+                      <View style={styles.resetImg}>
+                        <Image source={reset} style={styles.editImg} />
+                      </View>
                     </View>
-                    <View style={styles.resetImg}>
-                      <Image source={reset} style={styles.editImg} />
-                    </View>
+                    <Text style={styles.righttext}>
+                      ( wedding anniversary )
+                    </Text>
                   </View>
-                  <Text style={styles.righttext}>( wedding anniversary )</Text>
                 </View>
               </View>
             </View>
-          </View>
-          ) }
-       
+          )}
         </View>
       </View>
     );
   }
+
+  onChangeNote = (value) => {
+    this.state.note_profile.note = value;
+    this.setState({ note_profile: this.state.note_profile });
+  };
 
   renderNote() {
     return (
@@ -924,19 +1001,19 @@ class Profile extends Component {
               }}
             >
               {this.state.status ? (
-                 <TextInput
-                 placeholder="To book me Comedian E-mail me at workmail@company.com"
-                 style={styles.stylefiledText}
-                 placeholderTextColor={COLORS.main_text_color}
-                 multiline={true}
-                 keyboardType={"default"}
-                 value={this.state.note}
-                 onChangeText={(note) => this.setState({ note })}
-               />
+                <TextInput
+                  placeholder="To book me Comedian E-mail me at workmail@company.com"
+                  style={styles.stylefiledText}
+                  placeholderTextColor={COLORS.main_text_color}
+                  multiline={true}
+                  keyboardType={"default"}
+                  value={this.state.note_profile}
+                  onChangeText={(value) => this.onChangeNote(value)}
+                />
               ) : (
                 <Text style={styles.stylefiledText}>{this.state.note1}</Text>
               )}
-             
+
               <View style={styles.rightView}>
                 <View>
                   <View
@@ -962,6 +1039,20 @@ class Profile extends Component {
     );
   }
 
+  onChangeCompany = (value) => {
+  
+    this.state.company_profile.company = value;
+    this.setState({ company_profile: this.state.company_profile });
+  };
+  onChangeJobTitle = (value) => {
+    this.state.job_title_profile.jobTitle = value;
+    this.setState({ job_title_profile: this.state.job_title_profile });
+  };
+  onChangeWorkHours = (value, index) => {
+    this.state.work_hour_profile.workHours = value;
+    this.setState({ work_hour_profile: this.state.work_hour_profile });
+  };
+
   renderCompany() {
     return (
       <View
@@ -975,16 +1066,18 @@ class Profile extends Component {
 
           <View style={styles.filedView}>
             {this.state.status == true ? (
-               <TextInput
-               placeholder="IBM"
-               style={styles.stylefiledText}
-               placeholderTextColor={COLORS.main_text_color}
-               keyboardType={"default"}
-               value={this.state.company}
-               onChangeText={(company) => this.setState({ company })}
-             />
-            ) : ( <Text style={styles.stylefiledText}>{this.state.company}</Text>)}
-           
+              <TextInput
+                placeholder="IBM"
+                style={styles.stylefiledText}
+                placeholderTextColor={COLORS.main_text_color}
+                keyboardType={"default"}
+                value={this.state.company_profile}
+                 onChangeText={(value) => this.onChangeCompany(value)}
+              />
+            ) : (
+              <Text style={styles.stylefiledText}>{this.state.company}</Text>
+            )}
+
             <View style={styles.rightView}>
               <View>
                 <View
@@ -1011,17 +1104,19 @@ class Profile extends Component {
         <View style={styles.fieldMain}>
           <View style={styles.filedViewRightTwo}>
             {this.state.status == true ? (
-                <TextInput
+              <TextInput
                 placeholder="Software Engineer"
                 style={styles.stylefiledText}
                 placeholderTextColor={COLORS.main_text_color}
                 keyboardType={"numeric"}
                 keyboardType={"default"}
                 value={this.state.job_title_profile}
-                onChangeText={(job_title_profile) => this.setState({ job_title_profile })}
-              /> 
-            ) : (<Text style={styles.stylefiledText}>{this.state.job_title}</Text>)}
-           
+                onChangeText={(value) => this.onChangeJobTitle(value)}
+              />
+            ) : (
+              <Text style={styles.stylefiledText}>{this.state.job_title}</Text>
+            )}
+
             <View style={styles.rightView}>
               <View>
                 <View
@@ -1054,22 +1149,27 @@ class Profile extends Component {
                 flexDirection: "row",
               }}
             >
-              {this.state.status == true ? ( 
-                 <TextInput
-                placeholder="Monday 9.00a.mto 5:00p.m Tuesday 9.00a.mto 5:00p.m 
+              {this.state.status == true ? (
+                <TextInput
+                  placeholder="Monday 9.00a.mto 5:00p.m Tuesday 9.00a.mto 5:00p.m 
              Wednesday 9.00a.mto 5:00p.m
              Thrusday 9.00a.mto 5:00p.m
              Friday 9.00a.mto 5:00p.m
              Saturday off
              Sunday off "
-                style={styles.stylefiledTextCompany}
-                placeholderTextColor={COLORS.main_text_color}
-                multiline={true}
-                keyboardType={"default"}
-                value={this.state.work_hours}
-                onChangeText={(work_hours) => this.setState({ work_hours })}
-              />) : (<Text style={styles.stylefiledText}>{this.state.work_hour}</Text>)}
-            
+                  style={styles.stylefiledTextCompany}
+                  placeholderTextColor={COLORS.main_text_color}
+                  multiline={true}
+                  keyboardType={"default"}
+                  value={this.state.work_hour_profile}
+                  onChangeText={(value) => this.onChangeWorkHours(value)}
+                />
+              ) : (
+                <Text style={styles.stylefiledText}>
+                  {this.state.work_hour}
+                </Text>
+              )}
+
               <View style={styles.rightView}>
                 <View>
                   <View
@@ -1101,7 +1201,74 @@ class Profile extends Component {
     } else {
       this.setState({ status: false });
     }
+    const { username } = this.props;
+
+    const {
+      friends_profile,
+      phonenumber_1,
+      phonenumber_2,
+      phonenumber_3,
+      email_profile,
+      address_profile,
+      messenger_profile,
+      facebook_profile,
+      instagram_profile,
+      website_profile,
+      birthday,
+      wedding_anniversary,
+      note_profile,
+      work_hour_profile,
+      company_profile,
+      profile_image,
+      messenger2,
+    
+      job_title_profile,
+     
+    } = this.state;
+    if (friends_profile !== "") {
+      firebase .firestore().collection("user").doc(`${username}`).update({ friend : friends_profile });
+    }
+    if (phonenumber_1 !== "") {
+      firebase .firestore().collection("user").doc(`${username}`).update({ number1 : phonenumber_1 });
+    }
+    if (email_profile !== "") {
+        firebase .firestore().collection("user").doc(`${username}`).update({ email : email_profile });
+    }
+    if (address_profile !== "") {
+      firebase .firestore().collection("user").doc(`${username}`).update({ address : address_profile });
+    }
+    if (messenger_profile !== "") {
+      firebase .firestore().collection("user").doc(`${username}`).update({ messanger1 : messenger_profile });
+    }
+    if (facebook_profile !== "") {
+      firebase .firestore().collection("user").doc(`${username}`).update({ social_media1 : facebook_profile });
+    }
+    if (instagram_profile !== "") {
+      firebase .firestore().collection("user").doc(`${username}`).update({ social_media2 : instagram_profile });
+    }
+    if (website_profile !== "") {
+      firebase .firestore().collection("user").doc(`${username}`).update({ website1 : website_profile });
+    }
+    if (birthday !== "") {
+      firebase .firestore().collection("user").doc(`${username}`).update({ date : birthday });
+    }
+    if (wedding_anniversary !== "") {
+      firebase .firestore().collection("user").doc(`${username}`).update({ dob : wedding_anniversary });
+    }
+    if (note_profile !== "") {
+      firebase .firestore().collection("user").doc(`${username}`).update({ note : note_profile });
+    }
+    if (work_hour_profile !== "") {
+      firebase .firestore().collection("user").doc(`${username}`).update({ work_hour : work_hour_profile });
+    }
+    if (company_profile !== "") {
+      firebase .firestore().collection("user").doc(`${username}`).update({ company : company_profile });
+    }
+    if (job_title_profile !== "") {
+      firebase .firestore().collection("user").doc(`${username}`).update({ job_title : job_title_profile });
+    }
   };
+
   render() {
     return (
       <ThemeProvider theme={this.props.theme}>
@@ -1118,7 +1285,6 @@ class Profile extends Component {
           <ScrollView style={{ flex: 1 }}>
             {this.renderImg()}
             {this.renderMiddle()}
-
             {this.renderFriend()}
             {this.renderMobile()}
             {this.renderEmail()}

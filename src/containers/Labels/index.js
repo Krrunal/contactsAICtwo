@@ -80,13 +80,7 @@ class labels extends Component {
     );
   }
 
-  ShowHideTextComponentView = () => {
-    if (this.state.status == true) {
-      this.setState({ status: false });
-    } else {
-      this.setState({ status: true });
-    }
-  };
+ 
 
   message = () => {
     this.state.label == ""

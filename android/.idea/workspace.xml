@@ -8,54 +8,24 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="068b04d3-d4a5-49c3-ba1b-31ccb07c99bf" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.gradle/6.2/executionHistory/executionHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/6.2/executionHistory/executionHistory.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/6.2/executionHistory/executionHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/6.2/executionHistory/executionHistory.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/6.2/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/6.2/fileHashes/fileHashes.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/6.2/fileHashes/fileHashes.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/6.2/fileHashes/fileHashes.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/6.2/fileHashes/resourceHashesCache.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/6.2/fileHashes/resourceHashesCache.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/6.2/javaCompile/javaCompile.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/6.2/javaCompile/javaCompile.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/checksums/checksums.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/checksums/checksums.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/checksums/sha1-checksums.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/checksums/sha1-checksums.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/caches/build_file_checksums.ser" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/caches/build_file_checksums.ser" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules/-1409782744/react-native-svg.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules/-1409782744/react-native-svg.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules/-142125493/react-native-screens.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules/-142125493/react-native-screens.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules/-155778429/react-native-community_datetimepicker.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules/-155778429/react-native-community_datetimepicker.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules/-192341855/react-native-camera.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules/-192341855/react-native-camera.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules/-438300045/react-native-safe-area-context.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules/-438300045/react-native-safe-area-context.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules/1451093635/react-native-firebase.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules/1451093635/react-native-firebase.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules/1521145105/react-native-community_netinfo.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules/1521145105/react-native-community_netinfo.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules/1758755666/react-native-reanimated.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules/1758755666/react-native-reanimated.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules/1900171471/react-native-contacts.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules/1900171471/react-native-contacts.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules/2003391485/react-native-community_checkbox.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules/2003391485/react-native-community_checkbox.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules/2056599024/react-native-community_async-storage.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules/2056599024/react-native-community_async-storage.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules/545185352/react-native-permissions.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules/545185352/react-native-permissions.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules/639336332/react-native-vector-icons.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules/639336332/react-native-vector-icons.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules/758641802/react-native-gesture-handler.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules/758641802/react-native-gesture-handler.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules/825723581/react-native-image-crop-picker.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules/825723581/react-native-image-crop-picker.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules/9916653/react-native-community_masked-view.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules/9916653/react-native-community_masked-view.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules/app/app.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules/app/app.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/build/intermediates/incremental/mergeDebugResources/compile-file-map.properties" beforeDir="false" afterPath="$PROJECT_DIR$/app/build/intermediates/incremental/mergeDebugResources/compile-file-map.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/build/intermediates/incremental/packageDebug/tmp/debug/dex-renamer-state.txt" beforeDir="false" afterPath="$PROJECT_DIR$/app/build/intermediates/incremental/packageDebug/tmp/debug/dex-renamer-state.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/build/intermediates/incremental/packageDebug/tmp/debug/zip-cache/javaResources0" beforeDir="false" afterPath="$PROJECT_DIR$/app/build/intermediates/incremental/packageDebug/tmp/debug/zip-cache/javaResources0" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/build/intermediates/merged_assets/debug/out/index.android.bundle" beforeDir="false" afterPath="$PROJECT_DIR$/app/build/intermediates/merged_assets/debug/out/index.android.bundle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/build/intermediates/merged_java_res/debug/out.jar" beforeDir="false" afterPath="$PROJECT_DIR$/app/build/intermediates/merged_java_res/debug/out.jar" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/build/outputs/apk/debug/app-debug.apk" beforeDir="false" afterPath="$PROJECT_DIR$/app/build/outputs/apk/debug/app-debug.apk" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/assets/index.android.bundle" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/assets/index.android.bundle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../node_modules/@react-native-community/async-storage/android/build/intermediates/incremental/packageDebugResources/compile-file-map.properties" beforeDir="false" afterPath="$PROJECT_DIR$/../node_modules/@react-native-community/async-storage/android/build/intermediates/incremental/packageDebugResources/compile-file-map.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../node_modules/@react-native-community/checkbox/android/build/intermediates/incremental/packageDebugResources/compile-file-map.properties" beforeDir="false" afterPath="$PROJECT_DIR$/../node_modules/@react-native-community/checkbox/android/build/intermediates/incremental/packageDebugResources/compile-file-map.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../node_modules/@react-native-community/datetimepicker/android/build/intermediates/incremental/packageDebugResources/compile-file-map.properties" beforeDir="false" afterPath="$PROJECT_DIR$/../node_modules/@react-native-community/datetimepicker/android/build/intermediates/incremental/packageDebugResources/compile-file-map.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../node_modules/@react-native-community/masked-view/android/build/intermediates/incremental/packageDebugResources/compile-file-map.properties" beforeDir="false" afterPath="$PROJECT_DIR$/../node_modules/@react-native-community/masked-view/android/build/intermediates/incremental/packageDebugResources/compile-file-map.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../node_modules/@react-native-community/netinfo/android/build/intermediates/incremental/packageDebugResources/compile-file-map.properties" beforeDir="false" afterPath="$PROJECT_DIR$/../node_modules/@react-native-community/netinfo/android/build/intermediates/incremental/packageDebugResources/compile-file-map.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../node_modules/react-native-camera/android/build/intermediates/incremental/packageGeneralDebugResources/compile-file-map.properties" beforeDir="false" afterPath="$PROJECT_DIR$/../node_modules/react-native-camera/android/build/intermediates/incremental/packageGeneralDebugResources/compile-file-map.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../node_modules/react-native-contacts/android/build/intermediates/incremental/packageDebugResources/compile-file-map.properties" beforeDir="false" afterPath="$PROJECT_DIR$/../node_modules/react-native-contacts/android/build/intermediates/incremental/packageDebugResources/compile-file-map.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../node_modules/react-native-firebase/android/build/intermediates/incremental/packageDebugResources/compile-file-map.properties" beforeDir="false" afterPath="$PROJECT_DIR$/../node_modules/react-native-firebase/android/build/intermediates/incremental/packageDebugResources/compile-file-map.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../node_modules/react-native-gesture-handler/android/build/intermediates/incremental/packageDebugResources/compile-file-map.properties" beforeDir="false" afterPath="$PROJECT_DIR$/../node_modules/react-native-gesture-handler/android/build/intermediates/incremental/packageDebugResources/compile-file-map.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../node_modules/react-native-image-crop-picker/android/build/intermediates/incremental/packageDebugResources/compile-file-map.properties" beforeDir="false" afterPath="$PROJECT_DIR$/../node_modules/react-native-image-crop-picker/android/build/intermediates/incremental/packageDebugResources/compile-file-map.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../node_modules/react-native-permissions/android/build/intermediates/incremental/packageDebugResources/compile-file-map.properties" beforeDir="false" afterPath="$PROJECT_DIR$/../node_modules/react-native-permissions/android/build/intermediates/incremental/packageDebugResources/compile-file-map.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../node_modules/react-native-reanimated/android/build/intermediates/incremental/packageDebugResources/compile-file-map.properties" beforeDir="false" afterPath="$PROJECT_DIR$/../node_modules/react-native-reanimated/android/build/intermediates/incremental/packageDebugResources/compile-file-map.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../node_modules/react-native-safe-area-context/android/build/intermediates/incremental/packageDebugResources/compile-file-map.properties" beforeDir="false" afterPath="$PROJECT_DIR$/../node_modules/react-native-safe-area-context/android/build/intermediates/incremental/packageDebugResources/compile-file-map.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../node_modules/react-native-screens/android/build/intermediates/incremental/packageDebugResources/compile-file-map.properties" beforeDir="false" afterPath="$PROJECT_DIR$/../node_modules/react-native-screens/android/build/intermediates/incremental/packageDebugResources/compile-file-map.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../node_modules/react-native-svg/android/build/intermediates/incremental/packageDebugResources/compile-file-map.properties" beforeDir="false" afterPath="$PROJECT_DIR$/../node_modules/react-native-svg/android/build/intermediates/incremental/packageDebugResources/compile-file-map.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../node_modules/react-native-vector-icons/android/build/intermediates/incremental/packageDebugResources/compile-file-map.properties" beforeDir="false" afterPath="$PROJECT_DIR$/../node_modules/react-native-vector-icons/android/build/intermediates/incremental/packageDebugResources/compile-file-map.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/containers/ImportContacts/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/../src/containers/ImportContacts/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/containers/InviteContacts/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/../src/containers/InviteContacts/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/containers/Labels/SelectLabels.js" beforeDir="false" afterPath="$PROJECT_DIR$/../src/containers/Labels/SelectLabels.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/containers/Labels/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/../src/containers/Labels/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/containers/Labels/style.js" beforeDir="false" afterPath="$PROJECT_DIR$/../src/containers/Labels/style.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/containers/Login/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/../src/containers/Login/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/containers/ManageLable/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/../src/containers/ManageLable/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/containers/ManageLable/style.js" beforeDir="false" afterPath="$PROJECT_DIR$/../src/containers/ManageLable/style.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/containers/PndingRequests/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/../src/containers/PndingRequests/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/containers/Profile/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/../src/containers/Profile/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/containers/Profile/style.js" beforeDir="false" afterPath="$PROJECT_DIR$/../src/containers/Profile/style.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/containers/SearchEditContact/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/../src/containers/SearchEditContact/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/containers/ViewLabel/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/../src/containers/ViewLabel/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/containers/ViewLabelByName/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/../src/containers/ViewLabelByName/index.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -384,11 +354,12 @@
     <state x="267" y="133" width="1004" height="748" key="com.android.tools.idea.avdmanager.AvdListDialog/0.23.1920.987@0.23.1920.987" timestamp="1606986450706" />
     <state x="267" y="133" width="1004" height="748" key="com.android.tools.idea.avdmanager.AvdListDialog/0.23.1920.988@0.23.1920.988" timestamp="1603457151917" />
     <state x="267" y="133" width="1004" height="748" key="com.android.tools.idea.avdmanager.AvdListDialog/0.23.1920.989@0.23.1920.989" timestamp="1600675246957" />
-    <state x="609" y="349" key="com.intellij.ide.util.TipDialog" timestamp="1607335232589">
-      <screen x="0" y="23" width="1920" height="987" />
+    <state x="609" y="348" key="com.intellij.ide.util.TipDialog" timestamp="1607521094800">
+      <screen x="0" y="23" width="1920" height="983" />
     </state>
     <state x="609" y="354" key="com.intellij.ide.util.TipDialog/0.23.1920.1004@0.23.1920.1004" timestamp="1603255607837" />
     <state x="609" y="356" key="com.intellij.ide.util.TipDialog/0.23.1920.1006@0.23.1920.1006" timestamp="1603096085812" />
+    <state x="609" y="348" key="com.intellij.ide.util.TipDialog/0.23.1920.983@0.23.1920.983" timestamp="1607521094800" />
     <state x="609" y="349" key="com.intellij.ide.util.TipDialog/0.23.1920.987@0.23.1920.987" timestamp="1607335232589" />
     <state x="609" y="349" key="com.intellij.ide.util.TipDialog/0.23.1920.988@0.23.1920.988" timestamp="1607321473212" />
     <state x="609" y="349" key="com.intellij.ide.util.TipDialog/0.23.1920.989@0.23.1920.989" timestamp="1605154770930" />
@@ -401,9 +372,10 @@
       <screen x="0" y="23" width="1920" height="988" />
     </state>
     <state x="412" y="237" key="run.anything.popup/0.23.1920.988@0.23.1920.988" timestamp="1601635385548" />
-    <state x="855" y="227" width="670" height="674" key="search.everywhere.popup" timestamp="1607083168014">
-      <screen x="0" y="23" width="1920" height="991" />
+    <state x="855" y="225" width="670" height="669" key="search.everywhere.popup" timestamp="1607521797000">
+      <screen x="0" y="23" width="1920" height="983" />
     </state>
+    <state x="855" y="225" width="670" height="669" key="search.everywhere.popup/0.23.1920.983@0.23.1920.983" timestamp="1607521797000" />
     <state x="855" y="226" width="670" height="671" key="search.everywhere.popup/0.23.1920.987@0.23.1920.987" timestamp="1606985993506" />
     <state x="855" y="227" width="670" height="674" key="search.everywhere.popup/0.23.1920.991@0.23.1920.991" timestamp="1607083168014" />
     <state x="855" y="228" width="670" height="676" key="search.everywhere.popup/0.23.1920.995@0.23.1920.995" timestamp="1606900863244" />

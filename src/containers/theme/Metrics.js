@@ -61,7 +61,8 @@ export default {
   doubleBaseMargin: ratio(32),
  cdoubleBaseMargin: ratio(35),
   xdoubleBaseMargin: ratio(45),
-
+  xxdoubleBaseMargin: ratio(85),
+  
   verificationBoxSize: ratio(20),
   statusBarHeight: STATUSBAR_HEIGHT,
   horizontalLineHeight: StyleSheet.hairlineWidth,
