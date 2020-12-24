@@ -83,7 +83,7 @@ class QRDetail extends Component {
 
         <Container>
           {this.renderCamera()}
-          {/* {this.renderMiddle()} */}
+          
         </Container>
       </ThemeProvider>
     );

@@ -28,7 +28,7 @@ export default StyleSheet.create({
     },
 
     userView:{
-        backgroundColor:COLORS.white,
+       // backgroundColor:COLORS.white,
         width:width*0.8,
         height:height*0.057,
         borderRadius:10,
@@ -107,7 +107,6 @@ export default StyleSheet.create({
         alignItems:'center',
         width:width*0.270,
         height:height*0.065,
-        backgroundColor:COLORS.white,
         shadowColor: COLORS.black,
         shadowOffset: {
             width: 3,
@@ -121,5 +120,16 @@ export default StyleSheet.create({
         marginLeft: Metrics.baseMargin,
         margin:Metrics.smallMargin,
     },
+    userText:{
+        fontFamily:Font.regular,
+        fontSize:width*0.040,
+        color:COLORS.main_text_color,
+        marginLeft: Metrics.smallMargin,
+        marginBottom: Metrics.xsmallMargin,
+    },
+    backButtton:{
+        fontFamily: Font.medium,
+        fontSize: width * 0.045,
+      }
 
 })

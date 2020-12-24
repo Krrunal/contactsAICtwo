@@ -17,7 +17,6 @@ import ContactUs from "../../containers/ContactUs/index";
 import { Dimensions } from 'react-native';
 import Display from "../../containers/Display/index";
 import EditContact from "../../containers/editContact/index";
-import ForAdd2 from "../../containers/AddContactAICUser/forAdd2";
 import ForAddContact from "../../containers/AddContactAICUser/forAddContact";
 import Help from "../../containers/Help/index";
 import ImportContact from "../../containers/ImportContacts/index";
@@ -41,9 +40,12 @@ import Signup from "../../containers/Signup/index";
 import Splash from "../../containers/SplashScreen/index";
 import ViewLabel from "../../containers/ViewLabel/index";
 import ViewLabelByName from '../../containers/ViewLabelByName/index'
+import addContactMultiple from '../../containers/AddContactAICUser/addContactMultiple'
 import { createAppContainer } from 'react-navigation';
 import { createDrawerNavigator } from "react-navigation-drawer";
 import { createStackNavigator } from 'react-navigation-stack';
+import forAdd2 from '../../containers/AddContactAICUser/forAdd2'
+import forSelectContact from '../../containers/ManageLable/forSelectContact'
 import { themeReducer } from "../../reducer/themeReducer";
 
 const RootNavigator = createStackNavigator({
@@ -52,21 +54,21 @@ const RootNavigator = createStackNavigator({
       navigationOptions: {
         gesturesEnabled: false,
         header: null,
-        drawerLockMode: 'unlocked',
+        drawerLockMode : 'locked-closed',
     }},
     Login: {
       screen: Login,
       navigationOptions: {
         gesturesEnabled: false,
         header: null,
-        drawerLockMode: 'unlocked',
+        drawerLockMode : 'locked-closed',
     }},
     Signup: {
       screen: Signup,
       navigationOptions: {
         gesturesEnabled: false,
         header: null,
-        drawerLockMode: 'unlocked',
+        drawerLockMode : 'locked-closed',
     }},
     AddContact: {
       screen: AddContact,
@@ -229,14 +231,7 @@ const RootNavigator = createStackNavigator({
         header: null,
         // drawerLockMode: 'unlocked',
     }},
-    ForAdd2: {
-      screen: ForAdd2,
-      navigationOptions: {
-        gesturesEnabled: false,
-        header: null,
-        // drawerLockMode: 'unlocked',
-    }},
-    ForAddContact: {
+   ForAddContact: {
       screen: ForAddContact,
       navigationOptions: {
         gesturesEnabled: false,
@@ -278,6 +273,26 @@ const RootNavigator = createStackNavigator({
         header: null,
         // drawerLockMode: 'unlocked',
     }},
+    addContactMultiple: {
+      screen: addContactMultiple,
+      navigationOptions: {
+        gesturesEnabled: false,
+        header: null,
+        // drawerLockMode: 'unlocked',
+    }},
+    forAdd2: {
+      screen: forAdd2,
+      navigationOptions: {
+        gesturesEnabled: false,
+        header: null,
+        // drawerLockMode: 'unlocked',
+    }},
+    forSelectContact: {
+      screen: forSelectContact,
+      navigationOptions: {
+        gesturesEnabled: false,
+        header: null,
+       }},
   },
     {
       initialRouteName: 'Splash',
@@ -302,8 +317,9 @@ const DrawerNavigator = createDrawerNavigator({
     contentComponent: SideBar,
     drawerWidth: Dimensions.get('window').width - Dimensions.get('window').width * 30 / 100,
     drawerType: 'front'
-    // overlayColor: Color.transparent,
+   
   }
 );
 
 export default createAppContainer(DrawerNavigator);
+

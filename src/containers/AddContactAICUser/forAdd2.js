@@ -1,22 +1,30 @@
-import {
- Dimensions,
- Text,
- TouchableOpacity,
- View,
-} from "react-native";
+import { Dimensions, Text, TouchableOpacity, View } from "react-native";
 import React, { Component } from "react";
 import styled, { ThemeProvider } from "styled-components/native";
 
+import AsyncStorage from "@react-native-community/async-storage";
 import { COLORS } from "../theme/Colors.js";
 import Font from "../theme/font.js";
 import GeneralStatusBar from "../../components/StatusBar/index";
 import Header from "../../components/header/index";
 import { connect } from "react-redux";
+import firebase from "../../services/FirebaseDatabase/db";
 import styles from "./forAdd2Style.js";
 
 var { width, height } = Dimensions.get("window");
 
 class forAdd2 extends Component {
+  state = {
+    user_name: "",
+    label: "",
+  };
+  async componentDidMount() {
+    this.setState({
+      user_name: await AsyncStorage.getItem("@username"),
+      label: await AsyncStorage.getItem("@selectedLabel"),
+    });
+   // console.log("User _ name ->", this.state.user_name);
+  }
   renderHeader() {
     return (
       <Header
@@ -42,34 +50,27 @@ class forAdd2 extends Component {
   renderMiddle() {
     return (
       <View>
-        <View style={styles.WhiteBigview}>
-          <TouchableOpacity style={styles.textLeft}>
-            <Text style={styles.sizeText}>[ USER NAME ]</Text>
-          </TouchableOpacity>
-          <View style={styles.textRigh}>
-            <Text style={styles.sizeTextSmall}>
-              Sport Gambling Podcast {" \n"}
-              Green Inc.
-            </Text>
-          </View>
+        {/* <View style={styles.textRighBig}> */}
+              {this.state.user_name.split(/,/).map((item) => (
+                <View style={styles.WhiteBigview}>
+                  <View style={styles.textRigh}>
+                  <Text style={styles.userText}>{item} </Text>
+                  </View>
+                  <View style={styles.textRigh}>
+                    {this.state.label.split(/,/).map((item) => (
+                      <Text style={styles.sizeTextSmall}> {item} </Text>
+                    ))}
+                  </View>
+                </View>
+              ))}
+            {/* </View>
+          */}
         </View>
-        <View style={styles.WhiteBigview}>
-          <TouchableOpacity style={styles.textLeft}>
-            <Text style={styles.sizeText}>[ USER NAME 2 ]</Text>
-          </TouchableOpacity>
-          <View style={styles.textRigh}>
-            <Text style={styles.sizeTextSmall}>
-              Sport Gambling Podcast {" \n"}
-              Green Inc.
-            </Text>
-          </View>
-        </View>
-      </View>
     );
   }
 
   afterContactNavigate = () => {
-    this.props.navigation.navigate('ManuallyAddContact')
+    this.props.navigation.navigate("ManuallyAddContact");
   };
 
   renderView() {
@@ -84,7 +85,7 @@ class forAdd2 extends Component {
               fontSize: width * 0.035,
               fontFamily: Font.medium,
               fontSize: width * 0.043,
-              color:COLORS.main_text_color
+              color: COLORS.main_text_color,
             }}
           >
             Add Contact
@@ -95,7 +96,42 @@ class forAdd2 extends Component {
   }
 
   forAddContactNavigate = () => {
-    this.props.navigation.navigate('SerachEditContact')
+    const { username } = this.props;
+    const { user_name } = this.state;
+    let splitData = user_name.split(/,/);
+    console.log("split data ---->",splitData[0])
+    console.log("split data ---->",splitData[1])
+   let user1 = splitData[0];
+   let user2 = splitData[1];
+   let user3 = splitData[2];
+   let user4 = splitData[3];
+   
+   firebase.firestore().collection("user").doc(`${username}`).collection("contacts").add({
+          first_name: user1,
+          last_name: "",
+        });
+   if(user2 !== "") {
+          firebase.firestore().collection("user").doc(`${username}`).collection("contacts").add({
+            first_name: user2,
+            last_name: "",
+          });
+        }
+   if(user3 !== "") {
+          firebase.firestore().collection("user").doc(`${username}`).collection("contacts").add({
+            first_name: user3,
+            last_name: "",
+          });
+        }
+  
+   if(user4 !== "") {
+          firebase.firestore().collection("user").doc(`${username}`).collection("contacts").add({
+            first_name: user4,
+            last_name: "",
+          });
+        }
+  
+    this.props.navigation.navigate("SerachEditContact");
+    
   };
 
   renderLast() {
@@ -143,11 +179,11 @@ class forAdd2 extends Component {
   }
 
   backtNavigate = () => {
-    this.props.navigation.navigate('AfterAddContact')
+    this.props.navigation.navigate("AfterAddContact");
   };
 
   finishtNavigate = () => {
-    this.props.navigation.navigate('SerachEditContact')
+    this.props.navigation.navigate("SerachEditContact");
   };
 
   render() {
@@ -177,6 +213,7 @@ class forAdd2 extends Component {
 }
 const mapStateToProps = (state) => ({
   theme: state.themeReducer.theme,
+  username: state.login.shouldLoadData.username,
 });
 
 const mapDispatchToProps = (dispatch) => ({

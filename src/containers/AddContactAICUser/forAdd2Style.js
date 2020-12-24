@@ -47,7 +47,8 @@ export default StyleSheet.create({
   sizeText: {
     fontSize: width * 0.040,
     fontFamily: Font.regular,
-    color:COLORS.main_text_color
+    color:COLORS.main_text_color,
+   
   },
 
   Whiteview: {
@@ -90,7 +91,7 @@ export default StyleSheet.create({
 
   WhiteBigview: {
     flexDirection: 'row',
-    justifyContent: 'center',
+   // justifyContent: 'center',
     alignItems: 'center',
     width: width * 0.85,
     height: height * 0.06,
@@ -134,15 +135,26 @@ export default StyleSheet.create({
   textRigh: {
     flex: 0.5,
     justifyContent: 'flex-end',
-    flexDirection: 'row',
+    flexDirection: 'column',
     margin: Metrics.smallMargin,
     width: width * 0.05,
+   
+    marginLeft:Metrics.baseMargin,
+   
   },
-  
+  textRighBig : {
+    flex:1,
+  // flex: 0.5,
+    //justifyContent: 'flex-end',
+  //  flexDirection: 'column',
+   // margin: Metrics.smallMargin,
+   width: width * 0.85,
+  },
   sizeTextSmall: {
     textAlign: 'right',
     fontSize: width * 0.025,
     fontFamily:'Roboto-Light',
+    textTransform: "capitalize",
     color:COLORS.main_text_color
   },
 
@@ -163,4 +175,15 @@ export default StyleSheet.create({
     borderRadius: 5,
     marginTop: Metrics.doubleBaseMargin,
   },
+  userText : {
+    fontSize: width * 0.040,
+    fontFamily: Font.regular,
+    color:COLORS.main_text_color
+  },
+  textLeft: {
+    margin: Metrics.baseMargin,
+    flex: 0.6,
+  },
+
+
 });

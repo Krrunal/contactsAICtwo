@@ -19,9 +19,9 @@ import GeneralStatusBar from "../../components/StatusBar/index";
 import Header from "../../components/header/index";
 import Metrics from "../theme/Metrics";
 import { Spinner } from "../../components/Spinner";
-import { addManualContact } from "../../services/FirebaseDatabase/manualContactToFirebase";
 import { connect } from "react-redux";
 import firebase from "../../services/FirebaseDatabase/db";
+import { importContactToFirebase } from "../../services/FirebaseDatabase/importContacToFirebase";
 import { isRequired } from "react-native/Libraries/DeprecatedPropTypes/DeprecatedColorPropType";
 import sideBar from "../../assets/images/sideBAR.png";
 import styles from "./style.js";
@@ -74,8 +74,9 @@ class importContact extends Component {
               if (item.phoneNumbers.length != 0) {
                 return { contact: item, isSelected: false };
               }
+
             });
-            console.log("Import contact------>", contacts);
+            console.log("Import contact------>", contactNumber);
 
             const sort = contacts.sort(function (a, b) {
               if (a.givenName.toLowerCase() < b.givenName.toLowerCase())
@@ -172,9 +173,7 @@ class importContact extends Component {
                 tintColors={{ true: "#1374A3", false: "#1374A3" }}
               />
               <Text  style={[ styles.selectText,{ color:  this.props.theme.mode === "light" ? "#1374A3" : "white",  },    ]} >{item.displayName}  </Text>
-
-           
-            </View>
+           </View>
           ))}
         </ScrollView>
       </View>
@@ -231,7 +230,7 @@ class importContact extends Component {
           });
           fetchedContacts.map((item) => {
             if (item.isSelected == true) {
-              addManualContact(
+              importContactToFirebase(
                 username,
                 "",
                 item.givenName,
@@ -271,7 +270,7 @@ class importContact extends Component {
         } else {
           fetchedContacts.map((item) => {
             if (item.isSelected == true) {
-              addManualContact(
+              importContactToFirebase(
                 username,
                 "",
                 item.givenName,

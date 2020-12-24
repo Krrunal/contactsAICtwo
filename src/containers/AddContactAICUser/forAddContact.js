@@ -45,7 +45,7 @@ class forAddContact extends Component {
       label: await AsyncStorage.getItem("@selectedLabel"),
       data: JSON.parse(await AsyncStorage.getItem("@qrData")),
     });
-    // console.log("Username  ---->", this.state.data);
+     console.log("Username  ---->", this.state.label);
     // console.log(JSON.parse(await AsyncStorage.getItem("@qrData")));
     const { data, label } = this.state;
     firebase.firestore().collection(this.props.user_id).get()
@@ -117,14 +117,7 @@ class forAddContact extends Component {
             ))}
           </View>
         )}
-        {/* <TouchableOpacity style={styles.textLeft}>
-          <Text style={styles.sizeText}>{this.state.data.username}</Text>
-        </TouchableOpacity> */}
-        {/* <View style={styles.textRigh}>
-          { this.state.label.split(/[ ,]+/).map((item) => (
-            <Text style={styles.sizeTextSmall}> {item} </Text>
-          )) }
-        </View> */}
+       
       </View>
     );
   }
@@ -153,6 +146,7 @@ class forAddContact extends Component {
 
   forAddContactNavigate = () => {
     this.props.navigation.navigate("ManuallyAddContact");
+    this.setState({user2 : ""})
   };
 
   renderLast() {

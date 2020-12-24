@@ -26,7 +26,14 @@ export default StyleSheet.create({
     //borderWidth:5,
     // borderColor:COLORS.main_sky_blue
   },
+  dateView: {
+    width: width * 0.35,
+    justifyContent: "center",
+    marginLeft: Metrics.baseMargin,
 
+    height: height * 0.052,
+    marginTop: Metrics.xsmallMargin,
+  },
   imgView: {
     justifyContent: "center",
     alignItems: "center",
@@ -186,7 +193,7 @@ export default StyleSheet.create({
     flexDirection: "row",
     flex: 1,
     marginRight: Metrics.xsmallMargin,
-    marginTop: Metrics.smallMargin,
+ 
   },
 
   rightViewAdress: {
@@ -200,10 +207,10 @@ export default StyleSheet.create({
 
   righttext: {
     color: COLORS.main_text_color,
-    fontSize: width * 0.025,
+    fontSize: width * 0.023,
     fontFamily: Font.light,
     textAlign: "right",
-    marginRight: Metrics.smallMargin,
+    marginRight: Metrics.xsmallMargin,
     marginBottom:Metrics.smallMargin
   },
 
@@ -249,6 +256,9 @@ export default StyleSheet.create({
   rightTwoImg: {
     flexDirection: "row",
     width: width * 0.15,
+    justifyContent:"flex-end",
+    marginTop:Metrics.xsmallMargin,
+ 
   },
 
   resetImg: {
@@ -271,6 +281,7 @@ export default StyleSheet.create({
     elevation: 5,
     borderRadius: 5,
     marginLeft: Metrics.smallMargin,
+    flexDirection: "row",
   },
 
   stylefiledTextAddress: {
@@ -342,5 +353,75 @@ export default StyleSheet.create({
     fontSize: width * 0.036,
     color: COLORS.main_text_color,
     marginLeft: Metrics.smallMargin,
+  },
+
+  footerModal: {
+    justifyContent: "center",
+    width: width,
+    height: height * 0.7,
+    opacity: 0.5,
+  },
+  addressRightView: {
+    alignItems: "flex-end",
+    //justifyContent: "flex-end",
+    flex: 1,
+    marginRight: Metrics.smallMargin,
+    paddingBottom: 10,
+    marginTop: Metrics.smallMargin,
+  },
+  iconSize: {
+    color: COLORS.main_text_color,
+    textAlign: "right",
+  },
+
+  addressRighttext: {
+    color: COLORS.main_text_color,
+    fontFamily: Font.regular,
+    fontSize: width * 0.02,
+    textAlign: "right",
+    marginTop: Metrics.smallMargin,
+  },
+  contactContent: {
+    margin: 0,
+    height: height,
+    width: width,
+    backgroundColor: "rgba(0,0,0,0.6)",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+
+  content: {
+    width: width * 0.9,
+    backgroundColor: COLORS.white,
+    shadowColor: COLORS.black,
+    shadowOffset: {
+      width: 3,
+      height: 3,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+    borderRadius: 10,
+    paddingVertical: height * 0.02,
+    paddingHorizontal: width * 0.05,
+  },
+
+  labelName: {
+    fontFamily: Font.regular,
+    fontSize: width * 0.043,
+    color: COLORS.main_text_color,
+    marginVertical: height * 0.01,
+  },
+  modalHeader: {
+    fontFamily: Font.medium,
+    fontSize: width * 0.045,
+    alignSelf: "center",
+  },
+
+  addLabelField: {
+    borderWidth: 1,
+    borderColor: COLORS.main_text_color,
+    borderRadius: 5,
+    marginTop: Metrics.baseMargin,
   },
 });

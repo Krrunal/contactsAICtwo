@@ -9,6 +9,7 @@ import {
 } from "react-native";
 import React, { Component, useState } from "react";
 import styled, { ThemeProvider } from "styled-components/native";
+import AsyncStorage from "@react-native-community/async-storage";
 
 import { COLORS } from "../theme/Colors.js";
 import Constants from "../../action/Constants";
@@ -35,7 +36,8 @@ class labels extends Component {
       status: false,
       viewSection: false,
       isLoading: false,
-    };
+      selectedName: "",
+    }; 
     this.indexlabel = 0;
     this.animatedValue = new Animated.Value(0);
   }
@@ -58,8 +60,12 @@ class labels extends Component {
           if (responseJson.data.relation == "") {
             this.setState({ dataManage: [], isLoading: false });
           } else {
-            var labelData = responseJson.data.relation.split(/,/);
+            var labelData = responseJson.data.relation.split(/,/).map((item) => {
+             
+              return { relation: item, isSelect: false };
+            });
             this.setState({ dataManage: labelData, isLoading: false });
+            console.log("label data--->",this.state.dataManage);
           }
         })
         .catch((error) => {
@@ -68,8 +74,25 @@ class labels extends Component {
         });
     });
   };
+  onManage = async (keyInd, item) => {
+    const { dataManage, selectedName } = this.state;
+    let arr = dataManage.map((item, key) => {
+      if (keyInd == key) {
+        item.isSelect = !item.isSelect;
+      }
+      return { ...item };
+    });
+    this.setState({ dataManage: arr });
 
-  componentWillUnmount() {}
+    dataManage.map(async(item) => {
+      item.isSelect == true
+        ?  await AsyncStorage.setItem("@selectedName", item.relation)
+        : console.log("selected------->", item.isSelect);
+    });
+    const selected = selectedName.toString();
+    this.props.navigation.navigate("ManageLable", { otherParam : selected });
+  };
+  
 
   renderHeader() {
     return (
@@ -79,8 +102,6 @@ class labels extends Component {
       />
     );
   }
-
- 
 
   message = () => {
     this.state.label == ""
@@ -137,6 +158,7 @@ class labels extends Component {
       this.labelApiCall();
     }
   };
+  
   renderMiddle() {
     return (
       <ScrollView>
@@ -145,19 +167,33 @@ class labels extends Component {
             this.state.dataManage === [""] ? null : (
               <View style={styles.tripleView} key={key}>
                 {this.props.theme.mode === "light" ? (
-                  <Icon name={"arrows-alt-v"} size={20} color={COLORS.main_text_color} />
+                  <Icon
+                    name={"arrows-alt-v"}
+                    size={20}
+                    color={COLORS.main_text_color}
+                  />
                 ) : (
                   <Icon name={"arrows-alt-v"} size={20} color={COLORS.white} />
                 )}
-            
-                  <TouchableOpacity
-                    style={styles.manageView}
-                    onPress={this.manageLabelnavigate}
-                  >
-                    <Text style={styles.manageText}>Manage</Text>
-                  </TouchableOpacity>
-                  <Text style={[styles.itemText,{ color: this.props.theme.mode === "light" ? "#1374A3" : "white"} ]}>{item}</Text>
-             
+
+                <TouchableOpacity
+                  style={styles.manageView}
+                  onPress={() => {
+                    this.onManage(key, item.isSelect);
+                  }}>
+                  <Text style={styles.manageText}>Manage</Text>
+                </TouchableOpacity>
+                <Text
+                  style={[
+                    styles.itemText,
+                    {
+                      color:
+                        this.props.theme.mode === "light" ? "#1374A3" : "white",
+                    },
+                  ]}
+                >
+                  {item.relation}
+                </Text>
               </View>
             )
           )}

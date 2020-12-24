@@ -51,6 +51,8 @@ import sideBar from "../../assets/images/sideBAR.png";
 import { storage } from "react-native-firebase";
 import styles from "./style.js";
 import { switchTheme } from "../../action/themeAction";
+import uuid from "react-native-uuid";
+import { v4 as uuidv4 } from "uuid";
 import website from "../../assets/images/website.png";
 
 var { width, height } = Dimensions.get("window");
@@ -59,7 +61,6 @@ var DESTRUCTIVE_INDEX = 3;
 var CANCEL_INDEX = 4;
 var BUTTONS = ["Take Photo", "Choose Photo From Gallery", "Cancel"];
 class addmanuallyContact extends Component {
-
   constructor() {
     super();
 
@@ -136,7 +137,7 @@ class addmanuallyContact extends Component {
       image2: null,
       image3: null,
       profile_image: "",
-
+      imagePath:"",
       numberArray: [],
       emailArray: [],
       addressArray: [],
@@ -377,9 +378,9 @@ class addmanuallyContact extends Component {
     } = this.state;
     const { user_id, username } = this.props;
     if (this.state.status == true) {
-      if(first_name == ""){
+      if (first_name == "") {
         this.refs.toast.show("Please enter data to save contact");
-      }else{
+      } else {
         if (
           first_name !== "" ||
           middle_name !== "" ||
@@ -403,7 +404,7 @@ class addmanuallyContact extends Component {
           job_title !== "" ||
           work_hour !== ""
         ) {
-          console.log("Messanger ",messenger1 )
+          console.log("Messanger ", first_name);
           addManualContact(
             // user_id,
             username,
@@ -444,7 +445,7 @@ class addmanuallyContact extends Component {
             image: "",
             image2: "",
             image3: "",
-  
+            //profile_image:"",
             first_name: "",
             middle_name: "",
             last_name: "",
@@ -479,7 +480,6 @@ class addmanuallyContact extends Component {
           alert("Add contact successfully");
         }
       }
-       
     } else {
       this.setState({ status: true });
     }
@@ -589,11 +589,9 @@ class addmanuallyContact extends Component {
       height: 400,
       cropping: true,
     }).then((image) => {
-      const profile_image = image.path.substring(
-        image.path.lastIndexOf("/") + 1
-      );
-      this.setState({ profile_image: profile_image });
-      console.log("profile", this.state.profile_image);
+      this.setState({ imagePath : image.path });
+      this.uploadImage();
+
       this.setState({
         image: {
           uri: image.path,
@@ -603,21 +601,24 @@ class addmanuallyContact extends Component {
         },
         images: null,
       });
+      //
     });
   };
 
-  uploadImage = () => {
-    const { image } = this.state;
-    const profile_image = image.uri.substring(image.uri.lastIndexOf("/") + 1);
-    const uploadUri =
-      Platform.OS === "ios" ? image.uri.replace("file://", "") : image.uri;
+  uploadImage = async () => {
+    const { user_id, username } = this.props;
+    const { imagePath } = this.state;
 
-    console.log("File name----->", profile_image);
-    let upload = firebase.firestore().ref(profile_image).putFile(uploadUri);
+    const fileExtension = imagePath.split(".").pop();
+    console.log("EXT: " + fileExtension);
 
-    upload.on("state_changed", (snapshot) => {
-      console.log("Snapshopt=====>", snapshot);
-    });
+    var uuid = uuidv4();
+
+    const fileName = `${uuid}.${fileExtension}`;
+    console.log("fiile name ---> " + fileName);
+
+    this.setState({ profile_image : fileName });
+  
   };
 
   takePhotoFromCamera2 = () => {
@@ -987,7 +988,10 @@ class addmanuallyContact extends Component {
                     color: COLORS.main_text_color,
                     marginLeft: Metrics.baseMargin,
                   }}
-                > +90  </Text>
+                >
+                  {" "}
+                  +90{" "}
+                </Text>
               )}
 
               {this.state.status ? (
@@ -1758,15 +1762,11 @@ class addmanuallyContact extends Component {
             {/* section */}
             {/* {this.state.addressArray.map((index) => ( */}
             <TouchableOpacity
-              // onPress={
-              //   this.state.addressSection == false
-              //     ? this.addAddress
-              //     : this.addressMessage
-              // }
+             
               onPress={() => {
                 this.addAddress();
               }}
-              //disable={this.state.disabledAddress}
+            
             >
               {this.state.status ? (
                 <NormalText> + Add Address </NormalText>
@@ -3392,7 +3392,6 @@ class addmanuallyContact extends Component {
         alert("Please Fill the Field");
       }
     }
-  
   };
 
   onChangeNote = (value) => {

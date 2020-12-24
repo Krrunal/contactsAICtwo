@@ -4,6 +4,7 @@ import {
   Image,
   ImageBackground,
   Keyboard,
+  Modal,
   Text,
   TextInput,
   TouchableHighlight,
@@ -18,6 +19,7 @@ import DateTimePickerModal from "react-native-modal-datetime-picker";
 import Font from "../theme/font";
 import GeneralStatusBar from "../../components/StatusBar/index";
 import Icon from "react-native-vector-icons/FontAwesome5";
+import IconEntypo from "react-native-vector-icons/Entypo";
 import IntlPhoneInput from "react-native-intl-phone-input";
 import Metrics from "../theme/Metrics";
 import { Title } from "react-native-paper";
@@ -56,25 +58,25 @@ class Profile extends Component {
     this.state = {
       contact: [],
       contacts: "",
-    
+
       //data from firebase
-      address: "",
-      company: "",
-      date: "",
+      address: {address : "",label: "" }, 
+      company:{ company: "",label: "" }, 
+      // date: "",
       dob1: "",
       email: "",
-      job_title: "",
-      messenger: "",
-      messenger1: "",
-      messenger2: "",
+      job_title:  { jobTitle:"",label: "" }, 
+      messenger:{ messanger: "",label: "" }, 
+      facebook:{ socialMedia: "",label: "" }, 
+      instagram:{ instagram:  "",label: "" }, 
       // note1: "",
       number: "",
-      number1: "",
-      number2: "",
-      number3: "",
+      number1: { number1: "", label: "" },
+      number2: { number2: "", label: "" },
+      number3: { number3: "", label: "" },
       social_media: "",
-      website: "",
-      work_hour: "",
+      website: { website:"",label: "" },
+      work_hour:  { workHours: "", label: "" },
       friends: "",
       //  data from firebase finish
       isVisible: false,
@@ -87,19 +89,23 @@ class Profile extends Component {
       phonenumber_1: "",
       phonenumber_2: "",
       phonenumber_3: "",
-      email_profile: { email :"" , label : ""},
-      birthday:"",
-      address_profile: { address :"" , label : ""},
-      messenger_profile: { messanger :"" , label : ""},
-      facebook_profile: { socialMedia :"" , label : ""},
-      instagram_profile: { instagam :"" , label : ""},
-      website_profile: { website :"" , label : ""},
-      wedding_anniversary: "",
-      note_profile: { note :"" , label : ""},
-      work_hour_profile:{ workHours :"" , label : ""},
-      company_profile: { company :"" , label : ""},
-      job_title_profile: { jobTitle :"" , label : ""},
-      social_media1:"",
+      email_profile: { email: "", label: "" },
+      birthday: "",
+      address_profile: { address: "", label: "" },
+      messenger_profile: { messanger: "", label: "" },
+      facebook_profile: { socialMedia: "", label: "" },
+      instagram_profile: { instagam: "", label: "" },
+      website_profile: { website: "", label: "" },
+      date: { date: "", label: "" },
+      wedding: { date: "", label: "" },
+      dateLabel: "",
+      wedding_anniversary: { date: "", label: "" },
+      wedding_anniversaryLabel: "",
+      note_profile: { note : "", label: "" },
+      work_hour_profile: { workHours: "", label: "" },
+      company_profile: { company: "", label: "" },
+      job_title_profile: { jobTitle: "", label: "" },
+      social_media1: "",
       website1: "",
       website2: "",
       dob: "",
@@ -112,7 +118,7 @@ class Profile extends Component {
       image2: null,
       image3: null,
       profile_image: "",
-
+      mobileLabel: "",
       numberArray: [],
       emailArray: [],
       addressArray: [],
@@ -124,6 +130,143 @@ class Profile extends Component {
       companyArray: [],
       jobTitleArray: [],
       workHoursArray: [],
+      //mobile modal
+      phone_1: {
+        phone_1: "",
+        label: "",
+      },
+      isMobileModelOpen: false,
+      mobileLabelList: [
+        { label: "Personal" },
+        { label: "Work" },
+        { label: "Home" },
+        { label: "Main" },
+        { label: "Other" },
+      ],
+      mobileLabel: "",
+      isAddMobileLabel: false,
+      //mobile modal 2
+      phone_1: {
+        phone_1: "",
+        label: "",
+      },
+      isMobileModelOpen2: false,
+      mobileLabelList2: [
+        { label: "Personal" },
+        { label: "Work" },
+        { label: "Home" },
+        { label: "Main" },
+        { label: "Other" },
+      ],
+      mobileLabel2: "",
+      isAddMobileLabel2: false,
+      //mobile modal 3
+      phone_1: {
+        phone_1: "",
+        label: "",
+      },
+      isMobileModelOpen3: false,
+      mobileLabelList3: [
+        { label: "Personal" },
+        { label: "Work" },
+        { label: "Home" },
+        { label: "Main" },
+        { label: "Other" },
+      ],
+      mobileLabel3: "",
+      isAddMobileLabel3: false,
+      // email modal
+      isEmailModelOpen: false,
+      emailLabelList: [
+        { label: "Personal" },
+        { label: "Work" },
+        { label: "Main" },
+        { label: "Other" },
+      ],
+      emailLabel: "",
+      isAddEmailLabel: false,
+      isEmailArrrayModelOpen: false,
+      isAddEmailArrayLabel: false,
+      //address modal
+      isAddressModelOpen: false,
+      addressLabelList: [
+        { label: "Home" },
+        { label: "Work" },
+        { label: "Other" },
+      ],
+      addressLabel: "",
+      isAddAddressLabel: false,
+      isAddressArrayModelOpen: false,
+      isAddAddressArrayLabel: false,
+      //messnger model
+      isMessangerModelOpen: false,
+      mesangerLabelList: [{ label: "Work" }, { label: "Personal" }],
+      messengerLabel: "",
+      isAddMessangerLabel: false,
+      isMessangerArrayModelOpen: false,
+      isAddMessangerArrayLabel: false,
+      //social Media
+      isSocialMediaModelOpen: false,
+      socialMediaLabelList: [
+        { label: "Instagram Personal " },
+        { label: "Periscop Professional" },
+      ],
+      socialMediaLabel: "",
+      isAddSocialMediaLabel: false,
+      isSocialMediaArrayModelOpen: false,
+      isSocialMediaModelOpen: false,
+      isAddSocialMediaArrayLabel: false,
+      //social Media 2
+      isSocialMediaModelOpen2: false,
+      socialMediaLabelList2: [
+        { label: "Instagram Personal " },
+        { label: "Periscop Professional" },
+      ],
+      socialMediaLabel2: "",
+      isAddSocialMediaLabel2: false,
+      isSocialMediaArrayModelOpen2: false,
+      isSocialMediaModelOpen2: false,
+      isAddSocialMediaArrayLabel2: false,
+      //website
+      isWebsiteModelOpen: false,
+      websiteLableList: [
+        { label: " Sport gambling podcast" },
+        { label: " Universal Studio" },
+      ],
+      websiteLabel: "",
+      isAddWebsiteLabel: false,
+      isWebsiteArrayModelOpen: false,
+      isWebsiteModelOpen: false,
+      isAddWebsiteArrayLabel: false,
+      //date
+      isDateModelOpen: false,
+      dateLableList: [{ label: " Birthday" }, { label: "Wedding Anniversary" }],
+      dateLabel: "",
+      isAddDateLabel: false,
+      isDateArrayModelOpen: false,
+      isDateModelOpen: false,
+      isAddDateArrayLabel: false,
+      isVisible: false,
+      //date 2(wedding anniversary)
+      isDateModelOpen2: false,
+      dateLableList2: [
+        { label: " Birthday" },
+        { label: "Wedding Anniversary" },
+      ],
+      dateLabel2: "",
+      isAddDateLabel2: false,
+      isDateArrayModelOpen2: false,
+      isDateModelOpen2: false,
+      isAddDateArrayLabel2: false,
+      isVisible2: false,
+      //note
+      isNoteModelOpen: false,
+      noteLabelList: [{ label: "Note" }],
+      noteLabel: "",
+      isAddNoteLabel: false,
+      isNoteArrayModelOpen: false,
+      isNoteModelOpen: false,
+      isAddNoteArrayLabel: false,
     };
   }
 
@@ -136,30 +279,31 @@ class Profile extends Component {
       .get()
       .then((snap) => {
         var item = snap._data;
-        this.setState({ contact: item });
-        console.log("social media ---->",item.social_media1.socialMedia)
-        this.setState({ email :item.email.email})
-        this.setState({ emailLabel :item.email.label})
-        this.setState({ address: item.address.address });
-        this.setState({ company: item.company.company });
+        this.setState({ contact:  item });
+         console.log("social media ---->",  item.date );
+        this.setState({ mobileLabel: item.mobileLabel });
+        this.setState({ email: item.email.email });
+        this.setState({ emailLabel: item.email.label });
+        this.setState({ address: item.address });
+        this.setState({ company: item.company });
         this.setState({ date: item.date });
-        this.setState({ dob: item.dob });
-        this.setState({ job_title: item.job_title.jobTitle });
+        this.setState({ wedding : item.wedding });
+        this.setState({ job_title: item.job_title });
         this.setState({ messenger: item.messenger });
-        this.setState({ messenger1: item.messanger1.messanger });
+        this.setState({ facebook: item.facebook });
         this.setState({ messenger2: item.messenger2 });
-        this.setState({ note1: item.note.note });
+        this.setState({ note1: item.note });
         this.setState({ number: item.number });
         this.setState({ number1: item.number1 });
         this.setState({ number2: item.number2 });
         this.setState({ number3: item.number3 });
         this.setState({ social_media: item.social_media });
-        this.setState({ social_media1: item.social_media1.socialMedia });
+        this.setState({ social_media1: item.social_media1 });
         this.setState({ website: item.website1.website });
         this.setState({ work_hour: item.work_hour.workHours });
         this.setState({ friends: item.friend });
       });
-    }
+  }
 
   renderImg() {
     return (
@@ -287,9 +431,11 @@ class Profile extends Component {
     isVerified,
   }) => {
     if (isVerified == true) {
-      this.setState({ phonenumber_1: unmaskedPhoneNumber });
+      this.state.number1.number1 = unmaskedPhoneNumber;
+      this.setState({ number1: this.state.number1,});
     } else {
-      this.setState({ phonenumber_1: unmaskedPhoneNumber });
+      this.state.number1.number1 = unmaskedPhoneNumber;
+      this.setState({number1: this.state.number1 });
     }
   };
   onChangeNumber2 = ({
@@ -299,9 +445,11 @@ class Profile extends Component {
     isVerified,
   }) => {
     if (isVerified == true) {
-      this.setState({ phonenumber_2: unmaskedPhoneNumber });
+      this.state.number2.number1 = unmaskedPhoneNumber;
+      this.setState({ number1: this.state.number2});
     } else {
-      this.setState({ phonenumber_2: unmaskedPhoneNumber });
+      this.state.number2.number2 = unmaskedPhoneNumber;
+      this.setState({ number2: this.state.number2});
     }
   };
   onChangeNumber3 = ({
@@ -311,10 +459,48 @@ class Profile extends Component {
     isVerified,
   }) => {
     if (isVerified == true) {
-      this.setState({ phonenumber_3: unmaskedPhoneNumber });
+      this.state.number3.number3 = unmaskedPhoneNumber;
+      this.setState({ number3: this.state.number3});
     } else {
-      this.setState({ phonenumber_3: unmaskedPhoneNumber });
+      this.state.number3.number3 = unmaskedPhoneNumber;
+      this.setState({ number3: this.state.number3});
     }
+  };
+  renderMobileLabel = ({ item, index }) => {
+    return (
+      <TouchableHighlight
+        underlayColor="transparent"
+        onPress={() =>
+          this.setState({ mobileLabel: item.label, isMobileModelOpen: false })
+        }
+      >
+        <Text style={styles.labelName}> {item.label} </Text>
+      </TouchableHighlight>
+    );
+  };
+  renderMobileLabel2 = ({ item, index }) => {
+    return (
+      <TouchableHighlight
+        underlayColor="transparent"
+        onPress={() =>
+          this.setState({ mobileLabel2: item.label, isMobileModelOpen2: false })
+        }
+      >
+        <Text style={styles.labelName}> {item.label} </Text>
+      </TouchableHighlight>
+    );
+  };
+  renderMobileLabel3 = ({ item, index }) => {
+    return (
+      <TouchableHighlight
+        underlayColor="transparent"
+        onPress={() =>
+          this.setState({ mobileLabel3: item.label, isMobileModelOpen3: false })
+        }
+      >
+        <Text style={styles.labelName}> {item.label} </Text>
+      </TouchableHighlight>
+    );
   };
   renderMobile() {
     return (
@@ -345,7 +531,7 @@ class Profile extends Component {
                 isProfile={false}
               />
             ) : (
-              <Text style={styles.stylefiledText}>{this.state.number1}</Text>
+              <Text style={styles.stylefiledText}>{this.state.number1.number1 }</Text>
             )}
 
             <View style={styles.rightView}>
@@ -357,21 +543,129 @@ class Profile extends Component {
                     width: width * 0.3,
                   }}
                 >
-                  <View style={styles.rightTwoImg}>
-                    <View>
-                      <Image source={edit} style={styles.editImg} />
+                  {this.state.status == true ? null : (
+                    <View style={styles.rightTwoImg}>
+                      <View>
+                        <Image source={edit} style={styles.editImg} />
+                      </View>
+                      <View style={styles.resetImg}>
+                        <Image source={reset} style={styles.editImg} />
+                      </View>
                     </View>
-                    <View style={styles.resetImg}>
-                      <Image source={reset} style={styles.editImg} />
+                  )}
+                  {this.state.status == true ? (
+                    <TouchableHighlight
+                      underlayColor="transparent"
+                      style={[styles.rightView]}
+                      onPress={() => this.setState({ isMobileModelOpen: true })}
+                    >
+                      <IconEntypo
+                        style={styles.iconSize}
+                        size={width * 0.06}
+                        name="chevron-small-down"
+                      />
+                    </TouchableHighlight>
+                  ) : null}
+
+                  {this.state.mobileLabel !== "" ? (
+                    <View style={[styles.rightView]}>
+                      <Text style={styles.righttext}>
+                        {this.state.mobileLabel}
+                      </Text>
                     </View>
-                  </View>
-                  <Text style={styles.righttext}>( Personal )</Text>
+                  ) : null}
                 </View>
               </View>
             </View>
           </View>
+          <Modal
+            style={styles.footerModal}
+            visible={this.state.isMobileModelOpen}
+            transparent={true}
+            animationType="fade"
+            onRequestClose={() => this.setState({ isMobileModelOpen: false })}
+          >
+            <View style={styles.contactContent}>
+              <View style={styles.content}>
+                <Text style={styles.modalHeader}>Phone</Text>
+                <View style={{ flexDirection: "column" }}>
+                  <FlatList
+                    refreshing={true}
+                    keyExtractor={(item, index) => index.toString()}
+                    data={this.state.mobileLabelList}
+                    extraData={this.state}
+                    numColumns={1}
+                    renderItem={this.renderMobileLabel.bind(this)}
+                    style={styles.flatlist}
+                    keyboardShouldPersistTaps={"always"}
+                  />
+                  <TouchableHighlight
+                    underlayColor="transparent"
+                    onPress={() =>
+                      this.setState({
+                        isAddMobileLabel: true,
+                        mobileLabel: "",
+                      })
+                    }
+                  >
+                    <Text style={styles.labelName}> Custom </Text>
+                  </TouchableHighlight>
+                </View>
+              </View>
+            </View>
+          </Modal>
+          <Modal
+            style={styles.footerModal}
+            visible={this.state.isAddMobileLabel}
+            transparent={true}
+            animationType="fade"
+          >
+            <View style={styles.contactContent}>
+              <View style={styles.content}>
+                <Text style={styles.modalHeader}>Custom label name</Text>
+                <View style={{ flexDirection: "column" }}>
+                  <TextInput
+                    placeholder="Custom label name"
+                    style={styles.addLabelField}
+                    placeholderTextColor={COLORS.main_text_color}
+                    keyboardType={"default"}
+                    value={this.state.mobileLabel}
+                    onChangeText={(value) =>
+                      this.setState({ mobileLabel: value })
+                    }
+                    ref={(input) => {
+                      this.mobileLabel = input;
+                    }}
+                  />
+                  <TouchableHighlight
+                    underlayColor="transparent"
+                    style={styles.saveView}
+                    onPress={() =>
+                      this.state.mobileLabel !== ""
+                        ? this.setState({
+                            isAddMobileLabel: false,
+                            isMobileModelOpen: false,
+                          })
+                        : this.setState({ isAddMobileLabel: false })
+                    }
+                  >
+                    <Text
+                      style={{
+                        color: COLORS.main_text_color,
+                        fontFamily: Font.medium,
+                        fontSize: width * 0.04,
+                      }}
+                    >
+                      {" "}
+                      Ok{" "}
+                    </Text>
+                  </TouchableHighlight>
+                </View>
+              </View>
+            </View>
+          </Modal>
         </View>
-        {/* <View style={styles.fieldMain}>
+        <View style={styles.fieldMain}>
           <View style={styles.filedViewRightTwo}>
             {this.state.status == true ? (
               <IntlPhoneInput
@@ -391,12 +685,7 @@ class Profile extends Component {
                 isProfile={false}
               />
             ) : (
-              //  ( this.state.number2 == "" ? (
-              //     <Text style={styles.stylefiledText}>+1 (303) 123-4567</Text>
-              //   ) : (
-
-              //   ))
-              <Text style={styles.stylefiledText}>{this.state.number2}</Text>
+              <Text style={styles.stylefiledText}>{this.state.number2.number2}</Text>
             )}
 
             <View style={styles.rightView}>
@@ -408,18 +697,133 @@ class Profile extends Component {
                     width: width * 0.3,
                   }}
                 >
-                  <View style={styles.rightTwoImg}>
+                  {this.state.status == true ? null : (
                     <View>
-                      <Image source={edit} style={styles.editImg} />
+                      <View style={styles.rightTwoImg}>
+                        <View>
+                          <Image source={edit} style={styles.editImg} />
+                        </View>
+                        <View style={styles.resetImg}>
+                          <Image source={reset} style={styles.editImg} />
+                        </View>
+                      </View>
+                      <Text style={styles.righttext}>Home</Text>
                     </View>
-                    <View style={styles.resetImg}>
-                      <Image source={reset} style={styles.editImg} />
+                  )}
+                  {this.state.status == true ? (
+                    <TouchableHighlight
+                      underlayColor="transparent"
+                      style={[styles.rightView]}
+                      onPress={() =>
+                        this.setState({ isMobileModelOpen2: true })
+                      }
+                    >
+                      <IconEntypo
+                        style={styles.iconSize}
+                        size={width * 0.06}
+                        name="chevron-small-down"
+                      />
+                    </TouchableHighlight>
+                  ) : null}
+
+                  {this.state.isAddMobileLabel2 !== "" ? (
+                    <View style={[styles.rightView]}>
+                      <Text style={styles.righttext}>
+                        {this.state.mobileLabel2}
+                      </Text>
                     </View>
-                  </View>
-                  <Text style={styles.righttext}>( Work )</Text>
+                  ) : null}
                 </View>
               </View>
             </View>
+            <Modal
+              style={styles.footerModal}
+              visible={this.state.isMobileModelOpen2}
+              transparent={true}
+              animationType="fade"
+              onRequestClose={() =>
+                this.setState({ isMobileModelOpen2: false })
+              }
+            >
+              <View style={styles.contactContent}>
+                <View style={styles.content}>
+                  <Text style={styles.modalHeader}>Phone</Text>
+                  <View style={{ flexDirection: "column" }}>
+                    <FlatList
+                      refreshing={true}
+                      keyExtractor={(item, index) => index.toString()}
+                      data={this.state.mobileLabelList2}
+                      extraData={this.state}
+                      numColumns={1}
+                      renderItem={this.renderMobileLabel2.bind(this)}
+                      style={styles.flatlist}
+                      keyboardShouldPersistTaps={"always"}
+                    />
+                    <TouchableHighlight
+                      underlayColor="transparent"
+                      onPress={() =>
+                        this.setState({
+                          isAddMobileLabel2: true,
+                          mobileLabel2: "",
+                        })
+                      }
+                    >
+                      <Text style={styles.labelName}> Custom </Text>
+                    </TouchableHighlight>
+                  </View>
+                </View>
+              </View>
+            </Modal>
+            <Modal
+              style={styles.footerModal}
+              visible={this.state.isAddMobileLabel2}
+              transparent={true}
+              animationType="fade"
+            >
+              <View style={styles.contactContent}>
+                <View style={styles.content}>
+                  <Text style={styles.modalHeader}>Custom label name</Text>
+                  <View style={{ flexDirection: "column" }}>
+                    <TextInput
+                      placeholder="Custom label name"
+                      style={styles.addLabelField}
+                      placeholderTextColor={COLORS.main_text_color}
+                      keyboardType={"default"}
+                      value={this.state.mobileLabel2}
+                      onChangeText={(value) =>
+                        this.setState({ mobileLabel2: value })
+                      }
+                      ref={(input) => {
+                        this.mobileLabel = input;
+                      }}
+                    />
+                    <TouchableHighlight
+                      underlayColor="transparent"
+                      style={styles.saveView}
+                      onPress={() =>
+                        this.state.mobileLabel !== ""
+                          ? this.setState({
+                              isAddMobileLabel2: false,
+                              isMobileModelOpen2: false,
+                            })
+                          : this.setState({ isAddMobileLabel2: false })
+                      }
+                    >
+                      <Text
+                        style={{
+                          color: COLORS.main_text_color,
+                          fontFamily: Font.medium,
+                          fontSize: width * 0.04,
+                        }}
+                      >
+                        {" "}
+                        Ok{" "}
+                      </Text>
+                    </TouchableHighlight>
+                  </View>
+                </View>
+              </View>
+            </Modal>
           </View>
           <View style={styles.filedViewRightTwo}>
             {this.state.status == true ? (
@@ -443,23 +847,135 @@ class Profile extends Component {
               // this.state.number3 == "" ? (
               //   <Text style={styles.stylefiledText}>+1 (303) 123-4567</Text>
               // ) :
-              <Text style={styles.stylefiledText}>{this.state.number3}</Text>
+              <Text style={styles.stylefiledText}>{this.state.number3.number3}</Text>
             )}
             <View style={styles.rightView}>
               <View>
-                <View style={styles.rightTwoImg}>
+                {this.state.status == true ? null : (
                   <View>
-                    <Image source={edit} style={styles.editImg} />
+                    <View style={styles.rightTwoImg}>
+                      <View>
+                        <Image source={edit} style={styles.editImg} />
+                      </View>
+                      <View style={styles.resetImg}>
+                        <Image source={reset} style={styles.editImg} />
+                      </View>
+                    </View>
+                    <Text style={styles.righttext}>Personal</Text>
                   </View>
-                  <View style={styles.resetImg}>
-                    <Image source={reset} style={styles.editImg} />
+                )}
+
+                {this.state.status == true ? (
+                  <TouchableHighlight
+                    underlayColor="transparent"
+                    style={[styles.rightView]}
+                    onPress={() => this.setState({ isMobileModelOpen3: true })}
+                  >
+                    <IconEntypo
+                      style={styles.iconSize}
+                      size={width * 0.06}
+                      name="chevron-small-down"
+                    />
+                  </TouchableHighlight>
+                ) : null}
+
+                {this.state.isAddMobileLabel3 !== "" ? (
+                  <View style={[styles.rightView]}>
+                    <Text style={styles.righttext}>
+                      {this.state.mobileLabel3}
+                    </Text>
                   </View>
-                </View>
-                <Text style={styles.righttext}>( Lanline )</Text>
+                ) : null}
               </View>
             </View>
           </View>
-        </View> */}
+        </View>
+        <Modal
+          style={styles.footerModal}
+          visible={this.state.isMobileModelOpen3}
+          transparent={true}
+          animationType="fade"
+          onRequestClose={() => this.setState({ isMobileModelOpen3: false })}
+        >
+          <View style={styles.contactContent}>
+            <View style={styles.content}>
+              <Text style={styles.modalHeader}>Phone</Text>
+              <View style={{ flexDirection: "column" }}>
+                <FlatList
+                  refreshing={true}
+                  keyExtractor={(item, index) => index.toString()}
+                  data={this.state.mobileLabelList3}
+                  extraData={this.state}
+                  numColumns={1}
+                  renderItem={this.renderMobileLabel3.bind(this)}
+                  style={styles.flatlist}
+                  keyboardShouldPersistTaps={"always"}
+                />
+                <TouchableHighlight
+                  underlayColor="transparent"
+                  onPress={() =>
+                    this.setState({
+                      isAddMobileLabel3: true,
+                      mobileLabel3: "",
+                    })
+                  }
+                >
+                  <Text style={styles.labelName}> Custom </Text>
+                </TouchableHighlight>
+              </View>
+            </View>
+          </View>
+        </Modal>
+        <Modal
+          style={styles.footerModal}
+          visible={this.state.isAddMobileLabel3}
+          transparent={true}
+          animationType="fade"
+        >
+          <View style={styles.contactContent}>
+            <View style={styles.content}>
+              <Text style={styles.modalHeader}>Custom label name</Text>
+              <View style={{ flexDirection: "column" }}>
+                <TextInput
+                  placeholder="Custom label name"
+                  style={styles.addLabelField}
+                  placeholderTextColor={COLORS.main_text_color}
+                  keyboardType={"default"}
+                  value={this.state.mobileLabel3}
+                  onChangeText={(value) =>
+                    this.setState({ mobileLabel3: value })
+                  }
+                  ref={(input) => {
+                    this.mobileLabel = input;
+                  }}
+                />
+                <TouchableHighlight
+                  underlayColor="transparent"
+                  style={styles.saveView}
+                  onPress={() =>
+                    this.state.mobileLabel !== ""
+                      ? this.setState({
+                          isAddMobileLabel3: false,
+                          isMobileModelOpen3: false,
+                        })
+                      : this.setState({ isAddMobileLabel3: false })
+                  }
+                >
+                  <Text
+                    style={{
+                      color: COLORS.main_text_color,
+                      fontFamily: Font.medium,
+                      fontSize: width * 0.04,
+                    }}
+                  >
+                    {" "}
+                    Ok{" "}
+                  </Text>
+                </TouchableHighlight>
+              </View>
+            </View>
+          </View>
+        </Modal>
       </View>
     );
   }
@@ -467,6 +983,12 @@ class Profile extends Component {
     this.state.email_profile.email = value;
     this.setState({ email_profile: this.state.email_profile });
   };
+  changeEmailLabel = (label) => {
+    this.setState({ isEmailModelOpen: false });
+    this.state.email_profile.label = label;
+    this.setState({ email_profile: this.state.email_profile });
+  };
+
   renderEmail() {
     return (
       <View
@@ -493,25 +1015,139 @@ class Profile extends Component {
 
             <View style={styles.rightView}>
               <View>
-                <View style={styles.rightTwoImg}>
+                {this.state.status == true ? null : (
                   <View>
-                    <Image source={edit} style={styles.editImg} />
+                    <View style={styles.rightTwoImg}>
+                      <View>
+                        <Image source={edit} style={styles.editImg} />
+                      </View>
+                      <View style={styles.resetImg}>
+                        <Image source={reset} style={styles.editImg} />
+                      </View>
+                    </View>
+                    <Text style={styles.righttext}>Home</Text>
                   </View>
-                  <View style={styles.resetImg}>
-                    <Image source={reset} style={styles.editImg} />
+                )}
+                {this.state.status ? (
+                  <TouchableHighlight
+                    underlayColor="transparent"
+                    style={styles.rightView}
+                    onPress={() => this.setState({ isEmailModelOpen: true })}
+                  >
+                    <IconEntypo
+                      style={styles.iconSize}
+                      size={width * 0.06}
+                      name="chevron-small-down"
+                    />
+                  </TouchableHighlight>
+                ) : null}
+
+                {this.state.status && this.state.email_profile.label !== "" ? (
+                  <View style={styles.rightView}>
+                    <Text style={styles.righttext}>
+                      {this.state.email_profile.label}
+                    </Text>
                   </View>
-                </View>
-                <Text style={styles.righttext}>( Personal )</Text>
+                ) : null}
               </View>
             </View>
           </View>
         </View>
+        <Modal
+          style={styles.footerModal}
+          visible={this.state.isEmailModelOpen}
+          transparent={true}
+          animationType="fade"
+          onRequestClose={() => this.setState({ isEmailModelOpen: false })}
+        >
+          <View style={styles.contactContent}>
+            <View style={styles.content}>
+              <Text style={styles.modalHeader}>Email</Text>
+              <View style={{ flexDirection: "column" }}>
+                {this.state.emailLabelList.map((item, index) => {
+                  return (
+                    <TouchableHighlight
+                      underlayColor="transparent"
+                      onPress={() => {
+                        this.changeEmailLabel(item.label);
+                      }}
+                    >
+                      <Text style={styles.labelName}> {item.label} </Text>
+                    </TouchableHighlight>
+                  );
+                })}
+                <TouchableHighlight
+                  underlayColor="transparent"
+                  onPress={() =>
+                    this.setState({ isAddEmailLabel: true, emailLabel: "" })
+                  }
+                >
+                  <Text style={styles.labelName}> Custom </Text>
+                </TouchableHighlight>
+              </View>
+            </View>
+          </View>
+        </Modal>
+        <Modal
+          style={styles.footerModal}
+          visible={this.state.isAddEmailLabel}
+          transparent={true}
+          animationType="fade"
+        >
+          <View style={styles.contactContent}>
+            <View style={styles.content}>
+              <Text style={styles.modalHeader}>Custom label name</Text>
+              <View style={{ flexDirection: "column" }}>
+                <TextInput
+                  placeholder="Custom label name"
+                  style={styles.addLabelField}
+                  placeholderTextColor={COLORS.main_text_color}
+                  editable={this.state.status ? true : false}
+                  keyboardType={"default"}
+                  // value={this.state.emailLabel}
+                  onChangeText={(label) => {
+                    this.changeEmailLabel(label);
+                  }}
+                />
+                <TouchableHighlight
+                  underlayColor="transparent"
+                  style={styles.saveView}
+                  onPress={() =>
+                    this.state.emailLabel !== ""
+                      ? this.setState({
+                          isAddEmailLabel: false,
+                          isEmailModelOpen: false,
+                        })
+                      : this.setState({ isAddEmailLabel: false })
+                  }
+                >
+                  <Text
+                    style={{
+                      color: COLORS.main_text_color,
+                      fontFamily: Font.medium,
+                      fontSize: width * 0.04,
+                    }}
+                  >
+                    {" "}
+                    Ok{" "}
+                  </Text>
+                </TouchableHighlight>
+              </View>
+            </View>
+          </View>
+        </Modal>
       </View>
     );
   }
 
   onChangeAddress = (value) => {
     this.state.address_profile.address = value;
+    this.setState({ address_profile: this.state.address_profile });
+  };
+
+  changeAddressLabel = (label) => {
+    this.setState({ isAddressModelOpen: false });
+    this.state.address_profile.label = label;
     this.setState({ address_profile: this.state.address_profile });
   };
 
@@ -560,7 +1196,7 @@ class Profile extends Component {
                   }}
                 >
                   <Text style={styles.stylefiledText}>
-                    {this.state.address}
+                    {this.state.address.address}
                   </Text>
                 </View>
               )}
@@ -574,21 +1210,130 @@ class Profile extends Component {
                       width: width * 0.2,
                     }}
                   >
-                    <View style={styles.rightTwoImg}>
+                    {this.state.status == true ? null : (
                       <View>
-                        <Image source={edit} style={styles.editImg} />
+                        <View style={styles.rightTwoImg}>
+                          <View>
+                            <Image source={edit} style={styles.editImg} />
+                          </View>
+                          <View style={styles.resetImg}>
+                            <Image source={reset} style={styles.editImg} />
+                          </View>
+                        </View>
+                        <Text style={styles.righttext}>Home</Text>
                       </View>
-                      <View style={styles.resetImg}>
-                        <Image source={reset} style={styles.editImg} />
-                      </View>
-                    </View>
+                    )}
                   </View>
                 </View>
               </View>
             </View>
-            <Text style={styles.righttext}>( Personal )</Text>
+            {this.state.status == true ? (
+              <TouchableHighlight
+                underlayColor="transparent"
+                style={styles.addressRightView}
+                onPress={() => this.setState({ isAddressModelOpen: true })}
+              >
+                <IconEntypo
+                  style={styles.iconSize}
+                  size={width * 0.06}
+                  name="chevron-small-down"
+                />
+              </TouchableHighlight>
+            ) : null}
+
+            {this.state.address_profile.label !== "" ? (
+              <View style={styles.addressRightView}>
+                <Text style={styles.addressRighttext}>
+                  {this.state.address_profile.label}
+                </Text>
+              </View>
+            ) : null}
           </View>
         </View>
+        <Modal
+          style={styles.footerModal}
+          visible={this.state.isAddressModelOpen}
+          transparent={true}
+          animationType="fade"
+          onRequestClose={() => this.setState({ isAddressModelOpen: false })}
+        >
+          <View style={styles.contactContent}>
+            <View style={styles.content}>
+              <Text style={styles.modalHeader}>Address</Text>
+              <View style={{ flexDirection: "column" }}>
+                {this.state.addressLabelList.map((item, index) => {
+                  return (
+                    <TouchableHighlight
+                      underlayColor="transparent"
+                      onPress={() => {
+                        this.changeAddressLabel(item.label);
+                      }}
+                    >
+                      <Text style={styles.labelName}> {item.label} </Text>
+                    </TouchableHighlight>
+                  );
+                })}
+                <TouchableHighlight
+                  underlayColor="transparent"
+                  onPress={() =>
+                    this.setState({
+                      isAddAddressLabel: true,
+                      addressLabel: "",
+                    })
+                  }
+                >
+                  <Text style={styles.labelName}> Custom </Text>
+                </TouchableHighlight>
+              </View>
+            </View>
+          </View>
+        </Modal>
+        <Modal
+          style={styles.footerModal}
+          visible={this.state.isAddAddressLabel}
+          transparent={true}
+          animationType="fade"
+        >
+          <View style={styles.contactContent}>
+            <View style={styles.content}>
+              <Text style={styles.modalHeader}>Custom label name</Text>
+              <View style={{ flexDirection: "column" }}>
+                <TextInput
+                  placeholder="Custom label name"
+                  style={styles.addLabelField}
+                  placeholderTextColor={COLORS.main_text_color}
+                  keyboardType={"default"}
+                  onChangeText={(label) => {
+                    this.changeAddressLabel(label);
+                  }}
+                />
+                <TouchableHighlight
+                  underlayColor="transparent"
+                  style={styles.saveView}
+                  onPress={() =>
+                    this.state.addressLabel !== ""
+                      ? this.setState({
+                          isAddAddressLabel: false,
+                          isAddressModelOpen: false,
+                        })
+                      : this.setState({ isAddAddressLabel: false })
+                  }
+                >
+                  <Text
+                    style={{
+                      color: COLORS.main_text_color,
+                      fontFamily: Font.medium,
+                      fontSize: width * 0.04,
+                    }}
+                  >
+                    {" "}
+                    Ok{" "}
+                  </Text>
+                </TouchableHighlight>
+              </View>
+            </View>
+          </View>
+        </Modal>
       </View>
     );
   }
@@ -597,7 +1342,11 @@ class Profile extends Component {
     this.state.messenger_profile.messanger = value;
     this.setState({ messenger_profile: this.state.messenger_profile });
   };
-
+  changeMessangerLabel = (label) => {
+    this.setState({ isMessangerModelOpen: false });
+    this.state.messenger_profile.label = label;
+    this.setState({ messenger_profile: this.state.messenger_profile });
+  };
   renderMesssanger() {
     return (
       <View
@@ -619,7 +1368,7 @@ class Profile extends Component {
                 onChangeText={(value) => this.onChangeMessenger(value)}
               />
             ) : (
-              <Text style={styles.stylefiledText}>{this.state.messenger1}</Text>
+              <Text style={styles.stylefiledText}>{this.state.messenger.messanger}</Text>
             )}
 
             <View style={styles.rightView}>
@@ -628,23 +1377,135 @@ class Profile extends Component {
                   style={{
                     flex: 1,
                     alignItems: "flex-end",
-                    width: width * 0.4,
+                    width: width * 0.15,
                   }}
                 >
-                  <View style={styles.rightTwoImg}>
+                  {this.state.status == true ? null : (
                     <View>
-                      <Image source={edit} style={styles.editImg} />
+                      <View style={styles.rightTwoImg}>
+                        <View>
+                          <Image source={edit} style={styles.editImg} />
+                        </View>
+                        <View style={styles.resetImg}>
+                          <Image source={reset} style={styles.editImg} />
+                        </View>
+                      </View>
+                      <Text style={styles.righttext}>Facebook Messanger</Text>
                     </View>
-                    <View style={styles.resetImg}>
-                      <Image source={reset} style={styles.editImg} />
+                  )}
+
+                  {this.state.status == true ? (
+                    <TouchableHighlight
+                      underlayColor="transparent"
+                      style={[styles.rightView]}
+                      onPress={() =>
+                        this.setState({ isMessangerModelOpen: true })
+                      }
+                    >
+                      <IconEntypo
+                        style={styles.iconSize}
+                        size={width * 0.06}
+                        name="chevron-small-down"
+                      />
+                    </TouchableHighlight>
+                  ) : null}
+
+                  {this.state.status == true &&
+                  this.state.messenger_profile.label !== "" ? (
+                    <View style={[styles.rightView]}>
+                      <Text style={styles.righttext}>
+                        {this.state.messenger_profile.label}
+                      </Text>
                     </View>
-                  </View>
-                  <Text style={styles.righttext}>( Facebook Messenger )</Text>
+                  ) : null}
                 </View>
               </View>
             </View>
           </View>
         </View>
+        <Modal
+          style={styles.footerModal}
+          visible={this.state.isMessangerModelOpen}
+          transparent={true}
+          animationType="fade"
+          onRequestClose={() => this.setState({ isMessangerModelOpen: false })}
+        >
+          <View style={styles.contactContent}>
+            <View style={styles.content}>
+              <Text style={styles.modalHeader}>Messanger Account</Text>
+              <View style={{ flexDirection: "column" }}>
+                {this.state.mesangerLabelList.map((item, index) => {
+                  return (
+                    <TouchableHighlight
+                      underlayColor="transparent"
+                      onPress={() => {
+                        this.changeMessangerLabel(item.label);
+                      }}
+                    >
+                      <Text style={styles.labelName}> {item.label} </Text>
+                    </TouchableHighlight>
+                  );
+                })}
+                <TouchableHighlight
+                  underlayColor="transparent"
+                  onPress={() =>
+                    this.setState({
+                      isAddMessangerLabel: true,
+                      messangerLabel: "",
+                    })
+                  }
+                >
+                  <Text style={styles.labelName}> Custom </Text>
+                </TouchableHighlight>
+              </View>
+            </View>
+          </View>
+        </Modal>
+        <Modal
+          style={styles.footerModal}
+          visible={this.state.isAddMessangerLabel}
+          transparent={true}
+          animationType="fade"
+        >
+          <View style={styles.contactContent}>
+            <View style={styles.content}>
+              <Text style={styles.modalHeader}>Custom label name</Text>
+              <View style={{ flexDirection: "column" }}>
+                <TextInput
+                  placeholder="Custom label name"
+                  style={styles.addLabelField}
+                  placeholderTextColor={COLORS.main_text_color}
+                  keyboardType={"default"}
+                  onChangeText={(label) => {
+                    this.changeMessangerLabel(label);
+                  }}
+                />
+                <TouchableHighlight
+                  underlayColor="transparent"
+                  style={styles.saveView}
+                  onPress={() =>
+                    this.state.messangerLabel !== ""
+                      ? this.setState({
+                          isAddMessangerLabel: false,
+                          isMessangerModelOpen: false,
+                        })
+                      : this.setState({ isAddMessangerLabel: false })
+                  }
+                >
+                  <Text
+                    style={{
+                      color: COLORS.main_text_color,
+                      fontFamily: Font.medium,
+                      fontSize: width * 0.04,
+                    }}
+                  >
+                    Ok
+                  </Text>
+                </TouchableHighlight>
+              </View>
+            </View>
+          </View>
+        </Modal>
       </View>
     );
   }
@@ -655,6 +1516,16 @@ class Profile extends Component {
   };
   onChangeSocialMedia2 = (value) => {
     this.state.instagram_profile.socialMedia = value;
+    this.setState({ instagram_profile: this.state.instagram_profile });
+  };
+  changeSocialMediaLabel = (label) => {
+    this.setState({ isSocialMediaModelOpen: false });
+    this.state.facebook_profile.label = label;
+    this.setState({ facebook_profile: this.state.facebook_profile });
+  };
+  changeSocialMediaLabel2 = (label) => {
+    this.setState({ isSocialMediaModelOpen2: false });
+    this.state.instagram_profile.label = label;
     this.setState({ instagram_profile: this.state.instagram_profile });
   };
   renderSocialMedia() {
@@ -680,7 +1551,7 @@ class Profile extends Component {
                 onChangeText={(value) => this.onChangeSocialMedia(value)}
               />
             ) : (
-              <Text style={styles.stylefiledText}>{this.state.messenger2}</Text>
+         <Text style={styles.stylefiledText}>{this.state.facebook.socialMedia}</Text>
             )}
 
             <View style={styles.rightView}>
@@ -692,15 +1563,42 @@ class Profile extends Component {
                     width: width * 0.3,
                   }}
                 >
-                  <View style={styles.rightTwoImg}>
+                  {this.state.status == true ? null : (
                     <View>
-                      <Image source={edit} style={styles.editImg} />
+                      <View style={styles.rightTwoImg}>
+                        <View>
+                          <Image source={edit} style={styles.editImg} />
+                        </View>
+                        <View style={styles.resetImg}>
+                          <Image source={reset} style={styles.editImg} />
+                        </View>
+                      </View>
+                      <Text style={styles.righttext}>Facebook</Text>
                     </View>
-                    <View style={styles.resetImg}>
-                      <Image source={reset} style={styles.editImg} />
+                  )}
+                  {this.state.status == true ? (
+                    <TouchableHighlight
+                      underlayColor="transparent"
+                      style={styles.addressRightView}
+                      onPress={() =>
+                        this.setState({ isSocialMediaModelOpen: true })
+                      }
+                    >
+                      <IconEntypo
+                        style={styles.iconSize}
+                        size={width * 0.06}
+                        name="chevron-small-down"
+                      />
+                    </TouchableHighlight>
+                  ) : null}
+
+                  {this.state.facebook_profile.label !== "" ? (
+                    <View style={[styles.rightView]}>
+                      <Text style={styles.righttext}>
+                        {this.state.facebook_profile.label}
+                      </Text>
                     </View>
-                  </View>
-                  <Text style={styles.righttext}>( Facebook )</Text>
+                  ) : null}
                 </View>
               </View>
             </View>
@@ -718,7 +1616,7 @@ class Profile extends Component {
                 onChangeText={(value) => this.onChangeSocialMedia2(value)}
               />
             ) : (
-              <Text style={styles.stylefiledText}>{this.state.messenger}</Text>
+              <Text style={styles.stylefiledText}>{this.state.instagram.instagram}</Text>
             )}
 
             <View style={styles.rightView}>
@@ -730,20 +1628,226 @@ class Profile extends Component {
                     width: width * 0.3,
                   }}
                 >
-                  <View style={styles.rightTwoImg}>
+                  {this.state.status == true ? null : (
                     <View>
-                      <Image source={edit} style={styles.editImg} />
+                      <View style={styles.rightTwoImg}>
+                        <View>
+                          <Image source={edit} style={styles.editImg} />
+                        </View>
+                        <View style={styles.resetImg}>
+                          <Image source={reset} style={styles.editImg} />
+                        </View>
+                      </View>
+                      <Text style={styles.righttext}>Instagram</Text>
                     </View>
-                    <View style={styles.resetImg}>
-                      <Image source={reset} style={styles.editImg} />
+                  )}
+                  {this.state.status == true ? (
+                    <TouchableHighlight
+                      underlayColor="transparent"
+                      style={styles.addressRightView}
+                      onPress={() =>
+                        this.setState({ isSocialMediaModelOpen2: true })
+                      }
+                    >
+                      <IconEntypo
+                        style={styles.iconSize}
+                        size={width * 0.06}
+                        name="chevron-small-down"
+                      />
+                    </TouchableHighlight>
+                  ) : null}
+
+                  {this.state.instagram_profile.label !== "" ? (
+                    <View style={[styles.rightView]}>
+                      <Text style={styles.righttext}>
+                        {this.state.instagram_profile.label}
+                      </Text>
                     </View>
-                  </View>
-                  <Text style={styles.righttext}>( Instagram )</Text>
+                  ) : null}
                 </View>
               </View>
             </View>
           </View>
         </View>
+        <Modal
+          style={styles.footerModal}
+          visible={this.state.isSocialMediaModelOpen}
+          transparent={true}
+          animationType="fade"
+          onRequestClose={() =>
+            this.setState({ isSocialMediaModelOpen: false })
+          }
+        >
+          <View style={styles.contactContent}>
+            <View style={styles.content}>
+              <Text style={styles.modalHeader}>Social Media</Text>
+              <View style={{ flexDirection: "column" }}>
+                {this.state.socialMediaLabelList.map((item, index) => {
+                  return (
+                    <TouchableHighlight
+                      underlayColor="transparent"
+                      onPress={() => {
+                        this.changeSocialMediaLabel(item.label);
+                      }}
+                    >
+                      <Text style={styles.labelName}> {item.label} </Text>
+                    </TouchableHighlight>
+                  );
+                })}
+                <TouchableHighlight
+                  underlayColor="transparent"
+                  onPress={() =>
+                    this.setState({
+                      isAddSocialMediaLabel: true,
+                      socialMedia: "",
+                    })
+                  }
+                >
+                  <Text style={styles.labelName}> Custom </Text>
+                </TouchableHighlight>
+              </View>
+            </View>
+          </View>
+        </Modal>
+        <Modal
+          style={styles.footerModal}
+          visible={this.state.isAddSocialMediaLabel}
+          transparent={true}
+          // key={key}
+          animationType="fade"
+        >
+          <View style={styles.contactContent}>
+            <View style={styles.content}>
+              <Text style={styles.modalHeader}>Custom label name</Text>
+              <View style={{ flexDirection: "column" }}>
+                <TextInput
+                  placeholder="Custom label name"
+                  style={styles.addLabelField}
+                  placeholderTextColor={COLORS.main_text_color}
+                  keyboardType={"default"}
+                  onChangeText={(label) => {
+                    this.changeSocialMediaLabel(label);
+                  }}
+                />
+                <TouchableHighlight
+                  underlayColor="transparent"
+                  style={styles.saveView}
+                  onPress={() =>
+                    this.state.socialMediaLabel !== ""
+                      ? this.setState({
+                          isAddSocialMediaLabel: false,
+                          isSocialMediaModelOpen: false,
+                        })
+                      : this.setState({
+                          isAddSocialMediaLabel: false,
+                        })
+                  }
+                >
+                  <Text
+                    style={{
+                      color: COLORS.main_text_color,
+                      fontFamily: Font.medium,
+                      fontSize: width * 0.04,
+                    }}
+                  >
+                    {" "}
+                    Ok{" "}
+                  </Text>
+                </TouchableHighlight>
+              </View>
+            </View>
+          </View>
+        </Modal>
+        {/* social media 2  */}
+        <Modal
+          style={styles.footerModal}
+          visible={this.state.isSocialMediaModelOpen2}
+          transparent={true}
+          animationType="fade"
+          onRequestClose={() =>
+            this.setState({ isSocialMediaModelOpen2: false })
+          }
+        >
+          <View style={styles.contactContent}>
+            <View style={styles.content}>
+              <Text style={styles.modalHeader}>Social Media</Text>
+              <View style={{ flexDirection: "column" }}>
+                {this.state.socialMediaLabelList2.map((item, index) => {
+                  return (
+                    <TouchableHighlight
+                      underlayColor="transparent"
+                      onPress={() => {
+                        this.changeSocialMediaLabel2(item.label);
+                      }}
+                    >
+                      <Text style={styles.labelName}> {item.label} </Text>
+                    </TouchableHighlight>
+                  );
+                })}
+                <TouchableHighlight
+                  underlayColor="transparent"
+                  onPress={() =>
+                    this.setState({
+                      isAddSocialMediaLabel2: true,
+                      socialMedia2: "",
+                    })
+                  }
+                >
+                  <Text style={styles.labelName}> Custom </Text>
+                </TouchableHighlight>
+              </View>
+            </View>
+          </View>
+        </Modal>
+        <Modal
+          style={styles.footerModal}
+          visible={this.state.isAddSocialMediaLabel2}
+          transparent={true}
+          // key={key}
+          animationType="fade"
+        >
+          <View style={styles.contactContent}>
+            <View style={styles.content}>
+              <Text style={styles.modalHeader}>Custom label name</Text>
+              <View style={{ flexDirection: "column" }}>
+                <TextInput
+                  placeholder="Custom label name"
+                  style={styles.addLabelField}
+                  placeholderTextColor={COLORS.main_text_color}
+                  keyboardType={"default"}
+                  onChangeText={(label) => {
+                    this.changeSocialMediaLabel2(label);
+                  }}
+                />
+                <TouchableHighlight
+                  underlayColor="transparent"
+                  style={styles.saveView}
+                  onPress={() =>
+                    this.state.socialMediaLabel2 !== ""
+                      ? this.setState({
+                          isAddSocialMediaLabel2: false,
+                          isSocialMediaModelOpen2: false,
+                        })
+                      : this.setState({
+                          isAddSocialMediaLabel2: false,
+                        })
+                  }
+                >
+                  <Text
+                    style={{
+                      color: COLORS.main_text_color,
+                      fontFamily: Font.medium,
+                      fontSize: width * 0.04,
+                    }}
+                  >
+                    {" "}
+                    Ok{" "}
+                  </Text>
+                </TouchableHighlight>
+              </View>
+            </View>
+          </View>
+        </Modal>
       </View>
     );
   }
@@ -751,7 +1855,11 @@ class Profile extends Component {
     this.state.website_profile.website = value;
     this.setState({ website_profile: this.state.website_profile });
   };
-
+  changeWebsiteLabel = (label) => {
+    this.setState({ isWebsiteModelOpen: false });
+    this.state.website_profile.label = label;
+    this.setState({ website_profile: this.state.website_profile });
+  };
   renderWebsite() {
     return (
       <View
@@ -773,7 +1881,7 @@ class Profile extends Component {
                 onChangeText={(value) => this.onChangeWebsite(value)}
               />
             ) : (
-              <Text style={styles.stylefiledText}>{this.state.website}</Text>
+              <Text style={styles.stylefiledText}>{this.state.website.website}</Text>
             )}
 
             <View style={styles.rightView}>
@@ -785,20 +1893,131 @@ class Profile extends Component {
                     width: width * 0.4,
                   }}
                 >
-                  <View style={styles.rightTwoImg}>
+                  {this.state.status == true ? null : (
                     <View>
-                      <Image source={edit} style={styles.editImg} />
+                      <View style={styles.rightTwoImg}>
+                        <View>
+                          <Image source={edit} style={styles.editImg} />
+                        </View>
+                        <View style={styles.resetImg}>
+                          <Image source={reset} style={styles.editImg} />
+                        </View>
+                      </View>
+                      <Text style={styles.righttext}>Personal</Text>
                     </View>
-                    <View style={styles.resetImg}>
-                      <Image source={reset} style={styles.editImg} />
+                  )}
+                  {this.state.status == true ? (
+                    <TouchableHighlight
+                      underlayColor="transparent"
+                      style={[styles.rightView]}
+                      onPress={() =>
+                        this.setState({ isWebsiteModelOpen: true })
+                      }
+                    >
+                      <IconEntypo
+                        style={styles.iconSize}
+                        size={width * 0.06}
+                        name="chevron-small-down"
+                      />
+                    </TouchableHighlight>
+                  ) : null}
+
+                  {this.state.website_profile.label !== "" ? (
+                    <View style={[styles.rightView]}>
+                      <Text style={styles.righttext}>
+                        {this.state.website_profile.label}
+                      </Text>
                     </View>
-                  </View>
-                  <Text style={styles.righttext}>( Personal )</Text>
+                  ) : null}
                 </View>
               </View>
             </View>
           </View>
         </View>
+        <Modal
+          style={styles.footerModal}
+          visible={this.state.isWebsiteModelOpen}
+          transparent={true}
+          animationType="fade"
+          onRequestClose={() => this.setState({ isWebsiteModelOpen: false })}
+        >
+          <View style={styles.contactContent}>
+            <View style={styles.content}>
+              <Text style={styles.modalHeader}>Website</Text>
+              <View style={{ flexDirection: "column" }}>
+                {this.state.websiteLableList.map((item, index) => {
+                  return (
+                    <TouchableHighlight
+                      underlayColor="transparent"
+                      onPress={() => {
+                        this.changeWebsiteLabel(item.label);
+                      }}
+                    >
+                      <Text style={styles.labelName}> {item.label} </Text>
+                    </TouchableHighlight>
+                  );
+                })}
+                <TouchableHighlight
+                  underlayColor="transparent"
+                  onPress={() =>
+                    this.setState({
+                      isAddWebsiteLabel: true,
+                      WebsiteLabel: "",
+                    })
+                  }
+                >
+                  <Text style={styles.labelName}> Custom </Text>
+                </TouchableHighlight>
+              </View>
+            </View>
+          </View>
+        </Modal>
+        <Modal
+          style={styles.footerModal}
+          visible={this.state.isAddWebsiteLabel}
+          transparent={true}
+          animationType="fade"
+        >
+          <View style={styles.contactContent}>
+            <View style={styles.content}>
+              <Text style={styles.modalHeader}>Custom label name</Text>
+              <View style={{ flexDirection: "column" }}>
+                <TextInput
+                  placeholder="Custom label name"
+                  style={styles.addLabelField}
+                  placeholderTextColor={COLORS.main_text_color}
+                  keyboardType={"default"}
+                  onChangeText={(label) => {
+                    this.changeWebsiteLabel(label);
+                  }}
+                />
+                <TouchableHighlight
+                  underlayColor="transparent"
+                  style={styles.saveView}
+                  onPress={() =>
+                    this.state.WebsiteLabel !== ""
+                      ? this.setState({
+                          isAddWebsiteLabel: false,
+                          isWebsiteModelOpen: false,
+                        })
+                      : this.setState({ isAddWebsiteLabel: false })
+                  }
+                >
+                  <Text
+                    style={{
+                      color: COLORS.main_text_color,
+                      fontFamily: Font.medium,
+                      fontSize: width * 0.04,
+                    }}
+                  >
+                    {" "}
+                    Ok{" "}
+                  </Text>
+                </TouchableHighlight>
+              </View>
+            </View>
+          </View>
+        </Modal>
       </View>
     );
   }
@@ -806,11 +2025,13 @@ class Profile extends Component {
     this.setState({ isVisible: true });
   };
   onChangeDate = (date) => {
-    console.log("A date has been picked: ", date);
     this.setState({
       isVisible: false,
-      birthday: moment(date).format("MMMM, Do YYYY"),
     });
+    var date = moment(date).format("MMMM, Do YYYY");
+    this.state.date.date = date;
+    this.setState({ date: this.state.date });
+    console.log("date -------->", this.state.date);
   };
   hidePicker = () => {
     this.setState({ isVisible: false });
@@ -819,14 +2040,31 @@ class Profile extends Component {
     this.setState({ isVisible2: true });
   };
   onChangeDate2 = (date) => {
-    console.log("A date has been picked: ", date);
     this.setState({
       isVisible2: false,
-      wedding_anniversary: moment(date).format("MMMM, Do YYYY"),
+      //wedding_anniversary: moment(date).format("MMMM, Do YYYY"),
     });
+    var date = moment(date).format("MMMM, Do YYYY");
+    this.state.wedding_anniversary.date = date;
+    this.setState({ wedding_anniversary: this.state.wedding_anniversary });
+
+    console.log("A date has been picked: ", this.state.wedding_anniversary);
   };
   hidePicker2 = () => {
     this.setState({ isVisible2: false });
+  };
+
+  changeDateLabel = (label) => {
+    this.setState({ isDateModelOpen: false });
+    this.state.date.label = label;
+    this.setState({ date: this.state.date });
+    console.log("date -------->", this.state.date);
+  };
+  changeDateLabel2 = (label) => {
+    this.setState({ isDateModelOpen2: false });
+    this.state.wedding_anniversary.label = label;
+    this.setState({ wedding_anniversary: this.state.wedding_anniversary });
+    console.log("date -------->", this.state.wedding_anniversary);
   };
   renderDate() {
     return (
@@ -843,10 +2081,13 @@ class Profile extends Component {
               style={styles.filedView}
               onPress={this.showDateTimePicker}
             >
-              {this.state.isVisible == false && this.state.birthday == "" ? (
-                <Text style={styles.dateText}>1st January,1970</Text>
+              {this.state.isVisible == false && this.state.date.date == "" ? (
+                <View style={styles.dateView}>
+                  <Text style={styles.dateText}>Date</Text>
+                </View>
               ) : null}
-              <Text style={styles.dateText}>{this.state.birthday}</Text>
+              <Text style={styles.dateText}>{this.state.date.date}</Text>
+            
               <DateTimePickerModal
                 isVisible={this.state.isVisible}
                 onConfirm={this.onChangeDate}
@@ -862,22 +2103,50 @@ class Profile extends Component {
                       width: width * 0.3,
                     }}
                   >
-                    <View style={styles.rightTwoImg}>
+                    {this.state.status == true ? null : (
                       <View>
-                        <Image source={edit} style={styles.editImg} />
+                        <View style={styles.rightTwoImg}>
+                          <View>
+                            <Image source={edit} style={styles.editImg} />
+                          </View>
+                          <View style={styles.resetImg}>
+                            <Image source={reset} style={styles.editImg} />
+                          </View>
+                        </View>
+                        <Text style={styles.righttext}>Birthday</Text>
                       </View>
-                      <View style={styles.resetImg}>
-                        <Image source={reset} style={styles.editImg} />
+                    )}
+                    {this.state.status == true ? (
+                      <TouchableHighlight
+                        underlayColor="transparent"
+                        style={[
+                          styles.addressRightView,
+                          { marginTop: Metrics.smallMargin },
+                        ]}
+                        onPress={() => this.setState({ isDateModelOpen: true })}
+                      >
+                        <IconEntypo
+                          style={styles.iconSize}
+                          size={width * 0.06}
+                          name="chevron-small-down"
+                        />
+                      </TouchableHighlight>
+                    ) : null}
+
+                    {this.state.date.label !== "" ? (
+                      <View style={[styles.rightView]}>
+                        <Text style={styles.righttext}>
+                          {this.state.date.label}
+                        </Text>
                       </View>
-                    </View>
-                    <Text style={styles.righttext}>( Birthday )</Text>
+                    ) : null}
                   </View>
                 </View>
               </View>
             </TouchableOpacity>
           ) : (
             <View style={styles.filedView}>
-              <Text style={styles.stylefiledText}>{this.state.date}</Text>
+              <Text style={styles.stylefiledText}>{this.state.date.date}</Text>
               <View style={styles.rightView}>
                 <View>
                   <View
@@ -895,7 +2164,7 @@ class Profile extends Component {
                         <Image source={reset} style={styles.editImg} />
                       </View>
                     </View>
-                    <Text style={styles.righttext}>( Birthday )</Text>
+                    <Text style={styles.righttext}> Birthday </Text>
                   </View>
                 </View>
               </View>
@@ -909,11 +2178,11 @@ class Profile extends Component {
               onPress={this.showDateTimePicker2}
             >
               {this.state.isVisible2 == false &&
-              this.state.wedding_anniversary == "" ? (
+              this.state.wedding_anniversary.date == "" ? (
                 <Text style={styles.dateText}>3rd Febrauary,1999</Text>
               ) : null}
               <Text style={styles.dateText}>
-                {this.state.wedding_anniversary}
+                {this.state.wedding_anniversary.date}
               </Text>
               <DateTimePickerModal
                 isVisible={this.state.isVisible2}
@@ -930,24 +2199,54 @@ class Profile extends Component {
                       width: width * 0.4,
                     }}
                   >
-                    <View style={styles.rightTwoImg}>
+                    {this.state.status == true ? null : (
                       <View>
-                        <Image source={edit} style={styles.editImg} />
+                        <View style={styles.rightTwoImg}>
+                          <View>
+                            <Image source={edit} style={styles.editImg} />
+                          </View>
+                          <View style={styles.resetImg}>
+                            <Image source={reset} style={styles.editImg} />
+                          </View>
+                        </View>
+                        <Text style={styles.righttext}>
+                          wedding anniversary
+                        </Text>
                       </View>
-                      <View style={styles.resetImg}>
-                        <Image source={reset} style={styles.editImg} />
+                    )}
+                    {this.state.status == true ? (
+                      <TouchableHighlight
+                        underlayColor="transparent"
+                        style={[
+                          styles.addressRightView,
+                          { marginTop: Metrics.smallMargin },
+                        ]}
+                        onPress={() =>
+                          this.setState({ isDateModelOpen2: true })
+                        }
+                      >
+                        <IconEntypo
+                          style={styles.iconSize}
+                          size={width * 0.06}
+                          name="chevron-small-down"
+                        />
+                      </TouchableHighlight>
+                    ) : null}
+
+                    {this.state.wedding_anniversary.label !== "" ? (
+                      <View style={[styles.rightView]}>
+                        <Text style={styles.righttext}>
+                          {this.state.wedding_anniversary.label}
+                        </Text>
                       </View>
-                    </View>
-                    <Text style={styles.righttext}>
-                      ( wedding anniversary )
-                    </Text>
+                    ) : null}
                   </View>
                 </View>
               </View>
             </TouchableOpacity>
           ) : (
             <View style={styles.filedViewRightTwo}>
-              <Text style={styles.stylefiledText}>{this.state.dob}</Text>
+              <Text style={styles.stylefiledText}>{this.state.wedding.date}</Text>
               <View style={styles.rightView}>
                 <View>
                   <View
@@ -966,7 +2265,7 @@ class Profile extends Component {
                       </View>
                     </View>
                     <Text style={styles.righttext}>
-                      ( wedding anniversary )
+                  wedding anniversary 
                     </Text>
                   </View>
                 </View>
@@ -974,6 +2273,171 @@ class Profile extends Component {
             </View>
           )}
         </View>
+        <Modal
+          style={styles.footerModal}
+          visible={this.state.isDateModelOpen}
+          transparent={true}
+          animationType="fade"
+          onRequestClose={() => this.setState({ isDateModelOpen: false })}
+        >
+          <View style={styles.contactContent}>
+            <View style={styles.content}>
+              <Text style={styles.modalHeader}>Date</Text>
+              <View style={{ flexDirection: "column" }}>
+                {this.state.dateLableList.map((item, index) => {
+                  return (
+                    <TouchableHighlight
+                      underlayColor="transparent"
+                      onPress={() => {
+                        this.changeDateLabel(item.label);
+                      }}
+                    >
+                      <Text style={styles.labelName}> {item.label} </Text>
+                    </TouchableHighlight>
+                  );
+                })}
+                <TouchableHighlight
+                  underlayColor="transparent"
+                  onPress={() =>
+                    this.setState({ isAddDateLabel: true, dateLabel: "" })
+                  }
+                >
+                  <Text style={styles.labelName}> Custom </Text>
+                </TouchableHighlight>
+              </View>
+            </View>
+          </View>
+        </Modal>
+        <Modal
+          style={styles.footerModal}
+          visible={this.state.isAddDateLabel}
+          transparent={true}
+          animationType="fade"
+        >
+          <View style={styles.contactContent}>
+            <View style={styles.content}>
+              <Text style={styles.modalHeader}>Custom label name</Text>
+              <View style={{ flexDirection: "column" }}>
+                <TextInput
+                  placeholder="Custom label name"
+                  style={styles.addLabelField}
+                  placeholderTextColor={COLORS.main_text_color}
+                  keyboardType={"default"}
+                  // value={this.state.emailLabel}
+                  onChangeText={(label) => {
+                    this.changeDateLabel(label);
+                  }}
+                />
+                <TouchableHighlight
+                  underlayColor="transparent"
+                  style={styles.saveView}
+                  onPress={() =>
+                    this.state.dateLabel !== ""
+                      ? this.setState({
+                          isAddDateLabel: false,
+                          isDateModelOpen: false,
+                        })
+                      : this.setState({ isAddDateLabel: false })
+                  }
+                >
+                  <Text
+                    style={{
+                      color: COLORS.main_text_color,
+                      fontFamily: Font.medium,
+                      fontSize: width * 0.04,
+                    }}
+                  >
+                    {" "}
+                    Ok{" "}
+                  </Text>
+                </TouchableHighlight>
+              </View>
+            </View>
+          </View>
+        </Modal>
+        {/* wedding anniversary  */}
+        <Modal
+          style={styles.footerModal}
+          visible={this.state.isDateModelOpen2}
+          transparent={true}
+          animationType="fade"
+          onRequestClose={() => this.setState({ isDateModelOpen2: false })}
+        >
+          <View style={styles.contactContent}>
+            <View style={styles.content}>
+              <Text style={styles.modalHeader}>Date</Text>
+              <View style={{ flexDirection: "column" }}>
+                {this.state.dateLableList2.map((item, index) => {
+                  return (
+                    <TouchableHighlight
+                      underlayColor="transparent"
+                      onPress={() => {
+                        this.changeDateLabel2(item.label);
+                      }}
+                    >
+                      <Text style={styles.labelName}> {item.label} </Text>
+                    </TouchableHighlight>
+                  );
+                })}
+                <TouchableHighlight
+                  underlayColor="transparent"
+                  onPress={() =>
+                    this.setState({ isAddDateLabel2: true, dateLabel2: "" })
+                  }
+                >
+                  <Text style={styles.labelName}> Custom </Text>
+                </TouchableHighlight>
+              </View>
+            </View>
+          </View>
+        </Modal>
+        <Modal
+          style={styles.footerModal}
+          visible={this.state.isAddDateLabel2}
+          transparent={true}
+          animationType="fade"
+        >
+          <View style={styles.contactContent}>
+            <View style={styles.content}>
+              <Text style={styles.modalHeader}>Custom label name</Text>
+              <View style={{ flexDirection: "column" }}>
+                <TextInput
+                  placeholder="Custom label name"
+                  style={styles.addLabelField}
+                  placeholderTextColor={COLORS.main_text_color}
+                  keyboardType={"default"}
+                  // value={this.state.emailLabel}
+                  onChangeText={(label) => {
+                    this.changeDateLabel2(label);
+                  }}
+                />
+                <TouchableHighlight
+                  underlayColor="transparent"
+                  style={styles.saveView}
+                  onPress={() =>
+                    this.state.dateLabel2 !== ""
+                      ? this.setState({
+                          isAddDateLabel2: false,
+                          isDateModelOpen2: false,
+                        })
+                      : this.setState({ isAddDateLabel2: false })
+                  }
+                >
+                  <Text
+                    style={{
+                      color: COLORS.main_text_color,
+                      fontFamily: Font.medium,
+                      fontSize: width * 0.04,
+                    }}
+                  >
+                    {" "}
+                    Ok{" "}
+                  </Text>
+                </TouchableHighlight>
+              </View>
+            </View>
+          </View>
+        </Modal>
       </View>
     );
   }
@@ -982,7 +2446,11 @@ class Profile extends Component {
     this.state.note_profile.note = value;
     this.setState({ note_profile: this.state.note_profile });
   };
-
+  changeNoteLabel = (label) => {
+    this.setState({ isNoteModelOpen: false });
+    this.state.note_profile.label = label;
+    this.setState({ note_profile: this.state.note_profile });
+  };
   renderNote() {
     return (
       <View
@@ -996,7 +2464,8 @@ class Profile extends Component {
           <View style={styles.filedViewAddress}>
             <View
               style={{
-                width: width * 0.42,
+                width: width * 0.5,
+                height: width * 0.17,
                 flexDirection: "row",
               }}
             >
@@ -1011,7 +2480,7 @@ class Profile extends Component {
                   onChangeText={(value) => this.onChangeNote(value)}
                 />
               ) : (
-                <Text style={styles.stylefiledText}>{this.state.note1}</Text>
+                <Text style={styles.stylefiledText}>{this.state.note1.note}</Text>
               )}
 
               <View style={styles.rightView}>
@@ -1023,24 +2492,132 @@ class Profile extends Component {
                       width: width * 0.2,
                     }}
                   >
-                    <View style={styles.rightTwoImg}>
-                      <View style={styles.resetImg}>
-                        <Image source={reset} style={styles.editImg} />
+                    {this.state.status == true ? null : (
+                      <View>
+                        <View style={styles.rightTwoImg}>
+                          <View>
+                            <Image source={edit} style={styles.editImg} />
+                          </View>
+                          <View style={styles.resetImg}>
+                            <Image source={reset} style={styles.editImg} />
+                          </View>
+                        </View>
+                        <Text style={styles.righttext}>Note</Text>
                       </View>
-                    </View>
+                    )}
+                    {this.state.status ? (
+                      <TouchableHighlight
+                        underlayColor="transparent"
+                        style={styles.addressRightView}
+                        onPress={() => this.setState({ isNoteModelOpen: true })}
+                      >
+                        <IconEntypo
+                          style={styles.iconSize}
+                          size={width * 0.06}
+                          name="chevron-small-down"
+                        />
+                      </TouchableHighlight>
+                    ) : null}
+
+                    {this.state.note_profile.label !== "" ? (
+                      <View style={styles.addressRightView}>
+                        <Text style={styles.addressRighttext}>
+                          {this.state.note_profile.label}
+                        </Text>
+                      </View>
+                    ) : null}
                   </View>
                 </View>
               </View>
             </View>
-            <Text style={styles.righttext}>( Note 1 )</Text>
           </View>
         </View>
+        <Modal
+          style={styles.footerModal}
+          visible={this.state.isNoteModelOpen}
+          transparent={true}
+          animationType="fade"
+          onRequestClose={() => this.setState({ isNoteModelOpen: false })}
+        >
+          <View style={styles.contactContent}>
+            <View style={styles.content}>
+              <Text style={styles.modalHeader}>Note</Text>
+              <View style={{ flexDirection: "column" }}>
+                {this.state.noteLabelList.map((item, index) => {
+                  return (
+                    <TouchableHighlight
+                      underlayColor="transparent"
+                      onPress={() => {
+                        this.changeNoteLabel(item.label);
+                      }}
+                    >
+                      <Text style={styles.labelName}> {item.label} </Text>
+                    </TouchableHighlight>
+                  );
+                })}
+                <TouchableHighlight
+                  underlayColor="transparent"
+                  onPress={() =>
+                    this.setState({ isAddNoteLabel: true, noteLabel: "" })
+                  }
+                >
+                  <Text style={styles.labelName}> Custom </Text>
+                </TouchableHighlight>
+              </View>
+            </View>
+          </View>
+        </Modal>
+        <Modal
+          style={styles.footerModal}
+          visible={this.state.isAddNoteLabel}
+          transparent={true}
+          animationType="fade"
+        >
+          <View style={styles.contactContent}>
+            <View style={styles.content}>
+              <Text style={styles.modalHeader}>Custom label name</Text>
+              <View style={{ flexDirection: "column" }}>
+                <TextInput
+                  placeholder="Custom label name"
+                  style={styles.addLabelField}
+                  placeholderTextColor={COLORS.main_text_color}
+                  keyboardType={"default"}
+                  // value={this.state.emailLabel}
+                  onChangeText={(label) => {
+                    this.changeNoteLabel(label);
+                  }}
+                />
+                <TouchableHighlight
+                  underlayColor="transparent"
+                  style={styles.saveView}
+                  onPress={() =>
+                    this.state.noteLabel !== ""
+                      ? this.setState({
+                          isAddNoteLabel: false,
+                          isNoteModelOpen: false,
+                        })
+                      : this.setState({ isAddNoteLabel: false })
+                  }
+                >
+                  <Text
+                    style={{
+                      color: COLORS.main_text_color,
+                      fontFamily: Font.medium,
+                      fontSize: width * 0.04,
+                    }}
+                  >
+                    Ok
+                  </Text>
+                </TouchableHighlight>
+              </View>
+            </View>
+          </View>
+        </Modal>
       </View>
     );
   }
 
   onChangeCompany = (value) => {
-  
     this.state.company_profile.company = value;
     this.setState({ company_profile: this.state.company_profile });
   };
@@ -1072,10 +2649,10 @@ class Profile extends Component {
                 placeholderTextColor={COLORS.main_text_color}
                 keyboardType={"default"}
                 value={this.state.company_profile}
-                 onChangeText={(value) => this.onChangeCompany(value)}
+                onChangeText={(value) => this.onChangeCompany(value)}
               />
             ) : (
-              <Text style={styles.stylefiledText}>{this.state.company}</Text>
+              <Text style={styles.stylefiledText}>{this.state.company.company}</Text>
             )}
 
             <View style={styles.rightView}>
@@ -1095,7 +2672,7 @@ class Profile extends Component {
                       <Image source={reset} style={styles.editImg} />
                     </View>
                   </View>
-                  <Text style={styles.righttext}>( Company )</Text>
+                  <Text style={styles.righttext}> Company </Text>
                 </View>
               </View>
             </View>
@@ -1114,7 +2691,7 @@ class Profile extends Component {
                 onChangeText={(value) => this.onChangeJobTitle(value)}
               />
             ) : (
-              <Text style={styles.stylefiledText}>{this.state.job_title}</Text>
+              <Text style={styles.stylefiledText}>{this.state.job_title.jobTitle}</Text>
             )}
 
             <View style={styles.rightView}>
@@ -1134,7 +2711,7 @@ class Profile extends Component {
                       <Image source={reset} style={styles.editImg} />
                     </View>
                   </View>
-                  <Text style={styles.righttext}>( Job Title )</Text>
+                  <Text style={styles.righttext}> Job Title </Text>
                 </View>
               </View>
             </View>
@@ -1188,7 +2765,7 @@ class Profile extends Component {
               </View>
             </View>
             <Text style={styles.righttext}>Pacific Time Zone</Text>
-            <Text style={styles.righttext}>( Work hours)</Text>
+            <Text style={styles.righttext}> Work hours</Text>
           </View>
         </View>
       </View>
@@ -1221,51 +2798,119 @@ class Profile extends Component {
       company_profile,
       profile_image,
       messenger2,
-    
       job_title_profile,
-     
     } = this.state;
     if (friends_profile !== "") {
-      firebase .firestore().collection("user").doc(`${username}`).update({ friend : friends_profile });
+      firebase
+        .firestore()
+        .collection("user")
+        .doc(`${username}`)
+        .update({ friend: friends_profile });
     }
     if (phonenumber_1 !== "") {
-      firebase .firestore().collection("user").doc(`${username}`).update({ number1 : phonenumber_1 });
+      firebase
+        .firestore()
+        .collection("user")
+        .doc(`${username}`)
+        .update({ number1: phonenumber_1 });
+    }
+    if (phonenumber_2 !== "") {
+      firebase
+        .firestore()
+        .collection("user")
+        .doc(`${username}`)
+        .update({ number2: phonenumber_2 });
+    }
+    if (phonenumber_3 !== "") {
+      firebase
+        .firestore()
+        .collection("user")
+        .doc(`${username}`)
+        .update({ number3: phonenumber_3 });
     }
     if (email_profile !== "") {
-        firebase .firestore().collection("user").doc(`${username}`).update({ email : email_profile });
+      firebase
+        .firestore()
+        .collection("user")
+        .doc(`${username}`)
+        .update({ email: email_profile });
     }
     if (address_profile !== "") {
-      firebase .firestore().collection("user").doc(`${username}`).update({ address : address_profile });
+      firebase
+        .firestore()
+        .collection("user")
+        .doc(`${username}`)
+        .update({ address: address_profile });
     }
     if (messenger_profile !== "") {
-      firebase .firestore().collection("user").doc(`${username}`).update({ messanger1 : messenger_profile });
+      firebase
+        .firestore()
+        .collection("user")
+        .doc(`${username}`)
+        .update({ messanger1: messenger_profile });
     }
     if (facebook_profile !== "") {
-      firebase .firestore().collection("user").doc(`${username}`).update({ social_media1 : facebook_profile });
+      firebase
+        .firestore()
+        .collection("user")
+        .doc(`${username}`)
+        .update({ social_media1: facebook_profile });
     }
     if (instagram_profile !== "") {
-      firebase .firestore().collection("user").doc(`${username}`).update({ social_media2 : instagram_profile });
+      firebase
+        .firestore()
+        .collection("user")
+        .doc(`${username}`)
+        .update({ social_media2: instagram_profile });
     }
     if (website_profile !== "") {
-      firebase .firestore().collection("user").doc(`${username}`).update({ website1 : website_profile });
+      firebase
+        .firestore()
+        .collection("user")
+        .doc(`${username}`)
+        .update({ website1: website_profile });
     }
     if (birthday !== "") {
-      firebase .firestore().collection("user").doc(`${username}`).update({ date : birthday });
+      firebase
+        .firestore()
+        .collection("user")
+        .doc(`${username}`)
+        .update({ date: birthday });
     }
     if (wedding_anniversary !== "") {
-      firebase .firestore().collection("user").doc(`${username}`).update({ dob : wedding_anniversary });
+      firebase
+        .firestore()
+        .collection("user")
+        .doc(`${username}`)
+        .update({ dob: wedding_anniversary });
     }
     if (note_profile !== "") {
-      firebase .firestore().collection("user").doc(`${username}`).update({ note : note_profile });
+      firebase
+        .firestore()
+        .collection("user")
+        .doc(`${username}`)
+        .update({ note: note_profile });
     }
     if (work_hour_profile !== "") {
-      firebase .firestore().collection("user").doc(`${username}`).update({ work_hour : work_hour_profile });
+      firebase
+        .firestore()
+        .collection("user")
+        .doc(`${username}`)
+        .update({ work_hour: work_hour_profile });
     }
     if (company_profile !== "") {
-      firebase .firestore().collection("user").doc(`${username}`).update({ company : company_profile });
+      firebase
+        .firestore()
+        .collection("user")
+        .doc(`${username}`)
+        .update({ company: company_profile });
     }
     if (job_title_profile !== "") {
-      firebase .firestore().collection("user").doc(`${username}`).update({ job_title : job_title_profile });
+      firebase
+        .firestore()
+        .collection("user")
+        .doc(`${username}`)
+        .update({ job_title: job_title_profile });
     }
   };
 

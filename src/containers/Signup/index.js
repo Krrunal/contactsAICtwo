@@ -16,6 +16,7 @@ import {
 import React, { Component } from "react";
 import styled, { ThemeProvider } from "styled-components/native";
 
+import AsyncStorage from "@react-native-community/async-storage";
 import { COLORS } from "../theme/Colors.js";
 import Font from "../theme/font.js";
 import GeneralStatusBar from "../../components/StatusBar/index";
@@ -110,7 +111,7 @@ class Signup extends Component {
     return password === confirmpassWord;
   };
 
-  signUp = () => {
+  signUp = async () => {
     const { uname, contact, email, password, confirmpassWord } = this.props;
 
     if (
@@ -132,6 +133,7 @@ class Signup extends Component {
       password == confirmpassWord
     ) {
       console.log("Sucess");
+      await AsyncStorage.setItem("@sidemenuName", uname);
       this.props.signUpUser();
     } else {
       this.refs.toast.show("Please fill all required fileds", 1000);
@@ -395,9 +397,7 @@ class Signup extends Component {
                   </View>
 
                   <View>
-                    {/* <View style={styles.userText}>
-                      <BoldBlack>*Username :</BoldBlack>
-                    </View> */}
+                    
                     <View style={styles.mobileView}>
                       <InputCard
                         onChangeText={(uname) => this.changeUname(uname)}

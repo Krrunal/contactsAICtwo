@@ -40,19 +40,29 @@ class searchContact extends Component {
 
   componentDidMount() {
     const { navigation } = this.props;
- //   this.focusListener = navigation.addListener("didFocus", async () => {
-      if (this.props.contactChange.mode === "first") {
-        this.contactList();
-        console.log("first");
-      } else {
-        this.contactListFirst();
-        console.log("Last");
-      }
-   // });
+    //   this.focusListener = navigation.addListener("didFocus", async () => {
+    if (this.props.contactChange.mode === "first") {
+      this.contactList();
+      console.log("first");
+    } else {
+      this.contactListFirst();
+      console.log("Last");
+    }
+    // });
     // this.focusListener.remove();
+    const { username } = this.props;
+    firebase
+      .firestore()
+      .collection("user")
+      .doc(username)
+      .collection("contacts")
+      .get()
+      .then((url) => {
+       console.log("url",url)
+      
+      })
+      .catch((e) => console.log('getting downloadURL of image error => ', e));
   }
-
-
 
   async contactList() {
     const { username } = this.props;
@@ -66,12 +76,8 @@ class searchContact extends Component {
         snap.forEach((doc) => {
           var item = doc._data;
           this.state.contact.push(item);
-
         });
         this.setState({ contacts: this.state.contact });
-
-       // console.log("Item data ------> ", this.state.contacts.first_name);
-
         const sort = this.state.contacts.sort(function (a, b) {
           if (a.first_name.toLowerCase() < b.first_name.toLowerCase())
             return -1;
@@ -83,6 +89,7 @@ class searchContact extends Component {
   }
   async contactListFirst() {
     const { username } = this.props;
+
     firebase
       .firestore()
       .collection("user")
@@ -93,11 +100,11 @@ class searchContact extends Component {
         snap.forEach((doc) => {
           var item = doc._data;
           this.state.contact.push(item);
-         // console.log("Item data ------> ",  this.state.contact)
-
-
+          //  console.log("Item isImport ------> ", item.isImport);
         });
         this.setState({ contacts: this.state.contact });
+        // console.log("Item data ------> ", this.state.contacts.first_name);
+
         const sort = this.state.contacts.sort(function (a, b) {
           if (a.last_name.toLowerCase() < b.last_name.toLowerCase()) return -1;
           if (a.last_name.toLowerCase() > b.last_name.toLowerCase()) return 1;
@@ -118,10 +125,11 @@ class searchContact extends Component {
 
   renderItem({ item, index }) {
     const lengthArray = this.state.contacts.length;
+
     const character = (item.user_name || item.first_name).charAt(0);
     return (
       <View style={styles.quardView}>
-        <Image source={item.profile_image} />
+        {/* <Image source={item.profile_image}  style={styles.editImgStyle} /> */}
         <View style={styles.imgView}>
           <Text
             style={[
@@ -158,10 +166,11 @@ class searchContact extends Component {
             {item.last_name} {item.user_name || item.first_name}
           </Text>
         )}
-
-        <Image source={edit} style={styles.editImgStyle} />
-        {/* </TouchableHighlight> */}
-        <Image source={reset} style={styles.resetImgStyle} />
+        {item.isImport == false ? (
+          <Image source={edit} style={styles.editImgStyle} />
+        ) : (
+          <Image source={reset} style={styles.resetImgStyle} />
+        )}
       </View>
     );
   }

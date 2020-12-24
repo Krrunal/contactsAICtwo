@@ -109,5 +109,20 @@ export default StyleSheet.create({
         fontFamily: Font.regular,
         color:COLORS.main_text_color,
         marginLeft:Metrics.baseMargin
-      }
+      },
+      uperView:{
+         
+        width:width*0.7,
+        alignItems:'center',
+        marginTop:Metrics.baseMargin
+    },
+    uperText:{
+        textAlign:'center',
+        fontSize: width * 0.035,
+        fontFamily: Font.regular,
+        color:COLORS.main_text_color,
+        padding:width * 0.030,
+        letterSpacing: 0.5
+        //margin:width * 0.030,
+    }
  });

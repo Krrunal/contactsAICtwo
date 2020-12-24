@@ -8,8 +8,9 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import React, { Component, useState } from "react";
+import React, { Component, useEffect, useState } from "react";
 
+import AsyncStorage from "@react-native-community/async-storage";
 import { COLORS } from "../../containers/theme/Colors";
 import { DrawerItems } from "react-navigation-drawer";
 import Font from "../../containers/theme/font";
@@ -17,6 +18,7 @@ import GeneralStatusBar from "../StatusBar/index";
 import Metrics from "../../containers/theme/Metrics";
 import PropTypes from "prop-types";
 import { Text } from "react-native-paper";
+import { connect } from "react-redux";
 import contact from "../../assets/icons/contact.png";
 import help from "../../assets/icons/help.png";
 import info from "../../assets/icons/info.png";
@@ -29,6 +31,7 @@ var { width, height } = Dimensions.get("window");
 export function SideBar(props) {
   state = {
     status: false,
+    user_name: "false",
   };
 
   const [shouldShowInfo, setShouldShowInfo] = useState(false);
@@ -36,13 +39,24 @@ export function SideBar(props) {
   const [shouldShowLabel, setShouldShowLabel] = useState(false);
   const [shouldShowSetting, setShouldShowSetting] = useState(false);
   const [shouldShowHelp, setShouldShowHelp] = useState(false);
+  const [ data, setData] = useState("");
+ //const {username} =this.props ;
+  useEffect(async () => {
+    
+    const data = await AsyncStorage.getItem("@sidemenuName");
+    setData(data);
+   
+    console.log("username ---->",data)
+  }, []);
 
-  toggleStatus = () => {
-    this.setState({
-      status: !this.state.status,
-    });
-    console.log("toggle button handler: " + this.state.status);
-  };
+  
+ 
+  // toggleStatus = () => {
+  //   this.setState({
+  //     status: !this.state.status,
+  //   });
+  //   console.log("toggle button handler: " + this.state.status);
+  // };
 
   const showInfoClick = () => {
     if (shouldShowContact) {
@@ -109,11 +123,11 @@ export function SideBar(props) {
     if (shouldShowLabel) {
       setShouldShowLabel(!shouldShowLabel);
       setShouldShowSetting(!shouldShowSetting);
-    }else{
+    } else {
       setShouldShowSetting(!shouldShowSetting);
     }
   };
-  const showHelpClick = () =>{
+  const showHelpClick = () => {
     if (shouldShowContact) {
       setShouldShowContact(!shouldShowContact);
     }
@@ -125,12 +139,14 @@ export function SideBar(props) {
     }
     if (shouldShowSetting) {
       setShouldShowSetting(!shouldShowSetting);
-      setShouldShowHelp(!shouldShowHelp)
-
-    }else{
-      setShouldShowHelp(!shouldShowHelp)
+      setShouldShowHelp(!shouldShowHelp);
+    } else {
+      setShouldShowHelp(!shouldShowHelp);
     }
-  }
+  };
+
+    
+ 
   return (
     <View style={styles.mainContent}>
       <View style={styles.whiteView}>
@@ -155,7 +171,10 @@ export function SideBar(props) {
                 source={info}
                 style={{ width: width * 0.04, height: width * 0.04 }}
               />
-              <Text style={styles.itemTextMain}>My Information</Text>
+              {data == null ?
+              <Text style={styles.itemTextMain}>My Information</Text> :<Text style={styles.itemTextMain}>{data}</Text>  }
+             
+                
             </TouchableOpacity>
 
             <View>
@@ -305,10 +324,7 @@ export function SideBar(props) {
           </View>
 
           <View style={shouldShowHelp ? styles.darkView : styles.lightView}>
-            <TouchableOpacity
-              style={styles.item}
-              onPress={showHelpClick}
-            >
+            <TouchableOpacity style={styles.item} onPress={showHelpClick}>
               <Image
                 source={help}
                 style={{ width: width * 0.04, height: width * 0.04 }}
@@ -360,7 +376,6 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.main_text_color,
     flex: 1,
     paddingTop: height * 0.04,
-  
   },
 
   whiteView: {
@@ -458,14 +473,8 @@ const styles = StyleSheet.create({
 // function mapStateToProps(state) {
 //   return {
 //     theme: state.themeReducer.theme,
-   
 //     username: (state.login.shouldLoadData.username || state.reg.shouldLoadData.username),
-
+//     props:this.state.props
 //   };
 // }
-
-// const mapDispatchToProps = (dispatch) => ({
-//   switchTheme: bindActionCreators(switchTheme, dispatch),
-// });
-
-// export default connect(mapStateToProps)(Add);
+// export default connect(mapStateToProps)(SideBar);

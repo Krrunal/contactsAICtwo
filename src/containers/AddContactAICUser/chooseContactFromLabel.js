@@ -49,27 +49,7 @@ class chooseContactFromLabel extends Component {
       this.labelList();
     });
   }
-  labelList = () => {
-    this.setState({ isLoading: true }, async () => {
-      const baseurl = Constants.baseurl;
-      fetch(baseurl + "get_label")
-        .then((response) => {
-          return response.json();
-        })
-        .then((responseJson) => {
-          if (responseJson.data.relation == "") {
-            this.setState({ dataManage: [], isLoading: false });
-          } else {
-            var labelData = responseJson.data.relation.split(/,/);
-            this.setState({ dataManage: labelData, isLoading: false });
-          }
-        })
-        .catch((error) => {
-          console.error(error);
-          this.setState({ isLoading: false });
-        });
-    });
-  };
+  
   // labelList = () => {
   //   this.setState({ isLoading: true }, async () => {
   //     const baseurl = Constants.baseurl;
@@ -78,10 +58,12 @@ class chooseContactFromLabel extends Component {
   //         return response.json();
   //       })
   //       .then((responseJson) => {
-  //         var arr = responseJson.data.relation.split(/,/).map((item) => {
-  //           return { relation: item, isSelect: false };
-  //         });
-  //         this.setState({ dataManage: arr, isLoading: false });
+  //         if (responseJson.data.relation == "") {
+  //           this.setState({ dataManage: [], isLoading: false });
+  //         } else {
+  //           var labelData = responseJson.data.relation.split(/,/);
+  //           this.setState({ dataManage: labelData, isLoading: false });
+  //         }
   //       })
   //       .catch((error) => {
   //         console.error(error);
@@ -90,13 +72,34 @@ class chooseContactFromLabel extends Component {
   //   });
   // };
 
+  labelList = () => {
+    this.setState({ isLoading: true }, async () => {
+      const baseurl = Constants.baseurl;
+      fetch(baseurl + "get_label")
+        .then((response) => {
+          return response.json();
+        })
+        .then((responseJson) => {
+          console.log("response=---->",responseJson)
+          var arr = responseJson.data.relation.split(/,/).map((item) => {
+            return { relation: item, isSelect: false };
+          });
+          this.setState({ dataManage: arr, isLoading: false });
+        })
+        .catch((error) => {
+          console.error(error);
+          this.setState({ isLoading: false });
+        });
+    });
+  };
+
   labelApiCall = () => {
     const baseurl = Constants.baseurl;
     const relation = this.state.label;
     var _body = new FormData();
     _body.append("relation", relation);
 
-    console.log("state value === > ", relation);
+    //console.log("state value === > ", relation);
     fetch(baseurl + "add_label", {
       method: "POST",
       headers: {
@@ -163,8 +166,7 @@ class chooseContactFromLabel extends Component {
       />
     );
   }
-
-  renderMiddle() {
+renderMiddle() {
     return (
         <ScrollView>
         <View style={{ flex: 1, marginBottom: Metrics.xxdoubleBaseMargin }}>
@@ -179,7 +181,7 @@ class chooseContactFromLabel extends Component {
                 // onValueChange={item.isSelect}
                 tintColors={{ true: "#1374A3", false: "#1374A3" }}
               />
-           <Text style={[styles.itemText,{ color: this.props.theme.mode === "light" ? "#1374A3" : "white"} ]}>{item}</Text>
+           <Text style={[styles.itemText,{ color: this.props.theme.mode === "light" ? "#1374A3" : "white"} ]}>{item.relation}</Text>
             </View>
           ))}
 
@@ -204,14 +206,14 @@ class chooseContactFromLabel extends Component {
               />
             </View>
           )}
-
+{/* 
           <TouchableOpacity
             style={styles.mainView}
-            onPress={
-              this.state.viewSection == false
-                ? this.onPressAddLabel
-                : this.message
-            }
+            // onPress={
+            //   this.state.viewSection == false
+            //     ? this.onPressAddLabel
+            //     : this.message
+            // }
             disable={this.state.disabledLabel}
           >
             <Image
@@ -232,14 +234,11 @@ class chooseContactFromLabel extends Component {
                 Add
               </Text>
             </View>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
         
    </View>     
    </ScrollView>
-        
-        
-     
-    );
+     );
   }
 
   renderLast() {
@@ -314,7 +313,13 @@ class chooseContactFromLabel extends Component {
         <View style={{ flex: 1 }}>
           <Container>
             {this.renderHeader()}
-
+            <View style={{ alignItems: "center" }}>
+              <View style={styles.uperView}>
+                <Text style={styles.uperText}>
+                  Choose witch label(s) to associate with [ USERNAME ]
+                </Text>
+              </View>
+            </View>
             {this.renderMiddle()}
             {this.renderLast()}
           </Container>

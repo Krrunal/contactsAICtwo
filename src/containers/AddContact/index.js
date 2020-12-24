@@ -9,6 +9,7 @@ import React, { Component } from "react";
 import { darkTheme, lightTheme } from "../theme/themeProps";
 import styled, { ThemeProvider } from "styled-components/native";
 
+import AsyncStorage from "@react-native-community/async-storage";
 import GeneralStatusBar from "../../components/StatusBar/index";
 import Header from "../../components/header/index";
 import { addManualContact } from '../../services/FirebaseDatabase/manualContactToFirebase';
@@ -24,42 +25,16 @@ var { width, height } = Dimensions.get("window");
 class Add extends Component {
   constructor() {
     super();
+  this.state = { 
+    user_name:""
+  }}
 
-    this.state = {
-      profile_image:"",
-      first_name:"Abc",
-      middle_name:"",
-      last_name:"",
-      nick_name:"",
-      number1:"",
-      number2:"",
-      number3:"",
-      numberArray:"",
-      email:"",
-      email2:"",
-      emailArray:"",
-      address:"",
-      addressArray:"",
-      messenger1:"",
-      messenger2:"",
-      messangerArray:"",
-      social_media1:"",
-      social_media2:"",
-      socialMediaArray:"",
-      website1:"",
-      website2:"",
-      websiteArray:"",
-      dob:"",
-      dateArray:"",
-      note:"",
-      noteArray:"",
-      company:"",
-      companyArray:"",
-      job_title:"",
-      work_hour:"",
-        }}
-
-  
+  componentDidMount = async () => {
+     const {username} =this.props ;
+    // console.log("uname from addcontac--->",username);
+     await AsyncStorage.setItem("@sidemenuName", username);
+    
+  }
   renderHeader() {
     return (
       <Header
@@ -146,7 +121,7 @@ function mapStateToProps(state) {
     contact: (state.login.shouldLoadData.contact || state.reg.shouldLoadData.contact),
     email: (state.login.shouldLoadData.email || state.reg.shouldLoadData.email),
     username: (state.login.shouldLoadData.username || state.reg.shouldLoadData.username),
-    username: state.login.shouldLoadData.username,
+  //  username: state.login.shouldLoadData.username,
 
   };
 }

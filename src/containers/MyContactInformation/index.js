@@ -51,6 +51,7 @@ import note from "../../assets/images/note.png";
 import styles from "./style.js";
 import { switchTheme } from "../../action/themeAction";
 import { updateMyInfo } from "../../services/FirebaseDatabase/updateMyInfo";
+import uuid from 'react-native-uuid'
 import website from "../../assets/images/website.png";
 
 var { width, height } = Dimensions.get("window");
@@ -72,9 +73,18 @@ class MyContactInfromation extends Component {
       middle_name: "",
       last_name: "",
       nick_name: "",
-      number1: "",
-      number2: "",
-      number3: "",
+      number1:  {
+        number1: "",
+        label: "",
+      },
+      number2:  {
+        number2: "",
+        label: "",
+      },
+      number3:  {
+        number3: "",
+        label: "",
+      },
       value: "",
       email: {
         email: "",
@@ -324,7 +334,12 @@ class MyContactInfromation extends Component {
       isTrue: false,
     };
   }
-  componentDidMount = () => {
+  componentDidMount = async () => {
+    
+    console.log(uuid.v4())
+    let data = await randomBytes(32)
+    return uuid.v4();
+
     const { username } = this.props;
     firebase
       .firestore()
@@ -344,6 +359,7 @@ class MyContactInfromation extends Component {
         });
       });
   };
+
   ShowHideTextComponentView = () => {
     if (this.state.status == false) {
       this.setState({ status: true });
@@ -382,6 +398,7 @@ class MyContactInfromation extends Component {
       companyArray,
       job_title,
       work_hour,
+      mobileLabel
     } = this.state;
 
     const { user_id, username } = this.props;
@@ -419,6 +436,9 @@ class MyContactInfromation extends Component {
           if (number1 !== "") {
             firebase .firestore().collection("user").doc(`${username}`).update({ number1 : number1 });
           }
+          if(mobileLabel !== ""){
+            firebase .firestore().collection("user").doc(`${username}`).update({ number1 : number1 });
+           }
           if(email !== ""){
             firebase .firestore().collection("user").doc(`${username}`).update({ email: email });
            }
@@ -755,7 +775,7 @@ class MyContactInfromation extends Component {
     return (
       <Root>
         <View style={{ alignItems: "center" }}>
-          <Text style={styles.lableText}>Friend</Text>
+          {/* <Text style={styles.lableText}>Friend</Text> */}
           <View style={styles.middleView}>
             <View style={styles.firstMiddle}>
               <View style={styles.squareBorder}>
@@ -945,7 +965,8 @@ class MyContactInfromation extends Component {
     isVerified,
   }) => {
     if (isVerified == true) {
-      this.setState({ number1: unmaskedPhoneNumber });
+      this.state.number1.number1 = unmaskedPhoneNumber;
+      this.setState({ number1: this.state.number1,});
     } else {
       this.setState({ number1: unmaskedPhoneNumber });
     }

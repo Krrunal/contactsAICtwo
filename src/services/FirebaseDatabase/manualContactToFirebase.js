@@ -37,6 +37,7 @@ export const addManualContact =
         company1: company,
         company: companyArray,
         job_title: job_title,
-        work_hour: work_hour
+        work_hour: work_hour,
+       // ismanually:false
     })
 }
