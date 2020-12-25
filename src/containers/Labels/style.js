@@ -132,5 +132,13 @@ itemText:{
   fontFamily: Font.regular,
   color:COLORS.main_text_color,
   marginLeft:Metrics.baseMargin
-}
+},
+
+
+
+
+
+
+
+
  });

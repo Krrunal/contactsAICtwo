@@ -6,11 +6,12 @@ import {
   Text,
   TouchableOpacity,
   View,
+  FlatList,
 } from "react-native";
 import React, { Component, useState } from "react";
 import styled, { ThemeProvider } from "styled-components/native";
 import AsyncStorage from "@react-native-community/async-storage";
-
+import AutoDragSortableView from './AutoDragSortableView'
 import { COLORS } from "../theme/Colors.js";
 import Constants from "../../action/Constants";
 import Font from "../theme/font";
@@ -24,6 +25,11 @@ import { connect } from "react-redux";
 import styles from "./style.js";
 
 var { width, height } = Dimensions.get("window");
+
+const parentWidth = width
+const childrenWidth = width - 20
+const childrenHeight = 48
+
 class labels extends Component {
   constructor() {
     super();
@@ -37,7 +43,7 @@ class labels extends Component {
       viewSection: false,
       isLoading: false,
       selectedName: "",
-    }; 
+    };
     this.indexlabel = 0;
     this.animatedValue = new Animated.Value(0);
   }
@@ -60,12 +66,13 @@ class labels extends Component {
           if (responseJson.data.relation == "") {
             this.setState({ dataManage: [], isLoading: false });
           } else {
-            var labelData = responseJson.data.relation.split(/,/).map((item) => {
-             
-              return { relation: item, isSelect: false };
-            });
+            var labelData = responseJson.data.relation
+              .split(/,/)
+              .map((item) => {
+                return { relation: item, isSelect: false, isSwipe: false };
+              });
             this.setState({ dataManage: labelData, isLoading: false });
-            console.log("label data--->",this.state.dataManage);
+            console.log("label data--->", this.state.dataManage);
           }
         })
         .catch((error) => {
@@ -74,8 +81,18 @@ class labels extends Component {
         });
     });
   };
+
+  onSwipe = async (keyInd, item, relation) => {
+    console.log("keyyyy----->", keyInd);
+    let minus = keyInd - 1;
+    console.log("keyyyy----->", minus);
+    console.log(" relatuon----->", relation);
+    if (keyInd == 1) {
+    }
+  };
   onManage = async (keyInd, item) => {
     const { dataManage, selectedName } = this.state;
+
     let arr = dataManage.map((item, key) => {
       if (keyInd == key) {
         item.isSelect = !item.isSelect;
@@ -84,15 +101,14 @@ class labels extends Component {
     });
     this.setState({ dataManage: arr });
 
-    dataManage.map(async(item) => {
+    dataManage.map(async (item) => {
       item.isSelect == true
-        ?  await AsyncStorage.setItem("@selectedName", item.relation)
+        ? await AsyncStorage.setItem("@selectedName", item.relation)
         : console.log("selected------->", item.isSelect);
     });
     const selected = selectedName.toString();
-    this.props.navigation.navigate("ManageLable", { otherParam : selected });
+    this.props.navigation.navigate("ManageLable", { otherParam: selected });
   };
-  
 
   renderHeader() {
     return (
@@ -158,29 +174,42 @@ class labels extends Component {
       this.labelApiCall();
     }
   };
-  
+
+
   renderMiddle() {
     return (
       <ScrollView>
         <View style={{ flex: 1, marginBottom: Metrics.smallMargin }}>
           {this.state.dataManage.map((item, key) =>
             this.state.dataManage === [""] ? null : (
-              <View style={styles.tripleView} key={key}>
-                {this.props.theme.mode === "light" ? (
-                  <Icon
-                    name={"arrows-alt-v"}
-                    size={20}
-                    color={COLORS.main_text_color}
-                  />
-                ) : (
-                  <Icon name={"arrows-alt-v"} size={20} color={COLORS.white} />
-                )}
+              <View key={key} style={styles.tripleView}>
+                <TouchableOpacity
+                  style={{ width: width * 0.1 }}
+                  onPress={() => {
+                    this.onSwipe(key, item.isSelect);
+                  }}
+                >
+                  {this.props.theme.mode === "light" ? (
+                    <Icon
+                      name={"arrows-alt-v"}
+                      size={20}
+                      color={COLORS.main_text_color}
+                    />
+                  ) : (
+                    <Icon
+                      name={"arrows-alt-v"}
+                      size={20}
+                      color={COLORS.white}
+                    />
+                  )}
+                </TouchableOpacity>
 
                 <TouchableOpacity
                   style={styles.manageView}
                   onPress={() => {
                     this.onManage(key, item.isSelect);
-                  }}>
+                  }}
+                >
                   <Text style={styles.manageText}>Manage</Text>
                 </TouchableOpacity>
                 <Text
@@ -272,6 +301,57 @@ class labels extends Component {
       return <Spinner />;
     }
   }
+  renderItem(item,index) {
+    return (
+      <ScrollView>
+      <View style={{ flex: 1, marginBottom: Metrics.smallMargin }}>
+            <View  style={styles.tripleView}>
+                <TouchableOpacity
+                  style={{ width: width * 0.1 }}
+                  onPress={() => {
+                    this.onSwipe(key, item.isSelect);
+                  }}
+                >
+                  {this.props.theme.mode === "light" ? (
+                    <Icon
+                      name={"arrows-alt-v"}
+                      size={20}
+                      color={COLORS.main_text_color}
+                    />
+                  ) : (
+                    <Icon
+                      name={"arrows-alt-v"}
+                      size={20}
+                      color={COLORS.white}
+                    />
+                  )}
+                </TouchableOpacity>
+
+                <TouchableOpacity
+                  style={styles.manageView}
+                  onPress={() => {
+                    this.onManage(key, item.isSelect);
+                  }}
+                >
+                  <Text style={styles.manageText}>Manage</Text>
+                </TouchableOpacity>
+                <Text
+                  style={[
+                    styles.itemText,
+                    {
+                      color:
+                        this.props.theme.mode === "light" ? "#1374A3" : "white",
+                    },
+                  ]}
+                >
+                  {item.relation}
+                </Text>
+              </View>
+           
+            </View>
+      </ScrollView>
+    )
+}
 
   render() {
     return (
@@ -288,7 +368,31 @@ class labels extends Component {
         <View style={{ flex: 1 }}>
           <Container>
             {this.renderHeader()}
-            {this.renderMiddle()}
+            {/* {this.renderMiddle()} */}
+
+                 <AutoDragSortableView
+                    dataSource={this.state.dataManage}
+                    
+                    parentWidth={parentWidth}
+                    childrenWidth= {childrenWidth}
+                    marginChildrenBottom={10}
+                    marginChildrenRight={10}
+                    marginChildrenLeft = {10}
+                    marginChildrenTop={10}
+                    childrenHeight={childrenHeight}
+                    
+                    onDataChange = {(dataManage)=>{
+                        if (dataManage.length != this.state.dataManage.length) {
+                            this.setState({
+                              dataManage: dataManage
+                            })
+                        }
+                    }}
+                    keyExtractor={(item,index)=> item.txt} // FlatList作用一样，优化
+                    renderItem={(item,index)=>{
+                        return this.renderItem(item,index)
+                    }}
+                    />
             {this.renderLast()}
             <Toast
               ref="toast"
