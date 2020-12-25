@@ -57,11 +57,13 @@ class searchContact extends Component {
       .doc(username)
       .collection("contacts")
       .get()
-      .then((url) => {
-       console.log("url",url)
-      
+      .then(function (querySnapshot) {
+        let posts = querySnapshot.docs.map((doc) => doc.data());
+        console.log("querySnapshot--->", posts);
+        // console.log(posts)
+        return posts;
       })
-      .catch((e) => console.log('getting downloadURL of image error => ', e));
+      .catch((e) => console.log("getting downloadURL of image error => ", e));
   }
 
   async contactList() {
@@ -129,18 +131,39 @@ class searchContact extends Component {
     const character = (item.user_name || item.first_name).charAt(0);
     return (
       <View style={styles.quardView}>
-        {/* <Image source={item.profile_image}  style={styles.editImgStyle} /> */}
         <View style={styles.imgView}>
-          <Text
-            style={[
-              styles.img_text,
-              {
-                color: this.props.theme.mode === "light" ? "#1374A3" : "white",
-              },
-            ]}
-          >
-            {character}
-          </Text>
+          {item.profile_image == "" ? (
+            item.profile_image2 == "" ? (
+              item.profile_image3 == "" ? (
+                <Text
+                  style={[
+                    styles.img_text,
+                    {
+                      color:
+                        this.props.theme.mode === "light" ? "#1374A3" : "white",
+                    },
+                  ]}
+                >
+                  {character}
+                </Text>
+              ) : (
+                <Image
+                  source={{ uri: item.profile_image3 }}
+                  style={styles.profileImage}
+                />
+              )
+            ) : (
+              <Image
+                source={{ uri: item.profile_image2 }}
+                style={styles.profileImage}
+              />
+            )
+          ) : (
+            <Image
+              source={{ uri: item.profile_image }}
+              style={styles.profileImage}
+            />
+          )}
         </View>
 
         {this.props.nameChange.mode == "firstName" ? (

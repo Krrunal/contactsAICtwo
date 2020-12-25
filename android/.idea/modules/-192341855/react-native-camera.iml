@@ -31,10 +31,10 @@
     <output-test url="file://$MODULE_DIR$/../../../../node_modules/react-native-camera/android/build/intermediates/javac/generalDebugUnitTest/classes" />
     <exclude-output />
     <content url="file://$MODULE_DIR$/../../../../node_modules/react-native-camera/android">
-      <sourceFolder url="file://$MODULE_DIR$/../../../../node_modules/react-native-camera/android/build/generated/renderscript_source_output_dir/generalDebug/out" isTestSource="false" generated="true" />
-      <sourceFolder url="file://$MODULE_DIR$/../../../../node_modules/react-native-camera/android/build/generated/aidl_source_output_dir/generalDebug/out" isTestSource="false" generated="true" />
       <sourceFolder url="file://$MODULE_DIR$/../../../../node_modules/react-native-camera/android/build/generated/ap_generated_sources/generalDebug/out" isTestSource="false" generated="true" />
+      <sourceFolder url="file://$MODULE_DIR$/../../../../node_modules/react-native-camera/android/build/generated/aidl_source_output_dir/generalDebug/out" isTestSource="false" generated="true" />
       <sourceFolder url="file://$MODULE_DIR$/../../../../node_modules/react-native-camera/android/build/generated/source/buildConfig/general/debug" isTestSource="false" generated="true" />
+      <sourceFolder url="file://$MODULE_DIR$/../../../../node_modules/react-native-camera/android/build/generated/renderscript_source_output_dir/generalDebug/out" isTestSource="false" generated="true" />
       <sourceFolder url="file://$MODULE_DIR$/../../../../node_modules/react-native-camera/android/build/generated/res/rs/general/debug" type="java-resource" generated="true" />
       <sourceFolder url="file://$MODULE_DIR$/../../../../node_modules/react-native-camera/android/src/generalDebug/res" type="java-resource" />
       <sourceFolder url="file://$MODULE_DIR$/../../../../node_modules/react-native-camera/android/src/generalDebug/resources" type="java-resource" />
@@ -43,10 +43,10 @@
       <sourceFolder url="file://$MODULE_DIR$/../../../../node_modules/react-native-camera/android/src/generalDebug/java" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../../../node_modules/react-native-camera/android/src/generalDebug/rs" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../../../node_modules/react-native-camera/android/src/generalDebug/shaders" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/../../../../node_modules/react-native-camera/android/build/generated/renderscript_source_output_dir/generalDebugAndroidTest/out" isTestSource="true" generated="true" />
       <sourceFolder url="file://$MODULE_DIR$/../../../../node_modules/react-native-camera/android/build/generated/ap_generated_sources/generalDebugAndroidTest/out" isTestSource="true" generated="true" />
       <sourceFolder url="file://$MODULE_DIR$/../../../../node_modules/react-native-camera/android/build/generated/aidl_source_output_dir/generalDebugAndroidTest/out" isTestSource="true" generated="true" />
       <sourceFolder url="file://$MODULE_DIR$/../../../../node_modules/react-native-camera/android/build/generated/source/buildConfig/androidTest/general/debug" isTestSource="true" generated="true" />
+      <sourceFolder url="file://$MODULE_DIR$/../../../../node_modules/react-native-camera/android/build/generated/renderscript_source_output_dir/generalDebugAndroidTest/out" isTestSource="true" generated="true" />
       <sourceFolder url="file://$MODULE_DIR$/../../../../node_modules/react-native-camera/android/build/generated/res/rs/androidTest/general/debug" type="java-test-resource" generated="true" />
       <sourceFolder url="file://$MODULE_DIR$/../../../../node_modules/react-native-camera/android/src/androidTestGeneralDebug/res" type="java-test-resource" />
       <sourceFolder url="file://$MODULE_DIR$/../../../../node_modules/react-native-camera/android/src/androidTestGeneralDebug/resources" type="java-test-resource" />

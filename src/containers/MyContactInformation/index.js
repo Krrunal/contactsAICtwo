@@ -145,7 +145,8 @@ class MyContactInfromation extends Component {
       image2: null,
       image3: null,
       profile_image: "",
-
+      profile_image2: "",
+      profile_image3: "",
       numberArray: [],
       emailArray: [],
       addressArray: [],
@@ -336,28 +337,7 @@ class MyContactInfromation extends Component {
   }
   componentDidMount = async () => {
     
-    console.log(uuid.v4())
-    let data = await randomBytes(32)
-    return uuid.v4();
-
-    const { username } = this.props;
-    firebase
-      .firestore()
-      .collection("user")
-      .doc(username)
-      .collection("myInfo")
-      .get()
-      .then((snap) => {
-        if (!snap.empty) {
-          //  alert("empty");
-        } else {
-          // alert("full");
-        }
-        snap.forEach((doc) => {
-          var item = doc._data;
-          console.log("My Info ------> ", item);
-        });
-      });
+    
   };
 
   ShowHideTextComponentView = () => {
@@ -368,6 +348,8 @@ class MyContactInfromation extends Component {
     }
     const {
       profile_image,
+      profile_image2,
+      profile_image3,
       first_name,
       middle_name,
       last_name,
@@ -430,6 +412,9 @@ class MyContactInfromation extends Component {
           job_title !== "" ||
           work_hour !== ""
         ) {
+          if (profile_image !== "") {
+            firebase .firestore().collection("user").doc(`${username}`).update({ profile_image : profile_image });
+          }
           if (first_name !== "") {
             firebase .firestore().collection("user").doc(`${username}`).update({ first_name: first_name });
           }
@@ -494,10 +479,9 @@ class MyContactInfromation extends Component {
            }
           this.setState({
             status: false,
-            image: "",
-            image2: "",
-            image3: "",
-
+            profile_image: "", 
+            profile_image2: "",
+            profile_image3: "",
             first_name: "",
             middle_name: "",
             last_name: "",
@@ -611,6 +595,8 @@ class MyContactInfromation extends Component {
       height: 400,
       cropping: true,
     }).then((image) => {
+      this.setState({ profile_image : image.path });
+      console.log("URI ......>",image.path);
       console.log(image);
       this.setState({
         image: {
@@ -630,11 +616,8 @@ class MyContactInfromation extends Component {
       height: 400,
       cropping: true,
     }).then((image) => {
-      const profile_image = image.path.substring(
-        image.path.lastIndexOf("/") + 1
-      );
-      this.setState({ profile_image: profile_image });
-      console.log("profile", this.state.profile_image);
+      this.setState({ profile_image : image.path });
+      console.log("URI ......>",image.path);
       this.setState({
         image: {
           uri: image.path,
@@ -652,6 +635,7 @@ class MyContactInfromation extends Component {
       height: 400,
       cropping: true,
     }).then((image2) => {
+      this.setState({ profile_image2 : image.path });
       console.log(image2);
       this.setState({
         image2: {
@@ -670,6 +654,7 @@ class MyContactInfromation extends Component {
       height: 400,
       cropping: true,
     }).then((image2) => {
+      this.setState({ profile_image2 : image.path });
       console.log(image2);
       this.setState({
         image2: {
@@ -689,6 +674,7 @@ class MyContactInfromation extends Component {
       height: 400,
       cropping: true,
     }).then((image3) => {
+      this.setState({ profile_image3 : image.path });
       console.log(image3);
       this.setState({
         image3: {
@@ -708,6 +694,7 @@ class MyContactInfromation extends Component {
       height: 400,
       cropping: true,
     }).then((image3) => {
+      this.setState({ profile_image3 : image.path });
       console.log(image3);
       this.setState({
         image3: {

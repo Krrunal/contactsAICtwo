@@ -193,7 +193,7 @@ export default StyleSheet.create({
     flexDirection: "row",
     flex: 1,
     marginRight: Metrics.xsmallMargin,
- 
+
   },
 
   rightViewAdress: {
@@ -322,6 +322,7 @@ export default StyleSheet.create({
     justifyContent: "flex-end",
     flexDirection: "row",
     flex: 1,
+    borderWidth:1
   },
 
   saveView: {

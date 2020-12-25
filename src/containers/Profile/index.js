@@ -13,6 +13,7 @@ import {
 } from "react-native";
 import React, { Component, useState } from "react";
 import styled, { ThemeProvider } from "styled-components/native";
+import { Spinner } from "../../components/Spinner";
 
 import { COLORS } from "../theme/Colors.js";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
@@ -58,25 +59,25 @@ class Profile extends Component {
     this.state = {
       contact: [],
       contacts: "",
-
+      isLoading: false,
       //data from firebase
-      address: {address : "",label: "" }, 
-      company:{ company: "",label: "" }, 
+      address: { address: "", label: "" },
+      company: { company: "", label: "" },
       // date: "",
       dob1: "",
-      email: "",
-      job_title:  { jobTitle:"",label: "" }, 
-      messenger:{ messanger: "",label: "" }, 
-      facebook:{ socialMedia: "",label: "" }, 
-      instagram:{ instagram:  "",label: "" }, 
+      email: { email: "", label: "" },
+      job_title: { jobTitle: "", label: "" },
+      messenger: { messanger: "", label: "" },
+      facebook: { socialMedia: "", label: "" },
+      instagram: { instagram: "", label: "" },
       // note1: "",
       number: "",
       number1: { number1: "", label: "" },
       number2: { number2: "", label: "" },
       number3: { number3: "", label: "" },
       social_media: "",
-      website: { website:"",label: "" },
-      work_hour:  { workHours: "", label: "" },
+      website: { website: "", label: "" },
+      work_hour: { workHours: "", label: "" },
       friends: "",
       //  data from firebase finish
       isVisible: false,
@@ -101,7 +102,7 @@ class Profile extends Component {
       dateLabel: "",
       wedding_anniversary: { date: "", label: "" },
       wedding_anniversaryLabel: "",
-      note_profile: { note : "", label: "" },
+      note_profile: { note: "", label: "" },
       work_hour_profile: { workHours: "", label: "" },
       company_profile: { company: "", label: "" },
       job_title_profile: { jobTitle: "", label: "" },
@@ -109,7 +110,7 @@ class Profile extends Component {
       website1: "",
       website2: "",
       dob: "",
-      note1: "",
+      note: { note: "", label: "" },
       company1: "",
       job_title: "",
       work_hour: "",
@@ -272,37 +273,42 @@ class Profile extends Component {
 
   componentDidMount() {
     const { username } = this.props;
-    firebase
-      .firestore()
-      .collection("user")
-      .doc(username)
-      .get()
-      .then((snap) => {
-        var item = snap._data;
-        this.setState({ contact:  item });
-         console.log("social media ---->",  item.date );
-        this.setState({ mobileLabel: item.mobileLabel });
-        this.setState({ email: item.email.email });
-        this.setState({ emailLabel: item.email.label });
-        this.setState({ address: item.address });
-        this.setState({ company: item.company });
-        this.setState({ date: item.date });
-        this.setState({ wedding : item.wedding });
-        this.setState({ job_title: item.job_title });
-        this.setState({ messenger: item.messenger });
-        this.setState({ facebook: item.facebook });
-        this.setState({ messenger2: item.messenger2 });
-        this.setState({ note1: item.note });
-        this.setState({ number: item.number });
-        this.setState({ number1: item.number1 });
-        this.setState({ number2: item.number2 });
-        this.setState({ number3: item.number3 });
-        this.setState({ social_media: item.social_media });
-        this.setState({ social_media1: item.social_media1 });
-        this.setState({ website: item.website1.website });
-        this.setState({ work_hour: item.work_hour.workHours });
-        this.setState({ friends: item.friend });
-      });
+    this.setState({ isLoading: true }, () => {
+      firebase
+        .firestore()
+        .collection("user")
+        .doc(username)
+        .get()
+        .then((snap) => {
+          this.setState({ isLoading: false });
+          var item = snap._data;
+          this.setState({ contact: item });
+          console.log("social media ---->", item);
+          this.setState({ profile_image: item.profile_image });
+          this.setState({ mobileLabel: item.mobileLabel });
+          this.setState({ email: item.email });
+          // this.setState({ emailLabel: item.email.label });
+          this.setState({ address: item.address });
+          this.setState({ company: item.company });
+          this.setState({ date: item.date });
+          this.setState({ wedding: item.wedding });
+          this.setState({ job_title: item.job_title });
+          this.setState({ messenger: item.messenger });
+          this.setState({ facebook: item.facebook });
+          this.setState({ messenger2: item.messenger2 });
+          this.setState({ note: item.note });
+          this.setState({ number: item.number });
+          this.setState({ number1: item.number1 });
+
+          this.setState({ number2: item.number2 });
+          this.setState({ number3: item.number3 });
+          this.setState({ social_media: item.social_media });
+          this.setState({ social_media1: item.social_media1 });
+          this.setState({ website: item.website1.website });
+          this.setState({ work_hour: item.work_hour.workHours });
+          this.setState({ friends: item.friend });
+        });
+    });
   }
 
   renderImg() {
@@ -317,24 +323,45 @@ class Profile extends Component {
       >
         <View style={styles.ImgBigView}>
           <View style={styles.imgView}>
-            <ImageBackground
-              source={require("../../assets/images/person.png")}
-              style={styles.imgStyle}
-            >
-              <View style={styles.OverImageText}>
-                <TouchableOpacity
-                  style={{ alignItems: "center", flexDirection: "row" }}
-                  onPress={this.Profilenavigate}
-                >
-                  <Icon
-                    name={"angle-left"}
-                    size={27}
-                    color={COLORS.main_text_color}
-                  />
-                  <Text style={styles.backText}>Back</Text>
-                </TouchableOpacity>
-              </View>
-            </ImageBackground>
+            {this.state.profile_image == "" ? (
+              <ImageBackground
+                source={require("../../assets/images/person.png")}
+                style={styles.imgStyle}
+              >
+                <View style={styles.OverImageText}>
+                  <TouchableOpacity
+                    style={{ alignItems: "center", flexDirection: "row" }}
+                    onPress={this.Profilenavigate}
+                  >
+                    <Icon
+                      name={"angle-left"}
+                      size={27}
+                      color={COLORS.main_text_color}
+                    />
+                    <Text style={styles.backText}>Back</Text>
+                  </TouchableOpacity>
+                </View>
+              </ImageBackground>
+            ) : (
+              <ImageBackground
+                source={{ uri: this.state.profile_image }}
+                style={styles.imgStyle}
+              >
+                <View style={styles.OverImageText}>
+                  <TouchableOpacity
+                    style={{ alignItems: "center", flexDirection: "row" }}
+                    onPress={this.Profilenavigate}
+                  >
+                    <Icon
+                      name={"angle-left"}
+                      size={27}
+                      color={COLORS.main_text_color}
+                    />
+                    <Text style={styles.backText}>Back</Text>
+                  </TouchableOpacity>
+                </View>
+              </ImageBackground>
+            )}
           </View>
 
           <Text style={styles.profileText}>Sean Green</Text>
@@ -432,10 +459,10 @@ class Profile extends Component {
   }) => {
     if (isVerified == true) {
       this.state.number1.number1 = unmaskedPhoneNumber;
-      this.setState({ number1: this.state.number1,});
+      this.setState({ number1: this.state.number1 });
     } else {
       this.state.number1.number1 = unmaskedPhoneNumber;
-      this.setState({number1: this.state.number1 });
+      this.setState({ number1: this.state.number1 });
     }
   };
   onChangeNumber2 = ({
@@ -446,10 +473,10 @@ class Profile extends Component {
   }) => {
     if (isVerified == true) {
       this.state.number2.number1 = unmaskedPhoneNumber;
-      this.setState({ number1: this.state.number2});
+      this.setState({ number1: this.state.number2 });
     } else {
       this.state.number2.number2 = unmaskedPhoneNumber;
-      this.setState({ number2: this.state.number2});
+      this.setState({ number2: this.state.number2 });
     }
   };
   onChangeNumber3 = ({
@@ -460,10 +487,10 @@ class Profile extends Component {
   }) => {
     if (isVerified == true) {
       this.state.number3.number3 = unmaskedPhoneNumber;
-      this.setState({ number3: this.state.number3});
+      this.setState({ number3: this.state.number3 });
     } else {
       this.state.number3.number3 = unmaskedPhoneNumber;
-      this.setState({ number3: this.state.number3});
+      this.setState({ number3: this.state.number3 });
     }
   };
   renderMobileLabel = ({ item, index }) => {
@@ -531,7 +558,9 @@ class Profile extends Component {
                 isProfile={false}
               />
             ) : (
-              <Text style={styles.stylefiledText}>{this.state.number1.number1 }</Text>
+              <Text style={styles.stylefiledText}>
+                {this.state.number1.number1}
+              </Text>
             )}
 
             <View style={styles.rightView}>
@@ -544,13 +573,22 @@ class Profile extends Component {
                   }}
                 >
                   {this.state.status == true ? null : (
-                    <View style={styles.rightTwoImg}>
-                      <View>
-                        <Image source={edit} style={styles.editImg} />
+                    <View>
+                      <View style={styles.rightTwoImg}>
+                        <View>
+                          <Image source={edit} style={styles.editImg} />
+                        </View>
+                        <View style={styles.resetImg}>
+                          <Image source={reset} style={styles.editImg} />
+                        </View>
                       </View>
-                      <View style={styles.resetImg}>
-                        <Image source={reset} style={styles.editImg} />
-                      </View>
+                      {this.state.number1.label == "" ? (
+                        <Text style={styles.righttext}>Home</Text>
+                      ) : (
+                        <Text style={styles.righttext}>
+                          {this.state.number1.label}
+                        </Text>
+                      )}
                     </View>
                   )}
                   {this.state.status == true ? (
@@ -685,7 +723,9 @@ class Profile extends Component {
                 isProfile={false}
               />
             ) : (
-              <Text style={styles.stylefiledText}>{this.state.number2.number2}</Text>
+              <Text style={styles.stylefiledText}>
+                {this.state.number2.number2}
+              </Text>
             )}
 
             <View style={styles.rightView}>
@@ -707,7 +747,13 @@ class Profile extends Component {
                           <Image source={reset} style={styles.editImg} />
                         </View>
                       </View>
-                      <Text style={styles.righttext}>Home</Text>
+                      {this.state.number2.label == "" ? (
+                        <Text style={styles.righttext}>Home</Text>
+                      ) : (
+                        <Text style={styles.righttext}>
+                          {this.state.number2.label}
+                        </Text>
+                      )}
                     </View>
                   )}
                   {this.state.status == true ? (
@@ -847,7 +893,9 @@ class Profile extends Component {
               // this.state.number3 == "" ? (
               //   <Text style={styles.stylefiledText}>+1 (303) 123-4567</Text>
               // ) :
-              <Text style={styles.stylefiledText}>{this.state.number3.number3}</Text>
+              <Text style={styles.stylefiledText}>
+                {this.state.number3.number3}
+              </Text>
             )}
             <View style={styles.rightView}>
               <View>
@@ -861,7 +909,13 @@ class Profile extends Component {
                         <Image source={reset} style={styles.editImg} />
                       </View>
                     </View>
-                    <Text style={styles.righttext}>Personal</Text>
+                    {this.state.number3.label == "" ? (
+                      <Text style={styles.righttext}>Home</Text>
+                    ) : (
+                      <Text style={styles.righttext}>
+                        {this.state.number3.label}
+                      </Text>
+                    )}
                   </View>
                 )}
 
@@ -1010,7 +1064,9 @@ class Profile extends Component {
                 onChangeText={(value) => this.onChangeEmail(value)}
               />
             ) : (
-              <Text style={styles.stylefiledText}>{this.state.email}</Text>
+              <Text style={styles.stylefiledText}>
+                {this.state.email.email}
+              </Text>
             )}
 
             <View style={styles.rightView}>
@@ -1025,7 +1081,13 @@ class Profile extends Component {
                         <Image source={reset} style={styles.editImg} />
                       </View>
                     </View>
-                    <Text style={styles.righttext}>Home</Text>
+                    {this.state.email.label == "" ? (
+                      <Text style={styles.righttext}>Home</Text>
+                    ) : (
+                      <Text style={styles.righttext}>
+                        {this.state.email.label}
+                      </Text>
+                    )}
                   </View>
                 )}
                 {this.state.status ? (
@@ -1220,7 +1282,13 @@ class Profile extends Component {
                             <Image source={reset} style={styles.editImg} />
                           </View>
                         </View>
-                        <Text style={styles.righttext}>Home</Text>
+                        {this.state.address.label == "" ? (
+                          <Text style={styles.righttext}>Personal</Text>
+                        ) : (
+                          <Text style={styles.righttext}>
+                            {this.state.address.label}
+                          </Text>
+                        )}
                       </View>
                     )}
                   </View>
@@ -1368,7 +1436,9 @@ class Profile extends Component {
                 onChangeText={(value) => this.onChangeMessenger(value)}
               />
             ) : (
-              <Text style={styles.stylefiledText}>{this.state.messenger.messanger}</Text>
+              <Text style={styles.stylefiledText}>
+                {this.state.messenger.messanger}
+              </Text>
             )}
 
             <View style={styles.rightView}>
@@ -1390,7 +1460,13 @@ class Profile extends Component {
                           <Image source={reset} style={styles.editImg} />
                         </View>
                       </View>
-                      <Text style={styles.righttext}>Facebook Messanger</Text>
+                      {this.state.messenger.label == "" ? (
+                        <Text style={styles.righttext}>Facebook Messanger</Text>
+                      ) : (
+                        <Text style={styles.righttext}>
+                          {this.state.messenger.label}
+                        </Text>
+                      )}
                     </View>
                   )}
 
@@ -1551,7 +1627,9 @@ class Profile extends Component {
                 onChangeText={(value) => this.onChangeSocialMedia(value)}
               />
             ) : (
-         <Text style={styles.stylefiledText}>{this.state.facebook.socialMedia}</Text>
+              <Text style={styles.stylefiledText}>
+                {this.state.facebook.socialMedia}
+              </Text>
             )}
 
             <View style={styles.rightView}>
@@ -1573,7 +1651,13 @@ class Profile extends Component {
                           <Image source={reset} style={styles.editImg} />
                         </View>
                       </View>
-                      <Text style={styles.righttext}>Facebook</Text>
+                      {this.state.facebook.label == "" ? (
+                        <Text style={styles.righttext}>Facebook</Text>
+                      ) : (
+                        <Text style={styles.righttext}>
+                          {this.state.facebook.label}
+                        </Text>
+                      )}
                     </View>
                   )}
                   {this.state.status == true ? (
@@ -1616,7 +1700,9 @@ class Profile extends Component {
                 onChangeText={(value) => this.onChangeSocialMedia2(value)}
               />
             ) : (
-              <Text style={styles.stylefiledText}>{this.state.instagram.instagram}</Text>
+              <Text style={styles.stylefiledText}>
+                {this.state.instagram.instagram}
+              </Text>
             )}
 
             <View style={styles.rightView}>
@@ -1638,7 +1724,13 @@ class Profile extends Component {
                           <Image source={reset} style={styles.editImg} />
                         </View>
                       </View>
-                      <Text style={styles.righttext}>Instagram</Text>
+                      {this.state.instagram.label == "" ? (
+                        <Text style={styles.righttext}>Instagram</Text>
+                      ) : (
+                        <Text style={styles.righttext}>
+                          {this.state.instagram.label}
+                        </Text>
+                      )}
                     </View>
                   )}
                   {this.state.status == true ? (
@@ -1881,7 +1973,9 @@ class Profile extends Component {
                 onChangeText={(value) => this.onChangeWebsite(value)}
               />
             ) : (
-              <Text style={styles.stylefiledText}>{this.state.website.website}</Text>
+              <Text style={styles.stylefiledText}>
+                {this.state.website.website}
+              </Text>
             )}
 
             <View style={styles.rightView}>
@@ -1903,7 +1997,13 @@ class Profile extends Component {
                           <Image source={reset} style={styles.editImg} />
                         </View>
                       </View>
-                      <Text style={styles.righttext}>Personal</Text>
+                      {this.state.website.label == "" ? (
+                        <Text style={styles.righttext}>Personal</Text>
+                      ) : (
+                        <Text style={styles.righttext}>
+                          {this.state.website.label}
+                        </Text>
+                      )}
                     </View>
                   )}
                   {this.state.status == true ? (
@@ -2087,7 +2187,7 @@ class Profile extends Component {
                 </View>
               ) : null}
               <Text style={styles.dateText}>{this.state.date.date}</Text>
-            
+
               <DateTimePickerModal
                 isVisible={this.state.isVisible}
                 onConfirm={this.onChangeDate}
@@ -2113,7 +2213,13 @@ class Profile extends Component {
                             <Image source={reset} style={styles.editImg} />
                           </View>
                         </View>
-                        <Text style={styles.righttext}>Birthday</Text>
+                        {this.state.date.label == "" ? (
+                          <Text style={styles.righttext}>Birthday</Text>
+                        ) : (
+                          <Text style={styles.righttext}>
+                            {this.state.date.label}
+                          </Text>
+                        )}
                       </View>
                     )}
                     {this.state.status == true ? (
@@ -2133,7 +2239,8 @@ class Profile extends Component {
                       </TouchableHighlight>
                     ) : null}
 
-                    {this.state.date.label !== "" ? (
+                    {this.state.date.label !== "" &&
+                    this.state.status !== true ? (
                       <View style={[styles.rightView]}>
                         <Text style={styles.righttext}>
                           {this.state.date.label}
@@ -2209,9 +2316,15 @@ class Profile extends Component {
                             <Image source={reset} style={styles.editImg} />
                           </View>
                         </View>
-                        <Text style={styles.righttext}>
-                          wedding anniversary
-                        </Text>
+                        {this.state.wedding.label == "" ? (
+                          <Text style={styles.righttext}>
+                            wedding anniversary
+                          </Text>
+                        ) : (
+                          <Text style={styles.righttext}>
+                            {this.state.wedding.label}
+                          </Text>
+                        )}
                       </View>
                     )}
                     {this.state.status == true ? (
@@ -2246,7 +2359,9 @@ class Profile extends Component {
             </TouchableOpacity>
           ) : (
             <View style={styles.filedViewRightTwo}>
-              <Text style={styles.stylefiledText}>{this.state.wedding.date}</Text>
+              <Text style={styles.stylefiledText}>
+                {this.state.wedding.date}
+              </Text>
               <View style={styles.rightView}>
                 <View>
                   <View
@@ -2264,9 +2379,7 @@ class Profile extends Component {
                         <Image source={reset} style={styles.editImg} />
                       </View>
                     </View>
-                    <Text style={styles.righttext}>
-                  wedding anniversary 
-                    </Text>
+                    <Text style={styles.righttext}>wedding anniversary</Text>
                   </View>
                 </View>
               </View>
@@ -2480,7 +2593,9 @@ class Profile extends Component {
                   onChangeText={(value) => this.onChangeNote(value)}
                 />
               ) : (
-                <Text style={styles.stylefiledText}>{this.state.note1.note}</Text>
+                <Text style={styles.stylefiledText}>
+                  {this.state.note.note}
+                </Text>
               )}
 
               <View style={styles.rightView}>
@@ -2502,7 +2617,13 @@ class Profile extends Component {
                             <Image source={reset} style={styles.editImg} />
                           </View>
                         </View>
-                        <Text style={styles.righttext}>Note</Text>
+                        {this.state.note.label == "" ? (
+                          <Text style={styles.righttext}>Note</Text>
+                        ) : (
+                          <Text style={styles.righttext}>
+                            {this.state.note.label}
+                          </Text>
+                        )}
                       </View>
                     )}
                     {this.state.status ? (
@@ -2652,7 +2773,9 @@ class Profile extends Component {
                 onChangeText={(value) => this.onChangeCompany(value)}
               />
             ) : (
-              <Text style={styles.stylefiledText}>{this.state.company.company}</Text>
+              <Text style={styles.stylefiledText}>
+                {this.state.company.company}
+              </Text>
             )}
 
             <View style={styles.rightView}>
@@ -2691,7 +2814,9 @@ class Profile extends Component {
                 onChangeText={(value) => this.onChangeJobTitle(value)}
               />
             ) : (
-              <Text style={styles.stylefiledText}>{this.state.job_title.jobTitle}</Text>
+              <Text style={styles.stylefiledText}>
+                {this.state.job_title.jobTitle}
+              </Text>
             )}
 
             <View style={styles.rightView}>
@@ -2746,23 +2871,26 @@ class Profile extends Component {
                   {this.state.work_hour}
                 </Text>
               )}
-
               <View style={styles.rightView}>
                 <View>
                   <View
                     style={{
                       flex: 1,
                       alignItems: "flex-end",
-                      width: width * 0.35,
+                      width: width * 0.23,
                     }}
                   >
-                    <View style={styles.rightTwoCompany}>
-                      <Image source={reset} style={styles.editImg} />
-                      <View style={styles.resetImg}></View>
+                    <View>
+                      <View style={styles.rightTwoImg}>
+                        <View style={styles.resetImg}>
+                          <Image source={reset} style={styles.editImg} />
+                        </View>
+                      </View>
                     </View>
                   </View>
                 </View>
               </View>
+             
             </View>
             <Text style={styles.righttext}>Pacific Time Zone</Text>
             <Text style={styles.righttext}> Work hours</Text>
@@ -2914,6 +3042,12 @@ class Profile extends Component {
     }
   };
 
+  showLoader() {
+    if (this.state.isLoading == true) {
+      return <Spinner />;
+    }
+  }
+
   render() {
     return (
       <ThemeProvider theme={this.props.theme}>
@@ -2925,47 +3059,49 @@ class Profile extends Component {
             this.props.theme.mode === "dark" ? "light-content" : "dark-content"
           }
         />
-
-        <Container>
-          <ScrollView style={{ flex: 1 }}>
-            {this.renderImg()}
-            {this.renderMiddle()}
-            {this.renderFriend()}
-            {this.renderMobile()}
-            {this.renderEmail()}
-            {this.renderAddress()}
-            {this.renderMesssanger()}
-            {this.renderSocialMedia()}
-            {this.renderWebsite()}
-            {this.renderDate()}
-            {this.renderNote()}
-            {this.renderCompany()}
-          </ScrollView>
-          <View
-            style={{
-              width: width * 0.9,
-              flexDirection: "row",
-              alignItems: "center",
-              justifyContent: "flex-end",
-              flexDirection: "row",
-            }}
-          >
-            <TouchableHighlight
-              style={styles.saveView}
-              onPress={this.ShowHideTextComponentView}
+        <View style={{ flex: 1 }}>
+          <Container>
+            <ScrollView style={{ flex: 1 }}>
+              {this.renderImg()}
+              {this.renderMiddle()}
+              {this.renderFriend()}
+              {this.renderMobile()}
+              {this.renderEmail()}
+              {this.renderAddress()}
+              {this.renderMesssanger()}
+              {this.renderSocialMedia()}
+              {this.renderWebsite()}
+              {this.renderDate()}
+              {this.renderNote()}
+              {this.renderCompany()}
+            </ScrollView>
+            <View
+              style={{
+                width: width * 0.9,
+                flexDirection: "row",
+                alignItems: "center",
+                justifyContent: "flex-end",
+                flexDirection: "row",
+              }}
             >
-              <Text
-                style={{
-                  color: COLORS.main_text_color,
-                  fontFamily: "Roboto-Bold",
-                  fontSize: width * 0.04,
-                }}
+              <TouchableHighlight
+                style={styles.saveView}
+                onPress={this.ShowHideTextComponentView}
               >
-                {this.state.status == true ? "Save" : "Edit"}
-              </Text>
-            </TouchableHighlight>
-          </View>
-        </Container>
+                <Text
+                  style={{
+                    color: COLORS.main_text_color,
+                    fontFamily: "Roboto-Bold",
+                    fontSize: width * 0.04,
+                  }}
+                >
+                  {this.state.status == true ? "Save" : "Edit"}
+                </Text>
+              </TouchableHighlight>
+            </View>
+          </Container>
+          {this.showLoader()}
+        </View>
       </ThemeProvider>
     );
   }

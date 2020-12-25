@@ -137,6 +137,8 @@ class addmanuallyContact extends Component {
       image2: null,
       image3: null,
       profile_image: "",
+      profile_image2:"",
+      profile_image3:"",
       imagePath:"",
       numberArray: [],
       emailArray: [],
@@ -345,6 +347,8 @@ class addmanuallyContact extends Component {
     }
     const {
       profile_image,
+      profile_image2,
+      profile_image3,
       first_name,
       middle_name,
       last_name,
@@ -409,6 +413,8 @@ class addmanuallyContact extends Component {
             // user_id,
             username,
             profile_image,
+            profile_image2,
+            profile_image3,
             first_name,
             middle_name,
             last_name,
@@ -445,7 +451,9 @@ class addmanuallyContact extends Component {
             image: "",
             image2: "",
             image3: "",
-            //profile_image:"",
+            profile_image:"",
+            profile_image2:"",
+            profile_image3:"",
             first_name: "",
             middle_name: "",
             last_name: "",
@@ -493,7 +501,6 @@ class addmanuallyContact extends Component {
       />
     );
   }
-  // Add Contact Manually
   selectPhoto = () => {
     ActionSheet.show(
       {
@@ -570,7 +577,9 @@ class addmanuallyContact extends Component {
       height: 400,
       cropping: true,
     }).then((image) => {
-      console.log(image);
+      this.setState({ profile_image : image.path });
+      console.log("URI ......>",image.path);
+      // console.log(image);
       this.setState({
         image: {
           uri: image.path,
@@ -589,9 +598,10 @@ class addmanuallyContact extends Component {
       height: 400,
       cropping: true,
     }).then((image) => {
-      this.setState({ imagePath : image.path });
-      this.uploadImage();
+      this.setState({ profile_image : image.path });
+      console.log("URI ......>",image.path);
 
+    
       this.setState({
         image: {
           uri: image.path,
@@ -605,21 +615,7 @@ class addmanuallyContact extends Component {
     });
   };
 
-  uploadImage = async () => {
-    const { user_id, username } = this.props;
-    const { imagePath } = this.state;
-
-    const fileExtension = imagePath.split(".").pop();
-    console.log("EXT: " + fileExtension);
-
-    var uuid = uuidv4();
-
-    const fileName = `${uuid}.${fileExtension}`;
-    console.log("fiile name ---> " + fileName);
-
-    this.setState({ profile_image : fileName });
-  
-  };
+ 
 
   takePhotoFromCamera2 = () => {
     ImagePicker.openCamera({
@@ -627,6 +623,7 @@ class addmanuallyContact extends Component {
       height: 400,
       cropping: true,
     }).then((image2) => {
+      this.setState({ profile_image2 : image2.path });
       console.log(image2);
       this.setState({
         image2: {
@@ -645,6 +642,7 @@ class addmanuallyContact extends Component {
       height: 400,
       cropping: true,
     }).then((image2) => {
+      this.setState({ profile_image2 : image2.path });
       console.log(image2);
       this.setState({
         image2: {
@@ -664,6 +662,7 @@ class addmanuallyContact extends Component {
       height: 400,
       cropping: true,
     }).then((image3) => {
+      this.setState({ profile_image3 : image3.path });
       console.log(image3);
       this.setState({
         image3: {
@@ -683,6 +682,8 @@ class addmanuallyContact extends Component {
       height: 400,
       cropping: true,
     }).then((image3) => {
+      this.setState({ profile_image3 : image3.path });
+
       console.log(image3);
       this.setState({
         image3: {
