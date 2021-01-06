@@ -124,5 +124,54 @@ export default StyleSheet.create({
           padding:width * 0.030,
           letterSpacing: 0.5
           //margin:width * 0.030,
+      },
+      flatSmallView:{
+        width:width*0.8,
+        height:height*0.048,
+        borderWidth: 2,
+        borderColor: COLORS.main_text_color,
+        borderRadius: 5,
+        //marginRight:Metrics.doubleBaseMargin,
+        marginTop:Metrics.doubleBaseMargin,
+        alignItems:'center',
+        flexDirection:'row'
+      },
+      flatSmallText:{
+        fontSize: width * 0.043,
+        fontFamily: Font.medium,
+        color: COLORS.main_text_color,
+        marginLeft:Metrics.smallMargin,
+      },
+      footerFlat:{
+        // alignItems: "flex-end",
+        // width: width,
+        // height: height ,
+        opacity: 0.5,
+        marginTop:Metrics.xdoubleBaseMargin,
+        
+      },
+      contentFlat:{
+   
+        // height: height,
+        // width: width,
+        backgroundColor: COLORS.white,
+        justifyContent: "flex-end",
+        width:width*0.8,
+       // height:height*0.2,
+       // marginRight:Metrics.doubleBaseMargin,
+        marginTop:Metrics.multipleLabel,
+      },
+      flatView:{
+        width:width*0.8,
+        height:height*0.2,
+        borderWidth: 2,
+        borderColor: COLORS.main_text_color,
+        borderRadius: 5,
+       
+      },
+      downArrowStyle:{
+        width: width * 0.085,
+         height: width * 0.085,
+         resizeMode:'contain'
       }
  });

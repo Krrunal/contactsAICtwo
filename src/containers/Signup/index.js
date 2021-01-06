@@ -41,6 +41,7 @@ import { regEmailChange } from "../../action/Authactions";
 import style from "../../components/StatusBar/style";
 import styles from "./style.js";
 import wrong from "../../assets/icons/redWrong.png";
+import { truncate } from "lodash";
 
 var { width, height } = Dimensions.get("window");
 
@@ -60,8 +61,12 @@ class Signup extends Component {
     showRender: false,
     SignProp: false,
     passSign: "",
-  //  first_name:""
-   
+    viewIntl: false,
+    viewPhone: true,
+    nameSection: false,
+    emailSection: false,
+    passwordSection: false,
+    rePasswordSection: false,
   };
   // componentDidMount = () => {
 
@@ -98,7 +103,7 @@ class Signup extends Component {
   }
   ValidEightChar = (password) => {
     return password.length > 7;
-  }
+  };
   ValidSpecialChar(password: string) {
     const re = /(?=(.*?[#?!@$%^&*-]){2})/;
     return re.test(password);
@@ -138,7 +143,6 @@ class Signup extends Component {
     } else {
       this.refs.toast.show("Please fill all required fileds", 1000);
     }
-   
   };
 
   showLoader() {
@@ -174,7 +178,6 @@ class Signup extends Component {
     isVerified,
   }) => {
     if (isVerified == true) {
-
       this.props.regcontactChange(dialCode + "-" + unmaskedPhoneNumber);
       this.setState({ contactError: "" });
       this.props.checkContact();
@@ -185,6 +188,7 @@ class Signup extends Component {
   };
 
   changeUname = (uname) => {
+    this.setState({ nameSection: true });
     this.props.regunameChange(uname);
 
     if (uname == "") {
@@ -207,6 +211,7 @@ class Signup extends Component {
   };
 
   changeEmail = (email) => {
+    this.setState({ emailSection: true });
     this.props.regEmailChange(email);
     if (!this.validateEmail(email)) {
       this.setState({ emailError: "Please enter valid email" });
@@ -218,6 +223,8 @@ class Signup extends Component {
   };
 
   changePassword = (password) => {
+   
+    this.setState({ passwordSection: true ,isPassModelOpen: true });
     this.setState({ passSign: password });
     this.props.regPassChange(password);
     if (password == "") {
@@ -231,7 +238,7 @@ class Signup extends Component {
     }
   };
   submitEdit = () => {
-    this.setState({ isPassModelOpen: true });
+    this.setState({ isPassModelOpen: false });
   };
   showModelData = () => {
     const { passSign } = this.state;
@@ -268,7 +275,7 @@ class Signup extends Component {
     if (!this.ValidSpecialChar(passSign)) {
       return <Image source={wrong} style={styles.modelIcon} />;
     }
-  }
+  };
   showModelTwoNnumber = () => {
     const { passSign } = this.state;
     if (this.ValidTwoNumber(passSign)) {
@@ -277,17 +284,26 @@ class Signup extends Component {
     if (!this.ValidTwoNumber(passSign)) {
       return <Image source={wrong} style={styles.modelIcon} />;
     }
-  }
+  };
   changeConfirmPassword = (confirmpassWord) => {
+    this.setState({ rePasswordSection: true , isPassModelOpen: false});
     this.props.regconfirmpassWord(confirmpassWord);
     if (confirmpassWord == "") {
       this.setState({ confirmPassError: "Please enter password again" });
+      this.setState({ confirmPassError1: "" });
+      this.setState({ confirmPassError2: "" });
     }
     if (confirmpassWord !== "" && this.props.password !== confirmpassWord) {
-      this.setState({ confirmPassError: "Password not match" });
+      this.setState({ confirmPassError: "Password" });
+      this.setState({ confirmPassError1: "do not" });
+      this.setState({ confirmPassError2: " match" });
     }
     if (confirmpassWord !== "" && this.props.password == confirmpassWord) {
       this.setState({ confirmPassError: "" });
+      this.setState({ confirmPassError1: "" });
+      this.setState({ confirmPassError2: "" });
+      this.setState({ confirmError: "Passwords" });
+      this.setState({ confirmError1: "match" });
     }
   };
 
@@ -314,7 +330,10 @@ class Signup extends Component {
       return <Image source={wrong} style={styles.contactIcon} />;
     }
   }
-
+  viewPhoneToggle = () => {
+    this.setState({ viewIntl: true });
+    this.setState({ viewPhone: false });
+  };
   render() {
     const {
       email,
@@ -349,21 +368,30 @@ class Signup extends Component {
                 <View>
                   <View>
                     <View style={styles.mobileInputView}>
-                    
-                      <IntlPhoneInput
-                        containerStyle={{
-                          height: height * 0.065,
-                          backgroundColor: COLORS.main_sky_blue,
-                        }}
-                        phoneInputStyle={styles.mobileInputText}
-                        dialCodeTextStyle={styles.mobileInputText}
-                        value={number}
-                        inputRef={(ref) => (this.phoneInput = ref)}
-                        keyboardType={"numeric"}
-                        onChangeText={this.onChangeNumber}
-                        defaultCountry="CA"
-                        isShowLabel={false}
-                      />
+                      {this.state.viewIntl ? (
+                        <IntlPhoneInput
+                          containerStyle={{
+                            height: height * 0.065,
+                            backgroundColor: COLORS.main_sky_blue,
+                          }}
+                          phoneInputStyle={styles.mobileInputText}
+                          dialCodeTextStyle={styles.mobileInputText}
+                          value={number}
+                          inputRef={(ref) => (this.phoneInput = ref)}
+                          keyboardType={"numeric"}
+                          onChangeText={this.onChangeNumber}
+                          defaultCountry="CA"
+                          isShowLabel={false}
+                        />
+                      ) : null}
+                      {this.state.viewPhone ? (
+                        <TouchableHighlight
+                          style={styles.mobileInputView2}
+                          onPress={this.viewPhoneToggle}
+                        >
+                          <Text style={styles.mobileText}>Phone Number</Text>
+                        </TouchableHighlight>
+                      ) : null}
                       {/* <Text>hi</Text> */}
                       <View style={styles.contactEyeView}>
                         {this.showContactError()}
@@ -397,31 +425,41 @@ class Signup extends Component {
                   </View>
 
                   <View>
-                    
                     <View style={styles.mobileView}>
-                      <InputCard
-                        onChangeText={(uname) => this.changeUname(uname)}
-                        blurOnSubmit={false}
-                        autoCapitalize={true}
-                        ref={"unameCont"}
-                        inputRef={"uname"}
-                        value={uname}
-                        returnKey={"next"}
-                        style={styles.uText}
-                        keyboardType={"default"}
-                        secureEntry={false}
-                        placeholder={"Username"}
-                      ></InputCard>
-                      <View style={styles.eyeView}>
-                        {uname !== "" &&
-                        this.props.usernameMsg == true &&
-                        !this.minUname(uname) ? (
-                          <Image source={checked} style={styles.checkIcon} />
-                        ) : uname !== "" &&
-                          (this.state.unameError !== "" ||
-                            this.props.usernameMsg == false) ? (
-                          <Image source={wrong} style={styles.checkIcon} />
-                        ) : null}
+                      {this.state.nameSection == true ? (
+                        <View>
+                          <Text style={styles.emailText}>User Name</Text>
+                        </View>
+                      ) : null}
+                      <View style={{ flexDirection: "row" }}>
+                        <InputCard
+                          onChangeText={(uname) => this.changeUname(uname)}
+                          blurOnSubmit={false}
+                          autoCapitalize={true}
+                          ref={"unameCont"}
+                          inputRef={"uname"}
+                          value={uname}
+                          returnKey={"next"}
+                          style={
+                            this.state.nameSection == true
+                              ? styles.uText1
+                              : styles.uText
+                          }
+                          keyboardType={"default"}
+                          secureEntry={false}
+                          placeholder={"Username"}
+                        ></InputCard>
+                        <View style={styles.eyeView}>
+                          {uname !== "" &&
+                          this.props.usernameMsg == true &&
+                          !this.minUname(uname) ? (
+                            <Image source={checked} style={styles.checkIcon} />
+                          ) : uname !== "" &&
+                            (this.state.unameError !== "" ||
+                              this.props.usernameMsg == false) ? (
+                            <Image source={wrong} style={styles.checkIcon} />
+                          ) : null}
+                        </View>
                       </View>
                     </View>
                     <View style={styles.errorView}>
@@ -453,30 +491,40 @@ class Signup extends Component {
                   </View>
 
                   <View>
-                  
                     <View style={styles.mobileView}>
-                      <InputCard
-                        // onChangeText={regEmailChange}
-                        onChangeText={(email) => this.changeEmail(email)}
-                        blurOnSubmit={false}
-                        autoCapitalize={true}
-                        ref={"emailCont"}
-                        inputRef={"email"}
-                        value={email}
-                        style={styles.uText}
-                        returnKey={"next"}
-                        keyboardType={"email-address"}
-                        secureEntry={false}
-                        placeholder={"E-mail"}
-                      ></InputCard>
-                      <View style={styles.eyeView}>
-                        {email !== "" && this.props.emailMsg == true ? (
-                          <Image source={checked} style={styles.checkIcon} />
-                        ) : email !== "" &&
-                          (this.state.emailError !== "" ||
-                            this.props.emailMsg == false) ? (
-                          <Image source={wrong} style={styles.checkIcon} />
-                        ) : null}
+                      {this.state.emailSection == true ? (
+                        <View>
+                          <Text style={styles.emailText}>Email</Text>
+                        </View>
+                      ) : null}
+                      <View style={{ flexDirection: "row" }}>
+                        <InputCard
+                          // onChangeText={regEmailChange}
+                          onChangeText={(email) => this.changeEmail(email)}
+                          blurOnSubmit={false}
+                          autoCapitalize={true}
+                          ref={"emailCont"}
+                          inputRef={"email"}
+                          value={email}
+                          style={
+                            this.state.emailSection == true
+                              ? styles.uText1
+                              : styles.uText
+                          }
+                          returnKey={"next"}
+                          keyboardType={"email-address"}
+                          secureEntry={false}
+                          placeholder={"E-mail"}
+                        ></InputCard>
+                        <View style={styles.eyeView}>
+                          {email !== "" && this.props.emailMsg == true ? (
+                            <Image source={checked} style={styles.checkIcon} />
+                          ) : email !== "" &&
+                            (this.state.emailError !== "" ||
+                              this.props.emailMsg == false) ? (
+                            <Image source={wrong} style={styles.checkIcon} />
+                          ) : null}
+                        </View>
                       </View>
                     </View>
                     <View style={styles.errorView}>
@@ -504,93 +552,137 @@ class Signup extends Component {
                       )}
                     </View>
                   </View>
+                 
+                  {this.state.isPassModelOpen == true ? (
+                    <View
+                      style={{
+                        position: "absolute",
+                        top:width*0.13,
+                        left:width*0.045,
+                      }}
+                    >
+                       <View style={{ zIndex: 0,  position: "absolute" }}>
+                      <View
+                        style={{
+                          backgroundColor: COLORS.white,
+                          width: width * 0.8,
+                          height: height * 0.25,
+                          paddingVertical: height * 0.02,
+                          paddingHorizontal: width * 0.05,
+                          alignSelf: "center",
+                          justifyContent: "center",
+                          borderRadius: 10,
+                        }}
+                      >
+                        <View style={styles.popupHeader}>
+                          <TouchableHighlight
+                            onPress={() =>
+                              this.setState({ isPassModelOpen: false })
+                            }
+                          
+                          >
+                            <Icon name="times" size={30} />
+                          </TouchableHighlight>
+                    </View>
+                    <BoldBlack> Password must contain: </BoldBlack>
+
+                    <View style={styles.modalView}>
+                      <View>{this.showModelData()}</View>
+                      <Text style={styles.modelText}>
+                        Two Uppercase letters.
+                      </Text>
+                    </View>
+                    <View style={styles.modalView}>
+                      <View>{this.showModelLower()}</View>
+                      <View>
+                        <Text style={styles.modelText}>
+                          Two lowercase letters.
+                        </Text>
+                      </View>
+                    </View>
+                    <View style={styles.modalView}>
+                      <View>{this.showModelEightChar()}</View>
+                      <View>
+                        <Text style={styles.modelText}>Eight characters.</Text>
+                      </View>
+                    </View>
+                    <View style={styles.modalView}>
+                      <View>{this.showModelSpecialChar()}</View>
+                      <View>
+                        <Text style={styles.modelText}>
+                          {" "}
+                          Two special characters.
+                        </Text>
+                      </View>
+                    </View>
+                    <View style={styles.modalView}>
+                      <View>{this.showModelTwoNnumber()}</View>
+                      <View>
+                        <Text style={styles.modelText}>Two numbers.</Text>
+                      </View>
+                    </View>
+                   
+                      </View>
+                      </View>
+                    </View>
+                   
+                  ) : null}
 
                   <View>
-                    {/* <View style={styles.userText}>
-                    
-                      <View style={styles.RigthView}>
-                        <TouchableWithoutFeedback
-                          onPress={() =>
-                            this.setState({ isPassModelOpen: true })
-                          }
-                          style={{ flexDirection: "row" ,  marginTop: Metrics.smallMargin,}}
-                        >
-                          {this.props.theme.mode === "light" ? (
-                            <Image
-                              source={require("../../../src/assets/icons/iSquare.png")}
-                              style={styles.infoIcon}
-                            />
-                          ) : (
-                            <Image
-                              source={require("../../../src/assets/icons/iSquareWhite.png")}
-                              style={styles.infoIcon}
-                            />
-                          )}
-
-                          {this.props.theme.mode === "light" ? (
-                            <Text
-                              style={[styles.reqtext, { color: COLORS.black }]}
-                            >
-                              Password Requirements
-                            </Text>
-                          ) : (
-                            <Text
-                              style={[styles.reqtext, { color: COLORS.white }]}
-                            >
-                              Password Requirements
-                            </Text>
-                          )}
-                       
-                        </TouchableWithoutFeedback>
-                      </View>
-                    </View> */}
-
                     <View
                       style={[
                         styles.passView,
                         { marginTop: Metrics.doubleBaseMargin },
                       ]}
                     >
-                      <InputCard
-                        onChangeText={(password) =>
-                          this.changePassword(password)
-                        }
-                        blurOnSubmit={true}
-                        autoCapitalize={false}
-                        ref={"passwordCont"}
-                        inputRef={"password"}
-                        // onSubmitEditing={(confirmpassWord) =>
-                        // this.onSubmit("confirmpassWord")
-                        // }
-                        onSubmitEditing={this.submitEdit}
-                        style={styles.uText}
-                        value={password}
-                        returnKey={"next"}
-                        keyboardType={"default"}
-                        secureEntry={this.state.show}
-                        placeholder={"Password"}
-                      ></InputCard>
+                      {this.state.passwordSection == true ? (
+                        <View>
+                          <Text style={styles.emailText}>Password</Text>
+                        </View>
+                      ) : null}
+                      <View style={{ flexDirection: "row" }}>
+                        <InputCard
+                          onChangeText={(password) =>
+                            this.changePassword(password)
+                          }
+                          blurOnSubmit={true}
+                          autoCapitalize={false}
+                          ref={"passwordCont"}
+                          inputRef={"password"}
+                          onSubmitEditing={this.submitEdit}
+                          style={
+                            this.state.passwordSection == true
+                              ? styles.uText1
+                              : styles.uText
+                          }
+                          value={password}
+                          returnKey={"next"}
+                          keyboardType={"default"}
+                          secureEntry={this.state.show}
+                          placeholder={"Password"}
+                        ></InputCard>
 
-                      <View style={styles.eyeView}>
-                        <TouchableHighlight
-                          style={styles.eyeContain}
-                          underlayColor="transparent"
-                          onPress={this.showPassword}
-                        >
-                          {this.state.show == false ? (
-                            <Icon
-                              name="eye"
-                              size={18}
-                              color={COLORS.main_text_color}
-                            />
-                          ) : (
-                            <Icon
-                              name="eye-slash"
-                              size={18}
-                              color={COLORS.main_text_color}
-                            />
-                          )}
-                        </TouchableHighlight>
+                        <View style={styles.eyeView}>
+                          <TouchableHighlight
+                            style={styles.eyeContain}
+                            underlayColor="transparent"
+                            onPress={this.showPassword}
+                          >
+                            {this.state.show == false ? (
+                              <Icon
+                                name="eye"
+                                size={18}
+                                color={COLORS.main_text_color}
+                              />
+                            ) : (
+                              <Icon
+                                name="eye-slash"
+                                size={18}
+                                color={COLORS.main_text_color}
+                              />
+                            )}
+                          </TouchableHighlight>
+                        </View>
                       </View>
                     </View>
                     {/* <NormalText>
@@ -605,62 +697,104 @@ class Signup extends Component {
                   </View>
 
                   <View>
-                    {/* <View style={styles.userText}>
-                      <BoldBlack>*Re-Enter Password :</BoldBlack>
-                    </View> */}
                     <View
                       style={[
                         styles.passView,
                         { marginTop: Metrics.doubleBaseMargin },
                       ]}
                     >
-                      <InputCard
-                        onChangeText={(confirmpassWord) =>
-                          this.changeConfirmPassword(confirmpassWord)
-                        }
-                        blurOnSubmit={false}
-                        autoCapitalize={false}
-                        ref={"confirmpasswordcont"}
-                        inputRef={"confirmpassWord"}
-                        // onSubmitEditing={(confirmpassWord) =>
-                        // this.onSubmit("confirmpassWord")
-                        // }
-                        style={styles.uText}
-                        value={confirmpassWord}
-                        returnKey={"next"}
-                        keyboardType={"default"}
-                        secureEntry={this.state.showRender}
-                        placeholder={"Re-Enter Password"}
-                      ></InputCard>
+                      {this.state.rePasswordSection == true ? (
+                        <View>
+                          <Text style={styles.emailText}>
+                            Re-Enter Password
+                          </Text>
+                        </View>
+                      ) : null}
+                      <View style={{ flexDirection: "row" }}>
+                        <InputCard
+                          onChangeText={(confirmpassWord) =>
+                            this.changeConfirmPassword(confirmpassWord)
+                          }
+                          blurOnSubmit={false}
+                          autoCapitalize={false}
+                          ref={"confirmpasswordcont"}
+                          inputRef={"confirmpassWord"}
+                          // onSubmitEditing={(confirmpassWord) =>
+                          // this.onSubmit("confirmpassWord")
+                          // }
+                          style={
+                            this.state.rePasswordSection == true
+                              ? styles.uText1
+                              : styles.uText
+                          }
+                          value={confirmpassWord}
+                          returnKey={"next"}
+                          keyboardType={"default"}
+                          secureEntry={this.state.showRender}
+                          placeholder={"Re-Enter Password"}
+                        ></InputCard>
 
-                      <View style={styles.eyeView}>
-                        <TouchableHighlight
-                          style={styles.eyeContain}
-                          underlayColor="transparent"
-                          onPress={this.showrenderPassword}
-                        >
-                          {this.state.showRender == false ? (
-                            <Icon
-                              name="eye"
-                              size={18}
-                              color={COLORS.main_text_color}
-                            />
-                          ) : (
-                            <Icon
-                              name="eye-slash"
-                              size={18}
-                              color={COLORS.main_text_color}
-                            />
-                          )}
-                        </TouchableHighlight>
+                        <View style={styles.eyeView}>
+                          <TouchableHighlight
+                            style={styles.eyeContain}
+                            underlayColor="transparent"
+                            onPress={this.showrenderPassword}
+                          >
+                            {this.state.showRender == false ? (
+                              <Icon
+                                name="eye"
+                                size={18}
+                                color={COLORS.main_text_color}
+                              />
+                            ) : (
+                              <Icon
+                                name="eye-slash"
+                                size={18}
+                                color={COLORS.main_text_color}
+                              />
+                            )}
+                          </TouchableHighlight>
+                        </View>
                       </View>
                     </View>
                     {this.state.confirmPassError == undefined ||
-                    this.state.confirmPassError == "" ? null : (
-                      <Text style={[styles.error, { color: COLORS.red }]}>
-                        {this.state.confirmPassError}
-                      </Text>
+                    (this.state.confirmPassError == "" &&
+                      this.state.confirmPassError1 == "" &&
+                      this.state.confirmPassError2 == "") ? null : (
+                      <View style={{ flexDirection: "row" }}>
+                        <Text style={[styles.error, { color: COLORS.black }]}>
+                          {this.state.confirmPassError}
+                        </Text>
+                        <Text style={[styles.error2, { color: COLORS.red }]}>
+                          {this.state.confirmPassError1}
+                        </Text>
+                        <Text style={[styles.error2, { color: COLORS.black }]}>
+                          {this.state.confirmPassError2}
+                        </Text>
+                      </View>
                     )}
+                    {this.state.confirmPassError == "" &&
+                    this.state.confirmPassError1 == "" &&
+                    this.state.confirmPassError2 == "" ? (
+                      this.state.confirmError == "" &&
+                      this.state.confirmError1 == "" ? null : (
+                        <View style={{ flexDirection: "row" }}>
+                          <Text
+                            style={[
+                              styles.error,
+                              { color: COLORS.black, width: width * 0.24 },
+                            ]}
+                          >
+                            {this.state.confirmError}
+                          </Text>
+                          <Text
+                            style={[styles.error2, { color: COLORS.green }]}
+                          >
+                            {this.state.confirmError1}
+                          </Text>
+                        </View>
+                      )
+                    ) : null}
                   </View>
                 </View>
                 <TouchableHighlight
@@ -671,11 +805,10 @@ class Signup extends Component {
                   <Text style={styles.submitText}>SUBMIT</Text>
                 </TouchableHighlight>
 
-                <Modal
+                {/* <Modal
                   visible={this.state.isPassModelOpen}
                   transparent={true}
                   style={styles.footerModal}
-                  // onBackPress={() => this.setState({ isPassModelOpen: false })}
                 >
                   <View style={styles.contactContent}>
                     <View style={styles.popupHeader}>
@@ -691,62 +824,42 @@ class Signup extends Component {
 
                     <View style={styles.modalView}>
                       <View>{this.showModelData()}</View>
-                      <Text style={styles.modelText}>Two Uppercase letters.</Text>
+                      <Text style={styles.modelText}>
+                        Two Uppercase letters.
+                      </Text>
                     </View>
                     <View style={styles.modalView}>
                       <View>{this.showModelLower()}</View>
-                      <View >
-                        <Text style={styles.modelText}>Two lowercase letters.</Text>
+                      <View>
+                        <Text style={styles.modelText}>
+                          Two lowercase letters.
+                        </Text>
                       </View>
                     </View>
                     <View style={styles.modalView}>
                       <View>{this.showModelEightChar()}</View>
-                      <View >
+                      <View>
                         <Text style={styles.modelText}>Eight characters.</Text>
                       </View>
                     </View>
                     <View style={styles.modalView}>
                       <View>{this.showModelSpecialChar()}</View>
-                      <View >
-                        <Text style={styles.modelText}> Two special characters.</Text>
+                      <View>
+                        <Text style={styles.modelText}>
+                          {" "}
+                          Two special characters.
+                        </Text>
                       </View>
                     </View>
                     <View style={styles.modalView}>
                       <View>{this.showModelTwoNnumber()}</View>
-                      <View >
+                      <View>
                         <Text style={styles.modelText}>Two numbers.</Text>
                       </View>
                     </View>
-                    {/* <View style={{ flexDirection: "row" }}>
-                      <View>
-                    
-                      </View>
-                      <View>
-                        <Text> Two lowercase letters.</Text>
-                      </View>
-                    </View> */}
-
-                    {/* passwordInfo: [
-                                { info: "1) Eight characters." },
-                                { info: "2) Two lowercase letters." },
-                                { info: "3) Two uppercase letters." },
-                                { info: "4) Two special characters." },
-                                { info: "5) Two numbers." },
-                              ], */}
-                    {/* <FlatList
-                      refreshing={true}
-                      keyExtractor={(item, index) => index.toString()}
-                      data={this.state.passwordInfo}
-                      extraData={this.state}
-                      numColumns={1}
-                      renderItem={this.passwordInfo.bind(this)}
-                     
-                      style={styles.flatlist}
-                     
-                      keyboardShouldPersistTaps={"always"}
-                    /> */}
+                   
                   </View>
-                </Modal>
+                </Modal> */}
                 <Toast
                   ref="toast"
                   style={{
@@ -778,7 +891,7 @@ class Signup extends Component {
 }
 
 function mapStateToProps(state) {
-// console.log("State From Sign in------->", );
+  // console.log("State From Sign in------->", );
 
   return {
     theme: state.themeReducer.theme,
@@ -797,7 +910,6 @@ function mapStateToProps(state) {
     contactMsg: state.reg.contactMsg.status,
     state: state,
     username: state.login.shouldLoadData.username,
-
   };
 }
 export default connect(mapStateToProps, actions)(Signup);

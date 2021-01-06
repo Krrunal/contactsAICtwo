@@ -34,6 +34,7 @@ class ViewLabel extends Component {
       labels: [],
       splitLabel: [],
       loader: false,
+      shortcontacts: "",
     };
   }
 
@@ -57,13 +58,20 @@ class ViewLabel extends Component {
         .collection(this.props.user_id)
         .get()
         .then((snap) => {
-          snap.forEach((doc) => {
+           snap.forEach((doc) => {
             console.log("doc data===>", doc._data);
             var item = doc._data;
             this.state.contact.push(item);
           });
-
           this.setState({ contacts: this.state.contact, loader: false });
+         
+          const sort = this.state.contacts.sort(function (a, b) {
+            if (a.user_name.toLowerCase() < b.user_name.toLowerCase())
+              return -1;
+            if (a.user_name.toLowerCase() > b.user_name.toLowerCase()) return 1;
+            return 0;
+          });
+          this.setState({ shortcontacts : sort });
         });
     });
   };
@@ -106,10 +114,10 @@ class ViewLabel extends Component {
     console.log(nameArr);
 
     return (
-      <View style={{ alignItems: "center" }}>
+      <View style={{ alignItems: "center" ,width:width}}>
         <View style={styles.middleView}>
           <View style={styles.firstView}>
-            <Text style={[styles.FirstText, { color: COLORS.main_text_color }]}>
+            <Text style={[styles.FirstText]}>
               {item.user_name || item.first_name} {item.last_name}
             </Text>
           </View>
@@ -128,19 +136,19 @@ class ViewLabel extends Component {
 
   renderBigView() {
     return (
-      <View style={{ alignItems: "center", flex: 1, paddingTop: 10 }}>
-        <ScrollView style={{ width: width }}>
+      <View style={{ alignItems: "center", flex: 1, marginTop:Metrics.baseMargin}}>
+       
           <FlatList
             refreshing={true}
             keyExtractor={(item, index) => index.toString()}
-            data={this.state.contacts}
+            data={this.state.shortcontacts}
             extraData={this.state}
             numColumns={1}
             renderItem={this.contactsList.bind(this)}
             scrollEnabled={true}
             showsVerticalScrollIndicator={false}
           />
-        </ScrollView>
+        
       </View>
     );
   }
@@ -181,7 +189,7 @@ class ViewLabel extends Component {
 }
 
 function mapStateToProps(state) {
-  console.log("state", state);
+  console.log("state------->",  state.login.shouldLoadData.user_id);
   return {
     theme: state.themeReducer.theme,
     user_id: state.login.shouldLoadData.user_id,

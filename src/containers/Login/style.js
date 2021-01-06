@@ -24,22 +24,22 @@ export default StyleSheet.create({
   viewEmail: {
     backgroundColor: COLORS.main_sky_blue,
     width: width * 0.85,
-    height: height * 0.06,
+    height: height * 0.07,
     borderRadius: 8,
     justifyContent: "center",
-
     marginTop: Metrics.doubleBaseMargin,
+   
   },
 
   viewPassword: {
     backgroundColor: COLORS.main_sky_blue,
     marginTop: height * 0.025,
     width: width * 0.85,
-    height: height * 0.06,
+    height: height * 0.07,
     borderRadius: 8,
-    alignItems: "center",
+   // alignItems: "center",
     justifyContent: "center",
-    flexDirection: "row",
+   // flexDirection: "row",
   },
 
   viewLogin: {
@@ -184,12 +184,24 @@ export default StyleSheet.create({
   uText: {
     fontSize: width * 0.04,
     fontFamily: Font.medium,
-    justifyContent: "center",
-    alignItems: "center",
+    //justifyContent: "center",
+    //alignItems: "center",
     marginLeft: Metrics.baseMargin,
     width: width * 0.7,
     color: COLORS.main_text_color,
-  },
+  //  borderWidth:1,
+  
+ },
+ emailText: {
+  fontSize: width * 0.025,
+  fontFamily: Font.medium,
+  justifyContent: "center",
+  alignItems: "center",
+  marginLeft: Metrics.baseMargin,
+  width: width * 0.7,
+  color: COLORS.main_text_color,
+  marginTop: Metrics.baseMargin,
+},
   orView: {
     marginTop: height * 0.01,
   },

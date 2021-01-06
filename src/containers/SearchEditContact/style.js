@@ -59,4 +59,64 @@ export default StyleSheet.create({
       height: width * 0.092,
       borderRadius: 5,
     },
+    sidebarStyle: {
+      width: width * 0.1,
+      height: width * 0.1,
+  },
+
+  sidebarStyleRight: {
+      width: width * 0.1,
+      height: width * 0.1,
+  },
+  sideBarView:{
+    justifyContent:'center',
+    margin:Metrics.xsmallMargin,
+},
+blueView: {
+  width: width * 0.9,
+  height : width * 0.14,
+  backgroundColor: COLORS.main_text_color,
+  borderRadius: 10,
+  justifyContent: 'center',
+  alignItems: 'center',
+  flexDirection: 'row',
+  marginTop:Metrics.doubleBaseMargin
+},
+
+sidebarViewRight:{
+  margin:Metrics.xsmallMargin,
+  flex:1,
+  justifyContent:'flex-end',
+  flexDirection:'row'
+},
+sidebarViewCenter:{
+  width: width * 0.66,
+  height: width * 0.12,
+ // alignItems: 'center',
+  //flexDirection: 'row',
+  backgroundColor:COLORS.white,
+  justifyContent:'center',
+  borderRadius:10,
+
+},
+placholderStyle:{
+  fontFamily: Font.regular,
+  fontSize: width * 0.040,
+  color:COLORS.main_text_color,
+  marginBottom:7,
+  marginLeft:7
+},
+placholderStyle2 :{
+  fontFamily: Font.regular,
+  fontSize: width * 0.048,
+  color:COLORS.main_text_color,
+ marginLeft:7
+},
+searchTextInput:{
+  fontFamily: Font.regular,
+  fontSize: width * 0.026,
+  color:COLORS.main_text_color,
+  marginLeft: 7,
+  marginTop: 10,
+}
 });

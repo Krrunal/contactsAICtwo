@@ -17,13 +17,36 @@ class forAdd2 extends Component {
   state = {
     user_name: "",
     label: "",
+    userLabel1:"",
+    userLabel2:"",
+    userLabel3:"",
+    userLabel4:"",
+    u_name1:"",
+    u_name2:"",
+    u_name3:"",
+    u_name4:""
   };
+  
   async componentDidMount() {
     this.setState({
       user_name: await AsyncStorage.getItem("@username"),
       label: await AsyncStorage.getItem("@selectedLabel"),
+      userLabel1: await AsyncStorage.getItem("@userLabel1"),
+      userLabel2: await AsyncStorage.getItem("@userLabel2"),
+      userLabel3: await AsyncStorage.getItem("@userLabel3"),
+      userLabel4: await AsyncStorage.getItem("@userLabel4"),
+      
+      u_name1: await AsyncStorage.getItem("@u_name1"),
+      u_name2: await AsyncStorage.getItem("@u_name2"),
+      u_name3: await AsyncStorage.getItem("@u_name3"),
+      u_name4: await AsyncStorage.getItem("@u_name4")
     });
-   // console.log("User _ name ->", this.state.user_name);
+    console.log("Label----1---->",this.state.label)
+   //console.log("multiple----1---->",this.state.userLabel1)
+    console.log("multiple----2---->",this.state.userLabel2)
+    console.log("multiple----3---->",this.state.userLabel3) 
+    console.log("multiple----4---->",this.state.userLabel4)
+
   }
   renderHeader() {
     return (
@@ -48,24 +71,78 @@ class forAdd2 extends Component {
   }
 
   renderMiddle() {
+    const { u_name1 ,u_name2,u_name3,u_name4} = this.state;
     return (
       <View>
-        {/* <View style={styles.textRighBig}> */}
-              {this.state.user_name.split(/,/).map((item) => (
-                <View style={styles.WhiteBigview}>
-                  <View style={styles.textRigh}>
-                  <Text style={styles.userText}>{item} </Text>
-                  </View>
-                  <View style={styles.textRigh}>
-                    {this.state.label.split(/,/).map((item) => (
-                      <Text style={styles.sizeTextSmall}> {item} </Text>
-                    ))}
-                  </View>
-                </View>
-              ))}
-            {/* </View>
-          */}
-        </View>
+        {u_name1 !== "" ?
+          <View style={styles.WhiteBigview}>
+          <View style={styles.textRigh}>
+             <Text style={styles.userText}>{u_name1}</Text>
+          </View>
+          <View style={styles.textRigh}>
+          {this.state.label !== "" ? 
+                this.state.label.split(/,/).map((item) => (
+                  <Text style={styles.sizeTextSmall}> {item} </Text>
+              ))         
+                : 
+               null
+          }
+           
+          </View>
+        </View> 
+        : null
+        }
+       {u_name2 !== "" ?
+          <View style={styles.WhiteBigview}>
+          <View style={styles.textRigh}>
+             <Text style={styles.userText}>{u_name2}</Text>
+          </View>
+          <View style={styles.textRigh}>
+          {this.state.userLabel2 !== "" ? 
+             ( this.state.userLabel2.split(/,/).map((item) => (
+                <Text style={styles.sizeTextSmall}> {item} </Text>
+             )))
+           :  null }
+            
+          </View>
+        </View> 
+        : null
+        }
+        {u_name3 !== "" ?
+          <View style={styles.WhiteBigview}>
+          <View style={styles.textRigh}>
+             <Text style={styles.userText}>{u_name3}</Text>
+          </View>
+          <View style={styles.textRigh}>
+          {this.state.userLabel3 == "" ? 
+               <Text style={styles.sizeTextSmall}></Text>
+           :  
+            this.state.userLabel3.split(/,/).map((item) => (
+            <Text style={styles.sizeTextSmall}> {item} </Text>
+        ))}
+            
+          </View>
+        </View> 
+        : null
+        }
+         {u_name4 !== "" ?
+          <View style={styles.WhiteBigview}>
+          <View style={styles.textRigh}>
+             <Text style={styles.userText}>{u_name4}</Text>
+          </View>
+          <View style={styles.textRigh}>
+          {this.state.userLabel4 == "" ? 
+               <Text style={styles.sizeTextSmall}></Text>
+           :  
+            this.state.userLabel4.split(/,/).map((item) => (
+            <Text style={styles.sizeTextSmall}> {item} </Text>
+        ))}
+            
+          </View>
+        </View> 
+        : null
+        }
+      </View>
     );
   }
 
@@ -80,14 +157,7 @@ class forAdd2 extends Component {
           style={styles.SmallMiddle}
           onPress={this.forAddContactNavigate}
         >
-          <Text
-            style={{
-              fontSize: width * 0.035,
-              fontFamily: Font.medium,
-              fontSize: width * 0.043,
-              color: COLORS.main_text_color,
-            }}
-          >
+            <Text style={styles.back2Text}> 
             Add Contact
           </Text>
         </TouchableOpacity>
@@ -99,8 +169,8 @@ class forAdd2 extends Component {
     const { username } = this.props;
     const { user_name } = this.state;
     let splitData = user_name.split(/,/);
-    console.log("split data ---->",splitData[0])
-    console.log("split data ---->",splitData[1])
+    // console.log("split data ---->",splitData[0])
+    // console.log("split data ---->",splitData[1])
    let user1 = splitData[0];
    let user2 = splitData[1];
    let user3 = splitData[2];
@@ -109,28 +179,38 @@ class forAdd2 extends Component {
    firebase.firestore().collection("user").doc(`${username}`).collection("contacts").add({
           first_name: user1,
           last_name: "",
+          profile_image:"",
+          profile_image2:"",
+          profile_image3:""
         });
-   if(user2 !== "") {
-          firebase.firestore().collection("user").doc(`${username}`).collection("contacts").add({
+   if(user2 !== undefined) {
+        firebase.firestore().collection("user").doc(`${username}`).collection("contacts").add({
             first_name: user2,
             last_name: "",
+            profile_image:"",
+            profile_image2:"",
+            profile_image3:""
           });
         }
-   if(user3 !== "") {
+   if(user3 !== undefined) {
           firebase.firestore().collection("user").doc(`${username}`).collection("contacts").add({
             first_name: user3,
             last_name: "",
+            profile_image:"",
+            profile_image2:"",
+            profile_image3:""
           });
         }
-  
-   if(user4 !== "") {
+   if(user4 !== undefined) {
           firebase.firestore().collection("user").doc(`${username}`).collection("contacts").add({
             first_name: user4,
             last_name: "",
+            profile_image:"",
+              profile_image2:"",
+            profile_image3:""
           });
         }
-  
-    this.props.navigation.navigate("SerachEditContact");
+  this.props.navigation.navigate("SerachEditContact");
     
   };
 
@@ -149,13 +229,7 @@ class forAdd2 extends Component {
             style={styles.Whiteview}
             onPress={this.backtNavigate}
           >
-            <Text
-              style={{
-                color: COLORS.main_text_color,
-                fontFamily: Font.medium,
-                fontSize: width * 0.045,
-              }}
-            >
+            <Text style={styles.back2Text}>
               Back
             </Text>
           </TouchableOpacity>
@@ -163,13 +237,7 @@ class forAdd2 extends Component {
             style={styles.WhiteviewTwo}
             onPress={this.finishtNavigate}
           >
-            <Text
-              style={{
-                color: COLORS.main_text_color,
-                fontFamily: Font.medium,
-                fontSize: width * 0.045,
-              }}
-            >
+            <Text style={styles.back2Text}>
               Finish
             </Text>
           </TouchableOpacity>
@@ -197,15 +265,13 @@ class forAdd2 extends Component {
             this.props.theme.mode === "dark" ? "light-content" : "dark-content"
           }
         />
-
-        <Container>
-          {/* <View style={styles.container}> */}
+       <Container>
           {this.renderHeader()}
           {this.renderHeaderLine()}
           {this.renderMiddle()}
+          
           {this.renderView()}
           {this.renderLast()}
-          {/* </View> */}
         </Container>
       </ThemeProvider>
     );

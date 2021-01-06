@@ -31,7 +31,6 @@ class Add extends Component {
 
   componentDidMount = async () => {
      const {username} =this.props ;
-    // console.log("uname from addcontac--->",username);
      await AsyncStorage.setItem("@sidemenuName", username);
     
   }
@@ -121,7 +120,6 @@ function mapStateToProps(state) {
     contact: (state.login.shouldLoadData.contact || state.reg.shouldLoadData.contact),
     email: (state.login.shouldLoadData.email || state.reg.shouldLoadData.email),
     username: (state.login.shouldLoadData.username || state.reg.shouldLoadData.username),
-  //  username: state.login.shouldLoadData.username,
 
   };
 }

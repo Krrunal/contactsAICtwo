@@ -21,6 +21,8 @@ import com.reactcommunity.rndatetimepicker.RNDateTimePickerPackage;
 import org.reactnative.maskedview.RNCMaskedViewPackage;
 // @react-native-community/netinfo
 import com.reactnativecommunity.netinfo.NetInfoPackage;
+// @react-native-picker/picker
+import com.reactnativecommunity.picker.RNCPickerPackage;
 // react-native-camera
 import org.reactnative.camera.RNCameraPackage;
 // react-native-contacts
@@ -31,6 +33,8 @@ import io.invertase.firebase.RNFirebasePackage;
 import com.swmansion.gesturehandler.react.RNGestureHandlerPackage;
 // react-native-image-crop-picker
 import com.reactnative.ivpusic.imagepicker.PickerPackage;
+// react-native-keychain
+import com.oblador.keychain.KeychainPackage;
 // react-native-permissions
 import com.reactnativecommunity.rnpermissions.RNPermissionsPackage;
 // react-native-reanimated
@@ -41,6 +45,8 @@ import com.th3rdwave.safeareacontext.SafeAreaContextPackage;
 import com.swmansion.rnscreens.RNScreensPackage;
 // react-native-svg
 import com.horcrux.svg.SvgPackage;
+// react-native-timezone
+import com.rntimezone.RNReactNativeTimezonePackage;
 // react-native-vector-icons
 import com.oblador.vectoricons.VectorIconsPackage;
 
@@ -93,16 +99,19 @@ public class PackageList {
       new RNDateTimePickerPackage(),
       new RNCMaskedViewPackage(),
       new NetInfoPackage(),
+      new RNCPickerPackage(),
       new RNCameraPackage(),
       new ReactNativeContacts(),
       new RNFirebasePackage(),
       new RNGestureHandlerPackage(),
       new PickerPackage(),
+      new KeychainPackage(),
       new RNPermissionsPackage(),
       new ReanimatedPackage(),
       new SafeAreaContextPackage(),
       new RNScreensPackage(),
       new SvgPackage(),
+      new RNReactNativeTimezonePackage(),
       new VectorIconsPackage()
     ));
   }

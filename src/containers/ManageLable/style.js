@@ -23,9 +23,8 @@ export default StyleSheet.create({
     width: width * 0.35,
     justifyContent: "center",
     marginLeft: Metrics.baseMargin,
-
-    height: height * 0.052,
-    marginTop: Metrics.baseMargin,
+   height: height * 0.052,
+    //marginTop: Metrics.baseMargin,
   },
   sideBarView: {
     justifyContent: "center",
@@ -123,7 +122,7 @@ export default StyleSheet.create({
 
   filedView: {
     width: width * 0.8,
-    height: height * 0.052,
+    height: height * 0.062,
     backgroundColor: COLORS.white,
     shadowColor: COLORS.black,
     shadowOffset: {
@@ -135,23 +134,36 @@ export default StyleSheet.create({
     elevation: 5,
     borderRadius: 5,
     marginLeft: Metrics.smallMargin,
-    // marginTop: Metrics.xsmallMargin,
-    flexDirection: "row",
-    alignItems: "center",
+      flexDirection:'row',
+      alignItems: "center",
   },
-
-  stylefiledText: {
+  filedViewForMobile:{
+    width: width * 0.8,
+    height: height * 0.072,
+    backgroundColor: COLORS.white,
+    shadowColor: COLORS.black,
+    shadowOffset: {
+      width: 2,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+    borderRadius: 5,
     marginLeft: Metrics.smallMargin,
+  },
+  stylefiledText: {
+    marginLeft: Metrics.xsmallMargin,
     marginLeft: 15,
     justifyContent: "center",
     alignItems: "center",
     color: COLORS.main_text_color,
-    fontFamily: Font.regular,
+    fontFamily: Font.medium,
     fontSize: width * 0.035,
     width: width * 0.5,
-    // marginTop: Metrics.baseMargin
-  },
-
+   
+    },
+ 
   filedViewRight: {
     width: width * 0.8,
     height: height * 0.052,
@@ -171,13 +183,23 @@ export default StyleSheet.create({
   },
 
   rightView: {
+    width: width * 0.050,
+    height: height * 0.052,
     alignItems: "center",
     justifyContent: "flex-end",
     flexDirection: "row",
     flex: 1,
-    marginRight: Metrics.baseMargin,
+    marginRight: Metrics.smallMargin,
+   },
+  rightViewMobile :{
+    width: width * 0.050,
+    height: height * 0.052,
+    //alignItems: "center",
+    justifyContent: "flex-end",
+    flexDirection: "row",
+    flex: 1,
+    marginRight: Metrics.xsmallMargin,
   },
-
   filedViewRightTwo: {
     width: width * 0.8,
     height: height * 0.052,
@@ -244,8 +266,15 @@ export default StyleSheet.create({
   righttext: {
     color: COLORS.main_text_color,
     fontFamily: Font.light,
-    fontSize: width * 0.02,
-    textAlign: "right",
+    fontSize: width * 0.026,
+     textAlign: "right",
+  },
+  rightTextMobile:{
+    color: COLORS.main_text_color,
+    fontFamily: Font.light,
+    fontSize: width * 0.023,
+     textAlign: "right",
+    
   },
   dateText: {
     fontFamily: Font.regular,
@@ -317,17 +346,33 @@ export default StyleSheet.create({
     flexDirection: "row",
     marginRight: Metrics.smallMargin,
   },
-
+  addressFieldContainerAddress : {
+    width: width * 0.8,
+    height: width * 0.25,
+    backgroundColor: COLORS.white,
+    shadowColor: COLORS.black,
+    shadowOffset: {
+      width: 2,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+    borderRadius: 5,
+    marginLeft: Metrics.smallMargin,
+    marginBottom: Metrics.baseMargin,
+    // flexDirection: "row",
+    marginRight: Metrics.smallMargin,
+  },
   addressField: {
     marginLeft: Metrics.smallMargin,
     color: COLORS.main_text_color,
-    fontSize: width * 0.03,
-    width: width * 0.55,
-    fontFamily: Font.regular,
+     width: width * 0.55,
     textAlignVertical: "top",
+    fontFamily: Font.medium,
+    fontSize: width * 0.035,
   },
-  //forSelectContact style
-
+ 
   centertext: {
     marginTop: width * 0.065,
     textAlign: "center",
@@ -382,13 +427,6 @@ export default StyleSheet.create({
     borderRadius: 5,
     marginTop: Metrics.baseMargin,
   },
-  rightView: {
-    alignItems: "flex-end",
-    justifyContent: "center",
-    flex: 1,
-    marginRight: Metrics.smallMargin,
-    height: height * 0.056,
-  },
 
   iconSize: {
     color: COLORS.main_text_color,
@@ -401,7 +439,24 @@ export default StyleSheet.create({
     height: height * 0.7,
     opacity: 0.5,
   },
-
+  workModal:{
+    width: width,
+    height: height * 0.4,
+    opacity: 0.5,
+   
+  },
+  workModalView:{
+    backgroundColor: "rgba(0,0,0,0.0)",
+    margin: 0,
+    height: height,
+    width: width * 0.4,
+    alignItems:'flex-end',
+    justifyContent:'flex-end',
+    position:'absolute',
+    bottom: width * 0.93,
+    flexDirection:'row',
+    right:0
+  },
   contactContent: {
     margin: 0,
     height: height,
@@ -412,7 +467,8 @@ export default StyleSheet.create({
   },
 
   content: {
-    width: width * 0.9,
+    width: width * 0.4,
+    height: height * 0.25,
     backgroundColor: COLORS.white,
     shadowColor: COLORS.black,
     shadowOffset: {
@@ -423,8 +479,7 @@ export default StyleSheet.create({
     shadowRadius: 4,
     elevation: 5,
     borderRadius: 10,
-    paddingVertical: height * 0.02,
-    paddingHorizontal: width * 0.05,
+   
   },
 
   modalHeader: {
@@ -458,4 +513,135 @@ export default StyleSheet.create({
     fontFamily: Font.regular,
     color: COLORS.main_text_color,
   },
+  flatView:{
+    width:width*0.55,
+    height:height*0.2,
+    borderWidth: 2,
+    borderColor: COLORS.main_text_color,
+    borderRadius: 5,
+   
+  },
+  flatSmallView:{
+    width:width*0.55,
+    height:height*0.048,
+    borderWidth: 2,
+    borderColor: COLORS.main_text_color,
+    borderRadius: 5,
+    marginRight:Metrics.doubleBaseMargin,
+    marginTop:Metrics.doubleBaseMargin,
+    alignItems:'center',
+    flexDirection:'row'
+  },
+  flatSmallText:{
+    fontSize: width * 0.043,
+    fontFamily: Font.medium,
+    color: COLORS.main_text_color,
+    marginLeft:Metrics.smallMargin,
+  },
+  footerFlat:{
+    // alignItems: "flex-end",
+    // width: width,
+    // height: height ,
+    opacity: 0.5,
+    marginTop:Metrics.xdoubleBaseMargin,
+    
+  },
+  contentFlat:{
+    // height: height,
+    // width: width,
+    backgroundColor: COLORS.white,
+    justifyContent: "flex-end",
+    width:width*0.55,
+   // height:height*0.2,
+    marginRight:Metrics.doubleBaseMargin,
+    marginTop:Metrics.xdoubleBaseMargin,
+  },
+  smallView:{
+    width:width,
+    alignItems:'center',
+    marginTop: Metrics.baseMargin,
+  },
+  emailText: {
+    fontSize: width * 0.025,
+    fontFamily: Font.medium,
+    justifyContent: "center",
+    alignItems: "center",
+    marginLeft: Metrics.baseMargin,
+    width: width * 0.7,
+    color: COLORS.main_text_color,
+    marginLeft:Metrics.xsmallMargin,
+  //  marginTop: Metrics.baseMargin,
+  },
+  workView:{
+    width: width * 0.8,
+    height: width * 0.8,
+    backgroundColor: COLORS.white,
+    shadowColor: COLORS.black,
+    shadowOffset: {
+      width: 2,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+    borderRadius: 5,
+    marginLeft: Metrics.smallMargin,
+    flexDirection:'row',
+    position:'relative'
+  //  alignItems: "center",
+  },
+  workText:{
+    color: COLORS.main_text_color,
+    fontFamily: Font.regular,
+   
+  },
+  timeText:{
+    color: COLORS.main_text_color,
+    fontFamily: Font.regular,
+    fontSize: width * 0.018
+  },
+  LeftView:{
+    width: width * 0.53,
+    
+      height: width * 0.8,
+    marginLeft:10,
+   
+  },
+  dayView:{
+    flexDirection:'row',
+    marginTop:10,
+    alignItems:'center',
+  },
+  timeView:{
+    width: width * 0.14,
+    borderWidth:1,
+    height: width * 0.080,
+    marginLeft:10,
+    borderRadius: 4,
+    borderColor:COLORS.main_text_color,
+    justifyContent:'center',
+    alignItems:'center'
+  },
+  downArrowStyle:{
+    width: width * 0.085,
+     height: width * 0.085,
+     resizeMode:'contain'
+  },
+  checkedIcon:{
+    width: width * 0.05,
+    height: width * 0.05,
+    resizeMode:'contain',
+    marginTop:6
+  },
+  selectTimezone:{
+    alignItems: "center",
+    justifyContent: "center",
+    flex: 1,
+    // marginRight: 5,
+    height: height * 0.04,
+    width: width * 0.2,
+    borderColor: COLORS.main_text_color,
+    borderWidth: 1,
+    borderRadius: 10,
+  }
 });

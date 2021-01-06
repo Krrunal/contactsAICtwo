@@ -100,6 +100,11 @@ export default StyleSheet.create({
   selectText: {
   
     fontFamily: Font.medium,
-    fontSize: width * 0.040,
+    fontSize: width * 0.039,
+  },
+  deSelectText: {
+  
+    fontFamily: Font.medium,
+    fontSize: width * 0.050,
   },
 });

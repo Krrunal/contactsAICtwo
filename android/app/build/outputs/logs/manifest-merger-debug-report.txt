@@ -16,14 +16,17 @@ MERGED from [:react-native-community_checkbox] /Users/macmini/Desktop/contactsAI
 MERGED from [:react-native-community_datetimepicker] /Users/macmini/Desktop/contactsAICtwo/node_modules/@react-native-community/datetimepicker/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:2:1-13:12
 MERGED from [:react-native-community_masked-view] /Users/macmini/Desktop/contactsAICtwo/node_modules/@react-native-community/masked-view/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:2:1-9:12
 MERGED from [:react-native-community_netinfo] /Users/macmini/Desktop/contactsAICtwo/node_modules/@react-native-community/netinfo/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:2:1-12:12
+MERGED from [:react-native-picker_picker] /Users/macmini/Desktop/contactsAICtwo/node_modules/@react-native-picker/picker/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:2:1-9:12
 MERGED from [:react-native-camera] /Users/macmini/Desktop/contactsAICtwo/node_modules/react-native-camera/android/build/intermediates/library_manifest/generalDebug/AndroidManifest.xml:2:1-18:12
 MERGED from [:react-native-gesture-handler] /Users/macmini/Desktop/contactsAICtwo/node_modules/react-native-gesture-handler/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:2:1-11:12
 MERGED from [:react-native-image-crop-picker] /Users/macmini/Desktop/contactsAICtwo/node_modules/react-native-image-crop-picker/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:2:1-34:12
+MERGED from [:react-native-keychain] /Users/macmini/Desktop/contactsAICtwo/node_modules/react-native-keychain/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:2:1-23:12
 MERGED from [:react-native-permissions] /Users/macmini/Desktop/contactsAICtwo/node_modules/react-native-permissions/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:2:1-9:12
 MERGED from [:react-native-reanimated] /Users/macmini/Desktop/contactsAICtwo/node_modules/react-native-reanimated/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:2:1-11:12
 MERGED from [:react-native-safe-area-context] /Users/macmini/Desktop/contactsAICtwo/node_modules/react-native-safe-area-context/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:2:1-9:12
 MERGED from [:react-native-screens] /Users/macmini/Desktop/contactsAICtwo/node_modules/react-native-screens/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:2:1-11:12
 MERGED from [:react-native-svg] /Users/macmini/Desktop/contactsAICtwo/node_modules/react-native-svg/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:2:1-9:12
+MERGED from [:react-native-timezone] /Users/macmini/Desktop/contactsAICtwo/node_modules/react-native-timezone/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:2:1-11:12
 MERGED from [:react-native-vector-icons] /Users/macmini/Desktop/contactsAICtwo/node_modules/react-native-vector-icons/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:2:1-11:12
 MERGED from [com.facebook.react:react-native:0.63.2] /Users/macmini/.gradle/caches/transforms-2/files-2.1/6501111b6d0f4d240062d820d8f7f1e1/jetified-react-native-0.63.2/AndroidManifest.xml:2:1-13:12
 MERGED from [com.google.firebase:firebase-core:17.5.0] /Users/macmini/.gradle/caches/transforms-2/files-2.1/0dcd24d1d1285a2aacc01a6ee2dbb704/jetified-firebase-core-17.5.0/AndroidManifest.xml:2:1-9:12
@@ -113,6 +116,8 @@ MERGED from [androidx.lifecycle:lifecycle-livedata:2.0.0] /Users/macmini/.gradle
 MERGED from [androidx.lifecycle:lifecycle-livedata-core:2.2.0] /Users/macmini/.gradle/caches/transforms-2/files-2.1/bed89703282668ecb5e69c2c4a4e728c/lifecycle-livedata-core-2.2.0/AndroidManifest.xml:17:1-24:12
 MERGED from [androidx.arch.core:core-runtime:2.1.0] /Users/macmini/.gradle/caches/transforms-2/files-2.1/ec82b7920c9abeac5ab1a2da76c42e55/core-runtime-2.1.0/AndroidManifest.xml:17:1-24:12
 MERGED from [com.google.firebase:protolite-well-known-types:17.0.0] /Users/macmini/.gradle/caches/transforms-2/files-2.1/597690c0e80de0bce6821f68dbb739c4/jetified-protolite-well-known-types-17.0.0/AndroidManifest.xml:2:1-11:12
+MERGED from [androidx.biometric:biometric:1.0.1] /Users/macmini/.gradle/caches/transforms-2/files-2.1/da7fa7baffdf93d6cdfe384d1d15cd59/biometric-1.0.1/AndroidManifest.xml:17:1-34:12
+MERGED from [com.facebook.conceal:conceal:1.1.3] /Users/macmini/.gradle/caches/transforms-2/files-2.1/d0cc9ef58d094ef18e578efffb0be643/jetified-conceal-1.1.3/AndroidManifest.xml:7:1-16:12
 MERGED from [com.facebook.soloader:annotation:0.8.2] /Users/macmini/.gradle/caches/transforms-2/files-2.1/04779ff23a1aca33eecd7be8199f199e/jetified-annotation-0.8.2/AndroidManifest.xml:2:1-13:12
 MERGED from [com.facebook.fresco:fbcore:2.2.0] /Users/macmini/.gradle/caches/transforms-2/files-2.1/131d22cd08543d51968fd1f0802141af/jetified-fbcore-2.2.0/AndroidManifest.xml:2:1-9:12
 MERGED from [com.facebook.fresco:ui-common:2.2.0] /Users/macmini/.gradle/caches/transforms-2/files-2.1/df567638b336a76b9bbdf815cac01632/jetified-ui-common-2.2.0/AndroidManifest.xml:2:1-9:12
@@ -222,6 +227,8 @@ MERGED from [:react-native-community_datetimepicker] /Users/macmini/Desktop/cont
 MERGED from [:react-native-community_datetimepicker] /Users/macmini/Desktop/contactsAICtwo/node_modules/@react-native-community/datetimepicker/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:11:5-20
 MERGED from [:react-native-image-crop-picker] /Users/macmini/Desktop/contactsAICtwo/node_modules/react-native-image-crop-picker/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:18:5-32:19
 MERGED from [:react-native-image-crop-picker] /Users/macmini/Desktop/contactsAICtwo/node_modules/react-native-image-crop-picker/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:18:5-32:19
+MERGED from [:react-native-keychain] /Users/macmini/Desktop/contactsAICtwo/node_modules/react-native-keychain/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:14:5-21:19
+MERGED from [:react-native-keychain] /Users/macmini/Desktop/contactsAICtwo/node_modules/react-native-keychain/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:14:5-21:19
 MERGED from [com.facebook.react:react-native:0.63.2] /Users/macmini/.gradle/caches/transforms-2/files-2.1/6501111b6d0f4d240062d820d8f7f1e1/jetified-react-native-0.63.2/AndroidManifest.xml:11:5-20
 MERGED from [com.facebook.react:react-native:0.63.2] /Users/macmini/.gradle/caches/transforms-2/files-2.1/6501111b6d0f4d240062d820d8f7f1e1/jetified-react-native-0.63.2/AndroidManifest.xml:11:5-20
 MERGED from [com.google.firebase:firebase-core:17.5.0] /Users/macmini/.gradle/caches/transforms-2/files-2.1/0dcd24d1d1285a2aacc01a6ee2dbb704/jetified-firebase-core-17.5.0/AndroidManifest.xml:7:5-20
@@ -282,6 +289,8 @@ MERGED from [androidx.core:core:1.5.0-alpha05] /Users/macmini/.gradle/caches/tra
 MERGED from [androidx.core:core:1.5.0-alpha05] /Users/macmini/.gradle/caches/transforms-2/files-2.1/6fe030b7ac6a7c41868723abb5ed2ebb/core-1.5.0-alpha05/AndroidManifest.xml:24:5-89
 MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.0] /Users/macmini/.gradle/caches/transforms-2/files-2.1/862c3b6604b0a792f3bbe5bdc4f7f42f/versionedparcelable-1.1.0/AndroidManifest.xml:24:5-25:19
 MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.0] /Users/macmini/.gradle/caches/transforms-2/files-2.1/862c3b6604b0a792f3bbe5bdc4f7f42f/versionedparcelable-1.1.0/AndroidManifest.xml:24:5-25:19
+MERGED from [androidx.biometric:biometric:1.0.1] /Users/macmini/.gradle/caches/transforms-2/files-2.1/da7fa7baffdf93d6cdfe384d1d15cd59/biometric-1.0.1/AndroidManifest.xml:27:5-32:19
+MERGED from [androidx.biometric:biometric:1.0.1] /Users/macmini/.gradle/caches/transforms-2/files-2.1/da7fa7baffdf93d6cdfe384d1d15cd59/biometric-1.0.1/AndroidManifest.xml:27:5-32:19
 MERGED from [com.facebook.soloader:annotation:0.8.2] /Users/macmini/.gradle/caches/transforms-2/files-2.1/04779ff23a1aca33eecd7be8199f199e/jetified-annotation-0.8.2/AndroidManifest.xml:11:5-20
 MERGED from [com.facebook.soloader:annotation:0.8.2] /Users/macmini/.gradle/caches/transforms-2/files-2.1/04779ff23a1aca33eecd7be8199f199e/jetified-annotation-0.8.2/AndroidManifest.xml:11:5-20
 	android:appComponentFactory
@@ -362,12 +371,16 @@ MERGED from [:react-native-community_masked-view] /Users/macmini/Desktop/contact
 MERGED from [:react-native-community_masked-view] /Users/macmini/Desktop/contactsAICtwo/node_modules/@react-native-community/masked-view/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:5:5-7:41
 MERGED from [:react-native-community_netinfo] /Users/macmini/Desktop/contactsAICtwo/node_modules/@react-native-community/netinfo/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:5:5-7:41
 MERGED from [:react-native-community_netinfo] /Users/macmini/Desktop/contactsAICtwo/node_modules/@react-native-community/netinfo/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:5:5-7:41
+MERGED from [:react-native-picker_picker] /Users/macmini/Desktop/contactsAICtwo/node_modules/@react-native-picker/picker/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:5:5-7:41
+MERGED from [:react-native-picker_picker] /Users/macmini/Desktop/contactsAICtwo/node_modules/@react-native-picker/picker/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:5:5-7:41
 MERGED from [:react-native-camera] /Users/macmini/Desktop/contactsAICtwo/node_modules/react-native-camera/android/build/intermediates/library_manifest/generalDebug/AndroidManifest.xml:5:5-7:41
 MERGED from [:react-native-camera] /Users/macmini/Desktop/contactsAICtwo/node_modules/react-native-camera/android/build/intermediates/library_manifest/generalDebug/AndroidManifest.xml:5:5-7:41
 MERGED from [:react-native-gesture-handler] /Users/macmini/Desktop/contactsAICtwo/node_modules/react-native-gesture-handler/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:7:5-9:41
 MERGED from [:react-native-gesture-handler] /Users/macmini/Desktop/contactsAICtwo/node_modules/react-native-gesture-handler/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:7:5-9:41
 MERGED from [:react-native-image-crop-picker] /Users/macmini/Desktop/contactsAICtwo/node_modules/react-native-image-crop-picker/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:6:5-8:41
 MERGED from [:react-native-image-crop-picker] /Users/macmini/Desktop/contactsAICtwo/node_modules/react-native-image-crop-picker/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:6:5-8:41
+MERGED from [:react-native-keychain] /Users/macmini/Desktop/contactsAICtwo/node_modules/react-native-keychain/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:7:5-9:41
+MERGED from [:react-native-keychain] /Users/macmini/Desktop/contactsAICtwo/node_modules/react-native-keychain/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:7:5-9:41
 MERGED from [:react-native-permissions] /Users/macmini/Desktop/contactsAICtwo/node_modules/react-native-permissions/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:5:5-7:41
 MERGED from [:react-native-permissions] /Users/macmini/Desktop/contactsAICtwo/node_modules/react-native-permissions/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:5:5-7:41
 MERGED from [:react-native-reanimated] /Users/macmini/Desktop/contactsAICtwo/node_modules/react-native-reanimated/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:7:5-9:41
@@ -378,6 +391,8 @@ MERGED from [:react-native-screens] /Users/macmini/Desktop/contactsAICtwo/node_m
 MERGED from [:react-native-screens] /Users/macmini/Desktop/contactsAICtwo/node_modules/react-native-screens/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:7:5-9:41
 MERGED from [:react-native-svg] /Users/macmini/Desktop/contactsAICtwo/node_modules/react-native-svg/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:5:5-7:41
 MERGED from [:react-native-svg] /Users/macmini/Desktop/contactsAICtwo/node_modules/react-native-svg/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:5:5-7:41
+MERGED from [:react-native-timezone] /Users/macmini/Desktop/contactsAICtwo/node_modules/react-native-timezone/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:7:5-9:41
+MERGED from [:react-native-timezone] /Users/macmini/Desktop/contactsAICtwo/node_modules/react-native-timezone/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:7:5-9:41
 MERGED from [:react-native-vector-icons] /Users/macmini/Desktop/contactsAICtwo/node_modules/react-native-vector-icons/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:7:5-9:41
 MERGED from [:react-native-vector-icons] /Users/macmini/Desktop/contactsAICtwo/node_modules/react-native-vector-icons/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:7:5-9:41
 MERGED from [com.facebook.react:react-native:0.63.2] /Users/macmini/.gradle/caches/transforms-2/files-2.1/6501111b6d0f4d240062d820d8f7f1e1/jetified-react-native-0.63.2/AndroidManifest.xml:7:5-9:41
@@ -556,6 +571,10 @@ MERGED from [androidx.arch.core:core-runtime:2.1.0] /Users/macmini/.gradle/cache
 MERGED from [androidx.arch.core:core-runtime:2.1.0] /Users/macmini/.gradle/caches/transforms-2/files-2.1/ec82b7920c9abeac5ab1a2da76c42e55/core-runtime-2.1.0/AndroidManifest.xml:20:5-22:41
 MERGED from [com.google.firebase:protolite-well-known-types:17.0.0] /Users/macmini/.gradle/caches/transforms-2/files-2.1/597690c0e80de0bce6821f68dbb739c4/jetified-protolite-well-known-types-17.0.0/AndroidManifest.xml:7:5-9:41
 MERGED from [com.google.firebase:protolite-well-known-types:17.0.0] /Users/macmini/.gradle/caches/transforms-2/files-2.1/597690c0e80de0bce6821f68dbb739c4/jetified-protolite-well-known-types-17.0.0/AndroidManifest.xml:7:5-9:41
+MERGED from [androidx.biometric:biometric:1.0.1] /Users/macmini/.gradle/caches/transforms-2/files-2.1/da7fa7baffdf93d6cdfe384d1d15cd59/biometric-1.0.1/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.biometric:biometric:1.0.1] /Users/macmini/.gradle/caches/transforms-2/files-2.1/da7fa7baffdf93d6cdfe384d1d15cd59/biometric-1.0.1/AndroidManifest.xml:20:5-22:41
+MERGED from [com.facebook.conceal:conceal:1.1.3] /Users/macmini/.gradle/caches/transforms-2/files-2.1/d0cc9ef58d094ef18e578efffb0be643/jetified-conceal-1.1.3/AndroidManifest.xml:12:5-14:41
+MERGED from [com.facebook.conceal:conceal:1.1.3] /Users/macmini/.gradle/caches/transforms-2/files-2.1/d0cc9ef58d094ef18e578efffb0be643/jetified-conceal-1.1.3/AndroidManifest.xml:12:5-14:41
 MERGED from [com.facebook.soloader:annotation:0.8.2] /Users/macmini/.gradle/caches/transforms-2/files-2.1/04779ff23a1aca33eecd7be8199f199e/jetified-annotation-0.8.2/AndroidManifest.xml:7:5-9:41
 MERGED from [com.facebook.soloader:annotation:0.8.2] /Users/macmini/.gradle/caches/transforms-2/files-2.1/04779ff23a1aca33eecd7be8199f199e/jetified-annotation-0.8.2/AndroidManifest.xml:7:5-9:41
 MERGED from [com.facebook.fresco:fbcore:2.2.0] /Users/macmini/.gradle/caches/transforms-2/files-2.1/131d22cd08543d51968fd1f0802141af/jetified-fbcore-2.2.0/AndroidManifest.xml:5:5-7:41
@@ -662,6 +681,28 @@ ADDED from [:react-native-image-crop-picker] /Users/macmini/Desktop/contactsAICt
 		ADDED from [:react-native-image-crop-picker] /Users/macmini/Desktop/contactsAICtwo/node_modules/react-native-image-crop-picker/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:31:13-69
 	android:name
 		ADDED from [:react-native-image-crop-picker] /Users/macmini/Desktop/contactsAICtwo/node_modules/react-native-image-crop-picker/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:30:13-60
+uses-permission#android.permission.USE_BIOMETRIC
+ADDED from [:react-native-keychain] /Users/macmini/Desktop/contactsAICtwo/node_modules/react-native-keychain/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:11:5-72
+MERGED from [androidx.biometric:biometric:1.0.1] /Users/macmini/.gradle/caches/transforms-2/files-2.1/da7fa7baffdf93d6cdfe384d1d15cd59/biometric-1.0.1/AndroidManifest.xml:24:5-72
+MERGED from [androidx.biometric:biometric:1.0.1] /Users/macmini/.gradle/caches/transforms-2/files-2.1/da7fa7baffdf93d6cdfe384d1d15cd59/biometric-1.0.1/AndroidManifest.xml:24:5-72
+	android:name
+		ADDED from [:react-native-keychain] /Users/macmini/Desktop/contactsAICtwo/node_modules/react-native-keychain/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:11:22-69
+uses-permission#android.permission.USE_FINGERPRINT
+ADDED from [:react-native-keychain] /Users/macmini/Desktop/contactsAICtwo/node_modules/react-native-keychain/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:12:5-74
+MERGED from [androidx.biometric:biometric:1.0.1] /Users/macmini/.gradle/caches/transforms-2/files-2.1/da7fa7baffdf93d6cdfe384d1d15cd59/biometric-1.0.1/AndroidManifest.xml:25:5-74
+MERGED from [androidx.biometric:biometric:1.0.1] /Users/macmini/.gradle/caches/transforms-2/files-2.1/da7fa7baffdf93d6cdfe384d1d15cd59/biometric-1.0.1/AndroidManifest.xml:25:5-74
+	android:name
+		ADDED from [:react-native-keychain] /Users/macmini/Desktop/contactsAICtwo/node_modules/react-native-keychain/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:12:22-71
+activity#androidx.biometric.DeviceCredentialHandlerActivity
+ADDED from [:react-native-keychain] /Users/macmini/Desktop/contactsAICtwo/node_modules/react-native-keychain/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:17:9-20:67
+MERGED from [androidx.biometric:biometric:1.0.1] /Users/macmini/.gradle/caches/transforms-2/files-2.1/da7fa7baffdf93d6cdfe384d1d15cd59/biometric-1.0.1/AndroidManifest.xml:28:9-31:67
+MERGED from [androidx.biometric:biometric:1.0.1] /Users/macmini/.gradle/caches/transforms-2/files-2.1/da7fa7baffdf93d6cdfe384d1d15cd59/biometric-1.0.1/AndroidManifest.xml:28:9-31:67
+	android:exported
+		ADDED from [:react-native-keychain] /Users/macmini/Desktop/contactsAICtwo/node_modules/react-native-keychain/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:19:13-36
+	android:theme
+		ADDED from [:react-native-keychain] /Users/macmini/Desktop/contactsAICtwo/node_modules/react-native-keychain/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:20:13-64
+	android:name
+		ADDED from [:react-native-keychain] /Users/macmini/Desktop/contactsAICtwo/node_modules/react-native-keychain/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:18:13-78
 meta-data#com.google.firebase.components:com.google.firebase.database.DatabaseRegistrar
 ADDED from [com.google.firebase:firebase-database:19.5.0] /Users/macmini/.gradle/caches/transforms-2/files-2.1/de3a037bef3ce244fb667de3e2fed2ba/jetified-firebase-database-19.5.0/AndroidManifest.xml:32:13-34:85
 	android:value

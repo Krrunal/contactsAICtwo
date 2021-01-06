@@ -38,11 +38,12 @@ class Selectlabels extends Component {
       isSelected: false,
       selectedRealetion: [],
       selectedName: "",
+      addView:false,
     };
   }
 
   componentDidMount() {
-  this.setState({ loader: true });
+    this.setState({ loader: true });
     const baseurl = Constants.baseurl;
     fetch(baseurl + "get_label")
       .then((response) => {
@@ -66,6 +67,7 @@ class Selectlabels extends Component {
   }
 
   onchecked = (keyInd, item) => {
+    this.setState({ addView: true });
     const { dataManage, selectedRealetion } = this.state;
     let arr = dataManage.map((item, key) => {
       if (keyInd == key) {
@@ -96,6 +98,7 @@ class Selectlabels extends Component {
   };
   
   deleteApiCall = (isSelect, item, key) => {
+    
     const { dataManage, selectedRealetion } = this.state;
 
     dataManage.map((item) => {
@@ -121,6 +124,8 @@ class Selectlabels extends Component {
       .then((response) => response.json())
       .then((responseJson) => {
         this.refs.toast.show(responseJson.message);
+        this.setState({ addView : false });
+        this.props.navigation.navigate("Label")
         if (responseJson.data.relation == "") {
           this.setState({ dataManage: responseJson.data.relation });
         } else {
@@ -149,7 +154,7 @@ class Selectlabels extends Component {
           {this.state.dataManage === ""
             ? null
             : this.state.dataManage.map((item, key) => (
-                <View style={styles.tripleView} key={key}>
+                <View style={styles.tripleView2} key={key}>
                   <CheckBox
                     value={item.isSelect}
                     onChange={() => {
@@ -227,6 +232,14 @@ class Selectlabels extends Component {
 
         <Container>
           {this.renderHeader()}
+          {this.state.addView ? (
+            <View   style={{ marginLeft: Metrics.doubleBaseMargin, marginTop: Metrics.doubleBaseMargin,}}>
+              <Text style={{ fontSize: width * 0.05,fontFamily: Font.medium,color: COLORS.main_text_color,}}>
+                Delete Label
+              </Text>
+            </View>
+          ) : null}
+
           {this.renderMiddle()}
           {this.renderLast()}
           <Toast

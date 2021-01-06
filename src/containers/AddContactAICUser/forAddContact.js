@@ -45,7 +45,7 @@ class forAddContact extends Component {
       label: await AsyncStorage.getItem("@selectedLabel"),
       data: JSON.parse(await AsyncStorage.getItem("@qrData")),
     });
-     console.log("Username  ---->", this.state.label);
+     console.log("Username  ---->", this.state.label && this.props.user_id);
     // console.log(JSON.parse(await AsyncStorage.getItem("@qrData")));
     const { data, label } = this.state;
     firebase.firestore().collection(this.props.user_id).get()

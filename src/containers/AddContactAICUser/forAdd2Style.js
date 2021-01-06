@@ -94,7 +94,7 @@ export default StyleSheet.create({
    // justifyContent: 'center',
     alignItems: 'center',
     width: width * 0.85,
-    height: height * 0.06,
+   // height: height * 0.06,
     backgroundColor: COLORS.white,
     shadowColor: COLORS.black,
     shadowOffset: {
@@ -185,5 +185,9 @@ export default StyleSheet.create({
     flex: 0.6,
   },
 
-
+back2Text:{
+  color: COLORS.main_text_color,
+  fontFamily: Font.medium,
+  fontSize: width * 0.045,
+}
 });

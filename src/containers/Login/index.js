@@ -11,9 +11,11 @@ import {
 } from "react-native";
 import React, { Component } from "react";
 import styled, { ThemeProvider } from "styled-components/native";
-
+import AsyncStorage from "@react-native-community/async-storage";
 import { COLORS } from "../theme/Colors.js";
+import CheckBox from "@react-native-community/checkbox";
 import Font from "../theme/font";
+import * as Keychain from "react-native-keychain";
 import GeneralStatusBar from "../../components/StatusBar/index";
 import Icon from "react-native-vector-icons/FontAwesome";
 import { InputCard } from "../../components/InputCard";
@@ -39,6 +41,7 @@ class Login extends Component {
     super(props);
     this.state = {
       checked: false,
+      checkedRemeber: false,
       isKeyboardVisible: false,
       show: false,
       phone_number: "",
@@ -47,20 +50,22 @@ class Login extends Component {
       email: "",
       viewIntl: false,
       emailLogin: "",
-      viewPhone:true
+      viewPhone: true,
+      loginUsername: "",
+      loginPassword: "",
+      emailSection: false,
+      passSection: false,
     };
   }
 
-  componentDidMount = () => {
-    {
-      if (this.props.theme.mode === "light") {
-        this.setState({ checked4: false });
-        this.setState({ checked5: true });
-      } else {
-        this.setState({ checked4: true });
-        this.setState({ checked5: false });
-      }
-    }
+  componentDidMount = async () => {
+    this.setState({
+      loginUsername: await AsyncStorage.getItem("@loginUsername"),
+    });
+    // console.log("Login USername------>", this.state.loginUsername);
+    // console.log("Login USername------>", this.props.password);
+    const credentials = await Keychain.getGenericPassword();
+    console.log("credentinall---->",credentials.username)
   };
 
   showPassword = () => {
@@ -69,10 +74,34 @@ class Login extends Component {
       : this.setState({ show: true });
   };
 
-  check = () => {
-    this.state.checkedOff == false
-      ? this.setState({ checkedOff: true })
-      : this.setState({ checkedOff: false });
+  check = async () => {
+    const { password } = this.props;
+    const { emailLogin } = this.state;
+    console.log("username:=--->", emailLogin);
+    console.log("Password:=--->", password);
+    if (emailLogin == "") {
+      showToastError("Please fill all required fileds");
+    } else {
+      this.setState({ checkedOff: true });
+     
+      await Keychain.setGenericPassword(emailLogin, password);
+  
+      try {
+        // Retrieve the credentials
+        const credentials = await Keychain.getGenericPassword();
+        if (credentials) {
+          console.log(
+            "Credentials successfully loaded for user " + credentials.username
+          );
+        } else {
+          console.log("No credentials stored");
+        }
+      } catch (error) {
+        console.log("Keychain couldn't be accessed!", error);
+      }
+      await Keychain.resetGenericPassword();
+    }
+  
   };
 
   navigate = () => {
@@ -98,20 +127,6 @@ class Login extends Component {
             this.props.loginUser();
           }
         }
-
-        //const { password } = this.props;
-
-        // emailLogin == ""
-        //   ? this.setState({ unameError: "Please enter username" })
-        //   : this.setState({ unameError: "" });
-        // password == ""
-        //   ? this.setState({ passwordError: "Please enter password" })
-        //   : this.setState({ passwordError: "" });
-
-        // if (emailLogin && password) {
-        //   //alert("yes");
-        //   this.props.loginUser();
-        // }
       } else {
         alert("Net is not connected");
       }
@@ -145,24 +160,35 @@ class Login extends Component {
     }
   };
   changeEmailLogin = (emailLogin) => {
+    this.setState({ emailSection: true });
+    console.log("email change----->", emailLogin);
     this.setState({ email_login: emailLogin });
   };
+
   showLoader() {
     if (this.props.loader == true) {
       return <Spinner />;
     }
   }
   viewIntlToggle = () => {
-    
-      this.setState({ viewIntl: false });
-      this.setState({ viewPhone :true})
-     
-  
+    this.setState({ viewIntl: false });
+    this.setState({ viewPhone: true });
   };
   viewPhoneToggle = () => {
     this.setState({ viewIntl: true });
-    this.setState({ viewPhone :false})
-  }
+    this.setState({ viewPhone: false });
+  };
+  passwordChange = (loginPassChange) => {
+    this.setState({ passSection: true });
+    this.props.loginPassChange(loginPassChange);
+    console.log(this.props.loginPassChange);
+  };
+  viewEmailSection = () => {
+    this.setState({ emailSection: true });
+  };
+  viewPassSection = () => {
+    this.setState({ passSection: true });
+  };
   render() {
     const {
       email,
@@ -193,63 +219,12 @@ class Login extends Component {
                   <Image source={logo} style={styles.logoImg} />
                   <Text style={styles.logoText}>CONTACTS AIC</Text>
                 </View>
-                {/* <IntlPhoneInput
-                        containerStyle={{
-                          width: width * 0.85,
-                          height: height * 0.06,
-                          backgroundColor: COLORS.main_sky_blue,
-                          marginTop: Metrics.doubleBaseMargin,
-                        }}
-                        phoneInputStyle={styles.mobileInputText}
-                        dialCodeTextStyle={styles.mobileInputText}
-                        dialCode={this.state.dialCode}
-                        value={phone}
-                        inputRef={"phone"}
-                        keyboardType={"numeric"}
-                        onChangeText={this.onChangeNumber}
-                        defaultCountry="CA"
-                        // isShowLabel={false}
-                      /> */}
 
-            
-                  {this.state.viewIntl  ? (
-                    <IntlPhoneInput
-                      containerStyle={{
-                        width: width * 0.85,
-                        height: height * 0.06,
-                        backgroundColor: COLORS.main_sky_blue,
-                        marginTop: Metrics.doubleBaseMargin,
-                     
-                      }}
-                      phoneInputStyle={styles.mobileInputText}
-                      dialCodeTextStyle={styles.mobileInputText}
-                      dialCode={this.state.dialCode}
-                      value={phone}
-                      inputRef={"phone"}
-                      keyboardType={"numeric"}
-                      onChangeText={this.onChangeNumber}
-                      defaultCountry="CA"
-                      isShowLabelManually={false}
-                    />
-                  ) : (
-                   null
-                  )}
-               
-                {this.state.viewPhone ? (
-                    <TouchableHighlight
-                    style={styles.viewEmail}
-                    onPress={this.viewPhoneToggle}
-                  >
-                    <Text style={styles.phnText}>Phone Number</Text>
-                  </TouchableHighlight>
-                ) : ( null)
-                }
-              
-                {/* <View>
+                {this.state.viewIntl ? (
                   <IntlPhoneInput
                     containerStyle={{
                       width: width * 0.85,
-                      height: height * 0.06,
+                      height: height * 0.07,
                       backgroundColor: COLORS.main_sky_blue,
                       marginTop: Metrics.doubleBaseMargin,
                     }}
@@ -257,100 +232,142 @@ class Login extends Component {
                     dialCodeTextStyle={styles.mobileInputText}
                     dialCode={this.state.dialCode}
                     value={phone}
-                    inputRef={(ref) => (this.phoneInput = ref)}
+                    inputRef={"phone"}
                     keyboardType={"numeric"}
                     onChangeText={this.onChangeNumber}
                     defaultCountry="CA"
-                    isShowLabelManually={false}
+                    isLogin={false}
                   />
-                </View> */}
+                ) : null}
+
+                {this.state.viewPhone ? (
+                  <TouchableHighlight
+                    style={styles.viewEmail}
+                    onPress={this.viewPhoneToggle}
+                    underlayColor="#DDDDDD"
+                  >
+                    <Text style={styles.phnText}>Phone Number</Text>
+                  </TouchableHighlight>
+                ) : null}
+
                 {this.state.contactError == undefined ||
                 this.state.contactError == "" ? null : (
                   <Text style={styles.error}>{this.state.contactError}</Text>
                 )}
-                {/* <View style={[styles.viewEmail, { marginTop: height * 0.07 }]}>
-              
-                  <InputCard
-                    onChangeText={loginNumberChange}
-                    blurOnSubmit={false}
-                    autoCapitalize={true}
-                    ref={"phoneCont"}
-                    inputRef={"phone"}
-                    onSubmitEditing={(phone) => this.onSubmit("phone")}
-                    value={phone}
-                    returnKey={"next"}
-                    keyboardType={"numeric"}
-                    secureEntry={false}
-                    placeholder={"Phone Number"}
-                    style={styles.uText}
-                  ></InputCard>
-                </View> */}
+
                 <View style={styles.orView}>
                   <Text style={styles.orText}>OR</Text>
                 </View>
-                <View style={[styles.viewEmail, { marginTop: height * 0.01 }]}>
-                  <InputCard
-                    onChangeText={(emailLogin) => this.setState({ emailLogin })}
-                    blurOnSubmit={false}
-                    autoCapitalize={true}
-                    ref={"emailCont"}
-                    inputRef={"emailLogin"}
-                    onSubmitEditing={(emailLogin) =>
-                      this.onSubmit("emailLogin")
-                    }
-                    value={emailLogin}
-                    returnKey={"next"}
-                    keyboardType={"email-address"}
-                    secureEntry={false}
-                    placeholder={"Username"}
-                    style={styles.uText}
-                  ></InputCard>
-                </View>
+                {this.state.emailSection == false ? (
+                  <TouchableHighlight
+                    style={[styles.viewEmail, { marginTop: height * 0.01 }]}
+                    underlayColor="#DDDDDD"
+                    onPress={this.viewEmailSection}
+                  >
+                    <Text style={styles.phnText}>Username</Text>
+                  </TouchableHighlight>
+                ) : null}
+                {this.state.emailSection == true ? (
+                  <TouchableOpacity
+                    style={[styles.viewEmail, { marginTop: height * 0.01 }]}
+                  >
+                    <View>
+                      <Text style={styles.emailText}>Username</Text>
+                    </View>
+
+                    <InputCard
+                      onChangeText={(emailLogin) =>
+                        this.setState({ emailLogin })
+                      }
+                      blurOnSubmit={false}
+                      autoCapitalize={true}
+                      ref={"emailCont"}
+                      inputRef={"emailLogin"}
+                      onSubmitEditing={(emailLogin) =>
+                        this.onSubmit("emailLogin")
+                      }
+                      value={
+                        this.state.loginUsername !== ""
+                          ? this.state.loginUsername
+                          : emailLogin
+                      }
+                      // value={emailLogin}
+                      returnKey={"next"}
+                      keyboardType={"email-address"}
+                      secureEntry={false}
+                      placeholder={"Username"}
+                      style={styles.uText}
+                    ></InputCard>
+                  </TouchableOpacity>
+                ) : null}
                 {this.state.unameError == undefined ||
                 this.state.unameError == "" ? null : (
                   <Text style={styles.error}>{this.state.unameError}</Text>
                 )}
 
-                <View
-                  style={[styles.viewPassword, { marginTop: height * 0.03 }]}
-                >
-                  <InputCard
-                    onChangeText={loginPassChange}
-                    blurOnSubmit={false}
-                    autoCapitalize={false}
-                    ref={"LoginpasswordCont"}
-                    inputRef={"password"}
-                    onSubmitEditing={(password) => this.onSubmit("password")}
-                    value={password}
-                    returnKey={"done"}
-                    keyboardType={"default"}
-                    secureEntry={this.state.show}
-                    placeholder={"Password"}
-                    style={styles.uText}
-                  ></InputCard>
+                {this.state.passSection == false ? (
+                  <TouchableHighlight
+                    style={[styles.viewEmail, { marginTop: height * 0.01 }]}
+                    underlayColor="#DDDDDD"
+                    onPress={this.viewPassSection}
+                  >
+                    <Text style={styles.phnText}>Password</Text>
+                  </TouchableHighlight>
+                ) : null}
+                {this.state.passSection == true ? (
+                  <View
+                    style={[styles.viewPassword, { marginTop: height * 0.03 }]}
+                  >
+                    <View>
+                      <Text style={styles.emailText}>Password</Text>
+                    </View>
 
-                  <View style={styles.eyeView}>
-                    <TouchableHighlight
-                      style={styles.eyeContain}
-                      underlayColor="transparent"
-                      onPress={this.showPassword}
-                    >
-                      {this.state.show == false ? (
-                        <Icon
-                          name="eye"
-                          size={18}
-                          color={COLORS.main_text_color}
-                        />
-                      ) : (
-                        <Icon
-                          name="eye-slash"
-                          size={18}
-                          color={COLORS.main_text_color}
-                        />
-                      )}
-                    </TouchableHighlight>
+                    <View style={{ flexDirection: "row" }}>
+                      <InputCard
+                        onChangeText={loginPassChange}
+                        blurOnSubmit={false}
+                        autoCapitalize={false}
+                        ref={"LoginpasswordCont"}
+                        inputRef={"password"}
+                        onSubmitEditing={(password) =>
+                          this.onSubmit("password")
+                        }
+                        value={
+                          this.state.loginUsername !== ""
+                            ? this.props.password
+                            : this.state.loginPassword
+                        }
+                        returnKey={"done"}
+                        keyboardType={"default"}
+                        secureEntry={this.state.show}
+                        placeholder={"Password"}
+                        style={styles.uText}
+                      ></InputCard>
+
+                      <View style={styles.eyeView}>
+                        <TouchableHighlight
+                          style={styles.eyeContain}
+                          underlayColor="transparent"
+                          onPress={this.showPassword}
+                        >
+                          {this.state.show == false ? (
+                            <Icon
+                              name="eye"
+                              size={18}
+                              color={COLORS.main_text_color}
+                            />
+                          ) : (
+                            <Icon
+                              name="eye-slash"
+                              size={18}
+                              color={COLORS.main_text_color}
+                            />
+                          )}
+                        </TouchableHighlight>
+                      </View>
+                    </View>
                   </View>
-                </View>
+                ) : null}
                 {this.state.passwordError == undefined ||
                 this.state.passwordError == "" ? null : (
                   <Text style={styles.error}>{this.state.passwordError}</Text>
@@ -403,7 +420,7 @@ class Login extends Component {
 }
 
 function mapStateToProps(state) {
-  //console.log("State From Log -- in------->", state);
+  // console.log("State From Log -- in------->", state.login.password);
 
   return {
     response: state.login.response,

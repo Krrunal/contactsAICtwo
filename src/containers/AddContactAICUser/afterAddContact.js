@@ -45,29 +45,28 @@ class afterAddContact extends Component {
       />
     );
   }
+  
   submitEdit = async () => {
     const { u_name1 ,selectedUsername} = this.state;
     this.setState({ graySection: true });
-    selectedUsername.push(u_name1);
-  //  await AsyncStorage.setItem("@user1", u_name1);
-    
+    // selectedUsername.push(u_name1);
   };
 
   uName2Submit = async () => {
     const {  u_name2,selectedUsername } = this.state;
      this.setState({ grayU_name1: true });
-     selectedUsername.push(u_name2);
+    //  selectedUsername.push(u_name2);
    
   };
   uName3Submit = async () => {
     const {  u_name3 ,selectedUsername} = this.state;
     this.setState({ grayU_name2: true });
-    selectedUsername.push(u_name3);
+    // selectedUsername.push(u_name3);
    
   };
   uName4Submit = async () => {
     const {  u_name4 , selectedUsername} = this.state;
-     selectedUsername.push(u_name4);
+    // selectedUsername.push(u_name4);
     console.log("selected Username ---->",selectedUsername);
   
   };
@@ -229,7 +228,6 @@ class afterAddContact extends Component {
                 styles.WhiteviewTwo,
                 { backgroundColor: COLORS.main_sky_blue },
               ]}
-              //  onPress={this.forAddContactNavigate}
             >
               <Text style={styles.backButtton}>Next</Text>
             </TouchableOpacity>
@@ -244,9 +242,18 @@ class afterAddContact extends Component {
   };
 
   forAddContactNavigate = async () => {
-    const { selectedUsername  } = this.state;
+    const { selectedUsername ,u_name1 ,u_name2 ,u_name3,u_name4} = this.state;
+     selectedUsername.push(u_name1);
+     selectedUsername.push(u_name2);
+     selectedUsername.push(u_name3);
+     selectedUsername.push(u_name4);
     const selected = selectedUsername.toString();
-  
+    
+    
+    await AsyncStorage.setItem("@u_name1",u_name1);
+    await AsyncStorage.setItem("@u_name2",u_name2);
+    await AsyncStorage.setItem("@u_name3",u_name3);
+    await AsyncStorage.setItem("@u_name4",u_name4);
     await AsyncStorage.setItem("@username", selected);
     this.props.navigation.navigate("addContactMultiple");
   };

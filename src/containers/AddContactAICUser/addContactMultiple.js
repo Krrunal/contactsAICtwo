@@ -1,11 +1,13 @@
 import {
   Dimensions,
+  FlatList,
   Image,
+  Modal,
   ScrollView,
   Text,
+  TextInput,
   TouchableOpacity,
   View,
-  TextInput,
 } from "react-native";
 import React, { Component } from "react";
 import { darkTheme, lightTheme } from "../theme/themeProps";
@@ -24,6 +26,7 @@ import { Spinner } from "../../components/Spinner";
 import Toast from "react-native-easy-toast";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
+import downArrow from "../../assets/icons/dropIcon.png";
 import plus from "../../assets/images/plus.png";
 import styles from "./addContactMultipleStyle.js";
 import { switchTheme } from "../../action/themeAction";
@@ -34,17 +37,45 @@ class addContactMultiple extends Component {
   state = {
     label: "",
     dataManage: [],
-    checked: false,
+    dataManage2: [],
+    dataManage3: [],
+    dataManage4: [],
+    dataManage5: [],
     isSelected: false,
     selectedRealetion: [],
     data: "",
     isLoading: false,
     viewSection: false,
     disabledLabel: false,
+    selectedName: "",
+    user_name: "",
+    checked: false,
+    splitData: "",
+    splitData1: "",
+    itemSelected: "",
+    userLabel2: [],
+    userLabel3: [],
+    userLabel4: [],
+    u_name1: "",
+    u_name2: "",
+    u_name3: "",
+    u_name4: "",
   };
 
-  componentDidMount() {
+  async componentDidMount() {
     const { navigation } = this.props;
+    this.setState({
+      selectedName: await AsyncStorage.getItem("@selectedName"),
+      user_name: await AsyncStorage.getItem("@username"),
+      u_name1: await AsyncStorage.getItem("@u_name1"),
+      u_name2: await AsyncStorage.getItem("@u_name2"),
+      u_name3: await AsyncStorage.getItem("@u_name3"),
+      u_name4: await AsyncStorage.getItem("@u_name4"),
+    });
+    const { user_name } = this.state;
+    let splitData = user_name.split(/,/);
+    this.setState({ splitData: splitData[0] });
+
     this.focusListener = navigation.addListener("didFocus", async () => {
       this.labelList();
     });
@@ -82,9 +113,20 @@ class addContactMultiple extends Component {
         .then((responseJson) => {
           console.log("response=---->", responseJson);
           var arr = responseJson.data.relation.split(/,/).map((item) => {
-            return { relation: item, isSelect: false };
+            return {
+              relation: item,
+              isSelect: false,
+              isUser1: false,
+              isUser2: false,
+              isUser3: false,
+              isUser4: false,
+            };
           });
           this.setState({ dataManage: arr, isLoading: false });
+          this.setState({ dataManage2: arr, isLoading: false });
+          this.setState({ dataManage3: arr, isLoading: false });
+          this.setState({ dataManage4: arr, isLoading: false });
+          this.setState({ dataManage5: arr, isLoading: false });
         })
         .catch((error) => {
           console.error(error);
@@ -99,7 +141,6 @@ class addContactMultiple extends Component {
     var _body = new FormData();
     _body.append("relation", relation);
 
-    //console.log("state value === > ", relation);
     fetch(baseurl + "add_label", {
       method: "POST",
       headers: {
@@ -128,16 +169,73 @@ class addContactMultiple extends Component {
       });
   };
 
-  onchecked = (keyInd, item) => {
-    const { dataManage, selectedRealetion } = this.state;
-    let arr = dataManage.map((item, key) => {
-      if (keyInd == key) {
-        item.isSelect = !item.isSelect;
-      }
-      return { ...item };
-    });
-    this.setState({ dataManage: arr });
-    console.log("datatmanage arr ===> ", dataManage);
+  onchecked = async (keyInd, item) => {
+    const {
+      dataManage,
+      dataManage2,
+      dataManage3,
+      dataManage4,
+      dataManage5,
+      user_name,
+      multipleLabel,
+      splitData,
+      splitData1,
+      u_name1,
+      u_name2,
+      u_name3,
+      u_name4,
+    } = this.state;
+
+    if (splitData) {
+      let arr = dataManage.map((item, key) => {
+        if (keyInd == key) {
+          item.isSelect = !item.isSelect;
+        }
+        return { ...item };
+      });
+
+      this.setState({ dataManage: arr });
+    }
+    if (u_name1 == splitData1) {
+      let arr = dataManage.map((item, key) => {
+        if (keyInd == key) {
+          item.isSelect = !item.isSelect;
+        }
+        return { ...item };
+      });
+
+      this.setState({ dataManage: arr });
+    }
+
+    if (u_name2 == splitData1) {
+     let arr = dataManage3.map((item, key) => {
+        if (keyInd == key) {
+          item.isUser2 = !item.isUser2;
+        }
+        return { ...item };
+      });
+      this.setState({ dataManage3: arr });
+    }
+
+    if (u_name3 == splitData1) {
+      let arr = dataManage4.map((item, key) => {
+        if (keyInd == key) {
+          item.isUser3 = !item.isUser3;
+        }
+        return { ...item };
+      });
+      this.setState({ dataManage4: arr });
+    }
+
+    if (u_name4 == splitData1) {
+      let arr = dataManage5.map((item, key) => {
+        if (keyInd == key) {
+          item.isUser4 = !item.isUser4;
+        }
+        return { ...item };
+      });
+      this.setState({ dataManage5: arr });
+    }
   };
 
   onPressAddLabel = () => {
@@ -168,33 +266,203 @@ class addContactMultiple extends Component {
       />
     );
   }
-  
+  openFlatView = () => {
+    if (this.state.flatViewOpen == true) {
+      this.setState({ flatViewOpen: false });
+    } else {
+      this.setState({ flatViewOpen: true });
+    }
+  };
+  onManage = (item) => {
+    const {
+      dataManage,
+      user_name,
+      multipleLabel,
+      splitData,
+      splitData1,
+    } = this.state;
+
+    this.setState({ splitData1: item });
+    this.setState({ flatViewOpen: false });
+    this.setState({ splitData: "" });
+
+    let contactArr = dataManage.map((item, key) => {
+      if (this.state.checked == false) {
+        item.isSelect = false;
+      }
+    });
+  };
+  renderDropDown() {
+    return (
+      <View
+        style={{
+          alignItems: "center",
+          width: width,
+        }}
+      >
+        <TouchableOpacity style={styles.flatSmallView}>
+          <TouchableOpacity>
+            <View style={{ flexDirection: "row", width: width * 0.8 }}>
+              {this.state.splitData1 == "" ? (
+                <Text style={styles.flatSmallText}>{this.state.splitData}</Text>
+              ) : (
+                <Text style={styles.flatSmallText}>
+                  {this.state.splitData1}
+                </Text>
+              )}
+              <TouchableOpacity
+                style={{
+                  justifyContent: "flex-end",
+                  flex: 1,
+                  flexDirection: "row",
+                  marginRight: 15,
+                }}
+                onPress={this.openFlatView}
+              >
+                <Image source={downArrow} style={styles.downArrowStyle} />
+              </TouchableOpacity>
+            </View>
+
+            {this.state.flatViewOpen == true ? (
+              <Modal
+                style={styles.footerFlat}
+                visible={this.state.flatViewOpen}
+                transparent={true}
+                animationType="fade"
+                onRequestClose={() => this.setState({ flatViewOpen: false })}
+              >
+                <View
+                  style={{
+                    alignItems: "center",
+                    width: width,
+                    marginTop: Metrics.labelMargin,
+                  }}
+                >
+                  <View style={styles.contentFlat}>
+                    <View style={styles.flatView}>
+                      <View
+                        style={{
+                          flexDirection: "row",
+                          width: width * 0.8,
+                        }}
+                      >
+                        <View style={{ flexDirection: "column" }}>
+                          {this.state.user_name.split(/,/).map((item) => (
+                            <TouchableOpacity
+                              onPress={() => {
+                                this.onManage(item);
+                              }}
+                            >
+                              <Text style={styles.flatSmallText}> {item} </Text>
+                            </TouchableOpacity>
+                          ))}
+                        </View>
+
+                        <TouchableOpacity
+                          style={{
+                            justifyContent: "flex-end",
+                            flex: 1,
+                            flexDirection: "row",
+                            marginRight: 15,
+                          }}
+                          onPress={this.openFlatView}
+                        >
+                          <Image
+                            source={downArrow}
+                            style={styles.downArrowStyle}
+                          />
+                        </TouchableOpacity>
+                      </View>
+                    </View>
+                  </View>
+                </View>
+              </Modal>
+            ) : null}
+          </TouchableOpacity>
+        </TouchableOpacity>
+      </View>
+    );
+  }
+
   renderMiddle() {
+    const {
+      dataManage,
+      user_name,
+      multipleLabel,
+      splitData,
+      splitData1,
+      u_name1,
+      u_name2,
+      u_name3,
+      u_name4,
+    } = this.state;
+
     return (
       <ScrollView>
         <View style={{ flex: 1, marginBottom: Metrics.xxdoubleBaseMargin }}>
           {this.state.dataManage.map((item, key) =>
             this.state.dataManage === [""] ? null : (
               <View style={styles.mainView}>
-                <CheckBox
-                  value={item.isSelect}
-                  onChange={() => {
-                    this.onchecked(key, item.isSelect);
-                  }}
-                  // onValueChange={item.isSelect}
-                  tintColors={{ true: "#1374A3", false: "#1374A3" }}
-                />
-                <Text
-                  style={[
-                    styles.itemText,
-                    {
-                      color:
-                        this.props.theme.mode === "light" ? "#1374A3" : "white",
-                    },
-                  ]}
-                >
-                  {item.relation}
-                </Text>
+                {splitData ? (
+                  <CheckBox
+                    value={item.isSelect}
+                    onChange={() => {
+                      this.onchecked(key, item.isSelect);
+                    }}
+                    tintColors={{ true: "#1374A3", false: "#1374A3" }}
+                  />
+                ) : null}
+                {u_name2 == splitData1 ? (
+                  <CheckBox
+                    value={item.isUser2}
+                    onChange={() => {
+                      this.onchecked(key, item.isUser2);
+                    }}
+                    tintColors={{ true: "#1374A3", false: "#1374A3" }}
+                  />
+                ) : null}
+                {u_name1 == splitData1 ? (
+                  <CheckBox
+                    value={item.isUser1}
+                    onChange={() => {
+                      this.onchecked(key, item.isUser1);
+                    }}
+                    tintColors={{ true: "#1374A3", false: "#1374A3" }}
+                  />
+                ) : null}
+                {u_name3 == splitData1 ? (
+                  <CheckBox
+                    value={item.isUser3}
+                    onChange={() => {
+                      this.onchecked(key, item.isUser1);
+                    }}
+                    tintColors={{ true: "#1374A3", false: "#1374A3" }}
+                  />
+                ) : null}
+                {u_name4 == splitData1 ? (
+                  <CheckBox
+                    value={item.isUser4}
+                    onChange={() => {
+                      this.onchecked(key, item.isUser4);
+                    }}
+                    tintColors={{ true: "#1374A3", false: "#1374A3" }}
+                  />
+                ) : null}
+                <TouchableOpacity>
+                  <Text
+                    style={[
+                      styles.itemText,
+                      {
+                        color:
+                          this.props.theme.mode === "light"
+                            ? "#1374A3"
+                            : "white",
+                      },
+                    ]}
+                  >
+                    {item.relation}
+                  </Text>
+                </TouchableOpacity>
               </View>
             )
           )}
@@ -215,41 +483,10 @@ class addContactMultiple extends Component {
                 }}
                 keyboardType={"default"}
                 autoCapitalize={false}
-                // onSubmitEditing={this.labelApiCall}
                 placeholderTextColor={COLORS.black}
               />
             </View>
           )}
-          {/*   
-            <TouchableOpacity
-              style={styles.mainView}
-              // onPress={
-              //   this.state.viewSection == false
-              //     ? this.onPressAddLabel
-              //     : this.message
-              // }
-              disable={this.state.disabledLabel}
-            >
-              <Image
-                source={plus}
-                style={{
-                  width: width * 0.055,
-                  height: width * 0.055,
-                  marginLeft: Metrics.xsmallMargin,
-                }}
-              />
-              <View style={styles.smallWhiteview}>
-                <Text
-                  style={{
-                    fontSize: width * 0.03,
-                    fontFamily: Font.regular,
-                  }}
-                >
-                  Add
-                </Text>
-              </View>
-            </TouchableOpacity>
-           */}
         </View>
       </ScrollView>
     );
@@ -286,25 +523,67 @@ class addContactMultiple extends Component {
   }
 
   async forAddContactNavigate() {
-  
-    const { dataManage, selectedRealetion } = this.state;
+    const {
+      dataManage,
+      dataManage2,
+      dataManage3,
+      dataManage4,
+      dataManage5,
+      selectedRealetion,
+      userLabel1,
+      userLabel2,
+      userLabel3,
+      userLabel4,
+    } = this.state;
 
-    dataManage.map((item) => {
+    dataManage3.map((item) => {
       item.isSelect == true
         ? selectedRealetion.push(item.relation)
-        : console.log("selected------->", item.isSelect);
+        : console.log("isSelect------->", item.isSelect);
     });
-
     const selected = selectedRealetion.toString();
     await AsyncStorage.setItem("@selectedLabel", selected);
 
-    if (selected == "") {
+    dataManage3.map((item) => {
+      item.isUser2 == true
+        ? userLabel2.push(item.relation)
+        : console.log("isUser2------->", item.isUser2);
+    });
+    const userLabel12 = userLabel2.toString();
+    await AsyncStorage.setItem("@userLabel2", userLabel12);
+
+    dataManage4.map((item) => {
+      item.isUser3 == true
+        ? userLabel3.push(item.relation)
+        : console.log("isUser3------->", item.isUser2);
+    });
+
+    const userLabel13 = userLabel3.toString();
+    await AsyncStorage.setItem("@userLabel3", userLabel13);
+
+    dataManage5.map((item) => {
+      item.isUser4 == true
+        ? userLabel4.push(item.relation)
+        : console.log("isUser2------->", item.isUser2);
+    });
+    const userLabel14 = userLabel4.toString();
+    await AsyncStorage.setItem("@userLabel4", userLabel14);
+
+    console.log("Data manage ---->", dataManage);
+    console.log("Data 3 ---->", dataManage3);
+    console.log("Data 4 ---->", dataManage4);
+    console.log("Data 5 ---->", dataManage5);
+
+    if (userLabel14 == ""  ) {
       this.refs.toast.show("Please select label to associate with USERNAME");
     } else {
       this.props.navigation.navigate("forAdd2");
+       this.setState({ selectedRealetion: [] });
+        this.setState({ splitData1: "" });
+      
     }
 
-    this.setState({ selectedRealetion: [] });
+   
   }
 
   showLoader() {
@@ -312,7 +591,51 @@ class addContactMultiple extends Component {
       return <Spinner />;
     }
   }
+  selectAll = () => {
+    const { dataManage } = this.state;
+    let contactArr = dataManage.map((item, key) => {
+      this.state.checked == false
+        ? (item.isSelect = true)
+        : (item.isSelect = false);
+      item.isSelected = !item.isSelect;
+      this.setState({ checked: !this.state.checked });
+      return { ...item };
+    });
+    this.setState({ dataManage: contactArr });
+  };
 
+  renderSelectAll() {
+    return (
+      <View style={{ width: width }}>
+        <View
+          style={{
+            flexDirection: "row",
+            alignItems: "center",
+            marginLeft: Metrics.doubleBaseMargin,
+            marginTop: Metrics.doubleBaseMargin,
+          }}
+        >
+          <CheckBox
+            value={this.state.checked}
+            onChange={() => {
+              this.selectAll();
+            }}
+            tintColors={{ true: "#1374A3", false: "#1374A3" }}
+          />
+          <Text
+            style={{
+              color: COLORS.main_text_color,
+              fontFamily: Font.regular,
+              fontSize: width * 0.05,
+              marginLeft: Metrics.smallMargin,
+            }}
+          >
+            Select (De-select) All
+          </Text>
+        </View>
+      </View>
+    );
+  }
   render() {
     return (
       <ThemeProvider theme={this.props.theme}>
@@ -335,6 +658,8 @@ class addContactMultiple extends Component {
                 </Text>
               </View>
             </View>
+            {this.renderDropDown()}
+            {this.renderSelectAll()}
             {this.renderMiddle()}
             {this.renderLast()}
           </Container>

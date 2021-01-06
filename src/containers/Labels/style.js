@@ -19,8 +19,17 @@ export default StyleSheet.create({
           flex:1,
           marginLeft:Metrics.doubleBaseMargin,
           marginTop:Metrics.doubleBaseMargin,
+          marginBottom:Metrics.doubleBaseMargin,
           },
-
+          tripleView2:{
+            flexDirection:'row',
+            alignItems:'center',
+            flex:1,
+            marginLeft:Metrics.doubleBaseMargin,
+            marginTop:Metrics.doubleBaseMargin,
+            // marginBottom:Metrics.doubleBaseMargin,
+            },
+  
       manageView:{
         justifyContent:'center',
         alignItems:'center',

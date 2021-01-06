@@ -21,6 +21,7 @@ import styled, { ThemeProvider } from "styled-components/native";
 import { COLORS } from "../theme/Colors.js";
 import { Colors } from "react-native-paper";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
+import DropDownPicker from "react-native-dropdown-picker";
 import Font from "../theme/font";
 import GeneralStatusBar from "../../components/StatusBar/index";
 import Header from "../../components/header/index";
@@ -29,14 +30,11 @@ import ImagePicker from "react-native-image-crop-picker";
 import IntlPhoneInput from "react-native-intl-phone-input";
 import Metrics from "../theme/Metrics";
 import Swipeable from "react-native-gesture-handler/Swipeable";
-import { ThemeContext } from "react-navigation";
 import Toast from "react-native-easy-toast";
-import { addItem } from "../../services/FirebaseDatabase/addAfterSignup";
 //import { addMyInfo } from "../../services/FirebaseDatabase/myInfoToFirebase";
 import { bindActionCreators } from "redux";
 import calender from "../../assets/images/calender.png";
 import call from "../../assets/images/call.png";
-import { color } from "react-native-reanimated";
 import { connect } from "react-redux";
 import data from "../../../node_modules/react-native-intl-phone-input/src/Countries";
 import email from "../../assets/images/email.png";
@@ -48,10 +46,12 @@ import instagram from "../../assets/images/instagram.png";
 import message from "../../assets/images/message.png";
 import moment from "moment";
 import note from "../../assets/images/note.png";
+import style from "../../components/StatusBar/style";
 import styles from "./style.js";
 import { switchTheme } from "../../action/themeAction";
 import { updateMyInfo } from "../../services/FirebaseDatabase/updateMyInfo";
-import uuid from 'react-native-uuid'
+import uuid from "react-native-uuid";
+import { values } from "lodash";
 import website from "../../assets/images/website.png";
 
 var { width, height } = Dimensions.get("window");
@@ -73,15 +73,15 @@ class MyContactInfromation extends Component {
       middle_name: "",
       last_name: "",
       nick_name: "",
-      number1:  {
+      number1: {
         number1: "",
         label: "",
       },
-      number2:  {
+      number2: {
         number2: "",
         label: "",
       },
-      number3:  {
+      number3: {
         number3: "",
         label: "",
       },
@@ -149,6 +149,10 @@ class MyContactInfromation extends Component {
       profile_image3: "",
       numberArray: [],
       emailArray: [],
+      mobileArray: "",
+      mobileArray2: "",
+      mobileLabelArray: [],
+      phoneSection: false,
       addressArray: [],
       messangerArray: [],
       socialMediaArray: [],
@@ -173,11 +177,14 @@ class MyContactInfromation extends Component {
       TextInputDisable: false,
       //mobile modal
       isMobileModelOpen: false,
+      isMobileModelOpenArray: false,
       mobileLabelList: [
-        { label: "Personal" },
-        { label: "Lanline" },
-        { label: "Business" },
-        { label: "Other" },
+        { label: "Personal(Mobie)" },
+        { label: "Personal(Lanline)" },
+        { label: "Work(Mobile)" },
+        { label: "Work(Landline)" },
+        { label: "Personal Fax" },
+        { label: "Work Fax" },
       ],
       mobileLabel: "",
       isAddMobileLabel: false,
@@ -333,11 +340,29 @@ class MyContactInfromation extends Component {
       companyNameOnly: "",
       companyCounter: 0,
       isTrue: false,
+
+      //mobile label
+      customModel: false,
+      mLabels: [],
+      mLabel: [],
     };
   }
   componentDidMount = async () => {
-    
-    
+    const { username } = this.props;
+    firebase
+      .firestore()
+      .collection("user")
+      .doc(username)
+      .collection("mobileLabel")
+      .get()
+      .then((snap) => {
+        snap.forEach((doc) => {
+          var item = doc._data;
+
+          this.state.mLabel.push(item);
+        });
+        this.setState({ mLabels: this.state.mLabel });
+      });
   };
 
   ShowHideTextComponentView = () => {
@@ -380,7 +405,7 @@ class MyContactInfromation extends Component {
       companyArray,
       job_title,
       work_hour,
-      mobileLabel
+      mobileLabel,
     } = this.state;
 
     const { user_id, username } = this.props;
@@ -413,73 +438,158 @@ class MyContactInfromation extends Component {
           work_hour !== ""
         ) {
           if (profile_image !== "") {
-            firebase .firestore().collection("user").doc(`${username}`).update({ profile_image : profile_image });
+            firebase
+              .firestore()
+              .collection("user")
+              .doc(`${username}`)
+              .update({ profile_image: profile_image });
           }
-          if (first_name !== "") {
-            firebase .firestore().collection("user").doc(`${username}`).update({ first_name: first_name });
+          if (first_name != "") {
+          
+            firebase
+              .firestore()
+              .collection("user")
+              .doc(`${username}`)
+              .update({ first_name: first_name });
           }
           if (number1 !== "") {
-            firebase .firestore().collection("user").doc(`${username}`).update({ number1 : number1 });
+           
+            firebase
+              .firestore()
+              .collection("user")
+              .doc(`${username}`)
+              .update({ number1: number1 });
           }
-          if(mobileLabel !== ""){
-            firebase .firestore().collection("user").doc(`${username}`).update({ number1 : number1 });
-           }
-          if(email !== ""){
-            firebase .firestore().collection("user").doc(`${username}`).update({ email: email });
-           }
-           if(emailArray !== ""){
-            firebase .firestore().collection("user").doc(`${username}`).update({ emailArray: emailArray });
-           }
-          if(address !== ""){
-            firebase .firestore().collection("user").doc(`${username}`).update({ address: address });
-           }
-           if(addressArray !== ""){
-            firebase .firestore().collection("user").doc(`${username}`).update({ addressArray: addressArray });
-           }
-           if(messanger1 !== ""){
-            firebase .firestore().collection("user").doc(`${username}`).update({ messanger1: messanger1 });
-           }
-           if(messangerArray !== ""){
-            firebase .firestore().collection("user").doc(`${username}`).update({ messangerArray: messangerArray });
-           }
-           if(social_media1 !== ""){
-            firebase .firestore().collection("user").doc(`${username}`).update({ social_media1: social_media1 });
-           }
-           if(socialMediaArray !== ""){
-            firebase .firestore().collection("user").doc(`${username}`).update({ socialMediaArray: socialMediaArray });
-           }
-           if(website1 !== ""){
-            firebase .firestore().collection("user").doc(`${username}`).update({ website1: website1 });
-           }
-           if(websiteArray !== ""){
-            firebase .firestore().collection("user").doc(`${username}`).update({ websiteArray: websiteArray });
-           }
-           if(dob !== ""){
-            firebase .firestore().collection("user").doc(`${username}`).update({ dob: dob });
-           }
-           if(dateArray !== ""){
-            firebase .firestore().collection("user").doc(`${username}`).update({ dateArray: dateArray });
-           }
-           if(note !== ""){
-            firebase .firestore().collection("user").doc(`${username}`).update({ note: note });
-           }
-           if(noteArray !== ""){
-            firebase .firestore().collection("user").doc(`${username}`).update({ noteArray: noteArray });
-           }
-         
-           if(company !== ""){
-            firebase .firestore().collection("user").doc(`${username}`).update({ company: company });
-           }
-           if(job_title !== ""){
-            firebase .firestore().collection("user").doc(`${username}`).update({ job_title: job_title });
-           }
-           console.log("worrk hours---->",work_hour)
-           if(work_hour !== ""){
-            firebase .firestore().collection("user").doc(`${username}`).update({ work_hour: work_hour });
-           }
+          if (mobileLabel !== "") {
+            firebase
+              .firestore()
+              .collection("user")
+              .doc(`${username}`)
+              .update({ number1: number1 });
+          }
+          if (email !== "") {
+            firebase
+              .firestore()
+              .collection("user")
+              .doc(`${username}`)
+              .update({ email: email });
+          }
+          if (emailArray !== "") {
+            firebase
+              .firestore()
+              .collection("user")
+              .doc(`${username}`)
+              .update({ emailArray: emailArray });
+          }
+          if (address !== "") {
+            firebase
+              .firestore()
+              .collection("user")
+              .doc(`${username}`)
+              .update({ address: address });
+          }
+          if (addressArray !== "") {
+            firebase
+              .firestore()
+              .collection("user")
+              .doc(`${username}`)
+              .update({ addressArray: addressArray });
+          }
+          if (messanger1 !== "") {
+            firebase
+              .firestore()
+              .collection("user")
+              .doc(`${username}`)
+              .update({ messanger1: messanger1 });
+          }
+          if (messangerArray !== "") {
+            firebase
+              .firestore()
+              .collection("user")
+              .doc(`${username}`)
+              .update({ messangerArray: messangerArray });
+          }
+          if (social_media1 !== "") {
+            firebase
+              .firestore()
+              .collection("user")
+              .doc(`${username}`)
+              .update({ social_media1: social_media1 });
+          }
+          if (socialMediaArray !== "") {
+            firebase
+              .firestore()
+              .collection("user")
+              .doc(`${username}`)
+              .update({ socialMediaArray: socialMediaArray });
+          }
+          if (website1 !== "") {
+            firebase
+              .firestore()
+              .collection("user")
+              .doc(`${username}`)
+              .update({ website1: website1 });
+          }
+          if (websiteArray !== "") {
+            firebase
+              .firestore()
+              .collection("user")
+              .doc(`${username}`)
+              .update({ websiteArray: websiteArray });
+          }
+          if (dob !== "") {
+            firebase
+              .firestore()
+              .collection("user")
+              .doc(`${username}`)
+              .update({ dob: dob });
+          }
+          if (dateArray !== "") {
+            firebase
+              .firestore()
+              .collection("user")
+              .doc(`${username}`)
+              .update({ dateArray: dateArray });
+          }
+          if (note !== "") {
+            firebase
+              .firestore()
+              .collection("user")
+              .doc(`${username}`)
+              .update({ note: note });
+          }
+          if (noteArray !== "") {
+            firebase
+              .firestore()
+              .collection("user")
+              .doc(`${username}`)
+              .update({ noteArray: noteArray });
+          }
+
+          if (company !== "") {
+            firebase
+              .firestore()
+              .collection("user")
+              .doc(`${username}`)
+              .update({ company: company });
+          }
+          if (job_title !== "") {
+            firebase
+              .firestore()
+              .collection("user")
+              .doc(`${username}`)
+              .update({ job_title: job_title });
+          }
+          if (work_hour !== "") {
+            firebase
+              .firestore()
+              .collection("user")
+              .doc(`${username}`)
+              .update({ work_hour: work_hour });
+          }
           this.setState({
             status: false,
-            profile_image: "", 
+            profile_image: "",
             profile_image2: "",
             profile_image3: "",
             first_name: "",
@@ -595,8 +705,8 @@ class MyContactInfromation extends Component {
       height: 400,
       cropping: true,
     }).then((image) => {
-      this.setState({ profile_image : image.path });
-      console.log("URI ......>",image.path);
+      this.setState({ profile_image: image.path });
+      console.log("URI ......>", image.path);
       console.log(image);
       this.setState({
         image: {
@@ -610,32 +720,14 @@ class MyContactInfromation extends Component {
     });
   };
 
-  fromGallery = () => {
-    ImagePicker.openPicker({
-      width: 300,
-      height: 400,
-      cropping: true,
-    }).then((image) => {
-      this.setState({ profile_image : image.path });
-      console.log("URI ......>",image.path);
-      this.setState({
-        image: {
-          uri: image.path,
-          width: image.width,
-          height: image.height,
-          mime: image.mime,
-        },
-        images: null,
-      });
-    });
-  };
+  
   takePhotoFromCamera2 = () => {
     ImagePicker.openCamera({
       width: 300,
       height: 400,
       cropping: true,
     }).then((image2) => {
-      this.setState({ profile_image2 : image.path });
+      this.setState({ profile_image2: image.path });
       console.log(image2);
       this.setState({
         image2: {
@@ -654,7 +746,7 @@ class MyContactInfromation extends Component {
       height: 400,
       cropping: true,
     }).then((image2) => {
-      this.setState({ profile_image2 : image.path });
+      this.setState({ profile_image2: image.path });
       console.log(image2);
       this.setState({
         image2: {
@@ -674,7 +766,7 @@ class MyContactInfromation extends Component {
       height: 400,
       cropping: true,
     }).then((image3) => {
-      this.setState({ profile_image3 : image.path });
+      this.setState({ profile_image3: image.path });
       console.log(image3);
       this.setState({
         image3: {
@@ -694,7 +786,7 @@ class MyContactInfromation extends Component {
       height: 400,
       cropping: true,
     }).then((image3) => {
-      this.setState({ profile_image3 : image.path });
+      this.setState({ profile_image3: image.path });
       console.log(image3);
       this.setState({
         image3: {
@@ -945,6 +1037,26 @@ class MyContactInfromation extends Component {
       </TouchableOpacity>
     );
   };
+
+  changeMobileLabelArray = (value, index) => {
+    this.state.mobileLabelArray[index].label = value;
+    this.setState({ mobileLabelArray: this.state.mobileLabelArray });
+  };
+  onSubmit = () => {
+    const { mobileArray } = this.state;
+    const { username } = this.props;
+    firebase
+      .firestore()
+      .collection("user")
+      .doc(`${username}`)
+      .collection("mobileLabel")
+      .add({ mobileArray: mobileArray });
+    this.setState({ mobileArray: "" });
+    this.setState({ phoneSection: false });
+  };
+  customOpen = () => {
+    this.setState({ phoneSection: true });
+  };
   onChangeNumber = ({
     dialCode,
     unmaskedPhoneNumber,
@@ -953,12 +1065,23 @@ class MyContactInfromation extends Component {
   }) => {
     if (isVerified == true) {
       this.state.number1.number1 = unmaskedPhoneNumber;
-      this.setState({ number1: this.state.number1,});
+      this.setState({ number1: this.state.number1 });
     } else {
       this.setState({ number1: unmaskedPhoneNumber });
     }
   };
-
+  mobileViewOpen = () => {
+    this.setState({ isMobileModelOpen: true });
+    this.setState({
+      mobileLabelArray: [...this.state.mobileLabelArray, { label: "" }],
+    });
+  };
+  mobileViewOpenArray= () => {
+    this.setState({ isMobileModelOpenArray: true });
+    this.setState({
+      mobileLabelArray: [...this.state.mobileLabelArray, { label: "" }],
+    });
+  };
   renderMobileLabel = ({ item, index }) => {
     return (
       <TouchableHighlight
@@ -971,27 +1094,33 @@ class MyContactInfromation extends Component {
       </TouchableHighlight>
     );
   };
-
+  renderItem({ item, index }) {
+    return (
+      <View>
+         <Text style={styles.labelName}> {item.mobileArray}</Text>
+      </View>
+    );
+  }
   renderMobile() {
     return (
-      <View style={{ marginTop: Metrics.doubleBaseMargin }}>
+      <View style={{ marginTop: Metrics.doubleBaseMargin, }}>
         <View style={{ flexDirection: "row" }}>
           <View style={{ marginTop: Metrics.xsmallMargin }}>
             <Image source={call} style={styles.innerStyle} />
           </View>
           <View>
+                 
             <View style={styles.filedView}>
               {this.state.status ? (
                 <IntlPhoneInput
                   containerStyle={{
-                    width: width * 0.55,
+                    width: width * 0.48,
                     height: height * 0.056,
                     marginBottom: Metrics.smallMargin,
                   }}
                   phoneInputStyle={styles.mobileInputText}
                   dialCodeTextStyle={styles.dialcodeText}
                   dialCode={this.state.dialCode}
-                  // placeholder='3265'
                   value={this.state.number1}
                   inputRef={(ref) => (this.phoneInput = ref)}
                   keyboardType={"numeric"}
@@ -1011,24 +1140,62 @@ class MyContactInfromation extends Component {
                   +90{" "}
                 </Text>
               )}
-
-              {this.state.status ? (
+              {this.state.status && this.state.isMobileModelOpen == true ? (
+                <View
+                  style={
+                    this.state.phoneSection == true
+                      ? styles.modelViewBig
+                      : styles.modelView
+                  }
+                >
+                   <FlatList
+                    refreshing={true}
+                    keyExtractor={(item, index) => index.toString()}
+                    data={this.state.mobileLabelList}
+                    extraData={this.state}
+                    numColumns={1}
+                    renderItem={this.renderMobileLabel.bind(this)}
+                    style={styles.flatlist}
+                    keyboardShouldPersistTaps={"always"}
+                  />
+                   
+                  <FlatList
+                    refreshing={true}
+                    keyExtractor={(item, index) => index.toString()}
+                    data={this.state.mLabels}
+                    extraData={this.state}
+                    numColumns={1}
+                    renderItem={this.renderItem.bind(this)}
+                  />
+                  <TouchableOpacity
+                    onPress={this.customOpen}
+                    style={{ height: 35 }}
+                  >
+                    <Text style={styles.customText}>Cutom</Text>
+                  </TouchableOpacity>
+                  {this.state.phoneSection == true ? (
+                    <View style={styles.inputTextView}>
+                      <TextInput
+                        onChangeText={(text) => {
+                          this.setState({ mobileArray: text });
+                        }}
+                        style={styles.textinputText}
+                        onSubmitEditing={this.onSubmit}
+                      />
+                    </View>
+                  ) : null}
+                 
+                </View>
+              ) : this.state.status ? (
                 <TouchableHighlight
                   underlayColor="transparent"
-                  style={[styles.rightView]}
-                  onPress={() => this.setState({ isMobileModelOpen: true })}
+                  style={[styles.rightViewBorder]}
+                  onPress={this.mobileViewOpen}
                 >
-                  <Icon
-                    style={styles.iconSize}
-                    size={width * 0.06}
-                    name="chevron-small-down"
-                  />
+                  <View>
+                    <Text style={styles.selectTypeText}>Select Type...</Text>
+                  </View>
                 </TouchableHighlight>
-              ) : null}
-              {this.state.status && this.state.mobileLabel !== "" ? (
-                <View style={[styles.rightView]}>
-                  <Text style={styles.righttext}>{this.state.mobileLabel}</Text>
-                </View>
               ) : null}
             </View>
 
@@ -1036,10 +1203,12 @@ class MyContactInfromation extends Component {
               this.state.numberArray.map((input, key) => {
                 return (
                   <Swipeable renderLeftActions={this.leftAction}>
-                    <View style={styles.filedView} key={key}>
+                  
+                    <View 
+                    style={this.state.isMobileModelOpenArray == true ?  styles.filedView2 :styles.filedView} key={key}>
                       <IntlPhoneInput
                         containerStyle={{
-                          width: width * 0.55,
+                          width: width * 0.48,
                           height: height * 0.056,
                           marginBottom: Metrics.smallMargin,
                         }}
@@ -1053,10 +1222,129 @@ class MyContactInfromation extends Component {
                         }
                         isShowLabelManually={false}
                       />
-                    </View>
+                       
+                      {this.state.status &&
+                      this.state.isMobileModelOpenArray == true ? (
+                        <View
+                        style={
+                          this.state.phoneSection == true
+                            ? styles.modelViewBig
+                            : styles.modelView
+                        }
+                      >
+                         <FlatList
+                          refreshing={true}
+                          keyExtractor={(item, index) => index.toString()}
+                          data={this.state.mobileLabelList}
+                          extraData={this.state}
+                          numColumns={1}
+                          renderItem={this.renderMobileLabel.bind(this)}
+                          style={styles.flatlist}
+                          keyboardShouldPersistTaps={"always"}
+                        />
+                         
+                        <FlatList
+                          refreshing={true}
+                          keyExtractor={(item, index) => index.toString()}
+                          data={this.state.mLabels}
+                          extraData={this.state}
+                          numColumns={1}
+                          renderItem={this.renderItem.bind(this)}
+                        />
+                        <TouchableOpacity
+                          onPress={this.customOpen}
+                          style={{ height: 35 }}
+                        >
+                          <Text style={styles.customText}>Cutom</Text>
+                        </TouchableOpacity>
+                        {this.state.phoneSection == true ? (
+                          <View style={styles.inputTextView}>
+                            <TextInput
+                              onChangeText={(text) => {
+                                this.setState({ mobileArray: text });
+                              }}
+                              style={styles.textinputText}
+                              onSubmitEditing={this.onSubmit}
+                            />
+                          </View>
+                        ) : null}
+                       
+                      </View>
+                      //   <Modal
+                      //     style={styles.footerModal}
+                      //     visible={this.state.isMobileModelOpenArray}
+                      //     transparent={true}
+                      //     animationType="fade"
+                      //     onRequestClose={() =>
+                      //       this.setState({ isMobileModelOpenArray: false })
+                      //     }
+                      //   >
+                      //     <View style={styles.contactContent}>
+                      //     <View
+                      //       style={
+                      //         this.state.phoneSection == true
+                      //           ? styles.modelViewBig
+                      //           : styles.modelView
+                      //       }
+                      //     >
+                      //       <FlatList
+                      //         refreshing={true}
+                      //         keyExtractor={(item, index) => index.toString()}
+                      //         data={this.state.mobileLabelList}
+                      //         extraData={this.state}
+                      //         numColumns={1}
+                      //         renderItem={this.renderMobileLabel.bind(this)}
+                      //         style={styles.flatlist}
+                      //         keyboardShouldPersistTaps={"always"}
+                      //       />
+
+                      //       <FlatList
+                      //         refreshing={true}
+                      //         keyExtractor={(item, index) => index.toString()}
+                      //         data={this.state.mLabels}
+                      //         extraData={this.state}
+                      //         numColumns={1}
+                      //         renderItem={this.renderItem.bind(this)}
+                      //       />
+                      //       <TouchableOpacity
+                      //         onPress={this.customOpen}
+                      //         style={{ height: 35 }}
+                      //       >
+                      //         <Text style={styles.customText}>Cutom</Text>
+                      //       </TouchableOpacity>
+                      //       {this.state.phoneSection == true ? (
+                      //         <View style={styles.inputTextView}>
+                      //           <TextInput
+                      //             onChangeText={(text) => {
+                      //               this.setState({ mobileArray: text });
+                      //             }}
+                      //             style={styles.textinputText}
+                      //             onSubmitEditing={this.onSubmit}
+                      //           />
+                      //         </View>
+                      //       ) : null}
+                      //     </View>
+                      //    </View>
+                      // </Modal>
+                    
+                      ) : this.state.status ? (
+                        <TouchableHighlight
+                          underlayColor="transparent"
+                          style={[styles.rightViewBorder]}
+                          onPress={this.mobileViewOpenArray}
+                        >
+                          <View>
+                            <Text style={styles.selectTypeText}>
+                              Select Type...
+                            </Text>
+                          </View>
+                        </TouchableHighlight>
+                      ) : null}
+                    </View> 
+                   
                   </Swipeable>
                 );
-              })}
+            })}
 
             <TouchableOpacity
               onPress={() => this.addNumber()}
@@ -1066,94 +1354,6 @@ class MyContactInfromation extends Component {
                 <NormalText> + Add Phone Number </NormalText>
               ) : null}
             </TouchableOpacity>
-
-            <Modal
-              style={styles.footerModal}
-              visible={this.state.isMobileModelOpen}
-              transparent={true}
-              animationType="fade"
-              onRequestClose={() => this.setState({ isMobileModelOpen: false })}
-            >
-              <View style={styles.contactContent}>
-                <View style={styles.content}>
-                  <Text style={styles.modalHeader}>Phone</Text>
-                  <View style={{ flexDirection: "column" }}>
-                    <FlatList
-                      refreshing={true}
-                      keyExtractor={(item, index) => index.toString()}
-                      data={this.state.mobileLabelList}
-                      extraData={this.state}
-                      numColumns={1}
-                      renderItem={this.renderMobileLabel.bind(this)}
-                      style={styles.flatlist}
-                      keyboardShouldPersistTaps={"always"}
-                    />
-                    <TouchableHighlight
-                      underlayColor="transparent"
-                      onPress={() =>
-                        this.setState({
-                          isAddMobileLabel: true,
-                          mobileLabel: "",
-                        })
-                      }
-                    >
-                      <Text style={styles.labelName}> Custom </Text>
-                    </TouchableHighlight>
-                  </View>
-                </View>
-              </View>
-            </Modal>
-            <Modal
-              style={styles.footerModal}
-              visible={this.state.isAddMobileLabel}
-              transparent={true}
-              animationType="fade"
-            >
-              <View style={styles.contactContent}>
-                <View style={styles.content}>
-                  <Text style={styles.modalHeader}>Custom label name</Text>
-                  <View style={{ flexDirection: "column" }}>
-                    <TextInput
-                      placeholder="Custom label name"
-                      style={styles.addLabelField}
-                      placeholderTextColor={COLORS.main_text_color}
-                      editable={this.state.status ? true : false}
-                      keyboardType={"default"}
-                      value={this.state.mobileLabel}
-                      onChangeText={(value) =>
-                        this.setState({ mobileLabel: value })
-                      }
-                      ref={(input) => {
-                        this.mobileLabel = input;
-                      }}
-                    />
-                    <TouchableHighlight
-                      underlayColor="transparent"
-                      style={styles.saveView}
-                      onPress={() =>
-                        this.state.mobileLabel !== ""
-                          ? this.setState({
-                              isAddMobileLabel: false,
-                              isMobileModelOpen: false,
-                            })
-                          : this.setState({ isAddMobileLabel: false })
-                      }
-                    >
-                      <Text
-                        style={{
-                          color: COLORS.main_text_color,
-                          fontFamily: Font.medium,
-                          fontSize: width * 0.04,
-                        }}
-                      >
-                        {" "}
-                        Ok{" "}
-                      </Text>
-                    </TouchableHighlight>
-                  </View>
-                </View>
-              </View>
-            </Modal>
           </View>
         </View>
       </View>
@@ -1309,8 +1509,8 @@ class MyContactInfromation extends Component {
                         // key={key}
                         onRequestClose={() =>
                           this.setState({ isEmailArrrayModelOpen: false })
-                        }
-                      >
+                            }
+                          >
                         <View style={styles.contactContent}>
                           <View style={styles.content}>
                             <Text style={styles.modalHeader}>Email</Text>
@@ -2635,14 +2835,12 @@ class MyContactInfromation extends Component {
     this.state.website.website = value;
     this.setState({ website1: this.state.website });
   };
-
   onChangeWebsiteArray = (value, index) => {
     this.setState({ websiteIndexOnly: index });
     this.setState({ websiteNameOnly: value });
     this.state.websiteArray[index].website = value;
     this.setState({ websiteArray: this.state.websiteArray });
   };
-
   changeWebsiteLabelArray = (label, index) => {
     this.setState({ isWebsiteArrayModelOpen: false });
     this.state.websiteArray[index].label = label;
@@ -2653,7 +2851,6 @@ class MyContactInfromation extends Component {
     this.state.website.label = label;
     this.setState({ Website: this.state.website });
   };
-
   removeWebsite = (key) => {
     const { websiteArray } = this.state;
     websiteArray.splice(key, 1);
@@ -3919,7 +4116,6 @@ class MyContactInfromation extends Component {
                 editable={this.state.status ? true : false}
                 onChangeText={(value) => this.onChangeCompany(value)}
               />
-            
             </View>
             <View style={styles.filedView}>
               <TextInput
@@ -3941,7 +4137,7 @@ class MyContactInfromation extends Component {
                 onChangeText={(value) => this.onChangeWorkHours(value)}
               />
             </View>
-         
+
             {this.state.companySection == true &&
               this.state.companyArray.map((input, key) => {
                 return (
@@ -3958,7 +4154,7 @@ class MyContactInfromation extends Component {
                             this.onChangeCompanyArray(company, key);
                           }}
                         />
-                       
+
                         {this.state.companyArray[key].label !== "" ? (
                           <View style={styles.addressRightView}>
                             <Text style={styles.addressRighttext}>
@@ -4087,12 +4283,11 @@ class MyContactInfromation extends Component {
                           placeholderTextColor={COLORS.main_text_color}
                           value={this.state.job_title}
                           editable={this.state.status ? true : false}
-                          onChangeText={(value) => this.onChangeWorkHours(value)}
+                          onChangeText={(value) =>
+                            this.onChangeWorkHours(value)
+                          }
                         />
                       </View>
-                     
-                  
-                  
                     </View>
                   </Swipeable>
                 );
@@ -4195,7 +4390,6 @@ class MyContactInfromation extends Component {
                 </View>
               </View>
             </Modal>
-          
           </View>
         </View>
       </View>
@@ -4219,6 +4413,7 @@ class MyContactInfromation extends Component {
             <ScrollView>
               {this.renderMiddle()}
               {this.renderName()}
+           
               {this.renderMobile()}
               {this.renderEmail()}
               {this.renderAddress()}

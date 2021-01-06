@@ -62,43 +62,33 @@ export default StyleSheet.create({
     marginTop: Metrics.baseMargin,
     marginLeft: Metrics.doubleBaseMargin,
     marginRight: Metrics.doubleBaseMargin,
+  
   },
 
   middleView: {
     flexDirection: "row",
-    marginTop: Metrics.smallMargin,
-    marginBottom: Metrics.smallMargin,
     justifyContent: "center",
-    width: width * 0.9,
-    backgroundColor: COLORS.white,
-    shadowColor: COLORS.black,
-    shadowOffset: {
-      width: 3,
-      height: 3,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-    elevation: 5,
-    borderRadius: 5,
+    width: width,
   },
 
   firstView: {
-    width: width * 0.4,
-    marginRight: Metrics.smallMargin,
-    marginTop: Metrics.smallMargin,
-    marginVertical: Metrics.baseMargin,
+    width: width * 0.5,
+    borderWidth: 1,
+    borderColor: COLORS.main_text_color,
   },
-
   secondView: {
-    width: width * 0.4,
-    marginRight: Metrics.smallMargin,
-    marginTop: Metrics.smallMargin,
-    marginBottom: Metrics.baseMargin,
+    width: width * 0.5,
+    borderWidth: 1,
+    borderColor: COLORS.main_text_color,
   },
   FirstText: {
     fontFamily: Font.medium,
-    fontSize: width * 0.04,
-
+    fontSize: width * 0.042,
     textTransform: "capitalize",
+    marginTop: Metrics.baseMargin,
+    marginBottom: Metrics.baseMargin,
+    marginLeft: Metrics.smallMargin,
+    color: COLORS.main_text_color,
   },
+  
 });

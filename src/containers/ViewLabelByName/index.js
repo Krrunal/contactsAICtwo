@@ -38,7 +38,8 @@ class ViewLabelByName extends Component {
       labels: "",
       splitLabel: [],
       contactArray: '',
-      loader:false
+      loader:false,
+      shortcontacts: "",
     };
   }
 
@@ -81,9 +82,8 @@ class ViewLabelByName extends Component {
             var contact = doc._data
               this.state.contact.push(contact)
           }
-          this.setState({ contacts: this.state.contact,loader: false })
-          
-          // make Json Object to store contacts
+          this.setState({ contacts : this.state.contact,loader: false })
+            // make Json Object to store contacts
           var jsonArray = [];
           this.state.labels.map((label_item)=> {
             var contactsName = "";
@@ -98,7 +98,15 @@ class ViewLabelByName extends Component {
               item["users"] = contactsName;
               jsonArray.push(item)
           })
-          this.setState({ contactArray: jsonArray,loader: false })
+          this.setState({ contactArray: jsonArray,loader: false });
+          console.log("contact ARRy ---->",this.state.contactArray)
+          const sort = this.state.contactArray.sort(function (a, b) {
+            if (a.users.toLowerCase() < b.users.toLowerCase())
+              return -1;
+            if (a.users.toLowerCase() > b.users.toLowerCase()) return 1;
+            return 0;
+          });
+          this.setState({ shortcontacts : sort });
         });
       }else {
         this.setState({ loader: false });
@@ -149,7 +157,7 @@ class ViewLabelByName extends Component {
     var nameArr = nameArray.split(",");
 
     return (
-      <View style={{ alignItems: "center" }}>
+      <View style={{ alignItems: "center" , }}>
         <View style={styles.middleView}>
           <View style={styles.firstView}>
             {nameArr !== false &&
@@ -175,18 +183,18 @@ class ViewLabelByName extends Component {
   renderBigView() {
     return (
       <View style={{ alignItems: "center", flex: 1, paddingTop: 10 }}>
-        <ScrollView style={{ width: width }}>
+       
           <FlatList
             refreshing={true}
             keyExtractor={(item, index) => index.toString()}
-            data={this.state.contactArray}
+            data={this.state.shortcontacts}
             extraData={this.state}
             numColumns={1}
             renderItem={this.contactsList.bind(this)}
             scrollEnabled={true}
             showsVerticalScrollIndicator={false}
           />
-        </ScrollView>
+      
       </View>
     );
   }

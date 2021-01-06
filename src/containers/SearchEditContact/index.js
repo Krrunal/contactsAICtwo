@@ -3,24 +3,27 @@ import {
   FlatList,
   Image,
   Text,
+  TextInput,
   TouchableOpacity,
-  View,
+  View
 } from "react-native";
 import React, { Component, useState } from "react";
 import styled, { ThemeProvider } from "styled-components/native";
 
-import { COLORS } from "../theme/Colors.js";
-import Font from "../theme/font";
+import { COLORS } from "../theme/Colors";
 import GeneralStatusBar from "../../components/StatusBar/index";
 import Header from "../../components/header/index";
 import Metrics from "../theme/Metrics";
 import { Spinner } from "../../components/Spinner";
+import _ from 'lodash'
 // import { getContact } from '../../services/FirebaseDatabase/getAllContact';
 import { connect } from "react-redux";
 import edit from "../../assets/images/edit.png";
 import firebase from "../../services/FirebaseDatabase/db";
 import plus from "../../assets/images/plus.png";
 import reset from "../../assets/images/reset.png";
+import rigthLogo from "../../assets/icons/contact.png";
+import sideBar from "../../assets/images/sideBAR.png";
 import style from "../../components/StatusBar/style.js";
 import styles from "./style.js";
 
@@ -34,7 +37,11 @@ class searchContact extends Component {
       contacts: "",
       isLoading: false,
       shortcontacts: "",
+      filteredShortcontacts:[],
       nameContacts: "",
+      query:"",
+      searchText:"",
+      serachSection:false,
     };
   }
 
@@ -48,22 +55,7 @@ class searchContact extends Component {
       this.contactListFirst();
       console.log("Last");
     }
-    // });
-    // this.focusListener.remove();
-    const { username } = this.props;
-    firebase
-      .firestore()
-      .collection("user")
-      .doc(username)
-      .collection("contacts")
-      .get()
-      .then(function (querySnapshot) {
-        let posts = querySnapshot.docs.map((doc) => doc.data());
-        console.log("querySnapshot--->", posts);
-        // console.log(posts)
-        return posts;
-      })
-      .catch((e) => console.log("getting downloadURL of image error => ", e));
+ 
   }
 
   async contactList() {
@@ -80,6 +72,7 @@ class searchContact extends Component {
           this.state.contact.push(item);
         });
         this.setState({ contacts: this.state.contact });
+        // console.log("item from my --->",this.state.contacts)
         const sort = this.state.contacts.sort(function (a, b) {
           if (a.first_name.toLowerCase() < b.first_name.toLowerCase())
             return -1;
@@ -113,15 +106,64 @@ class searchContact extends Component {
           return 0;
         });
         this.setState({ shortcontacts: sort });
-      });
+     });
   }
-
+  handleSearch = (text) => {
+    this.setState({serachSection:true})
+    const { shortcontacts ,filteredShortcontacts} = this.state;
+    
+    if(text){
+      const newData = shortcontacts.filter(
+        function(item){
+            const itemData = item.first_name 
+                ? item.first_name.toUpperCase()
+                : ''.toUpperCase();
+            const textData = text.toUpperCase();
+            return itemData.indexOf(textData) > -1;
+        });
+        console.log("new data----->",newData)
+        this.setState({shortcontacts : newData , searchText : text})
+    }else{
+      this.setState({ shortcontacts : shortcontacts , searchText : ""})
+    }
+  
+  }
   renderHeader() {
     return (
-      <Header
-        title="Search Contacts"
-        onPress={() => this.props.navigation.openDrawer()}
-      />
+      <View style={{ alignItems: "center" }}>
+        <View style={styles.blueView}>
+          <View style={{ width: width * 0.9, flexDirection: "row" }}>
+            <TouchableOpacity
+              style={styles.sideBarView}
+              onPress={() => this.props.navigation.toggleDrawer()}
+            >
+              <Image source={sideBar} style={styles.sidebarStyle} />
+            </TouchableOpacity>
+            <View style={{ justifyContent:'center',}}>
+              <View style={styles.sidebarViewCenter}>
+                {this.state.serachSection ? <View>
+                  <Text style={styles.searchTextInput}>Search Contacts</Text>
+                </View> :null}
+               
+                <TextInput
+                    placeholder="Search Contacts "
+                    placeholderTextColor = {COLORS.main_sky_blue}
+                    style={this.state.serachSection == true  ?  styles.placholderStyle : styles.placholderStyle2 }
+                    onChangeText={(text) => {
+                      this.handleSearch(text);
+                    }}
+                    value={this.state.searchText}
+                    
+                />
+              </View>
+            </View>
+
+            <View style={styles.sidebarViewRight}>
+              <Image source={rigthLogo} style={styles.sidebarStyleRight} />
+            </View>
+          </View>
+        </View>
+      </View>
     );
   }
 

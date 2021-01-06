@@ -39,7 +39,7 @@ class InputCard extends Component {
               onFocus={onfocus}
               placeholderTextColor={COLORS.main_text_color}
              style={style}
-             // style={inputCardStyle.textInputViewSignup}
+           
                />
          )
     }                      

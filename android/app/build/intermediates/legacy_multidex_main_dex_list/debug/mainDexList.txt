@@ -81,6 +81,7 @@ androidx/appcompat/graphics/drawable/DrawerArrowDrawable$ArrowDirection.class
 androidx/appcompat/view/menu/CascadingMenuPopup$HorizPosition.class
 androidx/appcompat/widget/LinearLayoutCompat$DividerMode.class
 androidx/appcompat/widget/LinearLayoutCompat$OrientationMode.class
+androidx/biometric/BiometricPrompt$2.class
 androidx/coordinatorlayout/widget/CoordinatorLayout$DefaultBehavior.class
 androidx/coordinatorlayout/widget/CoordinatorLayout$DispatchChangeEvent.class
 androidx/core/app/CoreComponentFactory$CompatWrapped.class
@@ -115,6 +116,7 @@ androidx/core/view/accessibility/AccessibilityEventCompat$ContentChangeType.clas
 androidx/core/widget/TextViewCompat$AutoSizeTextType.class
 androidx/exifinterface/media/ExifInterface$IfdType.class
 androidx/lifecycle/Lifecycle$Event.class
+androidx/lifecycle/LifecycleObserver.class
 androidx/lifecycle/OnLifecycleEvent.class
 androidx/media/AudioAttributesCompat$AttributeContentType.class
 androidx/media/AudioAttributesCompat$AttributeUsage.class
@@ -160,6 +162,9 @@ com/facebook/common/internal/Objects.class
 com/facebook/common/internal/VisibleForTesting.class
 com/facebook/common/references/CloseableReference$CloseableRefType.class
 com/facebook/common/references/OOMSoftReference.class
+com/facebook/crypto/proguard/annotations/DoNotStrip.class
+com/facebook/crypto/proguard/annotations/InternalBuildOnly.class
+com/facebook/crypto/proguard/annotations/KeepGettersAndSetters.class
 com/facebook/datasource/BaseDataSubscriber.class
 com/facebook/datasource/DataSubscriber.class
 com/facebook/drawee/backends/pipeline/info/ImageLoadStatus.class
@@ -396,6 +401,7 @@ com/horcrux/svg/TextProperties$AlignmentBaseline.class
 com/horcrux/svg/TextProperties$FontWeight.class
 com/horcrux/svg/TextProperties$TextDecoration.class
 com/horcrux/svg/VirtualView.class
+com/oblador/keychain/KeychainModule$KnownCiphers.class
 com/reactnativecommunity/netinfo/ConnectivityReceiver.class
 com/swmansion/reanimated/MapUtils.class
 com/swmansion/rnscreens/ScreenStackHeaderConfigViewManager.class

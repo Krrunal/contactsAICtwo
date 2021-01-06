@@ -21,6 +21,7 @@ import {
   SHOW_LOADER_LOGIN,
   SHOW_LOADER_REG
 } from "./types";
+import {afterSign, myInfo} from '../services/FirebaseDatabase/afterSign';
 import { showToastError, showToastSuccess } from "./ToastAction";
 
 import AsyncStorage from '@react-native-community/async-storage';
@@ -57,6 +58,8 @@ const regUserSuccess = (data, dispatch) => {
   dispatch({ type: LOAD_DATA_SET, payload: data.data });
   console.log('data---->',data.data)
   addItem( data.data.username, data.data.user_id, data.data.is_active, data.data.fcmToken, data.data.contact, data.data.email)
+  // myInfo(data.data.username)
+  // afterSign(data.data.username)
   dispatch(NavigationService.navigate("AddContact"));
 
 };

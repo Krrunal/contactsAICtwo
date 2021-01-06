@@ -5,8 +5,9 @@ import {
   PermissionsAndroid,
   ScrollView,
   Text,
+  TouchableHighlight,
   TouchableOpacity,
-  View,
+  View
 } from "react-native";
 import React, { Component, useState } from "react";
 import styled, { ThemeProvider } from "styled-components/native";
@@ -138,33 +139,26 @@ class importContact extends Component {
           paddingHorizontal: 0,
         }}
       >
-        <View style={styles.checkboxView}>
+        <TouchableOpacity style={styles.checkboxView} onPress={() => {this.selectAll()}}>
           <CheckBox
             value={this.state.checked}
-            onChange={() => {
-              this.selectAll();
-            }}
+            onChange={() => {this.selectAll()}}
             tintColors={{ true: "#1374A3", false: "#1374A3" }}
           />
-
-          <Text
+        <Text
             style={[
-              styles.selectText,
+              styles.deSelectText,
               {
                 color: this.props.theme.mode === "light" ? "#1374A3" : "white",
               },
             ]}
-          >
-            {" "}
-            Select (De-select) All{" "}
-          </Text>
+          >Select (De-select) All</Text>
 
-          {/* <NormalText>Select (De-select) All</NormalText> */}
-        </View>
+        </TouchableOpacity>
 
         <ScrollView>
           {fetchedContacts.map((item, key) => (
-            <View style={styles.checkboxViewTwo} key={key}>
+            <TouchableOpacity style={styles.checkboxViewTwo} key={key} onPress={() => {this.onchecked(key, item.isSelected) }}>
               <CheckBox
                 value={item.isSelected}
                 onChange={() => {
@@ -172,8 +166,8 @@ class importContact extends Component {
                 }}
                 tintColors={{ true: "#1374A3", false: "#1374A3" }}
               />
-              <Text  style={[ styles.selectText,{ color:  this.props.theme.mode === "light" ? "#1374A3" : "white",  },    ]} >{item.displayName}  </Text>
-           </View>
+              <Text  style={[ styles.selectText,{ color:  this.props.theme.mode === "light" ? "#1374A3" : "white",  }]} >{item.displayName}  </Text>
+           </TouchableOpacity>
           ))}
         </ScrollView>
       </View>

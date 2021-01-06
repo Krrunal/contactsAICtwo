@@ -21,8 +21,9 @@ export default StyleSheet.create({
     borderRadius: 10,
     marginTop: Metrics.doubleBaseMargin,
     // justifyContent:'center',
-    flexDirection: "row",
-    alignItems: "center",
+    //flexDirection: "row",
+   // alignItems: "center",
+ 
   },
   numberView: {
     backgroundColor: COLORS.main_sky_blue,
@@ -41,12 +42,30 @@ export default StyleSheet.create({
     justifyContent: "center",
     //flexDirection: "row",
   },
-
+  mobileInputView2 : {
+    backgroundColor: COLORS.main_sky_blue,
+    width: width * 0.9,
+    height: height * 0.065,
+    borderRadius: 10,
+    marginTop: Metrics.doubleBaseMargin,
+    // justifyContent:'center',
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  mobileText:{
+    fontSize: width*0.04, 
+    fontFamily: Font.medium,
+    justifyContent:'center',
+    alignItems:'center',
+   // color:COLORS.main_text_color,
+    marginLeft:Metrics.xdoubleBaseMargin,
+    width: width * 0.7,
+    color:COLORS.main_text_color
+  },
   mobileInputText: {
     fontSize: width * 0.04,
     fontFamily: Font.medium,
     color: COLORS.main_text_color,
- //   borderWidth:2
   },
 
   passView: {
@@ -55,9 +74,9 @@ export default StyleSheet.create({
     width: width * 0.9,
     height: height * 0.065,
     borderRadius: 8,
-    alignItems: "center",
-    justifyContent: "center",
-    flexDirection: "row",
+    // alignItems: "center",
+    // justifyContent: "center",
+    // flexDirection: "row",
   },
 
   userText: {
@@ -174,14 +193,15 @@ export default StyleSheet.create({
     backgroundColor: COLORS.white,
     alignSelf: "center",
     justifyContent: "center",
-    // borderWidth: 1,
     paddingVertical: height * 0.02,
     paddingHorizontal: width * 0.05,
     borderRadius: 10,
+   
   },
 
   popupHeader: {
     alignItems: "flex-end",
+    
   },
 
   infoIcon: {
@@ -230,8 +250,19 @@ export default StyleSheet.create({
    // color:COLORS.main_text_color,
     marginLeft:Metrics.xdoubleBaseMargin,
     width: width * 0.7,
-    color:COLORS.main_text_color
-  },
+    color:COLORS.main_text_color,
+    marginTop:Metrics.xsmallMargin,
+},
+uText1 :{
+  fontSize: width*0.04, 
+  fontFamily: Font.medium,
+   marginLeft:Metrics.xdoubleBaseMargin,
+  width: width * 0.7,
+  color:COLORS.main_text_color,
+  marginBottom :Metrics.xsmallMargin,
+  
+},
+
   uTextGreen:{
     fontSize: width*0.04, 
     fontFamily: Font.medium,
@@ -248,13 +279,13 @@ export default StyleSheet.create({
   },
   modalView : {
     flexDirection:"row",
-    marginTop:Metrics.baseMargin,
+    marginTop:Metrics.smallMargin,
     alignItems:'center',
-   
+
   },
   modelText:{
     marginLeft:Metrics.baseMargin,
-    fontSize: width*0.04, 
+    fontSize: width*0.03, 
     fontFamily: Font.medium,
   },
   modelIcon: {
@@ -262,5 +293,22 @@ export default StyleSheet.create({
     height: width * 0.045,
     resizeMode: "contain",
   },
-
+  emailText: {
+    fontSize: width * 0.028,
+    fontFamily: Font.medium,
+    justifyContent: "center",
+    alignItems: "center",
+    marginLeft: Metrics.baseMargin,
+    width: width * 0.7,
+    color: COLORS.main_text_color,
+    marginLeft:Metrics.cdoubleBaseMargin,
+  //  marginTop: Metrics.baseMargin,
+  },
+  error2:{
+  
+    fontSize: 15,
+    marginLeft: width * 0.01,
+    paddingTop: height * 0.005,
+    fontFamily: Font.medium,
+  }
 });
