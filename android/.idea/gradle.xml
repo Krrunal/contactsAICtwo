@@ -17,16 +17,19 @@
             <option value="$PROJECT_DIR$/../node_modules/@react-native-community/datetimepicker/android" />
             <option value="$PROJECT_DIR$/../node_modules/@react-native-community/masked-view/android" />
             <option value="$PROJECT_DIR$/../node_modules/@react-native-community/netinfo/android" />
+            <option value="$PROJECT_DIR$/../node_modules/@react-native-picker/picker/android" />
             <option value="$PROJECT_DIR$/../node_modules/react-native-camera/android" />
             <option value="$PROJECT_DIR$/../node_modules/react-native-contacts/android" />
             <option value="$PROJECT_DIR$/../node_modules/react-native-firebase/android" />
             <option value="$PROJECT_DIR$/../node_modules/react-native-gesture-handler/android" />
             <option value="$PROJECT_DIR$/../node_modules/react-native-image-crop-picker/android" />
+            <option value="$PROJECT_DIR$/../node_modules/react-native-keychain/android" />
             <option value="$PROJECT_DIR$/../node_modules/react-native-permissions/android" />
             <option value="$PROJECT_DIR$/../node_modules/react-native-reanimated/android" />
             <option value="$PROJECT_DIR$/../node_modules/react-native-safe-area-context/android" />
             <option value="$PROJECT_DIR$/../node_modules/react-native-screens/android" />
             <option value="$PROJECT_DIR$/../node_modules/react-native-svg/android" />
+            <option value="$PROJECT_DIR$/../node_modules/react-native-timezone/android" />
             <option value="$PROJECT_DIR$/../node_modules/react-native-vector-icons/android" />
           </set>
         </option>

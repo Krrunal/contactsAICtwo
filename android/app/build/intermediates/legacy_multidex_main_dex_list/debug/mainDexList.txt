@@ -270,7 +270,9 @@ com/google/android/gms/common/annotation/KeepForSdk.class
 com/google/android/gms/common/annotation/KeepForSdkWithFieldsAndMethods.class
 com/google/android/gms/common/annotation/KeepForSdkWithMembers.class
 com/google/android/gms/common/annotation/KeepName.class
+com/google/android/gms/common/annotation/NonNullApi.class
 com/google/android/gms/common/internal/HideFirstParty.class
+com/google/android/gms/common/internal/Preconditions.class
 com/google/android/gms/common/internal/ShowFirstParty.class
 com/google/android/gms/common/internal/safeparcel/SafeParcelable$Class.class
 com/google/android/gms/common/internal/safeparcel/SafeParcelable$Constructor.class
@@ -283,7 +285,7 @@ com/google/android/gms/common/util/DynamiteApi.class
 com/google/android/gms/common/util/RetainForClient.class
 com/google/android/gms/common/util/VisibleForTesting.class
 com/google/android/gms/common/zzc.class
-com/google/android/gms/common/zzm.class
+com/google/android/gms/common/zzl.class
 com/google/android/gms/flags/FlagSource.class
 com/google/android/gms/stats/CodePackage.class
 com/google/android/gms/tasks/OnCompleteListener.class
@@ -497,6 +499,7 @@ io/invertase/firebase/links/RNFirebaseLinks$2.class
 io/invertase/firebase/messaging/RNFirebaseMessaging$1.class
 io/invertase/firebase/messaging/RNFirebaseMessaging$2.class
 io/invertase/firebase/messaging/RNFirebaseMessagingPackage.class
+io/invertase/firebase/notifications/RNFirebaseNotificationsPackage.class
 io/invertase/firebase/storage/RNFirebaseStorage$1.class
 io/invertase/firebase/storage/RNFirebaseStorage$17.class
 io/invertase/firebase/storage/RNFirebaseStorage$19.class

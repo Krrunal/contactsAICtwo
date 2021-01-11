@@ -7,7 +7,9 @@ export const importContactToFirebase =
         dateArray,note,noteArray,company,companyArray,job_title,work_hour) => {
           
     firebase.firestore().collection('user').doc(`${username}`).collection('contacts').add({        
-       profile_image: profile_image,
+        profile_image: profile_image,
+        profile_image2: "",
+        profile_image3: "",
         first_name: first_name,
         middle_name: middle_name, 
         last_name: last_name,

@@ -6,6 +6,7 @@ import contactReducer from "./contactReducer";
 import loginReducer from "./loginReducer";
 import signupReducer from "./signupReducer";
 import sortContactsReducer from "./sortContactsReducer";
+import switchDateReducer from './switchDateReducer'
 import switchNameReducer from "./switchNameReducer";
 import themeReducer from "./themeReducer";
 import thunk from "redux-thunk";
@@ -23,6 +24,7 @@ const allReducers = combineReducers({
   themeReducer,
   sortContactsReducer,
   switchNameReducer,
+  switchDateReducer
 });
 const persistedReducer = persistReducer(persistConfig, allReducers);
 

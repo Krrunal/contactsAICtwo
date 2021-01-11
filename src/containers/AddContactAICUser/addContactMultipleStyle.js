@@ -147,7 +147,7 @@ export default StyleSheet.create({
         // width: width,
         // height: height ,
         opacity: 0.5,
-        marginTop:Metrics.xdoubleBaseMargin,
+        marginTop:Metrics.xxxdoubleBaseMargin,
         
       },
       contentFlat:{
@@ -159,7 +159,7 @@ export default StyleSheet.create({
         width:width*0.8,
        // height:height*0.2,
        // marginRight:Metrics.doubleBaseMargin,
-        marginTop:Metrics.multipleLabel,
+         marginTop:Metrics.multipleLabel,
       },
       flatView:{
         width:width*0.8,

@@ -13,7 +13,6 @@ import {
 } from "react-native";
 import React, { Component, useState } from "react";
 import styled, { ThemeProvider } from "styled-components/native";
-import { Spinner } from "../../components/Spinner";
 
 import { COLORS } from "../theme/Colors.js";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
@@ -23,6 +22,7 @@ import Icon from "react-native-vector-icons/FontAwesome5";
 import IconEntypo from "react-native-vector-icons/Entypo";
 import IntlPhoneInput from "react-native-intl-phone-input";
 import Metrics from "../theme/Metrics";
+import { Spinner } from "../../components/Spinner";
 import { Title } from "react-native-paper";
 import calender from "../../assets/images/calender.png";
 import call from "../../assets/images/call.png";
@@ -50,6 +50,7 @@ import styles from "./style.js";
 import { updateMyInfo } from "../../services/FirebaseDatabase/updateMyInfo";
 import website from "../../assets/images/website.png";
 import websiteImg from "../../assets/images/website.png";
+import AsyncStorage from "@react-native-community/async-storage";
 
 const person = require("../../assets/images/person.png");
 var { width, height } = Dimensions.get("window");
@@ -67,7 +68,7 @@ class Profile extends Component {
       dob1: "",
       email: { email: "", label: "" },
       job_title: { jobTitle: "", label: "" },
-      messenger: { messanger: "", label: "" },
+      messanger: { messanger: "", label: "" },
       facebook: { socialMedia: "", label: "" },
       instagram: { instagram: "", label: "" },
       // note1: "",
@@ -268,6 +269,7 @@ class Profile extends Component {
       isNoteArrayModelOpen: false,
       isNoteModelOpen: false,
       isAddNoteArrayLabel: false,
+      notificationTime:moment(),
     };
   }
 
@@ -287,24 +289,23 @@ class Profile extends Component {
           this.setState({ profile_image: item.profile_image });
           this.setState({ mobileLabel: item.mobileLabel });
           this.setState({ email: item.email });
-          // this.setState({ emailLabel: item.email.label });
           this.setState({ address: item.address });
           this.setState({ company: item.company });
           this.setState({ date: item.date });
           this.setState({ wedding: item.wedding });
           this.setState({ job_title: item.job_title });
-          this.setState({ messenger: item.messenger });
+          this.setState({ messanger: item.messanger });
           this.setState({ facebook: item.facebook });
           this.setState({ messenger2: item.messenger2 });
           this.setState({ note: item.note });
           this.setState({ number: item.number });
           this.setState({ number1: item.number1 });
-
+          this.setState({ instagram : item.instagram})
           this.setState({ number2: item.number2 });
           this.setState({ number3: item.number3 });
           this.setState({ social_media: item.social_media });
           this.setState({ social_media1: item.social_media1 });
-          this.setState({ website: item.website1.website });
+          this.setState({ website: item.website });
           this.setState({ work_hour: item.work_hour.workHours });
           this.setState({ friends: item.friend });
         });
@@ -317,7 +318,6 @@ class Profile extends Component {
         style={{
           alignItems: "center",
           width: width,
-          // padding: Metrics.smallMargin,
           marginTop: Metrics.baseMargin,
         }}
       >
@@ -550,7 +550,7 @@ class Profile extends Component {
                 phoneInputStyle={styles.mobileInputText}
                 dialCodeTextStyle={styles.mobileInputText}
                 dialCode={this.state.dialCode}
-                value={this.state.phonenumber_1}
+                //value={this.state.phonenumber_1}
                 inputRef={"phone"}
                 keyboardType={"numeric"}
                 onChangeText={this.onChangeNumber}
@@ -715,7 +715,7 @@ class Profile extends Component {
                 phoneInputStyle={styles.mobileInputText}
                 dialCodeTextStyle={styles.mobileInputText}
                 dialCode={this.state.dialCode}
-                value={this.state.phonenumber_2}
+                //value={this.state.phonenumber_2}
                 inputRef={"phone"}
                 keyboardType={"numeric"}
                 onChangeText={this.onChangeNumber2}
@@ -882,7 +882,7 @@ class Profile extends Component {
                 phoneInputStyle={styles.mobileInputText}
                 dialCodeTextStyle={styles.mobileInputText}
                 dialCode={this.state.dialCode}
-                value={this.state.phonenumber_3}
+               // value={this.state.phonenumber_3}
                 inputRef={"phone"}
                 keyboardType={"numeric"}
                 onChangeText={this.onChangeNumber3}
@@ -890,9 +890,7 @@ class Profile extends Component {
                 isProfile={false}
               />
             ) : (
-              // this.state.number3 == "" ? (
-              //   <Text style={styles.stylefiledText}>+1 (303) 123-4567</Text>
-              // ) :
+            
               <Text style={styles.stylefiledText}>
                 {this.state.number3.number3}
               </Text>
@@ -1064,10 +1062,11 @@ class Profile extends Component {
                 onChangeText={(value) => this.onChangeEmail(value)}
               />
             ) : (
+             
               <Text style={styles.stylefiledText}>
                 {this.state.email.email}
               </Text>
-            )}
+             )}
 
             <View style={styles.rightView}>
               <View>
@@ -1257,9 +1256,16 @@ class Profile extends Component {
                     flexDirection: "row",
                   }}
                 >
-                  <Text style={styles.stylefiledText}>
-                    {this.state.address.address}
-                  </Text>
+                  {this.state.address.address == "" ?
+                      <Text style={styles.stylefiledText}>
+                        4546 willows St. Los Angeles,CA 90016 United states
+                      </Text>
+                      :
+                      <Text style={styles.stylefiledText}>
+                         {this.state.address.address}
+                      </Text>
+                  }
+                 
                 </View>
               )}
 
@@ -1282,13 +1288,13 @@ class Profile extends Component {
                             <Image source={reset} style={styles.editImg} />
                           </View>
                         </View>
-                        {this.state.address.label == "" ? (
+                        {/* {this.state.address.label == "" ? (
                           <Text style={styles.righttext}>Personal</Text>
                         ) : (
                           <Text style={styles.righttext}>
                             {this.state.address.label}
                           </Text>
-                        )}
+                        )} */}
                       </View>
                     )}
                   </View>
@@ -1437,7 +1443,7 @@ class Profile extends Component {
               />
             ) : (
               <Text style={styles.stylefiledText}>
-                {this.state.messenger.messanger}
+                {this.state.messanger.messanger}
               </Text>
             )}
 
@@ -1460,11 +1466,11 @@ class Profile extends Component {
                           <Image source={reset} style={styles.editImg} />
                         </View>
                       </View>
-                      {this.state.messenger.label == "" ? (
+                      {this.state.messanger.label == "" ? (
                         <Text style={styles.righttext}>Facebook Messanger</Text>
                       ) : (
                         <Text style={styles.righttext}>
-                          {this.state.messenger.label}
+                          {this.state.messanger.label}
                         </Text>
                       )}
                     </View>
@@ -2142,13 +2148,16 @@ class Profile extends Component {
   onChangeDate2 = (date) => {
     this.setState({
       isVisible2: false,
-      //wedding_anniversary: moment(date).format("MMMM, Do YYYY"),
+      notificationTime: moment(date),
     });
     var date = moment(date).format("MMMM, Do YYYY");
     this.state.wedding_anniversary.date = date;
-    this.setState({ wedding_anniversary: this.state.wedding_anniversary });
+    this.setState({ 
+      wedding_anniversary : this.state.wedding_anniversary ,
+      
+    });
 
-    console.log("A date has been picked: ", this.state.wedding_anniversary);
+    console.log("A date has been picked: ", this.state.notificationTime);
   };
   hidePicker2 = () => {
     this.setState({ isVisible2: false });
@@ -2192,6 +2201,7 @@ class Profile extends Component {
                 isVisible={this.state.isVisible}
                 onConfirm={this.onChangeDate}
                 onCancel={this.hidePicker}
+                
               />
 
               <View style={styles.rightView}>
@@ -2295,6 +2305,10 @@ class Profile extends Component {
                 isVisible={this.state.isVisible2}
                 onConfirm={this.onChangeDate2}
                 onCancel={this.hidePicker2}
+                mode="datetime"
+                is24Hour={false}
+                date={new Date(this.state.notificationTime)}
+                titleIOS="Pick your Notification time"
               />
 
               <View style={styles.rightView}>
@@ -2773,6 +2787,7 @@ class Profile extends Component {
                 onChangeText={(value) => this.onChangeCompany(value)}
               />
             ) : (
+              
               <Text style={styles.stylefiledText}>
                 {this.state.company.company}
               </Text>
@@ -2900,14 +2915,13 @@ class Profile extends Component {
     );
   }
 
-  ShowHideTextComponentView = () => {
+  ShowHideTextComponentView = async() => {
     if (this.state.status == false) {
       this.setState({ status: true });
     } else {
       this.setState({ status: false });
     }
     const { username } = this.props;
-
     const {
       friends_profile,
       phonenumber_1,
@@ -2927,6 +2941,7 @@ class Profile extends Component {
       profile_image,
       messenger2,
       job_title_profile,
+      notificationTime
     } = this.state;
     if (friends_profile !== "") {
       firebase
@@ -3040,6 +3055,14 @@ class Profile extends Component {
         .doc(`${username}`)
         .update({ job_title: job_title_profile });
     }
+    var notify = notificationTime.toString();
+    if (notificationTime !== "") {
+      firebase
+        .firestore()
+        .collection("user")
+        .doc(`${username}`)
+        .update({ weddingDate : notify });
+    }
   };
 
   showLoader() {
@@ -3113,7 +3136,8 @@ const mapStateToProps = (state) => ({
     state.login.shouldLoadData.user_id || state.reg.shouldLoadData.user_id,
   username:
     state.login.shouldLoadData.username || state.reg.shouldLoadData.username,
-});
+
+  });
 
 const mapDispatchToProps = (dispatch) => ({
   switchTheme: bindActionCreators(switchTheme, dispatch),

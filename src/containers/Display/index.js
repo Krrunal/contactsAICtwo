@@ -11,21 +11,28 @@ import {
 import React, { Component } from "react";
 import { connect, useDispatch, useSelector } from "react-redux";
 import { darkTheme, lightTheme } from "../theme/themeProps";
+import { dateOFF, dateON } from "../theme/dateProps";
 import { firstNameFirst, lastNameFirst } from "../theme/nameFirstProps";
 import { shortFirstName, shortLastName } from "../theme/sortNameProps";
 import styled, { ThemeProvider } from "styled-components/native";
+import AsyncStorage from "@react-native-community/async-storage";
+import { fcmService } from '../../services/FirebaseDatabase/FCMService'
 
 import CheckBox from "@react-native-community/checkbox";
+import DateTimePickerModal from "react-native-modal-datetime-picker";
 import Font from "../theme/font";
 import GeneralStatusBar from "../../components/StatusBar/index";
 import Header from "../../components/header/index";
 import { ResponsiveSize } from "../theme/GlobalFont";
 import { bindActionCreators } from "redux";
 import { checkContact } from "../../action/Authactions";
+import moment from "moment";
 import styles from "./style.js";
 import { switchContact } from "../../action/switchContactAction";
+import { switchDate } from "../../action/switchDate";
 import {switchName} from '../../action/switchName';
 import { switchTheme } from "../../action/themeAction";
+import firebase from '../../services/FirebaseDatabase/db';
 
 var { width, height } = Dimensions.get("window");
 class display extends Component {
@@ -38,9 +45,34 @@ class display extends Component {
     checked5: false,
     checked6: false,
     checked7: false,
+    isVisible:false,
+    notificationTime: moment(),
+    dob:"",
+    weddingDate:"",
+    notificationTitle: 'Birthday Notification',
+    notificationDescription: 'May your day is Awesome',
+    notificationTitle2: 'Wedding Anniversary Notification',
+    isVisibleOverlay: false,
+    notifyData: {}
   };
 
   componentDidMount = () => {
+    fcmService.register(this.onRegister, this.onNotification, this.onOpenNotification)
+
+    const { username } = this.props;
+
+    firebase
+    .firestore()
+    .collection("user")
+    .doc(username)
+    .get()
+    .then((snap) => {
+      var item = snap._data;
+      console.log("snap--->",snap);
+      this.setState({ dob: item.notificationTime });
+      this.setState({ weddingDate: item.weddingDate });
+    })
+    
     {
       if (this.props.theme.mode === "light") {
         this.setState({ checked4: false });
@@ -62,6 +94,13 @@ class display extends Component {
       } else {
         this.setState({ checked2: true });
         this.setState({ checked3: false });
+      }
+      if (this.props.dateChange.mode === "OFF") {
+        this.setState({ checked6: true });
+        this.setState({ checked7: false });
+      } else {
+        this.setState({ checked6: false });
+        this.setState({ checked7: true });
       }
     }
   };
@@ -94,6 +133,105 @@ class display extends Component {
       this.props.switchTheme(darkTheme);
     }
   };
+  checkDate = () => {
+    if (this.state.checked6 == true) {
+      this.setState({ checked6: false, checked7: true });
+      this.props.switchDate(dateOFF);
+    } else {
+      this.setState({ checked6: true, checked7: false });
+      this.props.switchDate(dateON);
+      this.setReminder();
+      this.setReminder2();
+    }
+  };
+  //For birthday Notification
+
+  onRegister = (token) => {
+    console.log("[Notification fcm ] onRegister:", token)
+  }
+
+  onNotification = (notify) => {
+    console.log("[Notification fcm ] : onNotification:", notify)
+    const notification = fcmService.buildNotification(this.createNotification(notify))
+    fcmService.displayNotification(notification)
+  }
+
+  onOpenNotification = (notify) => {
+    console.log("[Notification fcm ] : onOpenNotification ", notify)
+    this.setState({ notifyData: notify._data }, () => this.setState({ isVisibleOverlay: true }))
+  }
+
+  setReminder = () => {
+
+    const {dob} = this.state;
+    const { notificationDescription, notificationTitle } = this.state
+    let body = {
+      _title: notificationTitle,
+      _body: notificationDescription,
+      _data: {
+        title: notificationTitle,
+        body: notificationDescription,
+      },
+      _notificationId: Math.random().toString(),
+      time: dob
+    }
+    this.scheduleReminder(body)
+    //  alert('Your Remider Set SuccessFully.');
+  };
+  setReminder2 = () => {
+
+    const {weddingDate} = this.state;
+    const { notificationDescription, notificationTitle2 } = this.state
+    let body = {
+      _title: notificationTitle2,
+      _body: notificationDescription,
+      _data: {
+        title: notificationTitle2,
+        body: notificationDescription,
+      },
+      _notificationId: Math.random().toString(),
+      time: weddingDate
+    }
+    this.scheduleReminder(body)
+    //  alert('Your Remider Set SuccessFully.');
+  };
+  scheduleReminder = (notifyDetails) => {
+    const notification = fcmService.buildNotification(this.createNotification(notifyDetails))
+    fcmService.scheduleNotification(notification, notifyDetails.time)
+    this.resetState()
+  }
+  createNotification = (notify) => {
+    const channelObj = {
+      channelId: "SmapleChannelID",
+      channelName: "SmapleChannelName",
+      channelDes: "SmapleChannelDes"
+    }
+    const channel = fcmService.buildChannel(channelObj)
+    const buildNotify = {
+      title: notify._title,
+      content: notify._body,
+      sound: 'default',
+      channel: channel,
+      data: notify._data,
+      colorBgIcon: "#1A243B",
+      largeIcon: 'ic_launcher',
+      smallIcon: 'ic_launcher',
+      vibrate: true,
+      dataId: notify._notificationId
+    }
+    return buildNotify
+  }
+
+  resetState = () => {
+    this.setState({
+      dob: moment(),
+      notificationTitle2:moment(),
+      notificationTitle: '',
+      notificationTitle2: '',
+      notificationDescription: ''
+    })
+  }
+ //For birthday Notification finish
   render() {
     return (
       <ThemeProvider theme={this.props.theme}>
@@ -113,6 +251,7 @@ class display extends Component {
           <View style={styles.middleView}>
             <TouchableOpacity style={styles.FirstView}>
               <BoldText>Sort Contacts by:</BoldText>
+              
               <View style={styles.checkView}>
                 <CheckBox
                   value={this.state.checked}
@@ -176,9 +315,7 @@ class display extends Component {
               <View style={styles.checkView}>
                 <CheckBox
                   value={this.state.checked6}
-                  onValueChange={() =>
-                    this.setState({ checked6: !this.state.checked6 })
-                  }
+                  onValueChange={this.checkDate}
                   tintColors={{ true: "#1374A3", false: "#1374A3" }}
                 />
                 <NormalText>On</NormalText>
@@ -186,9 +323,7 @@ class display extends Component {
               <View style={styles.checkViewtwo}>
                 <CheckBox
                   value={this.state.checked7}
-                  onValueChange={() =>
-                    this.setState({ checked7: !this.state.checked7 })
-                  }
+                  onValueChange={this.checkDate}
                   tintColors={{ true: "#1374A3", false: "#1374A3" }}
                 />
                 <NormalText>Off</NormalText>
@@ -201,18 +336,18 @@ class display extends Component {
   }
 }
 function mapStateToProps(state) {
+
   console.log(
     "State from display--->",
-    state.switchNameReducer.nameChange
-  );
-  console.log(
-    "State from display--->",
-    state.sortContactsReducer.contactChange
+    state.switchDateReducer.dateChange
   );
   return {
     theme: state.themeReducer.theme,
     contactChange: state.sortContactsReducer.contactChange,
     nameChange:state.switchNameReducer.nameChange,
+    dateChange:state.switchDateReducer.dateChange,
+    username:state.login.shouldLoadData.username || state.reg.shouldLoadData.username,
+
   };
 }
 
@@ -220,6 +355,8 @@ const mapDispatchToProps = (dispatch) => ({
   switchTheme: bindActionCreators(switchTheme, dispatch),
   switchContact: bindActionCreators(switchContact, dispatch),
   switchName : bindActionCreators(switchName,dispatch),
+  switchDate: bindActionCreators(switchDate,dispatch),
+
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(display);

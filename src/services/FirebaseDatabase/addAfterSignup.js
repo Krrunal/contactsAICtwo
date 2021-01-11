@@ -29,13 +29,9 @@ export const addItem = (
       number2: { number2: "+1 (303) 987-6547", label: "Work" },
       number3: { number3: "+1 (303) 987-6547", label: "Work" },
       address: {address :  "4546 willows St. Los Angeles,CA 90016 United states" , label :"Home"},
-      messenger :  { messanger: "@usernamesean", label: "" }, 
+      messanger :  { messanger: "@usernamesean", label: "" }, 
       facebook: { socialMedia: "@usernamesean", label: "" },
       instagram:  { instagram: "Seanusername", label: "" },
-     
-    // //   social_media1: "XyZ",
-    // //   social_media2: "XyZ",
-    // //   social_media: "XyZ",
       website:{ website: "www.seamuser.com",label: "Our" },
       date :  { date: "6 Decemeber 2020",label: "Birthday" },
       wedding :{ date:  "6 Decemeber 2020",label: "Wedding Anniversary" },
@@ -44,6 +40,8 @@ export const addItem = (
       job_title: { jobTitle:  "Software Engineer", label: "Job Title" },
       work_hour:  { workHours:  "Monday 9.00a.m to 5.00p.m",label: "Pacific Time Zone" },
       friend: "Friends,Universal Studio",
+      notificationTime:"8:00AM",
+      weddingDate:"8:00AM"
     });
 };
 

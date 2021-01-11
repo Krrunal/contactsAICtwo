@@ -4,7 +4,7 @@
             "outputFile": "/Users/macmini/Desktop/contactsAICtwo/android/app/build/intermediates/incremental/mergeDebugResources/merged.dir/values-small-v4/values-small-v4.xml",
             "map": [
                 {
-                    "source": "/Users/macmini/.gradle/caches/transforms-2/files-2.1/e39a00ed4542ef2a5a428d231e4ff8fc/material-1.1.0/res/values-small-v4/values-small-v4.xml",
+                    "source": "/Users/macmini/.gradle/caches/transforms-2/files-2.1/8b7a80cf18422ff53d7562eea6d73649/material-1.1.0/res/values-small-v4/values-small-v4.xml",
                     "from": {
                         "startLines": "2,3,4,5",
                         "startColumns": "4,4,4,4",

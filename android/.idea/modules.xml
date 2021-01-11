@@ -14,11 +14,14 @@
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/1451093635/react-native-firebase.iml" filepath="$PROJECT_DIR$/.idea/modules/1451093635/react-native-firebase.iml" group="contactsAIC/react-native-firebase" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/758641802/react-native-gesture-handler.iml" filepath="$PROJECT_DIR$/.idea/modules/758641802/react-native-gesture-handler.iml" group="contactsAIC/react-native-gesture-handler" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/825723581/react-native-image-crop-picker.iml" filepath="$PROJECT_DIR$/.idea/modules/825723581/react-native-image-crop-picker.iml" group="contactsAIC/react-native-image-crop-picker" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-2136511170/react-native-keychain.iml" filepath="$PROJECT_DIR$/.idea/modules/-2136511170/react-native-keychain.iml" group="contactsAIC/react-native-keychain" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/545185352/react-native-permissions.iml" filepath="$PROJECT_DIR$/.idea/modules/545185352/react-native-permissions.iml" group="contactsAIC/react-native-permissions" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-560043365/react-native-picker_picker.iml" filepath="$PROJECT_DIR$/.idea/modules/-560043365/react-native-picker_picker.iml" group="contactsAIC/react-native-picker_picker" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/1758755666/react-native-reanimated.iml" filepath="$PROJECT_DIR$/.idea/modules/1758755666/react-native-reanimated.iml" group="contactsAIC/react-native-reanimated" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/-438300045/react-native-safe-area-context.iml" filepath="$PROJECT_DIR$/.idea/modules/-438300045/react-native-safe-area-context.iml" group="contactsAIC/react-native-safe-area-context" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/-142125493/react-native-screens.iml" filepath="$PROJECT_DIR$/.idea/modules/-142125493/react-native-screens.iml" group="contactsAIC/react-native-screens" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/-1409782744/react-native-svg.iml" filepath="$PROJECT_DIR$/.idea/modules/-1409782744/react-native-svg.iml" group="contactsAIC/react-native-svg" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/1524445813/react-native-timezone.iml" filepath="$PROJECT_DIR$/.idea/modules/1524445813/react-native-timezone.iml" group="contactsAIC/react-native-timezone" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/639336332/react-native-vector-icons.iml" filepath="$PROJECT_DIR$/.idea/modules/639336332/react-native-vector-icons.iml" group="contactsAIC/react-native-vector-icons" />
     </modules>
   </component>

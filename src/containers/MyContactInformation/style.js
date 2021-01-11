@@ -84,10 +84,10 @@ export default StyleSheet.create({
     borderRadius: 5,
     marginLeft: Metrics.smallMargin,
     marginBottom: Metrics.baseMargin,
-    flexDirection: "row",
+   flexDirection: "row",
     marginRight: Metrics.smallMargin,
     marginTop: Metrics.xsmallMargin,
-    alignItems: "center",
+   alignItems: "center",
    
   },
   filedView2: {
@@ -138,10 +138,18 @@ export default StyleSheet.create({
     alignItems: "center",
     color: COLORS.main_text_color,
     fontSize: width * 0.03,
-    width: width * 0.5,
+    width: width * 0.4,
+    fontFamily: Font.regular,
+   
+  
+  },
+  Text_1:{
+    marginLeft: Metrics.smallMargin,
+   // justifyContent: "center",
+    //alignItems: "center",
+    color: COLORS.main_text_color,
     fontFamily: Font.regular,
   },
-
   rightView: {
     alignItems: "flex-end",
     justifyContent: "center",
@@ -150,12 +158,12 @@ export default StyleSheet.create({
     height: height * 0.04,
   },
   rightViewBorder: {
-    alignItems: "flex-end",
+    alignItems: "center",
     justifyContent: "center",
-    flex: 1,
+    // flex: 1,
     marginRight: Metrics.smallMargin,
     height: height * 0.04,
-    width: width * 0.3,
+    width: width * 0.2,
     borderColor: COLORS.main_text_color,
     borderWidth: 1,
     borderRadius: 10,
@@ -546,5 +554,15 @@ export default StyleSheet.create({
     fontSize: width * 0.020,
     color: COLORS.main_text_color,
 
+  },
+  titleView: {
+    margin: 20,
+    backgroundColor: '#EEEFF0',
+  },
+  titleinput: {
+    fontSize: 20,
+    fontWeight: '600',
+    margin: 5,
+    backgroundColor: "#fff"
   }
 });

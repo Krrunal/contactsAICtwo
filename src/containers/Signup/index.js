@@ -40,8 +40,8 @@ import logo from "../../assets/images/logo.png";
 import { regEmailChange } from "../../action/Authactions";
 import style from "../../components/StatusBar/style";
 import styles from "./style.js";
-import wrong from "../../assets/icons/redWrong.png";
 import { truncate } from "lodash";
+import wrong from "../../assets/icons/redWrong.png";
 
 var { width, height } = Dimensions.get("window");
 
@@ -180,10 +180,14 @@ class Signup extends Component {
     if (isVerified == true) {
       this.props.regcontactChange(dialCode + "-" + unmaskedPhoneNumber);
       this.setState({ contactError: "" });
+      this.setState({ contactError1: "" });
+      this.setState({ contactError2: "" });
       this.props.checkContact();
     } else {
       this.props.regcontactChange(unmaskedPhoneNumber);
-      this.setState({ contactError: "Please enter valid Phone number" });
+      this.setState({ contactError: "Phone number" });
+      this.setState({ contactError1: "is not" });
+      this.setState({ contactError2: "available" });
     }
   };
 
@@ -200,12 +204,15 @@ class Signup extends Component {
       });
     }
     if (this.minUname(uname)) {
-      this.setState({
-        unameError: "Username contain minimun 6 character",
-      });
+      this.setState({ unameError: "Username", });
+      this.setState({ unameError1: "is not", });
+      this.setState({ unameError2: "available", });
+      
     }
     if (uname && !this.maxUname(uname) && !this.minUname(uname)) {
       this.setState({ unameError: "" });
+      this.setState({ unameError1: "" });
+      this.setState({ unameError2: "" });
       this.props.checkUsername();
     }
   };
@@ -214,10 +221,14 @@ class Signup extends Component {
     this.setState({ emailSection: true });
     this.props.regEmailChange(email);
     if (!this.validateEmail(email)) {
-      this.setState({ emailError: "Please enter valid email" });
+      this.setState({ emailError: "Email" });
+      this.setState({ emailError1: "is not" });
+      this.setState({ emailError2: "available" });
     }
     if (email && this.validateEmail(email)) {
       this.setState({ emailError: "" });
+      this.setState({ emailError1: "" });
+      this.setState({ emailError2: "" });
       this.props.checkEmail();
     }
   };
@@ -409,7 +420,7 @@ class Signup extends Component {
                       ) : null}
                       {(this.state.contactError == undefined ||
                         this.state.contactError == "") &&
-                      this.props.contactMsg == false ? (
+                        this.props.contactMsg == false ? (
                         <Text style={styles.error}>
                           Phone number{" "}
                           <Text style={styles.errorFail}>is not</Text> available
@@ -417,9 +428,30 @@ class Signup extends Component {
                       ) : null}
                       {this.state.contactError == undefined ||
                       this.state.contactError == "" ? null : (
-                        <Text style={[styles.error, { color: COLORS.red }]}>
+                        <View style={{ flexDirection: "row" }}>
+                        <Text style={[styles.error, { color: COLORS.black }]}>
                           {this.state.contactError}
                         </Text>
+                        <Text style={[styles.error2, { color: COLORS.red }]}>
+                          {this.state.contactError1}
+                        </Text>
+                        <Text style={[styles.error2, { color: COLORS.black }]}>
+                          {this.state.contactError2}
+                        </Text>
+                      </View>
+                      //   <View style={{ flexDirection: "row" }}>
+                      //     <Text
+                      //       style={[
+                      //         styles.error,
+                      //         { color: COLORS.black, width: width * 0.24 },
+                      //       ]}
+                      //     >
+                      //     {this.state.contactError}
+                      //     <Text style={[styles.error2, { color: COLORS.red }]}>{this.state.contactError1}</Text>
+                      //     <Text style={[styles.error2, { color: COLORS.black }]}>{this.state.contactError2}</Text>
+                      //   </Text>
+                      // </View>
+                      
                       )}
                     </View>
                   </View>
@@ -483,9 +515,20 @@ class Signup extends Component {
                       ) : null}
                       {this.state.unameError == undefined ||
                       this.state.unameError == "" ? null : (
-                        <Text style={[styles.error, { color: COLORS.red }]}>
-                          {this.state.unameError}
-                        </Text>
+                        <View style={{ flexDirection: "row" }}>
+                            <Text style={[styles.error, { color: COLORS.black }]}>
+                              {this.state.unameError}
+                            </Text>
+                            <Text style={[styles.error2, { color: COLORS.red }]}>
+                              {this.state.unameError1}
+                            </Text>
+                            <Text style={[styles.error2, { color: COLORS.black }]}>
+                              {this.state.unameError2}
+                            </Text>
+                      </View>
+                        // <Text style={[styles.error, { color: COLORS.red }]}>
+                        //   {this.state.unameError}
+                        // </Text>
                       )}
                     </View>
                   </View>
@@ -546,9 +589,20 @@ class Signup extends Component {
                       ) : null}
                       {this.state.emailError == undefined ||
                       this.state.emailError == "" ? null : (
-                        <Text style={[styles.error, { color: COLORS.red }]}>
-                          {this.state.emailError}
-                        </Text>
+                        <View style={{ flexDirection: "row" }}>
+                            <Text style={[styles.error, { color: COLORS.black }]}>
+                              {this.state.emailError}
+                            </Text>
+                            <Text style={[styles.error2, { color: COLORS.red }]}>
+                              {this.state.emailError1}
+                            </Text>
+                            <Text style={[styles.error2, { color: COLORS.black }]}>
+                              {this.state.emailError2}
+                            </Text>
+                      </View>
+                        // <Text style={[styles.error, { color: COLORS.red }]}>
+                        //   {this.state.emailError}
+                        // </Text>
                       )}
                     </View>
                   </View>
@@ -557,7 +611,7 @@ class Signup extends Component {
                     <View
                       style={{
                         position: "absolute",
-                        top:width*0.13,
+                        top:width*0.19,
                         left:width*0.045,
                       }}
                     >

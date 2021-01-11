@@ -18,7 +18,7 @@ import java.util.List;
 import io.invertase.firebase.database.RNFirebaseDatabasePackage;
 import io.invertase.firebase.firestore.RNFirebaseFirestorePackage;
 import io.invertase.firebase.messaging.RNFirebaseMessagingPackage;
-
+import io.invertase.firebase.notifications.RNFirebaseNotificationsPackage;
 import com.rt2zz.reactnativecontacts.ReactNativeContacts; // <--- import
 
 
@@ -41,6 +41,7 @@ public class MainApplication extends Application implements ReactApplication {
             packages.add(new RNFirebaseMessagingPackage());
            packages.add(new RNFirebaseDatabasePackage());
            packages.add(new RNFirebaseFirestorePackage());
+            packages.add(new RNFirebaseNotificationsPackage());
 
 
 

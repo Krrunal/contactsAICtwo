@@ -37,280 +37,343 @@
 22    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 22-->/Users/macmini/Desktop/contactsAICtwo/android/app/src/main/AndroidManifest.xml:10:5-78
 22-->/Users/macmini/Desktop/contactsAICtwo/android/app/src/main/AndroidManifest.xml:10:22-76
-23    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-23-->[com.facebook.flipper:flipper:0.37.0] /Users/macmini/.gradle/caches/transforms-2/files-2.1/ffe9f357a8b37aa6ebf4ed7333fc3bf2/jetified-flipper-0.37.0/AndroidManifest.xml:16:5-76
-23-->[com.facebook.flipper:flipper:0.37.0] /Users/macmini/.gradle/caches/transforms-2/files-2.1/ffe9f357a8b37aa6ebf4ed7333fc3bf2/jetified-flipper-0.37.0/AndroidManifest.xml:16:22-73
-24    <uses-permission android:name="android.permission.WAKE_LOCK" />
-24-->[:react-native-firebase] /Users/macmini/Desktop/contactsAICtwo/node_modules/react-native-firebase/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:12:5-68
-24-->[:react-native-firebase] /Users/macmini/Desktop/contactsAICtwo/node_modules/react-native-firebase/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:12:22-65
-25
-26    <uses-feature
-26-->[:react-native-camera] /Users/macmini/Desktop/contactsAICtwo/node_modules/react-native-camera/android/build/intermediates/library_manifest/generalDebug/AndroidManifest.xml:14:5-16:36
-27        android:name="android.hardware.camera.autofocus"
-27-->[:react-native-camera] /Users/macmini/Desktop/contactsAICtwo/node_modules/react-native-camera/android/build/intermediates/library_manifest/generalDebug/AndroidManifest.xml:15:9-57
-28        android:required="false" />
-28-->[:react-native-camera] /Users/macmini/Desktop/contactsAICtwo/node_modules/react-native-camera/android/build/intermediates/library_manifest/generalDebug/AndroidManifest.xml:16:9-33
-29
-30    <queries>
-30-->[:react-native-image-crop-picker] /Users/macmini/Desktop/contactsAICtwo/node_modules/react-native-image-crop-picker/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:10:5-14:15
-31        <intent>
-31-->[:react-native-image-crop-picker] /Users/macmini/Desktop/contactsAICtwo/node_modules/react-native-image-crop-picker/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:11:9-13:18
-32            <action android:name="android.media.action.IMAGE_CAPTURE" />
-32-->[:react-native-image-crop-picker] /Users/macmini/Desktop/contactsAICtwo/node_modules/react-native-image-crop-picker/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:12:13-73
-32-->[:react-native-image-crop-picker] /Users/macmini/Desktop/contactsAICtwo/node_modules/react-native-image-crop-picker/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:12:21-70
-33        </intent>
-34    </queries>
-35
-36    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-36-->[:react-native-image-crop-picker] /Users/macmini/Desktop/contactsAICtwo/node_modules/react-native-image-crop-picker/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:16:5-81
-36-->[:react-native-image-crop-picker] /Users/macmini/Desktop/contactsAICtwo/node_modules/react-native-image-crop-picker/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:16:22-78
-37    <uses-permission android:name="android.permission.USE_BIOMETRIC" />
-37-->[:react-native-keychain] /Users/macmini/Desktop/contactsAICtwo/node_modules/react-native-keychain/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:11:5-72
-37-->[:react-native-keychain] /Users/macmini/Desktop/contactsAICtwo/node_modules/react-native-keychain/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:11:22-69
-38    <uses-permission android:name="android.permission.USE_FINGERPRINT" /> <!-- Required by older versions of Google Play services to create IID tokens -->
-38-->[:react-native-keychain] /Users/macmini/Desktop/contactsAICtwo/node_modules/react-native-keychain/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:12:5-74
-38-->[:react-native-keychain] /Users/macmini/Desktop/contactsAICtwo/node_modules/react-native-keychain/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:12:22-71
-39    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
-39-->[com.google.firebase:firebase-iid:17.1.2] /Users/macmini/.gradle/caches/transforms-2/files-2.1/74f09ebd2bb0e4e50a13ba9524cd3f0a/jetified-firebase-iid-17.1.2/AndroidManifest.xml:26:5-82
-39-->[com.google.firebase:firebase-iid:17.1.2] /Users/macmini/.gradle/caches/transforms-2/files-2.1/74f09ebd2bb0e4e50a13ba9524cd3f0a/jetified-firebase-iid-17.1.2/AndroidManifest.xml:26:22-79
-40    <uses-permission android:name="com.google.android.finsky.permission.BIND_GET_INSTALL_REFERRER_SERVICE" />
-40-->[com.google.android.gms:play-services-measurement:17.5.0] /Users/macmini/.gradle/caches/transforms-2/files-2.1/29974d02a9f4f72556f1fe5b3e2f4f9f/jetified-play-services-measurement-17.5.0/AndroidManifest.xml:26:5-110
-40-->[com.google.android.gms:play-services-measurement:17.5.0] /Users/macmini/.gradle/caches/transforms-2/files-2.1/29974d02a9f4f72556f1fe5b3e2f4f9f/jetified-play-services-measurement-17.5.0/AndroidManifest.xml:26:22-107
-41
-42    <application
-42-->/Users/macmini/Desktop/contactsAICtwo/android/app/src/main/AndroidManifest.xml:12:5-31:19
-43        android:name="com.contactsaic.MainApplication"
-43-->/Users/macmini/Desktop/contactsAICtwo/android/app/src/main/AndroidManifest.xml:13:7-38
-44        android:allowBackup="false"
-44-->/Users/macmini/Desktop/contactsAICtwo/android/app/src/main/AndroidManifest.xml:17:7-34
-45        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
-45-->[androidx.core:core:1.5.0-alpha05] /Users/macmini/.gradle/caches/transforms-2/files-2.1/6fe030b7ac6a7c41868723abb5ed2ebb/core-1.5.0-alpha05/AndroidManifest.xml:24:18-86
-46        android:debuggable="true"
-47        android:icon="@mipmap/ic_launcher"
-47-->/Users/macmini/Desktop/contactsAICtwo/android/app/src/main/AndroidManifest.xml:15:7-41
-48        android:label="@string/app_name"
-48-->/Users/macmini/Desktop/contactsAICtwo/android/app/src/main/AndroidManifest.xml:14:7-39
-49        android:roundIcon="@mipmap/ic_launcher_round"
-49-->/Users/macmini/Desktop/contactsAICtwo/android/app/src/main/AndroidManifest.xml:16:7-52
-50        android:theme="@style/AppTheme"
-50-->/Users/macmini/Desktop/contactsAICtwo/android/app/src/main/AndroidManifest.xml:18:7-38
-51        android:usesCleartextTraffic="true" >
-51-->/Users/macmini/Desktop/contactsAICtwo/android/app/src/debug/AndroidManifest.xml:7:18-53
-52        <activity
-52-->/Users/macmini/Desktop/contactsAICtwo/android/app/src/main/AndroidManifest.xml:19:7-29:18
-53            android:name="com.contactsaic.MainActivity"
-53-->/Users/macmini/Desktop/contactsAICtwo/android/app/src/main/AndroidManifest.xml:20:9-37
-54            android:configChanges="keyboard|keyboardHidden|orientation|screenSize|uiMode"
-54-->/Users/macmini/Desktop/contactsAICtwo/android/app/src/main/AndroidManifest.xml:22:9-86
-55            android:label="@string/app_name"
-55-->/Users/macmini/Desktop/contactsAICtwo/android/app/src/main/AndroidManifest.xml:21:9-41
-56            android:launchMode="singleTask"
-56-->/Users/macmini/Desktop/contactsAICtwo/android/app/src/main/AndroidManifest.xml:23:9-40
-57            android:windowSoftInputMode="adjustResize" >
-57-->/Users/macmini/Desktop/contactsAICtwo/android/app/src/main/AndroidManifest.xml:24:9-51
-58            <intent-filter>
-58-->/Users/macmini/Desktop/contactsAICtwo/android/app/src/main/AndroidManifest.xml:25:9-28:25
-59                <action android:name="android.intent.action.MAIN" />
-59-->/Users/macmini/Desktop/contactsAICtwo/android/app/src/main/AndroidManifest.xml:26:13-65
-59-->/Users/macmini/Desktop/contactsAICtwo/android/app/src/main/AndroidManifest.xml:26:21-62
-60
-61                <category android:name="android.intent.category.LAUNCHER" />
-61-->/Users/macmini/Desktop/contactsAICtwo/android/app/src/main/AndroidManifest.xml:27:13-73
-61-->/Users/macmini/Desktop/contactsAICtwo/android/app/src/main/AndroidManifest.xml:27:23-70
-62            </intent-filter>
-63        </activity>
-64        <activity android:name="com.facebook.react.devsupport.DevSettingsActivity" />
-64-->/Users/macmini/Desktop/contactsAICtwo/android/app/src/main/AndroidManifest.xml:30:7-84
-64-->/Users/macmini/Desktop/contactsAICtwo/android/app/src/main/AndroidManifest.xml:30:17-81
-65
-66        <service
-66-->[:react-native-firebase] /Users/macmini/Desktop/contactsAICtwo/node_modules/react-native-firebase/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:16:9-20:19
-67            android:name="com.google.firebase.components.ComponentDiscoveryService"
-67-->[:react-native-firebase] /Users/macmini/Desktop/contactsAICtwo/node_modules/react-native-firebase/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:16:18-89
-68            android:directBootAware="true"
-68-->[com.google.firebase:firebase-common:19.3.1] /Users/macmini/.gradle/caches/transforms-2/files-2.1/e50c0a35fece746bdf0c8c22122c4e5e/jetified-firebase-common-19.3.1/AndroidManifest.xml:35:13-43
-69            android:exported="false" >
-69-->[com.google.firebase:firebase-database:19.5.0] /Users/macmini/.gradle/caches/transforms-2/files-2.1/de3a037bef3ce244fb667de3e2fed2ba/jetified-firebase-database-19.5.0/AndroidManifest.xml:31:13-37
-70            <meta-data
-70-->[:react-native-firebase] /Users/macmini/Desktop/contactsAICtwo/node_modules/react-native-firebase/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:17:13-19:85
-71                android:name="com.google.firebase.components:io.invertase.firebase.ReactNativeFirebaseAppRegistrar"
-71-->[:react-native-firebase] /Users/macmini/Desktop/contactsAICtwo/node_modules/react-native-firebase/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:18:17-116
-72                android:value="com.google.firebase.components.ComponentRegistrar" />
-72-->[:react-native-firebase] /Users/macmini/Desktop/contactsAICtwo/node_modules/react-native-firebase/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:19:17-82
-73            <meta-data
-73-->[com.google.firebase:firebase-database:19.5.0] /Users/macmini/.gradle/caches/transforms-2/files-2.1/de3a037bef3ce244fb667de3e2fed2ba/jetified-firebase-database-19.5.0/AndroidManifest.xml:32:13-34:85
-74                android:name="com.google.firebase.components:com.google.firebase.database.DatabaseRegistrar"
-74-->[com.google.firebase:firebase-database:19.5.0] /Users/macmini/.gradle/caches/transforms-2/files-2.1/de3a037bef3ce244fb667de3e2fed2ba/jetified-firebase-database-19.5.0/AndroidManifest.xml:33:17-109
-75                android:value="com.google.firebase.components.ComponentRegistrar" />
-75-->[com.google.firebase:firebase-database:19.5.0] /Users/macmini/.gradle/caches/transforms-2/files-2.1/de3a037bef3ce244fb667de3e2fed2ba/jetified-firebase-database-19.5.0/AndroidManifest.xml:34:17-82
-76            <meta-data
-76-->[com.google.firebase:firebase-firestore:21.0.0] /Users/macmini/.gradle/caches/transforms-2/files-2.1/a95b979ed65b927c3dd316f79e3e851b/jetified-firebase-firestore-21.0.0/AndroidManifest.xml:20:13-22:85
-77                android:name="com.google.firebase.components:com.google.firebase.firestore.FirestoreRegistrar"
-77-->[com.google.firebase:firebase-firestore:21.0.0] /Users/macmini/.gradle/caches/transforms-2/files-2.1/a95b979ed65b927c3dd316f79e3e851b/jetified-firebase-firestore-21.0.0/AndroidManifest.xml:21:17-111
-78                android:value="com.google.firebase.components.ComponentRegistrar" />
-78-->[com.google.firebase:firebase-firestore:21.0.0] /Users/macmini/.gradle/caches/transforms-2/files-2.1/a95b979ed65b927c3dd316f79e3e851b/jetified-firebase-firestore-21.0.0/AndroidManifest.xml:22:17-82
-79            <meta-data
-79-->[com.google.firebase:firebase-iid:17.1.2] /Users/macmini/.gradle/caches/transforms-2/files-2.1/74f09ebd2bb0e4e50a13ba9524cd3f0a/jetified-firebase-iid-17.1.2/AndroidManifest.xml:32:13-34:85
-80                android:name="com.google.firebase.components:com.google.firebase.iid.Registrar"
-80-->[com.google.firebase:firebase-iid:17.1.2] /Users/macmini/.gradle/caches/transforms-2/files-2.1/74f09ebd2bb0e4e50a13ba9524cd3f0a/jetified-firebase-iid-17.1.2/AndroidManifest.xml:33:17-96
-81                android:value="com.google.firebase.components.ComponentRegistrar" />
-81-->[com.google.firebase:firebase-iid:17.1.2] /Users/macmini/.gradle/caches/transforms-2/files-2.1/74f09ebd2bb0e4e50a13ba9524cd3f0a/jetified-firebase-iid-17.1.2/AndroidManifest.xml:34:17-82
-82            <meta-data
-82-->[com.google.android.gms:play-services-measurement-api:17.5.0] /Users/macmini/.gradle/caches/transforms-2/files-2.1/e22d51f71c3b58702df3a3f6a179dceb/jetified-play-services-measurement-api-17.5.0/AndroidManifest.xml:30:13-32:85
-83                android:name="com.google.firebase.components:com.google.firebase.analytics.connector.internal.AnalyticsConnectorRegistrar"
-83-->[com.google.android.gms:play-services-measurement-api:17.5.0] /Users/macmini/.gradle/caches/transforms-2/files-2.1/e22d51f71c3b58702df3a3f6a179dceb/jetified-play-services-measurement-api-17.5.0/AndroidManifest.xml:31:17-139
-84                android:value="com.google.firebase.components.ComponentRegistrar" />
-84-->[com.google.android.gms:play-services-measurement-api:17.5.0] /Users/macmini/.gradle/caches/transforms-2/files-2.1/e22d51f71c3b58702df3a3f6a179dceb/jetified-play-services-measurement-api-17.5.0/AndroidManifest.xml:32:17-82
-85            <meta-data
-85-->[com.google.firebase:firebase-installations:16.3.2] /Users/macmini/.gradle/caches/transforms-2/files-2.1/ee4bf8c3e3e8a1467f002494ddb44443/jetified-firebase-installations-16.3.2/AndroidManifest.xml:17:13-19:85
-86                android:name="com.google.firebase.components:com.google.firebase.installations.FirebaseInstallationsRegistrar"
-86-->[com.google.firebase:firebase-installations:16.3.2] /Users/macmini/.gradle/caches/transforms-2/files-2.1/ee4bf8c3e3e8a1467f002494ddb44443/jetified-firebase-installations-16.3.2/AndroidManifest.xml:18:17-127
-87                android:value="com.google.firebase.components.ComponentRegistrar" />
-87-->[com.google.firebase:firebase-installations:16.3.2] /Users/macmini/.gradle/caches/transforms-2/files-2.1/ee4bf8c3e3e8a1467f002494ddb44443/jetified-firebase-installations-16.3.2/AndroidManifest.xml:19:17-82
-88        </service>
-89
-90        <provider
-90-->[:react-native-image-crop-picker] /Users/macmini/Desktop/contactsAICtwo/node_modules/react-native-image-crop-picker/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:19:9-27:20
-91            android:name="androidx.core.content.FileProvider"
-91-->[:react-native-image-crop-picker] /Users/macmini/Desktop/contactsAICtwo/node_modules/react-native-image-crop-picker/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:20:13-62
-92            android:authorities="com.contactsaic.provider"
-92-->[:react-native-image-crop-picker] /Users/macmini/Desktop/contactsAICtwo/node_modules/react-native-image-crop-picker/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:21:13-60
-93            android:exported="false"
-93-->[:react-native-image-crop-picker] /Users/macmini/Desktop/contactsAICtwo/node_modules/react-native-image-crop-picker/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:22:13-37
-94            android:grantUriPermissions="true" >
-94-->[:react-native-image-crop-picker] /Users/macmini/Desktop/contactsAICtwo/node_modules/react-native-image-crop-picker/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:23:13-47
-95            <meta-data
-95-->[:react-native-image-crop-picker] /Users/macmini/Desktop/contactsAICtwo/node_modules/react-native-image-crop-picker/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:24:13-26:58
-96                android:name="android.support.FILE_PROVIDER_PATHS"
-96-->[:react-native-image-crop-picker] /Users/macmini/Desktop/contactsAICtwo/node_modules/react-native-image-crop-picker/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:25:17-67
-97                android:resource="@xml/provider_paths" />
-97-->[:react-native-image-crop-picker] /Users/macmini/Desktop/contactsAICtwo/node_modules/react-native-image-crop-picker/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:26:17-55
-98        </provider>
-99
-100        <activity
-100-->[:react-native-image-crop-picker] /Users/macmini/Desktop/contactsAICtwo/node_modules/react-native-image-crop-picker/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:29:9-31:72
-101            android:name="com.yalantis.ucrop.UCropActivity"
-101-->[:react-native-image-crop-picker] /Users/macmini/Desktop/contactsAICtwo/node_modules/react-native-image-crop-picker/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:30:13-60
-102            android:theme="@style/Theme.AppCompat.Light.NoActionBar" /> <!-- suppress AndroidDomInspection -->
-102-->[:react-native-image-crop-picker] /Users/macmini/Desktop/contactsAICtwo/node_modules/react-native-image-crop-picker/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:31:13-69
-103        <activity
-103-->[:react-native-keychain] /Users/macmini/Desktop/contactsAICtwo/node_modules/react-native-keychain/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:17:9-20:67
-104            android:name="androidx.biometric.DeviceCredentialHandlerActivity"
-104-->[:react-native-keychain] /Users/macmini/Desktop/contactsAICtwo/node_modules/react-native-keychain/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:18:13-78
-105            android:exported="true"
-105-->[:react-native-keychain] /Users/macmini/Desktop/contactsAICtwo/node_modules/react-native-keychain/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:19:13-36
-106            android:theme="@style/DeviceCredentialHandlerTheme" />
-106-->[:react-native-keychain] /Users/macmini/Desktop/contactsAICtwo/node_modules/react-native-keychain/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:20:13-64
-107        <!--
-108             FirebaseMessagingService performs security checks at runtime,
-109             but set to not exported to explicitly avoid allowing another app to call it.
-110        -->
-111        <service
-111-->[com.google.firebase:firebase-messaging:17.6.0] /Users/macmini/.gradle/caches/transforms-2/files-2.1/1d9574874f1887280c5683d9d08979cc/jetified-firebase-messaging-17.6.0/AndroidManifest.xml:28:9-34:19
-112            android:name="com.google.firebase.messaging.FirebaseMessagingService"
-112-->[com.google.firebase:firebase-messaging:17.6.0] /Users/macmini/.gradle/caches/transforms-2/files-2.1/1d9574874f1887280c5683d9d08979cc/jetified-firebase-messaging-17.6.0/AndroidManifest.xml:29:13-82
-113            android:exported="false" >
-113-->[com.google.firebase:firebase-messaging:17.6.0] /Users/macmini/.gradle/caches/transforms-2/files-2.1/1d9574874f1887280c5683d9d08979cc/jetified-firebase-messaging-17.6.0/AndroidManifest.xml:30:13-37
-114            <intent-filter android:priority="-500" >
-114-->[com.google.firebase:firebase-messaging:17.6.0] /Users/macmini/.gradle/caches/transforms-2/files-2.1/1d9574874f1887280c5683d9d08979cc/jetified-firebase-messaging-17.6.0/AndroidManifest.xml:31:13-33:29
-114-->[com.google.firebase:firebase-messaging:17.6.0] /Users/macmini/.gradle/caches/transforms-2/files-2.1/1d9574874f1887280c5683d9d08979cc/jetified-firebase-messaging-17.6.0/AndroidManifest.xml:31:28-51
-115                <action android:name="com.google.firebase.MESSAGING_EVENT" />
-115-->[com.google.firebase:firebase-messaging:17.6.0] /Users/macmini/.gradle/caches/transforms-2/files-2.1/1d9574874f1887280c5683d9d08979cc/jetified-firebase-messaging-17.6.0/AndroidManifest.xml:32:17-78
-115-->[com.google.firebase:firebase-messaging:17.6.0] /Users/macmini/.gradle/caches/transforms-2/files-2.1/1d9574874f1887280c5683d9d08979cc/jetified-firebase-messaging-17.6.0/AndroidManifest.xml:32:25-75
-116            </intent-filter>
-117        </service>
-118
-119        <receiver
-119-->[com.google.firebase:firebase-iid:17.1.2] /Users/macmini/.gradle/caches/transforms-2/files-2.1/74f09ebd2bb0e4e50a13ba9524cd3f0a/jetified-firebase-iid-17.1.2/AndroidManifest.xml:37:9-44:20
-120            android:name="com.google.firebase.iid.FirebaseInstanceIdReceiver"
-120-->[com.google.firebase:firebase-iid:17.1.2] /Users/macmini/.gradle/caches/transforms-2/files-2.1/74f09ebd2bb0e4e50a13ba9524cd3f0a/jetified-firebase-iid-17.1.2/AndroidManifest.xml:38:13-78
-121            android:exported="true"
-121-->[com.google.firebase:firebase-iid:17.1.2] /Users/macmini/.gradle/caches/transforms-2/files-2.1/74f09ebd2bb0e4e50a13ba9524cd3f0a/jetified-firebase-iid-17.1.2/AndroidManifest.xml:39:13-36
-122            android:permission="com.google.android.c2dm.permission.SEND" >
-122-->[com.google.firebase:firebase-iid:17.1.2] /Users/macmini/.gradle/caches/transforms-2/files-2.1/74f09ebd2bb0e4e50a13ba9524cd3f0a/jetified-firebase-iid-17.1.2/AndroidManifest.xml:40:13-73
-123            <intent-filter>
-123-->[com.google.firebase:firebase-iid:17.1.2] /Users/macmini/.gradle/caches/transforms-2/files-2.1/74f09ebd2bb0e4e50a13ba9524cd3f0a/jetified-firebase-iid-17.1.2/AndroidManifest.xml:41:13-43:29
-124                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
-124-->[com.google.firebase:firebase-iid:17.1.2] /Users/macmini/.gradle/caches/transforms-2/files-2.1/74f09ebd2bb0e4e50a13ba9524cd3f0a/jetified-firebase-iid-17.1.2/AndroidManifest.xml:42:17-81
-124-->[com.google.firebase:firebase-iid:17.1.2] /Users/macmini/.gradle/caches/transforms-2/files-2.1/74f09ebd2bb0e4e50a13ba9524cd3f0a/jetified-firebase-iid-17.1.2/AndroidManifest.xml:42:25-78
-125            </intent-filter>
-126        </receiver>
-127        <!--
-128             FirebaseInstanceIdService performs security checks at runtime,
-129             no need for explicit permissions despite exported="true"
-130        -->
-131        <service
-131-->[com.google.firebase:firebase-iid:17.1.2] /Users/macmini/.gradle/caches/transforms-2/files-2.1/74f09ebd2bb0e4e50a13ba9524cd3f0a/jetified-firebase-iid-17.1.2/AndroidManifest.xml:50:9-56:19
-132            android:name="com.google.firebase.iid.FirebaseInstanceIdService"
-132-->[com.google.firebase:firebase-iid:17.1.2] /Users/macmini/.gradle/caches/transforms-2/files-2.1/74f09ebd2bb0e4e50a13ba9524cd3f0a/jetified-firebase-iid-17.1.2/AndroidManifest.xml:51:13-77
-133            android:exported="true" >
-133-->[com.google.firebase:firebase-iid:17.1.2] /Users/macmini/.gradle/caches/transforms-2/files-2.1/74f09ebd2bb0e4e50a13ba9524cd3f0a/jetified-firebase-iid-17.1.2/AndroidManifest.xml:52:13-36
-134            <intent-filter android:priority="-500" >
-134-->[com.google.firebase:firebase-iid:17.1.2] /Users/macmini/.gradle/caches/transforms-2/files-2.1/74f09ebd2bb0e4e50a13ba9524cd3f0a/jetified-firebase-iid-17.1.2/AndroidManifest.xml:53:13-55:29
-134-->[com.google.firebase:firebase-iid:17.1.2] /Users/macmini/.gradle/caches/transforms-2/files-2.1/74f09ebd2bb0e4e50a13ba9524cd3f0a/jetified-firebase-iid-17.1.2/AndroidManifest.xml:53:28-51
-135                <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
-135-->[com.google.firebase:firebase-iid:17.1.2] /Users/macmini/.gradle/caches/transforms-2/files-2.1/74f09ebd2bb0e4e50a13ba9524cd3f0a/jetified-firebase-iid-17.1.2/AndroidManifest.xml:54:17-80
-135-->[com.google.firebase:firebase-iid:17.1.2] /Users/macmini/.gradle/caches/transforms-2/files-2.1/74f09ebd2bb0e4e50a13ba9524cd3f0a/jetified-firebase-iid-17.1.2/AndroidManifest.xml:54:25-77
-136            </intent-filter>
-137        </service>
-138
-139        <provider
-139-->[com.google.firebase:firebase-common:19.3.1] /Users/macmini/.gradle/caches/transforms-2/files-2.1/e50c0a35fece746bdf0c8c22122c4e5e/jetified-firebase-common-19.3.1/AndroidManifest.xml:26:9-31:39
-140            android:name="com.google.firebase.provider.FirebaseInitProvider"
-140-->[com.google.firebase:firebase-common:19.3.1] /Users/macmini/.gradle/caches/transforms-2/files-2.1/e50c0a35fece746bdf0c8c22122c4e5e/jetified-firebase-common-19.3.1/AndroidManifest.xml:27:13-77
-141            android:authorities="com.contactsaic.firebaseinitprovider"
-141-->[com.google.firebase:firebase-common:19.3.1] /Users/macmini/.gradle/caches/transforms-2/files-2.1/e50c0a35fece746bdf0c8c22122c4e5e/jetified-firebase-common-19.3.1/AndroidManifest.xml:28:13-72
-142            android:directBootAware="true"
-142-->[com.google.firebase:firebase-common:19.3.1] /Users/macmini/.gradle/caches/transforms-2/files-2.1/e50c0a35fece746bdf0c8c22122c4e5e/jetified-firebase-common-19.3.1/AndroidManifest.xml:29:13-43
-143            android:exported="false"
-143-->[com.google.firebase:firebase-common:19.3.1] /Users/macmini/.gradle/caches/transforms-2/files-2.1/e50c0a35fece746bdf0c8c22122c4e5e/jetified-firebase-common-19.3.1/AndroidManifest.xml:30:13-37
-144            android:initOrder="100" />
-144-->[com.google.firebase:firebase-common:19.3.1] /Users/macmini/.gradle/caches/transforms-2/files-2.1/e50c0a35fece746bdf0c8c22122c4e5e/jetified-firebase-common-19.3.1/AndroidManifest.xml:31:13-36
-145
-146        <activity
-146-->[com.google.android.gms:play-services-base:17.0.0] /Users/macmini/.gradle/caches/transforms-2/files-2.1/68cddf731feda8cdbea0b1af457f844a/jetified-play-services-base-17.0.0/AndroidManifest.xml:23:9-26:75
-147            android:name="com.google.android.gms.common.api.GoogleApiActivity"
-147-->[com.google.android.gms:play-services-base:17.0.0] /Users/macmini/.gradle/caches/transforms-2/files-2.1/68cddf731feda8cdbea0b1af457f844a/jetified-play-services-base-17.0.0/AndroidManifest.xml:24:13-79
-148            android:exported="false"
-148-->[com.google.android.gms:play-services-base:17.0.0] /Users/macmini/.gradle/caches/transforms-2/files-2.1/68cddf731feda8cdbea0b1af457f844a/jetified-play-services-base-17.0.0/AndroidManifest.xml:25:13-37
-149            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
-149-->[com.google.android.gms:play-services-base:17.0.0] /Users/macmini/.gradle/caches/transforms-2/files-2.1/68cddf731feda8cdbea0b1af457f844a/jetified-play-services-base-17.0.0/AndroidManifest.xml:26:13-72
-150
-151        <receiver
-151-->[com.google.android.gms:play-services-measurement:17.5.0] /Users/macmini/.gradle/caches/transforms-2/files-2.1/29974d02a9f4f72556f1fe5b3e2f4f9f/jetified-play-services-measurement-17.5.0/AndroidManifest.xml:29:9-33:20
-152            android:name="com.google.android.gms.measurement.AppMeasurementReceiver"
-152-->[com.google.android.gms:play-services-measurement:17.5.0] /Users/macmini/.gradle/caches/transforms-2/files-2.1/29974d02a9f4f72556f1fe5b3e2f4f9f/jetified-play-services-measurement-17.5.0/AndroidManifest.xml:30:13-85
-153            android:enabled="true"
-153-->[com.google.android.gms:play-services-measurement:17.5.0] /Users/macmini/.gradle/caches/transforms-2/files-2.1/29974d02a9f4f72556f1fe5b3e2f4f9f/jetified-play-services-measurement-17.5.0/AndroidManifest.xml:31:13-35
-154            android:exported="false" >
-154-->[com.google.android.gms:play-services-measurement:17.5.0] /Users/macmini/.gradle/caches/transforms-2/files-2.1/29974d02a9f4f72556f1fe5b3e2f4f9f/jetified-play-services-measurement-17.5.0/AndroidManifest.xml:32:13-37
-155        </receiver>
-156
-157        <service
-157-->[com.google.android.gms:play-services-measurement:17.5.0] /Users/macmini/.gradle/caches/transforms-2/files-2.1/29974d02a9f4f72556f1fe5b3e2f4f9f/jetified-play-services-measurement-17.5.0/AndroidManifest.xml:35:9-38:40
-158            android:name="com.google.android.gms.measurement.AppMeasurementService"
-158-->[com.google.android.gms:play-services-measurement:17.5.0] /Users/macmini/.gradle/caches/transforms-2/files-2.1/29974d02a9f4f72556f1fe5b3e2f4f9f/jetified-play-services-measurement-17.5.0/AndroidManifest.xml:36:13-84
-159            android:enabled="true"
-159-->[com.google.android.gms:play-services-measurement:17.5.0] /Users/macmini/.gradle/caches/transforms-2/files-2.1/29974d02a9f4f72556f1fe5b3e2f4f9f/jetified-play-services-measurement-17.5.0/AndroidManifest.xml:37:13-35
-160            android:exported="false" />
-160-->[com.google.android.gms:play-services-measurement:17.5.0] /Users/macmini/.gradle/caches/transforms-2/files-2.1/29974d02a9f4f72556f1fe5b3e2f4f9f/jetified-play-services-measurement-17.5.0/AndroidManifest.xml:38:13-37
-161        <service
-161-->[com.google.android.gms:play-services-measurement:17.5.0] /Users/macmini/.gradle/caches/transforms-2/files-2.1/29974d02a9f4f72556f1fe5b3e2f4f9f/jetified-play-services-measurement-17.5.0/AndroidManifest.xml:39:9-43:72
-162            android:name="com.google.android.gms.measurement.AppMeasurementJobService"
-162-->[com.google.android.gms:play-services-measurement:17.5.0] /Users/macmini/.gradle/caches/transforms-2/files-2.1/29974d02a9f4f72556f1fe5b3e2f4f9f/jetified-play-services-measurement-17.5.0/AndroidManifest.xml:40:13-87
-163            android:enabled="true"
-163-->[com.google.android.gms:play-services-measurement:17.5.0] /Users/macmini/.gradle/caches/transforms-2/files-2.1/29974d02a9f4f72556f1fe5b3e2f4f9f/jetified-play-services-measurement-17.5.0/AndroidManifest.xml:41:13-35
-164            android:exported="false"
-164-->[com.google.android.gms:play-services-measurement:17.5.0] /Users/macmini/.gradle/caches/transforms-2/files-2.1/29974d02a9f4f72556f1fe5b3e2f4f9f/jetified-play-services-measurement-17.5.0/AndroidManifest.xml:42:13-37
-165            android:permission="android.permission.BIND_JOB_SERVICE" />
-165-->[com.google.android.gms:play-services-measurement:17.5.0] /Users/macmini/.gradle/caches/transforms-2/files-2.1/29974d02a9f4f72556f1fe5b3e2f4f9f/jetified-play-services-measurement-17.5.0/AndroidManifest.xml:43:13-69
-166
-167        <meta-data
-167-->[com.google.android.gms:play-services-basement:17.0.0] /Users/macmini/.gradle/caches/transforms-2/files-2.1/a014d6f6e91a2920db4b0967e801538e/jetified-play-services-basement-17.0.0/AndroidManifest.xml:23:9-25:69
-168            android:name="com.google.android.gms.version"
-168-->[com.google.android.gms:play-services-basement:17.0.0] /Users/macmini/.gradle/caches/transforms-2/files-2.1/a014d6f6e91a2920db4b0967e801538e/jetified-play-services-basement-17.0.0/AndroidManifest.xml:24:13-58
-169            android:value="@integer/google_play_services_version" />
-169-->[com.google.android.gms:play-services-basement:17.0.0] /Users/macmini/.gradle/caches/transforms-2/files-2.1/a014d6f6e91a2920db4b0967e801538e/jetified-play-services-basement-17.0.0/AndroidManifest.xml:25:13-66
-170    </application>
-171
-172</manifest>
+23    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+23-->/Users/macmini/Desktop/contactsAICtwo/android/app/src/main/AndroidManifest.xml:11:5-81
+23-->/Users/macmini/Desktop/contactsAICtwo/android/app/src/main/AndroidManifest.xml:11:22-78
+24    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+24-->[com.facebook.flipper:flipper:0.37.0] /Users/macmini/.gradle/caches/transforms-2/files-2.1/df13a9fac97a3c013503f2387d42b148/jetified-flipper-0.37.0/AndroidManifest.xml:16:5-76
+24-->[com.facebook.flipper:flipper:0.37.0] /Users/macmini/.gradle/caches/transforms-2/files-2.1/df13a9fac97a3c013503f2387d42b148/jetified-flipper-0.37.0/AndroidManifest.xml:16:22-73
+25    <uses-permission android:name="android.permission.WAKE_LOCK" />
+25-->[:react-native-firebase] /Users/macmini/Desktop/contactsAICtwo/node_modules/react-native-firebase/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:12:5-68
+25-->[:react-native-firebase] /Users/macmini/Desktop/contactsAICtwo/node_modules/react-native-firebase/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:12:22-65
+26
+27    <uses-feature
+27-->[:react-native-camera] /Users/macmini/Desktop/contactsAICtwo/node_modules/react-native-camera/android/build/intermediates/library_manifest/generalDebug/AndroidManifest.xml:14:5-16:36
+28        android:name="android.hardware.camera.autofocus"
+28-->[:react-native-camera] /Users/macmini/Desktop/contactsAICtwo/node_modules/react-native-camera/android/build/intermediates/library_manifest/generalDebug/AndroidManifest.xml:15:9-57
+29        android:required="false" />
+29-->[:react-native-camera] /Users/macmini/Desktop/contactsAICtwo/node_modules/react-native-camera/android/build/intermediates/library_manifest/generalDebug/AndroidManifest.xml:16:9-33
+30
+31    <queries>
+31-->[:react-native-image-crop-picker] /Users/macmini/Desktop/contactsAICtwo/node_modules/react-native-image-crop-picker/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:10:5-14:15
+32        <intent>
+32-->[:react-native-image-crop-picker] /Users/macmini/Desktop/contactsAICtwo/node_modules/react-native-image-crop-picker/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:11:9-13:18
+33            <action android:name="android.media.action.IMAGE_CAPTURE" />
+33-->[:react-native-image-crop-picker] /Users/macmini/Desktop/contactsAICtwo/node_modules/react-native-image-crop-picker/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:12:13-73
+33-->[:react-native-image-crop-picker] /Users/macmini/Desktop/contactsAICtwo/node_modules/react-native-image-crop-picker/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:12:21-70
+34        </intent>
+35    </queries>
+36
+37    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+37-->[:react-native-image-crop-picker] /Users/macmini/Desktop/contactsAICtwo/node_modules/react-native-image-crop-picker/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:16:5-81
+37-->[:react-native-image-crop-picker] /Users/macmini/Desktop/contactsAICtwo/node_modules/react-native-image-crop-picker/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:16:22-78
+38    <uses-permission android:name="android.permission.USE_BIOMETRIC" />
+38-->[:react-native-keychain] /Users/macmini/Desktop/contactsAICtwo/node_modules/react-native-keychain/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:11:5-72
+38-->[:react-native-keychain] /Users/macmini/Desktop/contactsAICtwo/node_modules/react-native-keychain/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:11:22-69
+39    <uses-permission android:name="android.permission.USE_FINGERPRINT" /> <!-- Required by older versions of Google Play services to create IID tokens -->
+39-->[:react-native-keychain] /Users/macmini/Desktop/contactsAICtwo/node_modules/react-native-keychain/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:12:5-74
+39-->[:react-native-keychain] /Users/macmini/Desktop/contactsAICtwo/node_modules/react-native-keychain/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:12:22-71
+40    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
+40-->[com.google.firebase:firebase-iid:17.1.2] /Users/macmini/.gradle/caches/transforms-2/files-2.1/81d6d5bd2812d4f10aa0fda7ec278c61/jetified-firebase-iid-17.1.2/AndroidManifest.xml:26:5-82
+40-->[com.google.firebase:firebase-iid:17.1.2] /Users/macmini/.gradle/caches/transforms-2/files-2.1/81d6d5bd2812d4f10aa0fda7ec278c61/jetified-firebase-iid-17.1.2/AndroidManifest.xml:26:22-79
+41    <uses-permission android:name="com.google.android.finsky.permission.BIND_GET_INSTALL_REFERRER_SERVICE" />
+41-->[com.google.android.gms:play-services-measurement:17.5.0] /Users/macmini/.gradle/caches/transforms-2/files-2.1/752e2d4b2565cb5a71a9a31f68af7c96/jetified-play-services-measurement-17.5.0/AndroidManifest.xml:26:5-110
+41-->[com.google.android.gms:play-services-measurement:17.5.0] /Users/macmini/.gradle/caches/transforms-2/files-2.1/752e2d4b2565cb5a71a9a31f68af7c96/jetified-play-services-measurement-17.5.0/AndroidManifest.xml:26:22-107
+42
+43    <application
+43-->/Users/macmini/Desktop/contactsAICtwo/android/app/src/main/AndroidManifest.xml:13:5-62:19
+44        android:name="com.contactsaic.MainApplication"
+44-->/Users/macmini/Desktop/contactsAICtwo/android/app/src/main/AndroidManifest.xml:14:7-38
+45        android:allowBackup="false"
+45-->/Users/macmini/Desktop/contactsAICtwo/android/app/src/main/AndroidManifest.xml:18:7-34
+46        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
+46-->[androidx.core:core:1.5.0-alpha05] /Users/macmini/.gradle/caches/transforms-2/files-2.1/1738e75df1ab8141a7a7a8f190dcb94b/core-1.5.0-alpha05/AndroidManifest.xml:24:18-86
+47        android:debuggable="true"
+48        android:icon="@mipmap/ic_launcher"
+48-->/Users/macmini/Desktop/contactsAICtwo/android/app/src/main/AndroidManifest.xml:16:7-41
+49        android:label="@string/app_name"
+49-->/Users/macmini/Desktop/contactsAICtwo/android/app/src/main/AndroidManifest.xml:15:7-39
+50        android:launchMode="singleTop"
+50-->/Users/macmini/Desktop/contactsAICtwo/android/app/src/main/AndroidManifest.xml:19:9-39
+51        android:roundIcon="@mipmap/ic_launcher_round"
+51-->/Users/macmini/Desktop/contactsAICtwo/android/app/src/main/AndroidManifest.xml:17:7-52
+52        android:theme="@style/AppTheme"
+52-->/Users/macmini/Desktop/contactsAICtwo/android/app/src/main/AndroidManifest.xml:20:9-40
+53        android:usesCleartextTraffic="true" >
+53-->/Users/macmini/Desktop/contactsAICtwo/android/app/src/debug/AndroidManifest.xml:7:18-53
+54        <receiver android:name="io.invertase.firebase.notifications.RNFirebaseNotificationReceiver" />
+54-->/Users/macmini/Desktop/contactsAICtwo/android/app/src/main/AndroidManifest.xml:21:9-102
+54-->/Users/macmini/Desktop/contactsAICtwo/android/app/src/main/AndroidManifest.xml:21:19-100
+55        <receiver
+55-->/Users/macmini/Desktop/contactsAICtwo/android/app/src/main/AndroidManifest.xml:22:9-32:20
+56            android:name="io.invertase.firebase.notifications.RNFirebaseNotificationsRebootReceiver"
+56-->/Users/macmini/Desktop/contactsAICtwo/android/app/src/main/AndroidManifest.xml:25:13-101
+57            android:enabled="true"
+57-->/Users/macmini/Desktop/contactsAICtwo/android/app/src/main/AndroidManifest.xml:23:13-35
+58            android:exported="true" >
+58-->/Users/macmini/Desktop/contactsAICtwo/android/app/src/main/AndroidManifest.xml:24:13-36
+59            <intent-filter>
+59-->/Users/macmini/Desktop/contactsAICtwo/android/app/src/main/AndroidManifest.xml:26:13-31:29
+60                <action android:name="android.intent.action.BOOT_COMPLETED" />
+60-->/Users/macmini/Desktop/contactsAICtwo/android/app/src/main/AndroidManifest.xml:27:17-78
+60-->/Users/macmini/Desktop/contactsAICtwo/android/app/src/main/AndroidManifest.xml:27:25-76
+61                <action android:name="android.intent.action.QUICKBOOT_POWERON" />
+61-->/Users/macmini/Desktop/contactsAICtwo/android/app/src/main/AndroidManifest.xml:28:17-81
+61-->/Users/macmini/Desktop/contactsAICtwo/android/app/src/main/AndroidManifest.xml:28:25-79
+62                <action android:name="com.htc.intent.action.QUICKBOOT_POWERON" />
+62-->/Users/macmini/Desktop/contactsAICtwo/android/app/src/main/AndroidManifest.xml:29:17-81
+62-->/Users/macmini/Desktop/contactsAICtwo/android/app/src/main/AndroidManifest.xml:29:25-79
+63
+64                <category android:name="android.intent.category.DEFAULT" />
+64-->/Users/macmini/Desktop/contactsAICtwo/android/app/src/main/AndroidManifest.xml:30:17-76
+64-->/Users/macmini/Desktop/contactsAICtwo/android/app/src/main/AndroidManifest.xml:30:27-73
+65            </intent-filter>
+66        </receiver>
+67        <receiver
+67-->/Users/macmini/Desktop/contactsAICtwo/android/app/src/main/AndroidManifest.xml:33:9-37:20
+68            android:name="io.invertase.firebase.notifications.RNFirebaseBackgroundNotificationActionReceiver"
+68-->/Users/macmini/Desktop/contactsAICtwo/android/app/src/main/AndroidManifest.xml:33:19-116
+69            android:exported="true" >
+69-->/Users/macmini/Desktop/contactsAICtwo/android/app/src/main/AndroidManifest.xml:33:117-140
+70            <intent-filter>
+70-->/Users/macmini/Desktop/contactsAICtwo/android/app/src/main/AndroidManifest.xml:34:13-36:29
+71                <action android:name="io.invertase.firebase.notifications.BackgroundAction" />
+71-->/Users/macmini/Desktop/contactsAICtwo/android/app/src/main/AndroidManifest.xml:35:17-94
+71-->/Users/macmini/Desktop/contactsAICtwo/android/app/src/main/AndroidManifest.xml:35:25-92
+72            </intent-filter>
+73        </receiver>
+74
+75        <service android:name="io.invertase.firebase.notifications.RNFirebaseBackgroundNotificationActionsService" /> <!-- Add this line for Message service -->
+75-->/Users/macmini/Desktop/contactsAICtwo/android/app/src/main/AndroidManifest.xml:38:9-117
+75-->/Users/macmini/Desktop/contactsAICtwo/android/app/src/main/AndroidManifest.xml:38:18-115
+76        <service android:name="io.invertase.firebase.messaging.RNFirebaseMessagingService" >
+76-->/Users/macmini/Desktop/contactsAICtwo/android/app/src/main/AndroidManifest.xml:41:9-45:19
+76-->/Users/macmini/Desktop/contactsAICtwo/android/app/src/main/AndroidManifest.xml:41:18-91
+77            <intent-filter>
+77-->/Users/macmini/Desktop/contactsAICtwo/android/app/src/main/AndroidManifest.xml:42:13-44:29
+78                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+78-->/Users/macmini/Desktop/contactsAICtwo/android/app/src/main/AndroidManifest.xml:43:17-78
+78-->/Users/macmini/Desktop/contactsAICtwo/android/app/src/main/AndroidManifest.xml:43:25-75
+79            </intent-filter>
+80        </service> <!-- Add this line to enable backgound messaging services -->
+81        <service android:name="io.invertase.firebase.messaging.RNFirebaseBackgroundMessagingService" />
+81-->/Users/macmini/Desktop/contactsAICtwo/android/app/src/main/AndroidManifest.xml:48:9-103
+81-->/Users/macmini/Desktop/contactsAICtwo/android/app/src/main/AndroidManifest.xml:48:18-101
+82
+83        <activity
+83-->/Users/macmini/Desktop/contactsAICtwo/android/app/src/main/AndroidManifest.xml:49:7-59:18
+84            android:name="com.contactsaic.MainActivity"
+84-->/Users/macmini/Desktop/contactsAICtwo/android/app/src/main/AndroidManifest.xml:50:9-37
+85            android:configChanges="keyboard|keyboardHidden|orientation|screenSize|uiMode"
+85-->/Users/macmini/Desktop/contactsAICtwo/android/app/src/main/AndroidManifest.xml:52:9-86
+86            android:label="@string/app_name"
+86-->/Users/macmini/Desktop/contactsAICtwo/android/app/src/main/AndroidManifest.xml:51:9-41
+87            android:launchMode="singleTask"
+87-->/Users/macmini/Desktop/contactsAICtwo/android/app/src/main/AndroidManifest.xml:53:9-40
+88            android:windowSoftInputMode="adjustResize" >
+88-->/Users/macmini/Desktop/contactsAICtwo/android/app/src/main/AndroidManifest.xml:54:9-51
+89            <intent-filter>
+89-->/Users/macmini/Desktop/contactsAICtwo/android/app/src/main/AndroidManifest.xml:55:9-58:25
+90                <action android:name="android.intent.action.MAIN" />
+90-->/Users/macmini/Desktop/contactsAICtwo/android/app/src/main/AndroidManifest.xml:56:13-65
+90-->/Users/macmini/Desktop/contactsAICtwo/android/app/src/main/AndroidManifest.xml:56:21-62
+91
+92                <category android:name="android.intent.category.LAUNCHER" />
+92-->/Users/macmini/Desktop/contactsAICtwo/android/app/src/main/AndroidManifest.xml:57:13-73
+92-->/Users/macmini/Desktop/contactsAICtwo/android/app/src/main/AndroidManifest.xml:57:23-70
+93            </intent-filter>
+94        </activity>
+95        <activity android:name="com.facebook.react.devsupport.DevSettingsActivity" />
+95-->/Users/macmini/Desktop/contactsAICtwo/android/app/src/main/AndroidManifest.xml:60:7-84
+95-->/Users/macmini/Desktop/contactsAICtwo/android/app/src/main/AndroidManifest.xml:60:17-81
+96
+97        <service
+97-->[:react-native-firebase] /Users/macmini/Desktop/contactsAICtwo/node_modules/react-native-firebase/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:16:9-20:19
+98            android:name="com.google.firebase.components.ComponentDiscoveryService"
+98-->[:react-native-firebase] /Users/macmini/Desktop/contactsAICtwo/node_modules/react-native-firebase/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:16:18-89
+99            android:directBootAware="true"
+99-->[com.google.firebase:firebase-common:19.3.1] /Users/macmini/.gradle/caches/transforms-2/files-2.1/e1d24690820057499707a48924d97297/jetified-firebase-common-19.3.1/AndroidManifest.xml:35:13-43
+100            android:exported="false" >
+100-->[com.google.firebase:firebase-database:19.5.0] /Users/macmini/.gradle/caches/transforms-2/files-2.1/0b985b3ba19b67d437196c8c01d586dc/jetified-firebase-database-19.5.0/AndroidManifest.xml:31:13-37
+101            <meta-data
+101-->[:react-native-firebase] /Users/macmini/Desktop/contactsAICtwo/node_modules/react-native-firebase/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:17:13-19:85
+102                android:name="com.google.firebase.components:io.invertase.firebase.ReactNativeFirebaseAppRegistrar"
+102-->[:react-native-firebase] /Users/macmini/Desktop/contactsAICtwo/node_modules/react-native-firebase/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:18:17-116
+103                android:value="com.google.firebase.components.ComponentRegistrar" />
+103-->[:react-native-firebase] /Users/macmini/Desktop/contactsAICtwo/node_modules/react-native-firebase/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:19:17-82
+104            <meta-data
+104-->[com.google.firebase:firebase-database:19.5.0] /Users/macmini/.gradle/caches/transforms-2/files-2.1/0b985b3ba19b67d437196c8c01d586dc/jetified-firebase-database-19.5.0/AndroidManifest.xml:32:13-34:85
+105                android:name="com.google.firebase.components:com.google.firebase.database.DatabaseRegistrar"
+105-->[com.google.firebase:firebase-database:19.5.0] /Users/macmini/.gradle/caches/transforms-2/files-2.1/0b985b3ba19b67d437196c8c01d586dc/jetified-firebase-database-19.5.0/AndroidManifest.xml:33:17-109
+106                android:value="com.google.firebase.components.ComponentRegistrar" />
+106-->[com.google.firebase:firebase-database:19.5.0] /Users/macmini/.gradle/caches/transforms-2/files-2.1/0b985b3ba19b67d437196c8c01d586dc/jetified-firebase-database-19.5.0/AndroidManifest.xml:34:17-82
+107            <meta-data
+107-->[com.google.firebase:firebase-firestore:21.0.0] /Users/macmini/.gradle/caches/transforms-2/files-2.1/c71fe8df7d6d5d2cc67b0b476f351708/jetified-firebase-firestore-21.0.0/AndroidManifest.xml:20:13-22:85
+108                android:name="com.google.firebase.components:com.google.firebase.firestore.FirestoreRegistrar"
+108-->[com.google.firebase:firebase-firestore:21.0.0] /Users/macmini/.gradle/caches/transforms-2/files-2.1/c71fe8df7d6d5d2cc67b0b476f351708/jetified-firebase-firestore-21.0.0/AndroidManifest.xml:21:17-111
+109                android:value="com.google.firebase.components.ComponentRegistrar" />
+109-->[com.google.firebase:firebase-firestore:21.0.0] /Users/macmini/.gradle/caches/transforms-2/files-2.1/c71fe8df7d6d5d2cc67b0b476f351708/jetified-firebase-firestore-21.0.0/AndroidManifest.xml:22:17-82
+110            <meta-data
+110-->[com.google.firebase:firebase-iid:17.1.2] /Users/macmini/.gradle/caches/transforms-2/files-2.1/81d6d5bd2812d4f10aa0fda7ec278c61/jetified-firebase-iid-17.1.2/AndroidManifest.xml:32:13-34:85
+111                android:name="com.google.firebase.components:com.google.firebase.iid.Registrar"
+111-->[com.google.firebase:firebase-iid:17.1.2] /Users/macmini/.gradle/caches/transforms-2/files-2.1/81d6d5bd2812d4f10aa0fda7ec278c61/jetified-firebase-iid-17.1.2/AndroidManifest.xml:33:17-96
+112                android:value="com.google.firebase.components.ComponentRegistrar" />
+112-->[com.google.firebase:firebase-iid:17.1.2] /Users/macmini/.gradle/caches/transforms-2/files-2.1/81d6d5bd2812d4f10aa0fda7ec278c61/jetified-firebase-iid-17.1.2/AndroidManifest.xml:34:17-82
+113            <meta-data
+113-->[com.google.android.gms:play-services-measurement-api:17.5.0] /Users/macmini/.gradle/caches/transforms-2/files-2.1/dcc35c46dd5ee9f0b767ef4af02b1022/jetified-play-services-measurement-api-17.5.0/AndroidManifest.xml:30:13-32:85
+114                android:name="com.google.firebase.components:com.google.firebase.analytics.connector.internal.AnalyticsConnectorRegistrar"
+114-->[com.google.android.gms:play-services-measurement-api:17.5.0] /Users/macmini/.gradle/caches/transforms-2/files-2.1/dcc35c46dd5ee9f0b767ef4af02b1022/jetified-play-services-measurement-api-17.5.0/AndroidManifest.xml:31:17-139
+115                android:value="com.google.firebase.components.ComponentRegistrar" />
+115-->[com.google.android.gms:play-services-measurement-api:17.5.0] /Users/macmini/.gradle/caches/transforms-2/files-2.1/dcc35c46dd5ee9f0b767ef4af02b1022/jetified-play-services-measurement-api-17.5.0/AndroidManifest.xml:32:17-82
+116            <meta-data
+116-->[com.google.firebase:firebase-installations:16.3.2] /Users/macmini/.gradle/caches/transforms-2/files-2.1/cba09835254d48a40ebb2364358dd0c5/jetified-firebase-installations-16.3.2/AndroidManifest.xml:17:13-19:85
+117                android:name="com.google.firebase.components:com.google.firebase.installations.FirebaseInstallationsRegistrar"
+117-->[com.google.firebase:firebase-installations:16.3.2] /Users/macmini/.gradle/caches/transforms-2/files-2.1/cba09835254d48a40ebb2364358dd0c5/jetified-firebase-installations-16.3.2/AndroidManifest.xml:18:17-127
+118                android:value="com.google.firebase.components.ComponentRegistrar" />
+118-->[com.google.firebase:firebase-installations:16.3.2] /Users/macmini/.gradle/caches/transforms-2/files-2.1/cba09835254d48a40ebb2364358dd0c5/jetified-firebase-installations-16.3.2/AndroidManifest.xml:19:17-82
+119        </service>
+120
+121        <provider
+121-->[:react-native-image-crop-picker] /Users/macmini/Desktop/contactsAICtwo/node_modules/react-native-image-crop-picker/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:19:9-27:20
+122            android:name="androidx.core.content.FileProvider"
+122-->[:react-native-image-crop-picker] /Users/macmini/Desktop/contactsAICtwo/node_modules/react-native-image-crop-picker/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:20:13-62
+123            android:authorities="com.contactsaic.provider"
+123-->[:react-native-image-crop-picker] /Users/macmini/Desktop/contactsAICtwo/node_modules/react-native-image-crop-picker/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:21:13-60
+124            android:exported="false"
+124-->[:react-native-image-crop-picker] /Users/macmini/Desktop/contactsAICtwo/node_modules/react-native-image-crop-picker/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:22:13-37
+125            android:grantUriPermissions="true" >
+125-->[:react-native-image-crop-picker] /Users/macmini/Desktop/contactsAICtwo/node_modules/react-native-image-crop-picker/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:23:13-47
+126            <meta-data
+126-->[:react-native-image-crop-picker] /Users/macmini/Desktop/contactsAICtwo/node_modules/react-native-image-crop-picker/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:24:13-26:58
+127                android:name="android.support.FILE_PROVIDER_PATHS"
+127-->[:react-native-image-crop-picker] /Users/macmini/Desktop/contactsAICtwo/node_modules/react-native-image-crop-picker/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:25:17-67
+128                android:resource="@xml/provider_paths" />
+128-->[:react-native-image-crop-picker] /Users/macmini/Desktop/contactsAICtwo/node_modules/react-native-image-crop-picker/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:26:17-55
+129        </provider>
+130
+131        <activity
+131-->[:react-native-image-crop-picker] /Users/macmini/Desktop/contactsAICtwo/node_modules/react-native-image-crop-picker/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:29:9-31:72
+132            android:name="com.yalantis.ucrop.UCropActivity"
+132-->[:react-native-image-crop-picker] /Users/macmini/Desktop/contactsAICtwo/node_modules/react-native-image-crop-picker/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:30:13-60
+133            android:theme="@style/Theme.AppCompat.Light.NoActionBar" /> <!-- suppress AndroidDomInspection -->
+133-->[:react-native-image-crop-picker] /Users/macmini/Desktop/contactsAICtwo/node_modules/react-native-image-crop-picker/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:31:13-69
+134        <activity
+134-->[:react-native-keychain] /Users/macmini/Desktop/contactsAICtwo/node_modules/react-native-keychain/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:17:9-20:67
+135            android:name="androidx.biometric.DeviceCredentialHandlerActivity"
+135-->[:react-native-keychain] /Users/macmini/Desktop/contactsAICtwo/node_modules/react-native-keychain/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:18:13-78
+136            android:exported="true"
+136-->[:react-native-keychain] /Users/macmini/Desktop/contactsAICtwo/node_modules/react-native-keychain/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:19:13-36
+137            android:theme="@style/DeviceCredentialHandlerTheme" />
+137-->[:react-native-keychain] /Users/macmini/Desktop/contactsAICtwo/node_modules/react-native-keychain/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:20:13-64
+138        <!--
+139             FirebaseMessagingService performs security checks at runtime,
+140             but set to not exported to explicitly avoid allowing another app to call it.
+141        -->
+142        <service
+142-->[com.google.firebase:firebase-messaging:17.6.0] /Users/macmini/.gradle/caches/transforms-2/files-2.1/d7d7531b66649f4acdaf0dd4c89c07f6/jetified-firebase-messaging-17.6.0/AndroidManifest.xml:28:9-34:19
+143            android:name="com.google.firebase.messaging.FirebaseMessagingService"
+143-->[com.google.firebase:firebase-messaging:17.6.0] /Users/macmini/.gradle/caches/transforms-2/files-2.1/d7d7531b66649f4acdaf0dd4c89c07f6/jetified-firebase-messaging-17.6.0/AndroidManifest.xml:29:13-82
+144            android:exported="false" >
+144-->[com.google.firebase:firebase-messaging:17.6.0] /Users/macmini/.gradle/caches/transforms-2/files-2.1/d7d7531b66649f4acdaf0dd4c89c07f6/jetified-firebase-messaging-17.6.0/AndroidManifest.xml:30:13-37
+145            <intent-filter android:priority="-500" >
+145-->/Users/macmini/Desktop/contactsAICtwo/android/app/src/main/AndroidManifest.xml:42:13-44:29
+146                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+146-->/Users/macmini/Desktop/contactsAICtwo/android/app/src/main/AndroidManifest.xml:43:17-78
+146-->/Users/macmini/Desktop/contactsAICtwo/android/app/src/main/AndroidManifest.xml:43:25-75
+147            </intent-filter>
+148        </service>
+149
+150        <receiver
+150-->[com.google.firebase:firebase-iid:17.1.2] /Users/macmini/.gradle/caches/transforms-2/files-2.1/81d6d5bd2812d4f10aa0fda7ec278c61/jetified-firebase-iid-17.1.2/AndroidManifest.xml:37:9-44:20
+151            android:name="com.google.firebase.iid.FirebaseInstanceIdReceiver"
+151-->[com.google.firebase:firebase-iid:17.1.2] /Users/macmini/.gradle/caches/transforms-2/files-2.1/81d6d5bd2812d4f10aa0fda7ec278c61/jetified-firebase-iid-17.1.2/AndroidManifest.xml:38:13-78
+152            android:exported="true"
+152-->[com.google.firebase:firebase-iid:17.1.2] /Users/macmini/.gradle/caches/transforms-2/files-2.1/81d6d5bd2812d4f10aa0fda7ec278c61/jetified-firebase-iid-17.1.2/AndroidManifest.xml:39:13-36
+153            android:permission="com.google.android.c2dm.permission.SEND" >
+153-->[com.google.firebase:firebase-iid:17.1.2] /Users/macmini/.gradle/caches/transforms-2/files-2.1/81d6d5bd2812d4f10aa0fda7ec278c61/jetified-firebase-iid-17.1.2/AndroidManifest.xml:40:13-73
+154            <intent-filter>
+154-->[com.google.firebase:firebase-iid:17.1.2] /Users/macmini/.gradle/caches/transforms-2/files-2.1/81d6d5bd2812d4f10aa0fda7ec278c61/jetified-firebase-iid-17.1.2/AndroidManifest.xml:41:13-43:29
+155                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+155-->[com.google.firebase:firebase-iid:17.1.2] /Users/macmini/.gradle/caches/transforms-2/files-2.1/81d6d5bd2812d4f10aa0fda7ec278c61/jetified-firebase-iid-17.1.2/AndroidManifest.xml:42:17-81
+155-->[com.google.firebase:firebase-iid:17.1.2] /Users/macmini/.gradle/caches/transforms-2/files-2.1/81d6d5bd2812d4f10aa0fda7ec278c61/jetified-firebase-iid-17.1.2/AndroidManifest.xml:42:25-78
+156            </intent-filter>
+157        </receiver>
+158        <!--
+159             FirebaseInstanceIdService performs security checks at runtime,
+160             no need for explicit permissions despite exported="true"
+161        -->
+162        <service
+162-->[com.google.firebase:firebase-iid:17.1.2] /Users/macmini/.gradle/caches/transforms-2/files-2.1/81d6d5bd2812d4f10aa0fda7ec278c61/jetified-firebase-iid-17.1.2/AndroidManifest.xml:50:9-56:19
+163            android:name="com.google.firebase.iid.FirebaseInstanceIdService"
+163-->[com.google.firebase:firebase-iid:17.1.2] /Users/macmini/.gradle/caches/transforms-2/files-2.1/81d6d5bd2812d4f10aa0fda7ec278c61/jetified-firebase-iid-17.1.2/AndroidManifest.xml:51:13-77
+164            android:exported="true" >
+164-->[com.google.firebase:firebase-iid:17.1.2] /Users/macmini/.gradle/caches/transforms-2/files-2.1/81d6d5bd2812d4f10aa0fda7ec278c61/jetified-firebase-iid-17.1.2/AndroidManifest.xml:52:13-36
+165            <intent-filter android:priority="-500" >
+165-->[com.google.firebase:firebase-iid:17.1.2] /Users/macmini/.gradle/caches/transforms-2/files-2.1/81d6d5bd2812d4f10aa0fda7ec278c61/jetified-firebase-iid-17.1.2/AndroidManifest.xml:53:13-55:29
+165-->[com.google.firebase:firebase-iid:17.1.2] /Users/macmini/.gradle/caches/transforms-2/files-2.1/81d6d5bd2812d4f10aa0fda7ec278c61/jetified-firebase-iid-17.1.2/AndroidManifest.xml:53:28-51
+166                <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
+166-->[com.google.firebase:firebase-iid:17.1.2] /Users/macmini/.gradle/caches/transforms-2/files-2.1/81d6d5bd2812d4f10aa0fda7ec278c61/jetified-firebase-iid-17.1.2/AndroidManifest.xml:54:17-80
+166-->[com.google.firebase:firebase-iid:17.1.2] /Users/macmini/.gradle/caches/transforms-2/files-2.1/81d6d5bd2812d4f10aa0fda7ec278c61/jetified-firebase-iid-17.1.2/AndroidManifest.xml:54:25-77
+167            </intent-filter>
+168        </service>
+169
+170        <activity
+170-->[com.google.android.gms:play-services-base:17.2.1] /Users/macmini/.gradle/caches/transforms-2/files-2.1/98bb37fcb221bd70e01ae9d5607adde0/jetified-play-services-base-17.2.1/AndroidManifest.xml:23:9-26:75
+171            android:name="com.google.android.gms.common.api.GoogleApiActivity"
+171-->[com.google.android.gms:play-services-base:17.2.1] /Users/macmini/.gradle/caches/transforms-2/files-2.1/98bb37fcb221bd70e01ae9d5607adde0/jetified-play-services-base-17.2.1/AndroidManifest.xml:24:13-79
+172            android:exported="false"
+172-->[com.google.android.gms:play-services-base:17.2.1] /Users/macmini/.gradle/caches/transforms-2/files-2.1/98bb37fcb221bd70e01ae9d5607adde0/jetified-play-services-base-17.2.1/AndroidManifest.xml:25:13-37
+173            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+173-->[com.google.android.gms:play-services-base:17.2.1] /Users/macmini/.gradle/caches/transforms-2/files-2.1/98bb37fcb221bd70e01ae9d5607adde0/jetified-play-services-base-17.2.1/AndroidManifest.xml:26:13-72
+174
+175        <provider
+175-->[com.google.firebase:firebase-common:19.3.1] /Users/macmini/.gradle/caches/transforms-2/files-2.1/e1d24690820057499707a48924d97297/jetified-firebase-common-19.3.1/AndroidManifest.xml:26:9-31:39
+176            android:name="com.google.firebase.provider.FirebaseInitProvider"
+176-->[com.google.firebase:firebase-common:19.3.1] /Users/macmini/.gradle/caches/transforms-2/files-2.1/e1d24690820057499707a48924d97297/jetified-firebase-common-19.3.1/AndroidManifest.xml:27:13-77
+177            android:authorities="com.contactsaic.firebaseinitprovider"
+177-->[com.google.firebase:firebase-common:19.3.1] /Users/macmini/.gradle/caches/transforms-2/files-2.1/e1d24690820057499707a48924d97297/jetified-firebase-common-19.3.1/AndroidManifest.xml:28:13-72
+178            android:directBootAware="true"
+178-->[com.google.firebase:firebase-common:19.3.1] /Users/macmini/.gradle/caches/transforms-2/files-2.1/e1d24690820057499707a48924d97297/jetified-firebase-common-19.3.1/AndroidManifest.xml:29:13-43
+179            android:exported="false"
+179-->[com.google.firebase:firebase-common:19.3.1] /Users/macmini/.gradle/caches/transforms-2/files-2.1/e1d24690820057499707a48924d97297/jetified-firebase-common-19.3.1/AndroidManifest.xml:30:13-37
+180            android:initOrder="100" />
+180-->[com.google.firebase:firebase-common:19.3.1] /Users/macmini/.gradle/caches/transforms-2/files-2.1/e1d24690820057499707a48924d97297/jetified-firebase-common-19.3.1/AndroidManifest.xml:31:13-36
+181
+182        <receiver
+182-->[com.google.android.gms:play-services-measurement:17.5.0] /Users/macmini/.gradle/caches/transforms-2/files-2.1/752e2d4b2565cb5a71a9a31f68af7c96/jetified-play-services-measurement-17.5.0/AndroidManifest.xml:29:9-33:20
+183            android:name="com.google.android.gms.measurement.AppMeasurementReceiver"
+183-->[com.google.android.gms:play-services-measurement:17.5.0] /Users/macmini/.gradle/caches/transforms-2/files-2.1/752e2d4b2565cb5a71a9a31f68af7c96/jetified-play-services-measurement-17.5.0/AndroidManifest.xml:30:13-85
+184            android:enabled="true"
+184-->[com.google.android.gms:play-services-measurement:17.5.0] /Users/macmini/.gradle/caches/transforms-2/files-2.1/752e2d4b2565cb5a71a9a31f68af7c96/jetified-play-services-measurement-17.5.0/AndroidManifest.xml:31:13-35
+185            android:exported="false" >
+185-->[com.google.android.gms:play-services-measurement:17.5.0] /Users/macmini/.gradle/caches/transforms-2/files-2.1/752e2d4b2565cb5a71a9a31f68af7c96/jetified-play-services-measurement-17.5.0/AndroidManifest.xml:32:13-37
+186        </receiver>
+187
+188        <service
+188-->[com.google.android.gms:play-services-measurement:17.5.0] /Users/macmini/.gradle/caches/transforms-2/files-2.1/752e2d4b2565cb5a71a9a31f68af7c96/jetified-play-services-measurement-17.5.0/AndroidManifest.xml:35:9-38:40
+189            android:name="com.google.android.gms.measurement.AppMeasurementService"
+189-->[com.google.android.gms:play-services-measurement:17.5.0] /Users/macmini/.gradle/caches/transforms-2/files-2.1/752e2d4b2565cb5a71a9a31f68af7c96/jetified-play-services-measurement-17.5.0/AndroidManifest.xml:36:13-84
+190            android:enabled="true"
+190-->[com.google.android.gms:play-services-measurement:17.5.0] /Users/macmini/.gradle/caches/transforms-2/files-2.1/752e2d4b2565cb5a71a9a31f68af7c96/jetified-play-services-measurement-17.5.0/AndroidManifest.xml:37:13-35
+191            android:exported="false" />
+191-->[com.google.android.gms:play-services-measurement:17.5.0] /Users/macmini/.gradle/caches/transforms-2/files-2.1/752e2d4b2565cb5a71a9a31f68af7c96/jetified-play-services-measurement-17.5.0/AndroidManifest.xml:38:13-37
+192        <service
+192-->[com.google.android.gms:play-services-measurement:17.5.0] /Users/macmini/.gradle/caches/transforms-2/files-2.1/752e2d4b2565cb5a71a9a31f68af7c96/jetified-play-services-measurement-17.5.0/AndroidManifest.xml:39:9-43:72
+193            android:name="com.google.android.gms.measurement.AppMeasurementJobService"
+193-->[com.google.android.gms:play-services-measurement:17.5.0] /Users/macmini/.gradle/caches/transforms-2/files-2.1/752e2d4b2565cb5a71a9a31f68af7c96/jetified-play-services-measurement-17.5.0/AndroidManifest.xml:40:13-87
+194            android:enabled="true"
+194-->[com.google.android.gms:play-services-measurement:17.5.0] /Users/macmini/.gradle/caches/transforms-2/files-2.1/752e2d4b2565cb5a71a9a31f68af7c96/jetified-play-services-measurement-17.5.0/AndroidManifest.xml:41:13-35
+195            android:exported="false"
+195-->[com.google.android.gms:play-services-measurement:17.5.0] /Users/macmini/.gradle/caches/transforms-2/files-2.1/752e2d4b2565cb5a71a9a31f68af7c96/jetified-play-services-measurement-17.5.0/AndroidManifest.xml:42:13-37
+196            android:permission="android.permission.BIND_JOB_SERVICE" />
+196-->[com.google.android.gms:play-services-measurement:17.5.0] /Users/macmini/.gradle/caches/transforms-2/files-2.1/752e2d4b2565cb5a71a9a31f68af7c96/jetified-play-services-measurement-17.5.0/AndroidManifest.xml:43:13-69
+197
+198        <meta-data
+198-->[com.google.android.gms:play-services-basement:17.2.1] /Users/macmini/.gradle/caches/transforms-2/files-2.1/2718b75110f823aa71fc7e44eb2a6b36/jetified-play-services-basement-17.2.1/AndroidManifest.xml:23:9-25:69
+199            android:name="com.google.android.gms.version"
+199-->[com.google.android.gms:play-services-basement:17.2.1] /Users/macmini/.gradle/caches/transforms-2/files-2.1/2718b75110f823aa71fc7e44eb2a6b36/jetified-play-services-basement-17.2.1/AndroidManifest.xml:24:13-58
+200            android:value="@integer/google_play_services_version" />
+200-->[com.google.android.gms:play-services-basement:17.2.1] /Users/macmini/.gradle/caches/transforms-2/files-2.1/2718b75110f823aa71fc7e44eb2a6b36/jetified-play-services-basement-17.2.1/AndroidManifest.xml:25:13-66
+201    </application>
+202
+203</manifest>

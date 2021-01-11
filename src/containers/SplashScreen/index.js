@@ -24,7 +24,6 @@ class Splash extends React.Component {
             [NavigationActions.navigate({ routeName: "AddContact" })],
             0
           );
-      // this.props.navigation.navigate('Login')
     }, 2000);
   }
 

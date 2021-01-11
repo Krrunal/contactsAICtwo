@@ -1,6 +1,7 @@
 import { ActionSheet, Root } from "native-base";
 import {
   Animated,
+  Button,
   Dimensions,
   FlatList,
   Image,
@@ -12,7 +13,7 @@ import {
   TouchableHighlight,
   TouchableOpacity,
   TouchableWithoutFeedback,
-  View,
+  View
 } from "react-native";
 import React, { Component } from "react";
 import { darkTheme, lightTheme } from "../theme/themeProps";
@@ -31,13 +32,14 @@ import IntlPhoneInput from "react-native-intl-phone-input";
 import Metrics from "../theme/Metrics";
 import Swipeable from "react-native-gesture-handler/Swipeable";
 import Toast from "react-native-easy-toast";
-//import { addMyInfo } from "../../services/FirebaseDatabase/myInfoToFirebase";
+import AsyncStorage from "@react-native-community/async-storage";
 import { bindActionCreators } from "redux";
 import calender from "../../assets/images/calender.png";
 import call from "../../assets/images/call.png";
 import { connect } from "react-redux";
 import data from "../../../node_modules/react-native-intl-phone-input/src/Countries";
 import email from "../../assets/images/email.png";
+import { fcmService } from '../../services/FirebaseDatabase/FCMService'
 import firebase from "../../services/FirebaseDatabase/db";
 import handshake from "../../assets/images/handshake.png";
 import home from "../../assets/images/home.png";
@@ -65,6 +67,7 @@ class MyContactInfromation extends Component {
 
     this.state = {
       counter: 0,
+      isNumberSection: false,
       isVisible: false,
       isVisibleArray: false,
       choosenDate: "",
@@ -73,6 +76,7 @@ class MyContactInfromation extends Component {
       middle_name: "",
       last_name: "",
       nick_name: "",
+      number_1: "",
       number1: {
         number1: "",
         label: "",
@@ -345,10 +349,20 @@ class MyContactInfromation extends Component {
       customModel: false,
       mLabels: [],
       mLabel: [],
+      // for notification 
+      isDateTimePickerVisible: false,
+      notificationTime: moment(),
+      notificationTime2:"",
+      notificationTitle: 'Birthday Notification',
+      notificationDescription: 'May your day is Awesome',
+      isVisibleOverlay: false,
+      notifyData: {}
     };
   }
   componentDidMount = async () => {
-    const { username } = this.props;
+    fcmService.register(this.onRegister, this.onNotification, this.onOpenNotification)
+  
+   const { username } = this.props;
     firebase
       .firestore()
       .collection("user")
@@ -365,7 +379,8 @@ class MyContactInfromation extends Component {
       });
   };
 
-  ShowHideTextComponentView = () => {
+
+  ShowHideTextComponentView = async() => {
     if (this.state.status == false) {
       this.setState({ status: true });
     } else {
@@ -388,16 +403,19 @@ class MyContactInfromation extends Component {
       emailArray,
       address,
       addressArray,
+      messanger,
       messanger1,
       messenger2,
       messangerArray,
+      socialMedia,
       social_media1,
       social_media2,
       socialMediaArray,
+      website,
       website1,
       website2,
       websiteArray,
-      dob,
+      date,
       dateArray,
       note,
       noteArray,
@@ -406,9 +424,11 @@ class MyContactInfromation extends Component {
       job_title,
       work_hour,
       mobileLabel,
+      notificationTime,
+      notificationTime2
     } = this.state;
 
-    const { user_id, username } = this.props;
+    const { username } = this.props;
 
     if (this.state.status == true) {
       if (first_name == "") {
@@ -442,33 +462,41 @@ class MyContactInfromation extends Component {
               .firestore()
               .collection("user")
               .doc(`${username}`)
-              .update({ profile_image: profile_image });
+              .update({ profile_image : profile_image });
           }
-          if (first_name != "") {
-          
+
+          if (first_name !== "") {
             firebase
               .firestore()
               .collection("user")
               .doc(`${username}`)
               .update({ first_name: first_name });
           }
-          if (number1 !== "") {
-           
+          if (number1.number1 !== "") {
             firebase
               .firestore()
               .collection("user")
               .doc(`${username}`)
-              .update({ number1: number1 });
+              .update({ number1 : number1 });
           }
-          if (mobileLabel !== "") {
+          var notify = notificationTime.toString();
+        
+          if(notificationTime !== ""){
             firebase
               .firestore()
               .collection("user")
               .doc(`${username}`)
-              .update({ number1: number1 });
+              .update({ notificationTime : notify });
           }
-          if (email !== "") {
-            firebase
+          // if (mobileLabel !== "") {
+          //   firebase
+          //     .firestore()
+          //     .collection("user")
+          //     .doc(`${username}`)
+          //     .update({ number1 : number1 });
+          // }
+          if (email.email !== "") {
+           firebase
               .firestore()
               .collection("user")
               .doc(`${username}`)
@@ -481,7 +509,7 @@ class MyContactInfromation extends Component {
               .doc(`${username}`)
               .update({ emailArray: emailArray });
           }
-          if (address !== "") {
+          if (address.address !== "") {
             firebase
               .firestore()
               .collection("user")
@@ -495,12 +523,12 @@ class MyContactInfromation extends Component {
               .doc(`${username}`)
               .update({ addressArray: addressArray });
           }
-          if (messanger1 !== "") {
-            firebase
+          if (messanger.messanger !== "") {
+             firebase
               .firestore()
               .collection("user")
               .doc(`${username}`)
-              .update({ messanger1: messanger1 });
+              .update({ messanger : messanger });
           }
           if (messangerArray !== "") {
             firebase
@@ -509,12 +537,12 @@ class MyContactInfromation extends Component {
               .doc(`${username}`)
               .update({ messangerArray: messangerArray });
           }
-          if (social_media1 !== "") {
+          if (socialMedia.socialMedia !== "") {
             firebase
               .firestore()
               .collection("user")
               .doc(`${username}`)
-              .update({ social_media1: social_media1 });
+              .update({ facebook : socialMedia });
           }
           if (socialMediaArray !== "") {
             firebase
@@ -523,12 +551,12 @@ class MyContactInfromation extends Component {
               .doc(`${username}`)
               .update({ socialMediaArray: socialMediaArray });
           }
-          if (website1 !== "") {
+          if (website.website !== "") {
             firebase
               .firestore()
               .collection("user")
               .doc(`${username}`)
-              .update({ website1: website1 });
+              .update({ website : website });
           }
           if (websiteArray !== "") {
             firebase
@@ -537,12 +565,12 @@ class MyContactInfromation extends Component {
               .doc(`${username}`)
               .update({ websiteArray: websiteArray });
           }
-          if (dob !== "") {
+          if (date.date !== "") {
             firebase
               .firestore()
               .collection("user")
               .doc(`${username}`)
-              .update({ dob: dob });
+              .update({ date : date });
           }
           if (dateArray !== "") {
             firebase
@@ -614,7 +642,7 @@ class MyContactInfromation extends Component {
             website1: "",
             website2: "",
             websiteArray: [],
-            dob: "",
+            date: "",
             dateArray: [],
             note: "",
             noteArray: [],
@@ -624,7 +652,10 @@ class MyContactInfromation extends Component {
             work_hour: "",
           });
           alert("Add Information successfully");
-        }
+          // {this.props.dateChange.mode === "ON" ?
+          //     this.setReminder() : alert("Datechange mode off")
+          //  }
+         }
       }
     } else {
       this.setState({ status: true });
@@ -699,6 +730,27 @@ class MyContactInfromation extends Component {
       }
     );
   };
+  fromGallery = () => {
+    ImagePicker.openPicker({
+      width: 300,
+      height: 400,
+      cropping: true,
+    }).then((image) => {
+      this.setState({ profile_image: image.path });
+      console.log("URI ......>", image.path);
+      console.log(image);
+      this.setState({
+        image: {
+          uri: image.path,
+          width: image.width,
+          height: image.height,
+          mime: image.mime,
+        },
+        images: null,
+      });
+    });
+  };
+
   takePhtotFromCamera = () => {
     ImagePicker.openCamera({
       width: 300,
@@ -720,14 +772,13 @@ class MyContactInfromation extends Component {
     });
   };
 
-  
   takePhotoFromCamera2 = () => {
     ImagePicker.openCamera({
       width: 300,
       height: 400,
       cropping: true,
     }).then((image2) => {
-      this.setState({ profile_image2: image.path });
+      this.setState({ profile_image2: image2.path });
       console.log(image2);
       this.setState({
         image2: {
@@ -740,13 +791,14 @@ class MyContactInfromation extends Component {
       });
     });
   };
+
   fromGallery2 = () => {
     ImagePicker.openPicker({
       width: 300,
       height: 400,
       cropping: true,
     }).then((image2) => {
-      this.setState({ profile_image2: image.path });
+      this.setState({ profile_image2: image2.path });
       console.log(image2);
       this.setState({
         image2: {
@@ -766,7 +818,7 @@ class MyContactInfromation extends Component {
       height: 400,
       cropping: true,
     }).then((image3) => {
-      this.setState({ profile_image3: image.path });
+      this.setState({ profile_image3: image3.path });
       console.log(image3);
       this.setState({
         image3: {
@@ -786,7 +838,7 @@ class MyContactInfromation extends Component {
       height: 400,
       cropping: true,
     }).then((image3) => {
-      this.setState({ profile_image3: image.path });
+      this.setState({ profile_image3: image3.path });
       console.log(image3);
       this.setState({
         image3: {
@@ -1057,26 +1109,36 @@ class MyContactInfromation extends Component {
   customOpen = () => {
     this.setState({ phoneSection: true });
   };
-  onChangeNumber = ({
-    dialCode,
-    unmaskedPhoneNumber,
-    phoneNumber,
-    isVerified,
-  }) => {
-    if (isVerified == true) {
-      this.state.number1.number1 = unmaskedPhoneNumber;
+  onChangeNumber = (value) => {
+    this.state.number1.number1 = value;
       this.setState({ number1: this.state.number1 });
-    } else {
-      this.setState({ number1: unmaskedPhoneNumber });
-    }
   };
+  // onChangeNumber = ({
+  //   dialCode,
+  //   unmaskedPhoneNumber,
+  //   phoneNumber,
+  //   isVerified,
+  // }) => {
+  //   if (isVerified == true) {
+  //     this.state.number1.number1 = unmaskedPhoneNumber;
+  //     this.setState({ number1: this.state.number1 });
+  //     console.log("statteeeee--->", this.state.number1);
+  //   } else {
+  //     // this.state.number1.number1 = unmaskedPhoneNumber;
+  //     // this.setState({ number1: this.state.number1 });
+  //     // console.log("statteeeee--->",this.state.number1)
+  //     // console.log("--->",this.state.number1.number1)
+  //     this.setState({ number_1: unmaskedPhoneNumber });
+  //     console.log("--->", this.state.number_1);
+  //   }
+  // };
   mobileViewOpen = () => {
     this.setState({ isMobileModelOpen: true });
     this.setState({
       mobileLabelArray: [...this.state.mobileLabelArray, { label: "" }],
     });
   };
-  mobileViewOpenArray= () => {
+  mobileViewOpenArray = () => {
     this.setState({ isMobileModelOpenArray: true });
     this.setState({
       mobileLabelArray: [...this.state.mobileLabelArray, { label: "" }],
@@ -1097,50 +1159,84 @@ class MyContactInfromation extends Component {
   renderItem({ item, index }) {
     return (
       <View>
-         <Text style={styles.labelName}> {item.mobileArray}</Text>
+        <Text style={styles.labelName}> {item.mobileArray}</Text>
       </View>
     );
   }
   renderMobile() {
     return (
-      <View style={{ marginTop: Metrics.doubleBaseMargin, }}>
+      <View style={{ marginTop: Metrics.doubleBaseMargin }}>
         <View style={{ flexDirection: "row" }}>
           <View style={{ marginTop: Metrics.xsmallMargin }}>
             <Image source={call} style={styles.innerStyle} />
           </View>
           <View>
-                 
             <View style={styles.filedView}>
               {this.state.status ? (
-                <IntlPhoneInput
-                  containerStyle={{
-                    width: width * 0.48,
-                    height: height * 0.056,
-                    marginBottom: Metrics.smallMargin,
-                  }}
-                  phoneInputStyle={styles.mobileInputText}
-                  dialCodeTextStyle={styles.dialcodeText}
-                  dialCode={this.state.dialCode}
-                  value={this.state.number1}
-                  inputRef={(ref) => (this.phoneInput = ref)}
-                  keyboardType={"numeric"}
-                  onChangeText={this.onChangeNumber}
-                  isShowLabelManually={false}
-                />
+                this.state.isNumberSection == true ? (
+                  <TouchableOpacity style={{ flexDirection: "column" }}>
+                    <Text style={[styles.Text_1, { fontSize: width * 0.02, width: width * 0.5, }]}>
+                      Phone Number
+                    </Text>
+                    <TextInput
+                      placeholder="Phone Number"
+                      style={[
+                        styles.Text_1,
+                        { fontSize: width * 0.03 ,width: width * 0.5,},
+                      ]}
+                      placeholderTextColor={COLORS.main_text_color}
+                      editable={this.state.status ? true : false}
+                      onChangeText={(value) => this.onChangeNumber(value)}
+                      keyboardType={"numeric"}
+                    />
+                    {/* <IntlPhoneInput
+                                  containerStyle={{
+                                    width: width * 0.48,
+                                    height: height * 0.056,
+                                    marginBottom: Metrics.smallMargin,
+                                    borderWidth:1
+                                  }}
+                                  phoneInputStyle={styles.mobileInputText}
+                                  dialCodeTextStyle={styles.dialcodeText}
+                                  dialCode={this.state.dialCode}
+                                  value={this.state.number1}
+                                  inputRef={(ref) => (this.phoneInput = ref)}
+                                  keyboardType={"numeric"}
+                                  onChangeText={this.onChangeNumber}
+                                  isShowLabelManually={false}
+                                /> */}
+                  </TouchableOpacity>
+                ) : (
+                  <TouchableOpacity
+                    onPress={() => {
+                      this.setState({ isNumberSection: true });
+                    }}
+                  >
+                    <Text
+                      style={[
+                        styles.Text_1,
+                        { fontSize: width * 0.03,width: width * 0.5,  },
+                      ]}
+                    >
+                      Phone Number
+                    </Text>
+                  </TouchableOpacity>
+                )
               ) : (
-                <Text
-                  style={{
-                    fontSize: width * 0.032,
-                    fontFamily: Font.regular,
-                    color: COLORS.main_text_color,
-                    marginLeft: Metrics.baseMargin,
-                  }}
-                >
-                  {" "}
-                  +90{" "}
-                </Text>
+                <TouchableOpacity>
+                  <Text
+                    style={[
+                      styles.Text_1,
+                      { fontSize: width * 0.03,  },
+                    ]}
+                  >
+                    Phone Number
+                  </Text>
+                </TouchableOpacity>
               )}
+
               {this.state.status && this.state.isMobileModelOpen == true ? (
+                 <View style={{justifyContent: "flex-end",flexDirection:"row",flex:1,width:width}}>
                 <View
                   style={
                     this.state.phoneSection == true
@@ -1148,7 +1244,7 @@ class MyContactInfromation extends Component {
                       : styles.modelView
                   }
                 >
-                   <FlatList
+                  <FlatList
                     refreshing={true}
                     keyExtractor={(item, index) => index.toString()}
                     data={this.state.mobileLabelList}
@@ -1158,7 +1254,7 @@ class MyContactInfromation extends Component {
                     style={styles.flatlist}
                     keyboardShouldPersistTaps={"always"}
                   />
-                   
+
                   <FlatList
                     refreshing={true}
                     keyExtractor={(item, index) => index.toString()}
@@ -1184,10 +1280,12 @@ class MyContactInfromation extends Component {
                       />
                     </View>
                   ) : null}
-                 
+                </View>
                 </View>
               ) : this.state.status ? (
-                <TouchableHighlight
+                
+              <View style={{justifyContent: "flex-end",flexDirection:"row",flex:1,width:width}}>
+                  <TouchableHighlight
                   underlayColor="transparent"
                   style={[styles.rightViewBorder]}
                   onPress={this.mobileViewOpen}
@@ -1196,6 +1294,7 @@ class MyContactInfromation extends Component {
                     <Text style={styles.selectTypeText}>Select Type...</Text>
                   </View>
                 </TouchableHighlight>
+              </View>
               ) : null}
             </View>
 
@@ -1203,9 +1302,14 @@ class MyContactInfromation extends Component {
               this.state.numberArray.map((input, key) => {
                 return (
                   <Swipeable renderLeftActions={this.leftAction}>
-                  
-                    <View 
-                    style={this.state.isMobileModelOpenArray == true ?  styles.filedView2 :styles.filedView} key={key}>
+                    <View
+                      style={
+                        this.state.isMobileModelOpenArray == true
+                          ? styles.filedView2
+                          : styles.filedView
+                      }
+                      key={key}
+                    >
                       <IntlPhoneInput
                         containerStyle={{
                           width: width * 0.48,
@@ -1220,57 +1324,57 @@ class MyContactInfromation extends Component {
                         onChangeText={(number) =>
                           this.onChangeNumberArray(number, key)
                         }
+                        defaultCountry="CA"
                         isShowLabelManually={false}
                       />
-                       
+
                       {this.state.status &&
                       this.state.isMobileModelOpenArray == true ? (
                         <View
-                        style={
-                          this.state.phoneSection == true
-                            ? styles.modelViewBig
-                            : styles.modelView
-                        }
-                      >
-                         <FlatList
-                          refreshing={true}
-                          keyExtractor={(item, index) => index.toString()}
-                          data={this.state.mobileLabelList}
-                          extraData={this.state}
-                          numColumns={1}
-                          renderItem={this.renderMobileLabel.bind(this)}
-                          style={styles.flatlist}
-                          keyboardShouldPersistTaps={"always"}
-                        />
-                         
-                        <FlatList
-                          refreshing={true}
-                          keyExtractor={(item, index) => index.toString()}
-                          data={this.state.mLabels}
-                          extraData={this.state}
-                          numColumns={1}
-                          renderItem={this.renderItem.bind(this)}
-                        />
-                        <TouchableOpacity
-                          onPress={this.customOpen}
-                          style={{ height: 35 }}
+                          style={
+                            this.state.phoneSection == true
+                              ? styles.modelViewBig
+                              : styles.modelView
+                          }
                         >
-                          <Text style={styles.customText}>Cutom</Text>
-                        </TouchableOpacity>
-                        {this.state.phoneSection == true ? (
-                          <View style={styles.inputTextView}>
-                            <TextInput
-                              onChangeText={(text) => {
-                                this.setState({ mobileArray: text });
-                              }}
-                              style={styles.textinputText}
-                              onSubmitEditing={this.onSubmit}
-                            />
-                          </View>
-                        ) : null}
-                       
-                      </View>
-                      //   <Modal
+                          <FlatList
+                            refreshing={true}
+                            keyExtractor={(item, index) => index.toString()}
+                            data={this.state.mobileLabelList}
+                            extraData={this.state}
+                            numColumns={1}
+                            renderItem={this.renderMobileLabel.bind(this)}
+                            style={styles.flatlist}
+                            keyboardShouldPersistTaps={"always"}
+                          />
+
+                          <FlatList
+                            refreshing={true}
+                            keyExtractor={(item, index) => index.toString()}
+                            data={this.state.mLabels}
+                            extraData={this.state}
+                            numColumns={1}
+                            renderItem={this.renderItem.bind(this)}
+                          />
+                          <TouchableOpacity
+                            onPress={this.customOpen}
+                            style={{ height: 35 }}
+                          >
+                            <Text style={styles.customText}>Cutom</Text>
+                          </TouchableOpacity>
+                          {this.state.phoneSection == true ? (
+                            <View style={styles.inputTextView}>
+                              <TextInput
+                                onChangeText={(text) => {
+                                  this.setState({ mobileArray: text });
+                                }}
+                                style={styles.textinputText}
+                                onSubmitEditing={this.onSubmit}
+                              />
+                            </View>
+                          ) : null}
+                        </View>
+                      ) : //   <Modal
                       //     style={styles.footerModal}
                       //     visible={this.state.isMobileModelOpenArray}
                       //     transparent={true}
@@ -1326,8 +1430,8 @@ class MyContactInfromation extends Component {
                       //     </View>
                       //    </View>
                       // </Modal>
-                    
-                      ) : this.state.status ? (
+
+                      this.state.status ? (
                         <TouchableHighlight
                           underlayColor="transparent"
                           style={[styles.rightViewBorder]}
@@ -1340,11 +1444,10 @@ class MyContactInfromation extends Component {
                           </View>
                         </TouchableHighlight>
                       ) : null}
-                    </View> 
-                   
+                    </View>
                   </Swipeable>
                 );
-            })}
+              })}
 
             <TouchableOpacity
               onPress={() => this.addNumber()}
@@ -1509,8 +1612,8 @@ class MyContactInfromation extends Component {
                         // key={key}
                         onRequestClose={() =>
                           this.setState({ isEmailArrrayModelOpen: false })
-                            }
-                          >
+                        }
+                      >
                         <View style={styles.contactContent}>
                           <View style={styles.content}>
                             <Text style={styles.modalHeader}>Email</Text>
@@ -2111,7 +2214,7 @@ class MyContactInfromation extends Component {
 
   onChangeMessenger = (value) => {
     this.state.messanger.messanger = value;
-    this.setState({ messanger1: this.state.messanger });
+    this.setState({ messanger : this.state.messanger });
   };
 
   onChangeMessengerArray = (value, index) => {
@@ -2129,7 +2232,7 @@ class MyContactInfromation extends Component {
   changeMessangerLabel = (label) => {
     this.setState({ isMessangerModelOpen: false });
     this.state.messanger.label = label;
-    this.setState({ Messanger: this.state.messanger });
+    this.setState({ messanger : this.state.messanger });
   };
 
   removeMessanger = (key) => {
@@ -2468,7 +2571,7 @@ class MyContactInfromation extends Component {
 
   onChangeSocialMedia = (value) => {
     this.state.socialMedia.socialMedia = value;
-    this.setState({ social_media1: this.state.socialMedia });
+    this.setState({ socialMedia : this.state.socialMedia });
   };
 
   onChangeSocialMediaArray = (value, index) => {
@@ -2487,7 +2590,7 @@ class MyContactInfromation extends Component {
   changeSocialMediaLabel = (label) => {
     this.setState({ isSocialMediaModelOpen: false });
     this.state.socialMedia.label = label;
-    this.setState({ SocialMedia: this.state.socialMedia });
+    this.setState({ socialMedia: this.state.socialMedia });
   };
   removesocialMedia = (key) => {
     const { socialMediaArray } = this.state;
@@ -2833,7 +2936,7 @@ class MyContactInfromation extends Component {
 
   onChangeWebsite = (value, index) => {
     this.state.website.website = value;
-    this.setState({ website1: this.state.website });
+    this.setState({ website : this.state.website });
   };
   onChangeWebsiteArray = (value, index) => {
     this.setState({ websiteIndexOnly: index });
@@ -3176,22 +3279,97 @@ class MyContactInfromation extends Component {
       }
     }
   };
+  onRegister = (token) => {
+    console.log("[Notification fcm ] onRegister:", token)
+  }
+  onNotification = (notify) => {
+    console.log("[Notification fcm ] : onNotification:", notify)
+    const notification = fcmService.buildNotification(this.createNotification(notify))
+    fcmService.displayNotification(notification)
+  }
+  onOpenNotification = (notify) => {
+    console.log("[Notification fcm ] : onOpenNotification ", notify)
+    this.setState({ notifyData: notify._data }, () => this.setState({ isVisibleOverlay: true }))
+  }
 
-  onChangeDate = (date) => {
-    console.log("A date has been picked: ", date);
-    // var fomate = moment(date).format("MMMM, Do YYYY")
-    // this.state.date.date = moment(date).format("MMMM, Do YYYY");
+  setReminder = () => {
 
+    const { notificationTime } = this.state;
+    const { notificationDescription, notificationTitle } = this.state
+    let body = {
+      _title: notificationTitle,
+      _body: notificationDescription,
+      _data: {
+        title: notificationTitle,
+        body: notificationDescription,
+      },
+      _notificationId: Math.random().toString(),
+      time: notificationTime
+    }
+    this.scheduleReminder(body)
+    //  alert('Your Remider Set SuccessFully.');
+  };
+
+  scheduleReminder = (notifyDetails) => {
+    const notification = fcmService.buildNotification(this.createNotification(notifyDetails))
+    fcmService.scheduleNotification(notification, notifyDetails.time)
+    this.resetState()
+  }
+  createNotification = (notify) => {
+    const channelObj = {
+      channelId: "SmapleChannelID",
+      channelName: "SmapleChannelName",
+      channelDes: "SmapleChannelDes"
+    }
+    const channel = fcmService.buildChannel(channelObj)
+    const buildNotify = {
+      title: notify._title,
+      content: notify._body,
+      sound: 'default',
+      channel: channel,
+      data: notify._data,
+      colorBgIcon: "#1A243B",
+      largeIcon: 'ic_launcher',
+      smallIcon: 'ic_launcher',
+      vibrate: true,
+      dataId: notify._notificationId
+    }
+    return buildNotify
+  }
+
+  resetState = () => {
+    this.setState({
+      notificationTime: moment(),
+      notificationTitle: '',
+      notificationDescription: ''
+    })
+  }
+
+  onChangeDate = (formateDate) => {
+    console.log("state date---->",formateDate);
     this.setState({
       isVisible: false,
-      dob: moment(date).format("MMMM, Do YYYY"),
-    });
-    // this.state.date.date = value;
-    // this.setState({ date: this.state.date });
+      notificationTime: moment(formateDate),
+      notificationTime2: moment(formateDate),
+    }); 
+    
+
+    var fomate = moment(formateDate).format("MMMM, Do YYYY")
+   
+    this.state.date.date = fomate ;
+      this.setState({
+            isVisible: false,
+            date : this.state.date ,
+      });
+    
+  };
+  handleValueChange = (value, name) => {
+    this.setState({
+      [name]: value
+    })
   };
 
   onChangeDateArray = (formateDate, index) => {
-    console.log("Log-------->", this.state.dateArray);
     var datemoment = moment(formateDate).format("MMMM, Do YYYY");
     this.setState({ dateIndexOnly: index });
     this.setState({ dateNameOnly: formateDate });
@@ -3200,7 +3378,6 @@ class MyContactInfromation extends Component {
       isVisibleArray: false,
       dateArray: this.state.dateArray,
     });
-    console.log("after-------->", this.state.dateArray);
   };
 
   changeDateLabelArray = (label, index) => {
@@ -3250,37 +3427,37 @@ class MyContactInfromation extends Component {
   };
 
   renderDate() {
+    const {notifyData,notificationTime,notificationTitle,notificationDescription,isDateTimePickerVisible}=this.state;
+
     return (
       <View style={{ marginTop: Metrics.doubleBaseMargin }}>
         <View style={{ flexDirection: "row" }}>
           <View>
             <Image source={calender} style={styles.innerStyle} />
-          </View>
-
+          </View> 
+        
           <View>
             <TouchableOpacity
               style={[styles.filedView, { alignItems: "center" }]}
               onPress={this.showDateTimePicker}
             >
-              {this.state.isVisible == false && this.state.dob == "" ? (
-                <Text style={styles.dateText}>Date</Text>
-              ) : null}
-
-              <Text style={styles.dateText}>{this.state.dob}</Text>
+               
+                 {this.state.isVisible == false && this.state.date.date == "" ? (
+                     <Text style={styles.dateText}>Date</Text>
+                  ) : null}
+ 
+              <Text style={styles.dateText}>{this.state.date.date}</Text>
 
               <DateTimePickerModal
                 isVisible={this.state.isVisible}
                 onConfirm={this.onChangeDate}
                 onCancel={this.hidePicker}
-              />
-              {/* <TextInput
-                  placeholder="Date"
-                  style={styles.stylefiledText}
-                  placeholderTextColor={COLORS.main_text_color}
-                  value={this.state.dob}
-                  editable={this.state.status ? true : false}
-                  onChangeText={(value) => this.onChangeDate(value)}
-                /> */}
+                mode="datetime"
+                is24Hour={false}
+                date={new Date(notificationTime)}
+                titleIOS="Pick your Notification time"
+            />
+             
               {this.state.status ? (
                 <TouchableHighlight
                   underlayColor="transparent"
@@ -4413,7 +4590,6 @@ class MyContactInfromation extends Component {
             <ScrollView>
               {this.renderMiddle()}
               {this.renderName()}
-           
               {this.renderMobile()}
               {this.renderEmail()}
               {this.renderAddress()}
@@ -4497,6 +4673,7 @@ class MyContactInfromation extends Component {
 const mapStateToProps = (state) => ({
   theme: state.themeReducer.theme,
   username: state.login.shouldLoadData.username,
+  dateChange:state.switchDateReducer.dateChange,
 });
 
 const mapDispatchToProps = (dispatch) => ({

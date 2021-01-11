@@ -64,6 +64,7 @@ export default {
   labelMargin: ratio(63),
   xxdoubleBaseMargin: ratio(85),
   xxxdoubleBaseMargin: ratio(170),
+  xxxxdoubleBaseMargin: ratio(200),
   multipleLabel: ratio(130),
   myInfo: ratio(530),
 

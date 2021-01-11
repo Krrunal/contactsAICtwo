@@ -64,4 +64,33 @@ export default StyleSheet.create({
     fontSize: width * 0.05,
     marginBottom: Metrics.doubleBaseMargin,
   },
+  ///
+  cardTitleView: {
+    paddingHorizontal: 15,
+    paddingTop: 15,
+    paddingBottom: 8,
+  },
+  cardTitle: {
+    fontSize: 15,
+    color: '#585858',
+    fontWeight: '600',
+  },
+  titleStyle: {
+    fontSize: 20,
+    color: '#585858',
+  },
+  subtitleStyle: {
+    fontSize: 16,
+    color: '#585858',
+  },
+  titleView: {
+    margin: 20,
+    backgroundColor: '#EEEFF0',
+  },
+  titleinput: {
+    fontSize: 20,
+    fontWeight: '600',
+    margin: 5,
+    backgroundColor: "#fff"
+  }
 });

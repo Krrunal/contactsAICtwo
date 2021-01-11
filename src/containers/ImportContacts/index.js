@@ -227,7 +227,7 @@ class importContact extends Component {
               importContactToFirebase(
                 username,
                 "",
-                item.givenName,
+               item.givenName,
                 item.middleName,
                 item.familyName,
                 "",

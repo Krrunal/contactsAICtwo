@@ -75,8 +75,8 @@ class labels extends Component {
               .map((item) => {
                 return { relation: item, isSelect: false };
               });
-            this.setState({ dataManage: labelData, isLoading: false });
-            // console.log("label data--->", this.state.dataManage);
+            this.setState({ dataManage : labelData, isLoading: false });
+            console.log("label data--->", this.state.dataManage);
           }
         })
         .catch((error) => {
@@ -131,8 +131,7 @@ class labels extends Component {
     const relation = this.state.label;
     var _body = new FormData();
     _body.append("relation", relation);
-
-    console.log("state value === > ", relation);
+    // console.log("state value === > ", relation);
     fetch(baseurl + "add_label", {
       method: "POST",
       headers: {
@@ -144,6 +143,7 @@ class labels extends Component {
       .then((response) => response.json())
       .then((responseJson) => {
         this.refs.toast.show(responseJson.message);
+        
         if (responseJson.data.relation == "") {
           this.setState({
             dataManage: responseJson.data.relation,
@@ -157,6 +157,7 @@ class labels extends Component {
             viewSection: false,
             label: "",
           });
+          this.labelList();
         }
       });
   };

@@ -300,30 +300,35 @@ class addContactMultiple extends Component {
           width: width,
         }}
       >
-        <TouchableOpacity style={styles.flatSmallView}>
+      
           <TouchableOpacity>
-            <View style={{ flexDirection: "row", width: width * 0.8 }}>
-              {this.state.splitData1 == "" ? (
-                <Text style={styles.flatSmallText}>{this.state.splitData}</Text>
-              ) : (
-                <Text style={styles.flatSmallText}>
-                  {this.state.splitData1}
-                </Text>
-              )}
-              <TouchableOpacity
-                style={{
-                  justifyContent: "flex-end",
-                  flex: 1,
-                  flexDirection: "row",
-                  marginRight: 15,
-                }}
-                onPress={this.openFlatView}
-              >
-                <Image source={downArrow} style={styles.downArrowStyle} />
-              </TouchableOpacity>
-            </View>
+            {/* {this.state.flatViewOpen !== true ?
+             <View style={{ flexDirection: "row", width: width * 0.8 }}>
+             {this.state.splitData1 == "" ? (
+               <Text style={styles.flatSmallText}>{this.state.splitData}</Text>
+             ) : (
+               <Text style={styles.flatSmallText}>
+                 {this.state.splitData1}
+               </Text>
+             )}
+             <TouchableOpacity
+               style={{
+                 justifyContent: "flex-end",
+                 flex: 1,
+                 flexDirection: "row",
+                 marginRight: 15,
+               }}
+               onPress={this.openFlatView}
+             >
+               <Image source={downArrow} style={styles.downArrowStyle} />
+             </TouchableOpacity>
+           </View> :
+            null
+             }
+            */}
 
             {this.state.flatViewOpen == true ? (
+             
               <Modal
                 style={styles.footerFlat}
                 visible={this.state.flatViewOpen}
@@ -366,7 +371,7 @@ class addContactMultiple extends Component {
                             marginRight: 15,
                           }}
                           onPress={this.openFlatView}
-                        >
+                         >
                           <Image
                             source={downArrow}
                             style={styles.downArrowStyle}
@@ -377,9 +382,32 @@ class addContactMultiple extends Component {
                   </View>
                 </View>
               </Modal>
-            ) : null}
+            ) : 
+            <TouchableOpacity style={styles.flatSmallView}>
+            <View style={{ flexDirection: "row", width: width * 0.8 }}>
+                    {this.state.splitData1 == "" ? (
+                      <Text style={styles.flatSmallText}>{this.state.splitData}</Text>
+                    ) : (
+                      <Text style={styles.flatSmallText}>
+                        {this.state.splitData1}
+                      </Text>
+                    )}
+                    <TouchableOpacity
+                      style={{
+                        justifyContent: "flex-end",
+                        flex: 1,
+                        flexDirection: "row",
+                        marginRight: 15,
+                      }}
+                      onPress={this.openFlatView}
+                    >
+                      <Image source={downArrow} style={styles.downArrowStyle} />
+                    </TouchableOpacity>
+                 </View>
+            </TouchableOpacity>
+            }
           </TouchableOpacity>
-        </TouchableOpacity>
+      
       </View>
     );
   }
@@ -659,8 +687,19 @@ class addContactMultiple extends Component {
               </View>
             </View>
             {this.renderDropDown()}
-            {this.renderSelectAll()}
-            {this.renderMiddle()}
+            {this.state.flatViewOpen == true ?  
+               <View style={{marginTop:Metrics.xxxxdoubleBaseMargin}}>
+                      {this.renderSelectAll()}
+                      {this.renderMiddle()}
+                      
+              </View>
+            :
+            <View>
+                  {this.renderSelectAll()}
+                  {this.renderMiddle()}
+                
+            </View>
+            }
             {this.renderLast()}
           </Container>
           <Toast

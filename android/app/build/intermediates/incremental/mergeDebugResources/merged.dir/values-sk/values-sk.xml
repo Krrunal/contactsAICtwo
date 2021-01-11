@@ -45,7 +45,7 @@
     <string msgid="2804989272736383918" name="common_google_play_services_wear_update_text">"Vyžaduje sa nová verzia služieb Google Play. Aktualizujú sa automaticky v najbližšom čase."</string>
     <string msgid="5201977337835724196" name="common_open_on_phone">"Otvoriť v telefóne"</string>
     <string msgid="3441753203274453993" name="common_signin_button_text">"Prihlásiť sa"</string>
-    <string msgid="669893613918351210" name="common_signin_button_text_long">"Prihlásiť sa do účtu Google"</string>
+    <string msgid="669893613918351210" name="common_signin_button_text_long">"Prihlásiť sa účtom Google"</string>
     <string msgid="4296851028928624518" name="confirm_device_credential_password">"Použiť heslo"</string>
     <string msgid="7497355367608150274" name="default_error_msg">"Neznáma chyba"</string>
     <string msgid="4133737464567140336" name="fcm_fallback_notification_channel_label">"Rôzne"</string>
