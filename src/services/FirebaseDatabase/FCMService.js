@@ -1,6 +1,7 @@
 import firebase from 'react-native-firebase';
 
 class FCMService {
+ 
   register = (onRegister, onNotification, onOpenNotification) => {
     this.checkPermission(onRegister)
     this.createNoitificationListeners(onRegister, onNotification, onOpenNotification)
@@ -33,6 +34,19 @@ class FCMService {
         console.log("getToken rejected ", error)
       })
   }
+  // getToken = (onRegister) => {
+  //   // firebase.messaging().getToken()
+  //   //   .then(fcmToken => {
+  //     var fcmToken = "d2sYMlQ0TPuseCU8u_670t:APA91bGrGjJ8leBEtUgB8pu90r1Dp_Ni4JzhSK4qbRYrvBEosPneLg4KlC7S8Mp9rc8PcVukeCpjDE-bFFiDbqy_lUebkwRr295LL0LjoMHG8SjJ1YE38KbHWLQdY66MSyuIvsaCJ1V1"
+  //       if (fcmToken) {
+  //         onRegister(fcmToken)
+  //       } else {
+  //         console.log("User does not have a device token")
+  //       }
+  //     // }).catch(error => {
+  //     //   console.log("getToken rejected ", error)
+  //     // })
+  // }
 
   requestPermission = (onRegister) => {
     firebase.messaging().requestPermission()

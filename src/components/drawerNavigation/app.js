@@ -41,11 +41,13 @@ import Splash from "../../containers/SplashScreen/index";
 import ViewLabel from "../../containers/ViewLabel/index";
 import ViewLabelByName from '../../containers/ViewLabelByName/index'
 import addContactMultiple from '../../containers/AddContactAICUser/addContactMultiple'
+import afterRequestSend from '../../containers/AddContactAICUser/afterRequestSend'
 import { createAppContainer } from 'react-navigation';
 import { createDrawerNavigator } from "react-navigation-drawer";
 import { createStackNavigator } from 'react-navigation-stack';
 import forAdd2 from '../../containers/AddContactAICUser/forAdd2'
 import forSelectContact from '../../containers/ManageLable/forSelectContact'
+import aftreMultiplReqSend from '../../containers/AddContactAICUser/aftreMultiplReqSend'
 import { themeReducer } from "../../reducer/themeReducer";
 
 const RootNavigator = createStackNavigator({
@@ -278,10 +280,21 @@ const RootNavigator = createStackNavigator({
       navigationOptions: {
         gesturesEnabled: false,
         header: null,
-        // drawerLockMode: 'unlocked',
     }},
     forAdd2: {
       screen: forAdd2,
+      navigationOptions: {
+        gesturesEnabled: false,
+        header: null,
+    }},
+    aftreMultiplReqSend: {
+      screen: aftreMultiplReqSend,
+      navigationOptions: {
+        gesturesEnabled: false,
+        header: null,
+    }},
+    afterRequestSend: {
+      screen: afterRequestSend,
       navigationOptions: {
         gesturesEnabled: false,
         header: null,
@@ -294,6 +307,7 @@ const RootNavigator = createStackNavigator({
         header: null,
        }},
   },
+  
     {
       initialRouteName: 'Splash',
       mode: 'slide',

@@ -25,7 +25,7 @@ export default StyleSheet.create({
 
     text:{
         fontFamily: Font.medium,
-        fontSize: width * 0.045,
+        fontSize: width * 0.042,
         color:COLORS.white,
         textAlign:'center'
     },

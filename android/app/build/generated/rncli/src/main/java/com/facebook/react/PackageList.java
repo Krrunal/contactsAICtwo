@@ -11,6 +11,8 @@ import com.facebook.react.shell.MainReactPackage;
 import java.util.Arrays;
 import java.util.ArrayList;
 
+// @notifee/react-native
+import io.invertase.notifee.NotifeePackage;
 // @react-native-community/async-storage
 import com.reactnativecommunity.asyncstorage.AsyncStoragePackage;
 // @react-native-community/checkbox
@@ -37,12 +39,16 @@ import com.reactnative.ivpusic.imagepicker.PickerPackage;
 import com.oblador.keychain.KeychainPackage;
 // react-native-permissions
 import com.reactnativecommunity.rnpermissions.RNPermissionsPackage;
+// react-native-push-notification
+import com.dieam.reactnativepushnotification.ReactNativePushNotificationPackage;
 // react-native-reanimated
 import com.swmansion.reanimated.ReanimatedPackage;
 // react-native-safe-area-context
 import com.th3rdwave.safeareacontext.SafeAreaContextPackage;
 // react-native-screens
 import com.swmansion.rnscreens.RNScreensPackage;
+// react-native-sms
+import com.tkporter.sendsms.SendSMSPackage;
 // react-native-svg
 import com.horcrux.svg.SvgPackage;
 // react-native-timezone
@@ -94,6 +100,7 @@ public class PackageList {
   public ArrayList<ReactPackage> getPackages() {
     return new ArrayList<>(Arrays.<ReactPackage>asList(
       new MainReactPackage(mConfig),
+      new NotifeePackage(),
       new AsyncStoragePackage(),
       new ReactCheckBoxPackage(),
       new RNDateTimePickerPackage(),
@@ -107,9 +114,11 @@ public class PackageList {
       new PickerPackage(),
       new KeychainPackage(),
       new RNPermissionsPackage(),
+      new ReactNativePushNotificationPackage(),
       new ReanimatedPackage(),
       new SafeAreaContextPackage(),
       new RNScreensPackage(),
+      new SendSMSPackage(),
       new SvgPackage(),
       new RNReactNativeTimezonePackage(),
       new VectorIconsPackage()

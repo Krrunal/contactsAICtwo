@@ -40,14 +40,10 @@ class forAddContact extends Component {
 
   async componentDidMount() {
     this.setState({
-      // label: this.props.navigation.state.params.label,
-      // data: JSON.parse(this.props.navigation.state.params.data)
       label: await AsyncStorage.getItem("@selectedLabel"),
       data: JSON.parse(await AsyncStorage.getItem("@qrData")),
     });
-     console.log("Username  ---->", this.state.label && this.props.user_id);
-    // console.log(JSON.parse(await AsyncStorage.getItem("@qrData")));
-    const { data, label } = this.state;
+    // console.log("Username  ---->", this.state.label && this.props.user_id);
     firebase.firestore().collection(this.props.user_id).get()
       .then((snap) => {
         snap.forEach(async (doc) => {
@@ -222,7 +218,7 @@ class forAddContact extends Component {
       } else {
         this.setState({ loader: false });
         // this.refs.toast.show('Contact already exist ')
-        alert("Contact already exist ");
+        alert("Contact already exist");
         this.props.navigation.navigate("AddContact");
       }
     }

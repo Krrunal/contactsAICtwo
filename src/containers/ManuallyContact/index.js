@@ -412,6 +412,7 @@ class addmanuallyContact extends Component {
           addManualContact(
             // user_id,
             username,
+            "",
             profile_image,
             profile_image2,
             profile_image3,
@@ -427,6 +428,7 @@ class addmanuallyContact extends Component {
             email2,
             emailArray,
             address,
+            "",
             addressArray,
             messenger1,
             messenger2,
@@ -751,7 +753,10 @@ class addmanuallyContact extends Component {
                 {this.renderImage(this.state.image)}
               </View>
 
-              <TouchableOpacity style={styles.first} onPress={this.selectPhoto}>
+              <TouchableOpacity
+                style={styles.first}
+                onPress={this.state.status == true ? this.selectPhoto : null}
+              >
                 <Text style={styles.firstText}>Select Photo</Text>
               </TouchableOpacity>
             </View>
@@ -759,12 +764,18 @@ class addmanuallyContact extends Component {
               <View style={styles.squareBorder}>
                 {this.renderImage2(this.state.image2)}
               </View>
-              <TouchableOpacity
-                style={styles.first}
-                onPress={this.selectPhoto2}
-              >
-                <Text style={styles.firstText}>Select Photo</Text>
-              </TouchableOpacity>
+              {this.state.status == true ? (
+                <TouchableOpacity
+                  style={styles.first}
+                  onPress={this.selectPhoto2}
+                >
+                  <Text style={styles.firstText}>Select Photo</Text>
+                </TouchableOpacity>
+              ) : (
+                <TouchableOpacity style={styles.first}>
+                  <Text style={styles.firstText}>Select Photo</Text>
+                </TouchableOpacity>
+              )}
             </View>
             <View style={styles.firstMiddle}>
               <View style={styles.squareBorder}>
@@ -772,7 +783,7 @@ class addmanuallyContact extends Component {
               </View>
               <TouchableOpacity
                 style={styles.first}
-                onPress={this.selectPhoto3}
+                onPress={this.state.status == true ? this.selectPhoto3 : null}
               >
                 <Text style={styles.firstText}>Select Photo</Text>
               </TouchableOpacity>

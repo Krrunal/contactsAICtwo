@@ -11,7 +11,8 @@ import {
 } from "react-native";
 import React, { Component, useState } from "react";
 import styled, { ThemeProvider } from "styled-components/native";
-
+import checked from "../../assets/icons/checkedModified.png";
+import checkedWhite from  "../../assets/icons/checkedWhite.png";
 import { COLORS } from "../theme/Colors.js";
 import CheckBox from "@react-native-community/checkbox";
 import Contacts from "react-native-contacts";
@@ -38,6 +39,7 @@ class importContact extends Component {
     isLoading: false,
     aicGivenName: [],
     aicGivenNames: [],
+    checkedOff:false
   };
 
   componentDidMount() {
@@ -119,11 +121,11 @@ class importContact extends Component {
   selectAll = () => {
     const { fetchedContacts } = this.state;
     let contactArr = fetchedContacts.map((item, key) => {
-      this.state.checked == true
+      this.state.checkedOff == true
         ? (item.isSelected = true)
         : (item.isSelected = false);
       item.isSelected = !item.isSelected;
-      this.setState({ checked: !this.state.checked });
+      this.setState({ checkedOff : !this.state.checkedOff });
       return { ...item };
     });
     this.setState({ fetchedContacts: contactArr });
@@ -140,16 +142,20 @@ class importContact extends Component {
         }}
       >
         <TouchableOpacity style={styles.checkboxView} onPress={() => {this.selectAll()}}>
-          <CheckBox
-            value={this.state.checked}
-            onChange={() => {this.selectAll()}}
-            tintColors={{ true: "#1374A3", false: "#1374A3" }}
-          />
+            {this.state.checkedOff == true ? (
+                      <View style={styles.checkViewForLight}> 
+                        <Image source={checkedWhite} style={styles.checkedStyle} />
+                      </View>
+                    ) : (
+                      <View style={styles.checkView}></View>
+                    )
+                     
+           }
         <Text
             style={[
               styles.deSelectText,
               {
-                color: this.props.theme.mode === "light" ? "#1374A3" : "white",
+                color: this.props.theme.mode === "light" ? "#1374A3" : "white",marginLeft:Metrics.smallMargin
               },
             ]}
           >Select (De-select) All</Text>

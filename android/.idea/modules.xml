@@ -4,6 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/app.iml" group="contactsAIC/app" />
       <module fileurl="file://$PROJECT_DIR$/contactsAIC.iml" filepath="$PROJECT_DIR$/contactsAIC.iml" group="contactsAIC" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/116700952/notifee_react-native.iml" filepath="$PROJECT_DIR$/.idea/modules/116700952/notifee_react-native.iml" group="contactsAIC/notifee_react-native" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/-192341855/react-native-camera.iml" filepath="$PROJECT_DIR$/.idea/modules/-192341855/react-native-camera.iml" group="contactsAIC/react-native-camera" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/2056599024/react-native-community_async-storage.iml" filepath="$PROJECT_DIR$/.idea/modules/2056599024/react-native-community_async-storage.iml" group="contactsAIC/react-native-community_async-storage" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/2003391485/react-native-community_checkbox.iml" filepath="$PROJECT_DIR$/.idea/modules/2003391485/react-native-community_checkbox.iml" group="contactsAIC/react-native-community_checkbox" />
@@ -17,9 +18,11 @@
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/-2136511170/react-native-keychain.iml" filepath="$PROJECT_DIR$/.idea/modules/-2136511170/react-native-keychain.iml" group="contactsAIC/react-native-keychain" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/545185352/react-native-permissions.iml" filepath="$PROJECT_DIR$/.idea/modules/545185352/react-native-permissions.iml" group="contactsAIC/react-native-permissions" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/-560043365/react-native-picker_picker.iml" filepath="$PROJECT_DIR$/.idea/modules/-560043365/react-native-picker_picker.iml" group="contactsAIC/react-native-picker_picker" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-1433563774/react-native-push-notification.iml" filepath="$PROJECT_DIR$/.idea/modules/-1433563774/react-native-push-notification.iml" group="contactsAIC/react-native-push-notification" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/1758755666/react-native-reanimated.iml" filepath="$PROJECT_DIR$/.idea/modules/1758755666/react-native-reanimated.iml" group="contactsAIC/react-native-reanimated" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/-438300045/react-native-safe-area-context.iml" filepath="$PROJECT_DIR$/.idea/modules/-438300045/react-native-safe-area-context.iml" group="contactsAIC/react-native-safe-area-context" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/-142125493/react-native-screens.iml" filepath="$PROJECT_DIR$/.idea/modules/-142125493/react-native-screens.iml" group="contactsAIC/react-native-screens" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/144221725/react-native-sms.iml" filepath="$PROJECT_DIR$/.idea/modules/144221725/react-native-sms.iml" group="contactsAIC/react-native-sms" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/-1409782744/react-native-svg.iml" filepath="$PROJECT_DIR$/.idea/modules/-1409782744/react-native-svg.iml" group="contactsAIC/react-native-svg" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/1524445813/react-native-timezone.iml" filepath="$PROJECT_DIR$/.idea/modules/1524445813/react-native-timezone.iml" group="contactsAIC/react-native-timezone" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/639336332/react-native-vector-icons.iml" filepath="$PROJECT_DIR$/.idea/modules/639336332/react-native-vector-icons.iml" group="contactsAIC/react-native-vector-icons" />

@@ -30,9 +30,9 @@ class Add extends Component {
   }}
 
   componentDidMount = async () => {
-     const {username} =this.props ;
+     const {username , user_id} =this.props ;
      await AsyncStorage.setItem("@sidemenuName", username);
-    
+     await AsyncStorage.setItem("@sidemenuID", user_id);
   }
   renderHeader() {
     return (
@@ -114,6 +114,7 @@ class Add extends Component {
   }
 }
 function mapStateToProps(state) {
+ 
   return {
     theme: state.themeReducer.theme,
     user_id: (state.login.shouldLoadData.user_id || state.reg.shouldLoadData.user_id),

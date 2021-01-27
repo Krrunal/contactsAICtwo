@@ -30,7 +30,9 @@ import { NavigationActions } from "react-navigation";
 import NavigationService from "./navigationService";
 import { Platform } from "react-native";
 import { addItem } from '../services/FirebaseDatabase/addAfterSignup';
+import { fcmService } from '../services/FirebaseDatabase/FCMService'
 import firebase from "react-native-firebase";
+import {updateItem} from '../services/FirebaseDatabase/afterLogin';
 
 export const loadDataChange = (payload) => {
   return {
@@ -46,6 +48,8 @@ const loginUserSuccess = (data, dispatch) => {
   dispatch({ type: RESET_LOGIN });
   dispatch({ type: RESET_REG });
   dispatch({ type: LOAD_DATA_SET, payload: data.data });
+ // console.log('log in data ---->',data.data)
+  updateItem(data.data.username)
   dispatch(NavigationService.navigate("SerachEditContact"));
 };
 
@@ -57,13 +61,29 @@ const regUserSuccess = (data, dispatch) => {
   dispatch({ type: RESET_REG });
   dispatch({ type: LOAD_DATA_SET, payload: data.data });
   console.log('data---->',data.data)
-  addItem( data.data.username, data.data.user_id, data.data.is_active, data.data.fcmToken, data.data.contact, data.data.email)
-  // myInfo(data.data.username)
-  // afterSign(data.data.username)
+  if(Platform.OS  ==  'android'){ 
+   console.log("Platfrom version",Platform.OS)
+  }else{
+    console.log("Platfrom version",Platform.OS)
+  }
+  addItem( data.data.username, data.data.user_id, data.data.is_active, data.data.fcmToken, data.data.contact, data.data.email,Platform.OS)
   dispatch(NavigationService.navigate("AddContact"));
 
 };
+  // onRegister = (token) => {
+  //   console.log("[Notification fcm ] onRegister:", token)
+  // }
 
+  // onNotification = (notify) => {
+  //   console.log("[Notification fcm ] : onNotification:", notify)
+  //   const notification = fcmService.buildNotification(this.createNotification(notify))
+  //   fcmService.displayNotification(notification)
+  // }
+
+  // onOpenNotification = (notify) => {
+  //   console.log("[Notification fcm ] : onOpenNotification ", notify)
+  //   this.setState({ notifyData: notify._data }, () => this.setState({ isVisibleOverlay: true }))
+  
 const loginUserFail = (dispatch) => {
   dispatch({ type: SHOW_LOADER_LOGIN, payload: false });
   dispatch({ type: SHOW_LOADER_REG, payload: false });

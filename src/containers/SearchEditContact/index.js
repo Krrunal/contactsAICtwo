@@ -71,8 +71,7 @@ class searchContact extends Component {
           var item = doc._data;
           this.state.contact.push(item);
         });
-        this.setState({ contacts: this.state.contact });
-        // console.log("item from my --->",this.state.contacts)
+        this.setState({ contacts : this.state.contact });
         const sort = this.state.contacts.sort(function (a, b) {
           if (a.first_name.toLowerCase() < b.first_name.toLowerCase())
             return -1;
@@ -95,10 +94,8 @@ class searchContact extends Component {
         snap.forEach((doc) => {
           var item = doc._data;
           this.state.contact.push(item);
-          //  console.log("Item isImport ------> ", item.isImport);
         });
         this.setState({ contacts: this.state.contact });
-        // console.log("Item data ------> ", this.state.contacts.first_name);
 
         const sort = this.state.contacts.sort(function (a, b) {
           if (a.last_name.toLowerCase() < b.last_name.toLowerCase()) return -1;
@@ -228,7 +225,7 @@ class searchContact extends Component {
               },
             ]}
           >
-            {item.last_name} {item.user_name || item.first_name}
+         {item.last_name}{item.user_name || item.first_name}
           </Text>
         )}
         {item.isImport == false ? (

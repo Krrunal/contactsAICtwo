@@ -4,20 +4,37 @@
             "outputFile": "/Users/macmini/Desktop/contactsAICtwo/android/app/build/intermediates/incremental/mergeDebugResources/merged.dir/values-en-rGB/values-en-rGB.xml",
             "map": [
                 {
-                    "source": "/Users/macmini/.gradle/caches/transforms-2/files-2.1/2718b75110f823aa71fc7e44eb2a6b36/jetified-play-services-basement-17.2.1/res/values-en-rGB/values.xml",
+                    "source": "/Users/macmini/.gradle/caches/transforms-2/files-2.1/3be0659c237fc1df97007c15c1dcc4ca/core-1.5.0-beta01/res/values-en-rGB/values-en-rGB.xml",
+                    "from": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "55",
+                        "endColumns": "100",
+                        "endOffsets": "151"
+                    },
+                    "to": {
+                        "startLines": "60",
+                        "startColumns": "4",
+                        "startOffsets": "6901",
+                        "endColumns": "100",
+                        "endOffsets": "6997"
+                    }
+                },
+                {
+                    "source": "/Users/macmini/.gradle/caches/transforms-2/files-2.1/f37ac64f56d2443d09c49f6c019ee965/jetified-firebase-messaging-21.0.1/res/values-en-rGB/values.xml",
                     "from": {
                         "startLines": "4",
                         "startColumns": "0",
-                        "startOffsets": "251",
-                        "endColumns": "196",
-                        "endOffsets": "447"
+                        "startOffsets": "211",
+                        "endColumns": "107",
+                        "endOffsets": "318"
                     },
                     "to": {
-                        "startLines": "38",
+                        "startLines": "50",
                         "startColumns": "4",
-                        "startOffsets": "4021",
-                        "endColumns": "196",
-                        "endOffsets": "4213"
+                        "startOffsets": "5725",
+                        "endColumns": "111",
+                        "endOffsets": "5832"
                     }
                 },
                 {
@@ -38,20 +55,20 @@
                     }
                 },
                 {
-                    "source": "/Users/macmini/.gradle/caches/transforms-2/files-2.1/d7d7531b66649f4acdaf0dd4c89c07f6/jetified-firebase-messaging-17.6.0/res/values-en-rGB/values.xml",
+                    "source": "/Users/macmini/.gradle/caches/transforms-2/files-2.1/c0d6fb0019130460a030249dd32f6a45/jetified-play-services-basement-17.3.0/res/values-en-rGB/values.xml",
                     "from": {
                         "startLines": "4",
                         "startColumns": "0",
-                        "startOffsets": "209",
-                        "endColumns": "107",
-                        "endOffsets": "316"
+                        "startOffsets": "251",
+                        "endColumns": "196",
+                        "endOffsets": "447"
                     },
                     "to": {
-                        "startLines": "50",
+                        "startLines": "38",
                         "startColumns": "4",
-                        "startOffsets": "5725",
-                        "endColumns": "111",
-                        "endOffsets": "5832"
+                        "startOffsets": "4021",
+                        "endColumns": "196",
+                        "endOffsets": "4213"
                     }
                 },
                 {
@@ -69,23 +86,6 @@
                         "startOffsets": "2881,2988,3172,3299,3408,3618,3743,3889,4218,4436,4543,4726,4853,5058,5236,5329,5421",
                         "endColumns": "106,183,126,108,209,124,145,131,217,106,182,126,204,177,92,91,107",
                         "endOffsets": "2983,3167,3294,3403,3613,3738,3884,4016,4431,4538,4721,4848,5053,5231,5324,5416,5524"
-                    }
-                },
-                {
-                    "source": "/Users/macmini/.gradle/caches/transforms-2/files-2.1/1738e75df1ab8141a7a7a8f190dcb94b/core-1.5.0-alpha05/res/values-en-rGB/values-en-rGB.xml",
-                    "from": {
-                        "startLines": "2",
-                        "startColumns": "4",
-                        "startOffsets": "55",
-                        "endColumns": "100",
-                        "endOffsets": "151"
-                    },
-                    "to": {
-                        "startLines": "60",
-                        "startColumns": "4",
-                        "startOffsets": "6901",
-                        "endColumns": "100",
-                        "endOffsets": "6997"
                     }
                 },
                 {

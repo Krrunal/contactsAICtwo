@@ -50,7 +50,6 @@ class Signup extends Component {
     checked: false,
     isKeyboardVisible: false,
     show: false,
-
     isPassModelOpen: false,
     email: "",
     username: "",
@@ -67,17 +66,18 @@ class Signup extends Component {
     emailSection: false,
     passwordSection: false,
     rePasswordSection: false,
+    mobilePlatform : ""
   };
-  // componentDidMount = () => {
-
-  //   // const {SignProp} = this.state;
-
-  //   // this.setState({SignProp : true})
-  //   // this.props.onlySignProp(SignProp);
-  //    // console.log("signin propSignPropthis.props.onlySignProp);
-
-  //    // this.props.regunameChange(uname);
-  // }
+//   componentDidMount = () => {
+    
+//      if(Platform.OS ==  'android'){
+//        this.setState({ mobilePlatform : Platform.OS})
+//       console.log("Platfrom version",Platform.OS)
+//      }else{
+//       this.setState({ mobilePlatform : Platform.OS})
+//       console.log("Platfrom version",)
+//      }
+//  }
   maxUname = (uname) => {
     return uname.length > 20;
   };
@@ -118,7 +118,7 @@ class Signup extends Component {
 
   signUp = async () => {
     const { uname, contact, email, password, confirmpassWord } = this.props;
-
+      console.log("plarform--->",this.state.mobilePlatform);
     if (
       contact &&
       (this.state.contactError == undefined || this.state.contactError == "") &&
@@ -413,15 +413,15 @@ class Signup extends Component {
                         this.state.contactError == "") &&
                       this.props.contactMsg == true &&
                       contact.indexOf("+") !== -1 ? (
-                        <Text style={styles.error}>
-                          Phone number{" "}
+                        <Text style={[styles.error, { color:this.props.theme.mode === "light" ? "black" : "white"}]}>
+                           Phone number
                           <Text style={styles.errorSuccess}>is</Text> available
                         </Text>
                       ) : null}
                       {(this.state.contactError == undefined ||
                         this.state.contactError == "") &&
                         this.props.contactMsg == false ? (
-                        <Text style={styles.error}>
+                        <Text style={[styles.error, { color:this.props.theme.mode === "light" ? COLORS.black : COLORS.white}]}>
                           Phone number{" "}
                           <Text style={styles.errorFail}>is not</Text> available
                         </Text>
@@ -429,13 +429,13 @@ class Signup extends Component {
                       {this.state.contactError == undefined ||
                       this.state.contactError == "" ? null : (
                         <View style={{ flexDirection: "row" }}>
-                        <Text style={[styles.error, { color: COLORS.black }]}>
+                        <Text style={[styles.error, { color:this.props.theme.mode === "light" ? COLORS.black : COLORS.white}]}>
                           {this.state.contactError}
                         </Text>
                         <Text style={[styles.error2, { color: COLORS.red }]}>
                           {this.state.contactError1}
                         </Text>
-                        <Text style={[styles.error2, { color: COLORS.black }]}>
+                        <Text style={[styles.error2, { color:this.props.theme.mode === "light" ? COLORS.black : COLORS.white}]}>
                           {this.state.contactError2}
                         </Text>
                       </View>
@@ -499,7 +499,7 @@ class Signup extends Component {
                       (this.state.unameError == undefined ||
                         this.state.unameError == "") &&
                       this.props.usernameMsg == true ? (
-                        <Text style={styles.error}>
+                        <Text style={[styles.error,{ color:this.props.theme.mode === "light" ? COLORS.black : COLORS.white}]}>
                           Username <Text style={styles.errorSuccess}>is</Text>{" "}
                           available
                         </Text>
@@ -508,7 +508,7 @@ class Signup extends Component {
                       (this.state.unameError == undefined ||
                         this.state.unameError == "") &&
                       this.props.usernameMsg == false ? (
-                        <Text style={styles.error}>
+                        <Text style={[styles.error,{ color:this.props.theme.mode === "light" ? COLORS.black : COLORS.white}]}>
                           Username <Text style={styles.errorFail}>is not</Text>{" "}
                           available
                         </Text>
@@ -516,13 +516,13 @@ class Signup extends Component {
                       {this.state.unameError == undefined ||
                       this.state.unameError == "" ? null : (
                         <View style={{ flexDirection: "row" }}>
-                            <Text style={[styles.error, { color: COLORS.black }]}>
+                            <Text style={[styles.error, { color:this.props.theme.mode === "light" ? COLORS.black : COLORS.white}]}>
                               {this.state.unameError}
                             </Text>
                             <Text style={[styles.error2, { color: COLORS.red }]}>
                               {this.state.unameError1}
                             </Text>
-                            <Text style={[styles.error2, { color: COLORS.black }]}>
+                            <Text style={[styles.error2, { color:this.props.theme.mode === "light" ? COLORS.black : COLORS.white}]}>
                               {this.state.unameError2}
                             </Text>
                       </View>
@@ -574,7 +574,7 @@ class Signup extends Component {
                       {(this.state.emailError == undefined ||
                         this.state.emailError == "") &&
                       this.props.emailMsg == true ? (
-                        <Text style={styles.error}>
+                        <Text style={[styles.error,{ color:this.props.theme.mode === "light" ? COLORS.black : COLORS.white}]}>
                           Email <Text style={styles.errorSuccess}>is</Text>{" "}
                           available
                         </Text>
@@ -582,7 +582,7 @@ class Signup extends Component {
                       {(this.state.emailError == undefined ||
                         this.state.emailError == "") &&
                       this.props.emailMsg == false ? (
-                        <Text style={styles.error}>
+                        <Text style={[styles.error,{ color:this.props.theme.mode === "light" ? COLORS.black : COLORS.white}]}>
                           Email <Text style={styles.errorFail}>is not</Text>{" "}
                           available
                         </Text>
@@ -590,13 +590,13 @@ class Signup extends Component {
                       {this.state.emailError == undefined ||
                       this.state.emailError == "" ? null : (
                         <View style={{ flexDirection: "row" }}>
-                            <Text style={[styles.error, { color: COLORS.black }]}>
+                            <Text style={[styles.error, { color:this.props.theme.mode === "light" ? COLORS.black : COLORS.white}]}>
                               {this.state.emailError}
                             </Text>
                             <Text style={[styles.error2, { color: COLORS.red }]}>
                               {this.state.emailError1}
                             </Text>
-                            <Text style={[styles.error2, { color: COLORS.black }]}>
+                            <Text style={[styles.error2, { color:this.props.theme.mode === "light" ? COLORS.black : COLORS.white}]}>
                               {this.state.emailError2}
                             </Text>
                       </View>
@@ -816,13 +816,13 @@ class Signup extends Component {
                       this.state.confirmPassError1 == "" &&
                       this.state.confirmPassError2 == "") ? null : (
                       <View style={{ flexDirection: "row" }}>
-                        <Text style={[styles.error, { color: COLORS.black }]}>
+                        <Text style={[styles.error, { color:this.props.theme.mode === "light" ? COLORS.black : COLORS.white}]}>
                           {this.state.confirmPassError}
                         </Text>
                         <Text style={[styles.error2, { color: COLORS.red }]}>
                           {this.state.confirmPassError1}
                         </Text>
-                        <Text style={[styles.error2, { color: COLORS.black }]}>
+                        <Text style={[styles.error2, { color:this.props.theme.mode === "light" ? COLORS.black : COLORS.white}]}>
                           {this.state.confirmPassError2}
                         </Text>
                       </View>
@@ -836,7 +836,7 @@ class Signup extends Component {
                           <Text
                             style={[
                               styles.error,
-                              { color: COLORS.black, width: width * 0.24 },
+                              { color: this.props.theme.mode === "light" ? COLORS.black : COLORS.white, width: width * 0.24 },
                             ]}
                           >
                             {this.state.confirmError}

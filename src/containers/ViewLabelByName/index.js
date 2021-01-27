@@ -52,10 +52,7 @@ class ViewLabelByName extends Component {
 
   labelList() {
     this.setState({ loader: true } , async () => {
-      
-  
-   
-    firebase.firestore().collection(this.props.user_id).get()
+      firebase.firestore().collection(this.props.user_id).get()
       .then((snap) => { 
         if (!snap.empty){
           snap.forEach((doc) => {
@@ -73,9 +70,10 @@ class ViewLabelByName extends Component {
             if (!newLabelArray.some(o => o === obj)) {
               newLabelArray.push(obj)
             }
+
           });
           this.setState({ labels: newLabelArray,loader: false })
-          
+
           //load contacts
           var arrContact = doc._data
           if(doc._data.label !== undefined) {
@@ -99,7 +97,6 @@ class ViewLabelByName extends Component {
               jsonArray.push(item)
           })
           this.setState({ contactArray: jsonArray,loader: false });
-          console.log("contact ARRy ---->",this.state.contactArray)
           const sort = this.state.contactArray.sort(function (a, b) {
             if (a.users.toLowerCase() < b.users.toLowerCase())
               return -1;

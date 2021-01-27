@@ -76,7 +76,7 @@ class labels extends Component {
                 return { relation: item, isSelect: false };
               });
             this.setState({ dataManage : labelData, isLoading: false });
-            console.log("label data--->", this.state.dataManage);
+            console.log("label data--->", responseJson.data.relation);
           }
         })
         .catch((error) => {

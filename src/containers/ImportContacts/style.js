@@ -107,4 +107,39 @@ export default StyleSheet.create({
     fontFamily: Font.medium,
     fontSize: width * 0.050,
   },
+  rememberView: {
+    flexDirection: "row",
+    marginTop: Metrics.baseMargin,
+    justifyContent: "center",
+    alignItems: "center",
+
+    width: width * 0.5,
+    height: width * 0.1,
+  },
+  checkedStyle: {
+    width: width * 0.04,
+    height: width * 0.04,
+    resizeMode: "contain",
+  },
+  checkView: {
+    width: width * 0.070,
+    height: width * 0.070,
+    justifyContent: "center",
+    alignItems: "center",
+    borderColor: COLORS.main_text_color,
+    borderWidth: 2,
+    borderRadius: 3,
+  //  backgroundColor:COLORS.main_text_color
+  },
+  checkViewForLight: {
+    width: width * 0.070,
+    height: width * 0.070,
+    justifyContent: "center",
+    alignItems: "center",
+    borderColor: COLORS.main_text_color,
+    borderWidth: 1,
+    borderRadius: 3,
+    backgroundColor:COLORS.main_text_color
+  },
+
 });

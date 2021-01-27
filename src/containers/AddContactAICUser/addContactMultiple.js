@@ -602,17 +602,14 @@ class addContactMultiple extends Component {
     console.log("Data 4 ---->", dataManage4);
     console.log("Data 5 ---->", dataManage5);
 
-    if (userLabel14 == ""  ) {
+    if (selected ==  "" ) {
       this.refs.toast.show("Please select label to associate with USERNAME");
     } else {
       this.props.navigation.navigate("forAdd2");
        this.setState({ selectedRealetion: [] });
         this.setState({ splitData1: "" });
-      
     }
-
-   
-  }
+ }
 
   showLoader() {
     if (this.state.isLoading == true) {

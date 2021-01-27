@@ -24,7 +24,7 @@ export default StyleSheet.create({
   viewEmail: {
     backgroundColor: COLORS.main_sky_blue,
     width: width * 0.85,
-    height: height * 0.07,
+    height: height * 0.065,
     borderRadius: 8,
     justifyContent: "center",
     marginTop: Metrics.doubleBaseMargin,
@@ -35,7 +35,7 @@ export default StyleSheet.create({
     backgroundColor: COLORS.main_sky_blue,
     marginTop: height * 0.025,
     width: width * 0.85,
-    height: height * 0.07,
+    height: height * 0.065,
     borderRadius: 8,
    // alignItems: "center",
     justifyContent: "center",
@@ -134,6 +134,8 @@ export default StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
+    marginBottom: Metrics.baseMargin,
+    
   },
 
   checkIcon: {
@@ -187,11 +189,20 @@ export default StyleSheet.create({
     //justifyContent: "center",
     //alignItems: "center",
     marginLeft: Metrics.baseMargin,
-    width: width * 0.7,
+    width: width * 0.62,
     color: COLORS.main_text_color,
   //  borderWidth:1,
   
  },
+ uText1 :{
+  fontSize: width*0.04, 
+  fontFamily: Font.medium,
+  marginLeft: Metrics.baseMargin,
+   width: width * 0.62,
+  color:COLORS.main_text_color,
+  marginBottom :Metrics.baseMargin,
+  
+},
  emailText: {
   fontSize: width * 0.025,
   fontFamily: Font.medium,

@@ -259,7 +259,7 @@ uText1 :{
    marginLeft:Metrics.xdoubleBaseMargin,
   width: width * 0.7,
   color:COLORS.main_text_color,
-  marginBottom :Metrics.xsmallMargin,
+  marginBottom :Metrics.baseMargin,
   
 },
 
@@ -294,7 +294,7 @@ uText1 :{
     resizeMode: "contain",
   },
   emailText: {
-    fontSize: width * 0.028,
+    fontSize: width * 0.025,
     fontFamily: Font.medium,
     justifyContent: "center",
     alignItems: "center",

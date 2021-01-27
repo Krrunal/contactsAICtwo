@@ -1,16 +1,16 @@
+import * as actions from "../../action";
 import {
   Dimensions,
   Image,
   ScrollView,
   Text,
+  TextInput,
   TouchableOpacity,
   View,
-  TextInput,
 } from "react-native";
 import React, { Component } from "react";
 import { darkTheme, lightTheme } from "../theme/themeProps";
 import styled, { ThemeProvider } from "styled-components/native";
-
 import AsyncStorage from "@react-native-community/async-storage";
 import { COLORS } from "../theme/Colors.js";
 import CheckBox from "@react-native-community/checkbox";
@@ -27,6 +27,7 @@ import { connect } from "react-redux";
 import plus from "../../assets/images/plus.png";
 import styles from "./chooseContactFromLabelStyle.js";
 import { switchTheme } from "../../action/themeAction";
+import checkedWhite from  "../../assets/icons/checkedWhite.png";
 
 var { width, height } = Dimensions.get("window");
 
@@ -41,10 +42,16 @@ class chooseContactFromLabel extends Component {
     isLoading: false,
     viewSection: false,
     disabledLabel: false,
+    qrCodeData:{},
+    checkedOff:false
   };
 
-  componentDidMount() {
-    const { navigation } = this.props;
+  async componentDidMount() {
+    this.setState({
+      qrCodeData: JSON.parse(await AsyncStorage.getItem("@qrData"))
+    });
+    console.log("qr data--->",this.state.qrCodeData);
+     const { navigation } = this.props;
     this.focusListener = navigation.addListener("didFocus", async () => {
       this.labelList();
     });
@@ -80,11 +87,10 @@ class chooseContactFromLabel extends Component {
           return response.json();
         })
         .then((responseJson) => {
-          console.log("response=---->",responseJson)
           var arr = responseJson.data.relation.split(/,/).map((item) => {
             return { relation: item, isSelect: false };
           });
-          this.setState({ dataManage: arr, isLoading: false });
+          this.setState({ dataManage : arr, isLoading: false });
         })
         .catch((error) => {
           console.error(error);
@@ -128,6 +134,20 @@ class chooseContactFromLabel extends Component {
       });
   };
 
+  selectAll = () => {
+
+    const { dataManage } = this.state;
+    let contactArr = dataManage.map((item, key) => {
+      this.state.checkedOff == true
+        ? (item.isSelect = true)
+        : (item.isSelect = false);
+      item.isSelect = !item.isSelect;
+      this.setState({ checkedOff: !this.state.checkedOff });
+      return { ...item };
+    });
+    this.setState({ dataManage : contactArr });
+  };
+
   onchecked = (keyInd, item) => {
     const { dataManage, selectedRealetion } = this.state;
     let arr = dataManage.map((item, key) => {
@@ -138,7 +158,7 @@ class chooseContactFromLabel extends Component {
     });
     // console.log("after arr ===> ", arr);
     this.setState({ dataManage: arr });
-    console.log("datatmanage arr ===> ", dataManage);
+   // console.log("datatmanage arr ===> ", dataManage);
   };
   onPressAddLabel = () => {
     this.setState({ viewSection: true });
@@ -152,7 +172,6 @@ class chooseContactFromLabel extends Component {
     var valueLength = this.state.label;
 
     if (valueLength.length <= 3) {
-      //this.refs.toast.show("Label contain maximum 3 character")
       alert("Label contain maximum 3 character");
     } else {
       this.labelApiCall();
@@ -168,22 +187,58 @@ class chooseContactFromLabel extends Component {
   }
 renderMiddle() {
     return (
-        <ScrollView>
-        <View style={{ flex: 1, marginBottom: Metrics.xxdoubleBaseMargin }}>
-          {this.state.dataManage.map((item, key) => 
-           this.state.dataManage === [""] ? null : (
-            <View style={styles.mainView}>
-              <CheckBox
-                value={item.isSelect}
-                onChange={() => {
-                  this.onchecked(key, item.isSelect);
-                }}
-                // onValueChange={item.isSelect}
-                tintColors={{ true: "#1374A3", false: "#1374A3" }}
-              />
-           <Text style={[styles.itemText,{ color: this.props.theme.mode === "light" ? "#1374A3" : "white"} ]}>{item.relation}</Text>
-            </View>
-          ))}
+      <ScrollView>
+        <View style={{ flex: 1, marginBottom: Metrics.xxdoubleBaseMargin,marginTop:Metrics.baseMargin }}>
+          <TouchableOpacity
+            style={[styles.checkboxView,{}]}
+            onPress={() => {
+              this.selectAll();
+            }}
+          >
+            {this.state.checkedOff == true ? (
+              <View style={styles.checkViewForLight}>
+                <Image source={checkedWhite} style={styles.checkedStyle} />
+              </View>
+            ) : (
+              <View style={styles.checkView}></View>
+            )}
+            <Text
+              style={[
+                styles.deSelectText,
+                {
+                  color:
+                    this.props.theme.mode === "light" ? "#1374A3" : "white",
+                },
+              ]}
+            >
+              {" "}
+              Select (De-select) All{" "}
+            </Text>
+          </TouchableOpacity>
+          {this.state.dataManage.map((item, key) =>
+            this.state.dataManage === [""] ? null : (
+              <View style={styles.mainView}>
+                <CheckBox
+                  value={item.isSelect}
+                  onChange={() => {
+                    this.onchecked(key, item.isSelect);
+                  }}
+                  tintColors={{ true: "#1374A3", false: "#1374A3" }}
+                />
+                <Text
+                  style={[
+                    styles.itemText,
+                    {
+                      color:
+                        this.props.theme.mode === "light" ? "#1374A3" : "white",
+                    },
+                  ]}
+                >
+                  {item.relation}
+                </Text>
+              </View>
+            )
+          )}
 
           {this.state.viewSection == true && (
             <View style={styles.addlabelView}>
@@ -206,7 +261,7 @@ renderMiddle() {
               />
             </View>
           )}
-{/* 
+          {/* 
           <TouchableOpacity
             style={styles.mainView}
             // onPress={
@@ -235,10 +290,9 @@ renderMiddle() {
               </Text>
             </View>
           </TouchableOpacity> */}
-        
-   </View>     
-   </ScrollView>
-     );
+        </View>
+      </ScrollView>
+    );
   }
 
   renderLast() {
@@ -270,10 +324,41 @@ renderMiddle() {
       </View>
     );
   }
+  notificationApiCall = () => {
+    const {username,user_id}=this.props;
+    this.setState({ isLoading: true})
+    const deviceid = this.state.qrCodeData.fcmToken;
+    const baseurl = Constants.baseurl;
+    const receive_id = this.state.qrCodeData.user_id;
+
+    var _body = new FormData();
+    _body.append("deviceid", deviceid);
+    _body.append("receive_id", receive_id);
+    _body.append("username", username);
+    _body.append("sender_id", user_id);
+   
+    fetch(baseurl + "android", {
+      method: "POST",
+      headers: {
+        "Content-Type":
+          Platform.OS == "ios" ? "application/json" : "multipart/form-data",
+      },
+      body: _body,
+    })
+    .then((response) => response.json())
+    .then((responseJson) => {
+      var data = responseJson;
+      console.log("notification response---->",data)
+      this.setState({ isLoading: false})
+    })
+    .catch((error) => {
+      console.log("errrorr---->",error)
+    });
+  }
 
   async forAddContactNavigate() {
     const { dataManage, selectedRealetion } = this.state;
-
+     this.notificationApiCall();
     dataManage.map((item) => {
       item.isSelect == true
         ? selectedRealetion.push(item.relation)
@@ -286,7 +371,7 @@ renderMiddle() {
     if (selected == "") {
       this.refs.toast.show("Please select label to associate with USERNAME");
     } else {
-      this.props.navigation.navigate("ForAddContact");
+      this.props.navigation.navigate("afterRequestSend");
     }
 
     this.setState({ selectedRealetion: [] });
@@ -313,10 +398,11 @@ renderMiddle() {
         <View style={{ flex: 1 }}>
           <Container>
             {this.renderHeader()}
+           
             <View style={{ alignItems: "center" }}>
               <View style={styles.uperView}>
                 <Text style={styles.uperText}>
-                  Choose witch label(s) to associate with [ USERNAME ]
+                  Select Which Label(s) You Wish To Associate With This Contact
                 </Text>
               </View>
             </View>
@@ -349,14 +435,14 @@ renderMiddle() {
   }
 }
 const mapStateToProps = (state) => ({
+ 
   theme: state.themeReducer.theme,
+  username: state.login.shouldLoadData.username,
+  user_id: state.login.shouldLoadData.user_id,
 });
 
-const mapDispatchToProps = (dispatch) => ({
-  switchTheme: bindActionCreators(switchTheme, dispatch),
-});
 
-export default connect(mapStateToProps)(chooseContactFromLabel);
+export default connect(mapStateToProps,actions)(chooseContactFromLabel);
 
 const Container = styled.View`
   flex: 1;

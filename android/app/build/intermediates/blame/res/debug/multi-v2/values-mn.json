@@ -21,7 +21,24 @@
                     }
                 },
                 {
-                    "source": "/Users/macmini/.gradle/caches/transforms-2/files-2.1/1738e75df1ab8141a7a7a8f190dcb94b/core-1.5.0-alpha05/res/values-mn/values-mn.xml",
+                    "source": "/Users/macmini/.gradle/caches/transforms-2/files-2.1/c0d6fb0019130460a030249dd32f6a45/jetified-play-services-basement-17.3.0/res/values-mn/values.xml",
+                    "from": {
+                        "startLines": "4",
+                        "startColumns": "0",
+                        "startOffsets": "247",
+                        "endColumns": "208",
+                        "endOffsets": "455"
+                    },
+                    "to": {
+                        "startLines": "38",
+                        "startColumns": "4",
+                        "startOffsets": "4087",
+                        "endColumns": "208",
+                        "endOffsets": "4291"
+                    }
+                },
+                {
+                    "source": "/Users/macmini/.gradle/caches/transforms-2/files-2.1/3be0659c237fc1df97007c15c1dcc4ca/core-1.5.0-beta01/res/values-mn/values-mn.xml",
                     "from": {
                         "startLines": "2",
                         "startColumns": "4",
@@ -38,13 +55,13 @@
                     }
                 },
                 {
-                    "source": "/Users/macmini/.gradle/caches/transforms-2/files-2.1/d7d7531b66649f4acdaf0dd4c89c07f6/jetified-firebase-messaging-17.6.0/res/values-mn/values.xml",
+                    "source": "/Users/macmini/.gradle/caches/transforms-2/files-2.1/f37ac64f56d2443d09c49f6c019ee965/jetified-firebase-messaging-21.0.1/res/values-mn/values.xml",
                     "from": {
                         "startLines": "4",
                         "startColumns": "0",
-                        "startOffsets": "205",
+                        "startOffsets": "207",
                         "endColumns": "99",
-                        "endOffsets": "304"
+                        "endOffsets": "306"
                     },
                     "to": {
                         "startLines": "50",
@@ -86,23 +103,6 @@
                         "startOffsets": "2921,3033,3222,3356,3465,3661,3789,3948,4296,4499,4608,4807,4938,5138,5336,5427,5519",
                         "endColumns": "111,188,133,108,195,127,158,138,202,108,198,130,199,197,90,91,105",
                         "endOffsets": "3028,3217,3351,3460,3656,3784,3943,4082,4494,4603,4802,4933,5133,5331,5422,5514,5620"
-                    }
-                },
-                {
-                    "source": "/Users/macmini/.gradle/caches/transforms-2/files-2.1/2718b75110f823aa71fc7e44eb2a6b36/jetified-play-services-basement-17.2.1/res/values-mn/values.xml",
-                    "from": {
-                        "startLines": "4",
-                        "startColumns": "0",
-                        "startOffsets": "247",
-                        "endColumns": "208",
-                        "endOffsets": "455"
-                    },
-                    "to": {
-                        "startLines": "38",
-                        "startColumns": "4",
-                        "startOffsets": "4087",
-                        "endColumns": "208",
-                        "endOffsets": "4291"
                     }
                 }
             ]

@@ -35,12 +35,10 @@ class QRDetail extends Component {
   };
 
   componentDidMount() {
-    // alert(this.props.route.params.data)
-    // const qrCodeData = this.props.route.params.data;
-    // const scanner = this.props.route.params.scanner;
+
     this.setState({
       qrCodeData: this.props.route.params.data,
-      // scanner: this.props.route.params.scanner,
+     
     });
   }
 

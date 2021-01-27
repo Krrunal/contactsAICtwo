@@ -6,7 +6,8 @@ export const addItem = (
   is_active,
   token,
   number,
-  email
+  email,
+  platform
 ) => {
   firebase
     .firestore()
@@ -17,7 +18,9 @@ export const addItem = (
       is_active: is_active,
       token: token,
       number: number,
-      email: email,
+      // email: email,
+      email: { email: email, label: "Personal" },
+      platform:platform,
       profile_image: "", 
       profile_image2: "",
       profile_image3: "",
@@ -38,10 +41,19 @@ export const addItem = (
       note:  { note: "To book me as Comedian E-mail me at workmail@company.com", label: "" },
       company: { company: "IBM",label: "Compnay" }, 
       job_title: { jobTitle:  "Software Engineer", label: "Job Title" },
-      work_hour:  { workHours:  "Monday 9.00a.m to 5.00p.m",label: "Pacific Time Zone" },
+      work_hour:  {
+        monday : { first :"7:00AM", to:"3:30PM" },
+        tuesday : { first :"7:00AM", to:"3:30PM" },
+        wednesday : { first :"7:00AM", to:"3:30PM" },
+        thursday : { first :"7:00AM", to:"3:30PM" },
+        friday : { first :"7:00AM", to:"3:30PM" },
+        saturday : { first :"OFF", to:"3:30PM" },
+        sunday : { first :"OFF", to:"3:30PM" },
+      },
       friend: "Friends,Universal Studio",
-      notificationTime:"8:00AM",
-      weddingDate:"8:00AM"
+      notificationTime:"Tue Jan 12 2021 14:23:00 GMT+0530",
+      weddingDate:"Tue Jan 12 2021 14:23:00 GMT+0530",
+      isLogedIn : false,
     });
 };
 

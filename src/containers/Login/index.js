@@ -1,21 +1,23 @@
+import * as Keychain from "react-native-keychain";
 import * as actions from "../../action";
 
 import {
+  BackHandler,
   Dimensions,
   Image,
   Keyboard,
   Text,
   TextInput,
   TouchableOpacity,
-  View,
+  View
 } from "react-native";
 import React, { Component } from "react";
 import styled, { ThemeProvider } from "styled-components/native";
+
 import AsyncStorage from "@react-native-community/async-storage";
 import { COLORS } from "../theme/Colors.js";
 import CheckBox from "@react-native-community/checkbox";
 import Font from "../theme/font";
-import * as Keychain from "react-native-keychain";
 import GeneralStatusBar from "../../components/StatusBar/index";
 import Icon from "react-native-vector-icons/FontAwesome";
 import { InputCard } from "../../components/InputCard";
@@ -55,17 +57,28 @@ class Login extends Component {
       loginPassword: "",
       emailSection: false,
       passSection: false,
+      loginPass:"",
+      emailPassword:"",
     };
   }
 
+  disableBackbutton = () =>{
+    BackHandler.exitApp();
+    return true;
+  }
   componentDidMount = async () => {
     this.setState({
       loginUsername: await AsyncStorage.getItem("@loginUsername"),
+      loginPass :await AsyncStorage.getItem("@loginPass")
     });
-    // console.log("Login USername------>", this.state.loginUsername);
-    // console.log("Login USername------>", this.props.password);
-    const credentials = await Keychain.getGenericPassword();
-    console.log("credentinall---->",credentials.username)
+    console.log("Login USername------>", this.state.loginUsername);
+    console.log("Login USername------>", this.state.loginPass);
+    if(this.state.loginUsername == null && this.state.loginPass == null){
+      this.setState({checkedOff :false})
+    }else{
+      this.setState({checkedOff :true ,})
+    }
+ 
   };
 
   showPassword = () => {
@@ -76,31 +89,23 @@ class Login extends Component {
 
   check = async () => {
     const { password } = this.props;
-    const { emailLogin } = this.state;
+    const { emailLogin ,checkedOff } = this.state;
     console.log("username:=--->", emailLogin);
     console.log("Password:=--->", password);
-    if (emailLogin == "") {
-      showToastError("Please fill all required fileds");
-    } else {
-      this.setState({ checkedOff: true });
-     
-      await Keychain.setGenericPassword(emailLogin, password);
-  
-      try {
-        // Retrieve the credentials
-        const credentials = await Keychain.getGenericPassword();
-        if (credentials) {
-          console.log(
-            "Credentials successfully loaded for user " + credentials.username
-          );
-        } else {
-          console.log("No credentials stored");
-        }
-      } catch (error) {
-        console.log("Keychain couldn't be accessed!", error);
+    if(checkedOff == false){
+      if (emailLogin == "") {
+        showToastError("Please fill all required fileds");
+      } else {
+        this.setState({ checkedOff: true });
+        await AsyncStorage.setItem("@loginUsername", emailLogin)
+        await AsyncStorage.setItem("@loginPass", password)
+        this.setState({checkedOff : true})
       }
-      await Keychain.resetGenericPassword();
+     
+    }else{
+      this.setState({checkedOff : false})
     }
+   
   
   };
 
@@ -109,28 +114,38 @@ class Login extends Component {
   };
 
   loginUser = () => {
-    NetInfo.fetch().then((state) => {
-      if (state.isConnected) {
-        const { phone_number, emailLogin } = this.state;
-        if (emailLogin == "" && phone_number == "") {
-          showToastError("Please fill all required fileds");
-        }
-        if (emailLogin !== "" && phone_number !== "") {
-          showToastError("Only one filed required");
+    const { phone_number, emailLogin, loginUsername,loginPass,emailPassword} = this.state;
+    
+    console.log("pas chnage prips---->",this.props.password)
+    if(loginUsername !== null && loginPass !== null){
+      this.props.loginEmailChange(loginUsername)
+      this.props.loginPassChange(loginPass)
+      this.props.loginUser();
+    }else{
+      NetInfo.fetch().then((state) => {
+        const { phone_number, emailLogin, loginUsername,loginPass,emailPassword} = this.state;
+        if (state.isConnected) {
+          if (emailLogin == "" && phone_number == "") {
+            showToastError("Please fill all required fileds");
+          }
+          if (emailLogin !== "" && phone_number !== "") {
+            showToastError("Only one filed required");
+          } else {
+            if (phone_number != "") {
+              this.props.loginEmailChange(phone_number);
+            this.props.loginUser();
+            }
+            if (emailLogin != "") {
+              this.props.loginEmailChange(emailLogin);
+              this.props.loginUser();
+            }
+          }
         } else {
-          if (phone_number != "") {
-            this.props.loginEmailChange(phone_number);
-            this.props.loginUser();
-          }
-          if (emailLogin != "") {
-            this.props.loginEmailChange(emailLogin);
-            this.props.loginUser();
-          }
+          alert("Net is not connected");
         }
-      } else {
-        alert("Net is not connected");
-      }
-    });
+      });
+    }
+   
   };
 
   onSubmit(value) {
@@ -178,17 +193,29 @@ class Login extends Component {
     this.setState({ viewIntl: true });
     this.setState({ viewPhone: false });
   };
+  
   passwordChange = (loginPassChange) => {
-    this.setState({ passSection: true });
-    this.props.loginPassChange(loginPassChange);
-    console.log(this.props.loginPassChange);
+   // alert(loginPassChange)
+    this.setState({ loginPass : "" });
+   // this.props.loginPassChange(loginPassChange);
+    this.setState({ emailPassword : loginPassChange})
+   // this.props.loginPassChange(loginPassChange);
+    //this.props.password(loginPassChange)
   };
   viewEmailSection = () => {
     this.setState({ emailSection: true });
   };
   viewPassSection = () => {
+    this.props.loginPassChange(this.state.loginPass)
     this.setState({ passSection: true });
   };
+  emailChange = (value) => {
+   this.setState({ loginUsername  : ""})
+    this.setState({ emailLogin : value})
+  }
+  
+                        
+                       
   render() {
     const {
       email,
@@ -264,7 +291,12 @@ class Login extends Component {
                     underlayColor="#DDDDDD"
                     onPress={this.viewEmailSection}
                   >
-                    <Text style={styles.phnText}>Username</Text>
+                    {this.state.loginUsername == null ?
+                  <Text style={styles.phnText}>Username</Text>  
+                  : 
+                  <Text style={styles.phnText}>{this.state.loginUsername}</Text>  
+                  }
+                    
                   </TouchableHighlight>
                 ) : null}
                 {this.state.emailSection == true ? (
@@ -276,9 +308,7 @@ class Login extends Component {
                     </View>
 
                     <InputCard
-                      onChangeText={(emailLogin) =>
-                        this.setState({ emailLogin })
-                      }
+                      onChangeText={(value) => this.emailChange(value)}
                       blurOnSubmit={false}
                       autoCapitalize={true}
                       ref={"emailCont"}
@@ -286,6 +316,7 @@ class Login extends Component {
                       onSubmitEditing={(emailLogin) =>
                         this.onSubmit("emailLogin")
                       }
+                      //value={emailLogin}
                       value={
                         this.state.loginUsername !== ""
                           ? this.state.loginUsername
@@ -296,7 +327,11 @@ class Login extends Component {
                       keyboardType={"email-address"}
                       secureEntry={false}
                       placeholder={"Username"}
-                      style={styles.uText}
+                      style={
+                        this.state.emailSection == true
+                          ? styles.uText1
+                          : styles.uText
+                      }
                     ></InputCard>
                   </TouchableOpacity>
                 ) : null}
@@ -311,7 +346,12 @@ class Login extends Component {
                     underlayColor="#DDDDDD"
                     onPress={this.viewPassSection}
                   >
+                  {this.state.loginPass == null || this.state.loginPass == "" ?
                     <Text style={styles.phnText}>Password</Text>
+                  : 
+                  <Text style={styles.phnText}>{this.state.loginPass}</Text>  
+                  }
+                   
                   </TouchableHighlight>
                 ) : null}
                 {this.state.passSection == true ? (
@@ -325,6 +365,7 @@ class Login extends Component {
                     <View style={{ flexDirection: "row" }}>
                       <InputCard
                         onChangeText={loginPassChange}
+                        //onChangeText={(value) => this.emailChange(value)}
                         blurOnSubmit={false}
                         autoCapitalize={false}
                         ref={"LoginpasswordCont"}
@@ -333,15 +374,20 @@ class Login extends Component {
                           this.onSubmit("password")
                         }
                         value={
-                          this.state.loginUsername !== ""
+                          this.state.loginPass !== null
                             ? this.props.password
-                            : this.state.loginPassword
+                            : this.state.loginPass
                         }
                         returnKey={"done"}
                         keyboardType={"default"}
                         secureEntry={this.state.show}
                         placeholder={"Password"}
-                        style={styles.uText}
+                        // style={styles.uText}
+                        style={
+                          this.state.passSection == true
+                            ? styles.uText1
+                            : styles.uText
+                        }
                       ></InputCard>
 
                       <View style={styles.eyeView}>
@@ -420,7 +466,7 @@ class Login extends Component {
 }
 
 function mapStateToProps(state) {
-  // console.log("State From Log -- in------->", state.login.password);
+ console.log("State From Log -- in------->", state.login);
 
   return {
     response: state.login.response,
@@ -428,6 +474,7 @@ function mapStateToProps(state) {
     email: state.login.email,
     password: state.login.password,
     loader: state.login.loader,
+    shouldLoadData :state.login.shouldLoadData
   };
 }
 

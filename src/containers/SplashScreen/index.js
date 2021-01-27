@@ -9,13 +9,33 @@ import styled, { ThemeProvider } from "styled-components/native";
 import GeneralStatusBar from "../../components/StatusBar/index";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
+import firebase from "../../services/FirebaseDatabase/db";
 import styles from "./style";
 import { switchTheme } from "../../action/themeAction";
 
 class Splash extends React.Component {
+state = { 
+  isFirebaseLogin :""
+}
   async componentDidMount() {
+    const {username} = this.props;
+    firebase
+  .firestore()
+  .collection("user")
+  .doc(username)
+  .get()
+  .then((snap) => { 
+      var IsLogedIn = snap._data.isLogedIn 
+      if(IsLogedIn == true){
+          this.setState({isFirebaseLogin : IsLogedIn})
+          console.log("snappp true--->",this.state.isFirebaseLogin)
+      }else{
+        this.setState({isFirebaseLogin : IsLogedIn})
+        console.log("snappp flase--->",this.state.isFirebaseLogin)
+      }
+  })
     this.timeoutHandle = setTimeout(async () => {
-      this.props.isLogedIn == false
+      this.state.isFirebaseLogin == false
         ? this.props.navigation.reset(
             [NavigationActions.navigate({ routeName: "Login" })],
             0
@@ -56,9 +76,10 @@ class Splash extends React.Component {
 
 function mapStateToProps(state) {
   return {
-    // nav: state.nav,
+ 
     theme: state.themeReducer.theme,
     isLogedIn: state.login.shouldLoadData,
+    username: state.login.shouldLoadData.username,
   };
 }
 

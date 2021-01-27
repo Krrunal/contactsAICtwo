@@ -112,17 +112,53 @@ export default StyleSheet.create({
       },
       uperView:{
          
-        width:width*0.7,
+        width:width*0.9,
         alignItems:'center',
         marginTop:Metrics.baseMargin
     },
     uperText:{
-        textAlign:'center',
-        fontSize: width * 0.035,
+        // textAlign:'center',
+        fontSize: width * 0.045,
         fontFamily: Font.regular,
         color:COLORS.main_text_color,
         padding:width * 0.030,
         letterSpacing: 0.5
         //margin:width * 0.030,
-    }
+    },
+    checkboxView:{
+        flexDirection:'row',
+        alignItems:'center',
+        marginLeft:Metrics.doubleBaseMargin,
+        width: width * 0.8,
+    },
+    checkViewForLight: {
+        width: width * 0.070,
+        height: width * 0.070,
+        justifyContent: "center",
+        alignItems: "center",
+        borderColor: COLORS.main_text_color,
+        borderWidth: 1,
+        borderRadius: 3,
+        backgroundColor:COLORS.main_text_color
+      },
+      deSelectText: {
+  
+        fontFamily: Font.medium,
+        fontSize: width * 0.050,
+      },
+      checkedStyle: {
+        width: width * 0.04,
+        height: width * 0.04,
+        resizeMode: "contain",
+      },
+      checkView: {
+        width: width * 0.070,
+        height: width * 0.070,
+        justifyContent: "center",
+        alignItems: "center",
+        borderColor: COLORS.main_text_color,
+        borderWidth: 2,
+        borderRadius: 3,
+      //  backgroundColor:COLORS.main_text_color
+      },
  });

@@ -1,3 +1,4 @@
+import { ActionSheet, Root } from "native-base";
 import {
   Dimensions,
   FlatList,
@@ -23,26 +24,28 @@ import Font from "../theme/font";
 import GeneralStatusBar from "../../components/StatusBar/index";
 import Header from "../../components/header/index";
 import Icon from "react-native-vector-icons/Entypo";
+import ImagePicker from "react-native-image-crop-picker";
 import IntlPhoneInput from "react-native-intl-phone-input";
 import Metrics from "../theme/Metrics";
 import Toast from "react-native-easy-toast";
-import borderCorner from "../../assets/images/borderCorner.png";
-import { connect } from "react-redux";
 import checked from '../../assets/icons/checked.png'
+import { connect } from "react-redux";
 import downArrow from "../../assets/icons/dropIcon.png";
-import firebase from "../../services/FirebaseDatabase/db";
 import { manageLabelToFirebase } from "../../services/FirebaseDatabase/managelabelToFirebase";
 import moment from "moment";
 import styles from "./style.js";
 
 var { width, height } = Dimensions.get("window");
 var momentTime = require('moment-timezone');
+var DESTRUCTIVE_INDEX = 3;
+var CANCEL_INDEX = 4;
+var BUTTONS = ["Take Photo", "Choose Photo From Gallery", "Cancel"];
 class ManageLable extends Component {
   constructor() {
     super();
     this.state = {
       selectItem:"",
-      status: true,
+      status: false,
       selectAll: false,
       selectedName: "",
       first_name: "",
@@ -61,6 +64,10 @@ class ManageLable extends Component {
         label: "",
       },
       address: {
+        address: "",
+        label: "",
+      },
+      address2: {
         address: "",
         label: "",
       },
@@ -98,7 +105,15 @@ class ManageLable extends Component {
       },
       company: "",
       job_title: "",
-      work_hour: "",
+      work_hour:  {
+        monday : { first :"", to:"" },
+        tuesday : { first :"", to:"" },
+        wednesday : { first :"", to:"" },
+        thursday : { first :"", to:"" },
+        friday : { first :"", to:"" },
+        saturday : { first :"", to:"" },
+        sunday : { first :"", to:"" },
+      },
       //checbox
       checked_first_name: false,
       checked_middle_name: false,
@@ -260,7 +275,14 @@ class ManageLable extends Component {
       isAddNoteArrayLabel: false,
       dataManage: [],
       flatViewOpen: false,
-
+      
+      image: null,
+      images: null,
+      image2: null,
+      image3: null,
+      profile_image:"",
+      profile_image2:"",
+      profile_image3:"",
       // work hour 
       monday_1:"",
       monday_2:"",
@@ -329,10 +351,10 @@ class ManageLable extends Component {
 
 
       this.setState({tzs :  this.state.tz});
-       let date = new Date;
-       this.state.tzs.forEach((timeZone) => {
+      //  let date = new Date;
+      //  this.state.tzs.forEach((timeZone) => {
 
-      });
+      // });
   }
   labelList = () => {
     this.setState({ isLoading: true }, async () => {
@@ -370,41 +392,279 @@ class ManageLable extends Component {
       />
     );
   }
+  selectPhoto = () => {
+    ActionSheet.show(
+      {
+        options: BUTTONS,
+        cancelButtonIndex: CANCEL_INDEX,
+        destructiveButtonIndex: DESTRUCTIVE_INDEX,
+        title: "Select Photo",
+      },
+      (buttonIndex) => {
+        switch (buttonIndex) {
+          case 0:
+            this.takePhtotFromCamera();
+            break;
+
+          case 1:
+            this.fromGallery();
+            break;
+          default:
+            break;
+        }
+      }
+    );
+  };
+  selectPhoto2 = () => {
+    ActionSheet.show(
+      {
+        options: BUTTONS,
+        cancelButtonIndex: CANCEL_INDEX,
+        destructiveButtonIndex: DESTRUCTIVE_INDEX,
+        title: "Select Photo",
+      },
+      (buttonIndex) => {
+        switch (buttonIndex) {
+          case 0:
+            this.takePhotoFromCamera2();
+            break;
+
+          case 1:
+            this.fromGallery2();
+            break;
+          default:
+            break;
+        }
+      }
+    );
+  };
+  selectPhoto3 = () => {
+    ActionSheet.show(
+      {
+        options: BUTTONS,
+        cancelButtonIndex: CANCEL_INDEX,
+        destructiveButtonIndex: DESTRUCTIVE_INDEX,
+        title: "Select Photo",
+      },
+      (buttonIndex) => {
+        switch (buttonIndex) {
+          case 0:
+            this.takePhtotFromCamera3();
+            break;
+
+          case 1:
+            this.fromGallery3();
+            break;
+          default:
+            break;
+        }
+      }
+    );
+  };
+  fromGallery = () => {
+    ImagePicker.openPicker({
+      width: 300,
+      height: 400,
+      cropping: true,
+    }).then((image) => {
+      this.setState({ profile_image: image.path });
+      console.log("URI ......>", image.path);
+      console.log(image);
+      this.setState({
+        image: {
+          uri: image.path,
+          width: image.width,
+          height: image.height,
+          mime: image.mime,
+        },
+        images: null,
+      });
+    });
+  };
+
+  takePhtotFromCamera = () => {
+    ImagePicker.openCamera({
+      width: 300,
+      height: 400,
+      cropping: true,
+    }).then((image) => {
+      this.setState({ profile_image: image.path });
+      console.log("URI ......>", image.path);
+      console.log(image);
+      this.setState({
+        image: {
+          uri: image.path,
+          width: image.width,
+          height: image.height,
+          mime: image.mime,
+        },
+        images: null,
+      });
+    });
+  };
+
+  takePhotoFromCamera2 = () => {
+    ImagePicker.openCamera({
+      width: 300,
+      height: 400,
+      cropping: true,
+    }).then((image2) => {
+      this.setState({ profile_image2: image2.path });
+      console.log(image2);
+      this.setState({
+        image2: {
+          uri: image2.path,
+          width: image2.width,
+          height: image2.height,
+          mime: image2.mime,
+        },
+        images: null,
+      });
+    });
+  };
+
+  fromGallery2 = () => {
+    ImagePicker.openPicker({
+      width: 300,
+      height: 400,
+      cropping: true,
+    }).then((image2) => {
+      this.setState({ profile_image2: image2.path });
+      console.log(image2);
+      this.setState({
+        image2: {
+          uri: image2.path,
+          width: image2.width,
+          height: image2.height,
+          mime: image2.mime,
+        },
+        images: null,
+      });
+    });
+  };
+
+  takePhtotFromCamera3 = () => {
+    ImagePicker.openCamera({
+      width: 300,
+      height: 400,
+      cropping: true,
+    }).then((image3) => {
+      this.setState({ profile_image3: image3.path });
+      console.log(image3);
+      this.setState({
+        image3: {
+          uri: image3.path,
+          width: image3.width,
+          height: image3.height,
+          mime: image3.mime,
+        },
+        images: null,
+      });
+    });
+  };
+
+  fromGallery3 = () => {
+    ImagePicker.openPicker({
+      width: 300,
+      height: 400,
+      cropping: true,
+    }).then((image3) => {
+      this.setState({ profile_image3: image3.path });
+      console.log(image3);
+      this.setState({
+        image3: {
+          uri: image3.path,
+          width: image3.width,
+          height: image3.height,
+          mime: image3.mime,
+        },
+        images: null,
+      });
+    });
+  };
+  renderImage = (image) => {
+    return (
+      <Image
+        style={{
+          width: width * 0.189,
+          height: width * 0.188,
+          borderRadius: 7,
+          borderWidth: 3,
+          resizeMode: "cover",
+        }}
+        source={image}
+      />
+    );
+  };
+  renderImage2 = (image2) => {
+    return (
+      <Image
+        style={{
+          width: width * 0.189,
+          height: width * 0.188,
+          borderRadius: 7,
+          borderWidth: 3,
+          resizeMode: "cover",
+        }}
+        source={image2}
+      />
+    );
+  };
+  renderImage3 = (image3) => {
+    return (
+      <Image
+        style={{
+          width: width * 0.189,
+          height: width * 0.188,
+          borderRadius: 7,
+          borderWidth: 3,
+          resizeMode: "cover",
+        }}
+        source={image3}
+      />
+    );
+  };
 
   renderMiddle() {
     return (
-      <View style={{ alignItems: "center" }}>
-       
-        <View style={styles.middleView}>
-          <View style={styles.firstMiddle}>
-            <Image source={borderCorner} style={styles.firstImg} />
+      <Root>
+        <View style={{ alignItems: "center" }}>
+          {/* <Text style={styles.lableText}>Friend</Text> */}
+          <View style={styles.middleView}>
+            <View style={styles.firstMiddle}>
+              <View style={styles.squareBorder}>
+                {this.renderImage(this.state.image)}
+              </View>
 
-            {this.props.theme.mode === "light" ? (
-              <View style={styles.firstBlack}></View>
-            ) : (
-              <View style={styles.firstBlackWhite}></View>
-            )}
-          </View>
-          <View style={styles.firstMiddle}>
-            <Image source={borderCorner} style={styles.firstImg} />
-
-            {this.props.theme.mode === "light" ? (
-              <View style={styles.firstBlack}></View>
-            ) : (
-              <View style={styles.firstBlackWhite}></View>
-            )}
-          </View>
-          <View style={styles.firstMiddle}>
-            <Image source={borderCorner} style={styles.firstImg} />
-
-            {this.props.theme.mode === "light" ? (
-              <View style={styles.firstWhite}></View>
-            ) : (
-              <View style={styles.firstWhiteBlack}></View>
-            )}
+              <TouchableOpacity style={styles.first} onPress={this.state.status ? this.selectPhoto : null}>
+                <Text style={styles.firstText}>Select Photo</Text>
+              </TouchableOpacity>
+            </View>
+            <View style={styles.firstMiddle}>
+              <View style={styles.squareBorder}>
+                {this.renderImage2(this.state.image2)}
+              </View>
+              <TouchableOpacity
+                style={styles.first}
+                onPress={this.state.status ? this.selectPhoto2 :null}
+              >
+                <Text style={styles.firstText}>Select Photo</Text>
+              </TouchableOpacity>
+            </View>
+            <View style={styles.firstMiddle}>
+              <View style={styles.squareBorder}>
+                {this.renderImage3(this.state.image3)}
+              </View>
+              <TouchableOpacity
+                style={styles.first}
+                onPress={this.state.status ? this.selectPhoto3 : null}
+              >
+                <Text style={styles.firstText}>Select Photo</Text>
+              </TouchableOpacity>
+            </View>
           </View>
         </View>
-      </View>
+      </Root>
     );
   }
 
@@ -444,6 +704,7 @@ class ManageLable extends Component {
       this.setState({ checked_nick_name: true });
     }
   };
+
   renderName() {
     return (
       <View
@@ -452,7 +713,7 @@ class ManageLable extends Component {
         }}
       >
         {this.state.status ? (
-          <View style={styles.mainView}>
+          <TouchableOpacity style={styles.mainView} onPress={() =>{alert("Please Select Checkbox")}}>
             <CheckBox
               value={this.state.checked_first_name}
               onValueChange={this.first_name_submit}
@@ -472,7 +733,7 @@ class ManageLable extends Component {
                 <Text style={styles.righttext}>First Name</Text>
               </View>
             </View>
-          </View>
+          </TouchableOpacity>
         ) : (
           <View style={styles.smallView}>
             <View style={styles.filedView}>
@@ -884,11 +1145,17 @@ class ManageLable extends Component {
     this.setState({ address: this.state.address });
   };
 
+  onChangeAddress2 = (value) => {
+    this.state.address2.address = value;
+    this.setState({ address2 : this.state.address2 });
+  };
+
   changeAddressLabel = (label) => {
     this.setState({ isAddressModelOpen: false });
     this.state.address.label = label;
-    this.setState({ Address: this.state.address });
+    this.setState({ address2 : this.state.address });
   };
+ 
 
   renderAddress() {
     return (
@@ -975,13 +1242,13 @@ class ManageLable extends Component {
                 style={styles.addressField}
                 placeholderTextColor={COLORS.main_text_color}
                 // value={this.state.address}
-                onChangeText={(value) => this.onChangeAddress(value)}
+                onChangeText={(value) => this.onChangeAddress2(value)}
                 onSubmitEditing={() => {
                   this.messanger_1.focus();
                 }}
                 keyboardType={"default"}
                 ref={(input) => {
-                  this.address = input;
+                  this.address2 = input;
                 }}
                 multiline={true}
                 editable={this.state.checked_address == false ? false : true}
@@ -1556,6 +1823,62 @@ class ManageLable extends Component {
       this.setState({ checked_work_hours: true });
     }
   };
+  onChangeMonday = (value) => {
+      this.state.work_hour.monday.first = value ;
+      this.setState({work_hour : this.state.work_hour })
+  }
+  onChangeMondayTo = (value) => {
+    this.state.work_hour.monday.to = value ;
+    this.setState({work_hour : this.state.work_hour })
+  }
+ onChangeTuesday = (value) => {
+      this.state.work_hour.tuesday.first = value ;
+      this.setState({work_hour : this.state.work_hour })
+  }
+  onChangeTuesdayTo = (value) => {
+    this.state.work_hour.tuesday.to  = value ;
+    this.setState({work_hour : this.state.work_hour })
+  }
+  onChangeWednesday = (value) => {
+    this.state.work_hour.wednesday.first = value ;
+    this.setState({work_hour : this.state.work_hour })
+  }
+  onChangeWednesdayTo = (value) => {
+    this.state.work_hour.wednesday.to = value ;
+    this.setState({work_hour : this.state.work_hour })
+  }
+  onChangeThursday = (value) => {
+    this.state.work_hour.thursday.first = value ;
+    this.setState({work_hour : this.state.work_hour })
+  }
+  onChangeThursdayTo = (value) => {
+    this.state.work_hour.thursday.to = value ;
+    this.setState({work_hour : this.state.work_hour })
+  }
+  onChangeFriday = (value) => {
+    this.state.work_hour.friday.first = value ;
+    this.setState({work_hour : this.state.work_hour })
+  }
+  onChangeFridayTo = (value) => {
+    this.state.work_hour.friday.to = value ;
+    this.setState({work_hour : this.state.work_hour })
+  }
+  onChangeSaturday = (value) => {
+    this.state.work_hour.saturday.first = value ;
+    this.setState({work_hour : this.state.work_hour })
+  }
+  onChangeSaturdayTo = (value) => {
+    this.state.work_hour.saturday.to = value ;
+    this.setState({work_hour : this.state.work_hour })
+  }
+  onChangeSunday = (value) => {
+    this.state.work_hour.sunday.first = value ;
+    this.setState({work_hour : this.state.work_hour })
+  }
+   onChangeSundayTo = (value) => {
+    this.state.work_hour.sunday.to = value ;
+    this.setState({work_hour : this.state.work_hour })
+  }
 
   renderCompany() {
     return (
@@ -1675,7 +1998,7 @@ class ManageLable extends Component {
                 value={this.state.job_title}
                 onChangeText={(job_title) => this.setState({ job_title })}
                 onSubmitEditing={() => {
-                  this.work_hour.focus();
+                  this.monday.first.focus();
                 }}
                 keyboardType={"default"}
                 ref={(input) => {
@@ -1713,16 +2036,9 @@ class ManageLable extends Component {
                       placeholder="7:00AM"
                       placeholderTextColor={COLORS.main_text_color}
                       style={styles.timeText}
-                      value={this.state.monday_1}
-                      onChangeText={(text) => {
-                        this.setState({ monday_1: text });
-                      }}
-                      onSubmitEditing={() => {
-                        this.monday_2.focus();
-                      }}
-                      ref={(input) => {
-                        this.monday_1 = input;
-                      }}
+                      value={this.state.work_hour.monday.first}
+                      onChangeText={(value) => this.onChangeMonday(value)}
+                     
                     />
                   </View>
                   <Text
@@ -1738,16 +2054,9 @@ class ManageLable extends Component {
                       placeholder="3:30AM"
                       placeholderTextColor={COLORS.main_text_color}
                       style={styles.timeText}
-                      value={this.state.monday_2}
-                      onChangeText={(text) => {
-                        this.setState({ monday_2: text });
-                      }}
-                      onSubmitEditing={() => {
-                        this.tue_1.focus();
-                      }}
-                      ref={(input) => {
-                        this.monday_2 = input;
-                      }}
+                      value={this.state.work_hour.monday.to}
+                      onChangeText={(value) => this.onChangeMondayTo(value)}
+                     
                     />
                   </View>
                 </View>
@@ -1765,16 +2074,9 @@ class ManageLable extends Component {
                       placeholder="7:00AM"
                       placeholderTextColor={COLORS.main_text_color}
                       style={styles.timeText}
-                      value={this.state.tue_1}
-                      onChangeText={(text) => {
-                        this.setState({ tue_1: text });
-                      }}
-                      onSubmitEditing={() => {
-                        this.tue_2.focus();
-                      }}
-                      ref={(input) => {
-                        this.tue_1 = input;
-                      }}
+                      value={this.state.work_hour.tuesday.first}
+                      onChangeText={(value) => this.onChangeTuesday(value)}
+                   
                     />
                   </View>
                   <Text
@@ -1790,16 +2092,9 @@ class ManageLable extends Component {
                       placeholder="3:30AM"
                       placeholderTextColor={COLORS.main_text_color}
                       style={styles.timeText}
-                      value={this.state.tue_2}
-                      onChangeText={(text) => {
-                        this.setState({ tue_2: text });
-                      }}
-                      onSubmitEditing={() => {
-                        this.wed_1.focus();
-                      }}
-                      ref={(input) => {
-                        this.tue_2 = input;
-                      }}
+                      value={this.state.work_hour.tuesday.to}
+                      onChangeText={(value) => this.onChangeTuesdayTo(value)}
+                     
                     />
                   </View>
                 </View>
@@ -1817,16 +2112,9 @@ class ManageLable extends Component {
                       placeholder="7:00AM"
                       placeholderTextColor={COLORS.main_text_color}
                       style={styles.timeText}
-                      value={this.state.wed_1}
-                      onChangeText={(text) => {
-                        this.setState({ wed_1: text });
-                      }}
-                      onSubmitEditing={() => {
-                        this.wed_2.focus();
-                      }}
-                      ref={(input) => {
-                        this.wed_1 = input;
-                      }}
+                      value={this.state.work_hour.wednesday.first}
+                      onChangeText={(value) => this.onChangeWednesday(value)}
+                     
                     />
                   </View>
                   <Text
@@ -1842,16 +2130,9 @@ class ManageLable extends Component {
                       placeholder="3:30AM"
                       placeholderTextColor={COLORS.main_text_color}
                       style={styles.timeText}
-                      value={this.state.wed_2}
-                      onChangeText={(text) => {
-                        this.setState({ wed_2: text });
-                      }}
-                      onSubmitEditing={() => {
-                        this.thru_1.focus();
-                      }}
-                      ref={(input) => {
-                        this.wed_2 = input;
-                      }}
+                      value={this.state.work_hour.wednesday.to}
+                      onChangeText={(value) => this.onChangeWednesdayTo(value)}
+                     
                     />
                   </View>
                 </View>
@@ -1869,16 +2150,9 @@ class ManageLable extends Component {
                       placeholder="7:00AM"
                       placeholderTextColor={COLORS.main_text_color}
                       style={styles.timeText}
-                      value={this.state.thru_1}
-                      onChangeText={(text) => {
-                        this.setState({ thru_1: text });
-                      }}
-                      ref={(input) => {
-                        this.thru_1 = input;
-                      }}
-                      onSubmitEditing={() => {
-                        this.thru_2.focus();
-                      }}
+                      value={this.state.work_hour.thursday.first}
+                      onChangeText={(value) => this.onChangeThursday(value)}
+                     
                     />
                   </View>
                   <Text
@@ -1894,16 +2168,9 @@ class ManageLable extends Component {
                       placeholder="3:30AM"
                       placeholderTextColor={COLORS.main_text_color}
                       style={styles.timeText}
-                      value={this.state.thru_2}
-                      onChangeText={(text) => {
-                        this.setState({ thru_2: text });
-                      }}
-                      ref={(input) => {
-                        this.thru_2 = input;
-                      }}
-                      onSubmitEditing={() => {
-                        this.fri_1.focus();
-                      }}
+                      value={this.state.work_hour.thursday.to}
+                      onChangeText={(value) => this.onChangeThursdayTo(value)}
+                      
                     />
                   </View>
                 </View>
@@ -1921,16 +2188,9 @@ class ManageLable extends Component {
                       placeholder="7:00AM"
                       placeholderTextColor={COLORS.main_text_color}
                       style={styles.timeText}
-                      value={this.state.fri_1}
-                      onChangeText={(text) => {
-                        this.setState({ fri_1: text });
-                      }}
-                      ref={(input) => {
-                        this.fri_1 = input;
-                      }}
-                      onSubmitEditing={() => {
-                        this.fri_2.focus();
-                      }}
+                      value={this.state.work_hour.friday.first}
+                      onChangeText={(value) => this.onChangeFriday(value)}
+                      
                     />
                   </View>
                   <Text
@@ -1946,16 +2206,9 @@ class ManageLable extends Component {
                       placeholder="3:30AM"
                       placeholderTextColor={COLORS.main_text_color}
                       style={styles.timeText}
-                      value={this.state.fri_2}
-                      onChangeText={(text) => {
-                        this.setState({ fri_2: text });
-                      }}
-                      ref={(input) => {
-                        this.fri_2 = input;
-                      }}
-                      onSubmitEditing={() => {
-                        this.sat_1.focus();
-                      }}
+                      value={this.state.work_hour.friday.to}
+                      onChangeText={(value) => this.onChangeFridayTo(value)}
+                    
                     />
                   </View>
                 </View>
@@ -1973,16 +2226,9 @@ class ManageLable extends Component {
                       placeholder="OFF"
                       placeholderTextColor={COLORS.main_text_color}
                       style={styles.timeText}
-                      value={this.state.sat_1}
-                      onChangeText={(text) => {
-                        this.setState({ sat_1: text });
-                      }}
-                      ref={(input) => {
-                        this.sat_1 = input;
-                      }}
-                      onSubmitEditing={() => {
-                        this.sat_2.focus();
-                      }}
+                      value={this.state.work_hour.saturday.first}
+                      onChangeText={(value) => this.onChangeSaturday(value)}
+                     
                     />
                   </View>
                   <Text
@@ -1998,16 +2244,9 @@ class ManageLable extends Component {
                       placeholder="OFF"
                       placeholderTextColor={COLORS.main_text_color}
                       style={styles.timeText}
-                      value={this.state.sat_2}
-                      onChangeText={(text) => {
-                        this.setState({ sat_2: text });
-                      }}
-                      ref={(input) => {
-                        this.sat_2 = input;
-                      }}
-                      onSubmitEditing={() => {
-                        this.sun_1.focus();
-                      }}
+                      value={this.state.work_hour.saturday.to}
+                      onChangeText={(value) => this.onChangeSaturdayTo(value)}
+                    
                     />
                   </View>
                 </View>
@@ -2025,16 +2264,9 @@ class ManageLable extends Component {
                       placeholder="OFF"
                       placeholderTextColor={COLORS.main_text_color}
                       style={styles.timeText}
-                      value={this.state.sun_1}
-                      onChangeText={(text) => {
-                        this.setState({ sun_1: text });
-                      }}
-                      ref={(input) => {
-                        this.sun_1 = input;
-                      }}
-                      onSubmitEditing={() => {
-                        this.sun_2.focus();
-                      }}
+                      value={this.state.work_hour.sunday.first}
+                      onChangeText={(value) => this.onChangeSunday(value)}
+                      
                     />
                   </View>
                   <Text
@@ -2050,13 +2282,9 @@ class ManageLable extends Component {
                       placeholder="OFF"
                       placeholderTextColor={COLORS.main_text_color}
                       style={styles.timeText}
-                      value={this.state.sun_2}
-                      onChangeText={(text) => {
-                        this.setState({ sun_2: text });
-                      }}
-                      ref={(input) => {
-                        this.sun_2 = input;
-                      }}
+                      value={this.state.work_hour.sunday.to}
+                      onChangeText={(value) => this.onChangeSundayTo(value)}
+                     
                     />
                   </View>
                 </View>
@@ -2431,53 +2659,52 @@ class ManageLable extends Component {
       this.setState({ status: false });
     }
     const {
-      selectedName,
-      first_name,
-      last_name,
-      middle_name,
-      nick_name,
-      phone_1,
-      phone_2,
-      phone_3,
-      email_1,
-      email_2,
-      address,
-      messanger_1,
-      messanger_2,
-      social_media_1,
-      social_media_2,
-      website_1,
-      website_2,
-      date,
-      note,
-      company,
-      job_title,
-      work_hour,
-    } = this.state;
-    const { username } = this.props;
-    if (this.state.status == true) {
-      if (first_name == "") {
-        alert("Please enter to save data");
-      } else {
-        manageLabelToFirebase(
-          username,
           selectedName,
           first_name,
           last_name,
           middle_name,
           nick_name,
           phone_1,
-          phone_2,
-          phone_3,
           email_1,
-          email_2,
           address,
+          address2,
           messanger_1,
-          messanger_2,
           social_media_1,
           social_media_2,
           website_1,
-          website_2,
+          date,
+          note,
+          company,
+          job_title,
+          work_hour,
+          profile_image,
+          profile_image2,
+          profile_image3
+
+    } = this.state;
+    const { user_id } = this.props;
+    if (this.state.status == true) {
+      if (first_name == "") {
+        alert("Please enter to save data");
+      } else {
+        manageLabelToFirebase(
+          user_id,
+          selectedName,
+          profile_image,
+          profile_image2,
+          profile_image3,
+          first_name,
+          middle_name,
+          last_name,
+          nick_name,
+          phone_1,
+          email_1,
+          address,
+          address2,
+          messanger_1,
+          social_media_1,
+          social_media_2,
+          website_1,
           date,
           note,
           company,
@@ -2541,7 +2768,6 @@ class ManageLable extends Component {
 
           <ScrollView>
             {this.renderMiddle()}
-            
             {this.renderSelectAll()}
             {this.renderName()}
             {this.renderMobile()}
@@ -2583,18 +2809,16 @@ class ManageLable extends Component {
   }
 }
 const mapStateToProps = (state) => ({
-  theme: state.themeReducer.theme,
-  username:
-    state.login.shouldLoadData.username || state.reg.shouldLoadData.username,
+  theme: state.themeReducer.theme, 
+  user_id:state.login.shouldLoadData.user_id,
+  username:state.login.shouldLoadData.username || state.reg.shouldLoadData.username,
 });
 
 export default connect(mapStateToProps)(ManageLable);
 
 const Container = styled.View`
   flex: 1;
-
   width: 100%;
-
   background-color: ${(props) => props.theme.backColor};
 `;
 const ScrollView = styled.ScrollView`

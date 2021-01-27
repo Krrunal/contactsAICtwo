@@ -15,4 +15,3 @@ export const COLORS = {
     green:'#17950B'
 };
 
-// export default Color;

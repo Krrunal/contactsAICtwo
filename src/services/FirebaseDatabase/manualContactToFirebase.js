@@ -2,6 +2,7 @@ import firebase from "./db";
 
 export const addManualContact = (
   username,
+  selectedName,
   profile_image,
   profile_image2,
   profile_image3,
@@ -17,6 +18,7 @@ export const addManualContact = (
   email2,
   emailArray,
   address1,
+  address2,
   addressArray,
   messenger1,
   messenger2,
@@ -41,7 +43,8 @@ export const addManualContact = (
     .collection("user")
     .doc(`${username}`)
     .collection("contacts")
-    .add({
+    .add({ 
+      selectedName :selectedName,
       profile_image: profile_image,
       profile_image2: profile_image2,
       profile_image3: profile_image3,
@@ -57,6 +60,7 @@ export const addManualContact = (
       email2: email2,
       email: emailArray,
       address1: address1,
+      address2:address2,
       address: addressArray,
       messenger1: messenger1,
       messenger2: messenger2,
@@ -75,6 +79,5 @@ export const addManualContact = (
       company: companyArray,
       job_title: job_title,
       work_hour: work_hour,
-      // ismanually:false
     });
 };

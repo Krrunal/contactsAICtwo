@@ -1,187 +1,77 @@
 import { ActionSheet, Root } from "native-base";
 import {
-  Animated,
   Button,
   Dimensions,
   FlatList,
   Image,
+  ImageBackground,
   Keyboard,
-  LayoutAnimation,
   Modal,
+  ScrollView,
   Text,
   TextInput,
   TouchableHighlight,
   TouchableOpacity,
-  TouchableWithoutFeedback,
-  View
+  View,
 } from "react-native";
-import React, { Component } from "react";
-import { darkTheme, lightTheme } from "../theme/themeProps";
+import React, { Component, useState } from "react";
 import styled, { ThemeProvider } from "styled-components/native";
 
+import AsyncStorage from "@react-native-community/async-storage";
 import { COLORS } from "../theme/Colors.js";
-import { Colors } from "react-native-paper";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
-import DropDownPicker from "react-native-dropdown-picker";
 import Font from "../theme/font";
 import GeneralStatusBar from "../../components/StatusBar/index";
 import Header from "../../components/header/index";
-import Icon from "react-native-vector-icons/Entypo";
-import ImagePicker from "react-native-image-crop-picker";
+import Icon from "react-native-vector-icons/FontAwesome5";
+import IconEntypo from "react-native-vector-icons/Entypo";
 import IntlPhoneInput from "react-native-intl-phone-input";
 import Metrics from "../theme/Metrics";
+import { Spinner } from "../../components/Spinner";
 import Swipeable from "react-native-gesture-handler/Swipeable";
-import Toast from "react-native-easy-toast";
-import AsyncStorage from "@react-native-community/async-storage";
-import { bindActionCreators } from "redux";
+import { Title } from "react-native-paper";
 import calender from "../../assets/images/calender.png";
 import call from "../../assets/images/call.png";
+import checked from "../../assets/icons/checked.png";
 import { connect } from "react-redux";
-import data from "../../../node_modules/react-native-intl-phone-input/src/Countries";
+import edit from "../../assets/images/edit.png";
 import email from "../../assets/images/email.png";
-import { fcmService } from '../../services/FirebaseDatabase/FCMService'
 import firebase from "../../services/FirebaseDatabase/db";
+import friendImg from "../../assets/images/friendImg.jpg";
 import handshake from "../../assets/images/handshake.png";
 import home from "../../assets/images/home.png";
+import iconEmail from "../../assets/icons/iconEmail.png";
+import iconMap from "../../assets/icons/iconMap.png";
+import iconMessage from "../../assets/icons/iconMessage.png";
+import iconPay from "../../assets/icons/iconPay.png";
+import iconVideo from "../../assets/icons/iconVideo.png";
+import iconcall from "../../assets/icons/iconCall.png";
 import innerimg from "../../assets/images/innerimg.png";
 import instagram from "../../assets/images/instagram.png";
+import logo from "../../assets/images/logo.png";
 import message from "../../assets/images/message.png";
 import moment from "moment";
 import note from "../../assets/images/note.png";
-import style from "../../components/StatusBar/style";
+import reset from "../../assets/images/reset.png";
 import styles from "./style.js";
-import { switchTheme } from "../../action/themeAction";
 import { updateMyInfo } from "../../services/FirebaseDatabase/updateMyInfo";
-import uuid from "react-native-uuid";
-import { values } from "lodash";
 import website from "../../assets/images/website.png";
+import websiteImg from "../../assets/images/website.png";
 
+const person = require("../../assets/images/person.png");
 var { width, height } = Dimensions.get("window");
 
 var DESTRUCTIVE_INDEX = 3;
 var CANCEL_INDEX = 4;
 var BUTTONS = ["Take Photo", "Choose Photo From Gallery", "Cancel"];
 class MyContactInfromation extends Component {
-  constructor() {
-    super();
-
+  constructor(props) {
+    super(props);
     this.state = {
-      counter: 0,
-      isNumberSection: false,
-      isVisible: false,
-      isVisibleArray: false,
-      choosenDate: "",
-      choosenDateArray: "",
-      first_name: "",
-      middle_name: "",
-      last_name: "",
-      nick_name: "",
-      number_1: "",
-      number1: {
-        number1: "",
-        label: "",
-      },
-      number2: {
-        number2: "",
-        label: "",
-      },
-      number3: {
-        number3: "",
-        label: "",
-      },
-      value: "",
-      email: {
-        email: "",
-        label: "",
-      },
-      address: {
-        address: "",
-        label: "",
-      },
-      messanger: {
-        messanger: "",
-        label: "",
-      },
-      socialMedia: {
-        socialMedia: "",
-        label: "",
-      },
-      website: {
-        website: "",
-        label: "",
-      },
-      date: {
-        date: "",
-        label: "",
-      },
-      note: {
-        note: "",
-        label: "",
-      },
-      company: {
-        company: "",
-        label: "",
-        time: "",
-      },
-      jobTitle: {
-        jobTitle: "",
-        label: "",
-      },
-      workHours: {
-        workHours: "",
-        label: "",
-      },
-
-      messanger1: "",
-      messenger2: "",
-      social_media1: "",
-      social_media2: "",
-
-      website1: "",
-      website2: "",
-      dob: "",
-      note1: "",
-      company1: "",
-      job_title: "",
-      work_hour: "",
-      image: null,
-      images: null,
-      image2: null,
-      image3: null,
-      profile_image: "",
-      profile_image2: "",
-      profile_image3: "",
-      numberArray: [],
-      emailArray: [],
-      mobileArray: "",
-      mobileArray2: "",
-      mobileLabelArray: [],
-      phoneSection: false,
-      addressArray: [],
-      messangerArray: [],
-      socialMediaArray: [],
-      websiteArray: [],
-      dateArray: [],
-      noteArray: [],
-      companyArray: [],
-      jobTitleArray: [],
-      workHoursArray: [],
-
-      disabledNumber: false,
-      disabledEmail: false,
-      disabledAddress: false,
-      disabledMessanger: false,
-      disabledSocialMedia: false,
-      disableWebsite: false,
-      disabledDate: false,
-      disabledNote: false,
-      disabledCompany: false,
+      workViewOpen: false,
       status: false,
-      //inputText
-      TextInputDisable: false,
-      //mobile modal
-      isMobileModelOpen: false,
-      isMobileModelOpenArray: false,
+      textInput: [{ label: "Select Type...", show: false }],
+      inputData: [],
       mobileLabelList: [
         { label: "Personal(Mobie)" },
         { label: "Personal(Lanline)" },
@@ -190,477 +80,141 @@ class MyContactInfromation extends Component {
         { label: "Personal Fax" },
         { label: "Work Fax" },
       ],
-      mobileLabel: "",
-      isAddMobileLabel: false,
-      // email modal
-      isEmailModelOpen: false,
+      //email
+      emailInput: [{ label: "Select Type...", show: false }],
+      emailData: [],
       emailLabelList: [
-        { label: "Personal 1" },
-        { label: "Personal 2" },
-        { label: "Other" },
+        { label: "Personal(Mobie)" },
+        { label: "Personal(Lanline)" },
+        { label: "Work(Mobile)" },
+        { label: "Work(Landline)" },
+        { label: "Personal Fax" },
+        { label: "Work Fax" },
       ],
-      emailLabel: "",
-      isAddEmailLabel: false,
-      isEmailArrrayModelOpen: false,
-      isAddEmailArrayLabel: false,
-      //address modal
-      isAddressModelOpen: false,
-      addressLabelList: [{ label: "Personal 1" }, { label: "Other" }],
-      addressLabel: "",
-      isAddAddressLabel: false,
-      isAddressArrayModelOpen: false,
-      isAddAddressArrayLabel: false,
-      //messnger model
-      isMessangerModelOpen: false,
-      mesangerLabelList: [{ label: "Work" }, { label: "Personal" }],
-      messengerLabel: "",
-      isAddMessangerLabel: false,
-      isMessangerArrayModelOpen: false,
-      isAddMessangerArrayLabel: false,
-      //social Media
-      isSocialMediaModelOpen: false,
+      //address
+      addressInput: [{ label: "Select Type...", show: false }],
+      addressData: [],
+      addressLabelList: [
+        { label: "Personal(Mobie)" },
+        { label: "Personal(Lanline)" },
+        { label: "Work(Mobile)" },
+        { label: "Work(Landline)" },
+        { label: "Personal Fax" },
+        { label: "Work Fax" },
+      ],
+      //messenger
+      messengerInput: [{ label: "Select Type...", show: false }],
+      messengerData: [],
+      messengerLabelList: [
+        { label: "Facebook Messenger" },
+        { label: "Skype" },
+        { label: "Snapchat" },
+        { label: "WeChat" },
+        { label: "Whatsapp" },
+        // { label: "Work Fax" },
+      ],
+      //social media
+      socialMediaInput: [{ label: "Select Type...", show: false }],
+      socialMediaData: [],
       socialMediaLabelList: [
-        { label: "Instagram Personal " },
-        { label: "Periscop Professional" },
+        { label: "Facebook" },
+        { label: "Instagram" },
+        { label: "LinkedIn" },
+        { label: "Tiktok" },
+        { label: "Twitter" },
+        { label: "Youtube" },
       ],
-      socialMediaLabel: "",
-      isAddSocialMediaLabel: false,
-      isSocialMediaArrayModelOpen: false,
-      isSocialMediaModelOpen: false,
-      isAddSocialMediaArrayLabel: false,
       //website
-      isWebsiteModelOpen: false,
-      websiteLableList: [
-        { label: " Sport gambling podcast" },
-        { label: " Universal Studio" },
+      websiteInput: [{ label: "Select Type...", show: false }],
+      websiteData: [],
+      websiteLabelList: [
+        { label: "Personal" },
+        { label: "Work" },
+       
       ],
-      websiteLabel: "",
-      isAddWebsiteLabel: false,
-      isWebsiteArrayModelOpen: false,
-      isWebsiteModelOpen: false,
-      isAddWebsiteArrayLabel: false,
       //date
-      isDateModelOpen: false,
-      dateLableList: [{ label: "Birthday" }, { label: "Other" }],
-      dateLabel: "",
-      isAddDateLabel: false,
-      isDateArrayModelOpen: false,
-      isDateModelOpen: false,
-      isAddDateArrayLabel: false,
+      dateInput: [{ label: "Select Type...", show: false }],
+      dateData: [],
+      dateLabelList: [
+        { label: "Birthday" },
+        { label: "Wedding Anniversary" },
+       
+      ],
       //note
-      isNoteModelOpen: false,
-      noteLabelList: [{ label: "Note 1 " }],
-      noteLabel: "",
-      isAddNoteLabel: false,
-      isNoteArrayModelOpen: false,
-      isNoteModelOpen: false,
-      isAddNoteArrayLabel: false,
-      //company
-
-      isCompanyModelOpen: false,
-      companyLableList: [{ label: "Job Ttile" }, { label: "Work Hours" }],
-      companyLabel: "",
-      isAddCompanyLabel: false,
-      isCompanyArrayModelOpen: false,
-      isCompanyModelOpen: false,
-      isAddCompanyArrayLabel: false,
-
-      //job Title
-      isJobTitleModelOpen: false,
-      jobTitleLableList: [{ label: "Job" }, { label: "Work" }],
-      jobTitleLabel: "",
-      isAddjobTitleLabel: false,
-      isjobTitleArrayModelOpen: false,
-      isJobTitleModelOpen: false,
-      isAddJobTitleArrayLabel: false,
-
-      //work Hours
-      isWorkHourseModelOpen: false,
-      workHoursLableList: [{ label: "Job" }, { label: "Work" }],
-      workHoursLabel: "",
-      isAddworkHoursLabel: false,
-      isWorkHoursArrayModelOpen: false,
-      isWorkHoursModelOpen: false,
-      isAddWorkHoursArrayLabel: false,
-
-      isVisibleWork: false,
-      choosenWork: "",
-      isVisibleWorkTo: false,
-      choosenWorkTo: "",
-      isVisibleWorkArray: false,
-      choosenWorkArray: [],
-      isVisibleWorkToArray: false,
-      choosenWorkToArray: "",
-      countryData: data,
-      modalVisible: false,
-      index: "",
-
-      //address section
-      addressModelKey: "",
-      labelIndex: "",
-      addressNameOnly: "",
-      addressSection: false,
-      addressIndexOnly: "",
-
-      //email section
-      emailSection: false,
-      emailIndexOnly: "",
-      emailNameOnly: "",
-      emailCounter: 0,
-
-      //mobile Section
-      numberSection: false,
-      numberIndexOnly: "",
-      numberNameOnly: "",
-      numberCounter: 0,
-      //messanger Section
-      messangerSection: false,
-      messangerIndexOnly: "",
-      messangerNameOnly: "",
-      messangerCounter: 0,
-      //social section
-      socialSection: false,
-      socialIndexOnly: "",
-      socialNameOnly: "",
-      socialCounter: 0,
-      //Website section
-      websiteSection: false,
-      websiteIndexOnly: "",
-      websiteNameOnly: "",
-      websiteCounter: 0,
-      //date section
-      dateSection: false,
-      dateIndexOnly: "",
-      dateNameOnly: "",
-      dateCounter: 0,
-      //note section
-      noteSection: false,
-      noteIndexOnly: "",
-      noteNameOnly: "",
-      noteCounter: 0,
-      //company section
-      companySection: false,
-      companyIndexOnly: "",
-      companyNameOnly: "",
-      companyCounter: 0,
-      isTrue: false,
-
-      //mobile label
-      customModel: false,
-      mLabels: [],
-      mLabel: [],
-      // for notification 
-      isDateTimePickerVisible: false,
-      notificationTime: moment(),
-      notificationTime2:"",
-      notificationTitle: 'Birthday Notification',
-      notificationDescription: 'May your day is Awesome',
-      isVisibleOverlay: false,
-      notifyData: {}
+      noteInput: [{ label: "Select Type...", show: false }],
+      noteData: [],
+      noteLabelList: [
+        { label: "" },
+      
+      ],
+      // companyy
+      work_hour: {
+        monday: { first: "", to: "" },
+        tuesday: { first: "", to: "" },
+        wednesday: { first: "", to: "" },
+        thursday: { first: "", to: "" },
+        friday: { first: "", to: "" },
+        saturday: { first: "", to: "" },
+        sunday: { first: "", to: "" },
+      },
+      workHourInput: [{ label: "Select Type...", show: false }],
+      companyInput: [{ label: "Select Type...", show: false }],
+      companyData: [],
+      companyLabelList: [
+        { label: "Personal(Mobie)" },
+        { label: "Personal(Lanline)" },
+        { label: "Work(Mobile)" },
+        { label: "Work(Landline)" },
+        { label: "Personal Fax" },
+        { label: "Work Fax" },
+      ],
+      tz: [],
+      tzs: "",
+      profile_image:"",
+      profile_image2:"",
+      profile_image3:"",
     };
   }
   componentDidMount = async () => {
-    fcmService.register(this.onRegister, this.onNotification, this.onOpenNotification)
-  
-   const { username } = this.props;
-    firebase
-      .firestore()
-      .collection("user")
-      .doc(username)
-      .collection("mobileLabel")
-      .get()
-      .then((snap) => {
-        snap.forEach((doc) => {
-          var item = doc._data;
-
-          this.state.mLabel.push(item);
-        });
-        this.setState({ mLabels: this.state.mLabel });
-      });
+    this.timeZoneField();
+  };
+  timeZoneField = async () => {
+    this.state.tz.push("GMT (Greenwhich)");
+    this.state.tz.push("GMT (Universal)");
+    this.state.tz.push("GMT+1:00(European Central)");
+    this.state.tz.push("GMT+2:00(Eastern European)");
+    this.state.tz.push("GMT+2:00(Arabic Egypt Standard)");
+    this.state.tz.push("GMT+3:00(Eastern African)");
+    this.state.tz.push("GMT+3:30(Middle East Time)");
+    this.state.tz.push("GMT+4:00(Near East)");
+    this.state.tz.push("GMT+5:00(Pakistan Lahore)");
+    this.state.tz.push("GMT+5:30(India Standard)");
+    this.state.tz.push("GMT+6:00(Bangladesh)");
+    this.state.tz.push("GMT+7:00(Vietnam)");
+    this.state.tz.push("GMT+8:00(China Taiwan)");
+    this.state.tz.push("GMT+9:00(Japan)");
+    this.state.tz.push("GMT+9:30(Australia Central) ");
+    this.state.tz.push("GMT+10:00(Australia Eastern) ");
+    this.state.tz.push("GMT+11:00(Solomon Standard)");
+    this.state.tz.push("GMT+12:00(New Zealand)");
+    this.state.tz.push("GMT-11:00(Midway Islands )");
+    this.state.tz.push("GMT-10:00(Hawaii)");
+    this.state.tz.push("GMT-9:00(Alaska)");
+    this.state.tz.push("GMT-8:00(Pacific)");
+    this.state.tz.push("GMT-7:00(Phoenix)");
+    this.state.tz.push("GMT-7:00(Mountain)");
+    this.state.tz.push("GMT-6:00(Central)");
+    this.state.tz.push("GMT-5:00(Eastern)");
+    this.state.tz.push("GMT-5:00(Indiana Eastern)");
+    this.state.tz.push("GMT-5:00(Puerto Rico)");
+    this.state.tz.push("GMT-5:00(US Virgin Islands Time)");
+    this.state.tz.push("GMT-4:00(Canada Newfoundland Time)");
+    this.state.tz.push("GMT-3:00(Argentina)");
+    this.state.tz.push("GMT-3:00(Brazil Eastern)");
+    this.state.tz.push("GMT-1:00(Central African )");
+    this.setState({ tzs: this.state.tz });
   };
 
-
-  ShowHideTextComponentView = async() => {
-    if (this.state.status == false) {
-      this.setState({ status: true });
-    } else {
-      this.setState({ status: false });
-    }
-    const {
-      profile_image,
-      profile_image2,
-      profile_image3,
-      first_name,
-      middle_name,
-      last_name,
-      nick_name,
-      number1,
-      number2,
-      number3,
-      numberArray,
-      email,
-      email2,
-      emailArray,
-      address,
-      addressArray,
-      messanger,
-      messanger1,
-      messenger2,
-      messangerArray,
-      socialMedia,
-      social_media1,
-      social_media2,
-      socialMediaArray,
-      website,
-      website1,
-      website2,
-      websiteArray,
-      date,
-      dateArray,
-      note,
-      noteArray,
-      company,
-      companyArray,
-      job_title,
-      work_hour,
-      mobileLabel,
-      notificationTime,
-      notificationTime2
-    } = this.state;
-
-    const { username } = this.props;
-
-    if (this.state.status == true) {
-      if (first_name == "") {
-        this.refs.toast.show("Please enter data to save contact");
-      } else {
-        if (
-          first_name !== "" ||
-          middle_name !== "" ||
-          last_name !== "" ||
-          nick_name !== "" ||
-          number1 !== "" ||
-          number2 !== "" ||
-          number3 !== "" ||
-          email !== "" ||
-          email2 !== "" ||
-          address !== "" ||
-          messenger1 !== "" ||
-          messenger2 !== "" ||
-          social_media1 !== "" ||
-          social_media2 !== "" ||
-          website1 !== "" ||
-          website2 !== "" ||
-          dob !== "" ||
-          note !== "" ||
-          company !== "" ||
-          job_title !== "" ||
-          work_hour !== ""
-        ) {
-          if (profile_image !== "") {
-            firebase
-              .firestore()
-              .collection("user")
-              .doc(`${username}`)
-              .update({ profile_image : profile_image });
-          }
-
-          if (first_name !== "") {
-            firebase
-              .firestore()
-              .collection("user")
-              .doc(`${username}`)
-              .update({ first_name: first_name });
-          }
-          if (number1.number1 !== "") {
-            firebase
-              .firestore()
-              .collection("user")
-              .doc(`${username}`)
-              .update({ number1 : number1 });
-          }
-          var notify = notificationTime.toString();
-        
-          if(notificationTime !== ""){
-            firebase
-              .firestore()
-              .collection("user")
-              .doc(`${username}`)
-              .update({ notificationTime : notify });
-          }
-          // if (mobileLabel !== "") {
-          //   firebase
-          //     .firestore()
-          //     .collection("user")
-          //     .doc(`${username}`)
-          //     .update({ number1 : number1 });
-          // }
-          if (email.email !== "") {
-           firebase
-              .firestore()
-              .collection("user")
-              .doc(`${username}`)
-              .update({ email: email });
-          }
-          if (emailArray !== "") {
-            firebase
-              .firestore()
-              .collection("user")
-              .doc(`${username}`)
-              .update({ emailArray: emailArray });
-          }
-          if (address.address !== "") {
-            firebase
-              .firestore()
-              .collection("user")
-              .doc(`${username}`)
-              .update({ address: address });
-          }
-          if (addressArray !== "") {
-            firebase
-              .firestore()
-              .collection("user")
-              .doc(`${username}`)
-              .update({ addressArray: addressArray });
-          }
-          if (messanger.messanger !== "") {
-             firebase
-              .firestore()
-              .collection("user")
-              .doc(`${username}`)
-              .update({ messanger : messanger });
-          }
-          if (messangerArray !== "") {
-            firebase
-              .firestore()
-              .collection("user")
-              .doc(`${username}`)
-              .update({ messangerArray: messangerArray });
-          }
-          if (socialMedia.socialMedia !== "") {
-            firebase
-              .firestore()
-              .collection("user")
-              .doc(`${username}`)
-              .update({ facebook : socialMedia });
-          }
-          if (socialMediaArray !== "") {
-            firebase
-              .firestore()
-              .collection("user")
-              .doc(`${username}`)
-              .update({ socialMediaArray: socialMediaArray });
-          }
-          if (website.website !== "") {
-            firebase
-              .firestore()
-              .collection("user")
-              .doc(`${username}`)
-              .update({ website : website });
-          }
-          if (websiteArray !== "") {
-            firebase
-              .firestore()
-              .collection("user")
-              .doc(`${username}`)
-              .update({ websiteArray: websiteArray });
-          }
-          if (date.date !== "") {
-            firebase
-              .firestore()
-              .collection("user")
-              .doc(`${username}`)
-              .update({ date : date });
-          }
-          if (dateArray !== "") {
-            firebase
-              .firestore()
-              .collection("user")
-              .doc(`${username}`)
-              .update({ dateArray: dateArray });
-          }
-          if (note !== "") {
-            firebase
-              .firestore()
-              .collection("user")
-              .doc(`${username}`)
-              .update({ note: note });
-          }
-          if (noteArray !== "") {
-            firebase
-              .firestore()
-              .collection("user")
-              .doc(`${username}`)
-              .update({ noteArray: noteArray });
-          }
-
-          if (company !== "") {
-            firebase
-              .firestore()
-              .collection("user")
-              .doc(`${username}`)
-              .update({ company: company });
-          }
-          if (job_title !== "") {
-            firebase
-              .firestore()
-              .collection("user")
-              .doc(`${username}`)
-              .update({ job_title: job_title });
-          }
-          if (work_hour !== "") {
-            firebase
-              .firestore()
-              .collection("user")
-              .doc(`${username}`)
-              .update({ work_hour: work_hour });
-          }
-          this.setState({
-            status: false,
-            profile_image: "",
-            profile_image2: "",
-            profile_image3: "",
-            first_name: "",
-            middle_name: "",
-            last_name: "",
-            nick_name: "",
-            number1: "",
-            number2: "",
-            number3: "",
-            numberArray: [],
-            email: "",
-            email2: "",
-            emailArray: [],
-            address: "",
-            addressArray: [],
-            messenger1: "",
-            messenger2: "",
-            messangerArray: [],
-            social_media1: "",
-            social_media2: "",
-            socialMediaArray: [],
-            website1: "",
-            website2: "",
-            websiteArray: [],
-            date: "",
-            dateArray: [],
-            note: "",
-            noteArray: [],
-            company: "",
-            companyArray: [],
-            job_title: "",
-            work_hour: "",
-          });
-          alert("Add Information successfully");
-          // {this.props.dateChange.mode === "ON" ?
-          //     this.setReminder() : alert("Datechange mode off")
-          //  }
-         }
-      }
-    } else {
-      this.setState({ status: true });
-    }
-  };
   selectPhoto = () => {
     ActionSheet.show(
       {
@@ -894,6 +448,83 @@ class MyContactInfromation extends Component {
     );
   };
 
+  //function to add TextInput dynamically
+  addTextInput = (index, showPop) => {
+    this.setState({ removeNumberSection: true });
+    let textInput = this.state.textInput;
+    textInput.map((item, i) => {
+      textInput[i].show = false;
+    });
+    if (textInput.length < 5) {
+      textInput.push({ label: "Select Type...", show: false });
+    }
+
+    this.setState({ textInput });
+  };
+
+  show = (index) => {
+    var data = this.state.textInput;
+    data.map((item, i) => {
+      data[i].show = false;
+    });
+    data[index].show = true;
+    this.setState({ textInput: data });
+  };
+  //function to remove TextInput dynamically
+  removeTextInput = () => {
+    let textInput = this.state.textInput;
+    let inputData = this.state.inputData;
+    textInput.pop();
+    inputData.pop();
+    this.setState({ textInput, inputData });
+  };
+
+  //function to add text from TextInputs into single array
+  addValues = (phone, index) => {
+    let dataArray = this.state.inputData;
+    let checkBool = false;
+    if (dataArray.length !== 0) {
+      dataArray.forEach((element) => {
+        if (element.index === index) {
+          element.phone = phone;
+          checkBool = true;
+        }
+      });
+    }
+    if (checkBool) {
+      this.setState({
+        inputData: dataArray,
+      });
+    } else {
+      dataArray.push({ phone, index });
+      this.setState({
+        inputData: dataArray,
+      });
+    }
+  };
+
+  //function to console the output
+  getValues = () => {
+    const newFile = this.state.inputData.map((item, index) => {
+      return { ...item, label: this.state.textInput[index].label };
+    });
+    this.setState({ inputData: newFile }, () => {
+      alert(JSON.stringify(this.state.inputData));
+    });
+  };
+
+  selectLabel = (index, label) => {
+    var data = this.state.textInput;
+    data[index].label = label;
+    data[index].show = false;
+    this.setState({ textInput: data });
+  };
+
+  onChangeText = (number, index) => {
+    if (number.isVerified) {
+      this.addValues(number.dialCode + "-" + number.unmaskedPhoneNumber, index);
+    }
+  };
   renderHeader() {
     return (
       <Header
@@ -913,7 +544,10 @@ class MyContactInfromation extends Component {
                 {this.renderImage(this.state.image)}
               </View>
 
-              <TouchableOpacity style={styles.first} onPress={this.selectPhoto}>
+              <TouchableOpacity
+                style={styles.first}
+                onPress={this.state.status ? this.selectPhoto : null}
+              >
                 <Text style={styles.firstText}>Select Photo</Text>
               </TouchableOpacity>
             </View>
@@ -923,7 +557,7 @@ class MyContactInfromation extends Component {
               </View>
               <TouchableOpacity
                 style={styles.first}
-                onPress={this.selectPhoto2}
+                onPress={this.state.status ? this.selectPhoto2 : null}
               >
                 <Text style={styles.firstText}>Select Photo</Text>
               </TouchableOpacity>
@@ -934,7 +568,7 @@ class MyContactInfromation extends Component {
               </View>
               <TouchableOpacity
                 style={styles.first}
-                onPress={this.selectPhoto3}
+                onPress={this.state.status ? this.selectPhoto3 : null}
               >
                 <Text style={styles.firstText}>Select Photo</Text>
               </TouchableOpacity>
@@ -946,14 +580,14 @@ class MyContactInfromation extends Component {
   }
   renderName() {
     return (
-      <View style={{ marginTop: Metrics.baseMargin }}>
+      <View style={{ marginTop: Metrics.baseMargin, position: "relative" }}>
         <View style={{ flexDirection: "row" }}>
           <View>
             <Image source={innerimg} style={styles.innerStyle} />
           </View>
 
           <View>
-            <View style={styles.filedView}>
+            <View style={styles.searchSection}>
               <TextInput
                 placeholder=""
                 style={styles.stylefiledText}
@@ -971,7 +605,7 @@ class MyContactInfromation extends Component {
               </View>
             </View>
 
-            <View style={styles.filedView}>
+            <View style={styles.searchSection}>
               <TextInput
                 placeholder=""
                 style={styles.stylefiledText}
@@ -989,7 +623,7 @@ class MyContactInfromation extends Component {
               </View>
             </View>
 
-            <View style={styles.filedView}>
+            <View style={styles.searchSection}>
               <TextInput
                 placeholder=""
                 style={styles.stylefiledText}
@@ -1007,7 +641,7 @@ class MyContactInfromation extends Component {
               </View>
             </View>
 
-            <View style={styles.filedView}>
+            <View style={styles.searchSection}>
               <TextInput
                 placeholder=""
                 style={styles.stylefiledText}
@@ -1028,507 +662,213 @@ class MyContactInfromation extends Component {
       </View>
     );
   }
-  addNumber = () => {
-    if (this.state.number1 == "") {
-      alert("Please Fill the Field");
-    }
-    if (this.state.number1 !== "") {
-      if (this.state.numberCounter == 0) {
-        this.setState({
-          numberCounter: this.state.numberCounter + 1,
-          numberSection: true,
-          numberArray: [...this.state.numberArray, { number: "value" }],
-        });
-      }
-    }
-    if (this.state.numberSection == true) {
-      if (this.state.numberIndexOnly == this.state.numberCounter - 1) {
-        if (this.state.numberNameOnly !== "") {
-          this.setState({
-            numberCounter: this.state.numberCounter + 1,
-            numberSection: true,
-            numberArray: [...this.state.numberArray, { number: "value" }],
-          });
-        } else {
-          alert("Please Fill the Field");
-        }
-      } else {
-        alert("Please Fill the Field");
-      }
-    }
-  };
-
-  onChangeNumberArray = (value, index) => {
-    if (value.isVerified == true) {
-      this.setState({ numberIndexOnly: index });
-      this.setState({ numberNameOnly: value });
-      this.state.numberArray[index].number = value.unmaskedPhoneNumber;
-      this.setState({ numberArray: this.state.numberArray });
-    } else {
-      this.setState({ numberIndexOnly: index });
-      this.setState({ numberNameOnly: value });
-      this.state.numberArray[index].number = value.unmaskedPhoneNumber;
-      this.setState({ numberArray: this.state.numberArray });
-    }
-    console.log(value.isVerified);
-  };
-  removeItem = (key) => {
-    const { numberArray } = this.state;
-    numberArray.splice(key, 1);
-    this.setState({
-      deleteArray: numberArray,
-    });
-  };
-
-  leftAction = (key) => {
-    return (
-      <TouchableOpacity onPress={this.removeItem}>
-        <View style={styles.deleteBox}>
-          <Text style={styles.deleteText}>Delete</Text>
-        </View>
-      </TouchableOpacity>
-    );
-  };
-
-  changeMobileLabelArray = (value, index) => {
-    this.state.mobileLabelArray[index].label = value;
-    this.setState({ mobileLabelArray: this.state.mobileLabelArray });
-  };
-  onSubmit = () => {
-    const { mobileArray } = this.state;
-    const { username } = this.props;
-    firebase
-      .firestore()
-      .collection("user")
-      .doc(`${username}`)
-      .collection("mobileLabel")
-      .add({ mobileArray: mobileArray });
-    this.setState({ mobileArray: "" });
-    this.setState({ phoneSection: false });
-  };
-  customOpen = () => {
-    this.setState({ phoneSection: true });
-  };
-  onChangeNumber = (value) => {
-    this.state.number1.number1 = value;
-      this.setState({ number1: this.state.number1 });
-  };
-  // onChangeNumber = ({
-  //   dialCode,
-  //   unmaskedPhoneNumber,
-  //   phoneNumber,
-  //   isVerified,
-  // }) => {
-  //   if (isVerified == true) {
-  //     this.state.number1.number1 = unmaskedPhoneNumber;
-  //     this.setState({ number1: this.state.number1 });
-  //     console.log("statteeeee--->", this.state.number1);
-  //   } else {
-  //     // this.state.number1.number1 = unmaskedPhoneNumber;
-  //     // this.setState({ number1: this.state.number1 });
-  //     // console.log("statteeeee--->",this.state.number1)
-  //     // console.log("--->",this.state.number1.number1)
-  //     this.setState({ number_1: unmaskedPhoneNumber });
-  //     console.log("--->", this.state.number_1);
-  //   }
-  // };
-  mobileViewOpen = () => {
-    this.setState({ isMobileModelOpen: true });
-    this.setState({
-      mobileLabelArray: [...this.state.mobileLabelArray, { label: "" }],
-    });
-  };
-  mobileViewOpenArray = () => {
-    this.setState({ isMobileModelOpenArray: true });
-    this.setState({
-      mobileLabelArray: [...this.state.mobileLabelArray, { label: "" }],
-    });
-  };
-  renderMobileLabel = ({ item, index }) => {
-    return (
-      <TouchableHighlight
-        underlayColor="transparent"
-        onPress={() =>
-          this.setState({ mobileLabel: item.label, isMobileModelOpen: false })
-        }
-      >
-        <Text style={styles.labelName}> {item.label} </Text>
-      </TouchableHighlight>
-    );
-  };
-  renderItem({ item, index }) {
-    return (
-      <View>
-        <Text style={styles.labelName}> {item.mobileArray}</Text>
-      </View>
-    );
-  }
   renderMobile() {
+    const { mobileLabelList } = this.state;
     return (
       <View style={{ marginTop: Metrics.doubleBaseMargin }}>
         <View style={{ flexDirection: "row" }}>
-          <View style={{ marginTop: Metrics.xsmallMargin }}>
+          <View>
             <Image source={call} style={styles.innerStyle} />
           </View>
-          <View>
-            <View style={styles.filedView}>
-              {this.state.status ? (
-                this.state.isNumberSection == true ? (
-                  <TouchableOpacity style={{ flexDirection: "column" }}>
-                    <Text style={[styles.Text_1, { fontSize: width * 0.02, width: width * 0.5, }]}>
-                      Phone Number
-                    </Text>
-                    <TextInput
-                      placeholder="Phone Number"
-                      style={[
-                        styles.Text_1,
-                        { fontSize: width * 0.03 ,width: width * 0.5,},
-                      ]}
-                      placeholderTextColor={COLORS.main_text_color}
-                      editable={this.state.status ? true : false}
-                      onChangeText={(value) => this.onChangeNumber(value)}
-                      keyboardType={"numeric"}
-                    />
-                    {/* <IntlPhoneInput
-                                  containerStyle={{
-                                    width: width * 0.48,
-                                    height: height * 0.056,
-                                    marginBottom: Metrics.smallMargin,
-                                    borderWidth:1
-                                  }}
-                                  phoneInputStyle={styles.mobileInputText}
-                                  dialCodeTextStyle={styles.dialcodeText}
-                                  dialCode={this.state.dialCode}
-                                  value={this.state.number1}
-                                  inputRef={(ref) => (this.phoneInput = ref)}
-                                  keyboardType={"numeric"}
-                                  onChangeText={this.onChangeNumber}
-                                  isShowLabelManually={false}
-                                /> */}
-                  </TouchableOpacity>
-                ) : (
-                  <TouchableOpacity
-                    onPress={() => {
-                      this.setState({ isNumberSection: true });
-                    }}
-                  >
-                    <Text
-                      style={[
-                        styles.Text_1,
-                        { fontSize: width * 0.03,width: width * 0.5,  },
-                      ]}
-                    >
-                      Phone Number
-                    </Text>
-                  </TouchableOpacity>
-                )
-              ) : (
-                <TouchableOpacity>
-                  <Text
-                    style={[
-                      styles.Text_1,
-                      { fontSize: width * 0.03,  },
-                    ]}
-                  >
-                    Phone Number
-                  </Text>
-                </TouchableOpacity>
-              )}
-
-              {this.state.status && this.state.isMobileModelOpen == true ? (
-                 <View style={{justifyContent: "flex-end",flexDirection:"row",flex:1,width:width}}>
-                <View
-                  style={
-                    this.state.phoneSection == true
-                      ? styles.modelViewBig
-                      : styles.modelView
-                  }
-                >
-                  <FlatList
-                    refreshing={true}
-                    keyExtractor={(item, index) => index.toString()}
-                    data={this.state.mobileLabelList}
-                    extraData={this.state}
-                    numColumns={1}
-                    renderItem={this.renderMobileLabel.bind(this)}
-                    style={styles.flatlist}
-                    keyboardShouldPersistTaps={"always"}
-                  />
-
-                  <FlatList
-                    refreshing={true}
-                    keyExtractor={(item, index) => index.toString()}
-                    data={this.state.mLabels}
-                    extraData={this.state}
-                    numColumns={1}
-                    renderItem={this.renderItem.bind(this)}
-                  />
-                  <TouchableOpacity
-                    onPress={this.customOpen}
-                    style={{ height: 35 }}
-                  >
-                    <Text style={styles.customText}>Cutom</Text>
-                  </TouchableOpacity>
-                  {this.state.phoneSection == true ? (
-                    <View style={styles.inputTextView}>
-                      <TextInput
-                        onChangeText={(text) => {
-                          this.setState({ mobileArray: text });
-                        }}
-                        style={styles.textinputText}
-                        onSubmitEditing={this.onSubmit}
-                      />
-                    </View>
-                  ) : null}
-                </View>
-                </View>
-              ) : this.state.status ? (
-                
-              <View style={{justifyContent: "flex-end",flexDirection:"row",flex:1,width:width}}>
-                  <TouchableHighlight
-                  underlayColor="transparent"
-                  style={[styles.rightViewBorder]}
-                  onPress={this.mobileViewOpen}
-                >
-                  <View>
-                    <Text style={styles.selectTypeText}>Select Type...</Text>
-                  </View>
-                </TouchableHighlight>
-              </View>
-              ) : null}
-            </View>
-
-            {this.state.numberSection == true &&
-              this.state.numberArray.map((input, key) => {
+          <View style={{ flexDirection: "column" }}>
+            <View style={{ flexDirection: "column" }}>
+              {this.state.textInput.map((item, index) => {
                 return (
-                  <Swipeable renderLeftActions={this.leftAction}>
-                    <View
-                      style={
-                        this.state.isMobileModelOpenArray == true
-                          ? styles.filedView2
-                          : styles.filedView
-                      }
-                      key={key}
-                    >
-                      <IntlPhoneInput
-                        containerStyle={{
-                          width: width * 0.48,
-                          height: height * 0.056,
-                          marginBottom: Metrics.smallMargin,
-                        }}
-                        phoneInputStyle={styles.mobileInputText}
-                        dialCodeTextStyle={styles.dialcodeText}
-                        dialCode={this.state.dialCode}
-                        inputRef={(ref) => (this.phoneInput = ref)}
-                        keyboardType={"numeric"}
-                        onChangeText={(number) =>
-                          this.onChangeNumberArray(number, key)
-                        }
-                        defaultCountry="CA"
-                        isShowLabelManually={false}
-                      />
-
-                      {this.state.status &&
-                      this.state.isMobileModelOpenArray == true ? (
-                        <View
-                          style={
-                            this.state.phoneSection == true
-                              ? styles.modelViewBig
-                              : styles.modelView
-                          }
-                        >
-                          <FlatList
-                            refreshing={true}
-                            keyExtractor={(item, index) => index.toString()}
-                            data={this.state.mobileLabelList}
-                            extraData={this.state}
-                            numColumns={1}
-                            renderItem={this.renderMobileLabel.bind(this)}
-                            style={styles.flatlist}
-                            keyboardShouldPersistTaps={"always"}
-                          />
-
-                          <FlatList
-                            refreshing={true}
-                            keyExtractor={(item, index) => index.toString()}
-                            data={this.state.mLabels}
-                            extraData={this.state}
-                            numColumns={1}
-                            renderItem={this.renderItem.bind(this)}
-                          />
-                          <TouchableOpacity
-                            onPress={this.customOpen}
-                            style={{ height: 35 }}
-                          >
-                            <Text style={styles.customText}>Cutom</Text>
+                  <View>
+                    {this.state.status ? (
+                      <View style={styles.searchSection}>
+                        {this.state.isMobileSection ? (
+                          <TouchableOpacity style={{ flexDirection: "column" }}>
+                            <Text
+                              style={[
+                                styles.Text_1,
+                                {
+                                  fontSize: width * 0.02,
+                                  width: width * 0.5,
+                                  marginTop: width * 0.02,
+                                },
+                              ]}
+                            >
+                              Phone Number
+                            </Text>
+                            <TextInput
+                              placeholder="Phone Number"
+                              style={[
+                                styles.stylefiledText,
+                                { marginBottom: width * 0.025 },
+                              ]}
+                              placeholderTextColor={COLORS.main_text_color}
+                              editable={this.state.status ? true : false}
+                              onChangeText={(number) =>
+                                this.onChangeText(number, index)
+                              }
+                              keyboardType={"numeric"}
+                            />
                           </TouchableOpacity>
-                          {this.state.phoneSection == true ? (
-                            <View style={styles.inputTextView}>
-                              <TextInput
-                                onChangeText={(text) => {
-                                  this.setState({ mobileArray: text });
-                                }}
-                                style={styles.textinputText}
-                                onSubmitEditing={this.onSubmit}
-                              />
-                            </View>
+                        ) : (
+                          <TouchableOpacity
+                            onPress={() =>
+                              this.setState({ isMobileSection: true })
+                            }
+                          >
+                            <Text style={styles.stylefiledText}>
+                              Phone Number
+                            </Text>
+                          </TouchableOpacity>
+                        )}
+
+                        <TouchableOpacity
+                          style={styles.modalBtn}
+                          onPress={() => this.show(index)}
+                        >
+                          <Text style={styles.selectTypeText}>
+                            {item.label}
+                          </Text>
+                        </TouchableOpacity>
+                      </View>
+                    ) : (
+                      <TouchableOpacity style={styles.searchSection}>
+                        <Text style={styles.stylefiledText}>Phone Number</Text>
+                      </TouchableOpacity>
+                    )}
+                    {item.show && (
+                      <ScrollView
+                        style={[styles.modal]}
+                        nestedScrollEnabled={true}
+                      >
+                        {mobileLabelList.map((i) => {
+                          return (
+                            <TouchableOpacity
+                              activeOpacity={0.8}
+                              onPress={() => this.selectLabel(index, i.label)}
+                            >
+                              <View style={styles.labelContainer}>
+                                <Text style={styles.label}>{i.label}</Text>
+                              </View>
+                            </TouchableOpacity>
+                          );
+                        })}
+
+                        <View style={styles.labelContainer}>
+                          <TouchableOpacity
+                            style={styles.customView}
+                            onPress={() => {
+                              this.setState({ checkNumberSection: true });
+                            }}
+                          >
+                            <Text style={[styles.label]}>Custom</Text>
+                            {this.state.checkNumberSection ? (
+                              <View style={styles.customRight}>
+                                <Image
+                                  source={checked}
+                                  style={styles.checkedIcon}
+                                />
+                              </View>
+                            ) : null}
+                          </TouchableOpacity>
+                          {this.state.checkNumberSection ? (
+                            <TextInput
+                              style={styles.cutomTextInput}
+                              placeholderTextColor={COLORS.main_text_color}
+                              placeholder={"Label"}
+                              onChangeText={(customLabel) =>
+                                this.setState({ customLabel })
+                              }
+                              onSubmitEditing={() =>
+                                this.selectLabel(index, this.state.customLabel)
+                              }
+                            />
                           ) : null}
                         </View>
-                      ) : //   <Modal
-                      //     style={styles.footerModal}
-                      //     visible={this.state.isMobileModelOpenArray}
-                      //     transparent={true}
-                      //     animationType="fade"
-                      //     onRequestClose={() =>
-                      //       this.setState({ isMobileModelOpenArray: false })
-                      //     }
-                      //   >
-                      //     <View style={styles.contactContent}>
-                      //     <View
-                      //       style={
-                      //         this.state.phoneSection == true
-                      //           ? styles.modelViewBig
-                      //           : styles.modelView
-                      //       }
-                      //     >
-                      //       <FlatList
-                      //         refreshing={true}
-                      //         keyExtractor={(item, index) => index.toString()}
-                      //         data={this.state.mobileLabelList}
-                      //         extraData={this.state}
-                      //         numColumns={1}
-                      //         renderItem={this.renderMobileLabel.bind(this)}
-                      //         style={styles.flatlist}
-                      //         keyboardShouldPersistTaps={"always"}
-                      //       />
-
-                      //       <FlatList
-                      //         refreshing={true}
-                      //         keyExtractor={(item, index) => index.toString()}
-                      //         data={this.state.mLabels}
-                      //         extraData={this.state}
-                      //         numColumns={1}
-                      //         renderItem={this.renderItem.bind(this)}
-                      //       />
-                      //       <TouchableOpacity
-                      //         onPress={this.customOpen}
-                      //         style={{ height: 35 }}
-                      //       >
-                      //         <Text style={styles.customText}>Cutom</Text>
-                      //       </TouchableOpacity>
-                      //       {this.state.phoneSection == true ? (
-                      //         <View style={styles.inputTextView}>
-                      //           <TextInput
-                      //             onChangeText={(text) => {
-                      //               this.setState({ mobileArray: text });
-                      //             }}
-                      //             style={styles.textinputText}
-                      //             onSubmitEditing={this.onSubmit}
-                      //           />
-                      //         </View>
-                      //       ) : null}
-                      //     </View>
-                      //    </View>
-                      // </Modal>
-
-                      this.state.status ? (
-                        <TouchableHighlight
-                          underlayColor="transparent"
-                          style={[styles.rightViewBorder]}
-                          onPress={this.mobileViewOpenArray}
-                        >
-                          <View>
-                            <Text style={styles.selectTypeText}>
-                              Select Type...
-                            </Text>
-                          </View>
-                        </TouchableHighlight>
-                      ) : null}
-                    </View>
-                  </Swipeable>
+                      </ScrollView>
+                    )}
+                  </View>
                 );
               })}
-
+            </View>
+          </View>
+        </View>
+        <View style={{ flexDirection: "row" }}>
+          <View style={{ flex: 1 }}>
             <TouchableOpacity
-              onPress={() => this.addNumber()}
-              disable={this.state.disabledNumber}
+              style={styles.addNewBox}
+              onPress={() =>
+                this.addTextInput(this.state.textInput.length, false)
+              }
             >
               {this.state.status ? (
-                <NormalText> + Add Phone Number </NormalText>
+                <Text
+                  style={[
+                    styles.addNew,
+                    {
+                      color:
+                        this.props.theme.mode === "light"
+                          ? COLORS.main_text_color
+                          : COLORS.white,
+                    },
+                  ]}
+                >
+                  + Add Phone Number
+                </Text>
               ) : null}
             </TouchableOpacity>
           </View>
+
+          {this.state.removeNumberSection ? (
+            <View style={{ flex: 1, alignItems: "flex-end" }}>
+              <TouchableOpacity
+                style={{}}
+                onPress={() => this.removeTextInput()}
+              >
+                {this.state.status ? (
+                  <Text style={[styles.removeNew]}>- Remove Address</Text>
+                ) : null}
+              </TouchableOpacity>
+            </View>
+          ) : null}
         </View>
       </View>
     );
   }
-  addEmail = () => {
-    if (this.state.email.email == "") {
-      alert("Please Fill the Field");
-    }
-    if (this.state.email.email !== "") {
-      if (this.state.emailCounter == 0) {
-        this.setState({
-          emailCounter: this.state.emailCounter + 1,
-          emailSection: true,
-          emailArray: [...this.state.emailArray, { email: "", label: "" }],
-        });
-      }
-    }
-    if (this.state.emailSection == true) {
-      if (this.state.emailIndexOnly == this.state.emailCounter - 1) {
-        if (this.state.emailNameOnly !== "") {
-          this.setState({
-            emailCounter: this.state.emailCounter + 1,
-            emailSection: true,
-            emailArray: [...this.state.emailArray, { email: "", label: "" }],
-          });
-        } else {
-          alert("Please Fill the Field");
-        }
-      } else {
-        alert("Please Fill the Field");
-      }
-    }
+
+  selectEmailLabel = (index, label) => {
+    var data = this.state.emailInput;
+    data[index].label = label;
+    data[index].show = false;
+    this.setState({ emailInput: data });
+  };
+  showEmail = (index) => {
+    var data = this.state.emailInput;
+    data.map((item, i) => {
+      data[i].show = false;
+    });
+    data[index].show = true;
+    this.setState({ emailInput: data });
   };
   onChangeEmail = (value) => {
     this.state.email.email = value;
     this.setState({ email: this.state.email });
   };
-  onChangeEmailArray = (value, index) => {
-    this.setState({ emailIndexOnly: index });
-    this.setState({ emailNameOnly: value });
-    this.state.emailArray[index].email = value;
-    this.setState({ emailArray: this.state.emailArray });
-  };
-
-  changeEmailLabelArray = (label, index) => {
-    this.setState({ isEmailArrrayModelOpen: false });
-    this.state.emailArray[index].label = label;
-    this.setState({ emailArray: this.state.emailArray });
-  };
-
-  changeEmailLabel = (label) => {
-    this.setState({ isEmailModelOpen: false });
-    this.state.email.label = label;
-    this.setState({ email: this.state.email });
-  };
-  removeEmail = (key) => {
-    const { emailArray } = this.state;
-    emailArray.splice(key, 1);
-    this.setState({
-      deleteEmailArray: emailArray,
+  addEmailInput = (index, showPop) => {
+    this.setState({ removeEmailSection: true });
+    let emailInput = this.state.emailInput;
+    emailInput.map((item, i) => {
+      emailInput[i].show = false;
     });
+    emailInput.push({ label: "Select Type..", show: false });
+    this.setState({ emailInput });
   };
 
-  EmailleftAction = (key) => {
-    return (
-      <TouchableOpacity onPress={this.removeEmail}>
-        <View style={styles.deleteBox}>
-          <Text style={styles.deleteText}>Delete</Text>
-        </View>
-      </TouchableOpacity>
-    );
+  removeEmail = (key) => {
+    let emailInput = this.state.emailInput;
+    if (emailInput.length === 1) {
+      console.log("adress input --->", emailInput.length);
+    } else {
+      let emailData = this.state.emailData;
+      emailInput.pop();
+      emailData.pop();
+      this.setState({ emailInput, emailData });
+    }
   };
   renderEmail() {
     return (
@@ -1537,306 +877,174 @@ class MyContactInfromation extends Component {
           <View>
             <Image source={email} style={styles.innerStyle} />
           </View>
-
-          <View>
-            <View style={styles.filedView}>
-              <TextInput
-                placeholder="E-mail Address"
-                style={styles.stylefiledText}
-                placeholderTextColor={COLORS.main_text_color}
-                editable={this.state.status ? true : false}
-                onChangeText={(value) => this.onChangeEmail(value)}
-              />
-              {this.state.status ? (
-                <TouchableHighlight
-                  underlayColor="transparent"
-                  style={styles.rightView}
-                  onPress={() => this.setState({ isEmailModelOpen: true })}
-                >
-                  <Icon
-                    style={styles.iconSize}
-                    size={width * 0.06}
-                    name="chevron-small-down"
-                  />
-                </TouchableHighlight>
-              ) : null}
-
-              {this.state.status && this.state.email.label !== "" ? (
-                <View style={styles.rightView}>
-                  <Text style={styles.righttext}>{this.state.email.label}</Text>
-                </View>
-              ) : null}
-            </View>
-            {this.state.emailSection == true &&
-              this.state.emailArray.map((input, key) => {
-                return (
-                  <Swipeable renderLeftActions={this.EmailleftAction}>
-                    <View style={styles.filedView} key={key}>
-                      <TextInput
-                        placeholder="E-mail Address"
-                        style={styles.stylefiledText}
-                        placeholderTextColor={COLORS.main_text_color}
-                        // key={key}
-                        keyboardType={"email-address"}
-                        onChangeText={(email) => {
-                          this.onChangeEmailArray(email, key);
-                        }}
-                      />
-                      <TouchableHighlight
-                        underlayColor="transparent"
-                        style={styles.rightView}
-                        // key={key}
-                        onPress={() =>
-                          this.setState({ isEmailArrrayModelOpen: true })
-                        }
-                      >
-                        <Icon
-                          style={styles.iconSize}
-                          size={width * 0.06}
-                          name="chevron-small-down"
-                        />
-                      </TouchableHighlight>
-
-                      {this.state.emailArray[key].label !== "" ? (
-                        <View style={styles.rightView}>
-                          <Text style={styles.righttext}>
-                            {this.state.emailArray[key].label}
+          <View style={{ flexDirection: "column" }}>
+            {this.state.emailInput.map((item, index) => {
+              return (
+                <View>
+                  {this.state.status ? (
+                    <View style={styles.searchSection}>
+                      {this.state.isEmailSection ? (
+                        <TouchableOpacity style={{ flexDirection: "column" }}>
+                          <Text
+                            style={[
+                              styles.Text_1,
+                              {
+                                fontSize: width * 0.02,
+                                width: width * 0.5,
+                                marginTop: width * 0.02,
+                              },
+                            ]}
+                          >
+                            E-mail Address
                           </Text>
-                        </View>
-                      ) : null}
-                      <Modal
-                        style={styles.footerModal}
-                        visible={this.state.isEmailArrrayModelOpen}
-                        transparent={true}
-                        animationType="fade"
-                        // key={key}
-                        onRequestClose={() =>
-                          this.setState({ isEmailArrrayModelOpen: false })
-                        }
+                          <TextInput
+                            placeholder="E-mail Address"
+                            style={[
+                              styles.Text_1,
+                              { fontSize: width * 0.03, width: width * 0.5 },
+                            ]}
+                            placeholderTextColor={COLORS.main_text_color}
+                            editable={this.state.status ? true : false}
+                            onChangeText={(value) => this.onChangeEmail(value)}
+                          />
+                        </TouchableOpacity>
+                      ) : (
+                        <TouchableOpacity
+                          onPress={() =>
+                            this.setState({ isEmailSection: true })
+                          }
+                        >
+                          <Text style={styles.stylefiledText}>
+                            {" "}
+                            E-mail Address
+                          </Text>
+                        </TouchableOpacity>
+                      )}
+                      <TouchableOpacity
+                        style={styles.modalBtn}
+                        onPress={() => this.showEmail(index)}
                       >
-                        <View style={styles.contactContent}>
-                          <View style={styles.content}>
-                            <Text style={styles.modalHeader}>Email</Text>
-                            <View style={{ flexDirection: "column" }}>
-                              {this.state.emailLabelList.map((item, index) => {
-                                return (
-                                  <TouchableHighlight
-                                    underlayColor="transparent"
-                                    onPress={() => {
-                                      this.changeEmailLabelArray(
-                                        item.label,
-                                        key
-                                      );
-                                    }}
-                                  >
-                                    <Text style={styles.labelName}>
-                                      {" "}
-                                      {item.label}{" "}
-                                    </Text>
-                                  </TouchableHighlight>
-                                );
-                              })}
-                              <TouchableHighlight
-                                underlayColor="transparent"
-                                onPress={() =>
-                                  this.setState({
-                                    isAddEmailArrayLabel: true,
-                                    emailLabel: "",
-                                  })
-                                }
-                              >
-                                <Text style={styles.labelName}> Custom </Text>
-                              </TouchableHighlight>
-                            </View>
-                          </View>
-                        </View>
-                      </Modal>
-                      <Modal
-                        style={styles.footerModal}
-                        visible={this.state.isAddEmailArrayLabel}
-                        transparent={true}
-                        // key={key}
-                        animationType="fade"
-                      >
-                        <View style={styles.contactContent}>
-                          <View style={styles.content}>
-                            <Text style={styles.modalHeader}>
-                              Custom label name
-                            </Text>
-                            <View style={{ flexDirection: "column" }}>
-                              <TextInput
-                                placeholder="Custom label name"
-                                style={styles.addLabelField}
-                                placeholderTextColor={COLORS.main_text_color}
-                                editable={this.state.status ? true : false}
-                                keyboardType={"default"}
-                                onChangeText={(label) => {
-                                  this.changeEmailLabelArray(label, key);
-                                }}
-                              />
-                              <TouchableHighlight
-                                underlayColor="transparent"
-                                style={styles.saveView}
-                                onPress={() =>
-                                  this.state.emailLabel !== ""
-                                    ? this.setState({
-                                        isAddEmailArrayLabel: false,
-                                        isEmailArrrayModelOpen: false,
-                                      })
-                                    : this.setState({
-                                        isAddEmailArrayLabel: false,
-                                      })
-                                }
-                              >
-                                <Text
-                                  style={{
-                                    color: COLORS.main_text_color,
-                                    fontFamily: Font.medium,
-                                    fontSize: width * 0.04,
-                                  }}
-                                >
-                                  {" "}
-                                  Ok{" "}
-                                </Text>
-                              </TouchableHighlight>
-                            </View>
-                          </View>
-                        </View>
-                      </Modal>
+                        <Text style={styles.selectTypeText}>{item.label}</Text>
+                      </TouchableOpacity>
                     </View>
-                  </Swipeable>
-                );
-              })}
-            <TouchableOpacity
-              onPress={() => this.addEmail()}
-              disable={this.state.disabledEmail}
-            >
-              {this.state.status ? (
-                <NormalText> + Add E-mail Address </NormalText>
-              ) : null}
-            </TouchableOpacity>
-            <Modal
-              style={styles.footerModal}
-              visible={this.state.isEmailModelOpen}
-              transparent={true}
-              animationType="fade"
-              onRequestClose={() => this.setState({ isEmailModelOpen: false })}
-            >
-              <View style={styles.contactContent}>
-                <View style={styles.content}>
-                  <Text style={styles.modalHeader}>Email</Text>
-                  <View style={{ flexDirection: "column" }}>
-                    {this.state.emailLabelList.map((item, index) => {
-                      return (
-                        <TouchableHighlight
-                          underlayColor="transparent"
+                  ) : (
+                    <TouchableOpacity style={styles.searchSection}>
+                      <Text style={styles.stylefiledText}>E-mail Address</Text>
+                    </TouchableOpacity>
+                  )}
+                  {item.show && (
+                    <ScrollView
+                      style={[styles.modal]}
+                      nestedScrollEnabled={true}
+                    >
+                      {this.state.emailLabelList.map((i) => {
+                        return (
+                          <TouchableOpacity
+                            activeOpacity={0.8}
+                            onPress={() =>
+                              this.selectEmailLabel(index, i.label)
+                            }
+                          >
+                            <View style={styles.labelContainer}>
+                              <Text style={styles.label}>{i.label}</Text>
+                            </View>
+                          </TouchableOpacity>
+                        );
+                      })}
+
+                      <View style={styles.labelContainer}>
+                        <TouchableOpacity
+                          style={styles.customView}
                           onPress={() => {
-                            this.changeEmailLabel(item.label);
+                            this.setState({ checkEmailSection: true });
                           }}
                         >
-                          <Text style={styles.labelName}> {item.label} </Text>
-                        </TouchableHighlight>
-                      );
-                    })}
-                    <TouchableHighlight
-                      underlayColor="transparent"
-                      onPress={() =>
-                        this.setState({ isAddEmailLabel: true, emailLabel: "" })
-                      }
-                    >
-                      <Text style={styles.labelName}> Custom </Text>
-                    </TouchableHighlight>
-                  </View>
+                          <Text style={[styles.label]}>Custom</Text>
+                          {this.state.checkEmailSection ? (
+                            <View style={styles.customRight}>
+                              <Image
+                                source={checked}
+                                style={styles.checkedIcon}
+                              />
+                            </View>
+                          ) : null}
+                        </TouchableOpacity>
+                        {this.state.checkEmailSection ? (
+                          <TextInput
+                            style={styles.cutomTextInput}
+                            placeholder={"Label"}
+                            placeholderTextColor={COLORS.main_text_color}
+                            onChangeText={(customEmailLabel) =>
+                              this.setState({ customEmailLabel })
+                            }
+                            onSubmitEditing={() =>
+                              this.selectEmailLabel(
+                                index,
+                                this.state.customEmailLabel
+                              )
+                            }
+                          />
+                        ) : null}
+                      </View>
+                    </ScrollView>
+                  )}
                 </View>
-              </View>
-            </Modal>
-            <Modal
-              style={styles.footerModal}
-              visible={this.state.isAddEmailLabel}
-              transparent={true}
-              animationType="fade"
-            >
-              <View style={styles.contactContent}>
-                <View style={styles.content}>
-                  <Text style={styles.modalHeader}>Custom label name</Text>
-                  <View style={{ flexDirection: "column" }}>
-                    <TextInput
-                      placeholder="Custom label name"
-                      style={styles.addLabelField}
-                      placeholderTextColor={COLORS.main_text_color}
-                      editable={this.state.status ? true : false}
-                      keyboardType={"default"}
-                      // value={this.state.emailLabel}
-                      onChangeText={(label) => {
-                        this.changeEmailLabel(label);
-                      }}
-                    />
-                    <TouchableHighlight
-                      underlayColor="transparent"
-                      style={styles.saveView}
-                      onPress={() =>
-                        this.state.emailLabel !== ""
-                          ? this.setState({
-                              isAddEmailLabel: false,
-                              isEmailModelOpen: false,
-                            })
-                          : this.setState({ isAddEmailLabel: false })
-                      }
-                    >
-                      <Text
-                        style={{
-                          color: COLORS.main_text_color,
-                          fontFamily: Font.medium,
-                          fontSize: width * 0.04,
-                        }}
-                      >
-                        {" "}
-                        Ok{" "}
-                      </Text>
-                    </TouchableHighlight>
-                  </View>
-                </View>
-              </View>
-            </Modal>
+              );
+            })}
           </View>
+        </View>
+        <View style={{ flexDirection: "row" }}>
+          <View style={{ flex: 1 }}>
+            <TouchableOpacity
+              style={styles.addNewBox}
+              onPress={() =>
+                this.addEmailInput(this.state.textInput.length, false)
+              }
+            >
+              {this.state.status ? (
+                <Text
+                  style={[
+                    styles.addNew,
+                    {
+                      color:
+                        this.props.theme.mode === "light"
+                          ? COLORS.main_text_color
+                          : COLORS.white,
+                    },
+                  ]}
+                >
+                  + Add Email
+                </Text>
+              ) : null}
+            </TouchableOpacity>
+          </View>
+
+          {this.state.removeEmailSection ? (
+            <View style={{ flex: 1, alignItems: "flex-end" }}>
+              <TouchableOpacity style={{}} onPress={() => this.removeEmail()}>
+                {this.state.status ? (
+                  <Text style={[styles.removeNew]}>- Remove Email</Text>
+                ) : null}
+              </TouchableOpacity>
+            </View>
+          ) : null}
         </View>
       </View>
     );
   }
-  addAddress = () => {
-    if (this.state.address.address == "") {
-      alert("Please Fill the Field");
-    }
-    if (this.state.address.address !== "") {
-      if (this.state.counter == 0) {
-        this.setState({
-          counter: this.state.counter + 1,
-          addressSection: true,
-          addressArray: [
-            ...this.state.addressArray,
-            { address: "", label: "" },
-          ],
-        });
-      }
-    }
-    if (this.state.addressSection == true) {
-      if (this.state.addressIndexOnly == this.state.counter - 1) {
-        if (this.state.addressNameOnly !== "") {
-          this.setState({
-            counter: this.state.counter + 1,
-            addressSection: true,
-            addressArray: [
-              ...this.state.addressArray,
-              { address: "", label: "" },
-            ],
-          });
-        } else {
-          alert("Please Fill the Field");
-        }
-      } else {
-        alert("Please Fill the Field");
-      }
-    }
+  selectAddressLabel = (index, label) => {
+    var data = this.state.addressInput;
+    data[index].label = label;
+    data[index].show = false;
+    this.setState({ emailData: data, checkAddressSection: false });
+  };
+  showAddress = (index) => {
+    var data = this.state.addressInput;
+    data.map((item, i) => {
+      data[i].show = false;
+    });
+    data[index].show = true;
+    this.setState({ addressInput: data });
   };
 
   onChangeAddress = (value) => {
@@ -1844,49 +1052,30 @@ class MyContactInfromation extends Component {
     this.setState({ address: this.state.address });
   };
 
-  onChangeAddressArray = (value, index) => {
-    this.setState({ addressIndexOnly: index });
-    this.setState({ addressNameOnly: value });
-    this.state.addressArray[index].address = value;
-    this.setState({ addressArray: this.state.addressArray });
-  };
-
-  changeAddressLabelArray = (label, index) => {
-    this.setState({ isAddressArrayModelOpen: false });
-    this.state.addressArray[index].label = label;
-    this.setState({ AddressArray: this.state.addressArray });
-  };
-
-  changeAddressLabel = (label) => {
-    this.setState({ isAddressModelOpen: false });
-    this.state.address.label = label;
-    this.setState({ Address: this.state.address });
-  };
-
-  removeAddress = (key) => {
-    const { addressArray } = this.state;
-    addressArray.splice(key, 1);
-    this.setState({
-      deleteAddressArray: addressArray,
+  addAdressInput = (index, showPop) => {
+    this.setState({ removeSection: true });
+    let addressInput = this.state.addressInput;
+    addressInput.map((item, i) => {
+      addressInput[i].show = false;
     });
+    // if (addressInput.length < 5) {
+    addressInput.push({ label: "Select Type..", show: false });
+    // }
+
+    this.setState({ addressInput });
+  };
+  removeAddress = (key) => {
+    let addressInput = this.state.addressInput;
+    if (addressInput.length === 1) {
+      console.log("adress input --->", addressInput.length);
+    } else {
+      let addressData = this.state.addressData;
+      addressInput.pop();
+      addressData.pop();
+      this.setState({ addressInput, addressData });
+    }
   };
 
-  AddressLeftAction = (key) => {
-    return (
-      <TouchableOpacity
-        onPress={this.removeAddress}
-        style={{ justifyContent: "center", alignItems: "center" }}
-      >
-        <View style={styles.deleteBox}>
-          <Text style={styles.deleteText}>Delete</Text>
-        </View>
-      </TouchableOpacity>
-    );
-  };
-  ModelOpen = (key) => {
-    this.setState({ addressModelKey: key });
-    this.setState({ isAddressArrayModelOpen: true });
-  };
   renderAddress() {
     return (
       <View style={{ marginTop: Metrics.doubleBaseMargin }}>
@@ -1894,1082 +1083,608 @@ class MyContactInfromation extends Component {
           <View>
             <Image source={home} style={styles.innerStyle} />
           </View>
-
-          <View>
-            <View style={styles.addressFieldContainer}>
-              <TextInput
-                placeholder="Address"
-                style={styles.addressField}
-                placeholderTextColor={COLORS.main_text_color}
-                multiline={true}
-                numberOfLines={5}
-                editable={this.state.status ? true : false}
-                onChangeText={(value) => this.onChangeAddress(value)}
-              />
-              {this.state.status ? (
-                <TouchableHighlight
-                  underlayColor="transparent"
-                  style={styles.addressRightView}
-                  onPress={() => this.setState({ isAddressModelOpen: true })}
-                >
-                  <Icon
-                    style={styles.iconSize}
-                    size={width * 0.06}
-                    name="chevron-small-down"
-                  />
-                </TouchableHighlight>
-              ) : null}
-
-              {this.state.status && this.state.address.label !== "" ? (
-                <View style={styles.addressRightView}>
-                  <Text style={styles.addressRighttext}>
-                    {this.state.address.label}
-                  </Text>
-                </View>
-              ) : null}
-            </View>
-
-            {
-              this.state.addressSection == true &&
-                this.state.addressArray.map((input, key) => {
-                  return (
-                    <Swipeable renderLeftActions={this.AddressLeftAction}>
-                      <View style={styles.addressFieldContainer} key={key}>
-                        <TextInput
-                          placeholder="Address"
-                          style={styles.addressField}
-                          placeholderTextColor={COLORS.main_text_color}
-                          multiline={true}
-                          numberOfLines={5}
-                          onChangeText={(address) => {
-                            this.onChangeAddressArray(address, key);
-                          }}
-                        />
-                        <TouchableHighlight
-                          underlayColor="transparent"
-                          style={styles.addressRightView}
-                          // key={key}
-                          onPress={() =>
-                            this.setState({ isAddressArrayModelOpen: true })
-                          }
-                        >
-                          <Icon
-                            style={styles.iconSize}
-                            size={width * 0.06}
-                            name="chevron-small-down"
+          <View style={{ flexDirection: "column" }}>
+            {this.state.addressInput.map((item, index) => {
+              return (
+                <View>
+                  {this.state.status ? (
+                    <View style={styles.searchSectionAddress}>
+                      {this.state.isAddressSection ? (
+                        <TouchableOpacity style={{ flexDirection: "column" }}>
+                          <Text
+                            style={[
+                              styles.Text_1,
+                              {
+                                fontSize: width * 0.02,
+                                width: width * 0.5,
+                                marginTop: width * 0.02,
+                              },
+                            ]}
+                          >
+                            Address
+                          </Text>
+                          <TextInput
+                            placeholder="Address"
+                            style={styles.addressField}
+                            placeholderTextColor={COLORS.main_text_color}
+                            multiline={true}
+                            // numberOfLines={5}
+                            editable={this.state.status ? true : false}
+                            onChangeText={(value) =>
+                              this.onChangeAddress(value)
+                            }
                           />
-                        </TouchableHighlight>
-
-                        {this.state.addressArray[key].label !== "" ? (
-                          <View style={styles.addressRightView}>
-                            <Text style={styles.addressRighttext}>
-                              {this.state.addressArray[key].label}
-                            </Text>
-                          </View>
-                        ) : null}
-                        <Modal
-                          style={styles.footerModal}
-                          visible={this.state.isAddressArrayModelOpen}
-                          transparent={true}
-                          animationType="fade"
-                          onRequestClose={() =>
-                            this.setState({ isAddressArrayModelOpen: false })
+                        </TouchableOpacity>
+                      ) : (
+                        <TouchableOpacity
+                          onPress={() =>
+                            this.setState({ isAddressSection: true })
                           }
                         >
-                          <View style={styles.contactContent}>
-                            <View style={styles.content}>
-                              <Text style={styles.modalHeader}>Address</Text>
-                              <View style={{ flexDirection: "column" }}>
-                                {this.state.addressLabelList.map(
-                                  (item, index) => {
-                                    return (
-                                      <TouchableHighlight
-                                        underlayColor="transparent"
-                                        onPress={() => {
-                                          this.changeAddressLabelArray(
-                                            item.label,
-                                            key
-                                          );
-                                        }}
-                                      >
-                                        <Text style={styles.labelName}>
-                                          {item.label}
-                                        </Text>
-                                      </TouchableHighlight>
-                                    );
-                                  }
-                                )}
-                                <TouchableHighlight
-                                  underlayColor="transparent"
-                                  onPress={() =>
-                                    this.setState({
-                                      isAddAddressArrayLabel: true,
-                                      addressLabel: "",
-                                    })
-                                  }
-                                >
-                                  <Text style={styles.labelName}> Custom </Text>
-                                </TouchableHighlight>
-                              </View>
-                            </View>
-                          </View>
-                        </Modal>
-                        <Modal
-                          style={styles.footerModal}
-                          visible={this.state.isAddAddressArrayLabel}
-                          transparent={true}
-                          // key={key}
-                          animationType="fade"
+                          <Text style={styles.stylefiledText}>Address</Text>
+                        </TouchableOpacity>
+                      )}
+                      <View style={styles.rightView}>
+                        <TouchableOpacity
+                          style={styles.modalBtn}
+                          onPress={() => this.showAddress(index)}
                         >
-                          <View style={styles.contactContent}>
-                            <View style={styles.content}>
-                              <Text style={styles.modalHeader}>
-                                Custom label name
-                              </Text>
-                              <View style={{ flexDirection: "column" }}>
-                                <TextInput
-                                  placeholder="Custom label name"
-                                  style={styles.addLabelField}
-                                  placeholderTextColor={COLORS.main_text_color}
-                                  editable={this.state.status ? true : false}
-                                  keyboardType={"default"}
-                                  onChangeText={(label) => {
-                                    this.changeAddressLabelArray(label, key);
-                                  }}
-                                />
-                                <TouchableHighlight
-                                  underlayColor="transparent"
-                                  style={styles.saveView}
-                                  onPress={() =>
-                                    this.state.addressLabel !== ""
-                                      ? this.setState({
-                                          isAddAddressArrayLabel: false,
-                                          isAddressArrayModelOpen: false,
-                                        })
-                                      : this.setState({
-                                          isAddAddressArrayLabel: false,
-                                        })
-                                  }
-                                >
-                                  <Text
-                                    style={{
-                                      color: COLORS.main_text_color,
-                                      fontFamily: Font.medium,
-                                      fontSize: width * 0.04,
-                                    }}
-                                  >
-                                    {" "}
-                                    Ok{" "}
-                                  </Text>
-                                </TouchableHighlight>
-                              </View>
-                            </View>
-                          </View>
-                        </Modal>
+                          <Text style={styles.selectTypeText}>
+                            {item.label}
+                          </Text>
+                        </TouchableOpacity>
                       </View>
-                    </Swipeable>
-                  );
-                })
-              // }
-            }
+                    </View>
+                  ) : (
+                    <TouchableOpacity style={styles.searchSection}>
+                      <Text style={styles.stylefiledText}>Address</Text>
+                    </TouchableOpacity>
+                  )}
+                  {item.show && (
+                    <ScrollView
+                      style={[styles.modal]}
+                      nestedScrollEnabled={true}
+                    >
+                      {this.state.addressLabelList.map((i) => {
+                        return (
+                          <TouchableOpacity
+                            activeOpacity={0.8}
+                            onPress={() =>
+                              this.selectAddressLabel(index, i.label)
+                            }
+                          >
+                            <View style={styles.labelContainer}>
+                              <Text style={styles.label}>{i.label}</Text>
+                            </View>
+                          </TouchableOpacity>
+                        );
+                      })}
 
+                      <View style={styles.labelContainer}>
+                        <TouchableOpacity
+                          style={styles.customView}
+                          onPress={() => {
+                            this.setState({ checkAddressSection: true });
+                          }}
+                        >
+                          <Text style={[styles.label]}>Custom</Text>
+                          {this.state.checkAddressSection ? (
+                            <View style={styles.customRight}>
+                              <Image
+                                source={checked}
+                                style={styles.checkedIcon}
+                              />
+                            </View>
+                          ) : null}
+                        </TouchableOpacity>
+                        {this.state.checkAddressSection ? (
+                          <TextInput
+                            style={styles.cutomTextInput}
+                            placeholder={"Label"}
+                            placeholderTextColor={COLORS.main_text_color}
+                            onChangeText={(customAddLabel) =>
+                              this.setState({ customAddLabel })
+                            }
+                            onSubmitEditing={() =>
+                              this.selectAddressLabel(
+                                index,
+                                this.state.customAddLabel
+                              )
+                            }
+                          />
+                        ) : null}
+                      </View>
+                    </ScrollView>
+                  )}
+                </View>
+              );
+            })}
+          </View>
+        </View>
+
+        <View style={{ flexDirection: "row" }}>
+          <View style={{ flex: 1 }}>
             <TouchableOpacity
-              onPress={() => {
-                this.addAddress();
-              }}
-            >
-              {this.state.status ? (
-                <NormalText> + Add Address </NormalText>
-              ) : null}
-            </TouchableOpacity>
-            {/* ))} */}
-
-            <Modal
-              style={styles.footerModal}
-              visible={this.state.isAddressModelOpen}
-              transparent={true}
-              animationType="fade"
-              onRequestClose={() =>
-                this.setState({ isAddressModelOpen: false })
+              style={styles.addNewBox}
+              onPress={() =>
+                this.addAdressInput(this.state.textInput.length, false)
               }
             >
-              <View style={styles.contactContent}>
-                <View style={styles.content}>
-                  <Text style={styles.modalHeader}>Address</Text>
-                  <View style={{ flexDirection: "column" }}>
-                    {this.state.addressLabelList.map((item, index) => {
-                      return (
-                        <TouchableHighlight
-                          underlayColor="transparent"
-                          onPress={() => {
-                            this.changeAddressLabel(item.label);
-                          }}
-                        >
-                          <Text style={styles.labelName}> {item.label} </Text>
-                        </TouchableHighlight>
-                      );
-                    })}
-                    <TouchableHighlight
-                      underlayColor="transparent"
-                      onPress={() =>
-                        this.setState({
-                          isAddAddressLabel: true,
-                          addressLabel: "",
-                        })
-                      }
-                    >
-                      <Text style={styles.labelName}> Custom </Text>
-                    </TouchableHighlight>
-                  </View>
-                </View>
-              </View>
-            </Modal>
-            <Modal
-              style={styles.footerModal}
-              visible={this.state.isAddAddressLabel}
-              transparent={true}
-              animationType="fade"
-            >
-              <View style={styles.contactContent}>
-                <View style={styles.content}>
-                  <Text style={styles.modalHeader}>Custom label name</Text>
-                  <View style={{ flexDirection: "column" }}>
-                    <TextInput
-                      placeholder="Custom label name"
-                      style={styles.addLabelField}
-                      placeholderTextColor={COLORS.main_text_color}
-                      editable={this.state.status ? true : false}
-                      keyboardType={"default"}
-                      onChangeText={(label) => {
-                        this.changeAddressLabel(label);
-                      }}
-                    />
-                    <TouchableHighlight
-                      underlayColor="transparent"
-                      style={styles.saveView}
-                      onPress={() =>
-                        this.state.addressLabel !== ""
-                          ? this.setState({
-                              isAddAddressLabel: false,
-                              isAddressModelOpen: false,
-                            })
-                          : this.setState({ isAddAddressLabel: false })
-                      }
-                    >
-                      <Text
-                        style={{
-                          color: COLORS.main_text_color,
-                          fontFamily: Font.medium,
-                          fontSize: width * 0.04,
-                        }}
-                      >
-                        {" "}
-                        Ok{" "}
-                      </Text>
-                    </TouchableHighlight>
-                  </View>
-                </View>
-              </View>
-            </Modal>
+              {this.state.status ? (
+                <Text
+                  style={[
+                    styles.addNew,
+                    {
+                      color:
+                        this.props.theme.mode === "light"
+                          ? COLORS.main_text_color
+                          : COLORS.white,
+                    },
+                  ]}
+                >
+                  + Add Phone Number
+                </Text>
+              ) : null}
+            </TouchableOpacity>
           </View>
+
+          {this.state.removeSection ? (
+            <View style={{ flex: 1, alignItems: "flex-end" }}>
+              <TouchableOpacity style={{}} onPress={() => this.removeAddress()}>
+                {this.state.status ? (
+                  <Text style={[styles.removeNew]}>- Remove Address</Text>
+                ) : null}
+              </TouchableOpacity>
+            </View>
+          ) : null}
         </View>
       </View>
     );
   }
-  addMessanger = () => {
-    if (this.state.messanger.messanger == "") {
-      alert("Please Fill the Field");
-    }
-    if (this.state.messanger.messanger !== "") {
-      if (this.state.messangerCounter == 0) {
-        this.setState({
-          messangerCounter: this.state.messangerCounter + 1,
-          messangerSection: true,
-          messangerArray: [
-            ...this.state.messangerArray,
-            { messenger: "", label: "" },
-          ],
-        });
-      }
-    }
-    if (this.state.messangerSection == true) {
-      if (this.state.messangerIndexOnly == this.state.messangerCounter - 1) {
-        if (this.state.messangerNameOnly !== "") {
-          this.setState({
-            messangerCounter: this.state.messangerCounter + 1,
-            messangerSection: true,
-            messangerArray: [
-              ...this.state.messangerArray,
-              { messenger: "", label: "" },
-            ],
-          });
-        } else {
-          alert("Please Fill the Field");
-        }
-      } else {
-        alert("Please Fill the Field");
-      }
-    }
+  selectMessengerLabel = (index, label) => {
+    var data = this.state.messengerInput;
+    data[index].label = label;
+    data[index].show = false;
+    this.setState({ messengerInput: data });
   };
-
-  onChangeMessenger = (value) => {
-    this.state.messanger.messanger = value;
-    this.setState({ messanger : this.state.messanger });
-  };
-
-  onChangeMessengerArray = (value, index) => {
-    this.setState({ messangerIndexOnly: index });
-    this.setState({ messangerNameOnly: value });
-    this.state.messangerArray[index].messanger = value;
-    this.setState({ messangerArray: this.state.messangerArray });
-  };
-
-  changeMessengerLabelArray = (label, index) => {
-    this.setState({ isMessangerArrayModelOpen: false });
-    this.state.messangerArray[index].label = label;
-    this.setState({ messangerArray: this.state.messangerArray });
-  };
-  changeMessangerLabel = (label) => {
-    this.setState({ isMessangerModelOpen: false });
-    this.state.messanger.label = label;
-    this.setState({ messanger : this.state.messanger });
-  };
-
-  removeMessanger = (key) => {
-    const { messangerArray } = this.state;
-    messangerArray.splice(key, 1);
-    this.setState({
-      deleteMessangerArray: messangerArray,
+  showMessenger = (index) => {
+    var data = this.state.messengerInput;
+    data.map((item, i) => {
+      data[i].show = false;
     });
+    data[index].show = true;
+    this.setState({ messengerInput: data });
+  };
+  onChangeMessenger = (value) => {
+    this.state.email.email = value;
+    this.setState({ email: this.state.email });
+  };
+  addMessengerInput = (index, showPop) => {
+    this.setState({ removeMessengerSection: true });
+    let messengerInput = this.state.messengerInput;
+    messengerInput.map((item, i) => {
+      messengerInput[i].show = false;
+    });
+    messengerInput.push({ label: "Select Type...", show: false });
+    this.setState({ messengerInput });
   };
 
-  MessangerLeftAction = (key) => {
-    return (
-      <TouchableOpacity onPress={this.removeMessanger}>
-        <View style={styles.deleteBox}>
-          <Text style={styles.deleteText}>Delete</Text>
-        </View>
-      </TouchableOpacity>
-    );
+  removeMessenger = (key) => {
+    let messengerInput = this.state.messengerInput;
+    if (messengerInput.length === 1) {
+      console.log("adress input --->", messengerInput.length);
+    } else {
+      let messengerData = this.state.messengerData;
+      messengerInput.pop();
+      messengerData.pop();
+      this.setState({ messengerInput, messengerData });
+    }
   };
-  renderMessage() {
+  renderMessenger() {
     return (
       <View style={{ marginTop: Metrics.doubleBaseMargin }}>
         <View style={{ flexDirection: "row" }}>
           <View>
             <Image source={message} style={styles.innerStyle} />
           </View>
-
-          <View>
-            <View style={styles.filedView}>
-              <TextInput
-                placeholder="Messenger Account"
-                style={styles.stylefiledText}
-                placeholderTextColor={COLORS.main_text_color}
-                editable={this.state.status ? true : false}
-                onChangeText={(value) => this.onChangeMessenger(value)}
-              />
-              {this.state.status ? (
-                <TouchableHighlight
-                  underlayColor="transparent"
-                  style={styles.addressRightView}
-                  onPress={() => this.setState({ isMessangerModelOpen: true })}
-                >
-                  <Icon
-                    style={styles.iconSize}
-                    size={width * 0.06}
-                    name="chevron-small-down"
-                  />
-                </TouchableHighlight>
-              ) : null}
-
-              {this.state.status && this.state.messanger.label !== "" ? (
-                <View style={styles.addressRightView}>
-                  <Text style={styles.addressRighttext}>
-                    {this.state.messanger.label}
-                  </Text>
-                </View>
-              ) : null}
-            </View>
-
-            {this.state.messangerSection == true &&
-              this.state.messangerArray.map((input, key) => {
-                return (
-                  <Swipeable renderLeftActions={this.MessangerLeftAction}>
-                    <View style={styles.filedView} key={key}>
-                      <TextInput
-                        placeholder="Messenger Account"
-                        style={styles.stylefiledText}
-                        placeholderTextColor={COLORS.main_text_color}
-                        key={key}
-                        keyboardType={"default"}
-                        onChangeText={(messenger) => {
-                          this.onChangeMessengerArray(messenger, key);
-                        }}
-                      />
-                      <TouchableHighlight
-                        underlayColor="transparent"
-                        style={styles.addressRightView}
-                        onPress={() =>
-                          this.setState({ isMessangerArrayModelOpen: true })
-                        }
-                      >
-                        <Icon
-                          style={styles.iconSize}
-                          size={width * 0.06}
-                          name="chevron-small-down"
-                        />
-                      </TouchableHighlight>
-                      {this.state.messangerArray[key].label !== "" ? (
-                        <View style={styles.addressRightView}>
-                          <Text style={styles.addressRighttext}>
-                            {this.state.messangerArray[key].label}
+          <View style={{ flexDirection: "column" }}>
+            {this.state.messengerInput.map((item, index) => {
+              return (
+                <View>
+                  {this.state.status ? (
+                    <View style={styles.searchSection}>
+                      {this.state.isMessengerSection ? (
+                        <TouchableOpacity style={{ flexDirection: "column" }}>
+                          <Text
+                            style={[
+                              styles.Text_1,
+                              {
+                                fontSize: width * 0.02,
+                                width: width * 0.5,
+                                marginTop: width * 0.02,
+                              },
+                            ]}
+                          >
+                            Messenger Account
                           </Text>
-                        </View>
-                      ) : null}
-                      <Modal
-                        style={styles.footerModal}
-                        visible={this.state.isMessangerArrayModelOpen}
-                        transparent={true}
-                        animationType="fade"
-                        onRequestClose={() =>
-                          this.setState({ isMessangerArrayModelOpen: false })
-                        }
+                          <TextInput
+                            placeholder="Messenger Account"
+                            style={styles.stylefiledText}
+                            placeholderTextColor={COLORS.main_text_color}
+                            editable={this.state.status ? true : false}
+                            onChangeText={(value) =>
+                              this.onChangeMessenger(value)
+                            }
+                          />
+                        </TouchableOpacity>
+                      ) : (
+                        <TouchableOpacity
+                          onPress={() =>
+                            this.setState({ isMessengerSection: true })
+                          }
+                        >
+                          <Text style={styles.stylefiledText}>
+                            Messenger Account
+                          </Text>
+                        </TouchableOpacity>
+                      )}
+                      <TouchableOpacity
+                        style={styles.modalBtn}
+                        onPress={() => this.showMessenger(index)}
                       >
-                        <View style={styles.contactContent}>
-                          <View style={styles.content}>
-                            <Text style={styles.modalHeader}>
-                              Messanger Account
-                            </Text>
-                            <View style={{ flexDirection: "column" }}>
-                              {this.state.mesangerLabelList.map(
-                                (item, index) => {
-                                  return (
-                                    <TouchableHighlight
-                                      underlayColor="transparent"
-                                      onPress={() => {
-                                        this.changeMessengerLabelArray(
-                                          item.label,
-                                          key
-                                        );
-                                      }}
-                                    >
-                                      <Text style={styles.labelName}>
-                                        {" "}
-                                        {item.label}{" "}
-                                      </Text>
-                                    </TouchableHighlight>
-                                  );
-                                }
-                              )}
-                              <TouchableHighlight
-                                underlayColor="transparent"
-                                onPress={() =>
-                                  this.setState({
-                                    isAddMessangerArrayLabel: true,
-                                    messangerLabel: "",
-                                  })
-                                }
-                              >
-                                <Text style={styles.labelName}> Custom </Text>
-                              </TouchableHighlight>
-                            </View>
-                          </View>
-                        </View>
-                      </Modal>
-                      <Modal
-                        style={styles.footerModal}
-                        visible={this.state.isAddMessangerArrayLabel}
-                        transparent={true}
-                        animationType="fade"
-                      >
-                        <View style={styles.contactContent}>
-                          <View style={styles.content}>
-                            <Text style={styles.modalHeader}>
-                              Custom label name
-                            </Text>
-                            <View style={{ flexDirection: "column" }}>
-                              <TextInput
-                                placeholder="Custom label name"
-                                style={styles.addLabelField}
-                                placeholderTextColor={COLORS.main_text_color}
-                                editable={this.state.status ? true : false}
-                                keyboardType={"default"}
-                                onChangeText={(label) => {
-                                  this.changeMessengerLabelArray(label, key);
-                                }}
-                              />
-                              <TouchableHighlight
-                                underlayColor="transparent"
-                                style={styles.saveView}
-                                onPress={() =>
-                                  this.state.addressLabel !== ""
-                                    ? this.setState({
-                                        isAddMessangerArrayLabel: false,
-                                        isMessangerArrayModelOpen: false,
-                                      })
-                                    : this.setState({
-                                        isAddMessangerArrayLabel: false,
-                                      })
-                                }
-                              >
-                                <Text
-                                  style={{
-                                    color: COLORS.main_text_color,
-                                    fontFamily: Font.medium,
-                                    fontSize: width * 0.04,
-                                  }}
-                                >
-                                  {" "}
-                                  Ok{" "}
-                                </Text>
-                              </TouchableHighlight>
-                            </View>
-                          </View>
-                        </View>
-                      </Modal>
+                        <Text style={styles.selectTypeText}>{item.label}</Text>
+                      </TouchableOpacity>
                     </View>
-                  </Swipeable>
-                );
-              })}
+                  ) : (
+                    <TouchableOpacity style={styles.searchSection}>
+                      <Text style={styles.stylefiledText}>
+                        Messenger Account
+                      </Text>
+                    </TouchableOpacity>
+                  )}
+                  {item.show && (
+                    <ScrollView
+                      style={[styles.modal]}
+                      nestedScrollEnabled={true}
+                    >
+                      {this.state.messengerLabelList.map((i) => {
+                        return (
+                          <TouchableOpacity
+                            activeOpacity={0.8}
+                            onPress={() =>
+                              this.selectMessengerLabel(index, i.label)
+                            }
+                          >
+                            <View style={styles.labelContainer}>
+                              <Text style={styles.label}>{i.label}</Text>
+                            </View>
+                          </TouchableOpacity>
+                        );
+                      })}
 
-            <TouchableOpacity
-              onPress={() => this.addMessanger()}
-              disable={this.state.disabledMessanger}
-            >
-              {this.state.status ? (
-                <NormalText> + Add Messenger Account </NormalText>
-              ) : null}
-            </TouchableOpacity>
-            <Modal
-              style={styles.footerModal}
-              visible={this.state.isMessangerModelOpen}
-              transparent={true}
-              animationType="fade"
-              onRequestClose={() =>
-                this.setState({ isMessangerModelOpen: false })
-              }
-            >
-              <View style={styles.contactContent}>
-                <View style={styles.content}>
-                  <Text style={styles.modalHeader}>Messanger Account</Text>
-                  <View style={{ flexDirection: "column" }}>
-                    {this.state.mesangerLabelList.map((item, index) => {
-                      return (
-                        <TouchableHighlight
-                          underlayColor="transparent"
+                      <View style={styles.labelContainer}>
+                        <TouchableOpacity
+                          style={styles.customView}
                           onPress={() => {
-                            this.changeMessangerLabel(item.label);
+                            this.setState({ checkMessSection: true });
                           }}
                         >
-                          <Text style={styles.labelName}> {item.label} </Text>
-                        </TouchableHighlight>
-                      );
-                    })}
-                    <TouchableHighlight
-                      underlayColor="transparent"
-                      onPress={() =>
-                        this.setState({
-                          isAddMessangerLabel: true,
-                          messangerLabel: "",
-                        })
-                      }
-                    >
-                      <Text style={styles.labelName}> Custom </Text>
-                    </TouchableHighlight>
-                  </View>
+                          <Text style={[styles.label]}>Custom</Text>
+                          {this.state.checkMessSection ? (
+                            <View style={styles.customRight}>
+                              <Image
+                                source={checked}
+                                style={styles.checkedIcon}
+                              />
+                            </View>
+                          ) : null}
+                        </TouchableOpacity>
+                        {this.state.checkMessSection ? (
+                          <TextInput
+                            style={styles.cutomTextInput}
+                            placeholder={"Label"}
+                            placeholderTextColor={COLORS.main_text_color}
+                            onChangeText={(customMessLabel) =>
+                              this.setState({ customMessLabel })
+                            }
+                            onSubmitEditing={() =>
+                              this.selectMessengerLabel(
+                                index,
+                                this.state.customMessLabel
+                              )
+                            }
+                          />
+                        ) : null}
+                      </View>
+                    </ScrollView>
+                  )}
                 </View>
-              </View>
-            </Modal>
-            <Modal
-              style={styles.footerModal}
-              visible={this.state.isAddMessangerLabel}
-              transparent={true}
-              animationType="fade"
-            >
-              <View style={styles.contactContent}>
-                <View style={styles.content}>
-                  <Text style={styles.modalHeader}>Custom label name</Text>
-                  <View style={{ flexDirection: "column" }}>
-                    <TextInput
-                      placeholder="Custom label name"
-                      style={styles.addLabelField}
-                      placeholderTextColor={COLORS.main_text_color}
-                      editable={this.state.status ? true : false}
-                      keyboardType={"default"}
-                      onChangeText={(label) => {
-                        this.changeMessangerLabel(label);
-                      }}
-                    />
-                    <TouchableHighlight
-                      underlayColor="transparent"
-                      style={styles.saveView}
-                      onPress={() =>
-                        this.state.messangerLabel !== ""
-                          ? this.setState({
-                              isAddMessangerLabel: false,
-                              isMessangerModelOpen: false,
-                            })
-                          : this.setState({ isAddMessangerLabel: false })
-                      }
-                    >
-                      <Text
-                        style={{
-                          color: COLORS.main_text_color,
-                          fontFamily: Font.medium,
-                          fontSize: width * 0.04,
-                        }}
-                      >
-                        {" "}
-                        Ok{" "}
-                      </Text>
-                    </TouchableHighlight>
-                  </View>
-                </View>
-              </View>
-            </Modal>
+              );
+            })}
           </View>
+        </View>
+        <View style={{ flexDirection: "row" }}>
+          <View style={{ flex: 1 }}>
+            <TouchableOpacity
+              style={styles.addNewBox}
+              onPress={() =>
+                this.addMessengerInput(this.state.textInput.length, false)
+              }
+            >
+              {this.state.status ? (
+                <Text
+                  style={[
+                    styles.addNew,
+                    {
+                      color:
+                        this.props.theme.mode === "light"
+                          ? COLORS.main_text_color
+                          : COLORS.white,
+                    },
+                  ]}
+                >
+                  + Add Messenger
+                </Text>
+              ) : null}
+            </TouchableOpacity>
+          </View>
+
+          {this.state.removeMessengerSection ? (
+            <View style={{ flex: 1, alignItems: "flex-end" }}>
+              <TouchableOpacity
+                style={{}}
+                onPress={() => this.removeMessenger()}
+              >
+                {this.state.status ? (
+                  <Text style={[styles.removeNew]}>- Remove Messenger</Text>
+                ) : null}
+              </TouchableOpacity>
+            </View>
+          ) : null}
         </View>
       </View>
     );
   }
-  addSocialMedia = () => {
-    if (this.state.socialMedia.socialMedia == "") {
-      alert("Please Fill the Field");
-    }
-    if (this.state.socialMedia.socialMedia !== "") {
-      if (this.state.socialCounter == 0) {
-        this.setState({
-          socialCounter: this.state.socialCounter + 1,
-          socialSection: true,
-          socialMediaArray: [
-            ...this.state.socialMediaArray,
-            { socialMedia: "", label: "" },
-          ],
-        });
-      }
-    }
-    if (this.state.socialSection == true) {
-      if (this.state.socialIndexOnly == this.state.socialCounter - 1) {
-        if (this.state.socialNameOnly !== "") {
-          this.setState({
-            socialCounter: this.state.socialCounter + 1,
-            socialSection: true,
-            socialMediaArray: [
-              ...this.state.socialMediaArray,
-              { socialMedia: "", label: "" },
-            ],
-          });
-        } else {
-          alert("Please Fill the Field");
-        }
-      } else {
-        alert("Please Fill the Field");
-      }
-    }
+  selectSocialMediaLabel = (index, label) => {
+    var data = this.state.socialMediaInput;
+    data[index].label = label;
+    data[index].show = false;
+    this.setState({ socialMediaInput: data });
   };
-
-  onChangeSocialMedia = (value) => {
-    this.state.socialMedia.socialMedia = value;
-    this.setState({ socialMedia : this.state.socialMedia });
-  };
-
-  onChangeSocialMediaArray = (value, index) => {
-    this.setState({ socialIndexOnly: index });
-    this.setState({ socialNameOnly: value });
-    this.state.socialMediaArray[index].socialMedia = value;
-    this.setState({ socialMediaArray: this.state.socialMediaArray });
-  };
-
-  changeSocialMediaLabelArray = (label, index) => {
-    this.setState({ isSocialMediaArrayModelOpen: false });
-    this.state.socialMediaArray[index].label = label;
-    this.setState({ SocialMediaArray: this.state.socialMediaArray });
-  };
-
-  changeSocialMediaLabel = (label) => {
-    this.setState({ isSocialMediaModelOpen: false });
-    this.state.socialMedia.label = label;
-    this.setState({ socialMedia: this.state.socialMedia });
-  };
-  removesocialMedia = (key) => {
-    const { socialMediaArray } = this.state;
-    socialMediaArray.splice(key, 1);
-    this.setState({
-      deleteSocialMediaArray: socialMediaArray,
+  showSocialMedia = (index) => {
+    var data = this.state.socialMediaInput;
+    data.map((item, i) => {
+      data[i].show = false;
     });
+    data[index].show = true;
+    this.setState({ socialMediaInput: data });
+  };
+  onChangeSocialMedia = (value) => {
+    this.state.email.email = value;
+    this.setState({ email: this.state.email });
+  };
+  addSocialInput = (index, showPop) => {
+    this.setState({ removeSocialSection: true });
+    let socialMediaInput = this.state.socialMediaInput;
+    socialMediaInput.map((item, i) => {
+      socialMediaInput[i].show = false;
+    });
+    socialMediaInput.push({ label: "Select Type...", show: false });
+    this.setState({ socialMediaInput });
   };
 
-  socialMedialeftAction = (key) => {
-    return (
-      <TouchableOpacity onPress={this.removesocialMedia}>
-        <View style={styles.deleteBox}>
-          <Text style={styles.deleteText}>Delete</Text>
-        </View>
-      </TouchableOpacity>
-    );
+  removeSocial = (key) => {
+    let socialMediaInput = this.state.socialMediaInput;
+    if (socialMediaInput.length === 1) {
+      console.log("adress input --->", socialMediaInput.length);
+    } else {
+      let socialMediaData = this.state.socialMediaData;
+      socialMediaInput.pop();
+      socialMediaData.pop();
+      this.setState({ socialMediaInput, socialMediaData });
+    }
   };
-  renderSocialmedia() {
+  renderSocialMedia() {
     return (
       <View style={{ marginTop: Metrics.doubleBaseMargin }}>
         <View style={{ flexDirection: "row" }}>
           <View>
             <Image source={instagram} style={styles.innerStyle} />
           </View>
-
-          <View>
-            <View style={styles.filedView}>
-              <TextInput
-                placeholder="Social Media Account"
-                style={styles.stylefiledText}
-                placeholderTextColor={COLORS.main_text_color}
-                //value={this.state.social_media1}
-                editable={this.state.status ? true : false}
-                onChangeText={(value) => this.onChangeSocialMedia(value)}
-              />
-              {this.state.status ? (
-                <TouchableHighlight
-                  underlayColor="transparent"
-                  style={styles.addressRightView}
-                  onPress={() =>
-                    this.setState({ isSocialMediaModelOpen: true })
-                  }
-                >
-                  <Icon
-                    style={styles.iconSize}
-                    size={width * 0.06}
-                    name="chevron-small-down"
-                  />
-                </TouchableHighlight>
-              ) : null}
-
-              {this.state.status && this.state.socialMedia.label !== "" ? (
-                <View style={styles.addressRightView}>
-                  <Text style={styles.addressRighttext}>
-                    {this.state.socialMedia.label}
-                  </Text>
-                </View>
-              ) : null}
-            </View>
-
-            {this.state.socialSection == true &&
-              this.state.socialMediaArray.map((input, key) => {
-                return (
-                  <Swipeable renderLeftActions={this.socialMedialeftAction}>
-                    <View style={styles.filedView} key={key}>
-                      <TextInput
-                        placeholder="Social Media Account"
-                        style={styles.stylefiledText}
-                        placeholderTextColor={COLORS.main_text_color}
-                        key={key}
-                        keyboardType={"default"}
-                        onChangeText={(socialMedia) => {
-                          this.onChangeSocialMediaArray(socialMedia, key);
-                        }}
-                      />
-                      <TouchableHighlight
-                        underlayColor="transparent"
-                        style={styles.addressRightView}
-                        // key={key}
-                        onPress={() =>
-                          this.setState({ isSocialMediaArrayModelOpen: true })
-                        }
-                      >
-                        <Icon
-                          style={styles.iconSize}
-                          size={width * 0.06}
-                          name="chevron-small-down"
-                        />
-                      </TouchableHighlight>
-                      {this.state.socialMediaArray[key].label !== "" ? (
-                        <View style={styles.addressRightView}>
-                          <Text style={styles.addressRighttext}>
-                            {this.state.socialMediaArray[key].label}
+          <View style={{ flexDirection: "column" }}>
+            {this.state.socialMediaInput.map((item, index) => {
+              return (
+                <View>
+                  {this.state.status ? (
+                    <View style={styles.searchSection}>
+                      {this.state.isSocialSection ? (
+                        <TouchableOpacity style={{ flexDirection: "column" }}>
+                          <Text
+                            style={[
+                              styles.Text_1,
+                              {
+                                fontSize: width * 0.02,
+                                width: width * 0.5,
+                                marginTop: width * 0.02,
+                              },
+                            ]}
+                          >
+                            Social Media Account
                           </Text>
-                        </View>
-                      ) : null}
-
-                      <Modal
-                        style={styles.footerModal}
-                        visible={this.state.isSocialMediaArrayModelOpen}
-                        transparent={true}
-                        animationType="fade"
-                        onRequestClose={() =>
-                          this.setState({ isSocialMediaArrayModelOpen: false })
-                        }
+                          <TextInput
+                            placeholder="Social Media Account"
+                            style={styles.stylefiledText}
+                            placeholderTextColor={COLORS.main_text_color}
+                            editable={this.state.status ? true : false}
+                            onChangeText={(value) =>
+                              this.onChangeSocialMedia(value)
+                            }
+                          />
+                        </TouchableOpacity>
+                      ) : (
+                        <TouchableOpacity
+                          onPress={() =>
+                            this.setState({ isSocialSection: true })
+                          }
+                        >
+                          <Text style={styles.stylefiledText}>
+                            Social Media Account
+                          </Text>
+                        </TouchableOpacity>
+                      )}
+                      <TouchableOpacity
+                        style={styles.modalBtn}
+                        onPress={() => this.showSocialMedia(index)}
                       >
-                        <View style={styles.contactContent}>
-                          <View style={styles.content}>
-                            <Text style={styles.modalHeader}>Social Media</Text>
-                            <View style={{ flexDirection: "column" }}>
-                              {this.state.socialMediaLabelList.map(
-                                (item, index) => {
-                                  return (
-                                    <TouchableHighlight
-                                      underlayColor="transparent"
-                                      onPress={() => {
-                                        this.changeSocialMediaLabelArray(
-                                          item.label,
-                                          key
-                                        );
-                                      }}
-                                    >
-                                      <Text style={styles.labelName}>
-                                        {" "}
-                                        {item.label}{" "}
-                                      </Text>
-                                    </TouchableHighlight>
-                                  );
-                                }
-                              )}
-                              <TouchableHighlight
-                                underlayColor="transparent"
-                                onPress={() =>
-                                  this.setState({
-                                    isAddSocialMediaArrayLabel: true,
-                                    socialMedia: "",
-                                  })
-                                }
-                              >
-                                <Text style={styles.labelName}> Custom </Text>
-                              </TouchableHighlight>
-                            </View>
-                          </View>
-                        </View>
-                      </Modal>
-                      <Modal
-                        style={styles.footerModal}
-                        visible={this.state.isAddSocialMediaArrayLabel}
-                        transparent={true}
-                        // key={key}
-                        animationType="fade"
-                      >
-                        <View style={styles.contactContent}>
-                          <View style={styles.content}>
-                            <Text style={styles.modalHeader}>
-                              Custom label name
-                            </Text>
-                            <View style={{ flexDirection: "column" }}>
-                              <TextInput
-                                placeholder="Custom label name"
-                                style={styles.addLabelField}
-                                placeholderTextColor={COLORS.main_text_color}
-                                editable={this.state.status ? true : false}
-                                keyboardType={"default"}
-                                onChangeText={(label) => {
-                                  this.changeSocialMediaLabelArray(label, key);
-                                }}
-                              />
-                              <TouchableHighlight
-                                underlayColor="transparent"
-                                style={styles.saveView}
-                                onPress={() =>
-                                  this.state.socialMediaLabel !== ""
-                                    ? this.setState({
-                                        isAddSocialMediaArrayLabel: false,
-                                        isSocialMediaArrayModelOpen: false,
-                                      })
-                                    : this.setState({
-                                        isAddSocialMediaArrayLabel: false,
-                                      })
-                                }
-                              >
-                                <Text
-                                  style={{
-                                    color: COLORS.main_text_color,
-                                    fontFamily: Font.medium,
-                                    fontSize: width * 0.04,
-                                  }}
-                                >
-                                  {" "}
-                                  Ok{" "}
-                                </Text>
-                              </TouchableHighlight>
-                            </View>
-                          </View>
-                        </View>
-                      </Modal>
+                        <Text style={styles.selectTypeText}>{item.label}</Text>
+                      </TouchableOpacity>
                     </View>
-                  </Swipeable>
-                );
-              })}
+                  ) : (
+                    <TouchableOpacity style={styles.searchSection}>
+                      <Text style={styles.stylefiledText}>
+                        Social Media Account
+                      </Text>
+                    </TouchableOpacity>
+                  )}
+                  {item.show && (
+                    <ScrollView
+                      style={[styles.modal]}
+                      nestedScrollEnabled={true}
+                    >
+                      {this.state.socialMediaLabelList.map((i) => {
+                        return (
+                          <TouchableOpacity
+                            activeOpacity={0.8}
+                            onPress={() =>
+                              this.selectSocialMediaLabel(index, i.label)
+                            }
+                          >
+                            <View style={styles.labelContainer}>
+                              <Text style={styles.label}>{i.label}</Text>
+                            </View>
+                          </TouchableOpacity>
+                        );
+                      })}
 
-            <TouchableOpacity
-              onPress={() => this.addSocialMedia()}
-              disable={this.state.disabledSocialMedia}
-            >
-              {this.state.status ? (
-                <NormalText> + Add Social Media Account </NormalText>
-              ) : null}
-            </TouchableOpacity>
-
-            <Modal
-              style={styles.footerModal}
-              visible={this.state.isSocialMediaModelOpen}
-              transparent={true}
-              animationType="fade"
-              onRequestClose={() =>
-                this.setState({ isSocialMediaModelOpen: false })
-              }
-            >
-              <View style={styles.contactContent}>
-                <View style={styles.content}>
-                  <Text style={styles.modalHeader}>Social Media</Text>
-                  <View style={{ flexDirection: "column" }}>
-                    {this.state.socialMediaLabelList.map((item, index) => {
-                      return (
-                        <TouchableHighlight
-                          underlayColor="transparent"
+                      <View style={styles.labelContainer}>
+                        <TouchableOpacity
+                          style={styles.customView}
                           onPress={() => {
-                            this.changeSocialMediaLabel(item.label);
+                            this.setState({ checkSocialSection: true });
                           }}
                         >
-                          <Text style={styles.labelName}> {item.label} </Text>
-                        </TouchableHighlight>
-                      );
-                    })}
-                    <TouchableHighlight
-                      underlayColor="transparent"
-                      onPress={() =>
-                        this.setState({
-                          isAddSocialMediaLabel: true,
-                          socialMedia: "",
-                        })
-                      }
-                    >
-                      <Text style={styles.labelName}> Custom </Text>
-                    </TouchableHighlight>
-                  </View>
+                          <Text style={[styles.label]}>Custom</Text>
+                          {this.state.checkSocialSection ? (
+                            <View style={styles.customRight}>
+                              <Image
+                                source={checked}
+                                style={styles.checkedIcon}
+                              />
+                            </View>
+                          ) : null}
+                        </TouchableOpacity>
+                        {this.state.checkSocialSection ? (
+                          <TextInput
+                            style={styles.cutomTextInput}
+                            placeholder={"Label"}
+                            placeholderTextColor={COLORS.main_text_color}
+                            onChangeText={(customSocialLabel) =>
+                              this.setState({ customSocialLabel })
+                            }
+                            onSubmitEditing={() =>
+                              this.selectSocialMediaLabel(
+                                index,
+                                this.state.customSocialLabel
+                              )
+                            }
+                          />
+                        ) : null}
+                      </View>
+                    </ScrollView>
+                  )}
                 </View>
-              </View>
-            </Modal>
-            <Modal
-              style={styles.footerModal}
-              visible={this.state.isAddSocialMediaLabel}
-              transparent={true}
-              // key={key}
-              animationType="fade"
-            >
-              <View style={styles.contactContent}>
-                <View style={styles.content}>
-                  <Text style={styles.modalHeader}>Custom label name</Text>
-                  <View style={{ flexDirection: "column" }}>
-                    <TextInput
-                      placeholder="Custom label name"
-                      style={styles.addLabelField}
-                      placeholderTextColor={COLORS.main_text_color}
-                      editable={this.state.status ? true : false}
-                      keyboardType={"default"}
-                      onChangeText={(label) => {
-                        this.changeSocialMediaLabel(label);
-                      }}
-                    />
-                    <TouchableHighlight
-                      underlayColor="transparent"
-                      style={styles.saveView}
-                      onPress={() =>
-                        this.state.socialMediaLabel !== ""
-                          ? this.setState({
-                              isAddSocialMediaLabel: false,
-                              isSocialMediaModelOpen: false,
-                            })
-                          : this.setState({
-                              isAddSocialMediaLabel: false,
-                            })
-                      }
-                    >
-                      <Text
-                        style={{
-                          color: COLORS.main_text_color,
-                          fontFamily: Font.medium,
-                          fontSize: width * 0.04,
-                        }}
-                      >
-                        {" "}
-                        Ok{" "}
-                      </Text>
-                    </TouchableHighlight>
-                  </View>
-                </View>
-              </View>
-            </Modal>
+              );
+            })}
           </View>
+        </View>
+        <View style={{ flexDirection: "row" }}>
+          <View style={{ flex: 1 }}>
+            <TouchableOpacity
+              style={styles.addNewBox}
+              onPress={() =>
+                this.addSocialInput(this.state.textInput.length, false)
+              }
+            >
+              {this.state.status ? (
+                <Text
+                  style={[
+                    styles.addNew,
+                    {
+                      color:
+                        this.props.theme.mode === "light"
+                          ? COLORS.main_text_color
+                          : COLORS.white,
+                    },
+                  ]}
+                >
+                  + Add Social Media
+                </Text>
+              ) : null}
+            </TouchableOpacity>
+          </View>
+
+          {this.state.removeSocialSection ? (
+            <View style={{ flex: 1, alignItems: "flex-end" }}>
+              <TouchableOpacity style={{}} onPress={() => this.removeSocial()}>
+                {this.state.status ? (
+                  <Text style={[styles.removeNew]}>- Remove Social Media</Text>
+                ) : null}
+              </TouchableOpacity>
+            </View>
+          ) : null}
         </View>
       </View>
     );
   }
-  addWebsite = () => {
-    if (this.state.website.website == "") {
-      alert("Please Fill the Field");
-    }
-    if (this.state.website.website !== "") {
-      if (this.state.websiteCounter == 0) {
-        this.setState({
-          websiteCounter: this.state.websiteCounter + 1,
-          websiteSection: true,
-          websiteArray: [
-            ...this.state.websiteArray,
-            { website: "", label: "" },
-          ],
-        });
-      }
-    }
-    if (this.state.websiteSection == true) {
-      if (this.state.websiteIndexOnly == this.state.websiteCounter - 1) {
-        if (this.state.websiteNameOnly !== "") {
-          this.setState({
-            websiteCounter: this.state.websiteCounter + 1,
-            websiteSection: true,
-            websiteArray: [
-              ...this.state.websiteArray,
-              { website: "", label: "" },
-            ],
-          });
-        } else {
-          alert("Please Fill the Field");
-        }
-      } else {
-        alert("Please Fill the Field");
-      }
-    }
-  };
 
-  onChangeWebsite = (value, index) => {
-    this.state.website.website = value;
-    this.setState({ website : this.state.website });
+  selectWebsiteLabel = (index, label) => {
+    var data = this.state.websiteInput;
+    data[index].label = label;
+    data[index].show = false;
+    this.setState({ websiteInput: data });
   };
-  onChangeWebsiteArray = (value, index) => {
-    this.setState({ websiteIndexOnly: index });
-    this.setState({ websiteNameOnly: value });
-    this.state.websiteArray[index].website = value;
-    this.setState({ websiteArray: this.state.websiteArray });
-  };
-  changeWebsiteLabelArray = (label, index) => {
-    this.setState({ isWebsiteArrayModelOpen: false });
-    this.state.websiteArray[index].label = label;
-    this.setState({ WebsiteArray: this.state.websiteArray });
-  };
-  changeWebsiteLabel = (label) => {
-    this.setState({ isWebsiteModelOpen: false });
-    this.state.website.label = label;
-    this.setState({ Website: this.state.website });
-  };
-  removeWebsite = (key) => {
-    const { websiteArray } = this.state;
-    websiteArray.splice(key, 1);
-    this.setState({
-      deleteWebsiteArray: websiteArray,
+  showWebsite = (index) => {
+    var data = this.state.websiteInput;
+    data.map((item, i) => {
+      data[i].show = false;
     });
+    data[index].show = true;
+    this.setState({ websiteInput: data });
+  };
+  onChangeWebsite = (value) => {
+    this.state.email.email = value;
+    this.setState({ email: this.state.email });
+  };
+  addWebsiteInput = (index, showPop) => {
+    this.setState({ removeWebsiteSection: true });
+    let websiteInput = this.state.websiteInput;
+    websiteInput.map((item, i) => {
+      websiteInput[i].show = false;
+    });
+    websiteInput.push({ label: "Select Type..", show: false });
+    this.setState({ websiteInput });
   };
 
-  WebsiteLeftAction = (key) => {
-    return (
-      <TouchableOpacity onPress={this.removeWebsite}>
-        <View style={styles.deleteBox}>
-          <Text style={styles.deleteText}>Delete</Text>
-        </View>
-      </TouchableOpacity>
-    );
+  removeWebsite = (key) => {
+    let websiteInput = this.state.websiteInput;
+    if (websiteInput.length === 1) {
+      console.log("adress input --->", websiteInput.length);
+    } else {
+      let websiteData = this.state.websiteData;
+      websiteInput.pop();
+      websiteData.pop();
+      this.setState({ websiteInput, websiteData });
+    }
   };
   renderWebsite() {
     return (
@@ -2978,477 +1693,222 @@ class MyContactInfromation extends Component {
           <View>
             <Image source={website} style={styles.innerStyle} />
           </View>
-
-          <View>
-            <View style={styles.filedView}>
-              <TextInput
-                placeholder="Website"
-                style={styles.stylefiledText}
-                placeholderTextColor={COLORS.main_text_color}
-                //value={this.state.website1}
-                editable={this.state.status ? true : false}
-                onChangeText={(value) => this.onChangeWebsite(value)}
-              />
-              {this.state.status ? (
-                <TouchableHighlight
-                  underlayColor="transparent"
-                  style={styles.addressRightView}
-                  onPress={() => this.setState({ isWebsiteModelOpen: true })}
-                >
-                  <Icon
-                    style={styles.iconSize}
-                    size={width * 0.06}
-                    name="chevron-small-down"
-                  />
-                </TouchableHighlight>
-              ) : null}
-
-              {this.state.status && this.state.website.label !== "" ? (
-                <View style={styles.addressRightView}>
-                  <Text style={styles.addressRighttext}>
-                    {this.state.website.label}
-                  </Text>
-                </View>
-              ) : null}
-            </View>
-            {this.state.websiteSection == true &&
-              this.state.websiteArray.map((input, key) => {
-                return (
-                  <Swipeable renderLeftActions={this.WebsiteLeftAction}>
-                    <View style={styles.filedView} key={key}>
-                      <TextInput
-                        placeholder="Website"
-                        style={styles.stylefiledText}
-                        placeholderTextColor={COLORS.main_text_color}
-                        key={key}
-                        keyboardType={"default"}
-                        onChangeText={(website) => {
-                          this.onChangeWebsiteArray(website, key);
-                        }}
-                      />
-                      <TouchableHighlight
-                        underlayColor="transparent"
-                        style={styles.addressRightView}
-                        onPress={() =>
-                          this.setState({ isWebsiteArrayModelOpen: true })
-                        }
-                      >
-                        <Icon
-                          style={styles.iconSize}
-                          size={width * 0.06}
-                          name="chevron-small-down"
-                        />
-                      </TouchableHighlight>
-                      {this.state.websiteArray[key].label !== "" ? (
-                        <View style={styles.addressRightView}>
-                          <Text style={styles.addressRighttext}>
-                            {this.state.websiteArray[key].label}
+          <View style={{ flexDirection: "column" }}>
+            {this.state.websiteInput.map((item, index) => {
+              return (
+                <View>
+                  {this.state.status ? (
+                    <View style={styles.searchSection}>
+                      {this.state.isWebsiteSection ? (
+                        <TouchableOpacity style={{ flexDirection: "column" }}>
+                          <Text
+                            style={[
+                              styles.Text_1,
+                              {
+                                fontSize: width * 0.02,
+                                width: width * 0.5,
+                                marginTop: width * 0.02,
+                              },
+                            ]}
+                          >
+                            Website
                           </Text>
-                        </View>
-                      ) : null}
-                      <Modal
-                        style={styles.footerModal}
-                        visible={this.state.isWebsiteArrayModelOpen}
-                        transparent={true}
-                        animationType="fade"
-                        onRequestClose={() =>
-                          this.setState({ isWebsiteArrayModelOpen: false })
-                        }
+                          <TextInput
+                            placeholder="Website"
+                            style={styles.stylefiledText}
+                            placeholderTextColor={COLORS.main_text_color}
+                            editable={this.state.status ? true : false}
+                            onChangeText={(value) =>
+                              this.onChangeWebsite(value)
+                            }
+                          />
+                        </TouchableOpacity>
+                      ) : (
+                        <TouchableOpacity
+                          onPress={() =>
+                            this.setState({ isWebsiteSection: true })
+                          }
+                        >
+                          <Text style={styles.stylefiledText}>Website</Text>
+                        </TouchableOpacity>
+                      )}
+                      <TouchableOpacity
+                        style={styles.modalBtn}
+                        onPress={() => this.showWebsite(index)}
                       >
-                        <View style={styles.contactContent}>
-                          <View style={styles.content}>
-                            <Text style={styles.modalHeader}>Website</Text>
-                            <View style={{ flexDirection: "column" }}>
-                              {this.state.websiteLableList.map(
-                                (item, index) => {
-                                  return (
-                                    <TouchableHighlight
-                                      underlayColor="transparent"
-                                      onPress={() => {
-                                        this.changeWebsiteLabelArray(
-                                          item.label,
-                                          key
-                                        );
-                                      }}
-                                    >
-                                      <Text style={styles.labelName}>
-                                        {" "}
-                                        {item.label}{" "}
-                                      </Text>
-                                    </TouchableHighlight>
-                                  );
-                                }
-                              )}
-                              <TouchableHighlight
-                                underlayColor="transparent"
-                                onPress={() =>
-                                  this.setState({
-                                    isAddWebsiteArrayLabel: true,
-                                    websiteLabel: "",
-                                  })
-                                }
-                              >
-                                <Text style={styles.labelName}> Custom </Text>
-                              </TouchableHighlight>
-                            </View>
-                          </View>
-                        </View>
-                      </Modal>
-                      <Modal
-                        style={styles.footerModal}
-                        visible={this.state.isAddWebsiteArrayLabel}
-                        transparent={true}
-                        animationType="fade"
-                      >
-                        <View style={styles.contactContent}>
-                          <View style={styles.content}>
-                            <Text style={styles.modalHeader}>
-                              Custom label name
-                            </Text>
-                            <View style={{ flexDirection: "column" }}>
-                              <TextInput
-                                placeholder="Custom label name"
-                                style={styles.addLabelField}
-                                placeholderTextColor={COLORS.main_text_color}
-                                editable={this.state.status ? true : false}
-                                keyboardType={"default"}
-                                onChangeText={(label) => {
-                                  this.changeWebsiteLabelArray(label, key);
-                                }}
-                              />
-                              <TouchableHighlight
-                                underlayColor="transparent"
-                                style={styles.saveView}
-                                onPress={() =>
-                                  this.state.addressLabel !== ""
-                                    ? this.setState({
-                                        isAddWebsiteArrayLabel: false,
-                                        isWebsiteArrayModelOpen: false,
-                                      })
-                                    : this.setState({
-                                        isAddWebsiteArrayLabel: false,
-                                      })
-                                }
-                              >
-                                <Text
-                                  style={{
-                                    color: COLORS.main_text_color,
-                                    fontFamily: Font.medium,
-                                    fontSize: width * 0.04,
-                                  }}
-                                >
-                                  {" "}
-                                  Ok{" "}
-                                </Text>
-                              </TouchableHighlight>
-                            </View>
-                          </View>
-                        </View>
-                      </Modal>
+                        <Text style={styles.selectTypeText}>{item.label}</Text>
+                      </TouchableOpacity>
                     </View>
-                  </Swipeable>
-                );
-              })}
+                  ) : (
+                    <TouchableOpacity style={styles.searchSection}>
+                      <Text style={styles.stylefiledText}>Website</Text>
+                    </TouchableOpacity>
+                  )}
+                  {item.show && (
+                    <ScrollView
+                      style={[styles.modal]}
+                      nestedScrollEnabled={true}
+                    >
+                      {this.state.websiteLabelList.map((i) => {
+                        return (
+                          <TouchableOpacity
+                            activeOpacity={0.8}
+                            onPress={() =>
+                              this.selectWebsiteLabel(index, i.label)
+                            }
+                          >
+                            <View style={styles.labelContainer}>
+                              <Text style={styles.label}>{i.label}</Text>
+                            </View>
+                          </TouchableOpacity>
+                        );
+                      })}
 
-            <TouchableOpacity
-              onPress={() => this.addWebsite()}
-              disable={this.state.disableWebsite}
-            >
-              {this.state.status ? (
-                <NormalText> + Add Website </NormalText>
-              ) : null}
-            </TouchableOpacity>
-            <Modal
-              style={styles.footerModal}
-              visible={this.state.isWebsiteModelOpen}
-              transparent={true}
-              animationType="fade"
-              onRequestClose={() =>
-                this.setState({ isWebsiteModelOpen: false })
-              }
-            >
-              <View style={styles.contactContent}>
-                <View style={styles.content}>
-                  <Text style={styles.modalHeader}>Website</Text>
-                  <View style={{ flexDirection: "column" }}>
-                    {this.state.websiteLableList.map((item, index) => {
-                      return (
-                        <TouchableHighlight
-                          underlayColor="transparent"
+                      <View style={styles.labelContainer}>
+                        <TouchableOpacity
+                          style={styles.customView}
                           onPress={() => {
-                            this.changeWebsiteLabel(item.label);
+                            this.setState({ checkWebsiteSection: true });
                           }}
                         >
-                          <Text style={styles.labelName}> {item.label} </Text>
-                        </TouchableHighlight>
-                      );
-                    })}
-                    <TouchableHighlight
-                      underlayColor="transparent"
-                      onPress={() =>
-                        this.setState({
-                          isAddWebsiteLabel: true,
-                          WebsiteLabel: "",
-                        })
-                      }
-                    >
-                      <Text style={styles.labelName}> Custom </Text>
-                    </TouchableHighlight>
-                  </View>
+                          <Text style={[styles.label]}>Custom</Text>
+                          {this.state.checkWebsiteSection ? (
+                            <View style={styles.customRight}>
+                              <Image
+                                source={checked}
+                                style={styles.checkedIcon}
+                              />
+                            </View>
+                          ) : null}
+                        </TouchableOpacity>
+                        {this.state.checkWebsiteSection ? (
+                          <TextInput
+                            style={styles.cutomTextInput}
+                            placeholder={"Label"}
+                            placeholderTextColor={COLORS.main_text_color}
+                            onChangeText={(customWebsiteLabel) =>
+                              this.setState({ customWebsiteLabel })
+                            }
+                            onSubmitEditing={() =>
+                              this.selectWebsiteLabel(
+                                index,
+                                this.state.customWebsiteLabel
+                              )
+                            }
+                          />
+                        ) : null}
+                      </View>
+                    </ScrollView>
+                  )}
                 </View>
-              </View>
-            </Modal>
-            <Modal
-              style={styles.footerModal}
-              visible={this.state.isAddWebsiteLabel}
-              transparent={true}
-              animationType="fade"
-            >
-              <View style={styles.contactContent}>
-                <View style={styles.content}>
-                  <Text style={styles.modalHeader}>Custom label name</Text>
-                  <View style={{ flexDirection: "column" }}>
-                    <TextInput
-                      placeholder="Custom label name"
-                      style={styles.addLabelField}
-                      placeholderTextColor={COLORS.main_text_color}
-                      editable={this.state.status ? true : false}
-                      keyboardType={"default"}
-                      onChangeText={(label) => {
-                        this.changeWebsiteLabel(label);
-                      }}
-                    />
-                    <TouchableHighlight
-                      underlayColor="transparent"
-                      style={styles.saveView}
-                      onPress={() =>
-                        this.state.WebsiteLabel !== ""
-                          ? this.setState({
-                              isAddWebsiteLabel: false,
-                              isWebsiteModelOpen: false,
-                            })
-                          : this.setState({ isAddWebsiteLabel: false })
-                      }
-                    >
-                      <Text
-                        style={{
-                          color: COLORS.main_text_color,
-                          fontFamily: Font.medium,
-                          fontSize: width * 0.04,
-                        }}
-                      >
-                        {" "}
-                        Ok{" "}
-                      </Text>
-                    </TouchableHighlight>
-                  </View>
-                </View>
-              </View>
-            </Modal>
+              );
+            })}
           </View>
+        </View>
+        <View style={{ flexDirection: "row" }}>
+          <View style={{ flex: 1 }}>
+            <TouchableOpacity
+              style={styles.addNewBox}
+              onPress={() =>
+                this.addWebsiteInput(this.state.textInput.length, false)
+              }
+            >
+              {this.state.status ? (
+                <Text
+                  style={[
+                    styles.addNew,
+                    {
+                      color:
+                        this.props.theme.mode === "light"
+                          ? COLORS.main_text_color
+                          : COLORS.white,
+                    },
+                  ]}
+                >
+                  + Add Website
+                </Text>
+              ) : null}
+            </TouchableOpacity>
+          </View>
+
+          {this.state.removeWebsiteSection ? (
+            <View style={{ flex: 1, alignItems: "flex-end" }}>
+              <TouchableOpacity style={{}} onPress={() => this.removeWebsite()}>
+                {this.state.status ? (
+                  <Text style={[styles.removeNew]}>- Remove Website</Text>
+                ) : null}
+              </TouchableOpacity>
+            </View>
+          ) : null}
         </View>
       </View>
     );
   }
-  addDate = () => {
-    if (this.state.dob == "") {
-      alert("Please Fill the Field");
-    }
-    if (this.state.dob !== "") {
-      if (this.state.dateCounter == 0) {
-        this.setState({
-          dateCounter: this.state.dateCounter + 1,
-          dateSection: true,
-          dateArray: [...this.state.dateArray, { date: "", label: "" }],
-        });
-      }
-    }
-    if (this.state.dateSection == true) {
-      if (this.state.dateIndexOnly == this.state.dateCounter - 1) {
-        if (this.state.dateNameOnly !== "") {
-          this.setState({
-            dateCounter: this.state.dateCounter + 1,
-            dateSection: true,
-            dateArray: [...this.state.dateArray, { date: "", label: "" }],
-          });
-        } else {
-          alert("Please Fill the Field");
-        }
-      } else {
-        alert("Please Fill the Field");
-      }
-    }
+  selectDateLabel = (index, label) => {
+    var data = this.state.dateInput;
+    data[index].label = label;
+    data[index].show = false;
+    this.setState({ dateInput: data, checkAddressSection: false });
   };
-  onRegister = (token) => {
-    console.log("[Notification fcm ] onRegister:", token)
-  }
-  onNotification = (notify) => {
-    console.log("[Notification fcm ] : onNotification:", notify)
-    const notification = fcmService.buildNotification(this.createNotification(notify))
-    fcmService.displayNotification(notification)
-  }
-  onOpenNotification = (notify) => {
-    console.log("[Notification fcm ] : onOpenNotification ", notify)
-    this.setState({ notifyData: notify._data }, () => this.setState({ isVisibleOverlay: true }))
-  }
-
-  setReminder = () => {
-
-    const { notificationTime } = this.state;
-    const { notificationDescription, notificationTitle } = this.state
-    let body = {
-      _title: notificationTitle,
-      _body: notificationDescription,
-      _data: {
-        title: notificationTitle,
-        body: notificationDescription,
-      },
-      _notificationId: Math.random().toString(),
-      time: notificationTime
-    }
-    this.scheduleReminder(body)
-    //  alert('Your Remider Set SuccessFully.');
-  };
-
-  scheduleReminder = (notifyDetails) => {
-    const notification = fcmService.buildNotification(this.createNotification(notifyDetails))
-    fcmService.scheduleNotification(notification, notifyDetails.time)
-    this.resetState()
-  }
-  createNotification = (notify) => {
-    const channelObj = {
-      channelId: "SmapleChannelID",
-      channelName: "SmapleChannelName",
-      channelDes: "SmapleChannelDes"
-    }
-    const channel = fcmService.buildChannel(channelObj)
-    const buildNotify = {
-      title: notify._title,
-      content: notify._body,
-      sound: 'default',
-      channel: channel,
-      data: notify._data,
-      colorBgIcon: "#1A243B",
-      largeIcon: 'ic_launcher',
-      smallIcon: 'ic_launcher',
-      vibrate: true,
-      dataId: notify._notificationId
-    }
-    return buildNotify
-  }
-
-  resetState = () => {
-    this.setState({
-      notificationTime: moment(),
-      notificationTitle: '',
-      notificationDescription: ''
-    })
-  }
-
-  onChangeDate = (formateDate) => {
-    console.log("state date---->",formateDate);
-    this.setState({
-      isVisible: false,
-      notificationTime: moment(formateDate),
-      notificationTime2: moment(formateDate),
-    }); 
-    
-
-    var fomate = moment(formateDate).format("MMMM, Do YYYY")
-   
-    this.state.date.date = fomate ;
-      this.setState({
-            isVisible: false,
-            date : this.state.date ,
-      });
-    
-  };
-  handleValueChange = (value, name) => {
-    this.setState({
-      [name]: value
-    })
-  };
-
-  onChangeDateArray = (formateDate, index) => {
-    var datemoment = moment(formateDate).format("MMMM, Do YYYY");
-    this.setState({ dateIndexOnly: index });
-    this.setState({ dateNameOnly: formateDate });
-    this.state.dateArray[index].date = datemoment;
-    this.setState({
-      isVisibleArray: false,
-      dateArray: this.state.dateArray,
+  showDate = (index) => {
+    var data = this.state.dateInput;
+    data.map((item, i) => {
+      data[i].show = false;
     });
+    data[index].show = true;
+    this.setState({ dateInput: data });
   };
 
-  changeDateLabelArray = (label, index) => {
-    this.setState({ isDateArrayModelOpen: false });
-    this.state.dateArray[index].label = label;
-    this.setState({ dateArray: this.state.dateArray });
+  onChangeDate = (value) => {
+    this.state.address.address = value;
+    this.setState({ address: this.state.address });
   };
 
-  changeDateLabel = (label) => {
-    this.setState({ isDateModelOpen: false });
-    this.state.date.label = label;
-    this.setState({ date: this.state.date });
-  };
-  handlePicker = (date) => {
-    this.setState({ isVisible: false });
-    console.log("A date has been picked: ", date);
-  };
-  hidePicker = () => {
-    this.setState({ isVisible: false });
-  };
-  showDateTimePicker = () => {
-    {
-      this.state.status ? this.setState({ isVisible: true }) : null;
-    }
-  };
-  showDateTimePickerArray = () => {
-    {
-      this.state.status ? this.setState({ isVisibleArray: true }) : null;
-    }
+  addDateInput = (index, showPop) => {
+    this.setState({ removeDateSection: true });
+    let dateInput = this.state.dateInput;
+    dateInput.map((item, i) => {
+      dateInput[i].show = false;
+    });
+    // if (addressInput.length < 5) {
+    dateInput.push({ label: "Select Type..", show: false });
+    // }
+
+    this.setState({ dateInput });
   };
   removeDate = (key) => {
-    const { dateArray } = this.state;
-    dateArray.splice(key, 1);
-    this.setState({
-      deleteDateArray: dateArray,
-    });
+    let dateInput = this.state.dateInput;
+    if (dateInput.length === 1) {
+      console.log("adress input --->", dateInput.length);
+    } else {
+      let dateData = this.state.dateData;
+      dateInput.pop();
+      dateData.pop();
+      this.setState({ dateInput, dateData });
+    }
   };
 
-  dateLeftAction = (key) => {
-    return (
-      <TouchableOpacity onPress={this.removeDate}>
-        <View style={styles.deleteBox}>
-          <Text style={styles.deleteText}>Delete</Text>
-        </View>
-      </TouchableOpacity>
-    );
-  };
-
+ 
   renderDate() {
-    const {notifyData,notificationTime,notificationTitle,notificationDescription,isDateTimePickerVisible}=this.state;
-
     return (
       <View style={{ marginTop: Metrics.doubleBaseMargin }}>
         <View style={{ flexDirection: "row" }}>
           <View>
             <Image source={calender} style={styles.innerStyle} />
-          </View> 
-        
-          <View>
-            <TouchableOpacity
-              style={[styles.filedView, { alignItems: "center" }]}
-              onPress={this.showDateTimePicker}
-            >
-               
-                 {this.state.isVisible == false && this.state.date.date == "" ? (
-                     <Text style={styles.dateText}>Date</Text>
-                  ) : null}
- 
-              <Text style={styles.dateText}>{this.state.date.date}</Text>
-
-              <DateTimePickerModal
+          </View>
+          <View style={{ flexDirection: "column" }}>
+            {this.state.dateInput.map((item, index) => {
+              return (
+                <View>
+                  <View style={styles.searchSection}>
+                    <TextInput
+                      placeholder="Date"
+                      style={styles.stylefiledText}
+                      placeholderTextColor={COLORS.main_text_color}
+                      editable={this.state.status ? true : false}
+                      onChangeText={(value) => this.onChangeDate(value)}
+                    />
+            {/* <DateTimePickerModal
                 isVisible={this.state.isVisible}
                 onConfirm={this.onChangeDate}
                 onCancel={this.hidePicker}
@@ -3456,363 +1916,155 @@ class MyContactInfromation extends Component {
                 is24Hour={false}
                 date={new Date(notificationTime)}
                 titleIOS="Pick your Notification time"
-            />
-             
-              {this.state.status ? (
-                <TouchableHighlight
-                  underlayColor="transparent"
-                  style={[
-                    styles.addressRightView,
-                    { marginTop: Metrics.smallMargin },
-                  ]}
-                  onPress={() => this.setState({ isDateModelOpen: true })}
-                >
-                  <Icon
-                    style={styles.iconSize}
-                    size={width * 0.06}
-                    name="chevron-small-down"
-                  />
-                </TouchableHighlight>
-              ) : null}
-
-              {this.state.status && this.state.date.label !== "" ? (
-                <View style={styles.addressRightView}>
-                  <Text style={styles.addressRighttext}>
-                    {this.state.date.label}
-                  </Text>
-                </View>
-              ) : null}
-            </TouchableOpacity>
-
-            {this.state.dateSection == true &&
-              this.state.dateArray.map((input, key) => {
-                return (
-                  <Swipeable renderLeftActions={this.dateLeftAction}>
-                    <View style={styles.filedView} key={key}>
-                      <TouchableOpacity
-                        onPress={this.showDateTimePickerArray}
-                        style={{
-                          justifyContent: "center",
-                          width: width * 0.45,
-                        }}
-                      >
-                        {this.state.isVisibleArray == false &&
-                        this.state.dateArray[key].date == "" ? (
-                          <View
-                            style={{
-                              justifyContent: "center",
-                              height: height * 0.045,
-                              marginTop: Metrics.doubleBaseMargin,
-                              //borderWidth:2
-                            }}
+              /> */}
+                    <TouchableOpacity
+                      style={styles.modalBtn}
+                      onPress={() => this.showDate(index)}
+                    >
+                      <Text style={styles.selectTypeText}>{item.label}</Text>
+                    </TouchableOpacity>
+                  </View>
+                  {item.show && (
+                    <ScrollView
+                      style={[styles.modal]}
+                      nestedScrollEnabled={true}
+                    >
+                      {this.state.websiteLabelList.map((i) => {
+                        return (
+                          <TouchableOpacity
+                            activeOpacity={0.8}
+                            onPress={() => this.selectDateLabel(index, i.label)}
                           >
-                            <Text style={styles.dateText}>Date</Text>
-                          </View>
-                        ) : null}
-
-                        <Text style={styles.dateText}>
-                          {this.state.dateArray[key].date}
-                        </Text>
-                      </TouchableOpacity>
-                      <DateTimePickerModal
-                        isVisible={this.state.isVisibleArray}
-                        onConfirm={(date) => this.onChangeDateArray(date, key)}
-                        onCancel={this.hidePicker}
-                        //   key={key}
-                      />
-
-                      <TouchableHighlight
-                        underlayColor="transparent"
-                        style={styles.addressRightView}
-                        // key={key}
-                        onPress={() =>
-                          this.setState({ isDateArrayModelOpen: true })
-                        }
-                      >
-                        <Icon
-                          style={styles.iconSize}
-                          size={width * 0.06}
-                          name="chevron-small-down"
-                        />
-                      </TouchableHighlight>
-
-                      {this.state.dateArray[key].label !== "" ? (
-                        <View style={styles.addressRightView}>
-                          <Text style={styles.addressRighttext}>
-                            {this.state.dateArray[key].label}
-                          </Text>
-                        </View>
-                      ) : null}
-                      <Modal
-                        style={styles.footerModal}
-                        visible={this.state.isDateArrayModelOpen}
-                        transparent={true}
-                        animationType="fade"
-                        onRequestClose={() =>
-                          this.setState({ isDateArrayModelOpen: false })
-                        }
-                      >
-                        <View style={styles.contactContent}>
-                          <View style={styles.content}>
-                            <Text style={styles.modalHeader}>Date</Text>
-                            <View style={{ flexDirection: "column" }}>
-                              {this.state.dateLableList.map((item, index) => {
-                                return (
-                                  <TouchableHighlight
-                                    underlayColor="transparent"
-                                    onPress={() => {
-                                      this.changeDateLabelArray(
-                                        item.label,
-                                        key
-                                      );
-                                    }}
-                                  >
-                                    <Text style={styles.labelName}>
-                                      {" "}
-                                      {item.label}{" "}
-                                    </Text>
-                                  </TouchableHighlight>
-                                );
-                              })}
-                              <TouchableHighlight
-                                underlayColor="transparent"
-                                onPress={() =>
-                                  this.setState({
-                                    isAddDateArrayLabel: true,
-                                    dateLabel: "",
-                                  })
-                                }
-                              >
-                                <Text style={styles.labelName}> Custom </Text>
-                              </TouchableHighlight>
+                            <View style={styles.labelContainer}>
+                              <Text style={styles.label}>{i.label}</Text>
                             </View>
-                          </View>
-                        </View>
-                      </Modal>
-                      <Modal
-                        style={styles.footerModal}
-                        visible={this.state.isAddDateArrayLabel}
-                        transparent={true}
-                        // key={key}
-                        animationType="fade"
-                      >
-                        <View style={styles.contactContent}>
-                          <View style={styles.content}>
-                            <Text style={styles.modalHeader}>
-                              Custom label name
-                            </Text>
-                            <View style={{ flexDirection: "column" }}>
-                              <TextInput
-                                placeholder="Custom label name"
-                                style={styles.addLabelField}
-                                placeholderTextColor={COLORS.main_text_color}
-                                editable={this.state.status ? true : false}
-                                keyboardType={"default"}
-                                onChangeText={(label) => {
-                                  this.changeDateLabelArray(label, key);
-                                }}
-                              />
-                              <TouchableHighlight
-                                underlayColor="transparent"
-                                style={styles.saveView}
-                                onPress={() =>
-                                  this.state.addressLabel !== ""
-                                    ? this.setState({
-                                        isAddDateArrayLabel: false,
-                                        isDateArrayModelOpen: false,
-                                      })
-                                    : this.setState({
-                                        isAddDateArrayLabel: false,
-                                      })
-                                }
-                              >
-                                <Text
-                                  style={{
-                                    color: COLORS.main_text_color,
-                                    fontFamily: Font.medium,
-                                    fontSize: width * 0.04,
-                                  }}
-                                >
-                                  {" "}
-                                  Ok{" "}
-                                </Text>
-                              </TouchableHighlight>
-                            </View>
-                          </View>
-                        </View>
-                      </Modal>
-                    </View>
-                  </Swipeable>
-                );
-              })}
+                          </TouchableOpacity>
+                        );
+                      })}
 
-            <TouchableOpacity
-              onPress={() => this.addDate()}
-              disable={this.state.disabledDate}
-            >
-              {this.state.status ? <NormalText> + Add Date </NormalText> : null}
-            </TouchableOpacity>
-            <Modal
-              style={styles.footerModal}
-              visible={this.state.isDateModelOpen}
-              transparent={true}
-              animationType="fade"
-              onRequestClose={() => this.setState({ isDateModelOpen: false })}
-            >
-              <View style={styles.contactContent}>
-                <View style={styles.content}>
-                  <Text style={styles.modalHeader}>Date</Text>
-                  <View style={{ flexDirection: "column" }}>
-                    {this.state.dateLableList.map((item, index) => {
-                      return (
-                        <TouchableHighlight
-                          underlayColor="transparent"
+                      <View style={styles.labelContainer}>
+                        <TouchableOpacity
+                          style={styles.customView}
                           onPress={() => {
-                            this.changeDateLabel(item.label);
+                            this.setState({ checkDateSection: true });
                           }}
                         >
-                          <Text style={styles.labelName}> {item.label} </Text>
-                        </TouchableHighlight>
-                      );
-                    })}
-                    <TouchableHighlight
-                      underlayColor="transparent"
-                      onPress={() =>
-                        this.setState({ isAddDateLabel: true, dateLabel: "" })
-                      }
-                    >
-                      <Text style={styles.labelName}> Custom </Text>
-                    </TouchableHighlight>
-                  </View>
+                          <Text style={[styles.label]}>Custom</Text>
+                          {this.state.checkDateSection ? (
+                            <View style={styles.customRight}>
+                              <Image
+                                source={checked}
+                                style={styles.checkedIcon}
+                              />
+                            </View>
+                          ) : null}
+                        </TouchableOpacity>
+                        {this.state.checkDateSection ? (
+                          <TextInput
+                            style={styles.cutomTextInput}
+                            placeholder={"Label"}
+                            placeholderTextColor={COLORS.main_text_color}
+                            onChangeText={(customDateLabel) =>
+                              this.setState({ customDateLabel })
+                            }
+                            onSubmitEditing={() =>
+                              this.selectDateLabel(
+                                index,
+                                this.state.customDateLabel
+                              )
+                            }
+                          />
+                        ) : null}
+                      </View>
+                    </ScrollView>
+                  )}
                 </View>
-              </View>
-            </Modal>
-            <Modal
-              style={styles.footerModal}
-              visible={this.state.isAddDateLabel}
-              transparent={true}
-              animationType="fade"
-            >
-              <View style={styles.contactContent}>
-                <View style={styles.content}>
-                  <Text style={styles.modalHeader}>Custom label name</Text>
-                  <View style={{ flexDirection: "column" }}>
-                    <TextInput
-                      placeholder="Custom label name"
-                      style={styles.addLabelField}
-                      placeholderTextColor={COLORS.main_text_color}
-                      editable={this.state.status ? true : false}
-                      keyboardType={"default"}
-                      // value={this.state.emailLabel}
-                      onChangeText={(label) => {
-                        this.changeDateLabel(label);
-                      }}
-                    />
-                    <TouchableHighlight
-                      underlayColor="transparent"
-                      style={styles.saveView}
-                      onPress={() =>
-                        this.state.dateLabel !== ""
-                          ? this.setState({
-                              isAddDateLabel: false,
-                              isDateModelOpen: false,
-                            })
-                          : this.setState({ isAddDateLabel: false })
-                      }
-                    >
-                      <Text
-                        style={{
-                          color: COLORS.main_text_color,
-                          fontFamily: Font.medium,
-                          fontSize: width * 0.04,
-                        }}
-                      >
-                        {" "}
-                        Ok{" "}
-                      </Text>
-                    </TouchableHighlight>
-                  </View>
-                </View>
-              </View>
-            </Modal>
+              );
+            })}
           </View>
+        </View>
+        <View style={{ flexDirection: "row" }}>
+          <View style={{ flex: 1 }}>
+            <TouchableOpacity
+              style={styles.addNewBox}
+              onPress={() =>
+                this.addDateInput(this.state.textInput.length, false)
+              }
+            >
+              {this.state.status ? (
+                <Text
+                  style={[
+                    styles.addNew,
+                    {
+                      color:
+                        this.props.theme.mode === "light"
+                          ? COLORS.main_text_color
+                          : COLORS.white,
+                    },
+                  ]}
+                >
+                  + Add Date
+                </Text>
+              ) : null}
+            </TouchableOpacity>
+          </View>
+
+          {this.state.removeDateSection ? (
+            <View style={{ flex: 1, alignItems: "flex-end" }}>
+              <TouchableOpacity style={{}} onPress={() => this.removeDate()}>
+                {this.state.status ? (
+                  <Text style={[styles.removeNew]}>- Remove Date</Text>
+                ) : null}
+              </TouchableOpacity>
+            </View>
+          ) : null}
         </View>
       </View>
     );
   }
-  addNote = () => {
-    if (this.state.note.note == "") {
-      alert("Please Fill the Field");
-    }
-    if (this.state.note.note !== "") {
-      if (this.state.noteCounter == 0) {
-        this.setState({
-          noteCounter: this.state.noteCounter + 1,
-          noteSection: true,
-          noteArray: [...this.state.noteArray, { note: "", label: "" }],
-        });
-      }
-    }
-    if (this.state.noteSection == true) {
-      if (this.state.noteIndexOnly == this.state.noteCounter - 1) {
-        if (this.state.noteNameOnly !== "") {
-          this.setState({
-            noteCounter: this.state.noteCounter + 1,
-            noteSection: true,
-            noteArray: [...this.state.noteArray, { note: "", label: "" }],
-          });
-        } else {
-          alert("Please Fill the Field");
-        }
-      } else {
-        alert("Please Fill the Field");
-      }
-    }
+  selectNoteLabel = (index, label) => {
+    var data = this.state.noteInput;
+    data[index].label = label;
+    data[index].show = false;
+    this.setState({ noteInput: data, checkAddressSection: false });
   };
 
-  onChangeNote = (value) => {
-    this.state.note.note = value;
-    this.setState({ note: this.state.note });
-  };
-
-  onChangeNoteArray = (value, index) => {
-    this.setState({ noteIndexOnly: index });
-    this.setState({ noteNameOnly: value });
-    this.state.noteArray[index].note = value;
-    this.setState({ noteArray: this.state.noteArray });
-  };
-
-  changeNoteLabelArray = (label, index) => {
-    this.setState({ isNoteArrayModelOpen: false });
-    this.state.noteArray[index].label = label;
-    this.setState({ NoteArray: this.state.noteArray });
-  };
-
-  changeNoteLabel = (label) => {
-    this.setState({ isNoteModelOpen: false });
-    this.state.note.label = label;
-    this.setState({ Note: this.state.note });
-  };
-
-  removeNote = (key) => {
-    const { noteArray } = this.state;
-    noteArray.splice(key, 1);
-    this.setState({
-      deleteNoteArray: noteArray,
+  showNote = (index) => {
+    var data = this.state.noteInput;
+    data.map((item, i) => {
+      data[i].show = false;
     });
+    data[index].show = true;
+    this.setState({ noteInput: data });
   };
 
-  noteLeftAction = (key) => {
-    return (
-      <TouchableOpacity
-        onPress={this.removeNote}
-        style={{ justifyContent: "center", alignItems: "center" }}
-      >
-        <View style={styles.deleteBox}>
-          <Text style={styles.deleteText}>Delete</Text>
-        </View>
-      </TouchableOpacity>
-    );
+  onChangNote = (value) => {
+    this.state.address.address = value;
+    this.setState({ address: this.state.address });
+  };
+
+  addNoteInput = (index, showPop) => {
+    this.setState({ removeNoteSection: true });
+    let noteInput = this.state.noteInput;
+    noteInput.map((item, i) => {
+      noteInput[i].show = false;
+    });
+    // if (addressInput.length < 5) {
+    noteInput.push({ label: "Select Type..", show: false });
+    // }
+
+    this.setState({ noteInput });
+  };
+  removeNote = (key) => {
+    let noteInput = this.state.noteInput;
+    if (noteInput.length === 1) {
+      console.log("adress input --->", noteInput.length);
+    } else {
+      let noteData = this.state.noteData;
+      noteInput.pop();
+      noteData.pop();
+      this.setState({ noteInput, noteData });
+    }
   };
   renderNote() {
     return (
@@ -3821,630 +2073,363 @@ class MyContactInfromation extends Component {
           <View>
             <Image source={note} style={styles.innerStyle} />
           </View>
-
-          <View>
-            <View style={styles.addressFieldContainer}>
-              <TextInput
-                placeholder="Note"
-                style={styles.addressField}
-                placeholderTextColor={COLORS.main_text_color}
-                multiline={true}
-                numberOfLines={5}
-                //value={this.state.note1}
-                editable={this.state.status ? true : false}
-                onChangeText={(value) => this.onChangeNote(value)}
-              />
-              {this.state.status ? (
-                <TouchableHighlight
-                  underlayColor="transparent"
-                  style={styles.addressRightView}
-                  onPress={() => this.setState({ isNoteModelOpen: true })}
-                >
-                  <Icon
-                    style={styles.iconSize}
-                    size={width * 0.06}
-                    name="chevron-small-down"
-                  />
-                </TouchableHighlight>
-              ) : null}
-
-              {this.state.status && this.state.note.label !== "" ? (
-                <View style={styles.addressRightView}>
-                  <Text style={styles.addressRighttext}>
-                    {this.state.note.label}
-                  </Text>
-                </View>
-              ) : null}
-            </View>
-
-            {this.state.noteSection == true &&
-              this.state.noteArray.map((input, key) => {
-                return (
-                  <Swipeable renderLeftActions={this.noteLeftAction}>
-                    <View style={styles.addressFieldContainer} key={key}>
-                      <TextInput
-                        placeholder="Note"
-                        style={styles.addressField}
-                        placeholderTextColor={COLORS.main_text_color}
-                        multiline={true}
-                        numberOfLines={5}
-                        key={key}
-                        keyboardType={"default"}
-                        onChangeText={(note) => {
-                          this.onChangeNoteArray(note, key);
-                        }}
-                      />
-                      <TouchableHighlight
-                        underlayColor="transparent"
-                        style={styles.rightView}
-                        // key={key}
-                        onPress={() =>
-                          this.setState({ isNoteArrayModelOpen: true })
-                        }
-                      >
-                        <Icon
-                          style={styles.iconSize}
-                          size={width * 0.06}
-                          name="chevron-small-down"
-                        />
-                      </TouchableHighlight>
-                      {this.state.noteArray[key].label !== "" ? (
-                        <View style={styles.rightView}>
-                          <Text style={styles.righttext}>
-                            {this.state.noteArray[key].label}
+          <View style={{ flexDirection: "column" }}>
+            {this.state.noteInput.map((item, index) => {
+              return (
+                <View>
+                  {this.state.status ? (
+                    <View style={styles.searchSectionAddress}>
+                      {this.state.isNoteSection ? (
+                        <TouchableOpacity style={{ flexDirection: "column" }}>
+                          <Text
+                            style={[
+                              styles.Text_1,
+                              {
+                                fontSize: width * 0.02,
+                                width: width * 0.5,
+                                marginTop: width * 0.02,
+                              },
+                            ]}
+                          >
+                            Note
                           </Text>
-                        </View>
-                      ) : null}
-
-                      <Modal
-                        style={styles.footerModal}
-                        visible={this.state.isNoteArrayModelOpen}
-                        transparent={true}
-                        animationType="fade"
-                        // key={key}
-                        onRequestClose={() =>
-                          this.setState({ isNoteArrayModelOpen: false })
-                        }
-                      >
-                        <View style={styles.contactContent}>
-                          <View style={styles.content}>
-                            <Text style={styles.modalHeader}>Note</Text>
-                            <View style={{ flexDirection: "column" }}>
-                              {this.state.noteLabelList.map((item, index) => {
-                                return (
-                                  <TouchableHighlight
-                                    underlayColor="transparent"
-                                    onPress={() => {
-                                      this.changeNoteLabelArray(
-                                        item.label,
-                                        key
-                                      );
-                                    }}
-                                  >
-                                    <Text style={styles.labelName}>
-                                      {" "}
-                                      {item.label}{" "}
-                                    </Text>
-                                  </TouchableHighlight>
-                                );
-                              })}
-                              <TouchableHighlight
-                                underlayColor="transparent"
-                                onPress={() =>
-                                  this.setState({
-                                    isAddNoteArrayLabel: true,
-                                    noteLabel: "",
-                                  })
-                                }
-                              >
-                                <Text style={styles.labelName}> Custom </Text>
-                              </TouchableHighlight>
-                            </View>
-                          </View>
-                        </View>
-                      </Modal>
-
-                      <Modal
-                        style={styles.footerModal}
-                        visible={this.state.isAddNoteArrayLabel}
-                        transparent={true}
-                        // key={key}
-                        animationType="fade"
-                      >
-                        <View style={styles.contactContent}>
-                          <View style={styles.content}>
-                            <Text style={styles.modalHeader}>
-                              Custom label name
-                            </Text>
-                            <View style={{ flexDirection: "column" }}>
-                              <TextInput
-                                placeholder="Custom label name"
-                                style={styles.addLabelField}
-                                placeholderTextColor={COLORS.main_text_color}
-                                editable={this.state.status ? true : false}
-                                keyboardType={"default"}
-                                onChangeText={(label) => {
-                                  this.changeNoteLabelArray(label, key);
-                                }}
-                              />
-                              <TouchableHighlight
-                                underlayColor="transparent"
-                                style={styles.saveView}
-                                onPress={() =>
-                                  this.state.noteLabel !== ""
-                                    ? this.setState({
-                                        isAddNoteArrayLabel: false,
-                                        isNoteArrayModelOpen: false,
-                                      })
-                                    : this.setState({
-                                        isAddNoteArrayLabel: false,
-                                      })
-                                }
-                              >
-                                <Text
-                                  style={{
-                                    color: COLORS.main_text_color,
-                                    fontFamily: Font.medium,
-                                    fontSize: width * 0.04,
-                                  }}
-                                >
-                                  {" "}
-                                  Ok{" "}
-                                </Text>
-                              </TouchableHighlight>
-                            </View>
-                          </View>
-                        </View>
-                      </Modal>
+                          <TextInput
+                            placeholder="Note"
+                            style={styles.addressField}
+                            placeholderTextColor={COLORS.main_text_color}
+                            editable={this.state.status ? true : false}
+                            onChangeText={(value) => this.onChangNote(value)}
+                          />
+                        </TouchableOpacity>
+                      ) : (
+                        <TouchableOpacity
+                          onPress={() => this.setState({ isNoteSection: true })}
+                        >
+                          <Text style={styles.stylefiledText}>Note</Text>
+                        </TouchableOpacity>
+                      )}
+                      <View style={styles.rightView}>
+                        <TouchableOpacity
+                          style={styles.modalBtn}
+                          onPress={() => this.showNote(index)}
+                        >
+                          <Text style={styles.selectTypeText}>
+                            {item.label}
+                          </Text>
+                        </TouchableOpacity>
+                      </View>
                     </View>
-                  </Swipeable>
-                );
-              })}
+                  ) : (
+                    <TouchableOpacity style={styles.searchSection}>
+                      <Text style={styles.stylefiledText}>Note</Text>
+                    </TouchableOpacity>
+                  )}
+                  {item.show && (
+                    <ScrollView
+                      style={[styles.modal]}
+                      nestedScrollEnabled={true}
+                    >
+                      {/* {this.state.noteLabelList.map((i) => {
+                        return (
+                          <TouchableOpacity
+                            activeOpacity={0.8}
+                            onPress={() => this.selectNoteLabel(index, i.label)}
+                          >
+                            <View style={styles.labelContainer}>
+                              <Text style={styles.label}>{i.label}</Text>
+                            </View>
+                          </TouchableOpacity>
+                        );
+                      })} */}
 
-            <TouchableOpacity
-              onPress={() => this.addNote()}
-              disable={this.state.disabledNote}
-            >
-              {this.state.status ? <NormalText> + Add Note </NormalText> : null}
-            </TouchableOpacity>
-            <Modal
-              style={styles.footerModal}
-              visible={this.state.isNoteModelOpen}
-              transparent={true}
-              animationType="fade"
-              onRequestClose={() => this.setState({ isNoteModelOpen: false })}
-            >
-              <View style={styles.contactContent}>
-                <View style={styles.content}>
-                  <Text style={styles.modalHeader}>Note</Text>
-                  <View style={{ flexDirection: "column" }}>
-                    {this.state.noteLabelList.map((item, index) => {
-                      return (
-                        <TouchableHighlight
-                          underlayColor="transparent"
+                      <View style={styles.labelContainer}>
+                        <TouchableOpacity
+                          style={styles.customView}
                           onPress={() => {
-                            this.changeNoteLabel(item.label);
+                            this.setState({ checkNoteSection: true });
                           }}
                         >
-                          <Text style={styles.labelName}> {item.label} </Text>
-                        </TouchableHighlight>
-                      );
-                    })}
-                    <TouchableHighlight
-                      underlayColor="transparent"
-                      onPress={() =>
-                        this.setState({ isAddNoteLabel: true, noteLabel: "" })
-                      }
-                    >
-                      <Text style={styles.labelName}> Custom </Text>
-                    </TouchableHighlight>
-                  </View>
+                          <Text style={[styles.label]}>Custom</Text>
+                          {this.state.checkNoteSection ? (
+                            <View style={styles.customRight}>
+                              <Image
+                                source={checked}
+                                style={styles.checkedIcon}
+                              />
+                            </View>
+                          ) : null}
+                        </TouchableOpacity>
+                        {this.state.checkNoteSection ? (
+                          <TextInput
+                            style={styles.cutomTextInput}
+                            placeholder={"Label"}
+                            placeholderTextColor={COLORS.main_text_color}
+                            onChangeText={(customNoteLabel) =>
+                              this.setState({ customNoteLabel })
+                            }
+                            onSubmitEditing={() =>
+                              this.selectNoteLabel(
+                                index,
+                                this.state.customNoteLabel
+                              )
+                            }
+                          />
+                        ) : null}
+                      </View>
+                    </ScrollView>
+                  )}
                 </View>
-              </View>
-            </Modal>
-            <Modal
-              style={styles.footerModal}
-              visible={this.state.isAddNoteLabel}
-              transparent={true}
-              animationType="fade"
-            >
-              <View style={styles.contactContent}>
-                <View style={styles.content}>
-                  <Text style={styles.modalHeader}>Custom label name</Text>
-                  <View style={{ flexDirection: "column" }}>
-                    <TextInput
-                      placeholder="Custom label name"
-                      style={styles.addLabelField}
-                      placeholderTextColor={COLORS.main_text_color}
-                      editable={this.state.status ? true : false}
-                      keyboardType={"default"}
-                      // value={this.state.emailLabel}
-                      onChangeText={(label) => {
-                        this.changeNoteLabel(label);
-                      }}
-                    />
-                    <TouchableHighlight
-                      underlayColor="transparent"
-                      style={styles.saveView}
-                      onPress={() =>
-                        this.state.noteLabel !== ""
-                          ? this.setState({
-                              isAddNoteLabel: false,
-                              isNoteModelOpen: false,
-                            })
-                          : this.setState({ isAddNoteLabel: false })
-                      }
-                    >
-                      <Text
-                        style={{
-                          color: COLORS.main_text_color,
-                          fontFamily: Font.medium,
-                          fontSize: width * 0.04,
-                        }}
-                      >
-                        Ok
-                      </Text>
-                    </TouchableHighlight>
-                  </View>
-                </View>
-              </View>
-            </Modal>
+              );
+            })}
           </View>
+        </View>
+        <View style={{ flexDirection: "row" }}>
+          <View style={{ flex: 1 }}>
+            <TouchableOpacity
+              style={styles.addNewBox}
+              onPress={() =>
+                this.addNoteInput(this.state.textInput.length, false)
+              }
+            >
+              {this.state.status ? (
+                <Text
+                  style={[
+                    styles.addNew,
+                    {
+                      color:
+                        this.props.theme.mode === "light"
+                          ? COLORS.main_text_color
+                          : COLORS.white,
+                    },
+                  ]}
+                >
+                  + Add Date
+                </Text>
+              ) : null}
+            </TouchableOpacity>
+          </View>
+
+          {this.state.removeNoteSection ? (
+            <View style={{ flex: 1, alignItems: "flex-end" }}>
+              <TouchableOpacity style={{}} onPress={() => this.removeNote()}>
+                {this.state.status ? (
+                  <Text style={[styles.removeNew]}>- Remove Date</Text>
+                ) : null}
+              </TouchableOpacity>
+            </View>
+          ) : null}
         </View>
       </View>
     );
   }
-  addCompany = () => {
-    if (this.state.company.company == "") {
-      alert("Please Fill the Field");
-    }
-    if (this.state.company.company !== "") {
-      if (this.state.companyCounter == 0) {
-        this.setState({
-          companyCounter: this.state.companyCounter + 1,
-          companySection: true,
-          companyArray: [
-            ...this.state.companyArray,
-            { company: "", label: "", time: "", timeto: "" },
-          ],
-        });
-      }
-    }
-    if (this.state.companySection == true) {
-      if (this.state.companyIndexOnly == this.state.companyCounter - 1) {
-        if (this.state.companyNameOnly !== "") {
-          this.setState({
-            companyCounter: this.state.companyCounter + 1,
-            companySection: true,
-            companyArray: [
-              ...this.state.companyArray,
-              { company: "", label: "", time: "", timeto: "" },
-            ],
-          });
-        } else {
-          alert("Please Fill the Field");
-        }
-      } else {
-        alert("Please Fill the Field");
-      }
-    }
-    // this.setState({
-
-    //   companyArray: [
-    //     ...this.state.companyArray,
-    //     { company: "", label: "", time: "", timeto: "" },
-    //   ],
-    // });
-  };
 
   onChangeCompany = (value) => {
-    console.log("Comapny-------->", value);
-    this.state.company.company = value;
-    this.setState({ company: this.state.company });
+    this.state.email.email = value;
+    this.setState({ email: this.state.email });
   };
-
-  onChangeCompanyArray = (value, index) => {
-    this.setState({ companyIndexOnly: index });
-    this.setState({ companyNameOnly: value });
-    this.state.companyArray[index].company = value;
-    this.setState({ companyArray: this.state.companyArray });
-  };
-
-  changeCompanyLabelArray = (label, index) => {
-    this.setState({ isCompanyArrayModelOpen: false });
-    this.state.companyArray[index].label = label;
-    this.setState({ CompanyArray: this.state.companyArray });
-  };
-
-  changeCompanyLabel = (label) => {
-    this.setState({ isCompanyModelOpen: false });
-    this.state.company.label = label;
-    this.setState({ company: this.state.company });
-  };
-
-  //Job Title
-  onChangeJobTitle = (value) => {
-    this.state.jobTitle.jobTitle = value;
-    this.setState({ job_title: this.state.jobTitle });
-  };
-  changeJobTitleLabel = (label) => {
-    this.setState({ isJobTitleModelOpen: false });
-    this.state.jobTitle.label = label;
-    this.setState({ Job_title: this.state.jobTitle });
-  };
-
-  changeJobTitleLabelArray = (label, index) => {
-    this.setState({ isjobTitleArrayModelOpen: false });
-    this.state.jobTitleArray[index].label = label;
-    this.setState({ JobTitleArray: this.state.jobTitleArray });
-  };
-  onChangeWorkHours = (value, index) => {
-    this.state.workHours.workHours = value;
-    this.setState({ work_hour: this.state.workHours });
-  };
-
-  changeWorkHoursLabel = (label) => {
-    this.setState({ isWorkHourseModelOpen: false });
-    this.state.workHours.label = label;
-    this.setState({ workHours: this.state.workHours });
-  };
-
-  changeJobTitleLabelArray = (label, index) => {
-    this.setState({ isjobTitleArrayModelOpen: false });
-    this.state.jobTitleArray[index].label = label;
-    this.setState({ JobTitleArray: this.state.jobTitleArray });
+  addCompanyInput = (index, showPop) => {
+    this.setState({ removeCompanySection: true, isCompanySec: false });
+    let companyInput = this.state.companyInput;
+    companyInput.map((item, i) => {
+      companyInput[i].show = false;
+    });
+    companyInput.push({ label: "Select Type..", show: false });
+    this.setState({ companyInput });
   };
 
   removeCompany = (key) => {
-    const { companyArray } = this.state;
-    companyArray.splice(key, 1);
-    this.setState({
-      deleteCompanyArray: companyArray,
-    });
+    let companyInput = this.state.companyInput;
+    if (companyInput.length === 1) {
+      console.log("adress input --->", companyInput.length);
+    } else {
+      let companyData = this.state.companyData;
+      companyInput.pop();
+      companyData.pop();
+      this.setState({ companyInput, companyData });
+    }
   };
-  hidePicker = () => {
-    this.setState({ isVisibleWork: false });
+  itemSelect = (item) => {
+    this.setState({ selectItem: item, workViewOpen: false });
   };
 
-  showTimePicker = () => {
-    {
-      this.state.status ? this.setState({ isVisibleWork: true }) : null;
-    }
-  };
-  showTimeToPicker = () => {
-    {
-      this.state.status ? this.setState({ isVisibleWorkTo: true }) : null;
-    }
-  };
-  hidePickerTo = () => {
-    this.setState({ isVisibleWorkTo: false });
-  };
-  onChangeWorkHoursTo = (value) => {
-    this.setState({
-      isVisibleWorkTo: false,
-      choosenWorkTo: moment(value).format("LTS"),
+  showWorkHour = (index) => {
+    this.setState({ isCompanySec: true });
+    var data = this.state.companyInput;
+    data.map((item, i) => {
+      data[i].show = false;
     });
+    data[index].show = true;
+    this.setState({ companyInput: data });
   };
 
-  //for array
-  showTimePickerArray = () => {
-    {
-      this.state.status ? this.setState({ isVisibleWorkArray: true }) : null;
-    }
-  };
-
-  onChangeWorkHoursArray = (arrayValue, index) => {
-    var formateTime = moment(arrayValue).format("LTS");
-    this.state.companyArray[index].time = formateTime;
-    this.setState({
-      isVisibleWorkArray: false,
-      companyArray: this.state.companyArray,
-    });
-  };
-  showTimeToPickerArray = () => {
-    {
-      this.state.status ? this.setState({ isVisibleWorkToArray: true }) : null;
-    }
-  };
-  onChangeWorkHoursToArray = (value, index) => {
-    var formateTime = moment(value).format("LTS");
-    this.state.companyArray[index].timeto = formateTime;
-    this.setState({
-      isVisibleWorkToArray: false,
-      companyArray: this.state.companyArray,
-    });
-    console.log("chossee------->", this.state.companyArray);
-  };
-  arrayPickerHide = () => {
-    this.setState({ isVisibleWorkArray: false });
-  };
-  arrayPickerHideTwo = () => {
-    this.setState({ isVisibleWorkToArray: false });
-  };
-  CompanyLeftAction = (key) => {
+  renderItem2({ item, index }) {
     return (
-      <TouchableOpacity onPress={this.removeCompany}>
-        <View style={styles.deleteBox}>
-          <Text style={styles.deleteText}>Delete</Text>
-        </View>
-      </TouchableOpacity>
-    );
-  };
-  renderCompany() {
-    return (
-      <View
-        style={{
-          marginTop: Metrics.baseMargin,
-          marginBottom: Metrics.baseMargin,
+      <TouchableOpacity
+        style={{ marginTop: 10, marginLeft: 5 }}
+        onPress={() => {
+          this.itemSelect(item);
         }}
       >
+        <Text style={[styles.workText, { fontSize: width * 0.026 }]}>
+          {item}
+        </Text>
+      </TouchableOpacity>
+    );
+  }
+  onChangeMonday = (value) => {
+    this.state.work_hour.monday.first = value;
+    this.setState({ work_hour: this.state.work_hour });
+    console.log(
+      "this.state.work_hour.monday.first--->",
+      this.state.work_hour.monday.first
+    );
+  };
+
+  onChangeMondayTo = (value) => {
+    this.state.work_hour.monday.to = value;
+    this.setState({ work_hour: this.state.work_hour });
+  };
+  onChangeTuesday = (value) => {
+    this.state.work_hour.tuesday.first = value;
+    this.setState({ work_hour: this.state.work_hour });
+  };
+  onChangeTuesdayTo = (value) => {
+    this.state.work_hour.tuesday.to = value;
+    this.setState({ work_hour: this.state.work_hour });
+  };
+  onChangeWednesday = (value) => {
+    this.state.work_hour.wednesday.first = value;
+    this.setState({ work_hour: this.state.work_hour });
+  };
+  onChangeWednesdayTo = (value) => {
+    this.state.work_hour.wednesday.to = value;
+    this.setState({ work_hour: this.state.work_hour });
+  };
+  onChangeThursday = (value) => {
+    this.state.work_hour.thursday.first = value;
+    this.setState({ work_hour: this.state.work_hour });
+  };
+  onChangeThursdayTo = (value) => {
+    this.state.work_hour.thursday.to = value;
+    this.setState({ work_hour: this.state.work_hour });
+  };
+  onChangeFriday = (value) => {
+    this.state.work_hour.friday.first = value;
+    this.setState({ work_hour: this.state.work_hour });
+  };
+  onChangeFridayTo = (value) => {
+    this.state.work_hour.friday.to = value;
+    this.setState({ work_hour: this.state.work_hour });
+  };
+  onChangeSaturday = (value) => {
+    this.state.work_hour.saturday.first = value;
+    this.setState({ work_hour: this.state.work_hour });
+  };
+  onChangeSaturdayTo = (value) => {
+    this.state.work_hour.saturday.to = value;
+    this.setState({ work_hour: this.state.work_hour });
+  };
+  onChangeSunday = (value) => {
+    this.state.work_hour.sunday.first = value;
+    this.setState({ work_hour: this.state.work_hour });
+  };
+  onChangeSundayTo = (value) => {
+    this.state.work_hour.sunday.to = value;
+    this.setState({ work_hour: this.state.work_hour });
+  };
+
+  //arrayy
+  onChangeMondayArray = (value, index) => {
+    this.state.work_hourArray[index].monday.first = value;
+    this.setState({ work_hourArray: this.state.work_hourArray });
+    console.log("array---->", this.state.work_hourArray);
+  };
+  onChangeMondayToArray = (value) => {
+    this.state.work_hourArray[index].monday.to = value;
+    this.setState({ work_hourArray: this.state.work_hourArray });
+  };
+  onChangeTuesdayArray = (value) => {
+    this.state.work_hourArray[index].tuesday.first = value;
+    this.setState({ work_hourArray: this.state.work_hourArray });
+  };
+  onChangeTuesdayToArray = (value) => {
+    this.state.work_hourArray[index].tuesday.to = value;
+    this.setState({ work_hourArray: this.state.work_hourArray });
+  };
+  onChangeWednesdayArray = (value) => {
+    this.state.work_hourArray[index].wednesday.first = value;
+    this.setState({ work_hourArray: this.state.work_hourArray });
+  };
+  onChangeWednesdayToArray = (value) => {
+    this.state.work_hourArray[index].wednesday.to = value;
+    this.setState({ work_hourArray: this.state.work_hourArray });
+  };
+  onChangeThursdayArray = (value) => {
+    this.state.work_hourArray[index].thursday.first = value;
+    this.setState({ work_hourArray: this.state.work_hourArray });
+  };
+  onChangeThursdayToArray = (value) => {
+    this.state.work_hourArray[index].thursday.to = value;
+    this.setState({ work_hourArray: this.state.work_hourArray });
+  };
+  onChangeFridayArray = (value) => {
+    this.state.work_hourArray[index].friday.first = value;
+    this.setState({ work_hourArray: this.state.work_hourArray });
+  };
+  onChangeFridayToArray = (value) => {
+    this.state.work_hourArray[index].friday.to = value;
+    this.setState({ work_hourArray: this.state.work_hourArray });
+  };
+  onChangeSaturdayArray = (value) => {
+    this.state.work_hourArray[index].saturday.first = value;
+    this.setState({ work_hourArray: this.state.work_hourArray });
+  };
+  onChangeSaturdayToArray = (value) => {
+    this.state.work_hourArray[index].saturday.to = value;
+    this.setState({ work_hourArray: this.state.work_hourArray });
+  };
+  onChangeSundayArray = (value) => {
+    this.state.work_hourArray[index].sunday.first = value;
+    this.setState({ work_hourArray: this.state.work_hourArray });
+  };
+  onChangeSundayToArray = (value) => {
+    this.state.work_hourArray[index].sunday.to = value;
+    this.setState({ work_hourArray: this.state.work_hourArray });
+  };
+
+  renderCompany() {
+    return (
+      <View style={{ marginTop: Metrics.doubleBaseMargin }}>
         <View style={{ flexDirection: "row" }}>
           <View>
             <Image source={handshake} style={styles.innerStyle} />
           </View>
-
-          <View>
-            <View style={styles.filedView}>
-              <TextInput
-                placeholder="Company"
-                style={styles.stylefiledText}
-                placeholderTextColor={COLORS.main_text_color}
-                //value={this.state.company1}
-                editable={this.state.status ? true : false}
-                onChangeText={(value) => this.onChangeCompany(value)}
-              />
-            </View>
-            <View style={styles.filedView}>
-              <TextInput
-                placeholder="Job Title"
-                style={styles.stylefiledText}
-                placeholderTextColor={COLORS.main_text_color}
-                value={this.state.job_title}
-                editable={this.state.status ? true : false}
-                onChangeText={(value) => this.onChangeJobTitle(value)}
-              />
-            </View>
-            <View style={styles.filedView}>
-              <TextInput
-                placeholder="Work Hour"
-                style={styles.stylefiledText}
-                placeholderTextColor={COLORS.main_text_color}
-                value={this.state.work_hour}
-                editable={this.state.status ? true : false}
-                onChangeText={(value) => this.onChangeWorkHours(value)}
-              />
-            </View>
-
-            {this.state.companySection == true &&
-              this.state.companyArray.map((input, key) => {
-                return (
-                  <Swipeable renderLeftActions={this.CompanyLeftAction}>
-                    <View key={key}>
-                      <View style={styles.filedView}>
+          <View style={{ flexDirection: "column" }}>
+            {this.state.companyInput.map((item, index) => {
+              return (
+                <View>
+                  <View style={styles.searchSection}>
+                    <TouchableOpacity style={{ flexDirection: "row" }}>
+                      <View>
                         <TextInput
-                          placeholder="Company"
-                          style={styles.addressField}
+                          placeholder=""
+                          style={styles.stylefiledText}
                           placeholderTextColor={COLORS.main_text_color}
-                          key={key}
-                          keyboardType={"default"}
-                          onChangeText={(company) => {
-                            this.onChangeCompanyArray(company, key);
-                          }}
+                          editable={this.state.status ? true : false}
+                          onChangeText={(value) => this.onChangeCompany(value)}
                         />
-
-                        {this.state.companyArray[key].label !== "" ? (
-                          <View style={styles.addressRightView}>
-                            <Text style={styles.addressRighttext}>
-                              {this.state.companyArray[key].label}
-                            </Text>
-                          </View>
-                        ) : null}
-
-                        <Modal
-                          style={styles.footerModal}
-                          visible={this.state.isCompanyArrayModelOpen}
-                          transparent={true}
-                          animationType="fade"
-                          onRequestClose={() =>
-                            this.setState({ isCompanyArrayModelOpen: false })
-                          }
-                        >
-                          <View style={styles.contactContent}>
-                            <View style={styles.content}>
-                              <Text style={styles.modalHeader}>Company</Text>
-                              <View style={{ flexDirection: "column" }}>
-                                {this.state.companyLableList.map(
-                                  (item, index) => {
-                                    return (
-                                      <TouchableHighlight
-                                        underlayColor="transparent"
-                                        onPress={() => {
-                                          this.changeCompanyLabelArray(
-                                            item.label,
-                                            key
-                                          );
-                                        }}
-                                      >
-                                        <Text style={styles.labelName}>
-                                          {" "}
-                                          {item.label}{" "}
-                                        </Text>
-                                      </TouchableHighlight>
-                                    );
-                                  }
-                                )}
-                                <TouchableHighlight
-                                  underlayColor="transparent"
-                                  onPress={() =>
-                                    this.setState({
-                                      isAddCompanyArrayLabel: true,
-                                      company: "",
-                                    })
-                                  }
-                                >
-                                  <Text style={styles.labelName}> Custom </Text>
-                                </TouchableHighlight>
-                              </View>
-                            </View>
-                          </View>
-                        </Modal>
-                        <Modal
-                          style={styles.footerModal}
-                          visible={this.state.isAddCompanyArrayLabel}
-                          transparent={true}
-                          // key={key}
-                          animationType="fade"
-                        >
-                          <View style={styles.contactContent}>
-                            <View style={styles.content}>
-                              <Text style={styles.modalHeader}>
-                                Custom label name
-                              </Text>
-                              <View style={{ flexDirection: "column" }}>
-                                <TextInput
-                                  placeholder="Custom label name"
-                                  style={styles.addLabelField}
-                                  placeholderTextColor={COLORS.main_text_color}
-                                  editable={this.state.status ? true : false}
-                                  keyboardType={"default"}
-                                  onChangeText={(label) => {
-                                    this.changeCompanyLabelArray(label, key);
-                                  }}
-                                />
-                                <TouchableHighlight
-                                  underlayColor="transparent"
-                                  style={styles.saveView}
-                                  onPress={() =>
-                                    this.state.companyLabel !== ""
-                                      ? this.setState({
-                                          isAddCompanyArrayLabel: false,
-                                          isCompanyArrayModelOpen: false,
-                                        })
-                                      : this.setState({
-                                          isAddCompanyArrayLabel: false,
-                                        })
-                                  }
-                                >
-                                  <Text
-                                    style={{
-                                      color: COLORS.main_text_color,
-                                      fontFamily: Font.medium,
-                                      fontSize: width * 0.04,
-                                    }}
-                                  >
-                                    {" "}
-                                    Ok{" "}
-                                  </Text>
-                                </TouchableHighlight>
-                              </View>
-                            </View>
-                          </View>
-                        </Modal>
                       </View>
-                      {/* Job Title" */}
-                      <View style={styles.filedView}>
+                      <View style={styles.addressRightView}>
+                        <Text style={styles.compnyRightText}>Company</Text>
+                      </View>
+                    </TouchableOpacity>
+                  </View>
+
+                  <View style={styles.searchSection}>
+                    <TouchableOpacity style={{ flexDirection: "row" }}>
+                      <View>
                         <TextInput
-                          placeholder="Job Title"
+                          placeholder=""
                           style={styles.stylefiledText}
                           placeholderTextColor={COLORS.main_text_color}
                           value={this.state.job_title}
@@ -4452,128 +2437,520 @@ class MyContactInfromation extends Component {
                           onChangeText={(value) => this.onChangeJobTitle(value)}
                         />
                       </View>
-                      {/* Job Title finish */}
-                      <View style={styles.filedView}>
-                        <TextInput
-                          placeholder="Work Hour"
-                          style={styles.stylefiledText}
-                          placeholderTextColor={COLORS.main_text_color}
-                          value={this.state.job_title}
-                          editable={this.state.status ? true : false}
-                          onChangeText={(value) =>
-                            this.onChangeWorkHours(value)
-                          }
-                        />
+                      <View style={styles.addressRightView}>
+                        <Text style={styles.compnyRightText}>Job Title</Text>
+                      </View>
+                    </TouchableOpacity>
+                  </View>
+                  {/* {} */}
+                  {item.show && (
+                    <View
+                      style={{
+                        flexDirection: "row",
+                        marginTop: Metrics.baseMargin,
+                      }}
+                    >
+                      <View style={styles.workView}>
+                        <View style={styles.LeftView}>
+                          <Image source={checked} style={styles.checkedIcon} />
+                          <View
+                            style={{
+                              flexDirection: "row",
+                              alignItems: "center",
+                            }}
+                          >
+                            <Text
+                              style={[
+                                styles.workText,
+                                {
+                                  fontSize: width * 0.025,
+                                  width: width * 0.16,
+                                },
+                              ]}
+                            >
+                              Monday
+                            </Text>
+                            <View style={styles.timeView}>
+                              <TextInput
+                                placeholder="7:00AM"
+                                placeholderTextColor={COLORS.main_text_color}
+                                style={styles.timeText}
+                                //value={this.state.work_hour.monday.first}
+                                onChangeText={(value) =>
+                                  this.onChangeMonday(value)
+                                }
+                              />
+                            </View>
+                            <Text
+                              style={[
+                                styles.workText,
+                                { fontSize: width * 0.035, marginLeft: 5 },
+                              ]}
+                            >
+                              to
+                            </Text>
+                            <View style={styles.timeView}>
+                              <TextInput
+                                placeholder="3:30AM"
+                                placeholderTextColor={COLORS.main_text_color}
+                                style={styles.timeText}
+                                //value={this.state.work_hour.monday.to}
+                                onChangeText={(value) =>
+                                  this.onChangeMondayTo(value)
+                                }
+                              />
+                            </View>
+                          </View>
+                          <View style={styles.dayView}>
+                            <Text
+                              style={[
+                                styles.workText,
+                                {
+                                  fontSize: width * 0.025,
+                                  width: width * 0.16,
+                                },
+                              ]}
+                            >
+                              Tuesday
+                            </Text>
+                            <View style={styles.timeView}>
+                              <TextInput
+                                placeholder="7:00AM"
+                                placeholderTextColor={COLORS.main_text_color}
+                                style={styles.timeText}
+                                //value={this.state.work_hour.tuesday.first}
+                                onChangeText={(value) =>
+                                  this.onChangeTuesday(value)
+                                }
+                              />
+                            </View>
+                            <Text
+                              style={[
+                                styles.workText,
+                                { fontSize: width * 0.035, marginLeft: 5 },
+                              ]}
+                            >
+                              to
+                            </Text>
+                            <View style={styles.timeView}>
+                              <TextInput
+                                placeholder="3:30AM"
+                                placeholderTextColor={COLORS.main_text_color}
+                                style={styles.timeText}
+                                //value={this.state.work_hour.tuesday.to}
+                                onChangeText={(value) =>
+                                  this.onChangeTuesdayTo(value)
+                                }
+                              />
+                            </View>
+                          </View>
+                          <View style={styles.dayView}>
+                            <Text
+                              style={[
+                                styles.workText,
+                                {
+                                  fontSize: width * 0.025,
+                                  width: width * 0.16,
+                                },
+                              ]}
+                            >
+                              Wednesday
+                            </Text>
+                            <View style={styles.timeView}>
+                              <TextInput
+                                placeholder="7:00AM"
+                                placeholderTextColor={COLORS.main_text_color}
+                                style={styles.timeText}
+                                //value={this.state.work_hour.wednesday.first}
+                                onChangeText={(value) =>
+                                  this.onChangeWednesday(value)
+                                }
+                              />
+                            </View>
+                            <Text
+                              style={[
+                                styles.workText,
+                                { fontSize: width * 0.035, marginLeft: 5 },
+                              ]}
+                            >
+                              to
+                            </Text>
+                            <View style={styles.timeView}>
+                              <TextInput
+                                placeholder="3:30AM"
+                                placeholderTextColor={COLORS.main_text_color}
+                                style={styles.timeText}
+                                //value={this.state.work_hour.wednesday.to}
+                                onChangeText={(value) =>
+                                  this.onChangeWednesdayTo(value)
+                                }
+                              />
+                            </View>
+                          </View>
+                          <View style={styles.dayView}>
+                            <Text
+                              style={[
+                                styles.workText,
+                                {
+                                  fontSize: width * 0.025,
+                                  width: width * 0.16,
+                                },
+                              ]}
+                            >
+                              Thursday
+                            </Text>
+                            <View style={styles.timeView}>
+                              <TextInput
+                                placeholder="7:00AM"
+                                placeholderTextColor={COLORS.main_text_color}
+                                style={styles.timeText}
+                                //value={this.state.work_hour.thursday.first}
+                                onChangeText={(value) =>
+                                  this.onChangeThursday(value)
+                                }
+                              />
+                            </View>
+                            <Text
+                              style={[
+                                styles.workText,
+                                { fontSize: width * 0.035, marginLeft: 5 },
+                              ]}
+                            >
+                              to
+                            </Text>
+                            <View style={styles.timeView}>
+                              <TextInput
+                                placeholder="3:30AM"
+                                placeholderTextColor={COLORS.main_text_color}
+                                style={styles.timeText}
+                                //value={this.state.work_hour.thursday.to}
+                                onChangeText={(value) =>
+                                  this.onChangeThursdayTo(value)
+                                }
+                              />
+                            </View>
+                          </View>
+                          <View style={styles.dayView}>
+                            <Text
+                              style={[
+                                styles.workText,
+                                {
+                                  fontSize: width * 0.025,
+                                  width: width * 0.16,
+                                },
+                              ]}
+                            >
+                              Friday
+                            </Text>
+                            <View style={styles.timeView}>
+                              <TextInput
+                                placeholder="7:00AM"
+                                placeholderTextColor={COLORS.main_text_color}
+                                style={styles.timeText}
+                                // value={this.state.work_hour.friday.first}
+                                onChangeText={(value) =>
+                                  this.onChangeFriday(value)
+                                }
+                              />
+                            </View>
+                            <Text
+                              style={[
+                                styles.workText,
+                                { fontSize: width * 0.035, marginLeft: 5 },
+                              ]}
+                            >
+                              to
+                            </Text>
+                            <View style={styles.timeView}>
+                              <TextInput
+                                placeholder="3:30AM"
+                                placeholderTextColor={COLORS.main_text_color}
+                                style={styles.timeText}
+                                // value={this.state.work_hour.friday.to}
+                                onChangeText={(value) =>
+                                  this.onChangeFridayTo(value)
+                                }
+                              />
+                            </View>
+                          </View>
+                          <View style={styles.dayView}>
+                            <Text
+                              style={[
+                                styles.workText,
+                                {
+                                  fontSize: width * 0.025,
+                                  width: width * 0.16,
+                                },
+                              ]}
+                            >
+                              Saturday
+                            </Text>
+                            <View style={styles.timeView}>
+                              <TextInput
+                                placeholder="OFF"
+                                placeholderTextColor={COLORS.main_text_color}
+                                style={styles.timeText}
+                                //value={this.state.work_hour.saturday.first}
+                                onChangeText={(value) =>
+                                  this.onChangeSaturday(value)
+                                }
+                              />
+                            </View>
+                            <Text
+                              style={[
+                                styles.workText,
+                                { fontSize: width * 0.035, marginLeft: 5 },
+                              ]}
+                            >
+                              to
+                            </Text>
+                            <View style={styles.timeView}>
+                              <TextInput
+                                placeholder="OFF"
+                                placeholderTextColor={COLORS.main_text_color}
+                                style={styles.timeText}
+                                //value={this.state.work_hour.saturday.to}
+                                onChangeText={(value) =>
+                                  this.onChangeSaturdayTo(value)
+                                }
+                              />
+                            </View>
+                          </View>
+                          <View style={styles.dayView}>
+                            <Text
+                              style={[
+                                styles.workText,
+                                {
+                                  fontSize: width * 0.025,
+                                  width: width * 0.16,
+                                },
+                              ]}
+                            >
+                              Sunday
+                            </Text>
+                            <View style={styles.timeView}>
+                              <TextInput
+                                placeholder="OFF"
+                                placeholderTextColor={COLORS.main_text_color}
+                                style={styles.timeText}
+                                //value={this.state.work_hour.sunday.first}
+                                onChangeText={(value) =>
+                                  this.onChangeSunday(value)
+                                }
+                              />
+                            </View>
+                            <Text
+                              style={[
+                                styles.workText,
+                                { fontSize: width * 0.035, marginLeft: 5 },
+                              ]}
+                            >
+                              to
+                            </Text>
+                            <View style={styles.timeView}>
+                              <TextInput
+                                placeholder="OFF"
+                                placeholderTextColor={COLORS.main_text_color}
+                                style={styles.timeText}
+                                // value={this.state.work_hour.sunday.to}
+                                onChangeText={(value) =>
+                                  this.onChangeSundayTo(value)
+                                }
+                              />
+                            </View>
+                          </View>
+                        </View>
+
+                        <View style={styles.rightView}>
+                          <View style={{ flexDirection: "column" }}>
+                            <Text
+                              style={[
+                                styles.workText,
+                                {
+                                  fontSize: width * 0.026,
+                                  marginRight: 5,
+                                  textAlign: "right",
+                                },
+                              ]}
+                            >
+                              Work Hours
+                            </Text>
+                            <TouchableOpacity
+                              onPress={() =>
+                                this.setState({ workViewOpen: true })
+                              }
+                              style={styles.selectTimezone}
+                            >
+                              {this.state.selectItem == "" ? (
+                                <Text
+                                  style={[
+                                    styles.workText,
+                                    { fontSize: width * 0.018 },
+                                  ]}
+                                >
+                                  Select Time Zone
+                                </Text>
+                              ) : (
+                                <Text
+                                  style={[
+                                    styles.workText,
+                                    {
+                                      fontSize: width * 0.018,
+                                      textAlign: "center",
+                                    },
+                                  ]}
+                                >
+                                  {this.state.selectItem}
+                                </Text>
+                              )}
+
+                              <Modal
+                                style={styles.workModal}
+                                visible={this.state.workViewOpen}
+                                transparent={true}
+                                animationType="fade"
+                                onRequestClose={() =>
+                                  this.setState({ workViewOpen: false })
+                                }
+                              >
+                                <View style={styles.workModalView}>
+                                  <View style={styles.content}>
+                                    <FlatList
+                                      refreshing={true}
+                                      keyExtractor={(item, index) =>
+                                        index.toString()
+                                      }
+                                      data={this.state.tzs}
+                                      extraData={this.state}
+                                      numColumns={1}
+                                      renderItem={this.renderItem2.bind(this)}
+                                    />
+                                  </View>
+                                </View>
+                              </Modal>
+                            </TouchableOpacity>
+                          </View>
+                        </View>
                       </View>
                     </View>
-                  </Swipeable>
-                );
-              })}
-
-            <TouchableOpacity
-              onPress={() => this.addCompany()}
-              disable={this.state.disabledCompany}
-            >
-              {this.state.status ? <NormalText> + Company </NormalText> : null}
-            </TouchableOpacity>
-
-            <Modal
-              style={styles.footerModal}
-              visible={this.state.isCompanyModelOpen}
-              transparent={true}
-              animationType="fade"
-              onRequestClose={() =>
-                this.setState({ isCompanyModelOpen: false })
-              }
-            >
-              <View style={styles.contactContent}>
-                <View style={styles.content}>
-                  <Text style={styles.modalHeader}>Company</Text>
-                  <View style={{ flexDirection: "column" }}>
-                    {this.state.companyLableList.map((item, index) => {
-                      return (
-                        <TouchableHighlight
-                          underlayColor="transparent"
-                          onPress={() => {
-                            this.changeCompanyLabel(item.label);
-                          }}
-                        >
-                          <Text style={styles.labelName}> {item.label} </Text>
-                        </TouchableHighlight>
-                      );
-                    })}
-                    <TouchableHighlight
-                      underlayColor="transparent"
-                      onPress={() =>
-                        this.setState({
-                          isAddCompanyLabel: true,
-                          company: "",
-                        })
-                      }
-                    >
-                      <Text style={styles.labelName}> Custom </Text>
-                    </TouchableHighlight>
-                  </View>
-                </View>
-              </View>
-            </Modal>
-            <Modal
-              style={styles.footerModal}
-              visible={this.state.isAddCompanyLabel}
-              transparent={true}
-              // key={key}
-              animationType="fade"
-            >
-              <View style={styles.contactContent}>
-                <View style={styles.content}>
-                  <Text style={styles.modalHeader}>Custom label name</Text>
-                  <View style={{ flexDirection: "column" }}>
-                    <TextInput
-                      placeholder="Custom label name"
-                      style={styles.addLabelField}
-                      placeholderTextColor={COLORS.main_text_color}
-                      editable={this.state.status ? true : false}
-                      keyboardType={"default"}
-                      onChangeText={(label) => {
-                        this.changeCompanyLabel(label);
+                  )}
+                  {this.state.isCompanySec == true ? null : (
+                    <TouchableOpacity
+                      style={styles.searchSection}
+                      onPress={() => {
+                        this.setState({ isCompanySec: true });
                       }}
-                    />
-                    <TouchableHighlight
-                      underlayColor="transparent"
-                      style={styles.saveView}
-                      onPress={() =>
-                        this.state.companyLabel !== ""
-                          ? this.setState({
-                              isAddCompanyLabel: false,
-                              isCompanyModelOpen: false,
-                            })
-                          : this.setState({
-                              isAddCompanyLabel: false,
-                            })
-                      }
                     >
-                      <Text
+                      <View
                         style={{
-                          color: COLORS.main_text_color,
-                          fontFamily: Font.medium,
-                          fontSize: width * 0.04,
+                          marginLeft: Metrics.smallMargin,
                         }}
                       >
-                        {" "}
-                        Ok{" "}
-                      </Text>
-                    </TouchableHighlight>
-                  </View>
+                        <TouchableHighlight
+                          underlayColor="transparent"
+                          style={[styles.rightViewBorder]}
+                          onPress={() => this.showWorkHour(index)}
+                        >
+                          <View>
+                            <Text
+                              style={{
+                                fontFamily: Font.regular,
+                                fontSize: width * 0.03,
+                                color: COLORS.main_text_color,
+                              }}
+                            >
+                              Add Hours
+                            </Text>
+                          </View>
+                        </TouchableHighlight>
+                      </View>
+                      <View style={styles.addressRightView}>
+                        <Text style={styles.compnyRightText}>Work Hours</Text>
+                      </View>
+                    </TouchableOpacity>
+                  )}
                 </View>
-              </View>
-            </Modal>
+              );
+            })}
           </View>
+        </View>
+        <View style={{ flexDirection: "row" }}>
+          <View style={{ flex: 1 }}>
+            <TouchableOpacity
+              style={styles.addNewBox}
+              onPress={() =>
+                this.addCompanyInput(this.state.textInput.length, false)
+              }
+            >
+              {this.state.status ? (
+                <Text
+                  style={[
+                    styles.addNew,
+                    {
+                      color:
+                        this.props.theme.mode === "light"
+                          ? COLORS.main_text_color
+                          : COLORS.white,
+                    },
+                  ]}
+                >
+                  + Add Comapny
+                </Text>
+              ) : null}
+            </TouchableOpacity>
+          </View>
+
+          {this.state.removeNoteSection ? (
+            <View style={{ flex: 1, alignItems: "flex-end" }}>
+              <TouchableOpacity style={{}} onPress={() => this.removeNote()}>
+                {this.state.status ? (
+                  <Text style={[styles.removeNew]}>- Remove Comapny</Text>
+                ) : null}
+              </TouchableOpacity>
+            </View>
+          ) : null}
         </View>
       </View>
     );
   }
-
+  ShowHideTextComponentView = async () => {
+    if (this.state.status == false) {
+      this.setState({ status: true });
+    } else {
+      this.setState({ status: false });
+    }
+  };
+  renderLast() {
+    return (
+      <View
+        style={{
+          width: width * 0.9,
+          flexDirection: "row",
+          alignItems: "center",
+          justifyContent: "flex-end",
+          flexDirection: "row",
+        }}
+      >
+        <TouchableHighlight
+          underlayColor="transparent"
+          style={styles.saveView}
+          onPress={this.ShowHideTextComponentView}
+        >
+          <Text
+            style={{
+              color: COLORS.main_text_color,
+              fontFamily: Font.medium,
+              fontSize: width * 0.04,
+            }}
+          >
+            {this.state.status == true ? "Save" : "Edit"}
+          </Text>
+        </TouchableHighlight>
+      </View>
+    );
+  }
   render() {
+    const { mobileLabelList } = this.state;
     return (
       <ThemeProvider theme={this.props.theme}>
         <GeneralStatusBar
@@ -4584,86 +2961,30 @@ class MyContactInfromation extends Component {
             this.props.theme.mode === "dark" ? "light-content" : "dark-content"
           }
         />
+        {/* <View style={{width :width ,alignItems:'center'}}> */}
+
         <View style={styles.container}>
           <Container>
-            {this.renderHeader()}
-            <ScrollView>
-              {this.renderMiddle()}
-              {this.renderName()}
-              {this.renderMobile()}
-              {this.renderEmail()}
-              {this.renderAddress()}
-              {this.renderMessage()}
-              {this.renderSocialmedia()}
-              {this.renderWebsite()}
-              {this.renderDate()}
-              {this.renderNote()}
-              {this.renderCompany()}
-              <Toast
-                ref="toast"
-                style={{
-                  backgroundColor:
-                    this.props.theme.mode === "light" ? "black" : "white",
-                  width: width * 0.8,
-                  alignItems: "center",
-                }}
-                position="bottom"
-                positionValue={250}
-                fadeInDuration={100}
-                fadeOutDuration={2000}
-                opacity={1}
-                textStyle={{
-                  color: this.props.theme.mode === "light" ? "white" : "black",
-                  fontFamily: Font.medium,
-                  fontSize: width * 0.04,
-                }}
-              />
+            <ScrollView nestedScrollEnabled={true}>
+              <View style={{ width: width, alignItems: "center" }}>
+                {this.renderHeader()}
+                {this.renderMiddle()}
+
+                {this.renderName()}
+                {this.renderMobile()}
+                {this.renderEmail()}
+                {this.renderAddress()}
+                {this.renderMessenger()}
+                {this.renderSocialMedia()}
+                {this.renderWebsite()}
+                {this.renderDate()}
+                {this.renderNote()}
+                {this.renderCompany()}
+              </View>
             </ScrollView>
-            <View
-              style={{
-                width: width * 0.9,
-                flexDirection: "row",
-                alignItems: "center",
-                justifyContent: "flex-end",
-                flexDirection: "row",
-              }}
-            >
-              <TouchableHighlight
-                underlayColor="transparent"
-                style={styles.saveView}
-                onPress={this.ShowHideTextComponentView}
-              >
-                <Text
-                  style={{
-                    color: COLORS.main_text_color,
-                    fontFamily: Font.medium,
-                    fontSize: width * 0.04,
-                  }}
-                >
-                  {this.state.status == true ? "Save" : "Edit"}
-                </Text>
-              </TouchableHighlight>
-            </View>
-            <Toast
-              ref="toast"
-              style={{
-                backgroundColor:
-                  this.props.theme.mode === "light" ? "black" : "white",
-                width: width * 0.8,
-                alignItems: "center",
-              }}
-              position="bottom"
-              positionValue={100}
-              fadeInDuration={1000}
-              fadeOutDuration={1000}
-              opacity={1}
-              textStyle={{
-                color: this.props.theme.mode === "light" ? "white" : "black",
-                fontFamily: Font.medium,
-                fontSize: width * 0.04,
-              }}
-            />
+            {this.renderLast()}
           </Container>
+          {/* </View> */}
         </View>
       </ThemeProvider>
     );
@@ -4673,7 +2994,7 @@ class MyContactInfromation extends Component {
 const mapStateToProps = (state) => ({
   theme: state.themeReducer.theme,
   username: state.login.shouldLoadData.username,
-  dateChange:state.switchDateReducer.dateChange,
+  dateChange: state.switchDateReducer.dateChange,
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -4682,9 +3003,8 @@ const mapDispatchToProps = (dispatch) => ({
 
 export default connect(mapStateToProps)(MyContactInfromation);
 
-const Container = styled.SafeAreaView`
+const Container = styled.View`
   flex: 1;
-
   width: 100%;
   align-items: center;
   background-color: ${(props) => props.theme.backColor};
@@ -4698,9 +3018,4 @@ const BoldText = styled.Text`
   font-family: Roboto-Bold;
   font-size: 17px;
   color: ${(props) => props.theme.textColor};
-`;
-const ScrollView = styled.ScrollView`
-  color: ${(props) => props.theme.textColor};
-  flex: 1;
-  width: 90%;
 `;

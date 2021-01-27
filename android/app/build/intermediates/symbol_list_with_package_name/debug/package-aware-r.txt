@@ -738,7 +738,11 @@ attr yearTodayStyle
 bool abc_action_bar_embed_tabs
 bool abc_allow_stacked_button_bar
 bool abc_config_actionMenuItemAllCaps
+bool enable_system_alarm_service_default
+bool enable_system_foreground_service_default
+bool enable_system_job_service_default
 bool mtrl_btn_textappearance_all_caps
+bool workmanager_test_configuration
 color abc_background_cache_hint_selector_material_dark
 color abc_background_cache_hint_selector_material_light
 color abc_btn_colored_borderless_text_material
@@ -971,6 +975,7 @@ color ucrop_color_widget_rotate_angle
 color ucrop_color_widget_rotate_mid_line
 color ucrop_color_widget_text
 color ucrop_scale_text_view_selector
+color white
 dimen abc_action_bar_content_inset_material
 dimen abc_action_bar_content_inset_with_nav
 dimen abc_action_bar_default_height_material
@@ -1489,6 +1494,8 @@ drawable notification_tile_bg
 drawable notify_panel_notification_icon_bg
 drawable redbox_top_border_background
 drawable src_assets_icons_checked
+drawable src_assets_icons_checkedmodified
+drawable src_assets_icons_checkedwhite
 drawable src_assets_icons_close
 drawable src_assets_icons_contact
 drawable src_assets_icons_dropicon
@@ -1519,6 +1526,7 @@ drawable src_assets_images_home
 drawable src_assets_images_innerimg
 drawable src_assets_images_instagram
 drawable src_assets_images_logo
+drawable src_assets_images_logout
 drawable src_assets_images_message
 drawable src_assets_images_note
 drawable src_assets_images_outerimg
@@ -1854,11 +1862,15 @@ id tag_accessibility_actions
 id tag_accessibility_clickable_spans
 id tag_accessibility_heading
 id tag_accessibility_pane_title
+id tag_on_apply_window_listener
+id tag_on_receive_content_listener
+id tag_on_receive_content_mime_types
 id tag_screen_reader_focusable
 id tag_state_description
 id tag_transition_group
 id tag_unhandled_key_event_manager
 id tag_unhandled_key_listeners
+id tag_window_insets_animation_callback
 id test_checkbox_android_button_tint
 id test_checkbox_app_button_tint
 id text
@@ -2070,6 +2082,7 @@ layout ucrop_view
 menu ucrop_menu_activity
 mipmap ic_launcher
 mipmap ic_launcher_round
+mipmap logo
 plurals mtrl_badge_content_description
 raw app
 raw node_modules_csscolorkeywords_colors

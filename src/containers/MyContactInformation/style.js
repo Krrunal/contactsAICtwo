@@ -10,6 +10,9 @@ export default StyleSheet.create({
     flex: 1,
     backgroundColor: COLORS.white,
     alignItems: "center",
+    width:width
+    //justifyContent: "center",
+    // marginTop:Metrics.xxdoubleBaseMargin
   },
 
   squareBorder: {
@@ -80,15 +83,15 @@ export default StyleSheet.create({
     },
     shadowOpacity: 0.25,
     shadowRadius: 4,
-    elevation: 5,
+    // elevation: 5,
     borderRadius: 5,
     marginLeft: Metrics.smallMargin,
     marginBottom: Metrics.baseMargin,
-   flexDirection: "row",
+    flexDirection: "row",
     marginRight: Metrics.smallMargin,
     marginTop: Metrics.xsmallMargin,
-   alignItems: "center",
-   
+    alignItems: "center",
+    position: "relative",
   },
   filedView2: {
     width: width * 0.75,
@@ -109,9 +112,8 @@ export default StyleSheet.create({
     marginRight: Metrics.baseMargin,
     marginTop: Metrics.xxxdoubleBaseMargin,
     alignItems: "center",
-   
   },
-  filedViewBig:{
+  filedViewBig: {
     width: width * 0.75,
     height: height * 0.056,
     backgroundColor: COLORS.white,
@@ -130,7 +132,6 @@ export default StyleSheet.create({
     marginRight: Metrics.smallMargin,
     marginTop: Metrics.multipleLabel,
     alignItems: "center",
-   
   },
   stylefiledText: {
     marginLeft: Metrics.smallMargin,
@@ -138,24 +139,21 @@ export default StyleSheet.create({
     alignItems: "center",
     color: COLORS.main_text_color,
     fontSize: width * 0.03,
-    width: width * 0.4,
+    width: width * 0.5,
     fontFamily: Font.regular,
-   
-  
-  },
-  Text_1:{
+   },
+  Text_1: {
     marginLeft: Metrics.smallMargin,
-   // justifyContent: "center",
-    //alignItems: "center",
     color: COLORS.main_text_color,
     fontFamily: Font.regular,
   },
   rightView: {
     alignItems: "flex-end",
-    justifyContent: "center",
+    justifyContent: "flex-end",
     flex: 1,
     marginRight: Metrics.smallMargin,
-    height: height * 0.04,
+   // height: height * 0.15,
+   // bottom: 10,
   },
   rightViewBorder: {
     alignItems: "center",
@@ -209,7 +207,7 @@ export default StyleSheet.create({
     marginLeft: Metrics.smallMargin,
     color: COLORS.main_text_color,
     fontSize: width * 0.03,
-    width: width * 0.55,
+    width: width * 0.5,
     fontFamily: Font.regular,
     textAlignVertical: "top",
   },
@@ -228,7 +226,12 @@ export default StyleSheet.create({
     fontSize: width * 0.02,
     textAlign: "right",
   },
-
+  compnyRightText: {
+    color: COLORS.main_text_color,
+    fontFamily: Font.regular,
+    fontSize: width * 0.03,
+    textAlign: "right",
+  },
   saveView: {
     justifyContent: "center",
     alignItems: "center",
@@ -305,11 +308,14 @@ export default StyleSheet.create({
 
   footerModal: {
     // justifyContent: "center",
-     width: width,
+    width: width,
     // height: height * 0.7,
     opacity: 0.5,
     alignItems: "flex-end",
-    },
+    // position:"absolute",
+    // elevation:10,
+    // zIndex:1
+  },
 
   contactContent: {
     // margin: 0,
@@ -322,11 +328,14 @@ export default StyleSheet.create({
     height: height,
     width: width,
     backgroundColor: "rgba(0,0,0,0.0)",
-    alignItems: "flex-end",
-    //justifyContent: "flex-end",
-    marginTop: Metrics.myInfo,
-    marginRight:Metrics.baseMargin
-
+    // alignItems: "flex-end",
+    // justifyContent: "flex-end",
+    // marginTop: Metrics.myInfo,
+    // marginRight:Metrics.baseMargin,
+    // bottom:250,
+    position: "absolute",
+    elevation: 10,
+    zIndex: 1,
   },
 
   content: {
@@ -356,9 +365,10 @@ export default StyleSheet.create({
 
   labelName: {
     fontFamily: Font.regular,
-    fontSize: width * 0.030,
+    fontSize: width * 0.03,
     color: COLORS.main_text_color,
-    marginTop: 3,
+    marginTop: 7,
+    borderWidth: 1,
   },
 
   addLabelField: {
@@ -510,59 +520,268 @@ export default StyleSheet.create({
     fontFamily: Font.light,
     fontSize: width * 0.023,
     color: COLORS.main_text_color,
-    marginRight: 3,
   },
   flatlist: {},
   modelView: {
-    width:width*0.3,
-    height:height *0.20,
-    backgroundColor:COLORS.white,
-    borderColor:COLORS.main_text_color,
-    borderWidth:2,
-    borderRadius:10,
-    marginBottom:Metrics.xxxdoubleBaseMargin,
-    // opacity:0.6,
-    // zIndex:1,
-    // elevation:5,
-    // position:'absolute'
+    width: width * 0.32,
+    height: height * 0.26,
+    backgroundColor: COLORS.white,
+    borderColor: COLORS.main_text_color,
+    borderWidth: 2,
+    borderRadius: 10,
+    marginBottom: Metrics.xxxdoubleBaseMargin,
   },
-  modelViewBig : {
-    width:width*0.3,
-    height:height *0.25,
-    backgroundColor:COLORS.white,
-    borderColor:COLORS.main_text_color,
-    borderWidth:2,
-    borderRadius:10,
-    marginBottom:Metrics.xxxdoubleBaseMargin
+  modelViewBig: {
+    width: width * 0.3,
+    height: height * 0.25,
+    backgroundColor: COLORS.white,
+    borderColor: COLORS.main_text_color,
+    borderWidth: 2,
+    borderRadius: 10,
+    marginBottom: Metrics.xxxdoubleBaseMargin,
   },
- 
-  inputTextView:{
-    borderWidth:1,
-    borderColor:COLORS.main_text_color,
-    borderRadius:10,
-    height:height *0.045,
-  },
-  customText:{
-    fontFamily: Font.regular,
-    fontSize: width * 0.030,
-    color: COLORS.main_text_color,
-    marginLeft:3,
-    marginTop:1
-  },
-  textinputText:{
-    fontFamily: Font.regular,
-    fontSize: width * 0.020,
-    color: COLORS.main_text_color,
 
+  inputTextView: {
+    borderWidth: 1,
+    borderColor: COLORS.main_text_color,
+    borderRadius: 10,
+    height: height * 0.045,
+  },
+  customText: {
+    fontFamily: Font.regular,
+    fontSize: width * 0.03,
+    color: COLORS.main_text_color,
+    marginLeft: 3,
+    marginTop: 1,
+  },
+  textinputText: {
+    fontFamily: Font.regular,
+    fontSize: width * 0.02,
+    color: COLORS.main_text_color,
   },
   titleView: {
     margin: 20,
-    backgroundColor: '#EEEFF0',
+    backgroundColor: "#EEEFF0",
   },
   titleinput: {
     fontSize: 20,
-    fontWeight: '600',
+    fontWeight: "600",
     margin: 5,
-    backgroundColor: "#fff"
-  }
+    backgroundColor: "#fff",
+  },
+  workView: {
+    width: width * 0.8,
+    height: width * 0.8,
+    backgroundColor: COLORS.white,
+    shadowColor: COLORS.black,
+    shadowOffset: {
+      width: 2,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+    borderRadius: 5,
+    marginLeft: Metrics.smallMargin,
+    flexDirection: "row",
+    position: "relative",
+    //  alignItems: "center",
+  },
+  LeftView: {
+    width: width * 0.53,
+    height: width * 0.8,
+    marginLeft: 10,
+  },
+
+  timeView: {
+    width: width * 0.14,
+    borderWidth: 1,
+    height: width * 0.08,
+    marginLeft: 10,
+    borderRadius: 4,
+    borderColor: COLORS.main_text_color,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  timeText: {
+    color: COLORS.main_text_color,
+    fontFamily: Font.regular,
+    fontSize: width * 0.018,
+    width: width * 0.11,
+  },
+  workModal: {
+    width: width,
+    height: height * 0.4,
+    opacity: 0.5,
+  },
+  workModalView: {
+    backgroundColor: "rgba(0,0,0,0.0)",
+    margin: 0,
+    height: height,
+    width: width * 0.4,
+    alignItems: "flex-end",
+    justifyContent: "flex-end",
+    position: "absolute",
+    bottom: width * 0.93,
+    flexDirection: "row",
+    right: 0,
+  },
+  content: {
+    width: width * 0.4,
+    height: height * 0.25,
+    backgroundColor: COLORS.white,
+    shadowColor: COLORS.black,
+    shadowOffset: {
+      width: 3,
+      height: 3,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+    borderRadius: 10,
+  },
+  checkedIcon: {
+    width: width * 0.05,
+    height: width * 0.05,
+    resizeMode: "contain",
+    marginTop: 6,
+  },
+  dayView: {
+    flexDirection: "row",
+    marginTop: 10,
+    alignItems: "center",
+  },
+  selectTimezone: {
+    alignItems: "center",
+    justifyContent: "center",
+    flex: 1,
+    // marginRight: 5,
+    height: height * 0.04,
+    width: width * 0.2,
+    borderColor: COLORS.main_text_color,
+    borderWidth: 1,
+    borderRadius: 10,
+  },
+  workText: {
+    color: COLORS.main_text_color,
+    fontFamily: Font.regular,
+  },
+
+  ///////
+
+  searchSection: {
+    alignItems: "center",
+    flexDirection: "row",
+    borderWidth: 1,
+    borderRadius: 5,
+    borderColor: COLORS.main_text_color,
+    height: height * 0.06,
+    paddingHorizontal: 5,
+    marginVertical: 5,
+    position: "relative",
+    width: width * 0.75,
+    marginLeft: Metrics.smallMargin,
+    marginBottom: Metrics.baseMargin,
+    marginRight: Metrics.smallMargin,
+    marginTop: Metrics.xsmallMargin,
+  },
+  searchSectionAddress: {
+    flexDirection: "row",
+    borderWidth: 1,
+    borderColor: COLORS.main_text_color,
+    borderRadius: 10,
+    paddingHorizontal: 5,
+    marginVertical: 5,
+    position: "relative",
+    width: width * 0.75,
+    height: height * 0.15,
+    marginLeft: Metrics.smallMargin,
+    marginBottom: Metrics.smallMargin,
+    marginRight: Metrics.smallMargin,
+    marginTop: Metrics.xsmallMargin,
+  },
+  modalBtn: {
+    borderColor: COLORS.main_text_color,
+    borderRadius: 11,
+    borderWidth: 1,
+    width: width * 0.2,
+    height: width * 0.08,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+
+  addNewBox: {
+    marginLeft: Metrics.xdoubleBaseMargin,
+  },
+
+  addNew: {
+    fontFamily: Font.medium,
+    fontSize: width * 0.03,
+  },
+  removeNew: {
+    fontFamily: Font.medium,
+    fontSize: width * 0.03,
+    marginRight: Metrics.baseMargin,
+    color: COLORS.red,
+  },
+  type: {
+    fontSize: 12,
+    color: COLORS.white,
+    //  fontFamily: fonts.pop_regular,
+    padding: 10,
+  },
+
+  input: {
+    // flex: 1,
+    borderRightWidth: 0,
+    borderRadius: 10,
+    padding: 10,
+    backgroundColor: "#fff",
+
+    color: "#424242",
+    height: 48,
+    fontSize: 18,
+    width: width * 0.7,
+    // fontFamily: fonts.pop_regular
+  },
+
+  modal: {
+    backgroundColor: "#ffffff",
+    position: "absolute",
+    bottom: 15,
+    right: 10,
+    borderWidth: 2,
+    borderRadius: 10,
+    width: width * 0.35,
+   // height: height * 0.3,
+    borderColor: COLORS.main_text_color,
+  },
+
+  labelContainer: {},
+
+  label: {
+    fontFamily: Font.medium,
+    fontSize: width * 0.03,
+    padding: 10,
+    color: COLORS.main_text_color,
+  },
+  cutomTextInput: {
+    borderWidth: 1,
+    marginBottom: 15,
+    marginHorizontal: 10,
+    height: 40,
+    paddingHorizontal: 10,
+    fontFamily: Font.medium,
+    fontSize: width * 0.03,
+    color: COLORS.main_text_color,
+  },
+  customView: {
+    flexDirection: "row",
+  },
+  customRight: {
+    alignItems: "flex-end",
+    //justifyContent: "flex-end",
+    flex: 1,
+    marginRight: Metrics.smallMargin,
+  },
 });

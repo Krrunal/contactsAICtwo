@@ -1,4 +1,5 @@
 import {
+  Button,
   CheckBox,
   Dimensions,
   Image,
@@ -7,7 +8,7 @@ import {
   Text,
   TextInput,
   TouchableOpacity,
-  View,
+  View
 } from "react-native";
 import React, { Component } from "react";
 import styled, { ThemeProvider } from "styled-components/native";
@@ -16,9 +17,11 @@ import Font from "../theme/font";
 import GeneralStatusBar from "../../components/StatusBar/index";
 import Header from "../../components/header/index";
 import { connect } from "react-redux";
+import notifee from '@notifee/react-native';
 import styles from "./style.js";
 
 var { width, height } = Dimensions.get("window");
+
 
 class ContactUs extends Component {
   renderHeader() {
@@ -29,6 +32,24 @@ class ContactUs extends Component {
       />
     );
   }
+ 
+  
+  //   onDisplayNotification = async() =>{
+  //   // Create a channel
+  //   const channelId = await notifee.createChannel({
+  //     id: '1',
+  //     name: 'Default Channel',
+  //   });
+
+  //   // Display a notification
+  //   await notifee.displayNotification({
+  //     title: 'Notification Title',
+  //     body: 'Main body content of the notification',
+  //     android: {
+  //       channelId,
+  //     },
+  //   });
+  // }
 
   render() {
     return (
@@ -42,7 +63,12 @@ class ContactUs extends Component {
           }
         />
 
-        <Container>{this.renderHeader()}</Container>
+        <Container>
+          {this.renderHeader()}
+          {/* <Button title="Display Notification" 
+          onPress={() => {this.onDisplayNotification()}} /> */}
+
+        </Container>
       </ThemeProvider>
     );
   }

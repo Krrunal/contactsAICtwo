@@ -598,12 +598,13 @@ export default StyleSheet.create({
   timeText:{
     color: COLORS.main_text_color,
     fontFamily: Font.regular,
-    fontSize: width * 0.018
+    fontSize: width * 0.018,
+    width: width * 0.11,
+    
   },
   LeftView:{
     width: width * 0.53,
-    
-      height: width * 0.8,
+    height: width * 0.8,
     marginLeft:10,
    
   },
@@ -643,5 +644,53 @@ export default StyleSheet.create({
     borderColor: COLORS.main_text_color,
     borderWidth: 1,
     borderRadius: 10,
-  }
+  },
+  middleView: {
+    flex: 1,
+    flexDirection: "row",
+    padding: Metrics.smallMargin,
+    marginLeft: Metrics.doubleBaseMargin,
+    marginRight: Metrics.doubleBaseMargin,
+    marginVertical: Metrics.baseMargin,
+  },
+
+  firstMiddle: {
+    alignItems: "center",
+    padding: Metrics.xsmallMargin,
+  },
+  squareBorder: {
+    width: width * 0.2,
+    height: width * 0.2,
+    borderColor: COLORS.main_text_color,
+    borderRadius: 10,
+    borderWidth: 3,
+  },
+  first: {
+    justifyContent: "center",
+    alignItems: "center",
+    width: width * 0.27,
+    height: height * 0.033,
+    backgroundColor: COLORS.white,
+    shadowColor: COLORS.black,
+    shadowOffset: {
+      width: 2,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+    borderRadius: 5,
+    marginTop: Metrics.baseMargin,
+    marginHorizontal: Metrics.dividerHeight,
+  },
+  firstText: {
+    color: COLORS.main_text_color,
+    fontFamily: Font.regular,
+    fontSize: width * 0.032,
+  },
+  firstMiddle: {
+    alignItems: "center",
+    padding: Metrics.xsmallMargin,
+  },
+
 });

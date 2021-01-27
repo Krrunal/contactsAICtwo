@@ -1,16 +1,8 @@
 import {
 Dimensions,
-Image,
-Keyboard,
-Linking,
-ScrollView,
-Text,
-TextInput,
-TouchableOpacity,
-View,
+
 } from "react-native";
 import React, { Component } from "react";
-import { darkTheme, lightTheme } from "../theme/themeProps";
 import styled, { ThemeProvider } from "styled-components/native";
 
 import AsyncStorage from '@react-native-community/async-storage'
@@ -18,11 +10,8 @@ import { COLORS } from "../theme/Colors.js";
 import Font from "../theme/font.js";
 import GeneralStatusBar from "../../components/StatusBar/index";
 import Header from "../../components/header/index";
-import Metrics from "../theme/Metrics";
 import QRCodeScanner from "react-native-qrcode-scanner";
-import { RNCamera } from "react-native-camera";
-import { bindActionCreators } from "redux";
-import { color } from "react-native-reanimated";
+
 import { connect } from "react-redux";
 import styles from "./manuallyAddContactStyle.js";
 import { switchTheme } from "../../action/themeAction";
@@ -31,7 +20,7 @@ var { width, height } = Dimensions.get("screen");
 
 class QRScanner extends Component {
   state = {
-    // data: [],
+    data: [],
   };
 
   renderHeader() {
@@ -44,15 +33,19 @@ class QRScanner extends Component {
   }
 
   onSuccess = async (e) => {
-    // Linking.openURL(e.data).catch(err =>
     console.error("An error occured", e);
-
+    
     let str = e.data;
+    // var NewText = str.toString();
+    // console.log("STRRRRRRRR--........",str)
+    // var SampleText = NewText.replace("fcmToken", "token");
+   //  console.log("Sameplet--........",str.includes("fcmToken"))
+
     if (str.indexOf("contactAIC" && "app") !== -1) {
-      await AsyncStorage.setItem("@qrData", e.data);
-      this.props.navigation.navigate("ChooseContactFromLabel");
+        await AsyncStorage.setItem("@qrData", e.data);
+        this.props.navigation.navigate("ChooseContactFromLabel");
     } else {
-      console.log("Not getting");
+        console.log("Not getting");
     }
   };
 

@@ -100,6 +100,10 @@
         "source": "/Users/macmini/Desktop/contactsAICtwo/android/app/src/main/res/raw/node_modules_entities_lib_maps_legacy.json"
     },
     {
+        "merged": "/Users/macmini/Desktop/contactsAICtwo/android/app/build/intermediates/res/merged/debug/drawable-mdpi_src_assets_icons_checkedwhite.png.flat",
+        "source": "/Users/macmini/Desktop/contactsAICtwo/android/app/src/main/res/drawable-mdpi/src_assets_icons_checkedwhite.png"
+    },
+    {
         "merged": "/Users/macmini/Desktop/contactsAICtwo/android/app/build/intermediates/res/merged/debug/drawable-mdpi_src_assets_icons_checked.png.flat",
         "source": "/Users/macmini/Desktop/contactsAICtwo/android/app/src/main/res/drawable-mdpi/src_assets_icons_checked.png"
     },
@@ -196,6 +200,10 @@
         "source": "/Users/macmini/Desktop/contactsAICtwo/android/app/src/main/res/raw/node_modules_reactnativevectoricons_glyphmaps_simplelineicons.json"
     },
     {
+        "merged": "/Users/macmini/Desktop/contactsAICtwo/android/app/build/intermediates/res/merged/debug/drawable-mdpi_src_assets_icons_checkedmodified.png.flat",
+        "source": "/Users/macmini/Desktop/contactsAICtwo/android/app/src/main/res/drawable-mdpi/src_assets_icons_checkedmodified.png"
+    },
+    {
         "merged": "/Users/macmini/Desktop/contactsAICtwo/android/app/build/intermediates/res/merged/debug/raw_node_modules_reactnativevectoricons_glyphmaps_entypo.json.flat",
         "source": "/Users/macmini/Desktop/contactsAICtwo/android/app/src/main/res/raw/node_modules_reactnativevectoricons_glyphmaps_entypo.json"
     },
@@ -226,6 +234,10 @@
     {
         "merged": "/Users/macmini/Desktop/contactsAICtwo/android/app/build/intermediates/res/merged/debug/drawable-mdpi_src_assets_icons_navicon.png.flat",
         "source": "/Users/macmini/Desktop/contactsAICtwo/android/app/src/main/res/drawable-mdpi/src_assets_icons_navicon.png"
+    },
+    {
+        "merged": "/Users/macmini/Desktop/contactsAICtwo/android/app/build/intermediates/res/merged/debug/drawable-mdpi_src_assets_images_logout.png.flat",
+        "source": "/Users/macmini/Desktop/contactsAICtwo/android/app/src/main/res/drawable-mdpi/src_assets_images_logout.png"
     },
     {
         "merged": "/Users/macmini/Desktop/contactsAICtwo/android/app/build/intermediates/res/merged/debug/drawable-mdpi_src_assets_icons_iconcall.png.flat",
@@ -274,6 +286,10 @@
     {
         "merged": "/Users/macmini/Desktop/contactsAICtwo/android/app/build/intermediates/res/merged/debug/drawable-mdpi_src_assets_images_logo.png.flat",
         "source": "/Users/macmini/Desktop/contactsAICtwo/android/app/src/main/res/drawable-mdpi/src_assets_images_logo.png"
+    },
+    {
+        "merged": "/Users/macmini/Desktop/contactsAICtwo/android/app/build/intermediates/res/merged/debug/mipmap-hdpi_logo.png.flat",
+        "source": "/Users/macmini/Desktop/contactsAICtwo/android/app/src/main/res/mipmap-hdpi/logo.png"
     },
     {
         "merged": "/Users/macmini/Desktop/contactsAICtwo/android/app/build/intermediates/res/merged/debug/raw_node_modules_reactnativevectoricons_glyphmaps_fontawesome5free.json.flat",

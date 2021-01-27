@@ -6,9 +6,11 @@ import {
   Text,
   TouchableOpacity,
   View,
+  Image
 } from "react-native";
 import React, { Component, useState } from "react";
 import styled, { ThemeProvider } from "styled-components/native";
+import checkedWhite from  "../../assets/icons/checkedWhite.png";
 
 import { COLORS } from "../theme/Colors.js";
 import CheckBox from "@react-native-community/checkbox";
@@ -17,6 +19,7 @@ import Font from "../theme/font";
 import GeneralStatusBar from "../../components/StatusBar/index";
 import Header from "../../components/header/index";
 import Metrics from "../theme/Metrics";
+import SendSMS from 'react-native-sms'
 import { connect } from "react-redux";
 import styles from "./style.js";
 
@@ -28,6 +31,10 @@ class InviteContact extends Component {
     fetchedContacts: [],
     selectedContact: [],
     isLoading: false,
+    contactSelected:[],
+    contactSelected2:"",
+    shortcontacts: [],
+    checkedOff:false
   };
 
   componentDidMount() {
@@ -57,10 +64,13 @@ class InviteContact extends Component {
       );
       if (granted === PermissionsAndroid.RESULTS.GRANTED) {
         console.log("You can use the CONTACTS");
-
+       
         this.setState({ isLoading: true }, async () => {
-          Contacts.getAll((err, contacts) => {
+           Contacts.getAll((err, contacts) => {
             if (err) throw err;
+            const { phoneNumbers } = this.state
+
+
             const contactNumber = contacts.filter((number) => {
               if (number.phoneNumbers.length != 0) {
                 var n_number = Object.assign({}, number);
@@ -68,7 +78,9 @@ class InviteContact extends Component {
                 n_number.image = "";
                 return n_number;
               }
+            
             });
+
             //alert(JSON.stringify(contactNumber)); return;
             contactNumber.sort(function (a, b) {
               var AfamilyName = a.givenName == "" ? "" : a.givenName;
@@ -81,7 +93,6 @@ class InviteContact extends Component {
               }
               return 0;
             });
-            // console.log(contactNumber);
             this.setState({
               isLoading: false,
               fetchedContacts: contactNumber,
@@ -98,22 +109,6 @@ class InviteContact extends Component {
     }
   };
 
-  // renderItem({ item, index }) {
-  //   const lengthArray = this.state.fetchedContacts.length;
-  //   return (
-  //     <View style={styles.checkboxViewTwo}>
-  //       <CheckBox
-  //         value={this.state.checked1}
-  //         // onPress={this.selectOne()}
-  //         onValueChange={() =>
-  //           this.setState({ checked1: !this.state.checked1 })
-  //         }
-  //         tintColors={{ true: "#1374A3", false: "#000" }}
-  //       />
-  //       <ImportText>{item.displayName}</ImportText>
-  //     </View>
-  //   );
-  // }
   onchecked = (keyInd, item) => {
     const { fetchedContacts } = this.state;
     let contactArr = fetchedContacts.map((item, key) => {
@@ -129,15 +124,16 @@ class InviteContact extends Component {
   selectAll = () => {
     const { fetchedContacts } = this.state;
     let contactArr = fetchedContacts.map((item, key) => {
-      this.state.checked == true
+      this.state.checkedOff == true
         ? (item.isSelected = true)
         : (item.isSelected = false);
       item.isSelected = !item.isSelected;
-      this.setState({ checked: !this.state.checked });
+      this.setState({ checkedOff: !this.state.checkedOff });
       return { ...item };
     });
     this.setState({ fetchedContacts: contactArr });
   };
+  
   renderMiddle() {
     const { fetchedContacts } = this.state;
     return (
@@ -148,27 +144,25 @@ class InviteContact extends Component {
           paddingHorizontal: 0,
         }}
       >
-        <View style={styles.checkboxView}>
-          <CheckBox
-            value={this.state.checked}
-            onChange={() => {
-              this.selectAll();
-            }}
-            tintColors={{ true: "#1374A3", false: "#1374A3" }}
-          />
-         
+        <TouchableOpacity style={styles.checkboxView} onPress={() => {this.selectAll()}}>
+        {this.state.checkedOff == true ? (
+                      <View style={styles.checkViewForLight}> 
+                        <Image source={checkedWhite} style={styles.checkedStyle} />
+                      </View>
+                    ) : (
+                      <View style={styles.checkView}></View>
+                    )
+                     
+           }
          <Text
             style={[
-              styles.selectText,
+              styles.deSelectText,
               {
                 color: this.props.theme.mode === "light" ? "#1374A3" : "white",
               },
             ]}
-          >
-            {" "}
-            Select (De-select) All{" "}
-          </Text>
-        </View>
+          > Select (De-select) All </Text>
+        </TouchableOpacity>
 
         <ScrollView>
           {fetchedContacts.map((item, key) => (
@@ -180,7 +174,7 @@ class InviteContact extends Component {
                 }}
                 tintColors={{ true: "#1374A3", false: "#1374A3" }}
               />
-          <Text  style={[ styles.selectText,{ color:  this.props.theme.mode === "light" ? "#1374A3" : "white",  },    ]} >{item.displayName}  </Text>
+            <Text  style={[ styles.selectText,{ color:  this.props.theme.mode === "light" ? "#1374A3" : "white",  },    ]} >{item.displayName}  </Text>
 
             </View>
           ))}
@@ -188,56 +182,7 @@ class InviteContact extends Component {
       </View>
     );
   }
-  // renderMiddle() {
-  //   return (
-  //     <View
-  //       style={{
-  //         alignItems: "center",
-  //         height: height * 0.65,
-  //         marginTop: Metrics.baseMargin,
-  //       }}
-  //     >
-  //       <View style={styles.checkboxView}>
-  //         <CheckBox
-  //           value={this.state.checked}
-  //           onPress={this.selectAll()}
-  //           onValueChange={() =>
-  //             this.setState({ checked: !this.state.checked })
-  //           }
-  //           tintColors={{ true: "#1374A3", false: "#000" }}
-  //         />
-  //         <ImportText>Select (De-select) All</ImportText>
-  //       </View>
-
-  //       <ScrollView>
-  //         {this.props.theme.mode === "light" ? (
-  //           <View style={styles.contactView}>
-  //             <FlatList
-  //               refreshing={true}
-  //               keyExtractor={(item, index) => index.toString()}
-  //               data={this.state.fetchedContacts}
-  //               extraData={this.state}
-  //               numColumns={1}
-  //               renderItem={this.renderItem.bind(this)}
-  //             />
-  //           </View>
-  //         ) : (
-  //           <View style={styles.contactViewBlack}>
-  //             <FlatList
-  //               refreshing={true}
-  //               keyExtractor={(item, index) => index.toString()}
-  //               data={this.state.fetchedContacts}
-  //               extraData={this.state}
-  //               numColumns={1}
-  //               renderItem={this.renderItem.bind(this)}
-  //             />
-  //           </View>
-  //         )}
-  //       </ScrollView>
-  //     </View>
-  //   );
-  // }
-
+ 
   renderLast() {
     return (
       <View style={{ alignItems: "center", flex: 1 }}>
@@ -262,7 +207,35 @@ class InviteContact extends Component {
   }
 
   invitenavigate = () => {
+    const { fetchedContacts , contactSelected ,shortcontacts} = this.state;
+   
+    var contact = fetchedContacts.map((item) => {
+      item.isSelected== true
+      ? contactSelected.push(item.phoneNumbers)
+      : (item.isSelected = false);
+    })
+    
+    contactSelected.map((item,index) =>{
+      const result = contactSelected[index].find( ({ number }) => number == number );
+      console.log("Contact---->",contactSelected);
+      console.log("Contact---->",result.number);
+      shortcontacts.push(result.number);
+    })
+   
+    console.log("number---->",shortcontacts[0]);
+
+    SendSMS.send({
+      body: 'This message from ContactAIC!',
+      recipients: shortcontacts,
+      successTypes: ['sent', 'queued'],
+      allowAndroidSendWithoutReadPermission: true,
+     
+     }, (completed, cancelled, error) => {
+        console.log('SMS Callback: completed: ' + completed + ' cancelled: ' + cancelled + 'error: ' + error);
+     });
     this.props.navigation.navigate("AfterSentInvite");
+    this.getContact();
+    
   };
 
   render() {
@@ -289,7 +262,6 @@ class InviteContact extends Component {
           >
             Invite People to join Contact AIC
           </Text>
-          {/* <NormalText> Invite People to join Contact AIC </NormalText> */}
           {this.renderMiddle()}
           {this.renderLast()}
         </Container>

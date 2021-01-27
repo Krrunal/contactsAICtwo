@@ -193,7 +193,10 @@ export default StyleSheet.create({
     flexDirection: "row",
     flex: 1,
     marginRight: Metrics.xsmallMargin,
-
+    // alignItems: "flex-end",
+    // justifyContent: "center",
+    // flex: 1,
+    // marginRight: Metrics.smallMargin,
   },
 
   rightViewAdress: {
@@ -424,5 +427,101 @@ export default StyleSheet.create({
     borderColor: COLORS.main_text_color,
     borderRadius: 5,
     marginTop: Metrics.baseMargin,
+  },
+  workView:{
+    width: width * 0.8,
+    height: width * 0.8,
+    backgroundColor: COLORS.white,
+    shadowColor: COLORS.black,
+    shadowOffset: {
+      width: 2,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+    borderRadius: 5,
+    marginLeft: Metrics.smallMargin,
+    flexDirection:'row',
+    position:'relative',
+    marginBottom: Metrics.smallMargin,
+  //  alignItems: "center",
+  },
+  LeftView:{
+    width: width * 0.53,
+    height: width * 0.8,
+    marginLeft:10,
+   
+  },
+  workText:{
+    color: COLORS.main_text_color,
+    fontFamily: Font.regular,
+   
+  },
+  timeView:{
+    width: width * 0.14,
+    borderWidth:1,
+    height: width * 0.080,
+    marginLeft:10,
+    borderRadius: 4,
+    borderColor:COLORS.main_text_color,
+    justifyContent:'center',
+    alignItems:'center'
+  },
+  timeText:{
+    color: COLORS.main_text_color,
+    fontFamily: Font.regular,
+    fontSize: width * 0.018,
+    width: width * 0.11,
+    
+  },
+  workModal:{
+    width: width,
+    height: height * 0.4,
+    opacity: 0.5,
+   
+  },
+  workModalView:{
+    backgroundColor: "rgba(0,0,0,0.0)",
+    margin: 0,
+    height: height,
+    width: width * 0.4,
+    alignItems:'flex-end',
+    justifyContent:'flex-end',
+    position:'absolute',
+    bottom: width * 0.93,
+    flexDirection:'row',
+    right:0
+  },
+  content: {
+    width: width * 0.4,
+    height: height * 0.25,
+    backgroundColor: COLORS.white,
+    shadowColor: COLORS.black,
+    shadowOffset: {
+      width: 3,
+      height: 3,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+    borderRadius: 10,
+   
+  },
+  dayView:{
+    flexDirection:'row',
+    marginTop:10,
+    alignItems:'center',
+  },
+  selectTimezone:{
+    alignItems: "center",
+    justifyContent: "center",
+    //flex: 1,
+    // marginRight: 5,
+    height: height * 0.04,
+    width: width * 0.2,
+    // borderColor: COLORS.main_text_color,
+    // borderWidth: 1,
+    // borderRadius: 10,
   },
 });

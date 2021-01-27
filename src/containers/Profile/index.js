@@ -14,6 +14,7 @@ import {
 import React, { Component, useState } from "react";
 import styled, { ThemeProvider } from "styled-components/native";
 
+import AsyncStorage from "@react-native-community/async-storage";
 import { COLORS } from "../theme/Colors.js";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import Font from "../theme/font";
@@ -50,7 +51,6 @@ import styles from "./style.js";
 import { updateMyInfo } from "../../services/FirebaseDatabase/updateMyInfo";
 import website from "../../assets/images/website.png";
 import websiteImg from "../../assets/images/website.png";
-import AsyncStorage from "@react-native-community/async-storage";
 
 const person = require("../../assets/images/person.png");
 var { width, height } = Dimensions.get("window");
@@ -78,7 +78,16 @@ class Profile extends Component {
       number3: { number3: "", label: "" },
       social_media: "",
       website: { website: "", label: "" },
-      work_hour: { workHours: "", label: "" },
+      // work_hour: { workHours: "", label: "" },
+      work_hour:  {
+        monday : { first :"", to:"" },
+        tuesday : { first :"", to:"" },
+        wednesday : { first :"", to:"" },
+        thursday : { first :"", to:"" },
+        friday : { first :"", to:"" },
+        saturday : { first :"", to:"" },
+        sunday : { first :"", to:"" },
+      },
       friends: "",
       //  data from firebase finish
       isVisible: false,
@@ -114,7 +123,7 @@ class Profile extends Component {
       note: { note: "", label: "" },
       company1: "",
       job_title: "",
-      work_hour: "",
+      // work_hour: "",
       image: null,
       images: null,
       image2: null,
@@ -270,10 +279,15 @@ class Profile extends Component {
       isNoteModelOpen: false,
       isAddNoteArrayLabel: false,
       notificationTime:moment(),
+      workViewOpen:false,
+      tz:[],
+      tzs:"",
+      selectItem:"",
     };
   }
 
   componentDidMount() {
+    this.timeZoneField();
     const { username } = this.props;
     this.setState({ isLoading: true }, () => {
       firebase
@@ -285,7 +299,7 @@ class Profile extends Component {
           this.setState({ isLoading: false });
           var item = snap._data;
           this.setState({ contact: item });
-          console.log("social media ---->", item);
+          console.log("social media ---->", item.work_hour);
           this.setState({ profile_image: item.profile_image });
           this.setState({ mobileLabel: item.mobileLabel });
           this.setState({ email: item.email });
@@ -306,12 +320,47 @@ class Profile extends Component {
           this.setState({ social_media: item.social_media });
           this.setState({ social_media1: item.social_media1 });
           this.setState({ website: item.website });
-          this.setState({ work_hour: item.work_hour.workHours });
+          this.setState({ work_hour: item.work_hour });
           this.setState({ friends: item.friend });
         });
     });
   }
-
+  timeZoneField = async() =>{
+    this.state.tz.push("GMT (Greenwhich)");
+    this.state.tz.push("GMT (Universal)");
+    this.state.tz.push("GMT+1:00(European Central)");
+    this.state.tz.push("GMT+2:00(Eastern European)");
+    this.state.tz.push("GMT+2:00(Arabic Egypt Standard)"); 
+    this.state.tz.push("GMT+3:00(Eastern African)");
+    this.state.tz.push("GMT+3:30(Middle East Time)");
+    this.state.tz.push("GMT+4:00(Near East)");
+    this.state.tz.push("GMT+5:00(Pakistan Lahore)");
+    this.state.tz.push("GMT+5:30(India Standard)");
+    this.state.tz.push("GMT+6:00(Bangladesh)");
+    this.state.tz.push("GMT+7:00(Vietnam)");
+    this.state.tz.push("GMT+8:00(China Taiwan)");
+    this.state.tz.push("GMT+9:00(Japan)");
+    this.state.tz.push("GMT+9:30(Australia Central) ");
+    this.state.tz.push("GMT+10:00(Australia Eastern) ");
+    this.state.tz.push("GMT+11:00(Solomon Standard)");
+    this.state.tz.push("GMT+12:00(New Zealand)");
+    this.state.tz.push("GMT-11:00(Midway Islands )");
+    this.state.tz.push("GMT-10:00(Hawaii)");
+    this.state.tz.push("GMT-9:00(Alaska)");
+    this.state.tz.push("GMT-8:00(Pacific)");
+    this.state.tz.push("GMT-7:00(Phoenix)");
+    this.state.tz.push("GMT-7:00(Mountain)");
+    this.state.tz.push("GMT-6:00(Central)");
+    this.state.tz.push("GMT-5:00(Eastern)");
+    this.state.tz.push("GMT-5:00(Indiana Eastern)");
+    this.state.tz.push("GMT-5:00(Puerto Rico)");
+    this.state.tz.push("GMT-5:00(US Virgin Islands Time)");
+    this.state.tz.push("GMT-4:00(Canada Newfoundland Time)");
+    this.state.tz.push("GMT-3:00(Argentina)");
+    this.state.tz.push("GMT-3:00(Brazil Eastern)");
+    this.state.tz.push("GMT-1:00(Central African )");
+    this.setState({tzs :  this.state.tz});
+  }
   renderImg() {
     return (
       <View
@@ -2764,7 +2813,81 @@ class Profile extends Component {
     this.state.work_hour_profile.workHours = value;
     this.setState({ work_hour_profile: this.state.work_hour_profile });
   };
+  renderItem({ item, index }) {
+    return (
+       <TouchableOpacity style={{marginTop:10,marginLeft:5}} onPress={() => {this.itemSelect(item)}}>
+         <Text style={[styles.workText, { fontSize: width * 0.026 }]}>{item}</Text>
+       </TouchableOpacity>
+   )}
 
+
+   onChangeMonday = (value) => {
+    this.state.work_hour.monday.first = value ;
+    this.setState({work_hour : this.state.work_hour })
+}
+
+
+onChangeMondayTo = (value) => {
+  this.state.work_hour.monday.to = value ;
+  this.setState({work_hour : this.state.work_hour })
+}
+onChangeTuesday = (value) => {
+    this.state.work_hour.tuesday.first = value ;
+    this.setState({work_hour : this.state.work_hour })
+}
+onChangeTuesdayTo = (value) => {
+  this.state.work_hour.tuesday.to  = value ;
+  this.setState({work_hour : this.state.work_hour })
+}
+onChangeWednesday = (value) => {
+  this.state.work_hour.wednesday.first = value ;
+  this.setState({work_hour : this.state.work_hour })
+}
+onChangeWednesdayTo = (value) => {
+  this.state.work_hour.wednesday.to = value ;
+  this.setState({work_hour : this.state.work_hour })
+}
+onChangeThursday = (value) => {
+  this.state.work_hour.thursday.first = value ;
+  this.setState({work_hour : this.state.work_hour })
+}
+onChangeThursdayTo = (value) => {
+  this.state.work_hour.thursday.to = value ;
+  this.setState({work_hour : this.state.work_hour })
+}
+onChangeFriday = (value) => {
+  this.state.work_hour.friday.first = value ;
+  this.setState({work_hour : this.state.work_hour })
+}
+onChangeFridayTo = (value) => {
+  this.state.work_hour.friday.to = value ;
+  this.setState({work_hour : this.state.work_hour })
+}
+onChangeSaturday = (value) => {
+  this.state.work_hour.saturday.first = value ;
+  this.setState({work_hour : this.state.work_hour })
+}
+onChangeSaturdayTo = (value) => {
+  this.state.work_hour.saturday.to = value ;
+  this.setState({work_hour : this.state.work_hour })
+}
+onChangeSunday = (value) => {
+  this.state.work_hour.sunday.first = value ;
+  this.setState({work_hour : this.state.work_hour })
+}
+ onChangeSundayTo = (value) => {
+  this.state.work_hour.sunday.to = value ;
+  this.setState({work_hour : this.state.work_hour })
+}
+itemSelect = (item) =>{
+  this.setState({ selectItem : item , workViewOpen: false })
+ }
+renderItem2({ item, index }) {
+  return (
+     <TouchableOpacity style={{marginTop:10,marginLeft:5}} onPress={() => {this.itemSelect(item)}}>
+       <Text style={[styles.workText, { fontSize: width * 0.026 }]}>{item}</Text>
+     </TouchableOpacity>
+ )}
   renderCompany() {
     return (
       <View
@@ -2857,7 +2980,7 @@ class Profile extends Component {
             </View>
           </View>
         </View>
-        <View style={styles.fieldMain}>
+        {/* <View style={styles.fieldMain}>
           <View style={styles.filedViewRightTwoCompany}>
             <View
               style={{
@@ -2910,7 +3033,343 @@ class Profile extends Component {
             <Text style={styles.righttext}>Pacific Time Zone</Text>
             <Text style={styles.righttext}> Work hours</Text>
           </View>
-        </View>
+        </View> */}
+         <View style={{ flexDirection: "row", marginTop: Metrics.baseMargin,marginLeft:   Metrics.cdoubleBaseMargin}}>
+             
+              <View style={styles.workView}>
+                <View style={styles.LeftView}>
+                  
+                  <View style={{ flexDirection: "row", alignItems: "center" }}>
+                    <Text
+                      style={[
+                        styles.workText,
+                        { fontSize: width * 0.025, width: width * 0.16 },
+                      ]}
+                    >
+                      Monday
+                    </Text>
+                    <View style={styles.timeView}>
+                      <TextInput
+                        placeholder=""
+                        placeholderTextColor={COLORS.main_text_color}
+                        style={styles.timeText}
+                        value={this.state.work_hour.monday.first}
+                        onChangeText={(value) => this.onChangeMonday(value)}
+                       
+                      />
+                    </View>
+                    <Text
+                      style={[
+                        styles.workText,
+                        { fontSize: width * 0.035, marginLeft: 5 },
+                      ]}
+                    >
+                      to
+                    </Text>
+                    <View style={styles.timeView}>
+                      <TextInput
+                        placeholder=""
+                        placeholderTextColor={COLORS.main_text_color}
+                        style={styles.timeText}
+                        value={this.state.work_hour.monday.to}
+                        onChangeText={(value) => this.onChangeMondayTo(value)}
+                       
+                      />
+                    </View>
+                  </View>
+                  <View style={styles.dayView}>
+                    <Text
+                      style={[
+                        styles.workText,
+                        { fontSize: width * 0.025, width: width * 0.16 },
+                      ]}
+                    >
+                      Tuesday
+                    </Text>
+                    <View style={styles.timeView}>
+                      <TextInput
+                        placeholder=""
+                        placeholderTextColor={COLORS.main_text_color}
+                        style={styles.timeText}
+                        value={this.state.work_hour.tuesday.first}
+                        onChangeText={(value) => this.onChangeTuesday(value)}
+                     
+                      />
+                    </View>
+                    <Text
+                      style={[
+                        styles.workText,
+                        { fontSize: width * 0.035, marginLeft: 5 },
+                      ]}
+                    >
+                      to
+                    </Text>
+                    <View style={styles.timeView}>
+                      <TextInput
+                        placeholder=""
+                        placeholderTextColor={COLORS.main_text_color}
+                        style={styles.timeText}
+                        value={this.state.work_hour.tuesday.to}
+                        onChangeText={(value) => this.onChangeTuesdayTo(value)}
+                       
+                      />
+                    </View>
+                  </View>
+                  <View style={styles.dayView}>
+                    <Text
+                      style={[
+                        styles.workText,
+                        { fontSize: width * 0.025, width: width * 0.16 },
+                      ]}
+                    >
+                      Wednesday
+                    </Text>
+                    <View style={styles.timeView}>
+                      <TextInput
+                        placeholder=""
+                        placeholderTextColor={COLORS.main_text_color}
+                        style={styles.timeText}
+                        value={this.state.work_hour.wednesday.first}
+                        onChangeText={(value) => this.onChangeWednesday(value)}
+                       
+                      />
+                    </View>
+                    <Text
+                      style={[
+                        styles.workText,
+                        { fontSize: width * 0.035, marginLeft: 5 },
+                      ]}
+                    >
+                      to
+                    </Text>
+                    <View style={styles.timeView}>
+                      <TextInput
+                        placeholder=""
+                        placeholderTextColor={COLORS.main_text_color}
+                        style={styles.timeText}
+                        value={this.state.work_hour.wednesday.to}
+                        onChangeText={(value) => this.onChangeWednesdayTo(value)}
+                       
+                      />
+                    </View>
+                  </View>
+                  <View style={styles.dayView}>
+                    <Text
+                      style={[
+                        styles.workText,
+                        { fontSize: width * 0.025, width: width * 0.16 },
+                      ]}
+                    >
+                      Thursday
+                    </Text>
+                    <View style={styles.timeView}>
+                      <TextInput
+                        placeholder=""
+                        placeholderTextColor={COLORS.main_text_color}
+                        style={styles.timeText}
+                        value={this.state.work_hour.thursday.first}
+                        onChangeText={(value) => this.onChangeThursday(value)}
+                       
+                      />
+                    </View>
+                    <Text
+                      style={[
+                        styles.workText,
+                        { fontSize: width * 0.035, marginLeft: 5 },
+                      ]}
+                    >
+                      to
+                    </Text>
+                    <View style={styles.timeView}>
+                      <TextInput
+                        placeholder=""
+                        placeholderTextColor={COLORS.main_text_color}
+                        style={styles.timeText}
+                        value={this.state.work_hour.thursday.to}
+                        onChangeText={(value) => this.onChangeThursdayTo(value)}
+                        
+                      />
+                    </View>
+                  </View>
+                  <View style={styles.dayView}>
+                    <Text
+                      style={[
+                        styles.workText,
+                        { fontSize: width * 0.025, width: width * 0.16 },
+                      ]}
+                    >
+                      Friday
+                    </Text>
+                    <View style={styles.timeView}>
+                      <TextInput
+                        placeholder=""
+                        placeholderTextColor={COLORS.main_text_color}
+                        style={styles.timeText}
+                        value={this.state.work_hour.friday.first}
+                        onChangeText={(value) => this.onChangeFriday(value)}
+                        
+                      />
+                    </View>
+                    <Text
+                      style={[
+                        styles.workText,
+                        { fontSize: width * 0.035, marginLeft: 5 },
+                      ]}
+                    >
+                      to
+                    </Text>
+                    <View style={styles.timeView}>
+                      <TextInput
+                        placeholder=""
+                        placeholderTextColor={COLORS.main_text_color}
+                        style={styles.timeText}
+                        value={this.state.work_hour.friday.to}
+                        onChangeText={(value) => this.onChangeFridayTo(value)}
+                      
+                      />
+                    </View>
+                  </View>
+                  <View style={styles.dayView}>
+                    <Text
+                      style={[
+                        styles.workText,
+                        { fontSize: width * 0.025, width: width * 0.16 },
+                      ]}
+                    >
+                      Saturday
+                    </Text>
+                    <View style={styles.timeView}>
+                      <TextInput
+                        placeholder=""
+                        placeholderTextColor={COLORS.main_text_color}
+                        style={styles.timeText}
+                        value={this.state.work_hour.saturday.first}
+                        onChangeText={(value) => this.onChangeSaturday(value)}
+                       
+                      />
+                    </View>
+                    <Text
+                      style={[
+                        styles.workText,
+                        { fontSize: width * 0.035, marginLeft: 5 },
+                      ]}
+                    >
+                      to
+                    </Text>
+                    <View style={styles.timeView}>
+                      <TextInput
+                        placeholder=""
+                        placeholderTextColor={COLORS.main_text_color}
+                        style={styles.timeText}
+                        value={this.state.work_hour.saturday.to}
+                        onChangeText={(value) => this.onChangeSaturdayTo(value)}
+                      
+                      />
+                    </View>
+                  </View>
+                  <View style={styles.dayView}>
+                    <Text
+                      style={[
+                        styles.workText,
+                        { fontSize: width * 0.025, width: width * 0.16 },
+                      ]}
+                    >
+                      Sunday
+                    </Text>
+                    <View style={styles.timeView}>
+                      <TextInput
+                        placeholder=""
+                        placeholderTextColor={COLORS.main_text_color}
+                        style={styles.timeText}
+                        value={this.state.work_hour.sunday.first}
+                        onChangeText={(value) => this.onChangeSunday(value)}
+                        
+                      />
+                    </View>
+                    <Text
+                      style={[
+                        styles.workText,
+                        { fontSize: width * 0.035, marginLeft: 5 },
+                      ]}
+                    >
+                      to
+                    </Text>
+                    <View style={styles.timeView}>
+                      <TextInput
+                        placeholder=""
+                        placeholderTextColor={COLORS.main_text_color}
+                        style={styles.timeText}
+                        value={this.state.work_hour.sunday.to}
+                        onChangeText={(value) => this.onChangeSundayTo(value)}
+                       
+                      />
+                    </View>
+                  </View>
+                </View>
+  
+                <View style={[{alignItems:'flex-end',flex: 1,marginRight: Metrics.xsmallMargin,height: width * 0.8,}]}>
+                  <View style={styles.resetImg}>
+                      <Image source={reset} style={styles.editImg} />
+                    </View>
+                  <View style={{ flexDirection: "column" ,}}>
+                   
+                    <TouchableOpacity
+                      onPress={() => this.setState({ workViewOpen: true })}
+                      style={styles.selectTimezone}
+                    >
+                      {this.state.selectItem == "" ? (
+                        <Text
+                          style={[styles.workText, { fontSize: width * 0.018 }]}
+                        >
+                          Select Time Zone
+                        </Text>
+                      ) : (
+                        <Text
+                          style={[styles.workText, { fontSize: width * 0.018 ,textAlign:'center'}]}
+                        >
+                          {this.state.selectItem}
+                        </Text>
+                      )}
+  
+                      <Modal
+                        style={styles.workModal}
+                        visible={this.state.workViewOpen}
+                        transparent={true}
+                        animationType="fade"
+                        onRequestClose={() =>
+                          this.setState({ workViewOpen : false })
+                        }
+                      >
+                        <View style={styles.workModalView}>
+                          <View style={styles.content}>
+                            <FlatList
+                              refreshing={true}
+                              keyExtractor={(item, index) => index.toString()}
+                              data={this.state.tzs}
+                              extraData={this.state}
+                              numColumns={1}
+                              renderItem={this.renderItem.bind(this)}
+                            />
+                          </View>
+                        </View>
+                      </Modal>
+                    </TouchableOpacity>
+                    <Text
+                      style={[
+                        styles.workText,
+                        {
+                          fontSize: width * 0.026,
+                          marginRight: 5,
+                          textAlign: "right",
+                        },
+                      ]}
+                    >
+                      (Work Hours)
+                    </Text>
+                  </View>
+                </View>
+              </View>
+            </View>
       </View>
     );
   }

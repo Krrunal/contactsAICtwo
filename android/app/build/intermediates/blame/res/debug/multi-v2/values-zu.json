@@ -4,6 +4,23 @@
             "outputFile": "/Users/macmini/Desktop/contactsAICtwo/android/app/build/intermediates/incremental/mergeDebugResources/merged.dir/values-zu/values-zu.xml",
             "map": [
                 {
+                    "source": "/Users/macmini/.gradle/caches/transforms-2/files-2.1/c0d6fb0019130460a030249dd32f6a45/jetified-play-services-basement-17.3.0/res/values-zu/values.xml",
+                    "from": {
+                        "startLines": "4",
+                        "startColumns": "0",
+                        "startOffsets": "247",
+                        "endColumns": "190",
+                        "endOffsets": "437"
+                    },
+                    "to": {
+                        "startLines": "38",
+                        "startColumns": "4",
+                        "startOffsets": "4131",
+                        "endColumns": "190",
+                        "endOffsets": "4317"
+                    }
+                },
+                {
                     "source": "/Users/macmini/.gradle/caches/transforms-2/files-2.1/49015da0e9e2cbad696fcb11b4ba217d/biometric-1.0.1/res/values-zu/values-zu.xml",
                     "from": {
                         "startLines": "2,3,4,5,6,7,8,9,10,11,12",
@@ -18,23 +35,6 @@
                         "startOffsets": "2791,5690,5804,6014,6137,6294,6431,6584,6716,6861,6955",
                         "endColumns": "124,113,94,122,156,136,152,131,144,93,121",
                         "endOffsets": "2911,5799,5894,6132,6289,6426,6579,6711,6856,6950,7072"
-                    }
-                },
-                {
-                    "source": "/Users/macmini/.gradle/caches/transforms-2/files-2.1/d7d7531b66649f4acdaf0dd4c89c07f6/jetified-firebase-messaging-17.6.0/res/values-zu/values.xml",
-                    "from": {
-                        "startLines": "4",
-                        "startColumns": "0",
-                        "startOffsets": "205",
-                        "endColumns": "110",
-                        "endOffsets": "315"
-                    },
-                    "to": {
-                        "startLines": "50",
-                        "startColumns": "4",
-                        "startOffsets": "5899",
-                        "endColumns": "114",
-                        "endOffsets": "6009"
                     }
                 },
                 {
@@ -55,20 +55,37 @@
                     }
                 },
                 {
-                    "source": "/Users/macmini/.gradle/caches/transforms-2/files-2.1/2718b75110f823aa71fc7e44eb2a6b36/jetified-play-services-basement-17.2.1/res/values-zu/values.xml",
+                    "source": "/Users/macmini/.gradle/caches/transforms-2/files-2.1/f37ac64f56d2443d09c49f6c019ee965/jetified-firebase-messaging-21.0.1/res/values-zu/values.xml",
                     "from": {
                         "startLines": "4",
                         "startColumns": "0",
-                        "startOffsets": "247",
-                        "endColumns": "190",
-                        "endOffsets": "437"
+                        "startOffsets": "207",
+                        "endColumns": "110",
+                        "endOffsets": "317"
                     },
                     "to": {
-                        "startLines": "38",
+                        "startLines": "50",
                         "startColumns": "4",
-                        "startOffsets": "4131",
-                        "endColumns": "190",
-                        "endOffsets": "4317"
+                        "startOffsets": "5899",
+                        "endColumns": "114",
+                        "endOffsets": "6009"
+                    }
+                },
+                {
+                    "source": "/Users/macmini/.gradle/caches/transforms-2/files-2.1/3be0659c237fc1df97007c15c1dcc4ca/core-1.5.0-beta01/res/values-zu/values-zu.xml",
+                    "from": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "55",
+                        "endColumns": "100",
+                        "endOffsets": "151"
+                    },
+                    "to": {
+                        "startLines": "60",
+                        "startColumns": "4",
+                        "startOffsets": "7158",
+                        "endColumns": "100",
+                        "endOffsets": "7254"
                     }
                 },
                 {
@@ -86,23 +103,6 @@
                         "startOffsets": "105,213,320,432,520,623,738,817,895,986,1078,1173,1267,1368,1461,1556,1650,1741,1834,1914,2018,2121,2219,2326,2433,2538,2695,7077",
                         "endColumns": "107,106,111,87,102,114,78,77,90,91,94,93,100,92,94,93,90,92,79,103,102,97,106,106,104,156,95,80",
                         "endOffsets": "208,315,427,515,618,733,812,890,981,1073,1168,1262,1363,1456,1551,1645,1736,1829,1909,2013,2116,2214,2321,2428,2533,2690,2786,7153"
-                    }
-                },
-                {
-                    "source": "/Users/macmini/.gradle/caches/transforms-2/files-2.1/1738e75df1ab8141a7a7a8f190dcb94b/core-1.5.0-alpha05/res/values-zu/values-zu.xml",
-                    "from": {
-                        "startLines": "2",
-                        "startColumns": "4",
-                        "startOffsets": "55",
-                        "endColumns": "100",
-                        "endOffsets": "151"
-                    },
-                    "to": {
-                        "startLines": "60",
-                        "startColumns": "4",
-                        "startOffsets": "7158",
-                        "endColumns": "100",
-                        "endOffsets": "7254"
                     }
                 }
             ]

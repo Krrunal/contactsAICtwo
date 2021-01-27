@@ -55,7 +55,7 @@ class forSelectContact extends Component {
       .get()
       .then((snap) => {
         snap.forEach((doc) => {
-          //  console.log("sort--->", doc._data);
+          console.log("sort--->", doc._data);
           var item = doc._data;
 
           this.state.contact.push(item);
@@ -151,7 +151,7 @@ class forSelectContact extends Component {
                     },
                   ]}
                 >
-                  {item.first_name}{" "}
+                  {item.first_name}{item.last_name || item.middle_name} 
                 </Text>
               </View>
             ))}
