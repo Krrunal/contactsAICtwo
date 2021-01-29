@@ -684,6 +684,7 @@ export default StyleSheet.create({
     marginBottom: Metrics.baseMargin,
     marginRight: Metrics.smallMargin,
     marginTop: Metrics.xsmallMargin,
+    backgroundColor:COLORS.white
   },
   searchSectionAddress: {
     flexDirection: "row",
@@ -699,6 +700,7 @@ export default StyleSheet.create({
     marginBottom: Metrics.smallMargin,
     marginRight: Metrics.smallMargin,
     marginTop: Metrics.xsmallMargin,
+    backgroundColor:COLORS.white
   },
   modalBtn: {
     borderColor: COLORS.main_text_color,
@@ -731,20 +733,12 @@ export default StyleSheet.create({
     padding: 10,
   },
 
-  input: {
-    // flex: 1,
-    borderRightWidth: 0,
-    borderRadius: 10,
-    padding: 10,
-    backgroundColor: "#fff",
+  mobileInputText: {
+    fontSize: width * 0.04,
+    fontFamily: Font.medium,
+    color: COLORS.main_text_color,
 
-    color: "#424242",
-    height: 48,
-    fontSize: 18,
-    width: width * 0.7,
-    // fontFamily: fonts.pop_regular
   },
-
   modal: {
     backgroundColor: "#ffffff",
     position: "absolute",

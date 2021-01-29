@@ -40,7 +40,7 @@ class afterAddContact extends Component {
   renderHeader() {
     return (
       <Header
-        title="Add Contacts AIC User(s)"
+        title="Add Contacts AIC User"
         onPress={() => this.props.navigation.openDrawer()}
       />
     );
@@ -200,7 +200,7 @@ class afterAddContact extends Component {
         <View
           style={{
             flex: 1,
-            bottom: 0,
+            bottom: 30,
             position: "relative",
             flexDirection: "row",
           }}
@@ -210,7 +210,7 @@ class afterAddContact extends Component {
             onPress={this.backNavigate}
           >
             <Text
-              style={[styles.backButtton, { color: COLORS.main_text_color }]}
+              style={[styles.backButtton]}
             >
               Back
             </Text>
@@ -220,7 +220,7 @@ class afterAddContact extends Component {
               style={[styles.WhiteviewTwo, { backgroundColor: COLORS.white }]}
               onPress={this.forAddContactNavigate}
             >
-              <Text style={styles.backButtton}>Next</Text>
+              <Text style={[styles.backButtton]}>Next</Text>
             </TouchableOpacity>
           ) : (
             <TouchableOpacity

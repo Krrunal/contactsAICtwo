@@ -25,6 +25,7 @@ import GeneralStatusBar from "../../components/StatusBar/index";
 import Header from "../../components/header/index";
 import Icon from "react-native-vector-icons/FontAwesome5";
 import IconEntypo from "react-native-vector-icons/Entypo";
+import ImagePicker from "react-native-image-crop-picker";
 import IntlPhoneInput from "react-native-intl-phone-input";
 import Metrics from "../theme/Metrics";
 import { Spinner } from "../../components/Spinner";
@@ -40,15 +41,8 @@ import firebase from "../../services/FirebaseDatabase/db";
 import friendImg from "../../assets/images/friendImg.jpg";
 import handshake from "../../assets/images/handshake.png";
 import home from "../../assets/images/home.png";
-import iconEmail from "../../assets/icons/iconEmail.png";
-import iconMap from "../../assets/icons/iconMap.png";
-import iconMessage from "../../assets/icons/iconMessage.png";
-import iconPay from "../../assets/icons/iconPay.png";
-import iconVideo from "../../assets/icons/iconVideo.png";
-import iconcall from "../../assets/icons/iconCall.png";
 import innerimg from "../../assets/images/innerimg.png";
 import instagram from "../../assets/images/instagram.png";
-import logo from "../../assets/images/logo.png";
 import message from "../../assets/images/message.png";
 import moment from "moment";
 import note from "../../assets/images/note.png";
@@ -68,6 +62,15 @@ class MyContactInfromation extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      isVisible:false,
+      //data
+      first_name: "",
+      middle_name: "",
+      last_name: "",
+      nick_name: "",
+      notificationTime:[],
+
+      //models
       workViewOpen: false,
       status: false,
       textInput: [{ label: "Select Type...", show: false }],
@@ -133,7 +136,8 @@ class MyContactInfromation extends Component {
        
       ],
       //date
-      dateInput: [{ label: "Select Type...", show: false }],
+      dateInput: [{ label: "Select Type...", show: false, showDate:false}],
+      dateInput2: [{ date: "Date", showDate: false }],
       dateData: [],
       dateLabelList: [
         { label: "Birthday" },
@@ -148,18 +152,26 @@ class MyContactInfromation extends Component {
       
       ],
       // companyy
-      work_hour: {
-        monday: { first: "", to: "" },
-        tuesday: { first: "", to: "" },
-        wednesday: { first: "", to: "" },
-        thursday: { first: "", to: "" },
-        friday: { first: "", to: "" },
-        saturday: { first: "", to: "" },
-        sunday: { first: "", to: "" },
-      },
-      workHourInput: [{ label: "Select Type...", show: false }],
+   
+        mondayData: [],
+        tuesdayData: [],
+        wednesdayData: [],
+        thursdayData: [],
+        fridayData:[],
+        saturdayData: [],
+        sundayData: [],
+        
+        mondayTOData: [],
+        tuesdayTOData: [],
+        wednesdayTOData: [],
+        thursdayTOData: [],
+        fridayTOData:[],
+        saturdayTOData: [],
+        sundayTOData: [],
+     
       companyInput: [{ label: "Select Type...", show: false }],
       companyData: [],
+      jobTitleData:[],
       companyLabelList: [
         { label: "Personal(Mobie)" },
         { label: "Personal(Lanline)" },
@@ -173,10 +185,28 @@ class MyContactInfromation extends Component {
       profile_image:"",
       profile_image2:"",
       profile_image3:"",
+      //
+      mobileData:[],
+      emailArray:[],
+      addressArray:[],
+      messengerAray:[],
+      socialArray:[],
+      websiteArray:[],
+      dateArray:[],
+      noteArray:[],
     };
   }
   componentDidMount = async () => {
     this.timeZoneField();
+    const { username } = this.props;
+    firebase
+    .firestore()
+    .collection("user")
+    .doc(username)
+    .get()
+    .then((snap) => {
+     // console.log("Data ---->",  snap._data);
+     })
   };
   timeZoneField = async () => {
     this.state.tz.push("GMT (Greenwhich)");
@@ -473,10 +503,14 @@ class MyContactInfromation extends Component {
   //function to remove TextInput dynamically
   removeTextInput = () => {
     let textInput = this.state.textInput;
-    let inputData = this.state.inputData;
-    textInput.pop();
-    inputData.pop();
-    this.setState({ textInput, inputData });
+    if (textInput.length === 1) {
+    } else {
+      let inputData = this.state.inputData;
+      textInput.pop();
+      inputData.pop();
+      this.setState({ textInput, inputData });
+    }
+   
   };
 
   //function to add text from TextInputs into single array
@@ -691,6 +725,24 @@ class MyContactInfromation extends Component {
                             >
                               Phone Number
                             </Text>
+                             {/* <IntlPhoneInput
+                                onChangeText={(number) => this.onChangeText(number, index)}
+                                defaultCountry="CA"
+                                containerStyle={{
+                                  width: width * 0.5,
+                                  height: height * 0.06,
+                                  borderWidth:1
+                                }}
+                                phoneInputStyle={[
+                                  styles.Text_1,
+                                  {
+                                    fontSize: width * 0.02,
+                                    width: width * 0.5,
+                                   
+                                  },
+                                ]}
+                                isMyContact={false}
+                             /> */}
                             <TextInput
                               placeholder="Phone Number"
                               style={[
@@ -700,7 +752,7 @@ class MyContactInfromation extends Component {
                               placeholderTextColor={COLORS.main_text_color}
                               editable={this.state.status ? true : false}
                               onChangeText={(number) =>
-                                this.onChangeText(number, index)
+                                this.addValues(number, index)
                               }
                               keyboardType={"numeric"}
                             />
@@ -843,11 +895,29 @@ class MyContactInfromation extends Component {
       data[i].show = false;
     });
     data[index].show = true;
-    this.setState({ emailInput: data });
+    this.setState({ emailInput: data});
   };
-  onChangeEmail = (value) => {
-    this.state.email.email = value;
-    this.setState({ email: this.state.email });
+  onChangeEmail = (email,index) => {
+    let dataArray = this.state.emailData;
+    let checkBool = false;
+    if (dataArray.length !== 0) {
+      dataArray.forEach((element) => {
+        if (element.index === index) {
+          element.email = email;
+          checkBool = true;
+        }
+      });
+    }
+    if (checkBool) {
+      this.setState({
+        emailData: dataArray,
+      });
+    } else {
+      dataArray.push({ email, index });
+      this.setState({
+        emailData: dataArray,
+      });
+    }
   };
   addEmailInput = (index, showPop) => {
     this.setState({ removeEmailSection: true });
@@ -905,7 +975,7 @@ class MyContactInfromation extends Component {
                             ]}
                             placeholderTextColor={COLORS.main_text_color}
                             editable={this.state.status ? true : false}
-                            onChangeText={(value) => this.onChangeEmail(value)}
+                            onChangeText={(email) => this.onChangeEmail(email, index)}
                           />
                         </TouchableOpacity>
                       ) : (
@@ -1036,7 +1106,7 @@ class MyContactInfromation extends Component {
     var data = this.state.addressInput;
     data[index].label = label;
     data[index].show = false;
-    this.setState({ emailData: data, checkAddressSection: false });
+    this.setState({ addressData: data, checkAddressSection: false });
   };
   showAddress = (index) => {
     var data = this.state.addressInput;
@@ -1047,9 +1117,27 @@ class MyContactInfromation extends Component {
     this.setState({ addressInput: data });
   };
 
-  onChangeAddress = (value) => {
-    this.state.address.address = value;
-    this.setState({ address: this.state.address });
+  onChangeAddress = (address, index) => {
+    let dataArray = this.state.addressData;
+    let checkBool = false;
+    if (dataArray.length !== 0) {
+      dataArray.forEach((element) => {
+        if (element.index === index) {
+          element.address = address;
+          checkBool = true;
+        }
+      });
+    }
+    if (checkBool) {
+      this.setState({
+        addressData: dataArray,
+      });
+    } else {
+      dataArray.push({ address, index });
+      this.setState({
+        addressData: dataArray,
+      });
+    }
   };
 
   addAdressInput = (index, showPop) => {
@@ -1110,8 +1198,8 @@ class MyContactInfromation extends Component {
                             multiline={true}
                             // numberOfLines={5}
                             editable={this.state.status ? true : false}
-                            onChangeText={(value) =>
-                              this.onChangeAddress(value)
+                            onChangeText={(address) =>
+                              this.onChangeAddress(address ,index)
                             }
                           />
                         </TouchableOpacity>
@@ -1255,9 +1343,27 @@ class MyContactInfromation extends Component {
     data[index].show = true;
     this.setState({ messengerInput: data });
   };
-  onChangeMessenger = (value) => {
-    this.state.email.email = value;
-    this.setState({ email: this.state.email });
+  onChangeMessenger = (messenger , index) => {
+    let dataArray = this.state.messengerData;
+    let checkBool = false;
+    if (dataArray.length !== 0) {
+      dataArray.forEach((element) => {
+        if (element.index === index) {
+          element.messenger = messenger;
+          checkBool = true;
+        }
+      });
+    }
+    if (checkBool) {
+      this.setState({
+        messengerData: dataArray,
+      });
+    } else {
+      dataArray.push({ messenger, index });
+      this.setState({
+        messengerData: dataArray,
+      });
+    }
   };
   addMessengerInput = (index, showPop) => {
     this.setState({ removeMessengerSection: true });
@@ -1312,8 +1418,8 @@ class MyContactInfromation extends Component {
                             style={styles.stylefiledText}
                             placeholderTextColor={COLORS.main_text_color}
                             editable={this.state.status ? true : false}
-                            onChangeText={(value) =>
-                              this.onChangeMessenger(value)
+                            onChangeText={(messenger) =>
+                              this.onChangeMessenger(messenger,index)
                             }
                           />
                         </TouchableOpacity>
@@ -1459,9 +1565,27 @@ class MyContactInfromation extends Component {
     data[index].show = true;
     this.setState({ socialMediaInput: data });
   };
-  onChangeSocialMedia = (value) => {
-    this.state.email.email = value;
-    this.setState({ email: this.state.email });
+  onChangeSocialMedia = (social,index) => {
+    let dataArray = this.state.socialMediaData;
+    let checkBool = false;
+    if (dataArray.length !== 0) {
+      dataArray.forEach((element) => {
+        if (element.index === index) {
+          element.social = social;
+          checkBool = true;
+        }
+      });
+    }
+    if (checkBool) {
+      this.setState({
+        socialMediaData: dataArray,
+      });
+    } else {
+      dataArray.push({ social, index });
+      this.setState({
+        socialMediaData : dataArray,
+      });
+    }
   };
   addSocialInput = (index, showPop) => {
     this.setState({ removeSocialSection: true });
@@ -1516,8 +1640,8 @@ class MyContactInfromation extends Component {
                             style={styles.stylefiledText}
                             placeholderTextColor={COLORS.main_text_color}
                             editable={this.state.status ? true : false}
-                            onChangeText={(value) =>
-                              this.onChangeSocialMedia(value)
+                            onChangeText={(social) =>
+                              this.onChangeSocialMedia(social ,index)
                             }
                           />
                         </TouchableOpacity>
@@ -1652,6 +1776,9 @@ class MyContactInfromation extends Component {
     data[index].label = label;
     data[index].show = false;
     this.setState({ websiteInput: data });
+
+    console.log("dattet--->",this.state.websiteInput) 
+
   };
   showWebsite = (index) => {
     var data = this.state.websiteInput;
@@ -1661,9 +1788,27 @@ class MyContactInfromation extends Component {
     data[index].show = true;
     this.setState({ websiteInput: data });
   };
-  onChangeWebsite = (value) => {
-    this.state.email.email = value;
-    this.setState({ email: this.state.email });
+  onChangeWebsite = (website , index) => {
+    let dataArray = this.state.websiteData;
+    let checkBool = false;
+    if (dataArray.length !== 0) {
+      dataArray.forEach((element) => {
+        if (element.index === index) {
+          element.website = website;
+          checkBool = true;
+        }
+      });
+    }
+    if (checkBool) {
+      this.setState({
+        websiteData: dataArray,
+      });
+    } else {
+      dataArray.push({ website, index });
+      this.setState({
+        websiteData: dataArray,
+      });
+    }
   };
   addWebsiteInput = (index, showPop) => {
     this.setState({ removeWebsiteSection: true });
@@ -1718,9 +1863,7 @@ class MyContactInfromation extends Component {
                             style={styles.stylefiledText}
                             placeholderTextColor={COLORS.main_text_color}
                             editable={this.state.status ? true : false}
-                            onChangeText={(value) =>
-                              this.onChangeWebsite(value)
-                            }
+                            onChangeText={(website) => this.onChangeWebsite(website , index)}
                           />
                         </TouchableOpacity>
                       ) : (
@@ -1850,19 +1993,17 @@ class MyContactInfromation extends Component {
     data[index].show = false;
     this.setState({ dateInput: data, checkAddressSection: false });
   };
+
   showDate = (index) => {
     var data = this.state.dateInput;
     data.map((item, i) => {
       data[i].show = false;
     });
     data[index].show = true;
-    this.setState({ dateInput: data });
+    this.setState({ dateInput : data });
   };
 
-  onChangeDate = (value) => {
-    this.state.address.address = value;
-    this.setState({ address: this.state.address });
-  };
+ 
 
   addDateInput = (index, showPop) => {
     this.setState({ removeDateSection: true });
@@ -1888,7 +2029,73 @@ class MyContactInfromation extends Component {
     }
   };
 
+  showDateTimePicker = () => {
+    {
+      this.state.status ? this.setState({ isVisible: true }) : null;
+    }
+  };
+  hidePicker = () => {
+    this.setState({ isVisible: false });
+  };
+  showDatePicker=(index) =>{
+    this.setState({isVisible:true})
+    var data = this.state.dateInput2;
+    data.map((item, i) => {
+      data[i].showDate = false;
+    });   
+    data[index].showDate = true;
+    this.setState({ dateInput2 : data}); 
+    console.log("dattet--->",this.state.dateInput2)
+  }
+
+  onChangeDate = (date,index,item) => { 
+    this.state.notificationTime.push(date)
+    // this.setState({
+    //   notificationTime : date
+    // })
+    var fomateDate = moment(date).format("MMMM, Do YYYY");
+    var data = this.state.dateInput2;
+    data[index].date = fomateDate;
+    data[index].show = false;
+    this.setState({ dateInput2: data});
  
+    // let dataArray = this.state.dateData;
+    // let checkBool = false;
+    // if (dataArray.length !== 0) {
+    //   dataArray.forEach((element) => {
+    //     if (element.index === index) {
+    //       element.date = date;
+    //       checkBool = true;
+    //     }
+    //   });
+    // }
+    // if (checkBool) {
+    //   this.setState({
+    //     dateData: dataArray,
+    //   });
+    // } else {
+    //   dataArray.push({ date, index });
+    //   this.setState({
+    //     dateData: dataArray,
+    //   });
+    // }
+
+
+
+    // console.log("index---->",this.state.dateData)
+    // const { dateData } = this.state; 
+
+    // let dateFormate = dateData.find(({ date }) => date == date );
+    // var formate = dateFormate.date
+    // var fomateDate = moment(formate).format("MMMM, Do YYYY");
+    // this.setState({formateDate : fomateDate})
+    // console.log("index---->",fomateDate)
+
+  }
+  showDateText = () =>{
+   
+    return <Text>{this.state.formateDate}</Text>
+  }
   renderDate() {
     return (
       <View style={{ marginTop: Metrics.doubleBaseMargin }}>
@@ -1901,28 +2108,48 @@ class MyContactInfromation extends Component {
               return (
                 <View>
                   <View style={styles.searchSection}>
-                    <TextInput
-                      placeholder="Date"
-                      style={styles.stylefiledText}
-                      placeholderTextColor={COLORS.main_text_color}
-                      editable={this.state.status ? true : false}
-                      onChangeText={(value) => this.onChangeDate(value)}
-                    />
-            {/* <DateTimePickerModal
-                isVisible={this.state.isVisible}
-                onConfirm={this.onChangeDate}
-                onCancel={this.hidePicker}
-                mode="datetime"
-                is24Hour={false}
-                date={new Date(notificationTime)}
-                titleIOS="Pick your Notification time"
-              /> */}
+                  {this.state.status ?
+                    <View style={{flexDirection:'row',alignItems:'center'}}>
+                     {this.state.dateInput2.map((item, index) => {
+                    return ( 
+
+                      <View>
+                     <TouchableOpacity style={{width:width*0.5}} onPress={() => this.showDatePicker(index)}>
+                         <Text style={styles.stylefiledText}>{item.date}</Text>
+                      </TouchableOpacity>
+                      
+                      {item.showDate && (
+                        <View>
+                          <DateTimePickerModal
+                              isVisible={this.state.isVisible}
+                              onConfirm={(date) => this.onChangeDate(date,index,item.date)}
+                              onCancel={this.hidePicker}
+                              mode="datetime"
+                              is24Hour={false}
+                            //  date={new Date(notificationTime)}
+                              titleIOS="Pick your Notification time"
+                            />
+                          
+                        </View>
+                      )}
+                      </View>
+                         ) 
+                      })}
+
                     <TouchableOpacity
                       style={styles.modalBtn}
                       onPress={() => this.showDate(index)}
                     >
                       <Text style={styles.selectTypeText}>{item.label}</Text>
                     </TouchableOpacity>
+                    </View>
+                    :
+                    <TouchableOpacity>
+                    <Text style={styles.stylefiledText}>Date</Text>
+                 </TouchableOpacity>
+                 
+                  }
+                  
                   </View>
                   {item.show && (
                     <ScrollView
@@ -2038,9 +2265,27 @@ class MyContactInfromation extends Component {
     this.setState({ noteInput: data });
   };
 
-  onChangNote = (value) => {
-    this.state.address.address = value;
-    this.setState({ address: this.state.address });
+  onChangNote = (note,index) => {
+    let dataArray = this.state.noteData;
+    let checkBool = false;
+    if (dataArray.length !== 0) {
+      dataArray.forEach((element) => {
+        if (element.index === index) {
+          element.note = note;
+          checkBool = true;
+        }
+      });
+    }
+    if (checkBool) {
+      this.setState({
+        noteData: dataArray,
+      });
+    } else {
+      dataArray.push({ note, index });
+      this.setState({
+        noteData: dataArray,
+      });
+    }
   };
 
   addNoteInput = (index, showPop) => {
@@ -2098,7 +2343,7 @@ class MyContactInfromation extends Component {
                             style={styles.addressField}
                             placeholderTextColor={COLORS.main_text_color}
                             editable={this.state.status ? true : false}
-                            onChangeText={(value) => this.onChangNote(value)}
+                            onChangeText={(note) => this.onChangNote(note,index)}
                           />
                         </TouchableOpacity>
                       ) : (
@@ -2203,7 +2448,7 @@ class MyContactInfromation extends Component {
                     },
                   ]}
                 >
-                  + Add Date
+                  + Add Note
                 </Text>
               ) : null}
             </TouchableOpacity>
@@ -2213,7 +2458,7 @@ class MyContactInfromation extends Component {
             <View style={{ flex: 1, alignItems: "flex-end" }}>
               <TouchableOpacity style={{}} onPress={() => this.removeNote()}>
                 {this.state.status ? (
-                  <Text style={[styles.removeNew]}>- Remove Date</Text>
+                  <Text style={[styles.removeNew]}>- Remove Note</Text>
                 ) : null}
               </TouchableOpacity>
             </View>
@@ -2223,10 +2468,51 @@ class MyContactInfromation extends Component {
     );
   }
 
-  onChangeCompany = (value) => {
-    this.state.email.email = value;
-    this.setState({ email: this.state.email });
+  onChangeCompany = (company, index) => {
+    let dataArray = this.state.companyData;
+    let checkBool = false;
+    if (dataArray.length !== 0) {
+      dataArray.forEach((element) => {
+        if (element.index === index) {
+          element.company = company;
+          checkBool = true;
+        }
+      });
+    }
+    if (checkBool) {
+      this.setState({
+        companyData: dataArray,
+      });
+    } else {
+      dataArray.push({ company, index });
+      this.setState({
+        companyData: dataArray,
+      });
+    }
   };
+  onChangeJobTitle  = (jobTitle, index) => {
+    let dataArray = this.state.jobTitleData;
+    let checkBool = false;
+    if (dataArray.length !== 0) {
+      dataArray.forEach((element) => {
+        if (element.index === index) {
+          element.jobTitle = jobTitle;
+          checkBool = true;
+        }
+      });
+    }
+    if (checkBool) {
+      this.setState({
+        jobTitleData: dataArray,
+      });
+    } else {
+      dataArray.push({ jobTitle, index });
+      this.setState({
+        jobTitleData: dataArray,
+      });
+    }
+  };
+
   addCompanyInput = (index, showPop) => {
     this.setState({ removeCompanySection: true, isCompanySec: false });
     let companyInput = this.state.companyInput;
@@ -2248,6 +2534,7 @@ class MyContactInfromation extends Component {
       this.setState({ companyInput, companyData });
     }
   };
+
   itemSelect = (item) => {
     this.setState({ selectItem: item, workViewOpen: false });
   };
@@ -2276,127 +2563,319 @@ class MyContactInfromation extends Component {
       </TouchableOpacity>
     );
   }
-  onChangeMonday = (value) => {
-    this.state.work_hour.monday.first = value;
-    this.setState({ work_hour: this.state.work_hour });
-    console.log(
-      "this.state.work_hour.monday.first--->",
-      this.state.work_hour.monday.first
-    );
+ 
+  onChangeMonday = (monday , index) => {
+    let dataArray = this.state.mondayData;
+    let checkBool = false;
+    if (dataArray.length !== 0) {
+      dataArray.forEach((element) => {
+        if (element.index === index) {
+          element.monday = monday;
+          checkBool = true;
+        }
+      });
+    }
+    if (checkBool) {
+      this.setState({
+        mondayData: dataArray,
+      });
+    } else {
+      dataArray.push({ monday, index });
+      this.setState({
+        mondayData: dataArray,
+      });
+    }
+  
+  };
+  onChangeMondayTo = (mondayTo,index) => {
+    let dataArray = this.state.mondayTOData;
+    let checkBool = false;
+    if (dataArray.length !== 0) {
+      dataArray.forEach((element) => {
+        if (element.index === index) {
+          element.mondayTo = mondayTo;
+          checkBool = true;
+        }
+      });
+    }
+    if (checkBool) {
+      this.setState({
+        mondayTOData: dataArray,
+      });
+    } else {
+      dataArray.push({ mondayTo, index });
+      this.setState({
+        mondayTOData: dataArray,
+      });
+    }
   };
 
-  onChangeMondayTo = (value) => {
-    this.state.work_hour.monday.to = value;
-    this.setState({ work_hour: this.state.work_hour });
+  onChangeTuesday = (tuesday,index) => {
+    let dataArray = this.state.tuesdayData;
+    let checkBool = false;
+    if (dataArray.length !== 0) {
+      dataArray.forEach((element) => {
+        if (element.index === index) {
+          element.tuesday = tuesday;
+          checkBool = true;
+        }
+      });
+    }
+    if (checkBool) {
+      this.setState({
+        tuesdayData: dataArray,
+      });
+    } else {
+      dataArray.push({ tuesday, index });
+      this.setState({
+        tuesdayData: dataArray,
+      });
+    }
   };
-  onChangeTuesday = (value) => {
-    this.state.work_hour.tuesday.first = value;
-    this.setState({ work_hour: this.state.work_hour });
+  onChangeTuesdayTo = (tuesdayTo,index) => {
+    let dataArray = this.state.tuesdayTOData;
+    let checkBool = false;
+    if (dataArray.length !== 0) {
+      dataArray.forEach((element) => {
+        if (element.index === index) {
+          element.tuesdayTo = tuesdayTo;
+          checkBool = true;
+        }
+      });
+    }
+    if (checkBool) {
+      this.setState({
+        tuesdayTOData: dataArray,
+      });
+    } else {
+      dataArray.push({ tuesdayTo, index });
+      this.setState({
+        tuesdayTOData: dataArray,
+      });
+    }
   };
-  onChangeTuesdayTo = (value) => {
-    this.state.work_hour.tuesday.to = value;
-    this.setState({ work_hour: this.state.work_hour });
+  onChangeWednesday = (wednesday,index) => {
+    let dataArray = this.state.wednesdayData;
+    let checkBool = false;
+    if (dataArray.length !== 0) {
+      dataArray.forEach((element) => {
+        if (element.index === index) {
+          element.wednesday = wednesday;
+          checkBool = true;
+        }
+      });
+    }
+    if (checkBool) {
+      this.setState({
+        wednesdayData: dataArray,
+      });
+    } else {
+      dataArray.push({ wednesday, index });
+      this.setState({
+        wednesdayData: dataArray,
+      });
+    }
   };
-  onChangeWednesday = (value) => {
-    this.state.work_hour.wednesday.first = value;
-    this.setState({ work_hour: this.state.work_hour });
+  onChangeWednesdayTo = (wednesdayTo,index) => {
+    let dataArray = this.state.wednesdayTOData;
+    let checkBool = false;
+    if (dataArray.length !== 0) {
+      dataArray.forEach((element) => {
+        if (element.index === index) {
+          element.wednesdayTo = wednesdayTo;
+          checkBool = true;
+        }
+      });
+    }
+    if (checkBool) {
+      this.setState({
+        wednesdayTOData : dataArray,
+      });
+    } else {
+      dataArray.push({ wednesdayTo, index });
+      this.setState({
+        wednesdayTOData : dataArray,
+      });
+    }
   };
-  onChangeWednesdayTo = (value) => {
-    this.state.work_hour.wednesday.to = value;
-    this.setState({ work_hour: this.state.work_hour });
+  onChangeThursday = (thursday,index) => {
+    let dataArray = this.state.thursdayData;
+    let checkBool = false;
+    if (dataArray.length !== 0) {
+      dataArray.forEach((element) => {
+        if (element.index === index) {
+          element.thursday = thursday;
+          checkBool = true;
+        }
+      });
+    }
+    if (checkBool) {
+      this.setState({
+        thursdayData : dataArray,
+      });
+    } else {
+      dataArray.push({ thursday, index });
+      this.setState({
+        thursdayData : dataArray,
+      });
+    }
   };
-  onChangeThursday = (value) => {
-    this.state.work_hour.thursday.first = value;
-    this.setState({ work_hour: this.state.work_hour });
+  onChangeThursdayTo = (thursdayTo,index) => {
+    let dataArray = this.state.thursdayTOData;
+    let checkBool = false;
+    if (dataArray.length !== 0) {
+      dataArray.forEach((element) => {
+        if (element.index === index) {
+          element.thursdayTo = thursdayTo;
+          checkBool = true;
+        }
+      });
+    }
+    if (checkBool) {
+      this.setState({
+        thursdayTOData : dataArray,
+      });
+    } else {
+      dataArray.push({ thursdayTo, index });
+      this.setState({
+        thursdayTOData : dataArray,
+      });
+    }
   };
-  onChangeThursdayTo = (value) => {
-    this.state.work_hour.thursday.to = value;
-    this.setState({ work_hour: this.state.work_hour });
+  onChangeFriday = (friday,index) => {
+    let dataArray = this.state.fridayData;
+    let checkBool = false;
+    if (dataArray.length !== 0) {
+      dataArray.forEach((element) => {
+        if (element.index === index) {
+          element.friday = friday;
+          checkBool = true;
+        }
+      });
+    }
+    if (checkBool) {
+      this.setState({
+        fridayData : dataArray,
+      });
+    } else {
+      dataArray.push({ friday, index });
+      this.setState({
+        fridayData : dataArray,
+      });
+    }
   };
-  onChangeFriday = (value) => {
-    this.state.work_hour.friday.first = value;
-    this.setState({ work_hour: this.state.work_hour });
+  onChangeFridayTo = (fridayTo,index) => {
+    let dataArray = this.state.fridayTOData;
+    let checkBool = false;
+    if (dataArray.length !== 0) {
+      dataArray.forEach((element) => {
+        if (element.index === index) {
+          element.fridayTo = fridayTo;
+          checkBool = true;
+        }
+      });
+    }
+    if (checkBool) {
+      this.setState({
+        fridayTOData : dataArray,
+      });
+    } else {
+      dataArray.push({ fridayTo , index });
+      this.setState({
+        fridayTOData : dataArray,
+      });
+    }
   };
-  onChangeFridayTo = (value) => {
-    this.state.work_hour.friday.to = value;
-    this.setState({ work_hour: this.state.work_hour });
+  onChangeSaturday = (saturday,index) => {
+    let dataArray = this.state.saturdayData;
+    let checkBool = false;
+    if (dataArray.length !== 0) {
+      dataArray.forEach((element) => {
+        if (element.index === index) {
+          element.saturday = saturday;
+          checkBool = true;
+        }
+      });
+    }
+    if (checkBool) {
+      this.setState({
+        saturdayData  : dataArray,
+      });
+    } else {
+      dataArray.push({ saturday , index });
+      this.setState({
+        saturdayData : dataArray,
+      });
+    }
   };
-  onChangeSaturday = (value) => {
-    this.state.work_hour.saturday.first = value;
-    this.setState({ work_hour: this.state.work_hour });
+  onChangeSaturdayTo = (saturdayTo,index) => {
+    let dataArray = this.state.saturdayTOData;
+    let checkBool = false;
+    if (dataArray.length !== 0) {
+      dataArray.forEach((element) => {
+        if (element.index === index) {
+          element.saturdayTo = saturdayTo;
+          checkBool = true;
+        }
+      });
+    }
+    if (checkBool) {
+      this.setState({
+        saturdayTOData  : dataArray,
+      });
+    } else {
+      dataArray.push({ saturdayTo , index });
+      this.setState({
+        saturdayTOData : dataArray,
+      });
+    }
   };
-  onChangeSaturdayTo = (value) => {
-    this.state.work_hour.saturday.to = value;
-    this.setState({ work_hour: this.state.work_hour });
+  onChangeSunday = (sunday, index) => {
+    let dataArray = this.state.sundayData;
+    let checkBool = false;
+    if (dataArray.length !== 0) {
+      dataArray.forEach((element) => {
+        if (element.index === index) {
+          element.sunday = sunday;
+          checkBool = true;
+        }
+      });
+    }
+    if (checkBool) {
+      this.setState({
+        sundayData  : dataArray,
+      });
+    } else {
+      dataArray.push({ sunday , index });
+      this.setState({
+        sundayData : dataArray,
+      });
+    }
   };
-  onChangeSunday = (value) => {
-    this.state.work_hour.sunday.first = value;
-    this.setState({ work_hour: this.state.work_hour });
-  };
-  onChangeSundayTo = (value) => {
-    this.state.work_hour.sunday.to = value;
-    this.setState({ work_hour: this.state.work_hour });
+  onChangeSundayTo = (sundayTo,index) => {
+    let dataArray = this.state.sundayTOData;
+    let checkBool = false;
+    if (dataArray.length !== 0) {
+      dataArray.forEach((element) => {
+        if (element.index === index) {
+          element.sundayTo = sundayTo;
+          checkBool = true;
+        }
+      });
+    }
+    if (checkBool) {
+      this.setState({
+        sundayTOData  : dataArray,
+      });
+    } else {
+      dataArray.push({ sundayTo , index });
+      this.setState({
+        sundayTOData : dataArray,
+      });
+    }
   };
 
-  //arrayy
-  onChangeMondayArray = (value, index) => {
-    this.state.work_hourArray[index].monday.first = value;
-    this.setState({ work_hourArray: this.state.work_hourArray });
-    console.log("array---->", this.state.work_hourArray);
-  };
-  onChangeMondayToArray = (value) => {
-    this.state.work_hourArray[index].monday.to = value;
-    this.setState({ work_hourArray: this.state.work_hourArray });
-  };
-  onChangeTuesdayArray = (value) => {
-    this.state.work_hourArray[index].tuesday.first = value;
-    this.setState({ work_hourArray: this.state.work_hourArray });
-  };
-  onChangeTuesdayToArray = (value) => {
-    this.state.work_hourArray[index].tuesday.to = value;
-    this.setState({ work_hourArray: this.state.work_hourArray });
-  };
-  onChangeWednesdayArray = (value) => {
-    this.state.work_hourArray[index].wednesday.first = value;
-    this.setState({ work_hourArray: this.state.work_hourArray });
-  };
-  onChangeWednesdayToArray = (value) => {
-    this.state.work_hourArray[index].wednesday.to = value;
-    this.setState({ work_hourArray: this.state.work_hourArray });
-  };
-  onChangeThursdayArray = (value) => {
-    this.state.work_hourArray[index].thursday.first = value;
-    this.setState({ work_hourArray: this.state.work_hourArray });
-  };
-  onChangeThursdayToArray = (value) => {
-    this.state.work_hourArray[index].thursday.to = value;
-    this.setState({ work_hourArray: this.state.work_hourArray });
-  };
-  onChangeFridayArray = (value) => {
-    this.state.work_hourArray[index].friday.first = value;
-    this.setState({ work_hourArray: this.state.work_hourArray });
-  };
-  onChangeFridayToArray = (value) => {
-    this.state.work_hourArray[index].friday.to = value;
-    this.setState({ work_hourArray: this.state.work_hourArray });
-  };
-  onChangeSaturdayArray = (value) => {
-    this.state.work_hourArray[index].saturday.first = value;
-    this.setState({ work_hourArray: this.state.work_hourArray });
-  };
-  onChangeSaturdayToArray = (value) => {
-    this.state.work_hourArray[index].saturday.to = value;
-    this.setState({ work_hourArray: this.state.work_hourArray });
-  };
-  onChangeSundayArray = (value) => {
-    this.state.work_hourArray[index].sunday.first = value;
-    this.setState({ work_hourArray: this.state.work_hourArray });
-  };
-  onChangeSundayToArray = (value) => {
-    this.state.work_hourArray[index].sunday.to = value;
-    this.setState({ work_hourArray: this.state.work_hourArray });
-  };
-
+  
   renderCompany() {
     return (
       <View style={{ marginTop: Metrics.doubleBaseMargin }}>
@@ -2416,7 +2895,7 @@ class MyContactInfromation extends Component {
                           style={styles.stylefiledText}
                           placeholderTextColor={COLORS.main_text_color}
                           editable={this.state.status ? true : false}
-                          onChangeText={(value) => this.onChangeCompany(value)}
+                          onChangeText={(company) => this.onChangeCompany(company,index)}
                         />
                       </View>
                       <View style={styles.addressRightView}>
@@ -2432,9 +2911,9 @@ class MyContactInfromation extends Component {
                           placeholder=""
                           style={styles.stylefiledText}
                           placeholderTextColor={COLORS.main_text_color}
-                          value={this.state.job_title}
+                          //value={this.state.jobTitle}
                           editable={this.state.status ? true : false}
-                          onChangeText={(value) => this.onChangeJobTitle(value)}
+                          onChangeText={(jobTitle) => this.onChangeJobTitle(jobTitle , index)}
                         />
                       </View>
                       <View style={styles.addressRightView}>
@@ -2476,8 +2955,8 @@ class MyContactInfromation extends Component {
                                 placeholderTextColor={COLORS.main_text_color}
                                 style={styles.timeText}
                                 //value={this.state.work_hour.monday.first}
-                                onChangeText={(value) =>
-                                  this.onChangeMonday(value)
+                                onChangeText={(monday) =>
+                                  this.onChangeMonday(monday , index)
                                 }
                               />
                             </View>
@@ -2495,8 +2974,8 @@ class MyContactInfromation extends Component {
                                 placeholderTextColor={COLORS.main_text_color}
                                 style={styles.timeText}
                                 //value={this.state.work_hour.monday.to}
-                                onChangeText={(value) =>
-                                  this.onChangeMondayTo(value)
+                                onChangeText={(mondayTo) =>
+                                  this.onChangeMondayTo(mondayTo,index)
                                 }
                               />
                             </View>
@@ -2519,8 +2998,8 @@ class MyContactInfromation extends Component {
                                 placeholderTextColor={COLORS.main_text_color}
                                 style={styles.timeText}
                                 //value={this.state.work_hour.tuesday.first}
-                                onChangeText={(value) =>
-                                  this.onChangeTuesday(value)
+                                onChangeText={(tuesday) =>
+                                  this.onChangeTuesday(tuesday,index)
                                 }
                               />
                             </View>
@@ -2538,8 +3017,8 @@ class MyContactInfromation extends Component {
                                 placeholderTextColor={COLORS.main_text_color}
                                 style={styles.timeText}
                                 //value={this.state.work_hour.tuesday.to}
-                                onChangeText={(value) =>
-                                  this.onChangeTuesdayTo(value)
+                                onChangeText={(tuesdayTo) =>
+                                  this.onChangeTuesdayTo(tuesdayTo,index)
                                 }
                               />
                             </View>
@@ -2562,8 +3041,8 @@ class MyContactInfromation extends Component {
                                 placeholderTextColor={COLORS.main_text_color}
                                 style={styles.timeText}
                                 //value={this.state.work_hour.wednesday.first}
-                                onChangeText={(value) =>
-                                  this.onChangeWednesday(value)
+                                onChangeText={(wednesday) =>
+                                  this.onChangeWednesday(wednesday,index)
                                 }
                               />
                             </View>
@@ -2581,8 +3060,8 @@ class MyContactInfromation extends Component {
                                 placeholderTextColor={COLORS.main_text_color}
                                 style={styles.timeText}
                                 //value={this.state.work_hour.wednesday.to}
-                                onChangeText={(value) =>
-                                  this.onChangeWednesdayTo(value)
+                                onChangeText={(wednesdayTo) =>
+                                  this.onChangeWednesdayTo(wednesdayTo,index)
                                 }
                               />
                             </View>
@@ -2605,8 +3084,8 @@ class MyContactInfromation extends Component {
                                 placeholderTextColor={COLORS.main_text_color}
                                 style={styles.timeText}
                                 //value={this.state.work_hour.thursday.first}
-                                onChangeText={(value) =>
-                                  this.onChangeThursday(value)
+                                onChangeText={(thursday) =>
+                                  this.onChangeThursday(thursday,index)
                                 }
                               />
                             </View>
@@ -2624,8 +3103,8 @@ class MyContactInfromation extends Component {
                                 placeholderTextColor={COLORS.main_text_color}
                                 style={styles.timeText}
                                 //value={this.state.work_hour.thursday.to}
-                                onChangeText={(value) =>
-                                  this.onChangeThursdayTo(value)
+                                onChangeText={(thursdayTo) =>
+                                  this.onChangeThursdayTo(thursdayTo,index)
                                 }
                               />
                             </View>
@@ -2648,8 +3127,8 @@ class MyContactInfromation extends Component {
                                 placeholderTextColor={COLORS.main_text_color}
                                 style={styles.timeText}
                                 // value={this.state.work_hour.friday.first}
-                                onChangeText={(value) =>
-                                  this.onChangeFriday(value)
+                                onChangeText={(friday) =>
+                                  this.onChangeFriday(friday,index)
                                 }
                               />
                             </View>
@@ -2667,8 +3146,8 @@ class MyContactInfromation extends Component {
                                 placeholderTextColor={COLORS.main_text_color}
                                 style={styles.timeText}
                                 // value={this.state.work_hour.friday.to}
-                                onChangeText={(value) =>
-                                  this.onChangeFridayTo(value)
+                                onChangeText={(fridayTo) =>
+                                  this.onChangeFridayTo(fridayTo,index)
                                 }
                               />
                             </View>
@@ -2691,8 +3170,8 @@ class MyContactInfromation extends Component {
                                 placeholderTextColor={COLORS.main_text_color}
                                 style={styles.timeText}
                                 //value={this.state.work_hour.saturday.first}
-                                onChangeText={(value) =>
-                                  this.onChangeSaturday(value)
+                                onChangeText={(saturday) =>
+                                  this.onChangeSaturday(saturday,index)
                                 }
                               />
                             </View>
@@ -2710,8 +3189,8 @@ class MyContactInfromation extends Component {
                                 placeholderTextColor={COLORS.main_text_color}
                                 style={styles.timeText}
                                 //value={this.state.work_hour.saturday.to}
-                                onChangeText={(value) =>
-                                  this.onChangeSaturdayTo(value)
+                                onChangeText={(saturdayTo) =>
+                                  this.onChangeSaturdayTo(saturdayTo,index)
                                 }
                               />
                             </View>
@@ -2734,8 +3213,8 @@ class MyContactInfromation extends Component {
                                 placeholderTextColor={COLORS.main_text_color}
                                 style={styles.timeText}
                                 //value={this.state.work_hour.sunday.first}
-                                onChangeText={(value) =>
-                                  this.onChangeSunday(value)
+                                onChangeText={(sunday) =>
+                                  this.onChangeSunday(sunday,index)
                                 }
                               />
                             </View>
@@ -2753,8 +3232,8 @@ class MyContactInfromation extends Component {
                                 placeholderTextColor={COLORS.main_text_color}
                                 style={styles.timeText}
                                 // value={this.state.work_hour.sunday.to}
-                                onChangeText={(value) =>
-                                  this.onChangeSundayTo(value)
+                                onChangeText={(sundayTo) =>
+                                  this.onChangeSundayTo(sundayTo,index)
                                 }
                               />
                             </View>
@@ -2900,9 +3379,9 @@ class MyContactInfromation extends Component {
             </TouchableOpacity>
           </View>
 
-          {this.state.removeNoteSection ? (
+          {this.state.removeCompanySection ? (
             <View style={{ flex: 1, alignItems: "flex-end" }}>
-              <TouchableOpacity style={{}} onPress={() => this.removeNote()}>
+              <TouchableOpacity style={{}} onPress={() => this.removeCompany()}>
                 {this.state.status ? (
                   <Text style={[styles.removeNew]}>- Remove Comapny</Text>
                 ) : null}
@@ -2914,12 +3393,405 @@ class MyContactInfromation extends Component {
     );
   }
   ShowHideTextComponentView = async () => {
-    if (this.state.status == false) {
+      
+  const {profile_image,profile_image2,profile_image3 ,first_name ,middle_name,last_name,nick_name,inputData,textInput,emailData,addressData,emailInput,addressInput,messengerData,messengerInput,socialMediaData,socialMediaInput,websiteInput,websiteData,dateInput,dateData,noteInput,noteData,mobileData,emailArray,addressArray,messengerAray,socialArray,websiteArray,dateArray,noteArray,companyData,jobTitleData,mondayData,tuesdayData,wednesdayData,thursdayData,fridayData,saturdayData,sundayData,mondayTOData,tuesdayTOData,wednesdayTOData,thursdayTOData,fridayTOData,saturdayTOData,sundayTOData,dateInput2} = this.state;
+  const {username} = this.props;
+  if (this.state.status == false) {
       this.setState({ status: true });
     } else {
       this.setState({ status: false });
     }
-  };
+
+if(profile_image == ""){
+}else{
+  firebase
+     .firestore()
+     .collection("user")
+     .doc(`${username}`)
+     .update({ profile_image : profile_image });
+}
+
+if(profile_image2 == ""){
+}else{
+  firebase
+     .firestore()
+     .collection("user")
+     .doc(`${username}`)
+     .update({ profile_image2 : profile_image2 });
+}
+
+if(profile_image3 == ""){
+}else{
+  firebase
+     .firestore()
+     .collection("user")
+     .doc(`${username}`)
+     .update({ profile_image3 : profile_image3 });
+}
+
+
+if(first_name == ""){
+}else{
+  firebase
+     .firestore()
+     .collection("user")
+     .doc(`${username}`)
+     .update({ first_name: first_name });
+}
+if(middle_name == ""){
+}else{
+  firebase
+     .firestore()
+     .collection("user")
+     .doc(`${username}`)
+     .update({ middle_name: middle_name });
+}
+if(nick_name == ""){
+}else{
+  firebase
+     .firestore()
+     .collection("user")
+     .doc(`${username}`)
+     .update({ nick_name: nick_name });
+}
+if(last_name == ""){
+}else{
+  firebase
+     .firestore()
+     .collection("user")
+     .doc(`${username}`)
+     .update({ last_name: last_name });
+}
+   //mobile
+  if(inputData == ""){
+    }else{
+    firebase
+     .firestore()
+     .collection("user")
+     .doc(`${username}`)
+     .update({ number: inputData });
+   
+ }
+
+ const mobileabel = textInput.find(({ label }) => label == label );
+ if(mobileabel.label === "Select Type..."){
+    }else{
+       firebase
+        .firestore()
+        .collection("user")
+        .doc(`${username}`)
+        .update({ mobileLabel : textInput });
+   }
+ //email
+
+ if(emailData == ""){
+   console.log('Empty')
+  
+}else{
+ 
+  firebase
+    .firestore()
+    .collection("user")
+    .doc(`${username}`)
+    .update({ email : emailData });
+ 
+}
+const emailabel = emailInput.find(({ label }) => label == label );
+if(emailabel.label === "Select Type..."){
+   }else{
+      firebase
+       .firestore()
+       .collection("user")
+       .doc(`${username}`)
+       .update({ emailabel : emailInput });
+  }
+//address
+if(addressData == ""){
+}else{
+  
+  firebase
+      .firestore()
+      .collection("user")
+      .doc(`${username}`)
+      .update({ address : addressData });
+    
+}
+const addresslabel = addressInput.find(({ label }) => label == label );
+if(addresslabel.label === "Select Type..."){
+ }else{
+    firebase
+     .firestore()
+     .collection("user")
+     .doc(`${username}`)
+     .update({ addresslabel : addressInput });
+}
+//messenger 
+if(messengerData == ""){
+}else{
+ 
+  firebase
+      .firestore()
+      .collection("user")
+      .doc(`${username}`)
+      .update({ messenger : messengerData });
+    
+}
+const messengerlabel = messengerInput.find(({ label }) => label == label );
+if(messengerlabel.label === "Select Type..."){
+ }else{
+    firebase
+     .firestore()
+     .collection("user")
+     .doc(`${username}`)
+     .update({ messengerlabel : messengerInput });
+}
+//social media
+if(socialMediaData == ""){
+}else{
+ 
+firebase
+      .firestore()
+      .collection("user")
+      .doc(`${username}`)
+      .update({ socialMedia : socialMediaData });
+  
+}
+const sociallabel = socialMediaInput.find(({ label }) => label == label );
+if(sociallabel.label === "Select Type..."){
+ }else{
+    firebase
+     .firestore()
+     .collection("user")
+     .doc(`${username}`)
+     .update({ sociallabel : socialMediaInput });
+}
+//Website
+if(websiteData == ""){
+}else{
+ 
+  firebase
+      .firestore()
+      .collection("user")
+      .doc(`${username}`)
+      .update({ website : websiteData });
+   
+}
+const websitelabel = websiteInput.find(({ label }) => label == label );
+if(websitelabel.label === "Select Type..."){
+ }else{
+    firebase
+     .firestore()
+     .collection("user")
+     .doc(`${username}`)
+     .update({ websitelabel : websiteInput });
+}
+
+//date
+if(dateData == ""){
+}else{
+  firebase
+      .firestore()
+      .collection("user")
+      .doc(`${username}`)
+      .update({ date : dateData });
+  
+}
+if(dateInput2 == ""){
+}else{
+  firebase
+      .firestore()
+      .collection("user")
+      .doc(`${username}`)
+      .update({ date : dateInput2 });
+  
+}
+const datelabel = dateInput.find(({ label }) => label == label );
+if(datelabel.label === "Select Type..."){
+ }else{
+    firebase
+     .firestore()
+     .collection("user")
+     .doc(`${username}`)
+     .update({ datelabel :dateInput });
+}
+//note
+if(noteData == ""){
+}else{
+firebase
+      .firestore()
+      .collection("user")
+      .doc(`${username}`)
+      .update({ note : noteData });
+    
+}
+const notelabel = noteInput.find(({ label }) => label == label );
+if(notelabel.label === "Select Type..."){
+ }else{
+    firebase
+     .firestore()
+     .collection("user")
+     .doc(`${username}`)
+     .update({ notelabel : noteInput });
+}
+//company
+if(companyData == ""){
+}else{
+firebase
+      .firestore()
+      .collection("user")
+      .doc(`${username}`)
+      .update({ company : companyData });
+    
+}
+
+//job title
+if(jobTitleData == ""){
+}else{
+firebase
+      .firestore()
+      .collection("user")
+      .doc(`${username}`)
+      .update({ jobTitle : jobTitleData });
+}
+if(mondayData == ""){
+}else{
+firebase
+      .firestore()
+      .collection("user")
+      .doc(`${username}`)
+      .update({ monday : mondayData });
+}
+if(mondayTOData == ""){
+}else{
+firebase
+      .firestore()
+      .collection("user")
+      .doc(`${username}`)
+      .update({ mondayTo : mondayTOData });
+}
+if(tuesdayData == ""){
+}else{
+firebase
+      .firestore()
+      .collection("user")
+      .doc(`${username}`)
+      .update({ tuesday : tuesdayData });
+}
+if(tuesdayTOData == ""){
+}else{
+firebase
+      .firestore()
+      .collection("user")
+      .doc(`${username}`)
+      .update({ tuesdayTo : tuesdayTOData });
+}
+if(wednesdayData == ""){
+}else{
+firebase
+      .firestore()
+      .collection("user")
+      .doc(`${username}`)
+      .update({ wednesday : wednesdayData });
+}
+
+if(wednesdayTOData == ""){
+}else{
+firebase
+      .firestore()
+      .collection("user")
+      .doc(`${username}`)
+      .update({ wednesdayTo : wednesdayTOData });
+}
+
+
+if(thursdayData == ""){
+}else{
+firebase
+      .firestore()
+      .collection("user")
+      .doc(`${username}`)
+      .update({ thursday : thursdayData });
+}
+
+if(thursdayTOData == ""){
+}else{
+firebase
+      .firestore()
+      .collection("user")
+      .doc(`${username}`)
+      .update({ thursdayTo : thursdayTOData });
+}
+
+
+if(fridayData == ""){
+}else{
+firebase
+      .firestore()
+      .collection("user")
+      .doc(`${username}`)
+      .update({ friday : fridayData });
+}
+
+if(fridayTOData == ""){
+}else{
+firebase
+      .firestore()
+      .collection("user")
+      .doc(`${username}`)
+      .update({ fridayTo : fridayTOData });
+}
+
+if(saturdayData == ""){
+}else{
+firebase
+      .firestore()
+      .collection("user")
+      .doc(`${username}`)
+      .update({ saturday : saturdayData });
+}
+
+
+if(saturdayTOData == ""){
+}else{
+firebase
+      .firestore()
+      .collection("user")
+      .doc(`${username}`)
+      .update({ saturdayTo : saturdayTOData });
+}
+
+
+if(sundayData == ""){
+}else{
+firebase
+      .firestore()
+      .collection("user")
+      .doc(`${username}`)
+      .update({ sunday : sundayData });
+}
+if(sundayTOData == ""){
+}else{
+firebase
+      .firestore()
+      .collection("user")
+      .doc(`${username}`)
+      .update({ sundayTo : sundayTOData });
+}
+let dateNotify = this.state.notificationTime[0].toString()
+
+console.log("notiictaip time=-->",dateNotify)
+
+if(this.state.notificationTime == ""){
+
+}else{
+ 
+  firebase
+      .firestore()
+      .collection("user")
+      .doc(`${username}`)
+      .update({ notificationTime :dateNotify });
+}
+};
   renderLast() {
     return (
       <View
@@ -2969,8 +3841,7 @@ class MyContactInfromation extends Component {
               <View style={{ width: width, alignItems: "center" }}>
                 {this.renderHeader()}
                 {this.renderMiddle()}
-
-                {this.renderName()}
+               {this.renderName()}
                 {this.renderMobile()}
                 {this.renderEmail()}
                 {this.renderAddress()}

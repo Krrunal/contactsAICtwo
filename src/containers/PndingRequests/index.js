@@ -418,7 +418,7 @@ class pendingRequest extends Component {
         {/* {this.state.names.map((item) => { */}
         <View style={styles.whiteBigView}>
           <View style={styles.checkboxView}>
-            <View style={styles.oneView}>
+            <View style={[styles.oneView,{marginLeft: Metrics.smallMargin,}]}>
               <View style={{ flexDirection: "column" }}>
                 <Text
                   style={[
@@ -512,7 +512,7 @@ class pendingRequest extends Component {
             }}
           >
             <View style={{}}>
-              <View style={{ flexDirection: "row" }}>
+              <View style={{ flexDirection: "row",padding:8 }}>
                 <TouchableOpacity
                   style={styles.acceptView}
                   onPress={(value) => {
@@ -690,7 +690,7 @@ class pendingRequest extends Component {
     return (
       <View>
         <View style={{ width: width, alignItems: "center" }}>
-          <View style={styles.oneView}>
+          <View style={[styles.oneView,{marginLeft: Metrics.smallMargin}]}>
             <View style={{ flexDirection: "column" }}>
               <Text
                 style={[
@@ -795,7 +795,7 @@ class pendingRequest extends Component {
   renderUpText() {
     return (
       <View style={{ width: width, alignItems: "center" }}>
-        <View style={{ width: width * 0.78, marginTop: Metrics.baseMargin }}>
+        <View style={{ width: width * 0.93, marginTop: Metrics.baseMargin }}>
           <Text
             style={[
               styles.upText,
@@ -818,10 +818,10 @@ class pendingRequest extends Component {
       <View style={{width:width,alignItems:'center'}}>
         <View style={styles.afterConfrimStyle}>
            {this.renderU_name()}
-           <View style={{justifyContent:'flex-end',flex:1,alignItems:'center'}}>
+           <View style={{justifyContent:'flex-end',flex:1,alignItems:'center',marginTop:Metrics.multipleLabel,paddingBottom:35}}>
              
           
-           <View style={{borderWidth:1,width:width*0.7,height:width*0.12,backgroundColor:COLORS.black,borderRadius:10,alignItems:'center',justifyContent:'center'}}>
+           <View style={{borderWidth:1,width:width*0.7,height:width*0.10,backgroundColor:COLORS.black,borderRadius:10,alignItems:'center',justifyContent:'center'}}>
              <Text style={{color:COLORS.white,fontFamily:Font.medium,fontSize:width*0.035}}>Request  Accepted</Text>
            </View>
            </View>
@@ -842,6 +842,7 @@ class pendingRequest extends Component {
         />
         <View style={{ flex: 1 }}>
           <Container>
+          
             {this.renderHeader()}
             {this.renderUpText()}
             {this.state.labelSection == true ? (
@@ -856,7 +857,7 @@ class pendingRequest extends Component {
                 {this.renderMiddle()}
               </View>
             ) : null}
-
+        
             {this.state.afterConfirmSection == true ? (
               <View>{this.confirmSection()}</View>
             ) : null}

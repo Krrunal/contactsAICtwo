@@ -238,7 +238,7 @@ class labels extends Component {
         <View
           style={{
             flex: 1,
-            bottom: 10,
+            bottom: 40,
             position: "absolute",
             flexDirection: "row",
           }}
@@ -341,7 +341,7 @@ class labels extends Component {
               <View>
                 {this.state.addView ? 
                 <View style={{marginLeft: Metrics.doubleBaseMargin,marginTop: Metrics.doubleBaseMargin,}}>
-                <Text style={{ fontSize: width * 0.05,fontFamily: Font.medium,color: COLORS.main_text_color,}}>
+                <Text style={{ fontSize: width * 0.05,fontFamily: Font.medium,color: this.props.theme.mode === "light" ? COLORS.main_text_color :COLORS.white}}>
                   Add Label
                 </Text>
                   </View> : null

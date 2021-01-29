@@ -30,6 +30,7 @@ import downArrow from "../../assets/icons/dropIcon.png";
 import plus from "../../assets/images/plus.png";
 import styles from "./addContactMultipleStyle.js";
 import { switchTheme } from "../../action/themeAction";
+import ContactUs from '../ContactUs/index';
 
 var { width, height } = Dimensions.get("window");
 
@@ -261,7 +262,7 @@ class addContactMultiple extends Component {
   renderHeader() {
     return (
       <Header
-        title="Add Contacts AIC User(s)"
+        title="Add Contacts AIC User"
         onPress={() => this.props.navigation.openDrawer()}
       />
     );
@@ -526,7 +527,7 @@ class addContactMultiple extends Component {
         <View
           style={{
             flex: 1,
-            bottom: 20,
+            bottom: 40,
             position: "absolute",
             flexDirection: "row",
           }}
@@ -542,7 +543,7 @@ class addContactMultiple extends Component {
                 fontSize: width * 0.045,
               }}
             >
-              Next
+              Add Contact(s)
             </Text>
           </TouchableOpacity>
         </View>

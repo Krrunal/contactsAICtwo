@@ -20,7 +20,7 @@ export default StyleSheet.create({
     height: height * 0.065,
     borderRadius: 10,
     marginTop: Metrics.doubleBaseMargin,
-    // justifyContent:'center',
+    justifyContent:'center',
     //flexDirection: "row",
    // alignItems: "center",
  
@@ -66,8 +66,9 @@ export default StyleSheet.create({
     fontSize: width * 0.04,
     fontFamily: Font.medium,
     color: COLORS.main_text_color,
+   
   },
-
+ 
   passView: {
     backgroundColor: COLORS.main_sky_blue,
   
@@ -75,7 +76,7 @@ export default StyleSheet.create({
     height: height * 0.065,
     borderRadius: 8,
     // alignItems: "center",
-    // justifyContent: "center",
+   justifyContent: "center",
     // flexDirection: "row",
   },
 
@@ -248,19 +249,31 @@ export default StyleSheet.create({
     justifyContent:'center',
     alignItems:'center',
    // color:COLORS.main_text_color,
-    marginLeft:Metrics.xdoubleBaseMargin,
+    marginLeft:Metrics.baseMargin,
     width: width * 0.7,
     color:COLORS.main_text_color,
     marginTop:Metrics.xsmallMargin,
+ 
+},
+uTextPass:{
+  fontSize: width*0.04, 
+  fontFamily: Font.medium,
+  justifyContent:'center',
+  alignItems:'center',
+ // color:COLORS.main_text_color,
+  marginLeft:Metrics.baseMargin,
+  width: width * 0.7,
+  color:COLORS.main_text_color,
+  marginTop:Metrics.xsmallMargin,
+ 
 },
 uText1 :{
   fontSize: width*0.04, 
   fontFamily: Font.medium,
-   marginLeft:Metrics.xdoubleBaseMargin,
-  width: width * 0.7,
+   marginLeft:Metrics.doubleBaseMargin,
+  width: width * 0.6,
   color:COLORS.main_text_color,
-  marginBottom :Metrics.baseMargin,
-  
+
 },
 
   uTextGreen:{
@@ -294,7 +307,7 @@ uText1 :{
     resizeMode: "contain",
   },
   emailText: {
-    fontSize: width * 0.025,
+    fontSize: width * 0.024,
     fontFamily: Font.medium,
     justifyContent: "center",
     alignItems: "center",
@@ -302,7 +315,7 @@ uText1 :{
     width: width * 0.7,
     color: COLORS.main_text_color,
     marginLeft:Metrics.cdoubleBaseMargin,
-  //  marginTop: Metrics.baseMargin,
+   marginTop: height * 0.01
   },
   error2:{
   

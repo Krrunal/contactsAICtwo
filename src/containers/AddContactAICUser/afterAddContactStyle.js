@@ -130,6 +130,7 @@ export default StyleSheet.create({
     backButtton:{
         fontFamily: Font.medium,
         fontSize: width * 0.045,
+        color : COLORS.main_text_color
       }
 
 })

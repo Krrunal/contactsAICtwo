@@ -33,7 +33,7 @@ class afterSentInvite extends Component {
   renderLast() {
     return (
       <View
-        style={{ alignItems: "center", marginTop: Metrics.doubleBaseMargin }}
+        style={{ alignItems: "center", marginTop: Metrics.xxdoubleBaseMargin }}
       >
         <TouchableOpacity
           style={styles.Whiteview}
@@ -71,7 +71,12 @@ class afterSentInvite extends Component {
 
         <Container>
           {this.renderHeader()}
-          <NormalText> Invite(s) Sent </NormalText>
+          <View style={{marginTop: Metrics.xdoubleBaseMargin,}}>
+                <Text style={{ fontSize: width * 0.05,fontFamily: Font.medium,color: this.props.theme.mode === "light" ? COLORS.main_text_color :COLORS.white}}>
+                Invite(s) Sent 
+                </Text>
+                  </View> 
+       
           {this.renderLast()}
         </Container>
       </ThemeProvider>

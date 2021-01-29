@@ -70,7 +70,7 @@ class forAddContact extends Component {
   renderHeader() {
     return (
       <Header
-        title="Add Contacts AIC User(s)"
+        title="Add Contacts AIC User"
         onPress={() => this.props.navigation.openDrawer()}
       />
     );

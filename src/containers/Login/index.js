@@ -13,6 +13,7 @@ import {
 } from "react-native";
 import React, { Component } from "react";
 import styled, { ThemeProvider } from "styled-components/native";
+import Toast from "react-native-easy-toast";
 
 import AsyncStorage from "@react-native-community/async-storage";
 import { COLORS } from "../theme/Colors.js";
@@ -113,6 +114,19 @@ class Login extends Component {
     this.props.navigation.navigate("Signup");
   };
 
+  checkInternet = async () => {
+    NetInfo.fetch().then((state) => {
+      if (state.isConnected) { 
+          this.loginUser();
+      }else{ 
+        //alert("Please check Your Internet Connection ");
+        this.refs.toast.show("Please check Your Internet Connection", 1000);
+      }
+    })
+  
+  
+   }
+   
   loginUser = () => {
     const { phone_number, emailLogin, loginUsername,loginPass,emailPassword} = this.state;
     
@@ -122,9 +136,9 @@ class Login extends Component {
       this.props.loginPassChange(loginPass)
       this.props.loginUser();
     }else{
-      NetInfo.fetch().then((state) => {
+   
         const { phone_number, emailLogin, loginUsername,loginPass,emailPassword} = this.state;
-        if (state.isConnected) {
+        
           if (emailLogin == "" && phone_number == "") {
             showToastError("Please fill all required fileds");
           }
@@ -140,10 +154,7 @@ class Login extends Component {
               this.props.loginUser();
             }
           }
-        } else {
-          alert("Net is not connected");
-        }
-      });
+       
     }
    
   };
@@ -421,7 +432,7 @@ class Login extends Component {
 
                 <TouchableOpacity
                   style={styles.viewLogin}
-                  onPress={this.loginUser}
+                  onPress={this.checkInternet}
                 >
                   <Text style={styles.loginText}>Log In</Text>
                 </TouchableOpacity>
@@ -457,6 +468,27 @@ class Login extends Component {
                 </TouchableOpacity>
                 {this.showLoader()}
               </View>
+              <Toast
+                  ref="toast"
+                  style={{
+                    backgroundColor:
+                      this.props.theme.mode === "light" ? "black" : "white",
+                    width: width * 0.9,
+                    alignItems: "center",
+                  }}
+                  position="bottom"
+                  positionValue={200}
+                  fadeInDuration={1000}
+                  fadeOutDuration={1000}
+                  opacity={1}
+                  textStyle={{
+                    color:
+                      this.props.theme.mode === "light" ? "white" : "black",
+                    fontFamily: Font.medium,
+                    fontSize: width * 0.04,
+                    padding:7
+                  }}
+                />
             </Root>
           </ScrollView>
         </Container>

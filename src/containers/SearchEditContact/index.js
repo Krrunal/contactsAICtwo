@@ -69,6 +69,7 @@ class searchContact extends Component {
       .then((snap) => {
         snap.forEach((doc) => {
           var item = doc._data;
+          console.log("contactList----->",item)
           this.state.contact.push(item);
         });
         this.setState({ contacts : this.state.contact });
@@ -93,6 +94,7 @@ class searchContact extends Component {
       .then((snap) => {
         snap.forEach((doc) => {
           var item = doc._data;
+          console.log("first----->",item)
           this.state.contact.push(item);
         });
         this.setState({ contacts: this.state.contact });

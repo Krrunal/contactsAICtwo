@@ -33,7 +33,7 @@ class afterRequestSend extends Component {
   renderHeader() {
     return (
       <Header
-        title="Add Contacts AIC User(s)"
+        title="Add Contacts AIC User"
         onPress={() => this.props.navigation.openDrawer()}
       />
     );
@@ -75,7 +75,7 @@ class afterRequestSend extends Component {
   
   renderLast(){
       return(
-        <View style={{ alignItems: "center" ,position:"absolute",bottom:25}}>
+        <View style={{ alignItems: "center" ,position:"absolute",bottom:150}}>
         <TouchableOpacity
           style={styles.SmallMiddle}
           onPress={this.forOkNavigate}

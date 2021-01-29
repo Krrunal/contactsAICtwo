@@ -249,7 +249,7 @@ class addmanuallyContact extends Component {
       //company
 
       isCompanyModelOpen: false,
-      companyLableList: [{ label: "Job Ttile" }, { label: "Work Hours" }],
+      companyLableList: [{ label: "Job Title" }, { label: "Work Hours" }],
       companyLabel: "",
       isAddCompanyLabel: false,
       isCompanyArrayModelOpen: false,

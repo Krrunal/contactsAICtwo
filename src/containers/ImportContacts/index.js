@@ -13,6 +13,8 @@ import React, { Component, useState } from "react";
 import styled, { ThemeProvider } from "styled-components/native";
 import checked from "../../assets/icons/checkedModified.png";
 import checkedWhite from  "../../assets/icons/checkedWhite.png";
+import checkedModified from  "../../assets/icons/checkedModified.png";
+
 import { COLORS } from "../theme/Colors.js";
 import CheckBox from "@react-native-community/checkbox";
 import Contacts from "react-native-contacts";
@@ -49,7 +51,7 @@ class importContact extends Component {
   renderHeader() {
     return (
       <Header
-        title="Import Contacts"
+        title="Import Contact"
         onPress={() => this.props.navigation.openDrawer()}
       />
     );
@@ -144,7 +146,11 @@ class importContact extends Component {
         <TouchableOpacity style={styles.checkboxView} onPress={() => {this.selectAll()}}>
             {this.state.checkedOff == true ? (
                       <View style={styles.checkViewForLight}> 
-                        <Image source={checkedWhite} style={styles.checkedStyle} />
+                        {this.props.theme.mode === "light" ? 
+                       <Image source={checkedWhite} style={styles.checkedStyle} /> 
+                       :
+                       <Image source={checkedModified} style={styles.checkedStyle} /> 
+                      }
                       </View>
                     ) : (
                       <View style={styles.checkView}></View>
@@ -183,7 +189,7 @@ class importContact extends Component {
   renderLast() {
     return (
       <View style={{ alignItems: "center", flex: 1,}}>
-           <View style={{ flex: 1, bottom: 10, position: "absolute" }}>
+           <View style={{ flex: 1, bottom: 40, position: "absolute" }}>
           <TouchableOpacity
             style={styles.Whiteview}
             onPress={this.importnavigate}

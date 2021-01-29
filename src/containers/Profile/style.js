@@ -489,9 +489,9 @@ export default StyleSheet.create({
     alignItems:'flex-end',
     justifyContent:'flex-end',
     position:'absolute',
-    bottom: width * 0.93,
+    bottom: width * 0.23,
     flexDirection:'row',
-    right:0
+    right:25
   },
   content: {
     width: width * 0.4,

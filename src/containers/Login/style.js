@@ -191,7 +191,7 @@ export default StyleSheet.create({
     marginLeft: Metrics.baseMargin,
     width: width * 0.62,
     color: COLORS.main_text_color,
-  //  borderWidth:1,
+    //borderWidth:1,
   
  },
  uText1 :{
@@ -200,11 +200,11 @@ export default StyleSheet.create({
   marginLeft: Metrics.baseMargin,
    width: width * 0.62,
   color:COLORS.main_text_color,
-  marginBottom :Metrics.baseMargin,
-  
+  marginBottom :Metrics.smallMargin,
+ 
 },
  emailText: {
-  fontSize: width * 0.025,
+  fontSize: width * 0.02,
   fontFamily: Font.medium,
   justifyContent: "center",
   alignItems: "center",

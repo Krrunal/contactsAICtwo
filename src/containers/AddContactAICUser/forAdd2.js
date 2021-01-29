@@ -55,7 +55,7 @@ class forAdd2 extends Component {
   renderHeader() {
     return (
       <Header
-        title="Add Contacts AIC User(s)"
+        title="Add Contacts AIC User"
         onPress={() => this.props.navigation.openDrawer()}
       />
     );
@@ -160,7 +160,7 @@ class forAdd2 extends Component {
         <View
           style={{
             flex: 1,
-            bottom: 30,
+            bottom: 40,
             position: "absolute",
             flexDirection: "row",
           }}

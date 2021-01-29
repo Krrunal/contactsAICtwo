@@ -25,7 +25,7 @@ export default StyleSheet.create({
     width: width * 0.9,
     marginTop: Metrics.baseMargin,
     borderColor: COLORS.main_text_color,
-    height: height * 0.15,
+    //height: height * 0.15,
     borderRadius: 10,
   },
 
@@ -117,6 +117,7 @@ export default StyleSheet.create({
     alignItems: "center",
     width: width * 0.25,
     borderRadius: 5,
+   
   },
   acceptText: {
     fontSize: width * 0.034,
@@ -163,7 +164,7 @@ export default StyleSheet.create({
     width: width * 0.9,
     marginTop: Metrics.baseMargin,
     borderColor: COLORS.main_text_color,
-    height: height * 0.25,
+   // height: height * 0.25,
     borderRadius: 10,
   }
 

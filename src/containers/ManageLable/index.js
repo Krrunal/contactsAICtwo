@@ -124,6 +124,7 @@ class ManageLable extends Component {
       checked_email_1: false,
       checked_email_2: false,
       checked_address: false,
+      checked_address2:false,
       checked_messagner_1: false,
       checked_messagner_2: false,
       checked_social_media_1: false,
@@ -919,17 +920,8 @@ class ManageLable extends Component {
       this.setState({ checked_phone_1: true });
     }
   };
-  onChangeNumber_1 = ({
-    dialCode,
-    unmaskedPhoneNumber,
-    phoneNumber,
-    isVerified,
-  }) => {
-    if (isVerified == true) {
-      this.setState({ phone_1: unmaskedPhoneNumber });
-    } else {
-      this.setState({ phone_1: unmaskedPhoneNumber });
-    }
+  onChangeNumber_1 = (value) => {
+    this.setState({ phone_1: value });
   };
 
   phone_2_submit = () => {
@@ -1004,7 +996,19 @@ class ManageLable extends Component {
               </View>
             
               <View style={{ }}>
-                <IntlPhoneInput
+              <TextInput
+                placeholder="Phone Number"
+                style={styles.stylefiledText}
+                placeholderTextColor={COLORS.main_text_color}
+                // value={this.state.email_1}
+                onChangeText={(value) => this.onChangeNumber_1(value)}
+                keyboardType={"numeric"}
+                ref={(input) => {
+                  this.email_1 = input;
+                }}
+                editable={this.state.status == true ? true : false}
+              />
+                {/* <IntlPhoneInput
                   containerStyle={{
                     width: width * 0.52,
                     height: height * 0.05,
@@ -1021,14 +1025,14 @@ class ManageLable extends Component {
                   keyboardType={"numeric"}
                   onChangeText={this.onChangeNumber_1}
                   isShowLabelManually={false}
-                />
+                /> */}
               </View>
             </View>
           </View>
         ) : (
           <View style={styles.smallView}>
             <View style={styles.filedView}>
-              <Text style={styles.stylefiledText}>Phone Number -1</Text>
+              <Text style={styles.stylefiledText}>Phone Number </Text>
               <View style={styles.rightView}>
                 <Text style={styles.righttext}>Personal(Mobile)</Text>
               </View>
@@ -1139,7 +1143,15 @@ class ManageLable extends Component {
       this.setState({ checked_address: true });
     }
   };
-
+  address_submit2 = () =>{
+    const { checked_address2 } = this.state;
+    if (checked_address2 == true) {
+      this.setState({ checked_address2: false });
+      this.setState({ 2: "" });
+    } else {
+      this.setState({ checked_address2: true });
+    }
+  }
   onChangeAddress = (value) => {
     this.state.address.address = value;
     this.setState({ address: this.state.address });
@@ -1226,8 +1238,8 @@ class ManageLable extends Component {
         {this.state.status ? (
           <View style={{ flexDirection: "row" }}>
             <CheckBox
-              value={this.state.checked_address}
-              onValueChange={this.address_submit}
+              value={this.state.checked_address2}
+              onValueChange={this.address_submit2}
               tintColors={{ true: "#1374A3", false: "#1374A3" }}
             />
           <View style={styles.addressFieldContainerAddress}>
@@ -1251,7 +1263,7 @@ class ManageLable extends Component {
                   this.address2 = input;
                 }}
                 multiline={true}
-                editable={this.state.checked_address == false ? false : true}
+                editable={this.state.checked_address2 == false ? false : true}
               />
              
             </View>
@@ -1636,6 +1648,7 @@ class ManageLable extends Component {
   };
   showDateTimePicker = () => {
     {
+      
       this.setState({ isVisible: true });
     }
   };
@@ -1677,7 +1690,7 @@ class ManageLable extends Component {
                     </View>
               </View>
             
-              <TouchableOpacity onPress={this.showDateTimePicker}>
+              <TouchableOpacity onPress={this.state.checked_date == true ? this.showDateTimePicker :null}>
                 {this.state.isVisible == false && this.state.date.date == "" ? (
                   <View style={styles.dateView}>
                     <Text style={styles.dateText}>Date</Text>
@@ -2021,7 +2034,7 @@ class ManageLable extends Component {
             />
             <View style={styles.workView}>
               <View style={styles.LeftView}>
-                <Image source={checked} style={styles.checkedIcon} />
+                {/* <Image source={checked} style={styles.checkedIcon} /> */}
                 <View style={{ flexDirection: "row", alignItems: "center" }}>
                   <Text
                     style={[
@@ -2036,9 +2049,9 @@ class ManageLable extends Component {
                       placeholder="7:00AM"
                       placeholderTextColor={COLORS.main_text_color}
                       style={styles.timeText}
-                      value={this.state.work_hour.monday.first}
+                     // value={this.state.work_hour.monday.first}
                       onChangeText={(value) => this.onChangeMonday(value)}
-                     
+                      editable={this.state.checked_work_hours == false ? false : true}
                     />
                   </View>
                   <Text
@@ -2054,9 +2067,9 @@ class ManageLable extends Component {
                       placeholder="3:30AM"
                       placeholderTextColor={COLORS.main_text_color}
                       style={styles.timeText}
-                      value={this.state.work_hour.monday.to}
+                      //value={this.state.work_hour.monday.to}
                       onChangeText={(value) => this.onChangeMondayTo(value)}
-                     
+                      editable={this.state.checked_work_hours == false ? false : true}
                     />
                   </View>
                 </View>
@@ -2074,9 +2087,9 @@ class ManageLable extends Component {
                       placeholder="7:00AM"
                       placeholderTextColor={COLORS.main_text_color}
                       style={styles.timeText}
-                      value={this.state.work_hour.tuesday.first}
+                      //value={this.state.work_hour.tuesday.first}
                       onChangeText={(value) => this.onChangeTuesday(value)}
-                   
+                      editable={this.state.checked_work_hours == false ? false : true}
                     />
                   </View>
                   <Text
@@ -2092,9 +2105,9 @@ class ManageLable extends Component {
                       placeholder="3:30AM"
                       placeholderTextColor={COLORS.main_text_color}
                       style={styles.timeText}
-                      value={this.state.work_hour.tuesday.to}
+                     // value={this.state.work_hour.tuesday.to}
                       onChangeText={(value) => this.onChangeTuesdayTo(value)}
-                     
+                      editable={this.state.checked_work_hours == false ? false : true}
                     />
                   </View>
                 </View>
@@ -2112,9 +2125,9 @@ class ManageLable extends Component {
                       placeholder="7:00AM"
                       placeholderTextColor={COLORS.main_text_color}
                       style={styles.timeText}
-                      value={this.state.work_hour.wednesday.first}
+                    //  value={this.state.work_hour.wednesday.first}
                       onChangeText={(value) => this.onChangeWednesday(value)}
-                     
+                      editable={this.state.checked_work_hours == false ? false : true}
                     />
                   </View>
                   <Text
@@ -2130,9 +2143,9 @@ class ManageLable extends Component {
                       placeholder="3:30AM"
                       placeholderTextColor={COLORS.main_text_color}
                       style={styles.timeText}
-                      value={this.state.work_hour.wednesday.to}
+                      //value={this.state.work_hour.wednesday.to}
                       onChangeText={(value) => this.onChangeWednesdayTo(value)}
-                     
+                      editable={this.state.checked_work_hours == false ? false : true}
                     />
                   </View>
                 </View>
@@ -2150,9 +2163,9 @@ class ManageLable extends Component {
                       placeholder="7:00AM"
                       placeholderTextColor={COLORS.main_text_color}
                       style={styles.timeText}
-                      value={this.state.work_hour.thursday.first}
+                     // value={this.state.work_hour.thursday.first}
                       onChangeText={(value) => this.onChangeThursday(value)}
-                     
+                      editable={this.state.checked_work_hours == false ? false : true}
                     />
                   </View>
                   <Text
@@ -2168,9 +2181,9 @@ class ManageLable extends Component {
                       placeholder="3:30AM"
                       placeholderTextColor={COLORS.main_text_color}
                       style={styles.timeText}
-                      value={this.state.work_hour.thursday.to}
+                      //value={this.state.work_hour.thursday.to}
                       onChangeText={(value) => this.onChangeThursdayTo(value)}
-                      
+                      editable={this.state.checked_work_hours == false ? false : true}
                     />
                   </View>
                 </View>
@@ -2188,9 +2201,9 @@ class ManageLable extends Component {
                       placeholder="7:00AM"
                       placeholderTextColor={COLORS.main_text_color}
                       style={styles.timeText}
-                      value={this.state.work_hour.friday.first}
+                     // value={this.state.work_hour.friday.first}
                       onChangeText={(value) => this.onChangeFriday(value)}
-                      
+                      editable={this.state.checked_work_hours == false ? false : true}
                     />
                   </View>
                   <Text
@@ -2206,9 +2219,9 @@ class ManageLable extends Component {
                       placeholder="3:30AM"
                       placeholderTextColor={COLORS.main_text_color}
                       style={styles.timeText}
-                      value={this.state.work_hour.friday.to}
+                     // value={this.state.work_hour.friday.to}
                       onChangeText={(value) => this.onChangeFridayTo(value)}
-                    
+                      editable={this.state.checked_work_hours == false ? false : true}
                     />
                   </View>
                 </View>
@@ -2226,9 +2239,9 @@ class ManageLable extends Component {
                       placeholder="OFF"
                       placeholderTextColor={COLORS.main_text_color}
                       style={styles.timeText}
-                      value={this.state.work_hour.saturday.first}
+                     // value={this.state.work_hour.saturday.first}
                       onChangeText={(value) => this.onChangeSaturday(value)}
-                     
+                      editable={this.state.checked_work_hours == false ? false : true}
                     />
                   </View>
                   <Text
@@ -2244,9 +2257,9 @@ class ManageLable extends Component {
                       placeholder="OFF"
                       placeholderTextColor={COLORS.main_text_color}
                       style={styles.timeText}
-                      value={this.state.work_hour.saturday.to}
+                    //  value={this.state.work_hour.saturday.to}
                       onChangeText={(value) => this.onChangeSaturdayTo(value)}
-                    
+                      editable={this.state.checked_work_hours == false ? false : true}
                     />
                   </View>
                 </View>
@@ -2264,9 +2277,9 @@ class ManageLable extends Component {
                       placeholder="OFF"
                       placeholderTextColor={COLORS.main_text_color}
                       style={styles.timeText}
-                      value={this.state.work_hour.sunday.first}
+                     // value={this.state.work_hour.sunday.first}
                       onChangeText={(value) => this.onChangeSunday(value)}
-                      
+                      editable={this.state.checked_work_hours == false ? false : true}
                     />
                   </View>
                   <Text
@@ -2282,9 +2295,9 @@ class ManageLable extends Component {
                       placeholder="OFF"
                       placeholderTextColor={COLORS.main_text_color}
                       style={styles.timeText}
-                      value={this.state.work_hour.sunday.to}
+                     // value={this.state.work_hour.sunday.to}
                       onChangeText={(value) => this.onChangeSundayTo(value)}
-                     
+                      editable={this.state.checked_work_hours == false ? false : true}
                     />
                   </View>
                 </View>
@@ -2321,29 +2334,31 @@ class ManageLable extends Component {
                         {this.state.selectItem}
                       </Text>
                     )}
-
-                    <Modal
-                      style={styles.workModal}
-                      visible={this.state.workViewOpen}
-                      transparent={true}
-                      animationType="fade"
-                      onRequestClose={() =>
-                        this.setState({ workViewOpen : false })
-                      }
-                    >
-                      <View style={styles.workModalView}>
-                        <View style={styles.content}>
-                          <FlatList
-                            refreshing={true}
-                            keyExtractor={(item, index) => index.toString()}
-                            data={this.state.tzs}
-                            extraData={this.state}
-                            numColumns={1}
-                            renderItem={this.renderItem.bind(this)}
-                          />
-                        </View>
-                      </View>
-                    </Modal>
+                {this.state.checked_work_hours ==  true ? 
+                 <Modal
+                 style={styles.workModal}
+                 visible={this.state.workViewOpen}
+                 transparent={true}
+                 animationType="fade"
+                 onRequestClose={() =>
+                   this.setState({ workViewOpen : false })
+                 }
+               >
+                 <View style={styles.workModalView}>
+                   <View style={styles.content}>
+                     <FlatList
+                       refreshing={true}
+                       keyExtractor={(item, index) => index.toString()}
+                       data={this.state.tzs}
+                       extraData={this.state}
+                       numColumns={1}
+                       renderItem={this.renderItem.bind(this)}
+                     />
+                   </View>
+                 </View>
+               </Modal>: 
+               null } 
+                   
                   </TouchableOpacity>
                 </View>
               </View>

@@ -46,7 +46,7 @@ class display extends Component {
     checked6: false,
     checked7: false,
     isVisible:false,
-    notificationTime: moment(),
+    //notificationTime: moment(),
     dob:"",
     weddingDate:"",
     notificationTitle: 'Birthday Notification',
@@ -56,11 +56,10 @@ class display extends Component {
     notifyData: {}
   };
 
-  componentDidMount = () => {
-    const { username } = this.props;
-
-     fcmService.register(this.onRegister, this.onNotification, this.onOpenNotification)
-   
+  componentDidMount = async () => {
+    
+   const { username } = this.props;
+    fcmService.register(this.onRegister, this.onNotification, this.onOpenNotification)
     firebase
     .firestore()
     .collection("user")
@@ -68,11 +67,11 @@ class display extends Component {
     .get()
     .then((snap) => {
       var item = snap._data;
-     
+      console.log("Wedding--->",item.weddingForNotify);
       this.setState({ dob: item.notificationTime });
-      this.setState({ weddingDate: item.weddingDate });
+      this.setState({ weddingDate: item.weddingForNotify });
       console.log("snap--->",this.state.dob);
-      console.log("Wedding--->",this.state.weddingDate);
+     
     })
     
     {
@@ -164,7 +163,7 @@ class display extends Component {
   }
 
   setReminder = () => {
-   const {dob} = this.state;
+     const {dob} = this.state;
     const { notificationDescription, notificationTitle } = this.state
     let body = {
       _title: notificationTitle,
@@ -177,6 +176,8 @@ class display extends Component {
       time: dob
     }
     this.scheduleReminder(body)
+     
+  
   };
   setReminder2 = () => {
     const {weddingDate} = this.state;

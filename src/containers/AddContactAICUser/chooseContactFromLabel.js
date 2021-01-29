@@ -28,6 +28,7 @@ import plus from "../../assets/images/plus.png";
 import styles from "./chooseContactFromLabelStyle.js";
 import { switchTheme } from "../../action/themeAction";
 import checkedWhite from  "../../assets/icons/checkedWhite.png";
+import checkedModified from  "../../assets/icons/checkedModified.png";
 
 var { width, height } = Dimensions.get("window");
 
@@ -180,7 +181,7 @@ class chooseContactFromLabel extends Component {
   renderHeader() {
     return (
       <Header
-        title="Add Contacts AIC User(s)"
+        title="Add Contacts AIC User"
         onPress={() => this.props.navigation.openDrawer()}
       />
     );
@@ -197,7 +198,11 @@ renderMiddle() {
           >
             {this.state.checkedOff == true ? (
               <View style={styles.checkViewForLight}>
-                <Image source={checkedWhite} style={styles.checkedStyle} />
+                 {this.props.theme.mode === "light" ? 
+                       <Image source={checkedWhite} style={styles.checkedStyle} /> 
+                       :
+                       <Image source={checkedModified} style={styles.checkedStyle} /> 
+                      }
               </View>
             ) : (
               <View style={styles.checkView}></View>
@@ -301,7 +306,7 @@ renderMiddle() {
         <View
           style={{
             flex: 1,
-            bottom: 20,
+            bottom: 150,
             position: "absolute",
             flexDirection: "row",
           }}
@@ -317,7 +322,7 @@ renderMiddle() {
                 fontSize: width * 0.045,
               }}
             >
-              Next
+              Add Contact
             </Text>
           </TouchableOpacity>
         </View>
