@@ -8,7 +8,6 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="068b04d3-d4a5-49c3-ba1b-31ccb07c99bf" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/../App.js" beforeDir="false" afterPath="$PROJECT_DIR$/../App.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/6.3/executionHistory/executionHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/6.3/executionHistory/executionHistory.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/6.3/executionHistory/executionHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/6.3/executionHistory/executionHistory.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/6.3/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/6.3/fileHashes/fileHashes.bin" afterDir="false" />
@@ -19,7 +18,6 @@
       <change beforePath="$PROJECT_DIR$/.gradle/checksums/checksums.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/checksums/checksums.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/caches/build_file_checksums.ser" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/caches/build_file_checksums.ser" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/app/build.gradle" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/build/intermediates/incremental/mergeDebugResources/compile-file-map.properties" beforeDir="false" afterPath="$PROJECT_DIR$/app/build/intermediates/incremental/mergeDebugResources/compile-file-map.properties" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/build/intermediates/incremental/packageDebug/tmp/debug/dex-renamer-state.txt" beforeDir="false" afterPath="$PROJECT_DIR$/app/build/intermediates/incremental/packageDebug/tmp/debug/dex-renamer-state.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/build/intermediates/incremental/packageDebug/tmp/debug/zip-cache/javaResources0" beforeDir="false" afterPath="$PROJECT_DIR$/app/build/intermediates/incremental/packageDebug/tmp/debug/zip-cache/javaResources0" afterDir="false" />
@@ -27,30 +25,6 @@
       <change beforePath="$PROJECT_DIR$/app/build/intermediates/merged_java_res/debug/out.jar" beforeDir="false" afterPath="$PROJECT_DIR$/app/build/intermediates/merged_java_res/debug/out.jar" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/build/outputs/apk/debug/app-debug.apk" beforeDir="false" afterPath="$PROJECT_DIR$/app/build/outputs/apk/debug/app-debug.apk" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/assets/index.android.bundle" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/assets/index.android.bundle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../ios/Podfile" beforeDir="false" afterPath="$PROJECT_DIR$/../ios/Podfile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../ios/Podfile.lock" beforeDir="false" afterPath="$PROJECT_DIR$/../ios/Podfile.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../ios/Pods/Manifest.lock" beforeDir="false" afterPath="$PROJECT_DIR$/../ios/Pods/Manifest.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../ios/Pods/Pods.xcodeproj/project.pbxproj" beforeDir="false" afterPath="$PROJECT_DIR$/../ios/Pods/Pods.xcodeproj/project.pbxproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../ios/Pods/Pods.xcodeproj/xcuserdata/macmini.xcuserdatad/xcschemes/xcschememanagement.plist" beforeDir="false" afterPath="$PROJECT_DIR$/../ios/Pods/Pods.xcodeproj/xcuserdata/macmini.xcuserdatad/xcschemes/xcschememanagement.plist" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../ios/Pods/Target Support Files/Firebase/Firebase.debug.xcconfig" beforeDir="false" afterPath="$PROJECT_DIR$/../ios/Pods/Target Support Files/Firebase/Firebase.debug.xcconfig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../ios/Pods/Target Support Files/Firebase/Firebase.release.xcconfig" beforeDir="false" afterPath="$PROJECT_DIR$/../ios/Pods/Target Support Files/Firebase/Firebase.release.xcconfig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../ios/Pods/Target Support Files/Pods-contactsAIC-contactsAICTests/Pods-contactsAIC-contactsAICTests-acknowledgements.markdown" beforeDir="false" afterPath="$PROJECT_DIR$/../ios/Pods/Target Support Files/Pods-contactsAIC-contactsAICTests/Pods-contactsAIC-contactsAICTests-acknowledgements.markdown" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../ios/Pods/Target Support Files/Pods-contactsAIC-contactsAICTests/Pods-contactsAIC-contactsAICTests-acknowledgements.plist" beforeDir="false" afterPath="$PROJECT_DIR$/../ios/Pods/Target Support Files/Pods-contactsAIC-contactsAICTests/Pods-contactsAIC-contactsAICTests-acknowledgements.plist" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../ios/Pods/Target Support Files/Pods-contactsAIC-contactsAICTests/Pods-contactsAIC-contactsAICTests-resources.sh" beforeDir="false" afterPath="$PROJECT_DIR$/../ios/Pods/Target Support Files/Pods-contactsAIC-contactsAICTests/Pods-contactsAIC-contactsAICTests-resources.sh" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../ios/Pods/Target Support Files/Pods-contactsAIC-contactsAICTests/Pods-contactsAIC-contactsAICTests.debug.xcconfig" beforeDir="false" afterPath="$PROJECT_DIR$/../ios/Pods/Target Support Files/Pods-contactsAIC-contactsAICTests/Pods-contactsAIC-contactsAICTests.debug.xcconfig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../ios/Pods/Target Support Files/Pods-contactsAIC-contactsAICTests/Pods-contactsAIC-contactsAICTests.release.xcconfig" beforeDir="false" afterPath="$PROJECT_DIR$/../ios/Pods/Target Support Files/Pods-contactsAIC-contactsAICTests/Pods-contactsAIC-contactsAICTests.release.xcconfig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../ios/Pods/Target Support Files/Pods-contactsAIC-tvOS/Pods-contactsAIC-tvOS.debug.xcconfig" beforeDir="false" afterPath="$PROJECT_DIR$/../ios/Pods/Target Support Files/Pods-contactsAIC-tvOS/Pods-contactsAIC-tvOS.debug.xcconfig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../ios/Pods/Target Support Files/Pods-contactsAIC-tvOS/Pods-contactsAIC-tvOS.release.xcconfig" beforeDir="false" afterPath="$PROJECT_DIR$/../ios/Pods/Target Support Files/Pods-contactsAIC-tvOS/Pods-contactsAIC-tvOS.release.xcconfig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../ios/Pods/Target Support Files/Pods-contactsAIC-tvOSTests/Pods-contactsAIC-tvOSTests.debug.xcconfig" beforeDir="false" afterPath="$PROJECT_DIR$/../ios/Pods/Target Support Files/Pods-contactsAIC-tvOSTests/Pods-contactsAIC-tvOSTests.debug.xcconfig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../ios/Pods/Target Support Files/Pods-contactsAIC-tvOSTests/Pods-contactsAIC-tvOSTests.release.xcconfig" beforeDir="false" afterPath="$PROJECT_DIR$/../ios/Pods/Target Support Files/Pods-contactsAIC-tvOSTests/Pods-contactsAIC-tvOSTests.release.xcconfig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../ios/Pods/Target Support Files/Pods-contactsAIC/Pods-contactsAIC-acknowledgements.markdown" beforeDir="false" afterPath="$PROJECT_DIR$/../ios/Pods/Target Support Files/Pods-contactsAIC/Pods-contactsAIC-acknowledgements.markdown" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../ios/Pods/Target Support Files/Pods-contactsAIC/Pods-contactsAIC-acknowledgements.plist" beforeDir="false" afterPath="$PROJECT_DIR$/../ios/Pods/Target Support Files/Pods-contactsAIC/Pods-contactsAIC-acknowledgements.plist" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../ios/Pods/Target Support Files/Pods-contactsAIC/Pods-contactsAIC-resources.sh" beforeDir="false" afterPath="$PROJECT_DIR$/../ios/Pods/Target Support Files/Pods-contactsAIC/Pods-contactsAIC-resources.sh" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../ios/Pods/Target Support Files/Pods-contactsAIC/Pods-contactsAIC.debug.xcconfig" beforeDir="false" afterPath="$PROJECT_DIR$/../ios/Pods/Target Support Files/Pods-contactsAIC/Pods-contactsAIC.debug.xcconfig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../ios/Pods/Target Support Files/Pods-contactsAIC/Pods-contactsAIC.release.xcconfig" beforeDir="false" afterPath="$PROJECT_DIR$/../ios/Pods/Target Support Files/Pods-contactsAIC/Pods-contactsAIC.release.xcconfig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../ios/Pods/Target Support Files/RNFirebase/RNFirebase.debug.xcconfig" beforeDir="false" afterPath="$PROJECT_DIR$/../ios/Pods/Target Support Files/RNFirebase/RNFirebase.debug.xcconfig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../ios/Pods/Target Support Files/RNFirebase/RNFirebase.release.xcconfig" beforeDir="false" afterPath="$PROJECT_DIR$/../ios/Pods/Target Support Files/RNFirebase/RNFirebase.release.xcconfig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../ios/contactsAIC.xcodeproj/project.pbxproj" beforeDir="false" afterPath="$PROJECT_DIR$/../ios/contactsAIC.xcodeproj/project.pbxproj" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../ios/contactsAIC.xcworkspace/xcuserdata/macmini.xcuserdatad/UserInterfaceState.xcuserstate" beforeDir="false" afterPath="$PROJECT_DIR$/../ios/contactsAIC.xcworkspace/xcuserdata/macmini.xcuserdatad/UserInterfaceState.xcuserstate" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../node_modules/@notifee/react-native/android/build/intermediates/incremental/packageDebugResources/compile-file-map.properties" beforeDir="false" afterPath="$PROJECT_DIR$/../node_modules/@notifee/react-native/android/build/intermediates/incremental/packageDebugResources/compile-file-map.properties" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../node_modules/@react-native-community/async-storage/android/build/intermediates/incremental/packageDebugResources/compile-file-map.properties" beforeDir="false" afterPath="$PROJECT_DIR$/../node_modules/@react-native-community/async-storage/android/build/intermediates/incremental/packageDebugResources/compile-file-map.properties" afterDir="false" />
@@ -74,32 +48,11 @@
       <change beforePath="$PROJECT_DIR$/../node_modules/react-native-svg/android/build/intermediates/incremental/packageDebugResources/compile-file-map.properties" beforeDir="false" afterPath="$PROJECT_DIR$/../node_modules/react-native-svg/android/build/intermediates/incremental/packageDebugResources/compile-file-map.properties" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../node_modules/react-native-timezone/android/build/intermediates/incremental/packageDebugResources/compile-file-map.properties" beforeDir="false" afterPath="$PROJECT_DIR$/../node_modules/react-native-timezone/android/build/intermediates/incremental/packageDebugResources/compile-file-map.properties" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../node_modules/react-native-vector-icons/android/build/intermediates/incremental/packageDebugResources/compile-file-map.properties" beforeDir="false" afterPath="$PROJECT_DIR$/../node_modules/react-native-vector-icons/android/build/intermediates/incremental/packageDebugResources/compile-file-map.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/action/Authactions.js" beforeDir="false" afterPath="$PROJECT_DIR$/../src/action/Authactions.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/action/types.js" beforeDir="false" afterPath="$PROJECT_DIR$/../src/action/types.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/components/InputCard.js" beforeDir="false" afterPath="$PROJECT_DIR$/../src/components/InputCard.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/components/drawerNavigation/DrawerContent.js" beforeDir="false" afterPath="$PROJECT_DIR$/../src/components/drawerNavigation/DrawerContent.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/components/drawerNavigation/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/../src/components/drawerNavigation/app.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/containers/AddContact/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/../src/containers/AddContact/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/containers/AddContactAICUser/afterRequestSend.js" beforeDir="false" afterPath="$PROJECT_DIR$/../src/containers/AddContactAICUser/afterRequestSend.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/containers/AddContactAICUser/chooseContactFromLabel.js" beforeDir="false" afterPath="$PROJECT_DIR$/../src/containers/AddContactAICUser/chooseContactFromLabel.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/containers/ImportContacts/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/../src/containers/ImportContacts/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/containers/InviteContacts/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/../src/containers/InviteContacts/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/containers/Login/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/../src/containers/Login/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/containers/ManageLable/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/../src/containers/ManageLable/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/containers/ManuallyContact/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/../src/containers/ManuallyContact/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/containers/MyContactInformation/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/../src/containers/MyContactInformation/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/containers/MyContactInformation/style.js" beforeDir="false" afterPath="$PROJECT_DIR$/../src/containers/MyContactInformation/style.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/containers/PndingRequests/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/../src/containers/PndingRequests/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/containers/PndingRequests/style.js" beforeDir="false" afterPath="$PROJECT_DIR$/../src/containers/PndingRequests/style.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../src/containers/Profile/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/../src/containers/Profile/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../src/containers/Profile/style.js" beforeDir="false" afterPath="$PROJECT_DIR$/../src/containers/Profile/style.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../src/containers/SearchEditContact/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/../src/containers/SearchEditContact/index.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../src/containers/SearchEditContact/style.js" beforeDir="false" afterPath="$PROJECT_DIR$/../src/containers/SearchEditContact/style.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/containers/Share/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/../src/containers/Share/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/containers/Signup/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/../src/containers/Signup/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/containers/SplashScreen/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/../src/containers/SplashScreen/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/containers/theme/Metrics.js" beforeDir="false" afterPath="$PROJECT_DIR$/../src/containers/theme/Metrics.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/reducer/loginReducer.js" beforeDir="false" afterPath="$PROJECT_DIR$/../src/reducer/loginReducer.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/services/FirebaseDatabase/importContacToFirebase.js" beforeDir="false" afterPath="$PROJECT_DIR$/../src/services/FirebaseDatabase/importContacToFirebase.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/services/FirebaseDatabase/manualContactToFirebase.js" beforeDir="false" afterPath="$PROJECT_DIR$/../src/services/FirebaseDatabase/manualContactToFirebase.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../src/services/FirebaseDatabase/addAfterSignup.js" beforeDir="false" afterPath="$PROJECT_DIR$/../src/services/FirebaseDatabase/addAfterSignup.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -432,13 +385,13 @@
       <screen x="0" y="23" width="1920" height="987" />
     </state>
     <state x="267" y="133" width="1004" height="748" key="com.android.tools.idea.avdmanager.AvdListDialog/0.23.1920.987@0.23.1920.987" timestamp="1606986450706" />
-    <state x="609" y="349" key="com.intellij.ide.util.TipDialog" timestamp="1612417873080">
-      <screen x="0" y="23" width="1920" height="988" />
+    <state x="609" y="348" key="com.intellij.ide.util.TipDialog" timestamp="1612428700546">
+      <screen x="0" y="23" width="1920" height="984" />
     </state>
     <state x="609" y="346" key="com.intellij.ide.util.TipDialog/0.23.1920.980@0.23.1920.980" timestamp="1611754351876" />
     <state x="609" y="347" key="com.intellij.ide.util.TipDialog/0.23.1920.982@0.23.1920.982" timestamp="1610424189476" />
     <state x="609" y="348" key="com.intellij.ide.util.TipDialog/0.23.1920.983@0.23.1920.983" timestamp="1607521094800" />
-    <state x="609" y="348" key="com.intellij.ide.util.TipDialog/0.23.1920.984@0.23.1920.984" timestamp="1611838933970" />
+    <state x="609" y="348" key="com.intellij.ide.util.TipDialog/0.23.1920.984@0.23.1920.984" timestamp="1612428700546" />
     <state x="609" y="348" key="com.intellij.ide.util.TipDialog/0.23.1920.986@0.23.1920.986" timestamp="1612353908145" />
     <state x="609" y="349" key="com.intellij.ide.util.TipDialog/0.23.1920.987@0.23.1920.987" timestamp="1607335232589" />
     <state x="609" y="349" key="com.intellij.ide.util.TipDialog/0.23.1920.988@0.23.1920.988" timestamp="1612417873080" />

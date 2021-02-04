@@ -8,7 +8,7 @@ import {
   TextInput,
   TouchableHighlight,
   TouchableOpacity,
-  View
+  View,
 } from "react-native";
 import React, { Component, useState } from "react";
 import { Title, connectStyle } from "native-base";
@@ -274,7 +274,7 @@ class searchContact extends Component {
               },
             ]}
           >
-            {item.user_name || item.first_name}    {item.last_name}
+            {item.user_name || item.first_name} {item.last_name}
           </Text>
         ) : (
           <Text
@@ -285,7 +285,7 @@ class searchContact extends Component {
               },
             ]}
           >
-            {item.last_name}   {item.user_name || item.first_name}
+            {item.last_name} {item.user_name || item.first_name}
           </Text>
         )}
 
@@ -360,6 +360,36 @@ class searchContact extends Component {
             {item.first_name} {item.last_name}
           </Text>
         </View>
+        
+          <View>
+            <View style={{marginLeft:Metrics.smallMargin,flexDirection:'row'}}>
+              {item.profile_image == "" ? null :
+              <View style={{marginLeft:Metrics.smallMargin}}>
+              <Image
+                  source={{ uri: item.profile_image }}
+                  style={styles.profileImage2}
+                />
+                </View>
+              }
+              {item.profile_image2 == "" ? null :
+               <View style={{marginLeft:Metrics.smallMargin}}>
+              <Image
+                  source={{ uri: item.profile_image2 }}
+                  style={styles.profileImage2}
+                />
+                </View>
+              }
+          {item.profile_image3 == "" ? null :
+              <View style={{marginLeft:Metrics.smallMargin}}>
+              <Image
+                  source={{ uri: item.profile_image3 }}
+                  style={styles.profileImage2}
+                />
+                </View>
+              }
+            </View>
+          </View>
+       
         {item.first_name == "" ? null : (
           <Text style={[styles.midName, { marginLeft: Metrics.baseMargin }]}>
             First Name :
@@ -384,17 +414,36 @@ class searchContact extends Component {
             <Text style={[styles.personName]}> {item.nick_name} </Text>
           </Text>
         )}
-        {item.number1.number == "" ? null : (
-          <Text style={[styles.midName, { marginLeft: Metrics.baseMargin }]}>
-            Number :
-            <Text style={[styles.personName]}>
-              {item.number1.number} (
-              {item.number1.label !== "" ? item.number1.label : null})
+         {item.number1.number == "" ? null : (
+           <Text style={[styles.midName, { marginLeft: Metrics.baseMargin }]}>
+                Number :
+            <Text style={[styles.personName]}> {item.number1.number} 
+            {item.number1.label !== "" ? 
+                <Text>
+                   ({ item.number1.label})
+                </Text>
+             : null}
             </Text>
           </Text>
         )}
+        {item.number.number == "" || item.number == ""
+          ? null
+          : item.number.map((item, i) => (
+              <Text
+                style={[styles.midName, { marginLeft: Metrics.baseMargin }]}
+              >
+                Number :<Text style={[styles.personName]}>{item.number}</Text>
+                {item.label !== "" ? (
+                  <Text>
+                   ({item.label})
+                  </Text>
+                  ) 
+                  
+                  : null}
+              </Text>
+            )) }
 
-        {item.email1.email == "" ? null : (
+        {item.email1.email == "" || item.email1 == "" ? null : (
           <Text style={[styles.midName, { marginLeft: Metrics.baseMargin }]}>
             Email :
             <Text style={[styles.personName]}>
@@ -414,12 +463,12 @@ class searchContact extends Component {
                 Website:
                 <Text style={[styles.personName]}>
                   {" "}
-                  {item.email}({item.label !== "" ? item.label : null})
+                  {item.email} {item.label !== "" ? item.label : null}
                 </Text>
               </Text>
             ))}
 
-        {item.address1.address == "" ? null : (
+        {item.address1.address == "" || item.address1 == "" ? null : (
           <Text style={[styles.midName, { marginLeft: Metrics.baseMargin }]}>
             Address :
             <Text style={[styles.personName]}>
@@ -443,7 +492,7 @@ class searchContact extends Component {
                 </Text>
               </Text>
             ))}
-        {item.messenger1 == "" ? null : (
+        {item.messenger1 == "" || item.messenger1 == "" ? null : (
           <Text style={[styles.midName, { marginLeft: Metrics.baseMargin }]}>
             Messenger Account :
             <Text style={[styles.personName]}>
@@ -463,12 +512,14 @@ class searchContact extends Component {
                 Messenger Account :
                 <Text style={[styles.personName]}>
                   {" "}
-                  {item.messenger}({item.label !== "" ? item.label : null})
+                  {item.messenger}
+                  {item.label !== "" ? item.label : null}
                 </Text>
               </Text>
             ))}
 
-        {item.social_media1.socialMedia == "" ? null : (
+        {item.social_media1.socialMedia == "" ||
+        item.social_media1 == "" ? null : (
           <Text style={[styles.midName, { marginLeft: Metrics.baseMargin }]}>
             Social Media :
             <Text style={[styles.personName]}>
@@ -495,7 +546,7 @@ class searchContact extends Component {
               </Text>
             ))}
 
-        {item.website.website == "" ? null : (
+        {item.website.website == "" || item.website == "" ? null : (
           <Text style={[styles.midName, { marginLeft: Metrics.baseMargin }]}>
             Website :{" "}
             <Text style={[styles.personName]}>
@@ -550,7 +601,7 @@ class searchContact extends Component {
             ))}
 
         {/* note */}
-        {item.note.note == "" ? null : (
+        {item.note.note == "" || item.note == "" ? null : (
           <Text style={[styles.midName, { marginLeft: Metrics.baseMargin }]}>
             Note :
             <Text style={[styles.personName]}>
@@ -580,7 +631,7 @@ class searchContact extends Component {
             ))}
 
         {/* Company */}
-        {item.company.company == "" ? null : (
+        {item.company.company == "" || item.company == "" ? null : (
           <Text style={[styles.midName, { marginLeft: Metrics.baseMargin }]}>
             Company :
             <Text style={[styles.personName]}>{item.company.company}</Text>
@@ -604,14 +655,14 @@ class searchContact extends Component {
               </View>
             ))}
         {/* JOb Title */}
-        {item.jobTitle.jobTitle == "" ? null : (
+        {item.jobTitle.jobTitle == "" || item.jobTitle == "" ? null : (
           <Text style={[styles.midName, { marginLeft: Metrics.baseMargin }]}>
             Job Title :
             <Text style={[styles.personName]}> {item.jobTitle.jobTitle} </Text>
           </Text>
         )}
 
-        {item.jobTitleArray == ""
+        {item.jobTitleArray == "" || item.jobTitleArray == null
           ? null
           : item.jobTitleArray.map((item, index) => (
               <View>
@@ -629,20 +680,20 @@ class searchContact extends Component {
             ))}
 
         {/* Work hour */}
-        {item.workHours.workHours == "" ? null : (
+        {item.workHours.workHours == "" || item.workHours == "" ? null : (
           <Text style={[styles.midName, { marginLeft: Metrics.baseMargin }]}>
             Work Hours :{" "}
             <Text style={[styles.personName]}> {item.workHours.workHours}</Text>
           </Text>
         )}
-        {item.workHoursArray == ""
+        {item.workHoursArray == "" || item.workHoursArray == null
           ? null
           : item.workHoursArray.map((item, index) => (
               <View>
                 <Text
                   style={[styles.midName, { marginLeft: Metrics.baseMargin }]}
                 >
-                  Job Title :{" "}
+                  Work Hours :{" "}
                   <Text style={[styles.personName]}> {item.workHours} </Text>{" "}
                   <Text style={[styles.personName]}>
                     {" "}
@@ -687,14 +738,14 @@ class searchContact extends Component {
               <View style={styles.workModalView}>
                 <View style={styles.content}>
                   <View style={{}}>
-                  <View style={styles.popupHeader}>
-                            <TouchableHighlight
-                                  onPress= {this.onClose}
-                              underlayColor="#DDDDDD"
-                            >
-                              <Icon name="times" size={30} />
-                            </TouchableHighlight>
-                          </View>
+                    <View style={styles.popupHeader}>
+                      <TouchableHighlight
+                        onPress={this.onClose}
+                        underlayColor="#DDDDDD"
+                      >
+                        <Icon name="times" size={30} />
+                      </TouchableHighlight>
+                    </View>
                     <FlatList
                       refreshing={true}
                       keyExtractor={(item, index) => index.toString()}

@@ -185,44 +185,44 @@ class Profile extends Component {
           this.setState({ profile_image: item.profile_image });
           this.setState({ profile_image2: item.profile_image2 });
           this.setState({ profile_image3: item.profile_image3});
-          this.setState({ number: item.number[0].phone });
-          this.setState({ number1: item.number1[0].phone });
-          this.setState({ number2: item.number2[0].phone });
-          this.setState({ email: item.email[0].email });
-          this.setState({ messanger: item.messenger[0].messenger });
-          this.setState({ instagram: item.socialMedia[0].social });
-          this.setState({ instagram2: item.socialMedia1[0].social });
-          this.setState({ address: item.address[0].address });
-          this.setState({ note: item.note[0].note });
-          this.setState({ website: item.website[0].website });
-          this.setState({ company: item.company[0].company });
-          this.setState({ jobTitle: item.jobTitle[0].jobTitle });
-          this.setState({ date: item.date[0].date });
-          this.setState({ weddingDate: item.weddingDate[0].date });
-          this.setState({ number1Lablel: item.mobileLabel[0].label });
-          this.setState({ emailLabel: item.emailabel[0].label });
-          this.setState({ messengerLabel: item.messengerlabel[0].label });
-          this.setState({ addressLabel: item.addresslabel[0].label });
-          this.setState({ instagramLabel: item.sociallabel[0].label });
-          this.setState({ instagramLabel2: item.sociallabel[1].label });
-          this.setState({ noteLabel: item.notelabel[0].label });
-          this.setState({ websiteLabel: item.websitelabel[0].label });
+          {item.number !== ""  ? this.setState({ number: item.number[0].phone })  : null }
+          // {item.number1 !== "" ? : null}
+         // {item.number1 !== "" ?this.setState({ number1: item.number1[0].phone }) : null}
+          
+         // this.setState({ number2: item.number2[0].phone });
+         {item.email !== "" ?  this.setState({ email: item.email[0].email }): null}
+         {item.messenger !== "" ?  this.setState({ messanger: item.messenger[0].messenger }) : null}
+         {item.socialMedia !== "" ? this.setState({ instagram: item.socialMedia[0].social }) : null}
+         {item.socialMedia1 !== "" ?  this.setState({ instagram2: item.socialMedia1[0].social }) : null}
+         {item.address !== "" ? this.setState({ address: item.address[0].address }) : null}
+         {item.note !== "" ?  this.setState({ note: item.note[0].note }) : null}
+         {item.website !== "" ?  this.setState({ website: item.website[0].website }): null}
+         {item.company !== "" ? this.setState({ company: item.company[0].company }): null}
+         {item.jobTitle !== "" ?  this.setState({ jobTitle: item.jobTitle[0].jobTitle }): null}
+         {item.date !== "" ? this.setState({ date: item.date[0].date })  : null}
+         {item.weddingDate !== "" ?this.setState({ weddingDate: item.weddingDate[0].date }) : null}
+         {item.mobileLabel !== "" ?   this.setState({ number1Lablel: item.mobileLabel[0].label }): null}
+         {item.emailabel !== "" ?  this.setState({ emailLabel: item.emailabel[0].label }): null}
+         {item.messengerlabel !== "" ? this.setState({ messengerLabel: item.messengerlabel[0].label }) : null}
+         {item.addresslabel !== "" ?  this.setState({ addressLabel: item.addresslabel[0].label }) : null}
+         {item.sociallabel !== "" ?  this.setState({ instagramLabel: item.sociallabel[0].label }) : null}
+         {item.sociallabel !== "" ?this.setState({ instagramLabel2: item.sociallabel[1].label }) : null}
+         {item.notelabel !== "" ?  this.setState({ noteLabel: item.notelabel[0].label }) : null}
+         {item.websitelabel !== "" ?this.setState({ websiteLabel: item.websitelabel[0].label }) : null}
+         {item.monday !== "" ? this.setState({ monday: item.monday[0].monday }) : null} 
+         {item.mondayTo !== "" ? this.setState({ mondayTo: item.mondayTo[0].mondayTo }): null}
+         {item.tuesday !== "" ?  this.setState({ tuesday: item.tuesday[0].tuesday }) : null}
+         {item.tuesdayTo !== "" ? this.setState({ tuesdayTo: item.tuesdayTo[0].tuesdayTo }): null}
+         {item.wednesday !== "" ?  this.setState({ wednesday: item.wednesday[0].wednesday }): null}
+         {item.thursday !== "" ?   this.setState({ thursday: item.thursday[0].thursday }): null}
+         {item.thursdayTo !== "" ?  this.setState({ thursdayTo: item.thursdayTo[0].thursdayTo }): null}
+         {item.friday !== "" ?  this.setState({ friday: item.friday[0].friday }): null}
+         {item.saturday !== "" ? this.setState({ saturday: item.saturday[0].saturday }) : null}
+         {item.saturdayTo !== "" ? this.setState({ saturdayTo: item.saturdayTo[0].saturdayTo }): null}
+         {item.sunday !== "" ?  this.setState({ sunday: item.sunday[0].sunday }): null}
+         {item.sundayTo !== "" ? this.setState({ sundayTo: item.sundayTo[0].sundayTo }): null}
           //  this.setState({ datelabel:item.datelabel[0].label});
-          this.setState({ monday: item.monday[0].monday });
-          this.setState({ mondayTo: item.mondayTo[0].mondayTo });
-          this.setState({ tuesday: item.tuesday[0].tuesday });
-          this.setState({ tuesdayTo: item.tuesdayTo[0].tuesdayTo });
-          this.setState({ wednesday: item.wednesday[0].wednesday });
-          this.setState({ wednesdayTo: item.wednesdayTo[0].wednesdayTo });
-          this.setState({ thursday: item.thursday[0].thursday });
-          this.setState({ thursdayTo: item.thursdayTo[0].thursdayTo });
-          this.setState({ friday: item.friday[0].friday });
-          this.setState({ fridayTo: item.fridayTo[0].fridayTo });
-          this.setState({ saturday: item.saturday[0].saturday });
-          this.setState({ saturdayTo: item.saturdayTo[0].saturdayTo });
-          this.setState({ sunday: item.sunday[0].sunday });
-          this.setState({ sundayTo: item.sundayTo[0].sundayTo });
-        });
+          });
     });
   }
   timeZoneField = async () => {

@@ -458,15 +458,15 @@ export default StyleSheet.create({
     fontFamily: Font.regular,
    
   },
-  timeView:{
+  timeView: {
     width: width * 0.14,
-    borderWidth:1,
-    height: width * 0.080,
-    marginLeft:10,
+    borderWidth: 1,
+    height: width * 0.08,
+    marginLeft: 10,
     borderRadius: 4,
-    borderColor:COLORS.main_text_color,
-    justifyContent:'center',
-    alignItems:'center'
+    borderColor: COLORS.main_text_color,
+    justifyContent: "center",
+    alignItems: "center",
   },
   timeText:{
     color: COLORS.main_text_color,

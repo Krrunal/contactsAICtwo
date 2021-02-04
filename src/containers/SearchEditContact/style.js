@@ -164,4 +164,9 @@ popupHeader: {
   marginRight:Metrics.baseMargin,
   marginTop:Metrics.smallMargin
 },
+profileImage2 :{
+  width: width * 0.12,
+      height: width * 0.12,
+      borderRadius: 5,
+}
 });
