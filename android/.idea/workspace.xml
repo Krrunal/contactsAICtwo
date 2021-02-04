@@ -18,6 +18,7 @@
       <change beforePath="$PROJECT_DIR$/.gradle/checksums/checksums.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/checksums/checksums.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/caches/build_file_checksums.ser" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/caches/build_file_checksums.ser" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/app/build.gradle" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/build/intermediates/incremental/mergeDebugResources/compile-file-map.properties" beforeDir="false" afterPath="$PROJECT_DIR$/app/build/intermediates/incremental/mergeDebugResources/compile-file-map.properties" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/build/intermediates/incremental/packageDebug/tmp/debug/dex-renamer-state.txt" beforeDir="false" afterPath="$PROJECT_DIR$/app/build/intermediates/incremental/packageDebug/tmp/debug/dex-renamer-state.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/build/intermediates/incremental/packageDebug/tmp/debug/zip-cache/javaResources0" beforeDir="false" afterPath="$PROJECT_DIR$/app/build/intermediates/incremental/packageDebug/tmp/debug/zip-cache/javaResources0" afterDir="false" />
@@ -25,7 +26,6 @@
       <change beforePath="$PROJECT_DIR$/app/build/intermediates/merged_java_res/debug/out.jar" beforeDir="false" afterPath="$PROJECT_DIR$/app/build/intermediates/merged_java_res/debug/out.jar" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/build/outputs/apk/debug/app-debug.apk" beforeDir="false" afterPath="$PROJECT_DIR$/app/build/outputs/apk/debug/app-debug.apk" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/assets/index.android.bundle" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/assets/index.android.bundle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../ios/contactsAIC.xcworkspace/xcuserdata/macmini.xcuserdatad/UserInterfaceState.xcuserstate" beforeDir="false" afterPath="$PROJECT_DIR$/../ios/contactsAIC.xcworkspace/xcuserdata/macmini.xcuserdatad/UserInterfaceState.xcuserstate" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../node_modules/@notifee/react-native/android/build/intermediates/incremental/packageDebugResources/compile-file-map.properties" beforeDir="false" afterPath="$PROJECT_DIR$/../node_modules/@notifee/react-native/android/build/intermediates/incremental/packageDebugResources/compile-file-map.properties" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../node_modules/@react-native-community/async-storage/android/build/intermediates/incremental/packageDebugResources/compile-file-map.properties" beforeDir="false" afterPath="$PROJECT_DIR$/../node_modules/@react-native-community/async-storage/android/build/intermediates/incremental/packageDebugResources/compile-file-map.properties" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../node_modules/@react-native-community/checkbox/android/build/intermediates/incremental/packageDebugResources/compile-file-map.properties" beforeDir="false" afterPath="$PROJECT_DIR$/../node_modules/@react-native-community/checkbox/android/build/intermediates/incremental/packageDebugResources/compile-file-map.properties" afterDir="false" />
@@ -48,11 +48,8 @@
       <change beforePath="$PROJECT_DIR$/../node_modules/react-native-svg/android/build/intermediates/incremental/packageDebugResources/compile-file-map.properties" beforeDir="false" afterPath="$PROJECT_DIR$/../node_modules/react-native-svg/android/build/intermediates/incremental/packageDebugResources/compile-file-map.properties" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../node_modules/react-native-timezone/android/build/intermediates/incremental/packageDebugResources/compile-file-map.properties" beforeDir="false" afterPath="$PROJECT_DIR$/../node_modules/react-native-timezone/android/build/intermediates/incremental/packageDebugResources/compile-file-map.properties" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../node_modules/react-native-vector-icons/android/build/intermediates/incremental/packageDebugResources/compile-file-map.properties" beforeDir="false" afterPath="$PROJECT_DIR$/../node_modules/react-native-vector-icons/android/build/intermediates/incremental/packageDebugResources/compile-file-map.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/containers/Profile/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/../src/containers/Profile/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/containers/Profile/style.js" beforeDir="false" afterPath="$PROJECT_DIR$/../src/containers/Profile/style.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../src/containers/SearchEditContact/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/../src/containers/SearchEditContact/index.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../src/containers/SearchEditContact/style.js" beforeDir="false" afterPath="$PROJECT_DIR$/../src/containers/SearchEditContact/style.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/services/FirebaseDatabase/addAfterSignup.js" beforeDir="false" afterPath="$PROJECT_DIR$/../src/services/FirebaseDatabase/addAfterSignup.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -353,43 +350,43 @@
       <screen x="0" y="23" width="1920" height="984" />
     </state>
     <state x="221" y="258" key="AndroidCreateResourceFileDialog/0.23.1920.984@0.23.1920.984" timestamp="1610369220766" />
-    <state width="1371" height="254" key="GridCell.Tab.0.bottom" timestamp="1610524307875">
-      <screen x="0" y="23" width="1920" height="989" />
+    <state width="767" height="254" key="GridCell.Tab.0.bottom" timestamp="1612432061962">
+      <screen x="0" y="23" width="1920" height="982" />
     </state>
     <state width="1138" height="130" key="GridCell.Tab.0.bottom/0.23.1366.687@0.23.1366.687" timestamp="1603793964166" />
-    <state width="661" height="286" key="GridCell.Tab.0.bottom/0.23.1920.982@0.23.1920.982" timestamp="1610366008774" />
+    <state width="767" height="254" key="GridCell.Tab.0.bottom/0.23.1920.982@0.23.1920.982" timestamp="1612432061962" />
     <state width="1159" height="254" key="GridCell.Tab.0.bottom/0.23.1920.988@0.23.1920.988" timestamp="1607321897336" />
     <state width="1371" height="254" key="GridCell.Tab.0.bottom/0.23.1920.989@0.23.1920.989" timestamp="1610524307875" />
-    <state width="1371" height="254" key="GridCell.Tab.0.center" timestamp="1610524307875">
-      <screen x="0" y="23" width="1920" height="989" />
+    <state width="767" height="254" key="GridCell.Tab.0.center" timestamp="1612432061961">
+      <screen x="0" y="23" width="1920" height="982" />
     </state>
     <state width="1138" height="130" key="GridCell.Tab.0.center/0.23.1366.687@0.23.1366.687" timestamp="1603793964165" />
-    <state width="661" height="286" key="GridCell.Tab.0.center/0.23.1920.982@0.23.1920.982" timestamp="1610366008773" />
+    <state width="767" height="254" key="GridCell.Tab.0.center/0.23.1920.982@0.23.1920.982" timestamp="1612432061961" />
     <state width="1159" height="254" key="GridCell.Tab.0.center/0.23.1920.988@0.23.1920.988" timestamp="1607321897336" />
     <state width="1371" height="254" key="GridCell.Tab.0.center/0.23.1920.989@0.23.1920.989" timestamp="1610524307875" />
-    <state width="1371" height="254" key="GridCell.Tab.0.left" timestamp="1610524307874">
-      <screen x="0" y="23" width="1920" height="989" />
+    <state width="767" height="254" key="GridCell.Tab.0.left" timestamp="1612432061961">
+      <screen x="0" y="23" width="1920" height="982" />
     </state>
     <state width="1138" height="130" key="GridCell.Tab.0.left/0.23.1366.687@0.23.1366.687" timestamp="1603793964163" />
-    <state width="661" height="286" key="GridCell.Tab.0.left/0.23.1920.982@0.23.1920.982" timestamp="1610366008771" />
+    <state width="767" height="254" key="GridCell.Tab.0.left/0.23.1920.982@0.23.1920.982" timestamp="1612432061961" />
     <state width="1159" height="254" key="GridCell.Tab.0.left/0.23.1920.988@0.23.1920.988" timestamp="1607321897334" />
     <state width="1371" height="254" key="GridCell.Tab.0.left/0.23.1920.989@0.23.1920.989" timestamp="1610524307874" />
-    <state width="1371" height="254" key="GridCell.Tab.0.right" timestamp="1610524307875">
-      <screen x="0" y="23" width="1920" height="989" />
+    <state width="767" height="254" key="GridCell.Tab.0.right" timestamp="1612432061962">
+      <screen x="0" y="23" width="1920" height="982" />
     </state>
     <state width="1138" height="130" key="GridCell.Tab.0.right/0.23.1366.687@0.23.1366.687" timestamp="1603793964165" />
-    <state width="661" height="286" key="GridCell.Tab.0.right/0.23.1920.982@0.23.1920.982" timestamp="1610366008773" />
+    <state width="767" height="254" key="GridCell.Tab.0.right/0.23.1920.982@0.23.1920.982" timestamp="1612432061962" />
     <state width="1159" height="254" key="GridCell.Tab.0.right/0.23.1920.988@0.23.1920.988" timestamp="1607321897336" />
     <state width="1371" height="254" key="GridCell.Tab.0.right/0.23.1920.989@0.23.1920.989" timestamp="1610524307875" />
     <state x="267" y="133" width="1004" height="748" key="com.android.tools.idea.avdmanager.AvdListDialog" timestamp="1606986450706">
       <screen x="0" y="23" width="1920" height="987" />
     </state>
     <state x="267" y="133" width="1004" height="748" key="com.android.tools.idea.avdmanager.AvdListDialog/0.23.1920.987@0.23.1920.987" timestamp="1606986450706" />
-    <state x="609" y="348" key="com.intellij.ide.util.TipDialog" timestamp="1612428700546">
-      <screen x="0" y="23" width="1920" height="984" />
+    <state x="609" y="347" key="com.intellij.ide.util.TipDialog" timestamp="1612432024292">
+      <screen x="0" y="23" width="1920" height="982" />
     </state>
     <state x="609" y="346" key="com.intellij.ide.util.TipDialog/0.23.1920.980@0.23.1920.980" timestamp="1611754351876" />
-    <state x="609" y="347" key="com.intellij.ide.util.TipDialog/0.23.1920.982@0.23.1920.982" timestamp="1610424189476" />
+    <state x="609" y="347" key="com.intellij.ide.util.TipDialog/0.23.1920.982@0.23.1920.982" timestamp="1612432024292" />
     <state x="609" y="348" key="com.intellij.ide.util.TipDialog/0.23.1920.983@0.23.1920.983" timestamp="1607521094800" />
     <state x="609" y="348" key="com.intellij.ide.util.TipDialog/0.23.1920.984@0.23.1920.984" timestamp="1612428700546" />
     <state x="609" y="348" key="com.intellij.ide.util.TipDialog/0.23.1920.986@0.23.1920.986" timestamp="1612353908145" />

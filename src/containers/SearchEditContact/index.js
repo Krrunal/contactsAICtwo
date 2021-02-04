@@ -4,11 +4,12 @@ import {
   FlatList,
   Image,
   Modal,
+  ScrollView,
   Text,
   TextInput,
   TouchableHighlight,
   TouchableOpacity,
-  View,
+  View
 } from "react-native";
 import React, { Component, useState } from "react";
 import { Title, connectStyle } from "native-base";
@@ -346,7 +347,8 @@ class searchContact extends Component {
   }
   renderItem2({ item, index }) {
     return (
-      <View style={{}}>
+      // <ScrollView>
+      <View style={{ }}>
         <View style={{ width: width * 0.8, alignItems: "center" }}>
           <Text
             style={[
@@ -448,8 +450,12 @@ class searchContact extends Component {
             Email :
             <Text style={[styles.personName]}>
               {" "}
-              {item.email1.email} (
-              {item.email1.label !== "" ? item.email1.label : null})
+              {item.email1.email} 
+                <Text> 
+                ({item.email1.label !== "" ? item.email1.label : null})
+                  
+                </Text>
+             
             </Text>
           </Text>
         )}
@@ -458,12 +464,12 @@ class searchContact extends Component {
           : item.email.map((item, index) => (
               <Text
                 style={[styles.midName, { marginLeft: Metrics.baseMargin }]}
-              >
-                {" "}
-                Website:
+              >Email:
                 <Text style={[styles.personName]}>
-                  {" "}
-                  {item.email} {item.label !== "" ? item.label : null}
+               
+                  {item.email} {item.label !== "" ? 
+                <Text>( { item.label })</Text>
+                  : null}
                 </Text>
               </Text>
             ))}
@@ -483,9 +489,7 @@ class searchContact extends Component {
           : item.address.map((item, index) => (
               <Text
                 style={[styles.midName, { marginLeft: Metrics.baseMargin }]}
-              >
-                {" "}
-                Website:
+              >Address:
                 <Text style={[styles.personName]}>
                   {" "}
                   {item.address}({item.label !== "" ? item.label : null})
@@ -507,9 +511,7 @@ class searchContact extends Component {
           : item.messenger.map((item, index) => (
               <Text
                 style={[styles.midName, { marginLeft: Metrics.baseMargin }]}
-              >
-                {" "}
-                Messenger Account :
+              >Messenger Account :
                 <Text style={[styles.personName]}>
                   {" "}
                   {item.messenger}
@@ -547,8 +549,7 @@ class searchContact extends Component {
             ))}
 
         {item.website.website == "" || item.website == "" ? null : (
-          <Text style={[styles.midName, { marginLeft: Metrics.baseMargin }]}>
-            Website :{" "}
+          <Text style={[styles.midName, { marginLeft: Metrics.baseMargin }]}>Website :
             <Text style={[styles.personName]}>
               {item.website.website}(
               {item.website.label !== "" ? item.website.label : null})
@@ -561,9 +562,7 @@ class searchContact extends Component {
           : item.websiteArray.map((item, index) => (
               <Text
                 style={[styles.midName, { marginLeft: Metrics.baseMargin }]}
-              >
-                {" "}
-                Website :{" "}
+              >Website :
                 <Text style={[styles.personName]}>
                   {item.website}
                   {item.label !== "" ? item.label : null}{" "}
@@ -576,8 +575,10 @@ class searchContact extends Component {
           <Text style={[styles.midName, { marginLeft: Metrics.baseMargin }]}>
             Date :{" "}
             <Text style={[styles.personName]}>
-              {item.date.date} (
-              {item.date.label !== "" ? item.date.label : null})
+              {item.date.date} 
+              {item.date.label !== "" ? 
+              <Text>({ item.date.label})</Text>
+                : null}
             </Text>
           </Text>
         )}
@@ -588,13 +589,11 @@ class searchContact extends Component {
               <View>
                 <Text
                   style={[styles.midName, { marginLeft: Metrics.baseMargin }]}
-                >
-                  {" "}
-                  Date :
+                >Date :
                   <Text style={[styles.personName]}>
                     {" "}
                     {item.date}
-                    {item.label !== "" ? item.label : null}{" "}
+                    {item.label !== "" ? item.label : null}
                   </Text>
                 </Text>
               </View>
@@ -606,8 +605,8 @@ class searchContact extends Component {
             Note :
             <Text style={[styles.personName]}>
               {" "}
-              {item.note.note} (
-              {item.note.label !== "" ? item.note.label : null})
+              {item.note.note} 
+              {item.note.label !== "" ?<Text>({ item.note.label})</Text> : null}
             </Text>
           </Text>
         )}
@@ -624,7 +623,7 @@ class searchContact extends Component {
                   <Text style={[styles.personName]}>
                     {" "}
                     {item.note}
-                    {item.label !== "" ? item.label : null}
+                    {item.label !== "" ? <Text>({ item.label})</Text> : null}
                   </Text>
                 </Text>
               </View>
@@ -649,7 +648,7 @@ class searchContact extends Component {
                   <Text style={[styles.personName]}> {item.company} </Text>
                   <Text style={[styles.personName]}>
                     {" "}
-                    {item.label !== "" ? item.label : null}
+                    {item.label !== "" ? <Text>({ item.label})</Text> : null}
                   </Text>
                 </Text>
               </View>
@@ -673,7 +672,7 @@ class searchContact extends Component {
                   <Text style={[styles.personName]}> {item.jobTitle} </Text>
                   <Text style={[styles.personName]}>
                     {" "}
-                    {item.label !== "" ? item.label : null}{" "}
+                    {item.label !== "" ?  <Text>({ item.label})</Text> : null}
                   </Text>
                 </Text>
               </View>
@@ -697,12 +696,13 @@ class searchContact extends Component {
                   <Text style={[styles.personName]}> {item.workHours} </Text>{" "}
                   <Text style={[styles.personName]}>
                     {" "}
-                    {item.label !== "" ? item.label : null}{" "}
+                    {item.label !== "" ?  <Text>({ item.label})</Text> : null}{" "}
                   </Text>
                 </Text>
               </View>
             ))}
       </View>
+      // </ScrollView>
     );
   }
   onClose = () => {
@@ -746,6 +746,8 @@ class searchContact extends Component {
                         <Icon name="times" size={30} />
                       </TouchableHighlight>
                     </View>
+                    <View style={{ height: height * 0.6,}}>
+
                     <FlatList
                       refreshing={true}
                       keyExtractor={(item, index) => index.toString()}
@@ -754,6 +756,7 @@ class searchContact extends Component {
                       numColumns={1}
                       renderItem={this.renderItem2.bind(this)}
                     />
+                     </View>
                   </View>
                   {/* {this.state.firstName.map((item, key) => (
                     <View key={key}>

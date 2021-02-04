@@ -146,7 +146,7 @@ workModalView: {
 },
 content: {
   width: width * 0.8,
-  height: height * 0.5,
+  height: height * 0.8,
   backgroundColor: COLORS.white,
   shadowColor: COLORS.black,
   shadowOffset: {
