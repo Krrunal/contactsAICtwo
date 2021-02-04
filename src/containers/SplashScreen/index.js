@@ -14,28 +14,29 @@ import styles from "./style";
 import { switchTheme } from "../../action/themeAction";
 
 class Splash extends React.Component {
-state = { 
-  isFirebaseLogin :""
-}
+  state = {
+    isFirebaseLogin: "",
+  };
   async componentDidMount() {
-    const {username} = this.props;
-    firebase
-  .firestore()
-  .collection("user")
-  .doc(username)
-  .get()
-  .then((snap) => { 
-      var IsLogedIn = snap._data.isLogedIn 
-      if(IsLogedIn == true){
-          this.setState({isFirebaseLogin : IsLogedIn})
-          console.log("snappp true--->",this.state.isFirebaseLogin)
-      }else{
-        this.setState({isFirebaseLogin : IsLogedIn})
-        console.log("snappp flase--->",this.state.isFirebaseLogin)
-      }
-  })
+    console.log("splash screen ----->",this.props.isLogedIn)
+    const { username } = this.props;
+    // firebase
+    //   .firestore()
+    //   .collection("user")
+    //   .doc(username)
+    //   .get()
+    //   .then((snap) => {
+    //     var IsLogedIn = snap._data.isLogedIn;
+    //     if (IsLogedIn == true) {
+    //       this.setState({ isFirebaseLogin: IsLogedIn });
+    //       console.log("snappp true--->", this.state.isFirebaseLogin);
+    //     } else {
+    //       this.setState({ isFirebaseLogin: IsLogedIn });
+    //       console.log("snappp flase--->", this.state.isFirebaseLogin);
+    //     }
+    //   });
     this.timeoutHandle = setTimeout(async () => {
-      this.state.isFirebaseLogin == false
+      this.props.isLogedIn == false
         ? this.props.navigation.reset(
             [NavigationActions.navigate({ routeName: "Login" })],
             0
@@ -45,6 +46,7 @@ state = {
             0
           );
     }, 2000);
+  
   }
 
   render() {
@@ -76,7 +78,6 @@ state = {
 
 function mapStateToProps(state) {
   return {
- 
     theme: state.themeReducer.theme,
     isLogedIn: state.login.shouldLoadData,
     username: state.login.shouldLoadData.username,

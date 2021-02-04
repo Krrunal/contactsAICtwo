@@ -9,11 +9,10 @@ import {
   Text,
   TextInput,
   TouchableOpacity,
-  View
+  View,
 } from "react-native";
 import React, { Component } from "react";
 import styled, { ThemeProvider } from "styled-components/native";
-import Toast from "react-native-easy-toast";
 
 import AsyncStorage from "@react-native-community/async-storage";
 import { COLORS } from "../theme/Colors.js";
@@ -27,6 +26,7 @@ import Metrics from "../theme/Metrics";
 import NetInfo from "@react-native-community/netinfo";
 import { Root } from "native-base";
 import { Spinner } from "../../components/Spinner";
+import Toast from "react-native-easy-toast";
 import { TouchableHighlight } from "react-native-gesture-handler";
 import { bindActionCreators } from "redux";
 import checked from "../../assets/icons/checked.png";
@@ -58,30 +58,40 @@ class Login extends Component {
       loginPassword: "",
       emailSection: false,
       passSection: false,
-      loginPass:"",
-      emailPassword:"",
+      loginPass: "",
+      emailPassword: "",
+      empty: "",
     };
   }
 
-  disableBackbutton = () =>{
+  backAction = () => {
     BackHandler.exitApp();
     return true;
-  }
-  componentDidMount = async () => {
-    this.setState({
-      loginUsername: await AsyncStorage.getItem("@loginUsername"),
-      loginPass :await AsyncStorage.getItem("@loginPass")
-    });
-    console.log("Login USername------>", this.state.loginUsername);
-    console.log("Login USername------>", this.state.loginPass);
-    if(this.state.loginUsername == null && this.state.loginPass == null){
-      this.setState({checkedOff :false})
-    }else{
-      this.setState({checkedOff :true ,})
-    }
- 
   };
 
+  componentDidMount = async () => {
+    BackHandler.addEventListener("hardwareBackPress", this.backAction);
+  const { navigation } = this.props;
+
+    this.focusListener = navigation.addListener("didFocus", async () => {
+       this.setState({ emailLogin : "" ,loginUsername :"",loginPassword:""});
+   })
+    this.setState({
+      loginUsername: await AsyncStorage.getItem("@loginUsername"),
+      loginPass: await AsyncStorage.getItem("@loginPass"),
+    });
+    console.log("Login USername------>", this.state.loginUsername);
+    console.log("Login USername------>", this.state.loginPassword);
+    if (this.state.loginUsername == null && this.state.loginPass == null) {
+      this.setState({ checkedOff: false });
+   //   this.setState({loginUsername:"" , loginPassword :""})
+    } else {
+      this.setState({ checkedOff: true });
+    }
+  };
+  componentWillUnmount() {
+    BackHandler.removeEventListener("hardwareBackPress", this.backAction);
+  }
   showPassword = () => {
     this.state.show == true
       ? this.setState({ show: false })
@@ -90,24 +100,21 @@ class Login extends Component {
 
   check = async () => {
     const { password } = this.props;
-    const { emailLogin ,checkedOff } = this.state;
+    const { emailLogin, checkedOff } = this.state;
     console.log("username:=--->", emailLogin);
     console.log("Password:=--->", password);
-    if(checkedOff == false){
+    if (checkedOff == false) {
       if (emailLogin == "") {
         showToastError("Please fill all required fileds");
       } else {
         this.setState({ checkedOff: true });
-        await AsyncStorage.setItem("@loginUsername", emailLogin)
-        await AsyncStorage.setItem("@loginPass", password)
-        this.setState({checkedOff : true})
+        await AsyncStorage.setItem("@loginUsername", emailLogin);
+        await AsyncStorage.setItem("@loginPass", password);
+        this.setState({ checkedOff: true });
       }
-     
-    }else{
-      this.setState({checkedOff : false})
+    } else {
+      this.setState({ checkedOff: false });
     }
-   
-  
   };
 
   navigate = () => {
@@ -116,47 +123,45 @@ class Login extends Component {
 
   checkInternet = async () => {
     NetInfo.fetch().then((state) => {
-      if (state.isConnected) { 
-          this.loginUser();
-      }else{ 
+      if (state.isConnected) {
+        this.loginUser();
+      } else {
         //alert("Please check Your Internet Connection ");
         this.refs.toast.show("Please check Your Internet Connection", 1000);
       }
-    })
-  
-  
-   }
-   
+    });
+  };
+
   loginUser = () => {
-    const { phone_number, emailLogin, loginUsername,loginPass,emailPassword} = this.state;
-    
-    console.log("pas chnage prips---->",this.props.password)
-    if(loginUsername !== null && loginPass !== null){
-      this.props.loginEmailChange(loginUsername)
-      this.props.loginPassChange(loginPass)
+    const { loginUsername, loginPass ,empty} = this.state;
+
+    console.log("pas chnage prips---->", this.props.password);
+    if (loginUsername !== null && loginPass !== null) {
+      this.props.loginEmailChange(loginUsername);
+      this.props.loginPassChange(loginPass);
       this.props.loginUser();
-    }else{
-   
-        const { phone_number, emailLogin, loginUsername,loginPass,emailPassword} = this.state;
-        
-          if (emailLogin == "" && phone_number == "") {
-            showToastError("Please fill all required fileds");
-          }
-          if (emailLogin !== "" && phone_number !== "") {
-            showToastError("Only one filed required");
-          } else {
-            if (phone_number != "") {
-              this.props.loginEmailChange(phone_number);
-            this.props.loginUser();
-            }
-            if (emailLogin != "") {
-              this.props.loginEmailChange(emailLogin);
-              this.props.loginUser();
-            }
-          }
-       
+    //  this.setState({ loginUsername :"" , loginPass:""})
+    } else {
+      const { phone_number, emailLogin } = this.state;
+
+      if (emailLogin == "" && phone_number == "") {
+        showToastError("Please fill all required fileds");
+      }
+      if (emailLogin !== "" && phone_number !== "") {
+        showToastError("Only one filed required");
+      } else {
+        if (phone_number != "") {
+          this.props.loginEmailChange(phone_number);
+          this.props.loginUser();
+        }
+        if (emailLogin != "") {
+          this.props.loginEmailChange(emailLogin);
+          this.props.loginUser();
+          this.props.loginPassChangeRemove(empty)
+          this.setState({ emailLogin : ""})
+        }
+      }
     }
-   
   };
 
   onSubmit(value) {
@@ -204,39 +209,36 @@ class Login extends Component {
     this.setState({ viewIntl: true });
     this.setState({ viewPhone: false });
   };
-  
+
   passwordChange = (loginPassChange) => {
-   // alert(loginPassChange)
-    this.setState({ loginPass : "" });
-   // this.props.loginPassChange(loginPassChange);
-    this.setState({ emailPassword : loginPassChange})
-   // this.props.loginPassChange(loginPassChange);
+    // alert(loginPassChange)
+    this.setState({ loginPass: "" });
+    // this.props.loginPassChange(loginPassChange);
+    this.setState({ emailPassword: loginPassChange });
+    // this.props.loginPassChange(loginPassChange);
     //this.props.password(loginPassChange)
   };
   viewEmailSection = () => {
     this.setState({ emailSection: true });
+    if(this.state.emailSection ==  true){
+      this.nameFocus.focus();
+    }
   };
   viewPassSection = () => {
-    this.props.loginPassChange(this.state.loginPass)
+   
+    this.props.loginPassChange(this.state.loginPass);
     this.setState({ passSection: true });
+   if(this.state.passSection ==  true){
+     this.passwordfocus.focus();
+   }
   };
   emailChange = (value) => {
-   this.setState({ loginUsername  : ""})
-    this.setState({ emailLogin : value})
-  }
-  
-                        
-                       
+    this.setState({ loginUsername: "" });
+    this.setState({ emailLogin: value });
+  };
+
   render() {
-    const {
-      email,
-      password,
-      loginEmailChange,
-      loginPassChange,
-      loginNumberChange,
-      phone,
-      emailLogin,
-    } = this.props;
+    const { loginPassChange, phone, emailLogin } = this.props;
 
     return (
       <ThemeProvider theme={this.props.theme}>
@@ -302,12 +304,13 @@ class Login extends Component {
                     underlayColor="#DDDDDD"
                     onPress={this.viewEmailSection}
                   >
-                    {this.state.loginUsername == null ?
-                  <Text style={styles.phnText}>Username</Text>  
-                  : 
-                  <Text style={styles.phnText}>{this.state.loginUsername}</Text>  
-                  }
-                    
+                    {this.state.loginUsername == null ? (
+                      <Text style={styles.phnText}>Username</Text>
+                    ) : (
+                      <Text style={styles.phnText}>
+                        {this.state.loginUsername}
+                      </Text>
+                    )}
                   </TouchableHighlight>
                 ) : null}
                 {this.state.emailSection == true ? (
@@ -322,18 +325,17 @@ class Login extends Component {
                       onChangeText={(value) => this.emailChange(value)}
                       blurOnSubmit={false}
                       autoCapitalize={true}
-                      ref={"emailCont"}
-                      inputRef={"emailLogin"}
-                      onSubmitEditing={(emailLogin) =>
-                        this.onSubmit("emailLogin")
-                      }
-                      //value={emailLogin}
-                      value={
-                        this.state.loginUsername !== ""
+                      // ref={"emailCont"}
+                      ref={(ref) => {
+                        this.nameFocus = ref;
+                      }}
+                      autoFocus={true}
+                      // onSubmitEditing={(emailLogin) =>
+                      //   this.onSubmit("emailLogin")
+                      // }
+                      value={ this.state.loginUsername !== ""
                           ? this.state.loginUsername
-                          : emailLogin
-                      }
-                      // value={emailLogin}
+                          : emailLogin }
                       returnKey={"next"}
                       keyboardType={"email-address"}
                       secureEntry={false}
@@ -357,12 +359,12 @@ class Login extends Component {
                     underlayColor="#DDDDDD"
                     onPress={this.viewPassSection}
                   >
-                  {this.state.loginPass == null || this.state.loginPass == "" ?
-                    <Text style={styles.phnText}>Password</Text>
-                  : 
-                  <Text style={styles.phnText}>{this.state.loginPass}</Text>  
-                  }
-                   
+                    {this.state.loginPass == null ||
+                    this.state.loginPass == "" ? (
+                      <Text style={styles.phnText}>Password</Text>
+                    ) : (
+                      <Text style={styles.phnText}>{this.state.loginPass}</Text>
+                    )}
                   </TouchableHighlight>
                 ) : null}
                 {this.state.passSection == true ? (
@@ -379,11 +381,14 @@ class Login extends Component {
                         //onChangeText={(value) => this.emailChange(value)}
                         blurOnSubmit={false}
                         autoCapitalize={false}
-                        ref={"LoginpasswordCont"}
-                        inputRef={"password"}
-                        onSubmitEditing={(password) =>
-                          this.onSubmit("password")
-                        }
+                        //ref={"LoginpasswordCont"}
+                        ref={(ref) => {
+                          this.passwordfocus = ref;
+                        }}
+                        autoFocus={true}
+                        // onSubmitEditing={(password) =>
+                        //   this.onSubmit("password")
+                        // }
                         value={
                           this.state.loginPass !== null
                             ? this.props.password
@@ -393,7 +398,6 @@ class Login extends Component {
                         keyboardType={"default"}
                         secureEntry={this.state.show}
                         placeholder={"Password"}
-                        // style={styles.uText}
                         style={
                           this.state.passSection == true
                             ? styles.uText1
@@ -469,26 +473,25 @@ class Login extends Component {
                 {this.showLoader()}
               </View>
               <Toast
-                  ref="toast"
-                  style={{
-                    backgroundColor:
-                      this.props.theme.mode === "light" ? "black" : "white",
-                    width: width * 0.9,
-                    alignItems: "center",
-                  }}
-                  position="bottom"
-                  positionValue={200}
-                  fadeInDuration={1000}
-                  fadeOutDuration={1000}
-                  opacity={1}
-                  textStyle={{
-                    color:
-                      this.props.theme.mode === "light" ? "white" : "black",
-                    fontFamily: Font.medium,
-                    fontSize: width * 0.04,
-                    padding:7
-                  }}
-                />
+                ref="toast"
+                style={{
+                  backgroundColor:
+                    this.props.theme.mode === "light" ? "black" : "white",
+                  width: width * 0.9,
+                  alignItems: "center",
+                }}
+                position="bottom"
+                positionValue={200}
+                fadeInDuration={1000}
+                fadeOutDuration={1000}
+                opacity={1}
+                textStyle={{
+                  color: this.props.theme.mode === "light" ? "white" : "black",
+                  fontFamily: Font.medium,
+                  fontSize: width * 0.04,
+                  padding: 7,
+                }}
+              />
             </Root>
           </ScrollView>
         </Container>
@@ -498,7 +501,7 @@ class Login extends Component {
 }
 
 function mapStateToProps(state) {
- console.log("State From Log -- in------->", state.login);
+  //  console.log("State From Log -- in------->", state.login);
 
   return {
     response: state.login.response,
@@ -506,7 +509,7 @@ function mapStateToProps(state) {
     email: state.login.email,
     password: state.login.password,
     loader: state.login.loader,
-    shouldLoadData :state.login.shouldLoadData
+    shouldLoadData: state.login.shouldLoadData,
   };
 }
 

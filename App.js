@@ -18,8 +18,10 @@ export default class Navigator extends React.Component{
     return(
       <Provider store={store}>
         <PersistGate loading={null} persistor={persistor}>
+          {/* <DrawerNavigator    ref={navigatorRef => {
+             NavigationService.setTopLevelNavigator(navigatorRef)}} /> */}
           <DrawerNavigator ref={navigatorRef => {
-          NavigationService.setTopLevelNavigator(navigatorRef)}}/>
+             NavigationService.setTopLevelNavigator(navigatorRef)}}/>
         </PersistGate>
       </Provider>
     )

@@ -9,10 +9,11 @@ const INITIAL_STATE = {
 import {
   LOAD_DATA_SET,
   LOGIN_EMAIL,
+  LOGIN_EMAIL_REMOVE,
   LOGIN_PASS,
   LOGIN_PHONE,
   RESET_LOGIN,
-  SHOW_LOADER_LOGIN,
+  SHOW_LOADER_LOGIN
 } from "../action/types";
 
 export default (state = INITIAL_STATE, action) => {
@@ -32,7 +33,9 @@ export default (state = INITIAL_STATE, action) => {
     case LOGIN_EMAIL:
       return { ...state, email: action.payload };
       break;
-
+      case LOGIN_EMAIL_REMOVE:
+        return { ...state, email:"" };
+        break;
     case LOGIN_PASS:
       return { ...state, password: action.payload };
       break;

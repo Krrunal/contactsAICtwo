@@ -37,7 +37,7 @@ class Add extends Component {
   renderHeader() {
     return (
       <Header
-        title="Add Contact(s)"
+        title="Add Contact"
         onPress={() => this.props.navigation.toggleDrawer()}
       />
     );
@@ -49,7 +49,7 @@ class Add extends Component {
         style={styles.buttonView}
         onPress={this.addContactNavigate}
       >
-        <Text style={styles.text}>Add Contacts AIC User(s)</Text>
+        <Text style={styles.text}>Add Contacts AIC User</Text>
       </TouchableOpacity>
     );
   }
@@ -78,7 +78,7 @@ class Add extends Component {
     return (
       <TouchableOpacity style={styles.buttonView}>
         <Text style={styles.text} onPress={this.importNavigate}>
-          Import Contact(s) From My Device
+          Import Contact From My Device
         </Text>
       </TouchableOpacity>
     );

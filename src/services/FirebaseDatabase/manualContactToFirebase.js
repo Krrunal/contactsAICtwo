@@ -26,17 +26,19 @@ export const addManualContact = (
   social_media1,
   social_media2,
   socialMediaArray,
-  website1,
+  website,
   website2,
   websiteArray,
-  dob,
-  dateArray,
+  date,
+    dateArray,
   note,
   noteArray,
   company,
   companyArray,
   job_title,
-  work_hour
+  work_hour,
+  jobTitleArray,
+  workHoursArray
 ) => {
   firebase
     .firestore()
@@ -68,16 +70,18 @@ export const addManualContact = (
       social_media1: social_media1,
       social_media2: social_media2,
       social_media: socialMediaArray,
-      website1: website1,
+      website: website,
       website2: website2,
-      website: websiteArray,
-      dob1: dob,
-      date: dateArray,
-      note1: note,
-      note: noteArray,
-      company1: company,
-      company: companyArray,
-      job_title: job_title,
-      work_hour: work_hour,
+      websiteArray : websiteArray,
+      date: date,
+      dateArray: dateArray,
+      note: note,
+      noteArray: noteArray,
+      company: company,
+      companyArray: companyArray,
+      jobTitle: job_title,
+      workHours: work_hour,
+      jobTitleArray:jobTitleArray,
+      workHoursArray:workHoursArray
     });
 };

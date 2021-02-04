@@ -75,7 +75,7 @@ class afterRequestSend extends Component {
   
   renderLast(){
       return(
-        <View style={{ alignItems: "center" ,position:"absolute",bottom:150}}>
+        <View style={{ alignItems: "center" ,position:"absolute",bottom:50}}>
         <TouchableOpacity
           style={styles.SmallMiddle}
           onPress={this.forOkNavigate}

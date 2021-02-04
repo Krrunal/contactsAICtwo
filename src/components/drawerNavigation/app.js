@@ -35,19 +35,21 @@ import SearchContact from "../../containers/SearchContact/index";
 import SelectLable from '../../containers/Labels/SelectLabels';
 import SerachEditContact from "../../containers/SearchEditContact/index";
 import Share from "../../containers/Share/index";
-import {SideBar} from './DrawerContent';
+import SideBar from './DrawerContent';
 import Signup from "../../containers/Signup/index";
 import Splash from "../../containers/SplashScreen/index";
 import ViewLabel from "../../containers/ViewLabel/index";
 import ViewLabelByName from '../../containers/ViewLabelByName/index'
 import addContactMultiple from '../../containers/AddContactAICUser/addContactMultiple'
+import afterLogout from '../../containers/Login/afterLogout'
 import afterRequestSend from '../../containers/AddContactAICUser/afterRequestSend'
+import aftreMultiplReqSend from '../../containers/AddContactAICUser/aftreMultiplReqSend'
+import { connect } from 'react-redux';
 import { createAppContainer } from 'react-navigation';
 import { createDrawerNavigator } from "react-navigation-drawer";
 import { createStackNavigator } from 'react-navigation-stack';
 import forAdd2 from '../../containers/AddContactAICUser/forAdd2'
 import forSelectContact from '../../containers/ManageLable/forSelectContact'
-import aftreMultiplReqSend from '../../containers/AddContactAICUser/aftreMultiplReqSend'
 import { themeReducer } from "../../reducer/themeReducer";
 
 const RootNavigator = createStackNavigator({
@@ -300,8 +302,15 @@ const RootNavigator = createStackNavigator({
         header: null,
         // drawerLockMode: 'unlocked',
     }},
-    forSelectContact: {
-      screen: forSelectContact,
+    afterRequestSend: {
+      screen: afterRequestSend,
+      navigationOptions: {
+        gesturesEnabled: false,
+        header: null,
+        // drawerLockMode: 'unlocked',
+    }},
+    afterLogout: {
+      screen: afterLogout,
       navigationOptions: {
         gesturesEnabled: false,
         header: null,
@@ -328,12 +337,24 @@ const DrawerNavigator = createDrawerNavigator({
   {
     initialRouteName: 'Main',
     drawerPosition: 'left',
-    contentComponent: SideBar,
+  //  contentComponent: SideBar,
+    contentComponent: (props) => (
+      <SideBar {...props} />
+     ),
     drawerWidth: Dimensions.get('window').width - Dimensions.get('window').width * 30 / 100,
     drawerType: 'front'
    
   }
 );
 
-export default createAppContainer(DrawerNavigator);
+
+const mapStateToProps = state => ({
+    
+});
+
+const AppNavigation = connect(mapStateToProps)(DrawerNavigator);
+
+export default createAppContainer( DrawerNavigator, AppNavigation );
+
+// export default createAppContainer(DrawerNavigator);
 

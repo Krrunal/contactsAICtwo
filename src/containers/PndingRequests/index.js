@@ -11,6 +11,7 @@ import {
 } from "react-native";
 import React, { Component, useState } from "react";
 import styled, { ThemeProvider } from "styled-components/native";
+import moment from "moment";
 
 import AsyncStorage from "@react-native-community/async-storage";
 import { COLORS } from "../theme/Colors.js";
@@ -27,6 +28,7 @@ import { addItem } from "../../services/FirebaseDatabase/addToFirebase";
 import checkedWhite from "../../assets/icons/checkedWhite.png";
 import { connect } from "react-redux";
 import styles from "./style.js";
+import { request } from "react-native-permissions";
 
 var { width, height } = Dimensions.get("window");
 class pendingRequest extends Component {
@@ -58,8 +60,15 @@ class pendingRequest extends Component {
       labelSection: false,
       selectedLable: [],
       afterConfirmSection: false,
-      middleSection:true,
-      keyInd:""
+      middleSection: true,
+      keyInd: "",
+      denySection: false,
+      requestTime: [],
+      requestTimeS: "",
+      requestDate:[],
+      requestDates:"",
+      selectedTiem:"",
+      denyYESSection:false
     };
   }
   renderHeader() {
@@ -76,13 +85,12 @@ class pendingRequest extends Component {
     this.setState({
       qrCodeData: JSON.parse(await AsyncStorage.getItem("@qrData")),
     });
-
-    // this.focusListener = navigation.addListener("didFocus", async () => {
     this.pendingRequestApiCall();
     this.labelList();
-    //  })
+   
   };
 
+  
   pendingRequestApiCall = () => {
     const { user_id } = this.props;
     this.setState({ loader: true }, async () => {
@@ -104,6 +112,7 @@ class pendingRequest extends Component {
         })
         .then((responseJson) => {
           var data = responseJson.data;
+
           this.setState({ pendingRequest: data });
 
           if (data == "") {
@@ -111,11 +120,22 @@ class pendingRequest extends Component {
           } else {
             this.state.pendingRequest.map((item) => {
               this.state.p_id.push(item.id);
+              let formateDate = moment(item.created_at).format("MMMM, Do YYYY");
+              let formateTime = moment(item.created_at).format('LLLL');
+              console.log("iddddd---->",formateTime)
+              this.state.requestDate.push(formateDate);
+              this.state.requestTime.push(formateTime);
+              //console.log("pending request ---->", item.created_at);
             });
             var pID = this.state.p_id.map((item) => {
               return { item: item, isSelect: false };
             });
-            this.setState({ p_ids: pID, loader: false });
+            this.setState({
+              p_ids: pID,
+              requestTimeS: this.state.requestTime,
+              requestDates:this.state.requestDate,
+              loader: false,
+            });
           }
           // console.log("iddddd---->",this.state.p_ids)
           this.saperateIds();
@@ -136,7 +156,7 @@ class pendingRequest extends Component {
   };
 
   saperateIds = () => {
-  //  console.log("saperateIds=---->");
+    //  console.log("saperateIds=---->");
     const {
       pendingRequest,
       receiveId,
@@ -163,7 +183,7 @@ class pendingRequest extends Component {
   };
 
   getUsername = () => {
-   // console.log("getUsername=---->");
+    // console.log("getUsername=---->");
     var s_id = this.state.senderIdArray[0];
 
     this.state.pendingRequest.forEach((doc) => {
@@ -208,8 +228,8 @@ class pendingRequest extends Component {
 
   removePendingRequestData = () => {
     const { user_id } = this.props;
-    const { name, names, trueName, isSelectedName ,selectedLable} = this.state;
-    console.log("Name---->",names)
+    const { name, names, trueName, isSelectedName, selectedLable } = this.state;
+    console.log("Name---->", names);
     names.map((item, index) => {
       if (item.isSelect == true) {
         this.setState({ trueName: [] });
@@ -217,22 +237,29 @@ class pendingRequest extends Component {
         console.log("aftere true name ----->", trueName);
       }
     });
-    addItem(
-      user_id,
-      user_id,
-      selectedLable,
-      "",
-      "",
-      trueName[0]
-    );
-  
-     this.setState({ name: [] });
-    this.setState({ trueName: [] ,middleSection :true,afterConfirmSection:false});
+    addItem(user_id, user_id, selectedLable, "", "", trueName[0]);
+
+    this.setState({ name: [] });
+    this.setState({
+      trueName: [],
+      middleSection: true,
+      afterConfirmSection: false,
+    });
     this.pendingRequestApiCall();
   };
-
-  denySubmit = (keyInd, item) => {
-    const { names, p_ids, p_idsSelected } = this.state;
+  showDenyRequest = (keyInd, item,time) => {
+    console.log("time---->",time)
+    this.setState({
+      // labelSection: true,
+      denySection: true,
+      acceptName: item,
+      middleSection: false,
+      keyInd: keyInd,
+      selectedTiem:time
+    });
+  };
+  denySubmit = () => {
+    const { names, p_ids, p_idsSelected ,keyInd } = this.state;
 
     let arr1 = names.map((item, key) => {
       if (keyInd == key) {
@@ -255,9 +282,10 @@ class pendingRequest extends Component {
         p_idsSelected.push(item.item);
       }
     });
-    console.log("p_ids---->", p_idsSelected);
+
+    console.log("deny submit---->", p_idsSelected);
     p_idsSelected.map((item, index) => {
-      this.setState({ loader: true }, async () => {
+
         const baseurl = Constants.baseurl;
         const id = p_idsSelected[index];
         var _body = new FormData();
@@ -274,7 +302,7 @@ class pendingRequest extends Component {
             return response.json();
           })
           .then((responseJson) => {
-            this.setState({ loader: false });
+            // this.setState({ loader: false });
             var data = responseJson;
             console.log("Update Pending response---->", data);
             this.setState({ acceptData: data });
@@ -284,24 +312,32 @@ class pendingRequest extends Component {
             );
             if (this.state.acceptData.status == true) {
               this.setState({ trueName: [] });
+              this.setState({ name: [] });
+              this.setState({denyYESSection :false ,middleSection:true})
               this.pendingRequestApiCall();
+             
             }
           })
           .catch((error) => {
-            this.setState({ loader: false });
+            // this.setState({ loader: false });
             console.log("Update errrorr---->", error);
           });
-      });
+     
     });
   };
 
   showLabelList = (keyInd, item) => {
     //console.log("Key Ind --->",keyInd)
-    this.setState({ labelSection: true, acceptName: item ,middleSection:false,keyInd :keyInd});
+    this.setState({
+      labelSection: true,
+      acceptName: item,
+      middleSection: false,
+      keyInd: keyInd,
+    });
   };
 
   acceptSubmit = () => {
-    const { names, p_ids, p_idsSelected ,keyInd} = this.state;
+    const { names, p_ids, p_idsSelected, keyInd } = this.state;
 
     // console.log("Key Ind---->", keyInd);
     let arr1 = names.map((item, key) => {
@@ -328,41 +364,41 @@ class pendingRequest extends Component {
     console.log("p_ids---->", p_idsSelected);
     p_idsSelected.map((item, index) => {
       // this.setState({ loader: true }, async () => {
-        const baseurl = Constants.baseurl;
-        const id = p_idsSelected[index];
-        var _body = new FormData();
-        _body.append("id", id);
-        fetch(baseurl + "update_pending", {
-          method: "POST",
-          headers: {
-            "Content-Type":
-              Platform.OS == "ios" ? "application/json" : "multipart/form-data",
-          },
-          body: _body,
+      const baseurl = Constants.baseurl;
+      const id = p_idsSelected[index];
+      var _body = new FormData();
+      _body.append("id", id);
+      fetch(baseurl + "update_pending", {
+        method: "POST",
+        headers: {
+          "Content-Type":
+            Platform.OS == "ios" ? "application/json" : "multipart/form-data",
+        },
+        body: _body,
+      })
+        .then((response) => {
+          return response.json();
         })
-          .then((response) => {
-            return response.json();
-          })
-          .then((responseJson) => {
-            // this.setState({ loader: false });
-            var data = responseJson;
-            console.log("Update Pending response---->", data);
-            this.setState({ acceptData: data });
-            console.log(
-              "Update Pending response---->",
-              this.state.acceptData.status
-            );
-            if (this.state.acceptData.status == true) {
-              // this.pendingRequestApiCall();
-              this.setState({ trueName: [] });
-              this.removePendingRequestData();
-            }
-          })
-          .catch((error) => {
-            // this.setState({ loader: false });
-            console.log("Update errrorr---->", error);
-          });
-      });
+        .then((responseJson) => {
+          // this.setState({ loader: false });
+          var data = responseJson;
+          console.log("Update Pending response---->", data);
+          this.setState({ acceptData: data });
+          console.log(
+            "Update Pending response---->",
+            this.state.acceptData.status
+          );
+          if (this.state.acceptData.status == true) {
+            // this.pendingRequestApiCall();
+            this.setState({ trueName: [] });
+            this.removePendingRequestData();
+          }
+        })
+        .catch((error) => {
+          // this.setState({ loader: false });
+          console.log("Update errrorr---->", error);
+        });
+    });
     // });
   };
 
@@ -418,7 +454,7 @@ class pendingRequest extends Component {
         {/* {this.state.names.map((item) => { */}
         <View style={styles.whiteBigView}>
           <View style={styles.checkboxView}>
-            <View style={[styles.oneView,{marginLeft: Metrics.smallMargin,}]}>
+            <View style={[styles.oneView, { marginLeft: Metrics.smallMargin }]}>
               <View style={{ flexDirection: "column" }}>
                 <Text
                   style={[
@@ -449,7 +485,7 @@ class pendingRequest extends Component {
                   {item.item}
                 </Text>
               </View>
-              <View style={{ alignItems: "center", width: width * 0.34 }}>
+              <View style={{ width: width * 0.34, alignItems: "center" }}>
                 <View style={{ flexDirection: "column" }}>
                   <Text
                     style={[
@@ -481,6 +517,7 @@ class pendingRequest extends Component {
                   </Text>
                 </View>
               </View>
+
               <View
                 style={{ width: width * 0.3, marginLeft: Metrics.smallMargin }}
               >
@@ -504,6 +541,12 @@ class pendingRequest extends Component {
               </View>
             </View>
           </View>
+          <View style={{marginTop:Metrics.baseMargin}}>
+            <Text style={{ fontSize: width * 0.025, fontFamily: Font.regular, color:
+                          this.props.theme.mode == "light"
+                            ? COLORS.black
+                            : COLORS.white,marginLeft:Metrics.smallMargin}}>Request Received on  {this.state.requestTimeS[index]}</Text>
+          </View>
           <View
             style={{
               width: width,
@@ -512,14 +555,26 @@ class pendingRequest extends Component {
             }}
           >
             <View style={{}}>
-              <View style={{ flexDirection: "row",padding:8 }}>
+              <View style={{ flexDirection: "row", padding: 8 }}>
                 <TouchableOpacity
                   style={styles.acceptView}
                   onPress={(value) => {
-                    this.denySubmit(index, value);
+                    this.showDenyRequest( index,item.item ,this.state.requestTimeS[index]);
                   }}
                 >
-                  <Text style={styles.acceptText}>Deny</Text>
+                  <Text
+                    style={[
+                      styles.acceptText,
+                      {
+                        color:
+                          this.props.theme.mode == "light"
+                            ? COLORS.main_text_color
+                            : COLORS.white,
+                      },
+                    ]}
+                  >
+                    Deny
+                  </Text>
                 </TouchableOpacity>
                 <TouchableOpacity
                   style={[
@@ -530,7 +585,19 @@ class pendingRequest extends Component {
                     this.showLabelList(index, item.item);
                   }}
                 >
-                  <Text style={styles.acceptText}>Accept</Text>
+                  <Text
+                    style={[
+                      styles.acceptText,
+                      {
+                        color:
+                          this.props.theme.mode == "light"
+                            ? COLORS.main_text_color
+                            : COLORS.white,
+                      },
+                    ]}
+                  >
+                    Accept
+                  </Text>
                 </TouchableOpacity>
               </View>
             </View>
@@ -588,9 +655,13 @@ class pendingRequest extends Component {
   }
 
   navigateSearch = () => {
-    this.setState({ labelSection: false, afterConfirmSection: true ,middleSection:false});
-   // this.removePendingRequestData();
-       this.acceptSubmit();
+    this.setState({
+      labelSection: false,
+      afterConfirmSection: true,
+      middleSection: false,
+    });
+    // this.removePendingRequestData();
+    this.acceptSubmit();
     //  this.props.navigation.navigate("SerachEditContact");
   };
   showLoader() {
@@ -624,7 +695,7 @@ class pendingRequest extends Component {
           </View>
           <View
             style={{
-              flex: 1,
+              // flex: 1,
               marginBottom: Metrics.xxdoubleBaseMargin,
               marginTop: Metrics.doubleBaseMargin,
               marginLeft: Metrics.doubleBaseMargin,
@@ -655,6 +726,8 @@ class pendingRequest extends Component {
                 Select (De-select) All{" "}
               </Text>
             </TouchableOpacity>
+            {/* <ScrollView>
+            <View style={{ borderWidth: 1, height: height * 0.3 }}> */}
             {this.state.dataManage.map((item, key) =>
               this.state.dataManage === [""] ? null : (
                 <View style={styles.mainView}>
@@ -681,6 +754,8 @@ class pendingRequest extends Component {
                 </View>
               )
             )}
+            {/* </View>
+            </ScrollView> */}
           </View>
         </View>
       </ScrollView>
@@ -689,8 +764,8 @@ class pendingRequest extends Component {
   renderU_name() {
     return (
       <View>
-        <View style={{ width: width, alignItems: "center" }}>
-          <View style={[styles.oneView,{marginLeft: Metrics.smallMargin}]}>
+        <View style={{ width: width, }}>
+          <View style={[styles.oneView, { marginLeft: Metrics.smallMargin }]}>
             <View style={{ flexDirection: "column" }}>
               <Text
                 style={[
@@ -815,19 +890,149 @@ class pendingRequest extends Component {
   }
   confirmSection() {
     return (
-      <View style={{width:width,alignItems:'center'}}>
+      <View style={{ width: width, alignItems: "center" }}>
         <View style={styles.afterConfrimStyle}>
-           {this.renderU_name()}
-           <View style={{justifyContent:'flex-end',flex:1,alignItems:'center',marginTop:Metrics.multipleLabel,paddingBottom:35}}>
-             
-          
-           <View style={{borderWidth:1,width:width*0.7,height:width*0.10,backgroundColor:COLORS.black,borderRadius:10,alignItems:'center',justifyContent:'center'}}>
-             <Text style={{color:COLORS.white,fontFamily:Font.medium,fontSize:width*0.035}}>Request  Accepted</Text>
-           </View>
-           </View>
+          {this.renderU_name()}
+          <View
+            style={styles.c1View}
+          >
+            <View
+              style={[styles.c2View,{backgroundColor:
+                  this.props.theme.mode === "light"
+                    ? COLORS.black
+                    : COLORS.white, }]}
+            >
+              <Text
+                style={{color:
+                    this.props.theme.mode === "light"
+                      ? COLORS.white
+                      : COLORS.black,
+                  fontFamily: Font.medium,
+                  fontSize: width * 0.035,
+                }}
+              >
+                Request Accepted
+              </Text>
+            </View>
+          </View>
         </View>
       </View>
     );
+  }
+  noClick = () =>{
+    this.setState({  middleSection : true ,denySection :false})
+  }
+  yesClick =() =>{
+    this.setState({  denyYESSection : true ,denySection :false})
+    this.denySubmit();
+  }
+  denyView() {
+    return (
+      <View style={{ width: width, alignItems: "center" }}>
+      <View style={styles.afterConfrimStyle}>
+         {this.renderU_name()}
+         <View style={{marginTop:Metrics.baseMargin,marginLeft:Metrics.smallMargin}}>
+         <Text style={{ fontSize: width * 0.025, fontFamily: Font.regular, color:
+                          this.props.theme.mode == "light"
+                            ? COLORS.black
+                            : COLORS.white,}}>Request Received on 
+          {this.state.selectedTiem}
+        </Text>
+        </View>
+        <Text style={{color: this.props.theme.mode == "light"
+                            ? COLORS.main_text_color
+                            : COLORS.white, fontSize: width * 0.043, fontFamily: Font.medium,marginLeft:Metrics.smallMargin,marginTop:Metrics.smallMargin}}>
+          Are You Sure Want To Deny This Request ?
+        </Text>
+        <View
+            style={{
+              width: width,
+              marginTop: Metrics.doubleBaseMargin,
+              alignItems: "center",
+            }}
+          >
+            <View style={{}}>
+              <View style={{ flexDirection: "row", padding: 8 }}>
+                <TouchableOpacity
+                  style={styles.acceptView}
+                  onPress={() => {
+                    this.yesClick( );
+                  }}
+                >
+                  <Text
+                    style={[
+                      styles.acceptText,
+                      {
+                        color:
+                          this.props.theme.mode == "light"
+                            ? COLORS.main_text_color
+                            : COLORS.white,
+                      },
+                    ]}
+                  >
+                   YES
+                  </Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  style={[
+                    styles.acceptView,
+                    { marginLeft: Metrics.doubleBaseMargin },
+                  ]}
+                  onPress={() => {
+                    this.noClick();
+                  }}
+                >
+                  <Text
+                    style={[
+                      styles.acceptText,
+                      {
+                        color:
+                          this.props.theme.mode == "light"
+                            ? COLORS.main_text_color
+                            : COLORS.white,
+                      },
+                    ]}
+                  >
+                   NO
+                  </Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+          </View>
+      </View> 
+      </View>
+    );
+  }
+  denyYESSectionView(){
+    return(
+      <View style={{ width: width, alignItems: "center" }}>
+      <View style={styles.afterConfrimStyle}>
+        {this.renderU_name()}
+        <View
+          style={styles.c1View}
+        >
+          <View
+            style={[styles.c2View,{backgroundColor:
+                this.props.theme.mode === "light"
+                  ? COLORS.black
+                  : COLORS.white, }]}
+          >
+            <Text
+              style={{color:
+                  this.props.theme.mode === "light"
+                    ? COLORS.white
+                    : COLORS.black,
+                fontFamily: Font.medium,
+                fontSize: width * 0.035,
+              }}
+            >
+              Request Denied
+            </Text>
+          </View>
+        </View>
+      </View>
+    </View>
+    )
   }
   render() {
     return (
@@ -842,7 +1047,6 @@ class pendingRequest extends Component {
         />
         <View style={{ flex: 1 }}>
           <Container>
-          
             {this.renderHeader()}
             {this.renderUpText()}
             {this.state.labelSection == true ? (
@@ -857,10 +1061,19 @@ class pendingRequest extends Component {
                 {this.renderMiddle()}
               </View>
             ) : null}
-        
+
             {this.state.afterConfirmSection == true ? (
               <View>{this.confirmSection()}</View>
             ) : null}
+            {this.state.denySection == true ? (
+              <View>{this.denyView()}</View>
+            ) : null}
+            {this.state.denyYESSection ==  true ?
+              <View>
+                {this.denyYESSectionView()}
+              </View>  
+             : null
+          }
           </Container>
           {this.showLoader()}
         </View>

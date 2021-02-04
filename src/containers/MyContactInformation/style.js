@@ -148,8 +148,8 @@ export default StyleSheet.create({
     fontFamily: Font.regular,
   },
   rightView: {
-    alignItems: "flex-end",
-    justifyContent: "flex-end",
+     alignItems: "flex-end",
+    justifyContent: "flex-start",
     flex: 1,
     marginRight: Metrics.smallMargin,
    // height: height * 0.15,
@@ -572,16 +572,19 @@ export default StyleSheet.create({
   workView: {
     width: width * 0.8,
     height: width * 0.8,
-    backgroundColor: COLORS.white,
-    shadowColor: COLORS.black,
-    shadowOffset: {
-      width: 2,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-    elevation: 5,
+    borderWidth: 1,
     borderRadius: 5,
+    borderColor: COLORS.main_text_color,
+    // backgroundColor: COLORS.white,
+    // shadowColor: COLORS.black,
+    // shadowOffset: {
+    //   width: 2,
+    //   height: 2,
+    // },
+    // shadowOpacity: 0.25,
+    // shadowRadius: 4,
+    // elevation: 5,
+    // borderRadius: 5,
     marginLeft: Metrics.smallMargin,
     flexDirection: "row",
     position: "relative",
@@ -608,6 +611,8 @@ export default StyleSheet.create({
     fontFamily: Font.regular,
     fontSize: width * 0.018,
     width: width * 0.11,
+    height: width * 0.08,
+    
   },
   workModal: {
     width: width,
@@ -650,11 +655,12 @@ export default StyleSheet.create({
     flexDirection: "row",
     marginTop: 10,
     alignItems: "center",
+  
   },
   selectTimezone: {
-    alignItems: "center",
-    justifyContent: "center",
-    flex: 1,
+    // alignItems: "center",
+    // justifyContent: "center",
+  //  flex: 1,
     // marginRight: 5,
     height: height * 0.04,
     width: width * 0.2,
@@ -675,11 +681,11 @@ export default StyleSheet.create({
     borderWidth: 1,
     borderRadius: 5,
     borderColor: COLORS.main_text_color,
-    height: height * 0.06,
+    height: height * 0.065,
     paddingHorizontal: 5,
     marginVertical: 5,
     position: "relative",
-    width: width * 0.75,
+    width: width * 0.8,
     marginLeft: Metrics.smallMargin,
     marginBottom: Metrics.baseMargin,
     marginRight: Metrics.smallMargin,
@@ -694,7 +700,7 @@ export default StyleSheet.create({
     paddingHorizontal: 5,
     marginVertical: 5,
     position: "relative",
-    width: width * 0.75,
+    width: width * 0.8,
     height: height * 0.15,
     marginLeft: Metrics.smallMargin,
     marginBottom: Metrics.smallMargin,
@@ -710,6 +716,7 @@ export default StyleSheet.create({
     height: width * 0.08,
     justifyContent: "center",
     alignItems: "center",
+    
   },
 
   addNewBox: {
@@ -751,7 +758,9 @@ export default StyleSheet.create({
     borderColor: COLORS.main_text_color,
   },
 
-  labelContainer: {},
+  labelContainer: {
+  
+  },
 
   label: {
     fontFamily: Font.medium,

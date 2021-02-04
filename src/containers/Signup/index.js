@@ -15,7 +15,6 @@ import {
 } from "react-native";
 import React, { Component } from "react";
 import styled, { ThemeProvider } from "styled-components/native";
-import NetInfo from "@react-native-community/netinfo";
 
 import AsyncStorage from "@react-native-community/async-storage";
 import { COLORS } from "../theme/Colors.js";
@@ -26,6 +25,7 @@ import { InputCard } from "../../components/InputCard";
 // import { IntlInputCard } from "../../components/IntlInputCard";
 import IntlPhoneInput from "react-native-intl-phone-input";
 import Metrics from "../theme/Metrics";
+import NetInfo from "@react-native-community/netinfo";
 import { Root } from "native-base";
 import { Spinner } from "../../components/Spinner";
 import Toast from "react-native-easy-toast";
@@ -69,16 +69,7 @@ class Signup extends Component {
     rePasswordSection: false,
     mobilePlatform: "",
   };
-  //   componentDidMount = () => {
 
-  //      if(Platform.OS ==  'android'){
-  //        this.setState({ mobilePlatform : Platform.OS})
-  //       console.log("Platfrom version",Platform.OS)
-  //      }else{
-  //       this.setState({ mobilePlatform : Platform.OS})
-  //       console.log("Platfrom version",)
-  //      }
-  //  }
   maxUname = (uname) => {
     return uname.length > 20;
   };
@@ -117,19 +108,17 @@ class Signup extends Component {
     return password === confirmpassWord;
   };
 
- checkInternet = async () => {
-  NetInfo.fetch().then((state) => {
-    if (state.isConnected) { 
+  checkInternet = async () => {
+    NetInfo.fetch().then((state) => {
+      if (state.isConnected) {
         this.signUp();
-    }else{ 
-      //alert("Please check Your Internet Connection ");
-      this.refs.toast.show("Please check Your Internet Connection", 1000);
-    }
-  })
+      } else {
+        //alert("Please check Your Internet Connection ");
+        this.refs.toast.show("Please check Your Internet Connection", 1000);
+      }
+    });
+  };
 
-
- }
- 
   signUp = async () => {
     const { uname, contact, email, password, confirmpassWord } = this.props;
     console.log("plarform--->", this.state.mobilePlatform);
@@ -206,7 +195,6 @@ class Signup extends Component {
   };
 
   changeUname = (uname) => {
- 
     this.props.regunameChange(uname);
 
     if (uname == "") {
@@ -356,6 +344,33 @@ class Signup extends Component {
   viewPhoneToggle = () => {
     this.setState({ viewIntl: true });
     this.setState({ viewPhone: false });
+    if (this.state.viewIntl == true) {
+      this.phoneInput.focus();
+    }
+  };
+  unameFocus = () => {
+    this.setState({ nameSection: true });
+    if (this.state.nameSection == true) {
+      this.nameFocus.focus();
+    }
+  };
+  emailFocus = () => {
+    this.setState({ emailSection: true });
+    if (this.state.emailSection == true) {
+      this.emailFocusInput.focus();
+    }
+  };
+  passwordFocus = () => {
+    this.setState({ passwordSection: true });
+    if (this.state.passwordSection == true) {
+      this.passwordFocusInput.focus();
+    }
+  };
+  repasswordFocus = () => {
+    this.setState({ rePasswordSection: true });
+    if (this.state.rePasswordSection == true) {
+      this.repasswordFocusInput.focus();
+    }
   };
   render() {
     const {
@@ -396,16 +411,22 @@ class Signup extends Component {
                           containerStyle={{
                             height: height * 0.065,
                             backgroundColor: COLORS.main_sky_blue,
-                           
                           }}
-                          phoneInputStyle={[styles.mobileInputText,{ marginRight:30}]}
-                          dialCodeTextStyle={[styles.mobileInputText,{ marginLeft:Metrics.xsmallMargin}]}
+                          phoneInputStyle={[
+                            styles.mobileInputText,
+                            { marginRight: 30 },
+                          ]}
+                          dialCodeTextStyle={[
+                            styles.mobileInputText,
+                            { marginLeft: Metrics.xsmallMargin },
+                          ]}
                           value={number}
                           inputRef={(ref) => (this.phoneInput = ref)}
                           keyboardType={"numeric"}
                           onChangeText={this.onChangeNumber}
                           defaultCountry="CA"
                           isShowLabel={false}
+                          autoFocus={true}
                         />
                       ) : null}
                       {this.state.viewPhone ? (
@@ -511,49 +532,59 @@ class Signup extends Component {
                   <View>
                     <View style={styles.mobileView}>
                       {this.state.nameSection == true ? (
-                         <View style={{ flexDirection: "column" }}>
-                         <View>
-                           <Text style={styles.emailText}>User Name</Text>
-                         </View>
-                         <View style={{ flexDirection: "row" }}>
-                         <InputCard
-                           onChangeText={(uname) => this.changeUname(uname)}
-                           blurOnSubmit={false}
-                           autoCapitalize={true}
-                           ref={"unameCont"}
-                           inputRef={"uname"}
-                           value={uname}
-                           returnKey={"next"}
-                           style={
-                             this.state.nameSection == true
-                               ? styles.uText1
-                               : styles.uText
-                           }
-                           keyboardType={"default"}
-                           secureEntry={false}
-                           placeholder={"Username"}
-                         ></InputCard>
-                         <View style={styles.eyeView}>
-                           {uname !== "" &&
-                           this.props.usernameMsg == true &&
-                           !this.minUname(uname) ? (
-                             <Image source={checked} style={styles.checkIcon} />
-                           ) : uname !== "" &&
-                             (this.state.unameError !== "" ||
-                               this.props.usernameMsg == false) ? (
-                             <Image source={wrong} style={styles.checkIcon} />
-                           ) : null}
-                         </View>
-                       </View>
-                       </View>
-                      ) : 
-                      <TouchableOpacity style={{marginLeft:Metrics.doubleBaseMargin}} onPress={() => this.setState({ nameSection: true })}>
-                        <Text style={styles.uText}>Username</Text>
-                      </TouchableOpacity>
-                      
-                      }
-
-                    
+                        <View style={{ flexDirection: "column" }}>
+                          <View>
+                            <Text style={styles.emailText}>User Name</Text>
+                          </View>
+                          <View style={{ flexDirection: "row" }}>
+                            <InputCard
+                              onChangeText={(uname) => this.changeUname(uname)}
+                              blurOnSubmit={false}
+                              autoCapitalize={true}
+                              // ref={"unameCont"}
+                              inputRef={"uname"}
+                              value={uname}
+                              returnKey={"next"}
+                              style={
+                                this.state.nameSection == true
+                                  ? styles.uText1
+                                  : styles.uText
+                              }
+                              keyboardType={"default"}
+                              secureEntry={false}
+                              placeholder={"Username"}
+                              ref={(ref) => {
+                                this.nameFocus = ref;
+                              }}
+                              autoFocus={true}
+                            ></InputCard>
+                            <View style={styles.eyeView}>
+                              {uname !== "" &&
+                              this.props.usernameMsg == true &&
+                              !this.minUname(uname) ? (
+                                <Image
+                                  source={checked}
+                                  style={styles.checkIcon}
+                                />
+                              ) : uname !== "" &&
+                                (this.state.unameError !== "" ||
+                                  this.props.usernameMsg == false) ? (
+                                <Image
+                                  source={wrong}
+                                  style={styles.checkIcon}
+                                />
+                              ) : null}
+                            </View>
+                          </View>
+                        </View>
+                      ) : (
+                        <TouchableOpacity
+                          style={{ marginLeft: Metrics.doubleBaseMargin }}
+                          onPress={this.unameFocus}
+                        >
+                          <Text style={styles.uText}>Username</Text>
+                        </TouchableOpacity>
+                      )}
                     </View>
                     <View style={styles.errorView}>
                       {uname !== "" &&
@@ -637,51 +668,63 @@ class Signup extends Component {
                   <View>
                     <View style={styles.mobileView}>
                       {this.state.emailSection == true ? (
-                       <View> 
-                       <View style={{ flexDirection: "column" }}>
+                        <View>
+                          <View style={{ flexDirection: "column" }}>
+                            <View>
+                              <Text style={styles.emailText}>Email</Text>
+                            </View>
 
-                       
-                       <View>
-                           <Text style={styles.emailText}>Email</Text>
-                         </View>
-                     
-                     <View style={{ flexDirection: "row" }}>
-                       <InputCard
-                         // onChangeText={regEmailChange}
-                         onChangeText={(email) => this.changeEmail(email)}
-                         blurOnSubmit={false}
-                         autoCapitalize={true}
-                         ref={"emailCont"}
-                         inputRef={"email"}
-                         value={email}
-                         style={
-                           this.state.emailSection == true
-                             ? styles.uText1
-                             : styles.uText
-                         }
-                         returnKey={"next"}
-                         keyboardType={"email-address"}
-                         secureEntry={false}
-                         placeholder={"E-mail"}
-                       ></InputCard>
-                       <View style={styles.eyeView}>
-                         {email !== "" && this.props.emailMsg == true ? (
-                           <Image source={checked} style={styles.checkIcon} />
-                         ) : email !== "" &&
-                           (this.state.emailError !== "" ||
-                             this.props.emailMsg == false) ? (
-                           <Image source={wrong} style={styles.checkIcon} />
-                         ) : null}
-                       </View>
-                       </View>
-                     </View>
-                     </View>
-                      ) : 
-                      <TouchableOpacity style={{marginLeft:Metrics.doubleBaseMargin}} onPress={() => this.setState({ emailSection: true })}>
-                      <Text style={styles.uText}>E-mail</Text>
-                    </TouchableOpacity>
-                      }
-                     
+                            <View style={{ flexDirection: "row" }}>
+                              <InputCard
+                                // onChangeText={regEmailChange}
+                                onChangeText={(email) =>
+                                  this.changeEmail(email)
+                                }
+                                blurOnSubmit={false}
+                                autoCapitalize={false}
+                                ref={"emailCont"}
+                                inputRef={"email"}
+                                value={email}
+                                style={
+                                  this.state.emailSection == true
+                                    ? styles.uText1
+                                    : styles.uText
+                                }
+                                returnKey={"next"}
+                                keyboardType={"email-address"}
+                                secureEntry={false}
+                                placeholder={"E-mail"}
+                                ref={(ref) => {
+                                  this.emailFocusInput = ref;
+                                }}
+                                autoFocus={true}
+                              ></InputCard>
+                              <View style={styles.eyeView}>
+                                {email !== "" && this.props.emailMsg == true ? (
+                                  <Image
+                                    source={checked}
+                                    style={styles.checkIcon}
+                                  />
+                                ) : email !== "" &&
+                                  (this.state.emailError !== "" ||
+                                    this.props.emailMsg == false) ? (
+                                  <Image
+                                    source={wrong}
+                                    style={styles.checkIcon}
+                                  />
+                                ) : null}
+                              </View>
+                            </View>
+                          </View>
+                        </View>
+                      ) : (
+                        <TouchableOpacity
+                          style={{ marginLeft: Metrics.doubleBaseMargin }}
+                          onPress={this.emailFocus}
+                        >
+                          <Text style={styles.uText}>E-mail</Text>
+                        </TouchableOpacity>
+                      )}
                     </View>
                     <View style={styles.errorView}>
                       {(this.state.emailError == undefined ||
@@ -838,73 +881,74 @@ class Signup extends Component {
                     <View
                       style={[
                         styles.passView,
-                        { marginTop: Metrics.doubleBaseMargin},
+                        { marginTop: Metrics.doubleBaseMargin },
                       ]}
                     >
                       {this.state.passwordSection == true ? (
-                           <View> 
-                           <View style={{ flexDirection: "column" }}>
-    
-                           
-                           <View>
-                               <Text style={styles.emailText}>Password</Text>
-                             </View>
-                         
-                          <View style={{ flexDirection: "row" }}>
-                            <InputCard
-                              onChangeText={(password) =>
-                                this.changePassword(password)
-                              }
-                              blurOnSubmit={true}
-                              autoCapitalize={false}
-                              ref={"passwordCont"}
-                              inputRef={"password"}
-                              onSubmitEditing={this.submitEdit}
-                              style={
-                                this.state.passwordSection == true
-                                  ? styles.uText1
-                                  : styles.uTextPass
-                              }
-                              value={password}
-                              returnKey={"next"}
-                              keyboardType={"default"}
-                              secureEntry={this.state.show}
-                              placeholder={"Password"}
-                            ></InputCard>
-    
-                            <View style={styles.eyeView}>
-                              <TouchableHighlight
-                                style={styles.eyeContain}
-                                underlayColor="transparent"
-                                onPress={this.showPassword}
-                              >
-                                {this.state.show == false ? (
-                                  <Icon
-                                    name="eye"
-                                    size={18}
-                                    color={COLORS.main_text_color}
-                                  />
-                                ) : (
-                                  <Icon
-                                    name="eye-slash"
-                                    size={18}
-                                    color={COLORS.main_text_color}
-                                  />
-                                )}
-                              </TouchableHighlight>
+                        <View>
+                          <View style={{ flexDirection: "column" }}>
+                            <View>
+                              <Text style={styles.emailText}>Password</Text>
+                            </View>
+
+                            <View style={{ flexDirection: "row" }}>
+                              <InputCard
+                                onChangeText={(password) =>
+                                  this.changePassword(password)
+                                }
+                                blurOnSubmit={true}
+                                autoCapitalize={false}
+                                ref={"passwordCont"}
+                                inputRef={"password"}
+                                onSubmitEditing={this.submitEdit}
+                                style={
+                                  this.state.passwordSection == true
+                                    ? styles.uText1
+                                    : styles.uTextPass
+                                }
+                                value={password}
+                                returnKey={"next"}
+                                keyboardType={"default"}
+                                secureEntry={this.state.show}
+                                placeholder={"Password"}
+                                ref={(ref) => {
+                                  this.passwordFocusInput = ref;
+                                }}
+                                autoFocus={true}
+                              ></InputCard>
+
+                              <View style={styles.eyeView}>
+                                <TouchableHighlight
+                                  style={styles.eyeContain}
+                                  underlayColor="transparent"
+                                  onPress={this.showPassword}
+                                >
+                                  {this.state.show == false ? (
+                                    <Icon
+                                      name="eye"
+                                      size={18}
+                                      color={COLORS.main_text_color}
+                                    />
+                                  ) : (
+                                    <Icon
+                                      name="eye-slash"
+                                      size={18}
+                                      color={COLORS.main_text_color}
+                                    />
+                                  )}
+                                </TouchableHighlight>
+                              </View>
                             </View>
                           </View>
-                          </View>
-                      </View>
-                      ) : 
-                      
-                      <TouchableOpacity style={{marginLeft:Metrics.doubleBaseMargin}} onPress={() => this.setState({ passwordSection: true })}>
-                      <Text style={styles.uText}>Password</Text>
-                    </TouchableOpacity>
-                    
-                    }
-
-                   
+                        </View>
+                      ) : (
+                        <TouchableOpacity
+                          style={{ marginLeft: Metrics.doubleBaseMargin }}
+                          onPress={this.passwordFocus}
+                        >
+                          <Text style={styles.uText}>Password</Text>
+                        </TouchableOpacity>
+                      )}
                     </View>
                     {/* <NormalText>
                       Used for password / username recovery
@@ -925,67 +969,73 @@ class Signup extends Component {
                       ]}
                     >
                       {this.state.rePasswordSection == true ? (
-                            <View> 
-                            <View style={{ flexDirection: "column" }}>
-     
-                            
+                        <View>
+                          <View style={{ flexDirection: "column" }}>
                             <View>
-                                <Text style={styles.emailText}>Re-Enter Password</Text>
+                              <Text style={styles.emailText}>
+                                Re-Enter Password
+                              </Text>
+                            </View>
+                            <View style={{ flexDirection: "row" }}>
+                              <InputCard
+                                onChangeText={(confirmpassWord) =>
+                                  this.changeConfirmPassword(confirmpassWord)
+                                }
+                                blurOnSubmit={false}
+                                autoCapitalize={false}
+                                ref={"confirmpasswordcont"}
+                                inputRef={"confirmpassWord"}
+                                // onSubmitEditing={(confirmpassWord) =>
+                                // this.onSubmit("confirmpassWord")
+                                // }
+                                style={
+                                  this.state.rePasswordSection == true
+                                    ? styles.uText1
+                                    : styles.uTextPass
+                                }
+                                value={confirmpassWord}
+                                returnKey={"next"}
+                                keyboardType={"default"}
+                                secureEntry={this.state.showRender}
+                                placeholder={"Re-Enter Password"}
+                                ref={(ref) => {
+                                  this.repasswordFocusInput = ref;
+                                }}
+                                autoFocus={true}
+                              ></InputCard>
+
+                              <View style={styles.eyeView}>
+                                <TouchableHighlight
+                                  style={styles.eyeContain}
+                                  underlayColor="transparent"
+                                  onPress={this.showrenderPassword}
+                                >
+                                  {this.state.showRender == false ? (
+                                    <Icon
+                                      name="eye"
+                                      size={18}
+                                      color={COLORS.main_text_color}
+                                    />
+                                  ) : (
+                                    <Icon
+                                      name="eye-slash"
+                                      size={18}
+                                      color={COLORS.main_text_color}
+                                    />
+                                  )}
+                                </TouchableHighlight>
                               </View>
-                           <View style={{ flexDirection: "row" }}>
-                             <InputCard
-                               onChangeText={(confirmpassWord) =>
-                                 this.changeConfirmPassword(confirmpassWord)
-                               }
-                               blurOnSubmit={false}
-                               autoCapitalize={false}
-                               ref={"confirmpasswordcont"}
-                               inputRef={"confirmpassWord"}
-                               // onSubmitEditing={(confirmpassWord) =>
-                               // this.onSubmit("confirmpassWord")
-                               // }
-                               style={
-                                 this.state.rePasswordSection == true
-                                   ? styles.uText1
-                                   : styles.uTextPass
-                               }
-                               value={confirmpassWord}
-                               returnKey={"next"}
-                               keyboardType={"default"}
-                               secureEntry={this.state.showRender}
-                               placeholder={"Re-Enter Password"}
-                             ></InputCard>
-     
-                             <View style={styles.eyeView}>
-                               <TouchableHighlight
-                                 style={styles.eyeContain}
-                                 underlayColor="transparent"
-                                 onPress={this.showrenderPassword}
-                               >
-                                 {this.state.showRender == false ? (
-                                   <Icon
-                                     name="eye"
-                                     size={18}
-                                     color={COLORS.main_text_color}
-                                   />
-                                 ) : (
-                                   <Icon
-                                     name="eye-slash"
-                                     size={18}
-                                     color={COLORS.main_text_color}
-                                   />
-                                 )}
-                               </TouchableHighlight>
-                             </View>
-                           </View>
-                           </View>
-                       </View>
-                      ) : 
-                      <TouchableOpacity style={{ marginLeft:Metrics.doubleBaseMargin}} onPress={() => this.setState({ rePasswordSection : true })}>
-                      <Text style={styles.uText}>Re-Enter Password</Text>
-                    </TouchableOpacity>
-                      }
-                   
+                            </View>
+                          </View>
+                        </View>
+                      ) : (
+                        <TouchableOpacity
+                          style={{ marginLeft: Metrics.doubleBaseMargin }}
+                          onPress={this.repasswordFocus}
+                        >
+                          <Text style={styles.uText}>Re-Enter Password</Text>
+                        </TouchableOpacity>
+                      )}
                     </View>
                     {this.state.confirmPassError == undefined ||
                     (this.state.confirmPassError == "" &&
@@ -1134,7 +1184,7 @@ class Signup extends Component {
                       this.props.theme.mode === "light" ? "white" : "black",
                     fontFamily: Font.medium,
                     fontSize: width * 0.04,
-                    padding:7
+                    padding: 7,
                   }}
                 />
               </View>
@@ -1148,14 +1198,13 @@ class Signup extends Component {
 }
 
 function mapStateToProps(state) {
-  // console.log("State From Sign in------->", );
+  // console.log("State From Sign in------->",state );
 
   return {
     theme: state.themeReducer.theme,
     email: state.reg.email,
     contact: state.reg.contact,
-    dialCode:
-      state.reg.contact.indexOf("-") !== -1 && state.reg.contact.split("-")[0],
+    dialCode: state.reg.contact.indexOf("-") !== -1 && state.reg.contact.split("-")[0],
     number: state.reg.contact.split("-")[1],
     uname: state.reg.uname,
     password: state.reg.password,

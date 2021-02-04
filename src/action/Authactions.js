@@ -4,6 +4,7 @@ import {
   LOAD_EMAIL_MSG,
   LOAD_USERNAME_MSG,
   LOGIN_EMAIL,
+  LOGIN_EMAIL_REMOVE,
   LOGIN_NUMBER,
   LOGIN_PASS,
   LOGIN_USER_SUCCESS,
@@ -41,6 +42,35 @@ export const loadDataChange = (payload) => {
   };
 };
 
+export const logoutUser = (data,dispatch) => {
+   return async (dispatch, getState) => {
+    dispatch({ type: LOAD_DATA_SET, payload: false });
+    dispatch({ type: SHOW_LOADER_LOGIN, payload: false });
+    dispatch({ type: RESET_LOGIN });
+    dispatch(NavigationService.navigate("afterLogout"));
+  }
+}
+
+export  const loginEmailChangeRemove = (email) => {
+  
+  return {
+    type: LOGIN_EMAIL,
+    payload: email,
+  };
+};
+export const loginPassChangeRemove = (pass) => {
+  return {
+    type: LOGIN_PASS,
+    payload: pass,
+  };
+};
+export  const loginNumberChangeRemove = (number) => {
+  return {
+    type: LOGIN_NUMBER,
+    payload: "",
+  };
+}
+
 const loginUserSuccess = (data, dispatch) => {
   dispatch({ type: SHOW_LOADER_LOGIN, payload: false });
   dispatch({ type: SHOW_LOADER_REG, payload: false });
@@ -70,27 +100,13 @@ const regUserSuccess = (data, dispatch) => {
   dispatch(NavigationService.navigate("AddContact"));
 
 };
-  // onRegister = (token) => {
-  //   console.log("[Notification fcm ] onRegister:", token)
-  // }
-
-  // onNotification = (notify) => {
-  //   console.log("[Notification fcm ] : onNotification:", notify)
-  //   const notification = fcmService.buildNotification(this.createNotification(notify))
-  //   fcmService.displayNotification(notification)
-  // }
-
-  // onOpenNotification = (notify) => {
-  //   console.log("[Notification fcm ] : onOpenNotification ", notify)
-  //   this.setState({ notifyData: notify._data }, () => this.setState({ isVisibleOverlay: true }))
-  
+ 
 const loginUserFail = (dispatch) => {
   dispatch({ type: SHOW_LOADER_LOGIN, payload: false });
   dispatch({ type: SHOW_LOADER_REG, payload: false });
   dispatch({ type: RESET_LOGIN });
   dispatch({ type: RESET_REG });
 
-  //dispatch({ type: LOGIN_USER_SUCCESS, payload:{} });
 };
 
 const checkUsernameSuccess = (data, dispatch) => {

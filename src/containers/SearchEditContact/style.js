@@ -17,6 +17,15 @@ export default StyleSheet.create({
     fontFamily: Font.regular,
     fontSize: width * 0.04,
     textTransform: "capitalize",
+    color: COLORS.main_text_color,
+    padding:5
+  },
+  midName:{
+    fontFamily: Font.medium,
+    fontSize: width * 0.045,
+    textTransform: "capitalize",
+    color: COLORS.main_text_color,
+   
   },
   imgView: {
     width: width * 0.1,
@@ -51,8 +60,9 @@ export default StyleSheet.create({
     height: width * 0.12,
   },
   scrollStyle: {
-    alignItems: "center",
+    alignItems: 'center',
     height: height * 0.75,
+ 
   },
   profileImage: {
      width: width * 0.095,
@@ -118,5 +128,40 @@ searchTextInput:{
   color:COLORS.main_text_color,
   marginLeft: 7,
   marginTop: 10,
-}
+},
+workModal: {
+  width: width,
+  height: height,
+  opacity: 0.5,
+},
+workModalView: {
+  backgroundColor: "rgba(0,0,0,0.6)",
+  margin: 0,
+  height: height,
+  width: width,
+  alignItems: "center",
+  justifyContent: "center",
+   flexDirection: "row",
+  right: 0,
+},
+content: {
+  width: width * 0.8,
+  height: height * 0.5,
+  backgroundColor: COLORS.white,
+  shadowColor: COLORS.black,
+  shadowOffset: {
+    width: 3,
+    height: 3,
+  },
+  shadowOpacity: 0.25,
+  shadowRadius: 4,
+  elevation: 5,
+  borderRadius: 10,
+},
+
+popupHeader: {
+  alignItems: "flex-end",
+  marginRight:Metrics.baseMargin,
+  marginTop:Metrics.smallMargin
+},
 });

@@ -11,9 +11,6 @@ import {
 } from "react-native";
 import React, { Component, useState } from "react";
 import styled, { ThemeProvider } from "styled-components/native";
-import checked from "../../assets/icons/checkedModified.png";
-import checkedWhite from  "../../assets/icons/checkedWhite.png";
-import checkedModified from  "../../assets/icons/checkedModified.png";
 
 import { COLORS } from "../theme/Colors.js";
 import CheckBox from "@react-native-community/checkbox";
@@ -23,6 +20,9 @@ import GeneralStatusBar from "../../components/StatusBar/index";
 import Header from "../../components/header/index";
 import Metrics from "../theme/Metrics";
 import { Spinner } from "../../components/Spinner";
+import checked from "../../assets/icons/checkedModified.png";
+import checkedModified from  "../../assets/icons/checkedModified.png";
+import checkedWhite from  "../../assets/icons/checkedWhite.png";
 import { connect } from "react-redux";
 import firebase from "../../services/FirebaseDatabase/db";
 import { importContactToFirebase } from "../../services/FirebaseDatabase/importContacToFirebase";
@@ -189,7 +189,7 @@ class importContact extends Component {
   renderLast() {
     return (
       <View style={{ alignItems: "center", flex: 1,}}>
-           <View style={{ flex: 1, bottom: 40, position: "absolute" }}>
+           <View style={{ flex: 1, bottom: 25, position: "absolute" }}>
           <TouchableOpacity
             style={styles.Whiteview}
             onPress={this.importnavigate}
@@ -308,6 +308,8 @@ class importContact extends Component {
                 item.company,
                 "",
                 item.jobTitle,
+                "",
+                "",
                 ""
               );
             }

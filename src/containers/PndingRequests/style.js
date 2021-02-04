@@ -31,7 +31,7 @@ export default StyleSheet.create({
 
   checkboxView: {
     flexDirection: "row",
-
+    
   },
 
   showText: {
@@ -88,6 +88,7 @@ export default StyleSheet.create({
   usernameText: {
     fontFamily: Font.medium,
     fontSize: width * 0.03,
+    marginLeft: Metrics.baseMargin,
     // color:COLORS.main_text_color
   },
   oneView: {
@@ -122,7 +123,7 @@ export default StyleSheet.create({
   acceptText: {
     fontSize: width * 0.034,
     fontFamily: Font.regular,
-    color: COLORS.main_text_color,
+  
   },
   checkView: {
     width: width * 0.07,
@@ -166,6 +167,20 @@ export default StyleSheet.create({
     borderColor: COLORS.main_text_color,
    // height: height * 0.25,
     borderRadius: 10,
-  }
-
+  },
+  c1View:{
+  justifyContent: "flex-end",
+  flex: 1,
+  alignItems: "center",
+  marginTop: Metrics.multipleLabel,
+  paddingBottom: 15,
+},
+c2View:{
+  borderWidth: 1,
+                width: width * 0.7,
+                height: width * 0.12,
+                borderRadius: 10,
+                alignItems: "center",
+                justifyContent: "center",
+}
 });

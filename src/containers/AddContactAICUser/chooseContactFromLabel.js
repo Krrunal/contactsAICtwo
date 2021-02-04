@@ -189,7 +189,7 @@ class chooseContactFromLabel extends Component {
 renderMiddle() {
     return (
       <ScrollView>
-        <View style={{ flex: 1, marginBottom: Metrics.xxdoubleBaseMargin,marginTop:Metrics.baseMargin }}>
+        <View style={{ flex: 1, marginBottom: Metrics.xxdoubleBaseMargin,marginTop:Metrics.baseMargin ,height:height*0.5}}>
           <TouchableOpacity
             style={[styles.checkboxView,{}]}
             onPress={() => {
@@ -220,8 +220,10 @@ renderMiddle() {
               Select (De-select) All{" "}
             </Text>
           </TouchableOpacity>
+          <ScrollView>
           {this.state.dataManage.map((item, key) =>
             this.state.dataManage === [""] ? null : (
+           
               <View style={styles.mainView}>
                 <CheckBox
                   value={item.isSelect}
@@ -242,9 +244,10 @@ renderMiddle() {
                   {item.relation}
                 </Text>
               </View>
+             
             )
           )}
-
+ </ScrollView>
           {this.state.viewSection == true && (
             <View style={styles.addlabelView}>
               <TextInput
@@ -306,7 +309,7 @@ renderMiddle() {
         <View
           style={{
             flex: 1,
-            bottom: 150,
+            bottom: 50,
             position: "absolute",
             flexDirection: "row",
           }}

@@ -66,7 +66,7 @@ export default {
   xxdoubleBaseMargin: ratio(85),
   xxxdoubleBaseMargin: ratio(170),
   xxxxdoubleBaseMargin: ratio(200),
-  multipleLabel: ratio(130),
+  multipleLabel: ratio(100),
   myInfo: ratio(530),
 
   verificationBoxSize: ratio(20),

@@ -630,7 +630,6 @@ class ManageLable extends Component {
     return (
       <Root>
         <View style={{ alignItems: "center" }}>
-          {/* <Text style={styles.lableText}>Friend</Text> */}
           <View style={styles.middleView}>
             <View style={styles.firstMiddle}>
               <View style={styles.squareBorder}>
@@ -1006,7 +1005,7 @@ class ManageLable extends Component {
                 ref={(input) => {
                   this.email_1 = input;
                 }}
-                editable={this.state.status == true ? true : false}
+                editable={this.state.checked_phone_1 == false ? false : true}
               />
                 {/* <IntlPhoneInput
                   containerStyle={{
@@ -1110,7 +1109,7 @@ class ManageLable extends Component {
           <View style={styles.smallView}>
             <View style={styles.filedView}>
               <TextInput
-                placeholder="E-mail Address -1"
+                placeholder="E-mail Address"
                 style={styles.stylefiledText}
                 placeholderTextColor={COLORS.main_text_color}
                 // value={this.state.email_1}
@@ -1593,7 +1592,7 @@ class ManageLable extends Component {
                     </View>
               </View>
               <TextInput
-                placeholder="Website -1"
+                placeholder="Website"
                 style={styles.stylefiledText}
                 placeholderTextColor={COLORS.main_text_color}
                 // value={this.state.website}
@@ -1917,16 +1916,16 @@ class ManageLable extends Component {
                   flexDirection: "row",
                 }}
               >
-                <Text style={[styles.rightTextMobile, { marginLeft: 10 }]}>
+                {/* <Text style={[styles.rightTextMobile, { marginLeft: 10 }]}>
                   Company
-                </Text>
+                </Text> */}
                 <View style={styles.rightViewMobile}>
                   <Text style={styles.rightTextMobile}>Company</Text>
                 </View>
               </View>
               <TextInput
                 placeholder="Company"
-                style={styles.stylefiledText}
+                style={[styles.stylefiledText,{marginBottom:width*0.03}]}
                 placeholderTextColor={COLORS.main_text_color}
                 value={this.state.company}
                 onChangeText={(company) => this.setState({ company })}
@@ -1943,10 +1942,10 @@ class ManageLable extends Component {
           </View>
         ) : (
           <View style={styles.smallView}>
-            <View style={styles.filedViewForMobile}>
+            <View style={styles.filedView}>
               <TextInput
                 placeholder="Company"
-                style={styles.stylefiledText}
+                style={[styles.stylefiledText]}
                 placeholderTextColor={COLORS.main_text_color}
                 value={this.state.company}
                 onChangeText={(company) => this.setState({ company })}
@@ -1959,6 +1958,9 @@ class ManageLable extends Component {
                 }}
                 editable={this.state.status == true ? true : false}
               />
+                 <View style={styles.rightView}>
+                      <Text style={styles.righttext}>Company</Text>
+                  </View>
             </View>
           </View>
         )}
@@ -1975,18 +1977,19 @@ class ManageLable extends Component {
                   width: width * 0.8,
                   height: width * 0.03,
                   flexDirection: "row",
+                 
                 }}
               >
-                <Text style={[styles.rightTextMobile, { marginLeft: 5 }]}>
+                {/* <Text style={[styles.rightTextMobile, { marginLeft: 5 }]}>
                   Job Title
-                </Text>
+                </Text> */}
                 <View style={styles.rightViewMobile}>
                   <Text style={styles.rightTextMobile}>Job Title</Text>
                 </View>
               </View>
               <TextInput
                 placeholder="Job Title"
-                style={styles.stylefiledText}
+                style={[styles.stylefiledText,{marginBottom:width*0.03}]}
                 placeholderTextColor={COLORS.main_text_color}
                 value={this.state.job_title}
                 onChangeText={(job_title) => this.setState({ job_title })}
@@ -2509,7 +2512,7 @@ class ManageLable extends Component {
           // onPress={this.openFlatView}
         >
           <TouchableOpacity>
-            <View style={{ flexDirection: "row", width: width * 0.55 }}>
+            <View style={{ flexDirection: "row", width: width * 0.55 ,alignItems:'center' }}>
               <Text style={styles.flatSmallText}>
                 {this.state.selectedName}
               </Text>
@@ -2597,6 +2600,7 @@ class ManageLable extends Component {
         checked_email_1: true,
         checked_email_2: true,
         checked_address: true,
+        checked_address2: true,
         checked_messagner_1: true,
         checked_messagner_2: true,
         checked_social_media_1: true,
@@ -2621,6 +2625,7 @@ class ManageLable extends Component {
         checked_email_1: false,
         checked_email_2: false,
         checked_address: false,
+        checked_address2: false,
         checked_messagner_1: false,
         checked_messagner_2: false,
         checked_social_media_1: false,
