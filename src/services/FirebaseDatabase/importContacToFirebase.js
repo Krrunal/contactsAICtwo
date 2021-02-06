@@ -42,6 +42,7 @@ export const importContactToFirebase =
         workHours: work_hour,
         jobTitleArray:jobTitleArray,
         workHoursArray:workHoursArray,
-        isImport :false
+        isImport :false,
+        isSelectedContact:true,
     })
 }

@@ -54,7 +54,7 @@ class afterSentInvite extends Component {
   }
 
   oknavigate = () => {
-    this.props.navigation.navigate('Invite')
+    this.props.navigation.navigate('AddContact')
   };
 
   render() {
@@ -75,7 +75,7 @@ class afterSentInvite extends Component {
                 <Text style={{ fontSize: width * 0.05,fontFamily: Font.medium,color: this.props.theme.mode === "light" ? COLORS.main_text_color :COLORS.white}}>
                 Invite(s) Sent 
                 </Text>
-                  </View> 
+             </View> 
        
           {this.renderLast()}
         </Container>

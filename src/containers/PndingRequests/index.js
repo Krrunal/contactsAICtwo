@@ -11,7 +11,6 @@ import {
 } from "react-native";
 import React, { Component, useState } from "react";
 import styled, { ThemeProvider } from "styled-components/native";
-import moment from "moment";
 
 import AsyncStorage from "@react-native-community/async-storage";
 import { COLORS } from "../theme/Colors.js";
@@ -25,10 +24,12 @@ import Labels from "../Labels/index";
 import Metrics from "../theme/Metrics";
 import { Spinner } from "../../components/Spinner";
 import { addItem } from "../../services/FirebaseDatabase/addToFirebase";
+import { addManualContact } from "../../services/FirebaseDatabase/manualContactToFirebase";
 import checkedWhite from "../../assets/icons/checkedWhite.png";
 import { connect } from "react-redux";
-import styles from "./style.js";
+import moment from "moment";
 import { request } from "react-native-permissions";
+import styles from "./style.js";
 
 var { width, height } = Dimensions.get("window");
 class pendingRequest extends Component {
@@ -185,7 +186,6 @@ class pendingRequest extends Component {
   getUsername = () => {
     // console.log("getUsername=---->");
     var s_id = this.state.senderIdArray[0];
-
     this.state.pendingRequest.forEach((doc) => {
       const baseurl = Constants.baseurl;
       var _body = new FormData();
@@ -227,7 +227,7 @@ class pendingRequest extends Component {
   };
 
   removePendingRequestData = () => {
-    const { user_id } = this.props;
+    const { user_id ,username } = this.props;
     const { name, names, trueName, isSelectedName, selectedLable } = this.state;
     console.log("Name---->", names);
     names.map((item, index) => {
@@ -238,7 +238,47 @@ class pendingRequest extends Component {
       }
     });
     addItem(user_id, user_id, selectedLable, "", "", trueName[0]);
-
+    addManualContact(
+      // user_id,
+      username,
+      selectedLable,
+      "",
+      "",
+      "",
+      trueName[0],
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      ""
+      );
     this.setState({ name: [] });
     this.setState({
       trueName: [],

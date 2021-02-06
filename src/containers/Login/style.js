@@ -135,7 +135,7 @@ export default StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     marginBottom: Metrics.baseMargin,
-    
+  
   },
 
   checkIcon: {
@@ -232,5 +232,18 @@ export default StyleSheet.create({
     fontFamily: Font.medium,
     color: COLORS.main_text_color,
     marginLeft: Metrics.baseMargin,
+    width: width * 0.65,
   },
+  passswordView:{
+    width: width * 0.65,
+   
+  },
+  hideBlackText:{
+    fontSize: width * 0.08,
+    fontFamily: Font.bold,
+    color: COLORS.main_text_color,
+    marginLeft: Metrics.baseMargin,
+    width: width * 0.65,
+    marginBottom:Metrics.baseMargin
+  }
 });

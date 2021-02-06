@@ -1,54 +1,59 @@
 import * as React from "react";
 import * as action from "../../action";
 
-import { Image, Text, View } from "react-native";
+import { BackHandler, Dimensions, Image, Text, View } from "react-native";
 import { NavigationActions, StackActions } from "react-navigation";
 import { darkTheme, lightTheme } from "../theme/themeProps";
 import styled, { ThemeProvider } from "styled-components/native";
 
+import Font from "../theme/font";
 import GeneralStatusBar from "../../components/StatusBar/index";
+import NetInfo from "@react-native-community/netinfo";
+import Toast from "react-native-easy-toast";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import firebase from "../../services/FirebaseDatabase/db";
 import styles from "./style";
 import { switchTheme } from "../../action/themeAction";
 
+var { width, height } = Dimensions.get("window");
 class Splash extends React.Component {
   state = {
     isFirebaseLogin: "",
   };
-  async componentDidMount() {
-    console.log("splash screen ----->",this.props.isLogedIn)
-    const { username } = this.props;
-    // firebase
-    //   .firestore()
-    //   .collection("user")
-    //   .doc(username)
-    //   .get()
-    //   .then((snap) => {
-    //     var IsLogedIn = snap._data.isLogedIn;
-    //     if (IsLogedIn == true) {
-    //       this.setState({ isFirebaseLogin: IsLogedIn });
-    //       console.log("snappp true--->", this.state.isFirebaseLogin);
-    //     } else {
-    //       this.setState({ isFirebaseLogin: IsLogedIn });
-    //       console.log("snappp flase--->", this.state.isFirebaseLogin);
-    //     }
-    //   });
-    this.timeoutHandle = setTimeout(async () => {
-      this.props.isLogedIn == false
-        ? this.props.navigation.reset(
-            [NavigationActions.navigate({ routeName: "Login" })],
-            0
-          )
-        : this.props.navigation.reset(
-            [NavigationActions.navigate({ routeName: "AddContact" })],
-            0
-          );
-    }, 2000);
   
-  }
+  backAction = () => {
+    BackHandler.exitApp();
+    return true;
+  };
 
+  async componentDidMount() {
+    BackHandler.addEventListener("hardwareBackPress", this.backAction);
+   
+        this.timeoutHandle = setTimeout(async () => {
+          this.props.isLogedIn == false
+            ? this.props.navigation.reset(
+                [NavigationActions.navigate({ routeName: "Login" })],
+                0
+              )
+            : 
+            NetInfo.fetch().then((state) => {
+              if (state.isConnected) {  
+                this.props.navigation.reset(
+                [NavigationActions.navigate({ routeName: "AddContact" })],
+                0
+              );
+            }else{
+              this.refs.toast.show("Please check Your Internet Connection", 1000);
+            }
+        }, 2000);
+      
+    })
+   
+}
+componentWillUnmount() {
+  BackHandler.removeEventListener("hardwareBackPress", this.backAction);
+}
   render() {
     return (
       <ThemeProvider theme={this.props.theme}>
@@ -69,6 +74,26 @@ class Splash extends React.Component {
             <View style={styles.nameView}>
               <Text style={styles.text}> CONTACTS AIC </Text>
             </View>
+            <Toast
+                ref="toast"
+                style={{
+                  backgroundColor:
+                    this.props.theme.mode === "light" ? "black" : "white",
+                  width: width * 0.9,
+                  alignItems: "center",
+                }}
+                position="bottom"
+                positionValue={200}
+                fadeInDuration={1000}
+                fadeOutDuration={1000}
+                opacity={1}
+                textStyle={{
+                  color: this.props.theme.mode === "light" ? "white" : "black",
+                  fontFamily: Font.medium,
+                  fontSize: width * 0.04,
+                  padding: 7,
+                }}
+              />
           </Container>
         </View>
       </ThemeProvider>

@@ -7,7 +7,7 @@ import {
   Text,
   TouchableHighlight,
   TouchableOpacity,
-  View
+  View,
 } from "react-native";
 import React, { Component, useState } from "react";
 import styled, { ThemeProvider } from "styled-components/native";
@@ -21,8 +21,8 @@ import Header from "../../components/header/index";
 import Metrics from "../theme/Metrics";
 import { Spinner } from "../../components/Spinner";
 import checked from "../../assets/icons/checkedModified.png";
-import checkedModified from  "../../assets/icons/checkedModified.png";
-import checkedWhite from  "../../assets/icons/checkedWhite.png";
+import checkedModified from "../../assets/icons/checkedModified.png";
+import checkedWhite from "../../assets/icons/checkedWhite.png";
 import { connect } from "react-redux";
 import firebase from "../../services/FirebaseDatabase/db";
 import { importContactToFirebase } from "../../services/FirebaseDatabase/importContacToFirebase";
@@ -41,11 +41,13 @@ class importContact extends Component {
     isLoading: false,
     aicGivenName: [],
     aicGivenNames: [],
-    checkedOff:false
+    checkedOff: false,
+  
   };
 
   componentDidMount() {
     this.getContact();
+    const { user_id, username } = this.props;
   }
 
   renderHeader() {
@@ -79,9 +81,8 @@ class importContact extends Component {
               if (item.phoneNumbers.length != 0) {
                 return { contact: item, isSelected: false };
               }
-
             });
-            console.log("Import contact------>", contactNumber);
+            //    console.log("Import contact------>", contactNumber);
 
             const sort = contacts.sort(function (a, b) {
               if (a.givenName.toLowerCase() < b.givenName.toLowerCase())
@@ -127,7 +128,7 @@ class importContact extends Component {
         ? (item.isSelected = true)
         : (item.isSelected = false);
       item.isSelected = !item.isSelected;
-      this.setState({ checkedOff : !this.state.checkedOff });
+      this.setState({ checkedOff: !this.state.checkedOff });
       return { ...item };
     });
     this.setState({ fetchedContacts: contactArr });
@@ -138,39 +139,50 @@ class importContact extends Component {
     return (
       <View
         style={{
-          alignItems: "center",
-          height: height * 0.65,
+          // alignItems: "center",
+          height: height * 0.6,
           paddingHorizontal: 0,
         }}
       >
-        <TouchableOpacity style={styles.checkboxView} onPress={() => {this.selectAll()}}>
-            {this.state.checkedOff == true ? (
-                      <View style={styles.checkViewForLight}> 
-                        {this.props.theme.mode === "light" ? 
-                       <Image source={checkedWhite} style={styles.checkedStyle} /> 
-                       :
-                       <Image source={checkedModified} style={styles.checkedStyle} /> 
-                      }
-                      </View>
-                    ) : (
-                      <View style={styles.checkView}></View>
-                    )
-                     
-           }
-        <Text
+        <TouchableOpacity
+          style={styles.checkboxView}
+          onPress={() => {
+            this.selectAll();
+          }}
+        >
+          {this.state.checkedOff == true ? (
+            <View style={styles.checkViewForLight}>
+              {this.props.theme.mode === "light" ? (
+                <Image source={checkedWhite} style={styles.checkedStyle} />
+              ) : (
+                <Image source={checkedModified} style={styles.checkedStyle} />
+              )}
+            </View>
+          ) : (
+            <View style={styles.checkView}></View>
+          )}
+          <Text
             style={[
               styles.deSelectText,
               {
-                color: this.props.theme.mode === "light" ? "#1374A3" : "white",marginLeft:Metrics.smallMargin
+                color: this.props.theme.mode === "light" ? "#1374A3" : "white",
+                marginLeft: Metrics.smallMargin,
               },
             ]}
-          >Select (De-select) All</Text>
-
+          >
+            Select (De-select) All
+          </Text>
         </TouchableOpacity>
 
         <ScrollView>
           {fetchedContacts.map((item, key) => (
-            <TouchableOpacity style={styles.checkboxViewTwo} key={key} onPress={() => {this.onchecked(key, item.isSelected) }}>
+            <TouchableOpacity
+              style={styles.checkboxViewTwo}
+              key={key}
+              onPress={() => {
+                this.onchecked(key, item.isSelected);
+              }}
+            >
               <CheckBox
                 value={item.isSelected}
                 onChange={() => {
@@ -178,8 +190,18 @@ class importContact extends Component {
                 }}
                 tintColors={{ true: "#1374A3", false: "#1374A3" }}
               />
-              <Text  style={[ styles.selectText,{ color:  this.props.theme.mode === "light" ? "#1374A3" : "white",  }]} >{item.displayName}  </Text>
-           </TouchableOpacity>
+              <Text
+                style={[
+                  styles.selectText,
+                  {
+                    color:
+                      this.props.theme.mode === "light" ? "#1374A3" : "white",
+                  },
+                ]}
+              >
+                {item.displayName}
+              </Text>
+            </TouchableOpacity>
           ))}
         </ScrollView>
       </View>
@@ -188,8 +210,8 @@ class importContact extends Component {
 
   renderLast() {
     return (
-      <View style={{ alignItems: "center", flex: 1,}}>
-           <View style={{ flex: 1, bottom: 25, position: "absolute" }}>
+      <View style={{ alignItems: "center", flex: 1 }}>
+        <View style={{ flex: 1, bottom: 25, position: "absolute" }}>
           <TouchableOpacity
             style={styles.Whiteview}
             onPress={this.importnavigate}
@@ -208,8 +230,8 @@ class importContact extends Component {
       </View>
     );
   }
-
   importnavigate = (isSelect, item, key) => {
+    this.setState({ isLoading: true });
     const { fetchedContacts, selectedContact } = this.state;
     const { user_id, username } = this.props;
 
@@ -273,6 +295,18 @@ class importContact extends Component {
             }
           });
           this.props.navigation.navigate("SerachEditContact");
+          this.setState({ checked: false, isLoading: false });
+          let contactArr = fetchedContacts.map((item, key) => {
+            if ((item.isSelected = true)) {
+              item.isSelected = false;
+            }
+            if (this.state.checkedOff == true) {
+              this.setState({ checkedOff: false });
+            }
+
+            return { ...item };
+          });
+          this.setState({ fetchedContacts: contactArr });
         } else {
           fetchedContacts.map((item) => {
             if (item.isSelected == true) {
@@ -314,7 +348,19 @@ class importContact extends Component {
               );
             }
           });
-          this.props.navigation.navigate("SerachEditContact");
+            this.props.navigation.navigate("SerachEditContact");
+          this.setState({ checked: false , isLoading: false });
+          let contactArr = fetchedContacts.map((item, key) => {
+            if ((item.isSelected = true)) {
+              item.isSelected = false;
+            }
+            if (this.state.checkedOff == true) {
+              this.setState({ checkedOff: false });
+            }
+
+            return { ...item };
+          });
+          this.setState({ fetchedContacts: contactArr });
         }
       });
   };
@@ -324,6 +370,7 @@ class importContact extends Component {
     }
   }
 
+    
   render() {
     return (
       <ThemeProvider theme={this.props.theme}>
@@ -348,7 +395,7 @@ class importContact extends Component {
                 },
               ]}
             >
-              Import contact(s) from Device
+              Import contact from Device
             </Text>
             {this.renderMiddle()}
             {this.renderLast()}
@@ -365,7 +412,8 @@ function mapStateToProps(state) {
   return {
     theme: state.themeReducer.theme,
     user_id: state.login.shouldLoadData.user_id,
-    username: state.login.shouldLoadData.username,
+    username:
+      state.login.shouldLoadData.username || state.reg.shouldLoadData.username,
   };
 }
 

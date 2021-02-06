@@ -46,7 +46,7 @@ class Login extends Component {
       checked: false,
       checkedRemeber: false,
       isKeyboardVisible: false,
-      show: false,
+      show: true,
       phone_number: "",
       password: "",
       checkedOff: false,
@@ -71,20 +71,16 @@ class Login extends Component {
 
   componentDidMount = async () => {
     BackHandler.addEventListener("hardwareBackPress", this.backAction);
-  const { navigation } = this.props;
 
-    this.focusListener = navigation.addListener("didFocus", async () => {
-       this.setState({ emailLogin : "" ,loginUsername :"",loginPassword:""});
-   })
     this.setState({
       loginUsername: await AsyncStorage.getItem("@loginUsername"),
       loginPass: await AsyncStorage.getItem("@loginPass"),
     });
     console.log("Login USername------>", this.state.loginUsername);
-    console.log("Login USername------>", this.state.loginPassword);
+    console.log("Login password------>", this.state.loginPass);
     if (this.state.loginUsername == null && this.state.loginPass == null) {
       this.setState({ checkedOff: false });
-   //   this.setState({loginUsername:"" , loginPassword :""})
+      this.setState({ loginUsername: "", loginPass: "" });
     } else {
       this.setState({ checkedOff: true });
     }
@@ -101,8 +97,8 @@ class Login extends Component {
   check = async () => {
     const { password } = this.props;
     const { emailLogin, checkedOff } = this.state;
-    console.log("username:=--->", emailLogin);
-    console.log("Password:=--->", password);
+    // console.log("username:=--->", emailLogin);
+    // console.log("Password:=--->", password);
     if (checkedOff == false) {
       if (emailLogin == "") {
         showToastError("Please fill all required fileds");
@@ -114,6 +110,9 @@ class Login extends Component {
       }
     } else {
       this.setState({ checkedOff: false });
+      await AsyncStorage.setItem("@loginUsername", "");
+      await AsyncStorage.setItem("@loginPass", "");
+      this.setState({ loginUsername: "", loginPass: "" });
     }
   };
 
@@ -126,22 +125,21 @@ class Login extends Component {
       if (state.isConnected) {
         this.loginUser();
       } else {
-        //alert("Please check Your Internet Connection ");
         this.refs.toast.show("Please check Your Internet Connection", 1000);
       }
     });
   };
 
   loginUser = () => {
-    const { loginUsername, loginPass ,empty} = this.state;
+    const { loginUsername, loginPass, phone_number ,checkedOff} = this.state;
 
     console.log("pas chnage prips---->", this.props.password);
-    if (loginUsername !== null && loginPass !== null) {
+    if(checkedOff == true){
       this.props.loginEmailChange(loginUsername);
+      this.props.loginEmailChange(phone_number);
       this.props.loginPassChange(loginPass);
       this.props.loginUser();
-    //  this.setState({ loginUsername :"" , loginPass:""})
-    } else {
+    }else{
       const { phone_number, emailLogin } = this.state;
 
       if (emailLogin == "" && phone_number == "") {
@@ -157,11 +155,33 @@ class Login extends Component {
         if (emailLogin != "") {
           this.props.loginEmailChange(emailLogin);
           this.props.loginUser();
-          this.props.loginPassChangeRemove(empty)
-          this.setState({ emailLogin : ""})
         }
       }
     }
+    // if (loginUsername !== null && loginPass !== null) {
+    //   this.props.loginEmailChange(loginUsername);
+    //   this.props.loginEmailChange(phone_number);
+    //   this.props.loginPassChange(loginPass);
+    //   this.props.loginUser();
+    // } else {
+    //   const { phone_number, emailLogin } = this.state;
+
+    //   if (emailLogin == "" && phone_number == "") {
+    //     showToastError("Please fill all required fileds");
+    //   }
+    //   if (emailLogin !== "" && phone_number !== "") {
+    //     showToastError("Only one filed required");
+    //   } else {
+    //     if (phone_number != "") {
+    //       this.props.loginEmailChange(phone_number);
+    //       this.props.loginUser();
+    //     }
+    //     if (emailLogin != "") {
+    //       this.props.loginEmailChange(emailLogin);
+    //       this.props.loginUser();
+    //     }
+    //   }
+    // }
   };
 
   onSubmit(value) {
@@ -211,26 +231,21 @@ class Login extends Component {
   };
 
   passwordChange = (loginPassChange) => {
-    // alert(loginPassChange)
     this.setState({ loginPass: "" });
-    // this.props.loginPassChange(loginPassChange);
     this.setState({ emailPassword: loginPassChange });
-    // this.props.loginPassChange(loginPassChange);
-    //this.props.password(loginPassChange)
   };
   viewEmailSection = () => {
     this.setState({ emailSection: true });
-    if(this.state.emailSection ==  true){
+    if (this.state.emailSection == true) {
       this.nameFocus.focus();
     }
   };
   viewPassSection = () => {
-   
     this.props.loginPassChange(this.state.loginPass);
     this.setState({ passSection: true });
-   if(this.state.passSection ==  true){
-     this.passwordfocus.focus();
-   }
+    if (this.state.passSection == true) {
+      this.passwordfocus.focus();
+    }
   };
   emailChange = (value) => {
     this.setState({ loginUsername: "" });
@@ -275,7 +290,7 @@ class Login extends Component {
                     inputRef={"phone"}
                     keyboardType={"numeric"}
                     onChangeText={this.onChangeNumber}
-                    defaultCountry="CA"
+                    defaultCountry="CA2"
                     isLogin={false}
                   />
                 ) : null}
@@ -304,7 +319,8 @@ class Login extends Component {
                     underlayColor="#DDDDDD"
                     onPress={this.viewEmailSection}
                   >
-                    {this.state.loginUsername == null ? (
+                    {this.state.loginUsername == null ||
+                    this.state.loginUsername == "" ? (
                       <Text style={styles.phnText}>Username</Text>
                     ) : (
                       <Text style={styles.phnText}>
@@ -333,13 +349,15 @@ class Login extends Component {
                       // onSubmitEditing={(emailLogin) =>
                       //   this.onSubmit("emailLogin")
                       // }
-                      value={ this.state.loginUsername !== ""
+                      value={
+                        this.state.loginUsername !== ""
                           ? this.state.loginUsername
-                          : emailLogin }
+                          : emailLogin
+                      }
                       returnKey={"next"}
                       keyboardType={"email-address"}
                       secureEntry={false}
-                      placeholder={"Username"}
+                      placeholder={""}
                       style={
                         this.state.emailSection == true
                           ? styles.uText1
@@ -361,9 +379,92 @@ class Login extends Component {
                   >
                     {this.state.loginPass == null ||
                     this.state.loginPass == "" ? (
-                      <Text style={styles.phnText}>Password</Text>
+                      <View
+                        style={{
+                          flexDirection: "row",
+                          alignItems: "center",
+                          height: height * 0.065,
+                        }}
+                      >
+                        <View style={styles.passswordView}>
+                          <Text style={styles.phnText}>Password</Text>
+                        </View>
+                        <View
+                          style={
+                            ([styles.eyeView],
+                            {
+                              marginTop: Metrics.xsmallMargin,
+                              marginLeft: Metrics.xbaseMargin,
+                            })
+                          }
+                        >
+                          <TouchableHighlight
+                            style={styles.eyeContain}
+                            underlayColor="transparent"
+                            onPress={this.showPassword}
+                          >
+                            {this.state.show == false ? (
+                              <Icon
+                                name="eye"
+                                size={18}
+                                color={COLORS.main_text_color}
+                              />
+                            ) : (
+                              <Icon
+                                name="eye-slash"
+                                size={18}
+                                color={COLORS.main_text_color}
+                              />
+                            )}
+                          </TouchableHighlight>
+                        </View>
+                      </View>
                     ) : (
-                      <Text style={styles.phnText}>{this.state.loginPass}</Text>
+                      <View
+                        style={{
+                          flexDirection: "row",
+                          alignItems: "center",
+                          height: height * 0.065,
+                        }}
+                      >
+                        {this.state.show == false ? (
+                          <Text style={styles.phnText}>
+                            {this.state.loginPass}
+                          </Text>
+                        ) : (
+                          <Text style={styles.hideBlackText}>........</Text>
+                        )}
+
+                        <View
+                          style={
+                            ([styles.eyeView],
+                            {
+                              marginTop: Metrics.xsmallMargin,
+                              marginLeft: Metrics.xbaseMargin,
+                            })
+                          }
+                        >
+                          <TouchableHighlight
+                            style={styles.eyeContain}
+                            underlayColor="transparent"
+                            onPress={this.showPassword}
+                          >
+                            {this.state.show == false ? (
+                              <Icon
+                                name="eye"
+                                size={18}
+                                color={COLORS.main_text_color}
+                              />
+                            ) : (
+                              <Icon
+                                name="eye-slash"
+                                size={18}
+                                color={COLORS.main_text_color}
+                              />
+                            )}
+                          </TouchableHighlight>
+                        </View>
+                      </View>
                     )}
                   </TouchableHighlight>
                 ) : null}
@@ -381,14 +482,10 @@ class Login extends Component {
                         //onChangeText={(value) => this.emailChange(value)}
                         blurOnSubmit={false}
                         autoCapitalize={false}
-                        //ref={"LoginpasswordCont"}
                         ref={(ref) => {
                           this.passwordfocus = ref;
                         }}
                         autoFocus={true}
-                        // onSubmitEditing={(password) =>
-                        //   this.onSubmit("password")
-                        // }
                         value={
                           this.state.loginPass !== null
                             ? this.props.password
@@ -396,8 +493,8 @@ class Login extends Component {
                         }
                         returnKey={"done"}
                         keyboardType={"default"}
-                        secureEntry={this.state.show}
-                        placeholder={"Password"}
+                        secureTextEntry={this.state.show}
+                        placeholder={""}
                         style={
                           this.state.passSection == true
                             ? styles.uText1

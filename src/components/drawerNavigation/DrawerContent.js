@@ -695,7 +695,7 @@ class SideBar extends React.Component {
 }
 
 const mapStateToProps = (state) => {
-  console.log("drawer---->", state.login);
+//  console.log("drawer---->", state.login);
   return {
     theme: state.themeReducer.theme,
     user_id: state.login.shouldLoadData.user_id,

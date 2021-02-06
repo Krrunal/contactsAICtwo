@@ -222,9 +222,10 @@ class InviteContact extends Component {
     })
     
     contactSelected.map((item,index) =>{
+      this.setState({contactSelected : []})
       const result = contactSelected[index].find( ({ number }) => number == number );
       console.log("Contact---->",contactSelected);
-      console.log("Contact---->",result.number);
+      console.log("reuslt---->",result.number);
       shortcontacts.push(result.number);
     })
    
@@ -240,6 +241,10 @@ class InviteContact extends Component {
         console.log('SMS Callback: completed: ' + completed + ' cancelled: ' + cancelled + 'error: ' + error);
      });
     this.props.navigation.navigate("AfterSentInvite");
+    if (this.state.checkedOff == true) {
+      this.setState({ checkedOff: false });
+    }
+
     this.getContact();
     
   };

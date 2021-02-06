@@ -26,7 +26,7 @@ export const addItem = (
       middle_name: "",
       last_name: "",
       nick_name: "",
-      number:"",
+      // number:"",
       number1:"",
       mobileabel:"",
       email:email,

@@ -26,7 +26,6 @@ export default StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     marginLeft: Metrics.xsmallMargin,
-    width: width * 0.8,
   },
 
   showText: {
@@ -94,7 +93,7 @@ export default StyleSheet.create({
 
   importHeading: {
     fontFamily: Font.regular,
-    fontSize: width * 0.037,
+    fontSize: width * 0.040,
     marginVertical: Metrics.doubleBaseMargin,
   },
   selectText: {

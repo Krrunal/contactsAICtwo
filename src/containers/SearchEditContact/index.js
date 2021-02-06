@@ -103,7 +103,7 @@ class searchContact extends Component {
       .then((snap) => {
         snap.forEach((doc) => {
           var item = doc._data;
-          //  console.log("contactList----->",item)
+       //   console.log("contactList----->",item)
           this.state.contact.push(item);
         });
         this.setState({ contacts: this.state.contact });
@@ -128,7 +128,7 @@ class searchContact extends Component {
       .then((snap) => {
         snap.forEach((doc) => {
           var item = doc._data;
-          console.log("first----->", item);
+         //   console.log("first----->", item);
           this.state.contact.push(item);
         });
         this.setState({ contacts: this.state.contact });
@@ -141,7 +141,9 @@ class searchContact extends Component {
         this.setState({ shortcontacts: sort, isLoading: false });
       });
   }
+  
   handleSearch = (text) => {
+  console.log("texttt--->",text)
     this.setState({ serachSection: true });
     const { shortcontacts } = this.state;
 
@@ -151,13 +153,23 @@ class searchContact extends Component {
           ? item.first_name.toUpperCase()
           : "".toUpperCase();
         const textData = text.toUpperCase();
+        console.log("select name--->",item.selectedName)
         return itemData.indexOf(textData) > -1;
       });
-      console.log("new data----->", newData);
-      this.setState({ shortcontacts: newData, searchText: text });
+
+      const labelData = shortcontacts.filter(function (item) {
+        const itemData = item.selectedName
+          ? item.selectedName.toUpperCase()
+          : "".toUpperCase();
+        const textData = text.toUpperCase();
+        return itemData.indexOf(textData) > -1;
+      });
+
+      this.setState({ shortcontacts: newData, shortcontacts :labelData ,searchText: text });
     } else {
-      this.setState({ shortcontacts: shortcontacts, searchText: "" });
+      this.setState({ shortcontacts: shortcontacts,shortcontacts :shortcontacts , searchText: "" });
     }
+    
   };
   renderHeader() {
     return (
@@ -275,7 +287,8 @@ class searchContact extends Component {
               },
             ]}
           >
-            {item.user_name || item.first_name} {item.last_name}
+            {item.last_name} {item.user_name || item.first_name}
+           
           </Text>
         ) : (
           <Text
@@ -286,7 +299,7 @@ class searchContact extends Component {
               },
             ]}
           >
-            {item.last_name} {item.user_name || item.first_name}
+             {item.user_name || item.first_name} {item.last_name}
           </Text>
         )}
 
@@ -778,7 +791,7 @@ class searchContact extends Component {
 }
 
 function mapStateToProps(state) {
-  //console.log("State Fromm  ------->", state);
+    console.log("State Fromm  ------->", state.switchNameReducer.nameChange);
   return {
     theme: state.themeReducer.theme,
     user_id:

@@ -3,7 +3,7 @@ import { Dimensions, StyleSheet } from "react-native";
 import { COLORS } from "../theme/Colors.js";
 import Font from "../theme/font";
 import Metrics from "../theme/Metrics";
-import {Modal} from 'react-native-paper';
+import { Modal } from "react-native-paper";
 
 var { width, height } = Dimensions.get("window");
 
@@ -20,10 +20,9 @@ export default StyleSheet.create({
     height: height * 0.065,
     borderRadius: 10,
     marginTop: Metrics.doubleBaseMargin,
-    justifyContent:'center',
+    justifyContent: "center",
     //flexDirection: "row",
-   // alignItems: "center",
- 
+    // alignItems: "center",
   },
   numberView: {
     backgroundColor: COLORS.main_sky_blue,
@@ -42,7 +41,7 @@ export default StyleSheet.create({
     justifyContent: "center",
     //flexDirection: "row",
   },
-  mobileInputView2 : {
+  mobileInputView2: {
     backgroundColor: COLORS.main_sky_blue,
     width: width * 0.9,
     height: height * 0.065,
@@ -52,32 +51,28 @@ export default StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
   },
-  mobileText:{
-    fontSize: width*0.04, 
+  mobileText: {
+    fontSize: width * 0.04,
     fontFamily: Font.medium,
-    justifyContent:'center',
-    alignItems:'center',
-   // color:COLORS.main_text_color,
-    marginLeft:Metrics.xdoubleBaseMargin,
+    justifyContent: "center",
+    alignItems: "center",
+    // color:COLORS.main_text_color,
+    marginLeft: Metrics.doubleBaseMargin,
     width: width * 0.7,
-    color:COLORS.main_text_color
+    color: COLORS.main_text_color,
   },
   mobileInputText: {
     fontSize: width * 0.04,
     fontFamily: Font.medium,
     color: COLORS.main_text_color,
-   
   },
- 
+
   passView: {
     backgroundColor: COLORS.main_sky_blue,
-  
     width: width * 0.9,
     height: height * 0.065,
     borderRadius: 8,
-    // alignItems: "center",
-   justifyContent: "center",
-    // flexDirection: "row",
+    //justifyContent: "center",
   },
 
   userText: {
@@ -133,7 +128,6 @@ export default StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     marginTop: Metrics.doubleBaseMargin,
-
   },
 
   normalText: {
@@ -153,11 +147,10 @@ export default StyleSheet.create({
   },
 
   eyeView: {
-    flex: 1,
-    alignItems: "center",
+    height: height * 0.065,
+    alignItems: "flex-end",
     justifyContent: "center",
     marginRight: Metrics.baseMargin,
-
   },
 
   checkIcon: {
@@ -197,12 +190,10 @@ export default StyleSheet.create({
     paddingVertical: height * 0.02,
     paddingHorizontal: width * 0.05,
     borderRadius: 10,
-   
   },
 
   popupHeader: {
     alignItems: "flex-end",
-    
   },
 
   infoIcon: {
@@ -234,94 +225,102 @@ export default StyleSheet.create({
   reqtext: {
     fontSize: width * 0.026,
     marginLeft: width * 0.01,
-    fontFamily:Font.regular
+    fontFamily: Font.regular,
   },
   eyeContain: {
-  //  borderWidth: 2,
+    //  borderWidth: 2,
     width: width * 0.08,
     height: width * 0.08,
     alignItems: "center",
     justifyContent: "center",
   },
-  uText:{
-    fontSize: width*0.04, 
+  uText: {
+    fontSize: width * 0.04,
+    fontFamily: Font.medium,
+    justifyContent: "center",
+    alignItems: "center",
+    // color:COLORS.main_text_color,
+    marginLeft: Metrics.baseMargin,
+    width: width * 0.57,
+    color: COLORS.main_text_color,
+    //  marginTop:Metrics.xsmallMargin,
+  },
+  uTextPass: {
+    fontSize: width * 0.04,
     fontFamily: Font.medium,
     justifyContent:'center',
     alignItems:'center',
-   // color:COLORS.main_text_color,
-    marginLeft:Metrics.baseMargin,
-    width: width * 0.7,
-    color:COLORS.main_text_color,
-    marginTop:Metrics.xsmallMargin,
- 
-},
-uTextPass:{
-  fontSize: width*0.04, 
-  fontFamily: Font.medium,
-  justifyContent:'center',
-  alignItems:'center',
- // color:COLORS.main_text_color,
-  marginLeft:Metrics.baseMargin,
-  width: width * 0.7,
-  color:COLORS.main_text_color,
-  marginTop:Metrics.xsmallMargin,
- 
-},
-uText1 :{
-  fontSize: width*0.04, 
-  fontFamily: Font.medium,
-   marginLeft:Metrics.doubleBaseMargin,
-  width: width * 0.6,
-  color:COLORS.main_text_color,
-
-},
-
-  uTextGreen:{
-    fontSize: width*0.04, 
+    // color:COLORS.main_text_color,
+    marginLeft: Metrics.baseMargin,
+    width: width * 0.5,
+    color: COLORS.main_text_color,
+     marginTop:Metrics.xsmallMargin,
+  },
+  uText1: {
+    fontSize: width * 0.04,
     fontFamily: Font.medium,
-    justifyContent:'center',
-    alignItems:'center',
-   // color:COLORS.main_text_color,
-    marginLeft:Metrics.baseMargin,
+    marginLeft: Metrics.doubleBaseMargin,
     width: width * 0.7,
-    color:COLORS.green
+    color: COLORS.main_text_color,
+  
   },
-  errorView:{
-    marginLeft:Metrics.smallMargin,
 
+  uTextGreen: {
+    fontSize: width * 0.04,
+    fontFamily: Font.medium,
+    justifyContent: "center",
+    alignItems: "center",
+    // color:COLORS.main_text_color,
+    marginLeft: Metrics.baseMargin,
+    width: width * 0.7,
+    color: COLORS.green,
   },
-  modalView : {
-    flexDirection:"row",
-    marginTop:Metrics.smallMargin,
-    alignItems:'center',
-
+  errorView: {
+    marginLeft: Metrics.smallMargin,
   },
-  modelText:{
-    marginLeft:Metrics.baseMargin,
-    fontSize: width*0.03, 
+  modalView: {
+    flexDirection: "row",
+    marginTop: Metrics.smallMargin,
+    alignItems: "center",
+  },
+  modelText: {
+    marginLeft: Metrics.baseMargin,
+    fontSize: width * 0.03,
     fontFamily: Font.medium,
   },
   modelIcon: {
-  width: width * 0.045,
+    width: width * 0.045,
     height: width * 0.045,
     resizeMode: "contain",
   },
   emailText: {
-    fontSize: width * 0.024,
+    fontSize: width * 0.026,
     fontFamily: Font.medium,
-    justifyContent: "center",
-    alignItems: "center",
-    marginLeft: Metrics.baseMargin,
-    width: width * 0.7,
+    marginLeft: Metrics.doubleBaseMargin,
+    //  marginTop: height * 0.02,
     color: COLORS.main_text_color,
-    marginLeft:Metrics.cdoubleBaseMargin,
-   marginTop: height * 0.01
+
+    // fontSize: width * 0.026,
+    // fontFamily: Font.medium,
+    // // justifyContent: "center",
+    // // alignItems: "center",
+    // marginLeft: Metrics.baseMargin,
+    // width: width * 0.5,
+    // color: COLORS.main_text_color,
+    // marginLeft:Metrics.doubleBaseMargin,
+    // marginTop: height * 0.02
   },
-  error2:{
-  
+  error2: {
     fontSize: 15,
     marginLeft: width * 0.01,
     paddingTop: height * 0.005,
     fontFamily: Font.medium,
-  }
+  },
+  bigText: {
+    marginLeft: Metrics.baseMargin,
+    height: height * 0.065,
+
+    justifyContent: "center",
+    alignItems: "center",
+  },
 });

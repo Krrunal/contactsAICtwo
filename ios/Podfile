@@ -10,6 +10,8 @@ target 'contactsAIC' do
 
 #  pod 'Firebas/Core'
   pod 'Firebase/Firestore'
+  pod 'Firebase/Analytics'
+  
   
   pod 'Permission-Camera', :path => "#{permissions_path}/Camera.podspec"
   pod 'Permission-Contacts', :path => "#{permissions_path}/Contacts.podspec" 

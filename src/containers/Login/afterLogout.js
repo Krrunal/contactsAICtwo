@@ -46,7 +46,7 @@ class afterLogout extends Component {
       checked: false,
       checkedRemeber: false,
       isKeyboardVisible: false,
-      show: false,
+      show: true,
       phone_number: "",
       password: "",
       checkedOff: false,
@@ -69,14 +69,9 @@ class afterLogout extends Component {
     return true;
   };
 
- 
   componentDidMount = async () => {
     BackHandler.addEventListener("hardwareBackPress", this.backAction);
 
-  const { navigation } = this.props;
-    this.focusListener = navigation.addListener("didFocus", async () => {
-       this.setState({ emailLogin : "" ,loginUsername :"",loginPassword:""});
-   })
     this.setState({
       loginUsername: await AsyncStorage.getItem("@loginUsername"),
       loginPass: await AsyncStorage.getItem("@loginPass"),
@@ -84,8 +79,7 @@ class afterLogout extends Component {
     console.log("Login USername------>", this.state.loginUsername);
     console.log("Login USername------>", this.state.loginPassword);
     if (this.state.loginUsername == null && this.state.loginPass == null) {
-      this.setState({ checkedOff: false });
-      this.setState({loginUsername: "Username" , loginPassword :""})
+      this.setState({ checkedOff: false }); //   this.setState({loginUsername:"" , loginPassword :""})
     } else {
       this.setState({ checkedOff: true });
     }
@@ -134,14 +128,14 @@ class afterLogout extends Component {
   };
 
   loginUser = () => {
-    const { loginUsername, loginPass ,empty} = this.state;
+    const { loginUsername, loginPass, empty } = this.state;
 
     console.log("pas chnage prips---->", this.props.password);
     if (loginUsername !== null && loginPass !== null) {
       this.props.loginEmailChange(loginUsername);
       this.props.loginPassChange(loginPass);
       this.props.loginUser();
-    //  this.setState({ loginUsername :"" , loginPass:""})
+      //  this.setState({ loginUsername :"" , loginPass:""})
     } else {
       const { phone_number, emailLogin } = this.state;
 
@@ -158,8 +152,6 @@ class afterLogout extends Component {
         if (emailLogin != "") {
           this.props.loginEmailChange(emailLogin);
           this.props.loginUser();
-        //   this.props.loginPassChangeRemove(empty)
-        //   this.setState({ emailLogin : ""})
         }
       }
     }
@@ -221,10 +213,16 @@ class afterLogout extends Component {
   };
   viewEmailSection = () => {
     this.setState({ emailSection: true });
+    if (this.state.emailSection == true) {
+      this.nameFocus.focus();
+    }
   };
   viewPassSection = () => {
     this.props.loginPassChange(this.state.loginPass);
     this.setState({ passSection: true });
+    if (this.state.passSection == true) {
+      this.passwordfocus.focus();
+    }
   };
   emailChange = (value) => {
     this.setState({ loginUsername: "" });
@@ -269,7 +267,7 @@ class afterLogout extends Component {
                     inputRef={"phone"}
                     keyboardType={"numeric"}
                     onChangeText={this.onChangeNumber}
-                    defaultCountry="CA"
+                    defaultCountry="CA2"
                     isLogin={false}
                   />
                 ) : null}
@@ -298,13 +296,13 @@ class afterLogout extends Component {
                     underlayColor="#DDDDDD"
                     onPress={this.viewEmailSection}
                   >
-                    {/* {this.state.loginUsername == null ? (
+                    {this.state.loginUsername == null ? (
                       <Text style={styles.phnText}>Username</Text>
-                    ) : ( */}
+                    ) : (
                       <Text style={styles.phnText}>
-                           Username
+                        {this.state.loginUsername}
                       </Text>
-                    {/* )} */}
+                    )}
                   </TouchableHighlight>
                 ) : null}
                 {this.state.emailSection == true ? (
@@ -327,11 +325,15 @@ class afterLogout extends Component {
                       // onSubmitEditing={(emailLogin) =>
                       //   this.onSubmit("emailLogin")
                       // }
-                      value={emailLogin}
+                      value={
+                        this.state.loginUsername !== ""
+                          ? this.state.loginUsername
+                          : emailLogin
+                      }
                       returnKey={"next"}
                       keyboardType={"email-address"}
                       secureEntry={false}
-                      placeholder={"Username"}
+                      placeholder={""}
                       style={
                         this.state.emailSection == true
                           ? styles.uText1
@@ -353,9 +355,90 @@ class afterLogout extends Component {
                   >
                     {this.state.loginPass == null ||
                     this.state.loginPass == "" ? (
-                      <Text style={styles.phnText}>Password</Text>
+                      <View
+                        style={{
+                          flexDirection: "row",
+                          alignItems: "center",
+                          height: height * 0.065,
+                        }}
+                      >
+                        <View style={styles.passswordView}>
+                          <Text style={styles.phnText}>Password</Text>
+                        </View>
+                        <View
+                          style={
+                            ([styles.eyeView],
+                            {
+                              marginTop: Metrics.xsmallMargin,
+                              marginLeft: Metrics.xbaseMargin,
+                            })
+                          }
+                        >
+                          <TouchableHighlight
+                            style={styles.eyeContain}
+                            underlayColor="transparent"
+                            onPress={this.showPassword}
+                          >
+                            {this.state.show == false ? (
+                              <Icon
+                                name="eye"
+                                size={18}
+                                color={COLORS.main_text_color}
+                              />
+                            ) : (
+                              <Icon
+                                name="eye-slash"
+                                size={18}
+                                color={COLORS.main_text_color}
+                              />
+                            )}
+                          </TouchableHighlight>
+                        </View>
+                      </View>
                     ) : (
-                      <Text style={styles.phnText}>{this.state.loginPass}</Text>
+                      <View
+                        style={{
+                          flexDirection: "row",
+                          alignItems: "center",
+                          height: height * 0.065,
+                        }}
+                      >
+                            
+                            {this.state.show == false ? (
+                             <Text style={styles.phnText}>{this.state.loginPass}</Text>
+                            ) : (
+                              <Text style={styles.hideBlackText}>........</Text>
+                            )}
+                        <View
+                          style={
+                            ([styles.eyeView],
+                            {
+                              marginTop: Metrics.xsmallMargin,
+                              marginLeft: Metrics.xbaseMargin,
+                            })
+                          }
+                        >
+                          <TouchableHighlight
+                            style={styles.eyeContain}
+                            underlayColor="transparent"
+                            onPress={this.showPassword}
+                          >
+                            {this.state.show == false ? (
+                              <Icon
+                                name="eye"
+                                size={18}
+                                color={COLORS.main_text_color}
+                              />
+                            ) : (
+                              <Icon
+                                name="eye-slash"
+                                size={18}
+                                color={COLORS.main_text_color}
+                              />
+                            )}
+                          </TouchableHighlight>
+                        </View>
+                      </View>
                     )}
                   </TouchableHighlight>
                 ) : null}
@@ -373,14 +456,10 @@ class afterLogout extends Component {
                         //onChangeText={(value) => this.emailChange(value)}
                         blurOnSubmit={false}
                         autoCapitalize={false}
-                        ref={"LoginpasswordCont"}
                         ref={(ref) => {
-                          this.repasswordFocusInput = ref;
+                          this.passwordfocus = ref;
                         }}
                         autoFocus={true}
-                        // onSubmitEditing={(password) =>
-                        //   this.onSubmit("password")
-                        // }
                         value={
                           this.state.loginPass !== null
                             ? this.props.password
@@ -388,8 +467,8 @@ class afterLogout extends Component {
                         }
                         returnKey={"done"}
                         keyboardType={"default"}
-                        secureEntry={this.state.show}
-                        placeholder={"Password"}
+                        secureTextEntry={this.state.show}
+                        placeholder={""}
                         style={
                           this.state.passSection == true
                             ? styles.uText1
