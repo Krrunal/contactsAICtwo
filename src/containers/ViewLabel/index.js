@@ -41,6 +41,7 @@ class ViewLabel extends Component {
   componentDidMount() {
     const { navigation } = this.props;
     this.focusListener = navigation.addListener("didFocus", async () => {
+       this.setState({ contact: [] });
       this.contactList();
     });
   }
@@ -109,6 +110,8 @@ class ViewLabel extends Component {
   };
 
   contactsList({ item, index }) {
+      console.log(item.label);
+
     var labelArray = item.label;
     var nameArr = labelArray !== undefined && labelArray.split(",");
     console.log(nameArr);

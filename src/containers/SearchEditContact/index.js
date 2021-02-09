@@ -9,11 +9,12 @@ import {
   TextInput,
   TouchableHighlight,
   TouchableOpacity,
-  View
+  View,
 } from "react-native";
 import React, { Component, useState } from "react";
 import { Title, connectStyle } from "native-base";
 import styled, { ThemeProvider } from "styled-components/native";
+import AsyncStorage from "@react-native-community/async-storage";
 
 import { COLORS } from "../theme/Colors";
 import GeneralStatusBar from "../../components/StatusBar/index";
@@ -71,10 +72,8 @@ class searchContact extends Component {
   };
   componentDidMount() {
     const { navigation } = this.props;
-
     this.focusListener = navigation.addListener("didFocus", async () => {
       this.setState({ isLoading: true });
-      // this.setState({shortcontacts:""})
       this.setState({ contact: [] });
       this.setState({ contacts: "" });
       if (this.props.contactChange.mode === "first") {
@@ -87,12 +86,7 @@ class searchContact extends Component {
     });
   }
 
-  // componentWillUnmount() {
-  //   this.focusListener.remove();
-  // }
-
   async contactList() {
-    // this.setState({ isLoading: true })
     const { username } = this.props;
     firebase
       .firestore()
@@ -103,7 +97,28 @@ class searchContact extends Component {
       .then((snap) => {
         snap.forEach((doc) => {
           var item = doc._data;
-       //   console.log("contactList----->",item)
+          this.state.contact.push(item);
+        });
+        this.setState({ contacts: this.state.contact });
+        const sort = this.state.contacts.sort(function (a, b) {
+          if (a.last_name.toLowerCase() < b.last_name.toLowerCase()) return -1;
+          if (a.last_name.toLowerCase() > b.last_name.toLowerCase()) return 1;
+          return 0;
+        });
+        this.setState({ shortcontacts: sort, data: sort, isLoading: false });
+      });
+  }
+  async contactListFirst() {
+    const { username } = this.props;
+    firebase
+      .firestore()
+      .collection("user")
+      .doc(username)
+      .collection("contacts")
+      .get()
+      .then((snap) => {
+        snap.forEach((doc) => {
+          var item = doc._data;
           this.state.contact.push(item);
         });
         this.setState({ contacts: this.state.contact });
@@ -113,63 +128,27 @@ class searchContact extends Component {
           if (a.first_name.toLowerCase() > b.first_name.toLowerCase()) return 1;
           return 0;
         });
-        this.setState({ shortcontacts: sort, isLoading: false });
+        this.setState({ shortcontacts: sort, data: sort, isLoading: false });
       });
   }
-  async contactListFirst() {
-    const { username } = this.props;
-    // this.setState({ isLoading: true })
-    firebase
-      .firestore()
-      .collection("user")
-      .doc(username)
-      .collection("contacts")
-      .get()
-      .then((snap) => {
-        snap.forEach((doc) => {
-          var item = doc._data;
-         //   console.log("first----->", item);
-          this.state.contact.push(item);
-        });
-        this.setState({ contacts: this.state.contact });
 
-        const sort = this.state.contacts.sort(function (a, b) {
-          if (a.last_name.toLowerCase() < b.last_name.toLowerCase()) return -1;
-          if (a.last_name.toLowerCase() > b.last_name.toLowerCase()) return 1;
-          return 0;
-        });
-        this.setState({ shortcontacts: sort, isLoading: false });
-      });
-  }
-  
   handleSearch = (text) => {
-  console.log("texttt--->",text)
+    const { data, shortcontacts } = this.state;
+
+    const shortData = data.filter(
+      (obj) =>
+        obj[text?.toLowerCase() ?? "en"]?.indexOf(text) > -1 ||
+        obj.first_name.indexOf(text) > -1 ||
+        obj.nick_name.indexOf(text) > -1 ||
+        obj.last_name.indexOf(text) > -1
+    );
+    this.setState({ shortcontacts: shortData, searchText: text });
+  };
+  serachFocus = () => {
     this.setState({ serachSection: true });
-    const { shortcontacts } = this.state;
-
-    if (text) {
-      const newData = shortcontacts.filter(function (item) {
-        const itemData = item.first_name
-          ? item.first_name.toUpperCase()
-          : "".toUpperCase();
-        const textData = text.toUpperCase();
-        console.log("select name--->",item.selectedName)
-        return itemData.indexOf(textData) > -1;
-      });
-
-      const labelData = shortcontacts.filter(function (item) {
-        const itemData = item.selectedName
-          ? item.selectedName.toUpperCase()
-          : "".toUpperCase();
-        const textData = text.toUpperCase();
-        return itemData.indexOf(textData) > -1;
-      });
-
-      this.setState({ shortcontacts: newData, shortcontacts :labelData ,searchText: text });
-    } else {
-      this.setState({ shortcontacts: shortcontacts,shortcontacts :shortcontacts , searchText: "" });
+    if (this.state.serachSection == true) {
+      this.searchText.focus();
     }
-    
   };
   renderHeader() {
     return (
@@ -185,24 +164,31 @@ class searchContact extends Component {
             <View style={{ justifyContent: "center" }}>
               <View style={styles.sidebarViewCenter}>
                 {this.state.serachSection ? (
-                  <View>
+                  <View style={{ height: width * 0.17 }}>
                     <Text style={styles.searchTextInput}>Search Contacts</Text>
+                    <TextInput
+                      placeholder=""
+                      placeholderTextColor={COLORS.main_sky_blue}
+                      style={
+                        this.state.serachSection == true
+                          ? styles.placholderStyle
+                          : styles.placholderStyle2
+                      }
+                      onChangeText={(text) => {
+                        this.handleSearch(text);
+                      }}
+                      value={this.state.searchText}
+                      ref={(ref) => {
+                        this.searchText = ref;
+                      }}
+                      autoFocus={true}
+                    />
                   </View>
-                ) : null}
-
-                <TextInput
-                  placeholder="Search Contacts "
-                  placeholderTextColor={COLORS.main_sky_blue}
-                  style={
-                    this.state.serachSection == true
-                      ? styles.placholderStyle
-                      : styles.placholderStyle2
-                  }
-                  onChangeText={(text) => {
-                    this.handleSearch(text);
-                  }}
-                  value={this.state.searchText}
-                />
+                ) : (
+                  <TouchableOpacity onPress={this.serachFocus} style={{}}>
+                    <Text style={styles.serachText}>Search Contacts</Text>
+                  </TouchableOpacity>
+                )}
               </View>
             </View>
 
@@ -215,17 +201,15 @@ class searchContact extends Component {
     );
   }
 
-  onFlatlist = (key, first_name, last_name, user_name) => {
+  onFlatlist = async (key, first_name, last_name, user_name) => {
+    console.log("key---->",key)
     const { shortcontacts, firstName } = this.state;
     let FN = shortcontacts[key];
     firstName.push(FN);
-    console.log("item---->", firstName);
-    this.setState({ workViewOpen: true });
+    let  keyData = key.toString();
+    await AsyncStorage.setItem("@keyData", keyData);
+    this.props.navigation.navigate("MyContactInfromation");
   };
-
-  // onClickFlatlist = (key) =>{
-
-  // }
 
   renderItem({ item, index }) {
     const lengthArray = this.state.contacts.length;
@@ -235,12 +219,7 @@ class searchContact extends Component {
       <TouchableOpacity
         style={styles.quardView}
         onPress={() => {
-          this.onFlatlist(
-            index,
-            item.last_name,
-            item.first_name,
-            item.user_name
-          );
+          this.onFlatlist(index);
         }}
       >
         <View style={styles.imgView}>
@@ -277,8 +256,7 @@ class searchContact extends Component {
             />
           )}
         </View>
-
-        {this.props.nameChange.mode == "firstName" ? (
+        {this.props.contactChange.mode === "first" ? (
           <Text
             style={[
               styles.personName,
@@ -288,7 +266,17 @@ class searchContact extends Component {
             ]}
           >
             {item.last_name} {item.user_name || item.first_name}
-           
+          </Text>
+        ) : this.props.nameChange.mode == "firstName" ? (
+          <Text
+            style={[
+              styles.personName,
+              {
+                color: this.props.theme.mode === "light" ? "#1374A3" : "white",
+              },
+            ]}
+          >
+            {item.last_name} {item.user_name || item.first_name}
           </Text>
         ) : (
           <Text
@@ -299,7 +287,7 @@ class searchContact extends Component {
               },
             ]}
           >
-             {item.user_name || item.first_name} {item.last_name}
+            {item.user_name || item.first_name} {item.last_name}
           </Text>
         )}
 
@@ -360,8 +348,7 @@ class searchContact extends Component {
   }
   renderItem2({ item, index }) {
     return (
-      // <ScrollView>
-      <View style={{ }}>
+      <View style={{}}>
         <View style={{ width: width * 0.8, alignItems: "center" }}>
           <Text
             style={[
@@ -375,36 +362,38 @@ class searchContact extends Component {
             {item.first_name} {item.last_name}
           </Text>
         </View>
-        
-          <View>
-            <View style={{marginLeft:Metrics.smallMargin,flexDirection:'row'}}>
-              {item.profile_image == "" ? null :
-              <View style={{marginLeft:Metrics.smallMargin}}>
-              <Image
+
+        <View>
+          <View
+            style={{ marginLeft: Metrics.smallMargin, flexDirection: "row" }}
+          >
+            {item.profile_image == "" ? null : (
+              <View style={{ marginLeft: Metrics.smallMargin }}>
+                <Image
                   source={{ uri: item.profile_image }}
                   style={styles.profileImage2}
                 />
-                </View>
-              }
-              {item.profile_image2 == "" ? null :
-               <View style={{marginLeft:Metrics.smallMargin}}>
-              <Image
+              </View>
+            )}
+            {item.profile_image2 == "" ? null : (
+              <View style={{ marginLeft: Metrics.smallMargin }}>
+                <Image
                   source={{ uri: item.profile_image2 }}
                   style={styles.profileImage2}
                 />
-                </View>
-              }
-          {item.profile_image3 == "" ? null :
-              <View style={{marginLeft:Metrics.smallMargin}}>
-              <Image
+              </View>
+            )}
+            {item.profile_image3 == "" ? null : (
+              <View style={{ marginLeft: Metrics.smallMargin }}>
+                <Image
                   source={{ uri: item.profile_image3 }}
                   style={styles.profileImage2}
                 />
-                </View>
-              }
-            </View>
+              </View>
+            )}
           </View>
-       
+        </View>
+
         {item.first_name == "" ? null : (
           <Text style={[styles.midName, { marginLeft: Metrics.baseMargin }]}>
             First Name :
@@ -429,15 +418,15 @@ class searchContact extends Component {
             <Text style={[styles.personName]}> {item.nick_name} </Text>
           </Text>
         )}
-         {item.number1.number == "" ? null : (
-           <Text style={[styles.midName, { marginLeft: Metrics.baseMargin }]}>
-                Number :
-            <Text style={[styles.personName]}> {item.number1.number} 
-            {item.number1.label !== "" ? 
-                <Text>
-                   ({ item.number1.label})
-                </Text>
-             : null}
+        {item.number1.number == "" ? null : (
+          <Text style={[styles.midName, { marginLeft: Metrics.baseMargin }]}>
+            Number :
+            <Text style={[styles.personName]}>
+              {" "}
+              {item.number1.number}
+              {item.number1.label !== "" ? (
+                <Text>({item.number1.label})</Text>
+              ) : null}
             </Text>
           </Text>
         )}
@@ -448,27 +437,19 @@ class searchContact extends Component {
                 style={[styles.midName, { marginLeft: Metrics.baseMargin }]}
               >
                 Number :<Text style={[styles.personName]}>{item.number}</Text>
-                {item.label !== "" ? (
-                  <Text>
-                   ({item.label})
-                  </Text>
-                  ) 
-                  
-                  : null}
+                {item.label !== "" ? <Text>({item.label})</Text> : null}
               </Text>
-            )) }
+            ))}
 
         {item.email1.email == "" || item.email1 == "" ? null : (
           <Text style={[styles.midName, { marginLeft: Metrics.baseMargin }]}>
             Email :
             <Text style={[styles.personName]}>
               {" "}
-              {item.email1.email} 
-                <Text> 
+              {item.email1.email}
+              <Text>
                 ({item.email1.label !== "" ? item.email1.label : null})
-                  
-                </Text>
-             
+              </Text>
             </Text>
           </Text>
         )}
@@ -477,12 +458,11 @@ class searchContact extends Component {
           : item.email.map((item, index) => (
               <Text
                 style={[styles.midName, { marginLeft: Metrics.baseMargin }]}
-              >Email:
+              >
+                Email:
                 <Text style={[styles.personName]}>
-               
-                  {item.email} {item.label !== "" ? 
-                <Text>( { item.label })</Text>
-                  : null}
+                  {item.email}{" "}
+                  {item.label !== "" ? <Text>( {item.label})</Text> : null}
                 </Text>
               </Text>
             ))}
@@ -502,7 +482,8 @@ class searchContact extends Component {
           : item.address.map((item, index) => (
               <Text
                 style={[styles.midName, { marginLeft: Metrics.baseMargin }]}
-              >Address:
+              >
+                Address:
                 <Text style={[styles.personName]}>
                   {" "}
                   {item.address}({item.label !== "" ? item.label : null})
@@ -524,7 +505,8 @@ class searchContact extends Component {
           : item.messenger.map((item, index) => (
               <Text
                 style={[styles.midName, { marginLeft: Metrics.baseMargin }]}
-              >Messenger Account :
+              >
+                Messenger Account :
                 <Text style={[styles.personName]}>
                   {" "}
                   {item.messenger}
@@ -562,7 +544,8 @@ class searchContact extends Component {
             ))}
 
         {item.website.website == "" || item.website == "" ? null : (
-          <Text style={[styles.midName, { marginLeft: Metrics.baseMargin }]}>Website :
+          <Text style={[styles.midName, { marginLeft: Metrics.baseMargin }]}>
+            Website :
             <Text style={[styles.personName]}>
               {item.website.website}(
               {item.website.label !== "" ? item.website.label : null})
@@ -575,7 +558,8 @@ class searchContact extends Component {
           : item.websiteArray.map((item, index) => (
               <Text
                 style={[styles.midName, { marginLeft: Metrics.baseMargin }]}
-              >Website :
+              >
+                Website :
                 <Text style={[styles.personName]}>
                   {item.website}
                   {item.label !== "" ? item.label : null}{" "}
@@ -588,10 +572,8 @@ class searchContact extends Component {
           <Text style={[styles.midName, { marginLeft: Metrics.baseMargin }]}>
             Date :{" "}
             <Text style={[styles.personName]}>
-              {item.date.date} 
-              {item.date.label !== "" ? 
-              <Text>({ item.date.label})</Text>
-                : null}
+              {item.date.date}
+              {item.date.label !== "" ? <Text>({item.date.label})</Text> : null}
             </Text>
           </Text>
         )}
@@ -602,7 +584,8 @@ class searchContact extends Component {
               <View>
                 <Text
                   style={[styles.midName, { marginLeft: Metrics.baseMargin }]}
-                >Date :
+                >
+                  Date :
                   <Text style={[styles.personName]}>
                     {" "}
                     {item.date}
@@ -618,8 +601,8 @@ class searchContact extends Component {
             Note :
             <Text style={[styles.personName]}>
               {" "}
-              {item.note.note} 
-              {item.note.label !== "" ?<Text>({ item.note.label})</Text> : null}
+              {item.note.note}
+              {item.note.label !== "" ? <Text>({item.note.label})</Text> : null}
             </Text>
           </Text>
         )}
@@ -636,7 +619,7 @@ class searchContact extends Component {
                   <Text style={[styles.personName]}>
                     {" "}
                     {item.note}
-                    {item.label !== "" ? <Text>({ item.label})</Text> : null}
+                    {item.label !== "" ? <Text>({item.label})</Text> : null}
                   </Text>
                 </Text>
               </View>
@@ -661,7 +644,7 @@ class searchContact extends Component {
                   <Text style={[styles.personName]}> {item.company} </Text>
                   <Text style={[styles.personName]}>
                     {" "}
-                    {item.label !== "" ? <Text>({ item.label})</Text> : null}
+                    {item.label !== "" ? <Text>({item.label})</Text> : null}
                   </Text>
                 </Text>
               </View>
@@ -685,7 +668,7 @@ class searchContact extends Component {
                   <Text style={[styles.personName]}> {item.jobTitle} </Text>
                   <Text style={[styles.personName]}>
                     {" "}
-                    {item.label !== "" ?  <Text>({ item.label})</Text> : null}
+                    {item.label !== "" ? <Text>({item.label})</Text> : null}
                   </Text>
                 </Text>
               </View>
@@ -709,7 +692,9 @@ class searchContact extends Component {
                   <Text style={[styles.personName]}> {item.workHours} </Text>{" "}
                   <Text style={[styles.personName]}>
                     {" "}
-                    {item.label !== "" ?  <Text>({ item.label})</Text> : null}{" "}
+                    {item.label !== "" ? (
+                      <Text>({item.label})</Text>
+                    ) : null}{" "}
                   </Text>
                 </Text>
               </View>
@@ -759,17 +744,16 @@ class searchContact extends Component {
                         <Icon name="times" size={30} />
                       </TouchableHighlight>
                     </View>
-                    <View style={{ height: height * 0.6,}}>
-
-                    <FlatList
-                      refreshing={true}
-                      keyExtractor={(item, index) => index.toString()}
-                      data={this.state.firstName}
-                      extraData={this.state}
-                      numColumns={1}
-                      renderItem={this.renderItem2.bind(this)}
-                    />
-                     </View>
+                    <View style={{ height: height * 0.6 }}>
+                      <FlatList
+                        refreshing={true}
+                        keyExtractor={(item, index) => index.toString()}
+                        data={this.state.firstName}
+                        extraData={this.state}
+                        numColumns={1}
+                        renderItem={this.renderItem2.bind(this)}
+                      />
+                    </View>
                   </View>
                   {/* {this.state.firstName.map((item, key) => (
                     <View key={key}>
@@ -791,7 +775,7 @@ class searchContact extends Component {
 }
 
 function mapStateToProps(state) {
-    console.log("State Fromm  ------->", state.switchNameReducer.nameChange);
+  // console.log("State Fromm  ------->", state.switchNameReducer.nameChange);
   return {
     theme: state.themeReducer.theme,
     user_id:

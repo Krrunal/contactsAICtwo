@@ -744,7 +744,7 @@ class Signup extends Component {
                       )}
                     </View>
                     <View style={styles.errorView}>
-                      {(this.state.emailError == undefined ||
+                    {email !== ""  ?  (this.state.emailError == undefined ||
                         this.state.emailError == "") &&
                       this.props.emailMsg == true ? (
                         <Text
@@ -761,7 +761,9 @@ class Signup extends Component {
                           Email <Text style={styles.errorSuccess}>is</Text>{" "}
                           available
                         </Text>
-                      ) : null}
+                      ) : null  : null}
+
+                     
                       {(this.state.emailError == undefined ||
                         this.state.emailError == "") &&
                       this.props.emailMsg == false ? (
@@ -960,13 +962,13 @@ class Signup extends Component {
                           >
                             {this.state.show == false ? (
                               <Icon
-                                name="eye"
+                                name="eye-slash"
                                 size={18}
                                 color={COLORS.main_text_color}
                               />
                             ) : (
                               <Icon
-                                name="eye-slash"
+                                name="eye"
                                 size={18}
                                 color={COLORS.main_text_color}
                               />
@@ -1037,13 +1039,13 @@ class Signup extends Component {
                           >
                             {this.state.showRender == false ? (
                               <Icon
-                                name="eye"
+                                name="eye-slash"
                                 size={18}
                                 color={COLORS.main_text_color}
                               />
                             ) : (
                               <Icon
-                                name="eye-slash"
+                                name="eye"
                                 size={18}
                                 color={COLORS.main_text_color}
                               />

@@ -4,12 +4,13 @@ export const importContactToFirebase =
     (username, profile_image, first_name, middle_name,last_name,nick_name,number1,number2,number3,numberArray,
         email1,email2,emailArray,address1,addressArray,messenger1,messenger2,messangerArray,
         social_media1,social_media2,socialMediaArray,website1,website2,websiteArray,dob,
-        dateArray,note,noteArray,company,companyArray,job_title,work_hour, jobTitleArray, workHoursArray) => {
+        dateArray,note,noteArray,company,companyArray,job_title,work_hour, jobTitleArray, workHoursArray,selectedLable) => {
           
     firebase.firestore().collection('user').doc(`${username}`).collection('contacts').add({        
         profile_image: profile_image,
         profile_image2: "",
         profile_image3: "",
+        // selectedLable:selectedLable,
         first_name: first_name,
         middle_name: middle_name, 
         last_name: last_name,
@@ -44,5 +45,6 @@ export const importContactToFirebase =
         workHoursArray:workHoursArray,
         isImport :false,
         isSelectedContact:true,
+        selectedName:"",
     })
 }

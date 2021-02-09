@@ -183,20 +183,102 @@ class MyContactInfromation extends Component {
       websiteArray: [],
       dateArray: [],
       noteArray: [],
+      contact: [],
+      contacts: "",
+      firstName: [],
+      keyData: "",
+      shortcontacts: "",
+      n1:[],
+      n2:[]
     };
   }
+
   componentDidMount = async () => {
+    this.setState({ isLoading: true });
     this.timeZoneField();
+    this.setState({
+      keyData: await AsyncStorage.getItem("@keyData"),
+    });
+    console.log("ket date---->", this.state.keyData);
+    // this.dataFirebase();
+    if (this.props.contactChange.mode === "first") {
+      this.contactList();
+      console.log("first");
+    } else {
+      this.contactListFirst();
+      console.log("Last");
+    }
+  };
+
+  async contactList() {
     const { username } = this.props;
     firebase
       .firestore()
       .collection("user")
       .doc(username)
+      .collection("contacts")
       .get()
       .then((snap) => {
-        // console.log("Data ---->",  snap._data);
+        snap.forEach((doc) => {
+          var item = doc._data;
+          this.state.contact.push(item);
+        });
+        this.setState({ contacts: this.state.contact });
+        const sort = this.state.contacts.sort(function (a, b) {
+          if (a.last_name.toLowerCase() < b.last_name.toLowerCase()) return -1;
+          if (a.last_name.toLowerCase() > b.last_name.toLowerCase()) return 1;
+          return 0;
+        });
+
+        this.setState({ shortcontacts: sort, data: sort });
+        this.list();
       });
+  }
+  async contactListFirst() {
+    const { username } = this.props;
+    firebase
+      .firestore()
+      .collection("user")
+      .doc(username)
+      .collection("contacts")
+      .get()
+      .then((snap) => {
+        snap.forEach((doc) => {
+          var item = doc._data;
+          this.state.contact.push(item);
+        });
+        this.setState({ contacts: this.state.contact });
+        const sort = this.state.contacts.sort(function (a, b) {
+          if (a.first_name.toLowerCase() < b.first_name.toLowerCase())
+            return -1;
+          if (a.first_name.toLowerCase() > b.first_name.toLowerCase()) return 1;
+          return 0;
+        });
+
+        this.setState({ shortcontacts: sort, data: sort });
+        this.list();
+      });
+  }
+
+  list = () => {
+    const { shortcontacts, firstName, keyData ,n1 ,n2} = this.state;
+    let FN = shortcontacts[keyData];
+    firstName.push(FN);
+   
+   
+    n1.push(shortcontacts[keyData].number)
+    console.log("item---->", n1);
+    n1.map((item, index) => {
+      const number2 = n1.find( ({ number }) => number == number);
+      const number3 = number2.find( ({ number }) => number == number);
+      let n3 = number3.number
+      n2.push(n3)
+    //  console.log("item---->", number2);
+      
+    });
+    this.setState({ isLoading: false });
   };
+
   timeZoneField = async () => {
     this.state.tz.push("GMT (Greenwhich)");
     this.state.tz.push("GMT (Universal)");
@@ -555,6 +637,12 @@ class MyContactInfromation extends Component {
       />
     );
   }
+
+  showLoader() {
+    if (this.state.isLoading == true) {
+      return <Spinner />;
+    }
+  }
   renderMiddle() {
     return (
       <Root>
@@ -610,7 +698,7 @@ class MyContactInfromation extends Component {
 
           <View>
             <View style={styles.searchSection}>
-              <TextInput
+              {/* <TextInput
                 placeholder=""
                 style={styles.stylefiledText}
                 placeholderTextColor={COLORS.main_text_color}
@@ -621,7 +709,8 @@ class MyContactInfromation extends Component {
                 ref={(input) => {
                   this.first_name = input;
                 }}
-              />
+              /> */}
+              <Text style={styles.stylefiledText}>{item.first_name}</Text>
               <View style={styles.rightView}>
                 <Text style={styles.righttext}>First Name</Text>
               </View>
@@ -720,24 +809,7 @@ class MyContactInfromation extends Component {
                             >
                               Phone Number
                             </Text>
-                            {/* <IntlPhoneInput
-                                onChangeText={(number) => this.onChangeText(number, index)}
-                                defaultCountry="CA"
-                                containerStyle={{
-                                  width: width * 0.5,
-                                  height: height * 0.06,
-                                  borderWidth:1
-                                }}
-                                phoneInputStyle={[
-                                  styles.Text_1,
-                                  {
-                                    fontSize: width * 0.02,
-                                    width: width * 0.5,
-                                   
-                                  },
-                                ]}
-                                isMyContact={false}
-                             /> */}
+
                             <TextInput
                               placeholder="Phone Number"
                               style={[
@@ -883,7 +955,6 @@ class MyContactInfromation extends Component {
       </View>
     );
   }
-
 
   selectEmailLabel = (index, label) => {
     var data = this.state.emailInput;
@@ -1112,11 +1183,11 @@ class MyContactInfromation extends Component {
     );
   }
 
-   selectAddressLabel = (index, label) => {
+  selectAddressLabel = (index, label) => {
     var data = this.state.addressInput;
     data[index].label = label;
     data[index].show = false;
-    this.setState({ addressInput : data, checkAddressSection: false });
+    this.setState({ addressInput: data, checkAddressSection: false });
   };
 
   showAddress = (index) => {
@@ -1158,7 +1229,7 @@ class MyContactInfromation extends Component {
       addressInput[i].show = false;
     });
     // if (addressInput.length < 5) {
-      addressInput.push({ label: "Select Type..", show: false });
+    addressInput.push({ label: "Select Type..", show: false });
     // }
 
     this.setState({ addressInput });
@@ -1253,7 +1324,9 @@ class MyContactInfromation extends Component {
                         return (
                           <TouchableOpacity
                             activeOpacity={0.8}
-                            onPress={() => this.selectAddressLabel(index, i.label)}
+                            onPress={() =>
+                              this.selectAddressLabel(index, i.label)
+                            }
                           >
                             <View style={styles.labelContainer}>
                               <Text style={styles.label}>{i.label}</Text>
@@ -2586,8 +2659,8 @@ class MyContactInfromation extends Component {
   };
 
   showWorkHour = (index) => {
-    this.setState({ isCompanySec: true })
-   
+    this.setState({ isCompanySec: true });
+
     if (this.state.isCompanySec == true) {
       this.mondayFocus.focus();
     }
@@ -3039,7 +3112,7 @@ class MyContactInfromation extends Component {
                                 placeholder="3:30AM"
                                 placeholderTextColor={COLORS.main_text_color}
                                 style={styles.timeText}
-                                 editable={this.state.status ? true : false}
+                                editable={this.state.status ? true : false}
                                 onChangeText={(mondayTo) =>
                                   this.onChangeMondayTo(mondayTo, index)
                                 }
@@ -3063,7 +3136,7 @@ class MyContactInfromation extends Component {
                                 placeholder="7:00AM"
                                 placeholderTextColor={COLORS.main_text_color}
                                 style={styles.timeText}
-                                 editable={this.state.status ? true : false}
+                                editable={this.state.status ? true : false}
                                 onChangeText={(tuesday) =>
                                   this.onChangeTuesday(tuesday, index)
                                 }
@@ -3082,7 +3155,7 @@ class MyContactInfromation extends Component {
                                 placeholder="3:30AM"
                                 placeholderTextColor={COLORS.main_text_color}
                                 style={styles.timeText}
-                                  editable={this.state.status ? true : false}
+                                editable={this.state.status ? true : false}
                                 onChangeText={(tuesdayTo) =>
                                   this.onChangeTuesdayTo(tuesdayTo, index)
                                 }
@@ -3106,7 +3179,7 @@ class MyContactInfromation extends Component {
                                 placeholder="7:00AM"
                                 placeholderTextColor={COLORS.main_text_color}
                                 style={styles.timeText}
-                                 editable={this.state.status ? true : false}
+                                editable={this.state.status ? true : false}
                                 onChangeText={(wednesday) =>
                                   this.onChangeWednesday(wednesday, index)
                                 }
@@ -3125,7 +3198,7 @@ class MyContactInfromation extends Component {
                                 placeholder="3:30AM"
                                 placeholderTextColor={COLORS.main_text_color}
                                 style={styles.timeText}
-                                  editable={this.state.status ? true : false}
+                                editable={this.state.status ? true : false}
                                 onChangeText={(wednesdayTo) =>
                                   this.onChangeWednesdayTo(wednesdayTo, index)
                                 }
@@ -3149,7 +3222,7 @@ class MyContactInfromation extends Component {
                                 placeholder="7:00AM"
                                 placeholderTextColor={COLORS.main_text_color}
                                 style={styles.timeText}
-                                 editable={this.state.status ? true : false}
+                                editable={this.state.status ? true : false}
                                 onChangeText={(thursday) =>
                                   this.onChangeThursday(thursday, index)
                                 }
@@ -3168,7 +3241,7 @@ class MyContactInfromation extends Component {
                                 placeholder="3:30AM"
                                 placeholderTextColor={COLORS.main_text_color}
                                 style={styles.timeText}
-                                  editable={this.state.status ? true : false}
+                                editable={this.state.status ? true : false}
                                 onChangeText={(thursdayTo) =>
                                   this.onChangeThursdayTo(thursdayTo, index)
                                 }
@@ -3192,7 +3265,7 @@ class MyContactInfromation extends Component {
                                 placeholder="7:00AM"
                                 placeholderTextColor={COLORS.main_text_color}
                                 style={styles.timeText}
-                                 editable={this.state.status ? true : false}
+                                editable={this.state.status ? true : false}
                                 onChangeText={(friday) =>
                                   this.onChangeFriday(friday, index)
                                 }
@@ -3254,7 +3327,7 @@ class MyContactInfromation extends Component {
                                 placeholder="OFF"
                                 placeholderTextColor={COLORS.main_text_color}
                                 style={styles.timeText}
-                                  editable={this.state.status ? true : false}
+                                editable={this.state.status ? true : false}
                                 onChangeText={(saturdayTo) =>
                                   this.onChangeSaturdayTo(saturdayTo, index)
                                 }
@@ -3278,7 +3351,7 @@ class MyContactInfromation extends Component {
                                 placeholder="OFF"
                                 placeholderTextColor={COLORS.main_text_color}
                                 style={styles.timeText}
-                                 editable={this.state.status ? true : false}
+                                editable={this.state.status ? true : false}
                                 onChangeText={(sunday) =>
                                   this.onChangeSunday(sunday, index)
                                 }
@@ -3897,7 +3970,7 @@ class MyContactInfromation extends Component {
         <TouchableHighlight
           underlayColor="transparent"
           style={styles.saveView}
-          onPress={this.ShowHideTextComponentView}
+         // onPress={this.ShowHideTextComponentView}
         >
           <Text
             style={{
@@ -3912,6 +3985,281 @@ class MyContactInfromation extends Component {
       </View>
     );
   }
+  ListFirstaName({ item, index }) {
+    return (
+      <View style={{}}>
+        <View style={{ marginTop: Metrics.baseMargin, position: "relative" }}>
+          <View style={{ flexDirection: "row" }}>
+            <View>
+              <Image source={innerimg} style={styles.innerStyle} />
+            </View>
+
+            <View>
+              <View style={styles.searchSection}>
+                {/* <TextInput
+                placeholder=""
+                style={styles.stylefiledText}
+                placeholderTextColor={COLORS.main_text_color}
+                // maxLength={10}
+                editable={this.state.status ? true : false}
+                value={this.state.first_name}
+                onChangeText={(value) => this.setState({ first_name: value })}
+                ref={(input) => {
+                  this.first_name = input;
+                }}
+              /> */}
+                <Text style={styles.stylefiledText}>{item.first_name}</Text>
+                <View style={styles.rightView}>
+                  <Text style={styles.righttext}>First Name</Text>
+                </View>
+              </View>
+
+              <View style={styles.searchSection}>
+                {/* <TextInput
+                placeholder=""
+                style={styles.stylefiledText}
+                placeholderTextColor={COLORS.main_text_color}
+                // maxLength={10}
+                editable={this.state.status ? true : false}
+                value={this.state.middle_name}
+                onChangeText={(value) => this.setState({ middle_name: value })}
+                ref={(input) => {
+                  this.middle_name = input;
+                }}
+              /> */}
+                <Text style={styles.stylefiledText}>{item.middle_name}</Text>
+                <View style={styles.rightView}>
+                  <Text style={styles.righttext}>Middle Name</Text>
+                </View>
+              </View>
+
+              <View style={styles.searchSection}>
+                {/* <TextInput
+                placeholder=""
+                style={styles.stylefiledText}
+                placeholderTextColor={COLORS.main_text_color}
+                // maxLength={10}
+                editable={this.state.status ? true : false}
+                value={this.state.last_name}
+                onChangeText={(value) => this.setState({ last_name: value })}
+                ref={(input) => {
+                  this.last_name = input;
+                }}
+              /> */}
+                <Text style={styles.stylefiledText}>{item.last_name}</Text>
+                <View style={styles.rightView}>
+                  <Text style={styles.righttext}>Last Name</Text>
+                </View>
+              </View>
+
+              <View style={styles.searchSection}>
+                {/* <TextInput
+                placeholder=""
+                style={styles.stylefiledText}
+                placeholderTextColor={COLORS.main_text_color}
+                editable={this.state.status ? true : false}
+                value={this.state.nick_name}
+                onChangeText={(value) => this.setState({ nick_name: value })}
+                ref={(input) => {
+                  this.nick_name = input;
+                }}
+                //  onSubmitEditing={this.onPressKey}
+              /> */}
+                <Text style={styles.stylefiledText}>{item.last_name}</Text>
+                <View style={styles.rightView}>
+                  <Text style={styles.righttext}>Nickname</Text>
+                </View>
+              </View>
+            </View>
+          </View>
+        </View>
+        <View style={{ marginTop: Metrics.doubleBaseMargin }}>
+          <View style={{ flexDirection: "row" }}>
+            <View>
+              <Image source={call} style={styles.innerStyle} />
+            </View>
+            <View style={{ flexDirection: "column" }}>
+              <View style={{ flexDirection: "column" }}>
+                {this.state.textInput.map((item, index) => {
+                  return (
+                    <View>
+                      {this.state.status ? (
+                        <View style={styles.searchSection}>
+                          {this.state.isMobileSection ? (
+                            <TouchableOpacity
+                              style={{ flexDirection: "column" }}
+                            >
+                              <Text
+                                style={[
+                                  styles.Text_1,
+                                  {
+                                    fontSize: width * 0.02,
+                                    width: width * 0.5,
+                                    marginTop: width * 0.02,
+                                  },
+                                ]}
+                              >
+                                Phone Number
+                              </Text>
+                              {/* <TextInput
+                              placeholder="Phone Number"
+                              style={[
+                                styles.stylefiledText,
+                                { marginBottom: width * 0.025 },
+                              ]}
+                              returnKeyType="next"
+                              placeholderTextColor={COLORS.main_text_color}
+                              editable={this.state.status ? true : false}
+                              onChangeText={(number) =>
+                                this.addValues(number, index)
+                              }
+                              keyboardType={"numeric"}
+                              ref={(ref) => {
+                                this.textInputRef = ref;
+                              }}
+                              autoFocus={true}
+                            /> */}
+                    <Text style={styles.stylefiledText}>{this.state.n2}</Text>
+
+                            </TouchableOpacity>
+                          ) : (
+                            <TouchableOpacity
+                              onPress={this.onPressKey}
+                              // onPress={() =>
+                              // this.setState({ isMobileSection: true })
+                              // }
+                            >
+                         
+                              <Text style={styles.stylefiledText}>
+                                Phone Number
+                              </Text>
+                            </TouchableOpacity>
+                          )}
+
+                          <TouchableOpacity
+                            style={styles.modalBtn}
+                            onPress={() => this.show(index)}
+                          >
+                            <Text style={styles.selectTypeText}>
+                              {item.label}
+                            </Text>
+                          </TouchableOpacity>
+                        </View>
+                      ) : (
+                        <TouchableOpacity style={styles.searchSection}>
+                          {/* <Text style={styles.stylefiledText}>
+                            Phone Number
+                          </Text> */}
+               <Text style={styles.stylefiledText}>{this.state.n2}</Text>
+
+                        </TouchableOpacity>
+                      )}
+                      {item.show && (
+                        <ScrollView
+                          style={[styles.modal]}
+                          nestedScrollEnabled={true}
+                        >
+                          {mobileLabelList.map((i) => {
+                            return (
+                              <TouchableOpacity
+                                activeOpacity={0.8}
+                                onPress={() => this.selectLabel(index, i.label)}
+                              >
+                                <View style={styles.labelContainer}>
+                                  <Text style={styles.label}>{i.label}</Text>
+                                </View>
+                              </TouchableOpacity>
+                            );
+                          })}
+
+                          <View style={styles.labelContainer}>
+                            <TouchableOpacity
+                              style={styles.customView}
+                              onPress={() => {
+                                this.setState({ checkNumberSection: true });
+                              }}
+                            >
+                              <Text style={[styles.label]}>Custom</Text>
+                              {this.state.checkNumberSection ? (
+                                <View style={styles.customRight}>
+                                  <Image
+                                    source={checked}
+                                    style={styles.checkedIcon}
+                                  />
+                                </View>
+                              ) : null}
+                            </TouchableOpacity>
+                            {this.state.checkNumberSection ? (
+                              <TextInput
+                                style={styles.cutomTextInput}
+                                placeholderTextColor={COLORS.main_text_color}
+                                placeholder={"Label"}
+                                onChangeText={(customLabel) =>
+                                  this.setState({ customLabel })
+                                }
+                                onSubmitEditing={() =>
+                                  this.selectLabel(
+                                    index,
+                                    this.state.customLabel
+                                  )
+                                }
+                              />
+                            ) : null}
+                          </View>
+                        </ScrollView>
+                      )}
+                    </View>
+                  );
+                })}
+              </View>
+            </View>
+          </View>
+          <View style={{ flexDirection: "row" }}>
+            <View style={{ flex: 1 }}>
+              <TouchableOpacity
+                style={styles.addNewBox}
+                onPress={() =>
+                  this.addTextInput(this.state.textInput.length, false)
+                }
+              >
+                {this.state.status ? (
+                  <Text
+                    style={[
+                      styles.addNew,
+                      {
+                        color:
+                          this.props.theme.mode === "light"
+                            ? COLORS.main_text_color
+                            : COLORS.white,
+                      },
+                    ]}
+                  >
+                    + Add Phone Number
+                  </Text>
+                ) : null}
+              </TouchableOpacity>
+            </View>
+
+            {this.state.removeNumberSection ? (
+              <View style={{ flex: 1, alignItems: "flex-end" }}>
+                <TouchableOpacity
+                  style={{}}
+                  onPress={() => this.removeTextInput()}
+                >
+                  {this.state.status ? (
+                    <Text style={[styles.removeNew]}>
+                      - Remove Phone Number
+                    </Text>
+                  ) : null}
+                </TouchableOpacity>
+              </View>
+            ) : null}
+          </View>
+        </View>
+      </View>
+    );
+  }
+
   render() {
     const { mobileLabelList } = this.state;
     return (
@@ -3924,7 +4272,6 @@ class MyContactInfromation extends Component {
             this.props.theme.mode === "dark" ? "light-content" : "dark-content"
           }
         />
-        {/* <View style={{width :width ,alignItems:'center'}}> */}
 
         <View style={styles.container}>
           <Container>
@@ -3932,7 +4279,17 @@ class MyContactInfromation extends Component {
               <View style={{ width: width, alignItems: "center" }}>
                 {this.renderHeader()}
                 {this.renderMiddle()}
-                {this.renderName()}
+                <View style={{ height: height * 0.6 }}>
+                  <FlatList
+                    refreshing={true}
+                    keyExtractor={(item, index) => index.toString()}
+                    data={this.state.firstName}
+                    extraData={this.state}
+                    numColumns={1}
+                    renderItem={this.ListFirstaName.bind(this)}
+                  />
+                </View>
+                {/* {this.renderName()}
                 {this.renderMobile()}
                 {this.renderEmail()}
                 {this.renderAddress()}
@@ -3941,11 +4298,12 @@ class MyContactInfromation extends Component {
                 {this.renderWebsite()}
                 {this.renderDate()}
                 {this.renderNote()}
-                {this.renderCompany()}
+                {this.renderCompany()} */}
               </View>
             </ScrollView>
             {this.renderLast()}
           </Container>
+          {this.showLoader()}
           {/* </View> */}
         </View>
       </ThemeProvider>
@@ -3957,6 +4315,8 @@ const mapStateToProps = (state) => ({
   theme: state.themeReducer.theme,
   username: state.login.shouldLoadData.username,
   dateChange: state.switchDateReducer.dateChange,
+  contactChange: state.sortContactsReducer.contactChange,
+  nameChange: state.switchNameReducer.nameChange,
 });
 
 const mapDispatchToProps = (dispatch) => ({

@@ -38,11 +38,12 @@ class importContact extends Component {
     inserFlag: false,
     fetchedContacts: [],
     selectedContact: [],
+    n1: [],
+    n2: [],
     isLoading: false,
     aicGivenName: [],
     aicGivenNames: [],
     checkedOff: false,
-  
   };
 
   componentDidMount() {
@@ -230,9 +231,110 @@ class importContact extends Component {
       </View>
     );
   }
+
+  // importnavigate = (isSelect, item, key) => {
+  //   this.setState({ isLoading: true });
+  //   const { fetchedContacts, selectedContact, n1 } = this.state;
+  //   const { user_id, username } = this.props;
+
+  //   firebase
+  //     .firestore()
+  //     .collection("user")
+  //     .doc(username)
+  //     .collection("contacts")
+  //     .get()
+  //     .then((snap) => {
+
+  //       if (!snap.empty) {
+  //                 snap.forEach(async (doc) => {
+
+  //                   // selectedContact.push(doc._data.number);
+
+  //                   // selectedContact.map((item,index) =>{
+  //                   //   const number2 = selectedContact.find(
+  //                   //     ({ number }) => number == number
+  //                   //   );
+  //                   //   // var number1 = number.number;
+  //                   //   // n1.push(number1)
+  //                   //   //console.log("doc number---->", number2.number);
+  //                   // })
+  //                   fetchedContacts.map((item) => {
+  //                     if (item.isSelected == true) {
+  //                       if(item.phoneNumbers !== undefined){
+  //                         if (doc._data.number[0].number !== item.phoneNumbers[0].number) {
+  //                           item.isSelected = false;
+  //                           this.setState({ isLoading: false });
+  //                            console.log('phone number---->',item.phoneNumbers[0].number)
+  //                            console.log('doc number---->',doc._data.number[0].number)
+  //                          } else {
+  //                           item.isSelected = false;
+  //                           console.log('phone number---->',item.phoneNumbers[0].number)
+  //                           this.goInsert();
+  //                         }
+  //                       }
+
+  //                     }
+  //                   });
+  //                 });
+  //               } else {
+  //         fetchedContacts.map((item) => {
+  //           if (item.isSelected == true) {
+  //             importContactToFirebase(
+  //               username,
+  //               "",
+  //               item.givenName,
+  //               item.middleName,
+  //               item.familyName,
+  //               "",
+  //               "",
+  //               "",
+  //               "",
+  //               item.phoneNumbers,
+  //               "",
+  //               "",
+  //               item.emailAddresses,
+  //               "",
+  //               item.postalAddresses,
+  //               "",
+  //               "",
+  //               "",
+  //               "",
+  //               "",
+  //               "",
+  //               "",
+  //               "",
+  //               "",
+  //               item.birthday,
+  //               "",
+  //               "",
+  //               item.note,
+  //               item.company,
+  //               "",
+  //               item.jobTitle,
+  //               "",
+  //               "",
+  //               ""
+  //             );
+  //           }
+  //         });
+  //         this.props.navigation.navigate("SerachEditContact");
+  //         this.setState({ checked: false, isLoading: false });
+  //         let contactArr = fetchedContacts.map((item, key) => {
+  //           if ((item.isSelected = true)) {
+  //             item.isSelected = false;
+  //           }
+  //           if (this.state.checkedOff == true) {
+  //             this.setState({ checkedOff: false });
+  //           }
+
+  //           return { ...item };
+  //         });
+  //         this.setState({ fetchedContacts: contactArr });
+  //       }
+  //     });
+  // };
   importnavigate = (isSelect, item, key) => {
-    this.setState({ isLoading: true });
-    const { fetchedContacts, selectedContact } = this.state;
+    const { fetchedContacts, selectedContact, n1, n2 } = this.state;
     const { user_id, username } = this.props;
 
     firebase
@@ -246,12 +348,18 @@ class importContact extends Component {
           snap.forEach(async (doc) => {
             fetchedContacts.map((item) => {
               if (item.isSelected == true) {
-                if (
-                  doc._data.number[0].number !== item.phoneNumbers[0].number
-                ) {
-                  // console.log('not exist---->',item.phoneNumbers[0].number)
-                } else {
-                  item.isSelected = false;
+                if (doc._data.number.length > 0 &&  item.phoneNumbers.length > 0) {
+                  if ( doc._data.number[0].number !== item.phoneNumbers[0].number) {
+                  
+                    console.log(
+                      "phone number---->",
+                      item.phoneNumbers[0].number
+                    );
+                   
+                  } else {
+                    item.isSelected = false;
+                
+                  }
                 }
               }
             });
@@ -261,7 +369,7 @@ class importContact extends Component {
               importContactToFirebase(
                 username,
                 "",
-               item.givenName,
+                item.givenName,
                 item.middleName,
                 item.familyName,
                 "",
@@ -295,18 +403,19 @@ class importContact extends Component {
             }
           });
           this.props.navigation.navigate("SerachEditContact");
-          this.setState({ checked: false, isLoading: false });
-          let contactArr = fetchedContacts.map((item, key) => {
-            if ((item.isSelected = true)) {
-              item.isSelected = false;
-            }
-            if (this.state.checkedOff == true) {
-              this.setState({ checkedOff: false });
-            }
-
-            return { ...item };
-          });
-          this.setState({ fetchedContacts: contactArr });
+                  this.setState({ checked: false, isLoading: false });
+                  let contactArr = fetchedContacts.map((item, key) => {
+                    if ((item.isSelected = true)) {
+                      item.isSelected = false;
+                    }
+                    if (this.state.checkedOff == true) {
+                      this.setState({ checkedOff: false });
+                    }
+        
+                    return { ...item };
+                  });
+        this.setState({ fetchedContacts: contactArr });
+               
         } else {
           fetchedContacts.map((item) => {
             if (item.isSelected == true) {
@@ -348,8 +457,8 @@ class importContact extends Component {
               );
             }
           });
-            this.props.navigation.navigate("SerachEditContact");
-          this.setState({ checked: false , isLoading: false });
+          this.props.navigation.navigate("SerachEditContact");
+          this.setState({ checked: false, isLoading: false });
           let contactArr = fetchedContacts.map((item, key) => {
             if ((item.isSelected = true)) {
               item.isSelected = false;
@@ -360,9 +469,66 @@ class importContact extends Component {
 
             return { ...item };
           });
-          this.setState({ fetchedContacts: contactArr });
+        this.setState({ fetchedContacts: contactArr });     
         }
       });
+  };
+  goInsert = () => {
+    const { fetchedContacts, selectedContact } = this.state;
+    const { user_id, username } = this.props;
+    fetchedContacts.map((item) => {
+      if (item.isSelected == true) {
+        importContactToFirebase(
+          username,
+          "",
+
+          item.givenName,
+          item.middleName,
+          item.familyName,
+          "",
+          "",
+          "",
+          "",
+          item.phoneNumbers,
+          "",
+          "",
+          item.emailAddresses,
+          "",
+          item.postalAddresses,
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          item.birthday,
+          "",
+          "",
+          item.note,
+          item.company,
+          "",
+          item.jobTitle,
+          ""
+        );
+      }
+    });
+    this.props.navigation.navigate("SerachEditContact");
+    this.setState({ checked: false, isLoading: false });
+    let contactArr = fetchedContacts.map((item, key) => {
+      if ((item.isSelected = true)) {
+        item.isSelected = false;
+      }
+      if (this.state.checkedOff == true) {
+        this.setState({ checkedOff: false });
+      }
+
+      return { ...item };
+    });
+    this.setState({ n1: [] });
+    this.setState({ fetchedContacts: contactArr });
   };
   showLoader() {
     if (this.state.isLoading == true) {
@@ -370,7 +536,6 @@ class importContact extends Component {
     }
   }
 
-    
   render() {
     return (
       <ThemeProvider theme={this.props.theme}>

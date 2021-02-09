@@ -37,6 +37,9 @@ import { showToastError } from "../../action/ToastAction";
 import styles from "./style.js";
 import unchecked from "../../assets/icons/unchecked.png";
 
+// afterLogout
+
+
 var { width, height } = Dimensions.get("window");
 
 class Login extends Component {
@@ -405,13 +408,13 @@ class Login extends Component {
                           >
                             {this.state.show == false ? (
                               <Icon
-                                name="eye"
+                                name="eye-slash"
                                 size={18}
                                 color={COLORS.main_text_color}
                               />
                             ) : (
                               <Icon
-                                name="eye-slash"
+                                name="eye"
                                 size={18}
                                 color={COLORS.main_text_color}
                               />
@@ -451,13 +454,13 @@ class Login extends Component {
                           >
                             {this.state.show == false ? (
                               <Icon
-                                name="eye"
+                                name="eye-slash"
                                 size={18}
                                 color={COLORS.main_text_color}
                               />
                             ) : (
                               <Icon
-                                name="eye-slash"
+                                name="eye"
                                 size={18}
                                 color={COLORS.main_text_color}
                               />
@@ -510,13 +513,13 @@ class Login extends Component {
                         >
                           {this.state.show == false ? (
                             <Icon
-                              name="eye"
+                              name="eye-slash"
                               size={18}
                               color={COLORS.main_text_color}
                             />
                           ) : (
                             <Icon
-                              name="eye-slash"
+                              name="eye"
                               size={18}
                               color={COLORS.main_text_color}
                             />

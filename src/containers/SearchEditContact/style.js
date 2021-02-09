@@ -113,21 +113,23 @@ placholderStyle:{
   fontFamily: Font.regular,
   fontSize: width * 0.040,
   color:COLORS.main_text_color,
-  marginBottom:7,
-  marginLeft:7
+  marginBottom:25,
+  marginLeft:7,
+ 
 },
 placholderStyle2 :{
   fontFamily: Font.regular,
   fontSize: width * 0.048,
   color:COLORS.main_text_color,
- marginLeft:7
+ marginLeft:7,
+ marginBottom:25,
 },
 searchTextInput:{
   fontFamily: Font.regular,
   fontSize: width * 0.026,
   color:COLORS.main_text_color,
   marginLeft: 7,
-  marginTop: 10,
+  marginTop: 6,
 },
 workModal: {
   width: width,
@@ -168,5 +170,11 @@ profileImage2 :{
   width: width * 0.12,
       height: width * 0.12,
       borderRadius: 5,
+},
+serachText:{
+  fontFamily: Font.regular,
+  fontSize: width * 0.053,
+  color:COLORS.main_sky_blue,
+  marginLeft: 7,
 }
 });

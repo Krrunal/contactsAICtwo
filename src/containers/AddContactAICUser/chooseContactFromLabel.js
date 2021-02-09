@@ -1,4 +1,5 @@
 import * as actions from "../../action";
+
 import {
   Dimensions,
   Image,
@@ -11,6 +12,7 @@ import {
 import React, { Component } from "react";
 import { darkTheme, lightTheme } from "../theme/themeProps";
 import styled, { ThemeProvider } from "styled-components/native";
+
 import AsyncStorage from "@react-native-community/async-storage";
 import { COLORS } from "../theme/Colors.js";
 import CheckBox from "@react-native-community/checkbox";
@@ -23,12 +25,12 @@ import Metrics from "../theme/Metrics";
 import { Spinner } from "../../components/Spinner";
 import Toast from "react-native-easy-toast";
 import { bindActionCreators } from "redux";
+import checkedModified from "../../assets/icons/checkedModified.png";
+import checkedWhite from "../../assets/icons/checkedWhite.png";
 import { connect } from "react-redux";
 import plus from "../../assets/images/plus.png";
 import styles from "./chooseContactFromLabelStyle.js";
 import { switchTheme } from "../../action/themeAction";
-import checkedWhite from  "../../assets/icons/checkedWhite.png";
-import checkedModified from  "../../assets/icons/checkedModified.png";
 
 var { width, height } = Dimensions.get("window");
 
@@ -43,21 +45,21 @@ class chooseContactFromLabel extends Component {
     isLoading: false,
     viewSection: false,
     disabledLabel: false,
-    qrCodeData:{},
-    checkedOff:false
+    qrCodeData: {},
+    checkedOff: false,
   };
 
   async componentDidMount() {
     this.setState({
-      qrCodeData: JSON.parse(await AsyncStorage.getItem("@qrData"))
+      qrCodeData: JSON.parse(await AsyncStorage.getItem("@qrData")),
     });
-    console.log("qr data--->",this.state.qrCodeData);
-     const { navigation } = this.props;
+    console.log("qr data--->", this.state.qrCodeData);
+    const { navigation } = this.props;
     this.focusListener = navigation.addListener("didFocus", async () => {
       this.labelList();
     });
   }
-  
+
   // labelList = () => {
   //   this.setState({ isLoading: true }, async () => {
   //     const baseurl = Constants.baseurl;
@@ -91,7 +93,7 @@ class chooseContactFromLabel extends Component {
           var arr = responseJson.data.relation.split(/,/).map((item) => {
             return { relation: item, isSelect: false };
           });
-          this.setState({ dataManage : arr, isLoading: false });
+          this.setState({ dataManage: arr, isLoading: false });
         })
         .catch((error) => {
           console.error(error);
@@ -136,7 +138,6 @@ class chooseContactFromLabel extends Component {
   };
 
   selectAll = () => {
-
     const { dataManage } = this.state;
     let contactArr = dataManage.map((item, key) => {
       this.state.checkedOff == true
@@ -146,7 +147,7 @@ class chooseContactFromLabel extends Component {
       this.setState({ checkedOff: !this.state.checkedOff });
       return { ...item };
     });
-    this.setState({ dataManage : contactArr });
+    this.setState({ dataManage: contactArr });
   };
 
   onchecked = (keyInd, item) => {
@@ -157,9 +158,9 @@ class chooseContactFromLabel extends Component {
       }
       return { ...item };
     });
-    // console.log("after arr ===> ", arr);
+
     this.setState({ dataManage: arr });
-   // console.log("datatmanage arr ===> ", dataManage);
+    // console.log("datatmanage arr ===> ", dataManage);
   };
   onPressAddLabel = () => {
     this.setState({ viewSection: true });
@@ -186,23 +187,30 @@ class chooseContactFromLabel extends Component {
       />
     );
   }
-renderMiddle() {
+  renderMiddle() {
     return (
       <ScrollView>
-        <View style={{ flex: 1, marginBottom: Metrics.xxdoubleBaseMargin,marginTop:Metrics.baseMargin ,height:height*0.5}}>
+        <View
+          style={{
+            flex: 1,
+            marginBottom: Metrics.xxdoubleBaseMargin,
+            marginTop: Metrics.baseMargin,
+            height: height * 0.5,
+          }}
+        >
           <TouchableOpacity
-            style={[styles.checkboxView,{}]}
+            style={[styles.checkboxView, {}]}
             onPress={() => {
               this.selectAll();
             }}
           >
             {this.state.checkedOff == true ? (
               <View style={styles.checkViewForLight}>
-                 {this.props.theme.mode === "light" ? 
-                       <Image source={checkedWhite} style={styles.checkedStyle} /> 
-                       :
-                       <Image source={checkedModified} style={styles.checkedStyle} /> 
-                      }
+                {this.props.theme.mode === "light" ? (
+                  <Image source={checkedWhite} style={styles.checkedStyle} />
+                ) : (
+                  <Image source={checkedModified} style={styles.checkedStyle} />
+                )}
               </View>
             ) : (
               <View style={styles.checkView}></View>
@@ -217,37 +225,37 @@ renderMiddle() {
               ]}
             >
               {" "}
-              Select (De-select) All{" "}
+              Select (De-select) All
             </Text>
           </TouchableOpacity>
           <ScrollView>
-          {this.state.dataManage.map((item, key) =>
-            this.state.dataManage === [""] ? null : (
-           
-              <View style={styles.mainView}>
-                <CheckBox
-                  value={item.isSelect}
-                  onChange={() => {
-                    this.onchecked(key, item.isSelect);
-                  }}
-                  tintColors={{ true: "#1374A3", false: "#1374A3" }}
-                />
-                <Text
-                  style={[
-                    styles.itemText,
-                    {
-                      color:
-                        this.props.theme.mode === "light" ? "#1374A3" : "white",
-                    },
-                  ]}
-                >
-                  {item.relation}
-                </Text>
-              </View>
-             
-            )
-          )}
- </ScrollView>
+            {this.state.dataManage.map((item, key) =>
+              this.state.dataManage === [""] ? null : (
+                <View style={styles.mainView}>
+                  <CheckBox
+                    value={item.isSelect}
+                    onChange={() => {
+                      this.onchecked(key, item.isSelect);
+                    }}
+                    tintColors={{ true: "#1374A3", false: "#1374A3" }}
+                  />
+                  <Text
+                    style={[
+                      styles.itemText,
+                      {
+                        color:
+                          this.props.theme.mode === "light"
+                            ? "#1374A3"
+                            : "white",
+                      },
+                    ]}
+                  >
+                    {item.relation}
+                  </Text>
+                </View>
+              )
+            )}
+          </ScrollView>
           {this.state.viewSection == true && (
             <View style={styles.addlabelView}>
               <TextInput
@@ -333,8 +341,8 @@ renderMiddle() {
     );
   }
   notificationApiCall = () => {
-    const {username,user_id}=this.props;
-    this.setState({ isLoading: true})
+    const { username, user_id } = this.props;
+    this.setState({ isLoading: true });
     const deviceid = this.state.qrCodeData.fcmToken;
     const baseurl = Constants.baseurl;
     const receive_id = this.state.qrCodeData.user_id;
@@ -344,7 +352,7 @@ renderMiddle() {
     _body.append("receive_id", receive_id);
     _body.append("username", username);
     _body.append("sender_id", user_id);
-   
+
     fetch(baseurl + "android", {
       method: "POST",
       headers: {
@@ -353,20 +361,20 @@ renderMiddle() {
       },
       body: _body,
     })
-    .then((response) => response.json())
-    .then((responseJson) => {
-      var data = responseJson;
-      console.log("notification response---->",data)
-      this.setState({ isLoading: false})
-    })
-    .catch((error) => {
-      console.log("errrorr---->",error)
-    });
-  }
+      .then((response) => response.json())
+      .then((responseJson) => {
+        var data = responseJson;
+        console.log("notification response---->", data);
+        this.setState({ isLoading: false });
+      })
+      .catch((error) => {
+        console.log("errrorr---->", error);
+      });
+  };
 
   async forAddContactNavigate() {
     const { dataManage, selectedRealetion } = this.state;
-     this.notificationApiCall();
+    this.notificationApiCall();
     dataManage.map((item) => {
       item.isSelect == true
         ? selectedRealetion.push(item.relation)
@@ -406,7 +414,7 @@ renderMiddle() {
         <View style={{ flex: 1 }}>
           <Container>
             {this.renderHeader()}
-           
+
             <View style={{ alignItems: "center" }}>
               <View style={styles.uperView}>
                 <Text style={styles.uperText}>
@@ -443,14 +451,12 @@ renderMiddle() {
   }
 }
 const mapStateToProps = (state) => ({
- 
   theme: state.themeReducer.theme,
   username: state.login.shouldLoadData.username,
   user_id: state.login.shouldLoadData.user_id,
 });
 
-
-export default connect(mapStateToProps,actions)(chooseContactFromLabel);
+export default connect(mapStateToProps, actions)(chooseContactFromLabel);
 
 const Container = styled.View`
   flex: 1;

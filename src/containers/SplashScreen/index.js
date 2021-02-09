@@ -37,18 +37,15 @@ class Splash extends React.Component {
                 0
               )
             : 
-            NetInfo.fetch().then((state) => {
-              if (state.isConnected) {  
+         
                 this.props.navigation.reset(
                 [NavigationActions.navigate({ routeName: "AddContact" })],
                 0
-              );
-            }else{
-              this.refs.toast.show("Please check Your Internet Connection", 1000);
-            }
+                )
+           
         }, 2000);
       
-    })
+ 
    
 }
 componentWillUnmount() {

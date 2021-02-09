@@ -82,6 +82,7 @@ export const addManualContact = (
       jobTitle: job_title,
       workHours: work_hour,
       jobTitleArray:jobTitleArray,
-      workHoursArray:workHoursArray
+      workHoursArray:workHoursArray,
+      // selectedName:"",
     });
 };

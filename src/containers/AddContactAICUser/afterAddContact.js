@@ -238,7 +238,7 @@ class afterAddContact extends Component {
   }
 
   backNavigate = () => {
-    this.props.navigation.navigate("ForAddContact");
+    this.props.navigation.navigate("AddContact");
   };
 
   forAddContactNavigate = async () => {
