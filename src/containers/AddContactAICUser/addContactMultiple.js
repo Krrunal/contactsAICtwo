@@ -17,6 +17,7 @@ import AsyncStorage from "@react-native-community/async-storage";
 import { COLORS } from "../theme/Colors.js";
 import CheckBox from "@react-native-community/checkbox";
 import Constants from "../../action/Constants";
+import ContactUs from '../ContactUs/index';
 import Font from "../theme/font";
 import GeneralStatusBar from "../../components/StatusBar/index";
 import Header from "../../components/header/index";
@@ -30,7 +31,6 @@ import downArrow from "../../assets/icons/dropIcon.png";
 import plus from "../../assets/images/plus.png";
 import styles from "./addContactMultipleStyle.js";
 import { switchTheme } from "../../action/themeAction";
-import ContactUs from '../ContactUs/index';
 
 var { width, height } = Dimensions.get("window");
 
@@ -107,15 +107,16 @@ class addContactMultiple extends Component {
   labelList = () => {
     this.setState({ isLoading: true }, async () => {
       const baseurl = Constants.baseurl;
-      fetch(baseurl + "get_label")
+      fetch(baseurl + "getlabel")
         .then((response) => {
           return response.json();
         })
         .then((responseJson) => {
-          console.log("response=---->", responseJson);
-          var arr = responseJson.data.relation.split(/,/).map((item) => {
+         // console.log("response=---->", responseJson.data);
+      // this.setState({ isLoading: false });
+          var arr = responseJson.data.map((item) => {
             return {
-              relation: item,
+              relation: item.relation,
               isSelect: false,
               isUser1: false,
               isUser2: false,
@@ -128,6 +129,7 @@ class addContactMultiple extends Component {
           this.setState({ dataManage3: arr, isLoading: false });
           this.setState({ dataManage4: arr, isLoading: false });
           this.setState({ dataManage5: arr, isLoading: false });
+          console.log("response=---->", this.state.dataManage);
         })
         .catch((error) => {
           console.error(error);

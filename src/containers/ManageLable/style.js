@@ -668,20 +668,14 @@ export default StyleSheet.create({
   first: {
     justifyContent: "center",
     alignItems: "center",
-    width: width * 0.27,
-    height: height * 0.033,
-    backgroundColor: COLORS.white,
-    shadowColor: COLORS.black,
-    shadowOffset: {
-      width: 2,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-    elevation: 5,
-    borderRadius: 5,
+    width: width * 0.06,
+    height: height * 0.03,
+    borderColor:COLORS.main_text_color,
+   
+    borderWidth:1,
+    borderRadius: 25,
     marginTop: Metrics.baseMargin,
-    marginHorizontal: Metrics.dividerHeight,
+    marginHorizontal: Metrics.cdoubleBaseMargin,
   },
   firstText: {
     color: COLORS.main_text_color,
@@ -692,5 +686,10 @@ export default StyleSheet.create({
     alignItems: "center",
     padding: Metrics.xsmallMargin,
   },
+  SqureImage:{
+    width: width * 0.183,
+    height: width * 0.183,
+    borderRadius:5
+  }
 
 });

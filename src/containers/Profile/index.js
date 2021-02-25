@@ -78,7 +78,7 @@ class Profile extends Component {
       number1: "",
       number2: "",
       number1Lablel: "",
-      number2: "",
+      // number2: "",
       number3: "",
       friends: "",
       email: "",
@@ -180,16 +180,12 @@ class Profile extends Component {
           this.setState({ isLoading: false });
           var item = snap._data;
           this.setState({ contact: item });
-          console.log("social media ---->", item.date[0].date);
+      //    console.log("social media ---->", item.date[0].date);
           this.setState({ friends: item.friend });
           this.setState({ profile_image: item.profile_image });
           this.setState({ profile_image2: item.profile_image2 });
           this.setState({ profile_image3: item.profile_image3});
-          {item.number !== ""  ? this.setState({ number: item.number[0].phone })  : null }
-          // {item.number1 !== "" ? : null}
-         // {item.number1 !== "" ?this.setState({ number1: item.number1[0].phone }) : null}
-          
-         // this.setState({ number2: item.number2[0].phone });
+         {item.number !== ""  ? this.setState({ number: item.number[0].phone })  : null }
          {item.email !== "" ?  this.setState({ email: item.email[0].email }): null}
          {item.messenger !== "" ?  this.setState({ messanger: item.messenger[0].messenger }) : null}
          {item.socialMedia !== "" ? this.setState({ instagram: item.socialMedia[0].social }) : null}
@@ -221,7 +217,6 @@ class Profile extends Component {
          {item.saturdayTo !== "" ? this.setState({ saturdayTo: item.saturdayTo[0].saturdayTo }): null}
          {item.sunday !== "" ?  this.setState({ sunday: item.sunday[0].sunday }): null}
          {item.sundayTo !== "" ? this.setState({ sundayTo: item.sundayTo[0].sundayTo }): null}
-          //  this.setState({ datelabel:item.datelabel[0].label});
           });
     });
   }
@@ -2482,6 +2477,7 @@ class Profile extends Component {
                   </View>
                 </View>
               </View>
+            
             </View>
           );
         })}

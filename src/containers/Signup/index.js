@@ -68,7 +68,24 @@ class Signup extends Component {
     passwordSection: false,
     rePasswordSection: false,
     mobilePlatform: "",
+    empty:""
   };
+  backAction = () => {
+    this.props.regcontactChange(empty);
+    this.props.regunameChange(empty);
+    this.props.regEmailChange(empty);
+    BackHandler.exitApp();
+    return true;
+  };  
+
+  componentDidMount = async () => {
+    BackHandler.addEventListener("hardwareBackPress", this.backAction);
+  }
+
+  componentWillUnmount() {
+    BackHandler.removeEventListener("hardwareBackPress", this.backAction);
+  }
+
 
   maxUname = (uname) => {
     return uname.length > 20;

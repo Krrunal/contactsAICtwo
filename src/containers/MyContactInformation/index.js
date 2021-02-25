@@ -183,101 +183,97 @@ class MyContactInfromation extends Component {
       websiteArray: [],
       dateArray: [],
       noteArray: [],
-      contact: [],
-      contacts: "",
-      firstName: [],
-      keyData: "",
-      shortcontacts: "",
-      n1:[],
-      n2:[]
+     
+      //
+      number:"",
+      email: "",
+      address: "",
+      addressLabel: "",
+      emailLabel: "",
+      messenger: "",
+      messengerLabel: "",
+      instagram: "",
+      instagram2:"",
+      instagramLabel: "",
+      instagramLabel2: "",
+      note: "",
+      noteLabel: "",
+      website: "",
+      websiteLabel: "",
+      company: "",
+      date:"",
+      weddingDate:"",
+      jobTitle: "",
+      datelabel: "",
+      wedding:{date:""},
+      wedding_anniversary:{},
+      monday: "",
+      mondayTo: "",
+      tuesday: "",
+      tuesdayTo: "",
+      wednesday: "",
+      wednesdayTo: "",
+      thursday: "",
+      thursdayTo: "",
+      friday: "",
+      fridayTo: "",
+      saturday: "",
+      saturdayTo: "",
+      sunday: "",
+      sundayTo: "",
     };
   }
 
   componentDidMount = async () => {
-    this.setState({ isLoading: true });
-    this.timeZoneField();
-    this.setState({
-      keyData: await AsyncStorage.getItem("@keyData"),
-    });
-    console.log("ket date---->", this.state.keyData);
-    // this.dataFirebase();
-    if (this.props.contactChange.mode === "first") {
-      this.contactList();
-      console.log("first");
-    } else {
-      this.contactListFirst();
-      console.log("Last");
-    }
-  };
-
-  async contactList() {
     const { username } = this.props;
     firebase
-      .firestore()
-      .collection("user")
-      .doc(username)
-      .collection("contacts")
-      .get()
-      .then((snap) => {
-        snap.forEach((doc) => {
-          var item = doc._data;
-          this.state.contact.push(item);
-        });
-        this.setState({ contacts: this.state.contact });
-        const sort = this.state.contacts.sort(function (a, b) {
-          if (a.last_name.toLowerCase() < b.last_name.toLowerCase()) return -1;
-          if (a.last_name.toLowerCase() > b.last_name.toLowerCase()) return 1;
-          return 0;
-        });
+    .firestore()
+    .collection("user")
+    .doc(username)
+    .get()
+    .then((snap) => {
+      var item = snap._data;
+      this.setState({ firstName : item.first_name })
+      this.setState({ lastName : item.first_name })
+      this.setState({ middleName : item.first_name })
+      this.setState({ nickName : item.first_name })
+      {item.number !== ""  ? this.setState({ number: item.number[0].phone })  : null }
+      {item.email !== "" ?  this.setState({ email: item.email[0].email }): null}
+      {item.messenger !== "" ?  this.setState({ messenger: item.messenger[0].messenger }) : null}
+      {item.socialMedia !== "" ? this.setState({ instagram: item.socialMedia[0].social }) : null}
+      {item.socialMedia1 !== "" ?  this.setState({ instagram2: item.socialMedia1[0].social }) : null}
+      {item.address !== "" ? this.setState({ address: item.address[0].address }) : null}
+      {item.note !== "" ?  this.setState({ note: item.note[0].note }) : null}
+      {item.website !== "" ?  this.setState({ website: item.website[0].website }): null}
+      {item.company !== "" ? this.setState({ company: item.company[0].company }): null}
+      {item.jobTitle !== "" ?  this.setState({ jobTitle: item.jobTitle[0].jobTitle }): null}
+      {item.date !== "" ? this.setState({ date: item.date[0].date })  : null}
+      {item.weddingDate !== "" ?this.setState({ weddingDate: item.weddingDate[0].date }) : null}
+      {item.mobileLabel !== "" ?   this.setState({ number1Lablel: item.mobileLabel[0].label }): null}
+      {item.emailabel !== "" ?  this.setState({ emailLabel: item.emailabel[0].label }): null}
+      {item.messengerlabel !== "" ? this.setState({ messengerLabel: item.messengerlabel[0].label }) : null}
+      {item.addresslabel !== "" ?  this.setState({ addressLabel: item.addresslabel[0].label }) : null}
+      {item.sociallabel !== "" ?  this.setState({ instagramLabel: item.sociallabel[0].label }) : null}
+      {item.sociallabel !== "" ?this.setState({ instagramLabel2: item.sociallabel[1].label }) : null}
+      {item.notelabel !== "" ?  this.setState({ noteLabel: item.notelabel[0].label }) : null}
+      {item.websitelabel !== "" ?this.setState({ websiteLabel: item.websitelabel[0].label }) : null}
+      {item.monday !== "" ? this.setState({ monday: item.monday[0].monday }) : null} 
+      {item.mondayTo !== "" ? this.setState({ mondayTo: item.mondayTo[0].mondayTo }): null}
+      {item.tuesday !== "" ?  this.setState({ tuesday: item.tuesday[0].tuesday }) : null}
+      {item.tuesdayTo !== "" ? this.setState({ tuesdayTo: item.tuesdayTo[0].tuesdayTo }): null}
+      {item.wednesday !== "" ?  this.setState({ wednesday: item.wednesday[0].wednesday }): null}
+      {item.thursday !== "" ?   this.setState({ thursday: item.thursday[0].thursday }): null}
+      {item.thursdayTo !== "" ?  this.setState({ thursdayTo: item.thursdayTo[0].thursdayTo }): null}
+      {item.friday !== "" ?  this.setState({ friday: item.friday[0].friday }): null}
+      {item.saturday !== "" ? this.setState({ saturday: item.saturday[0].saturday }) : null}
+      {item.saturdayTo !== "" ? this.setState({ saturdayTo: item.saturdayTo[0].saturdayTo }): null}
+      {item.sunday !== "" ?  this.setState({ sunday: item.sunday[0].sunday }): null}
+      {item.sundayTo !== "" ? this.setState({ sundayTo: item.sundayTo[0].sundayTo }): null}
+      // console.log("My contact info ---->", item.first_name);
 
-        this.setState({ shortcontacts: sort, data: sort });
-        this.list();
-      });
-  }
-  async contactListFirst() {
-    const { username } = this.props;
-    firebase
-      .firestore()
-      .collection("user")
-      .doc(username)
-      .collection("contacts")
-      .get()
-      .then((snap) => {
-        snap.forEach((doc) => {
-          var item = doc._data;
-          this.state.contact.push(item);
-        });
-        this.setState({ contacts: this.state.contact });
-        const sort = this.state.contacts.sort(function (a, b) {
-          if (a.first_name.toLowerCase() < b.first_name.toLowerCase())
-            return -1;
-          if (a.first_name.toLowerCase() > b.first_name.toLowerCase()) return 1;
-          return 0;
-        });
-
-        this.setState({ shortcontacts: sort, data: sort });
-        this.list();
-      });
-  }
-
-  list = () => {
-    const { shortcontacts, firstName, keyData ,n1 ,n2} = this.state;
-    let FN = shortcontacts[keyData];
-    firstName.push(FN);
-   
-   
-    n1.push(shortcontacts[keyData].number)
-    console.log("item---->", n1);
-    n1.map((item, index) => {
-      const number2 = n1.find( ({ number }) => number == number);
-      const number3 = number2.find( ({ number }) => number == number);
-      let n3 = number3.number
-      n2.push(n3)
-    //  console.log("item---->", number2);
-      
-    });
-    this.setState({ isLoading: false });
+    })
   };
+
 
   timeZoneField = async () => {
     this.state.tz.push("GMT (Greenwhich)");
@@ -698,7 +694,7 @@ class MyContactInfromation extends Component {
 
           <View>
             <View style={styles.searchSection}>
-              {/* <TextInput
+              <TextInput
                 placeholder=""
                 style={styles.stylefiledText}
                 placeholderTextColor={COLORS.main_text_color}
@@ -709,8 +705,7 @@ class MyContactInfromation extends Component {
                 ref={(input) => {
                   this.first_name = input;
                 }}
-              /> */}
-              <Text style={styles.stylefiledText}>{item.first_name}</Text>
+              />
               <View style={styles.rightView}>
                 <Text style={styles.righttext}>First Name</Text>
               </View>
@@ -1312,7 +1307,7 @@ class MyContactInfromation extends Component {
                     </View>
                   ) : (
                     <TouchableOpacity style={styles.searchSection}>
-                      <Text style={styles.stylefiledText}>Address</Text>
+                      <Text style={styles.stylefiledText}>{this.state.address}</Text>
                     </TouchableOpacity>
                   )}
                   {item.show && (
@@ -1536,9 +1531,12 @@ class MyContactInfromation extends Component {
                     </View>
                   ) : (
                     <TouchableOpacity style={styles.searchSection}>
-                      <Text style={styles.stylefiledText}>
-                        Messenger Account
-                      </Text>
+                
+                            <Text style={styles.stylefiledText}>
+                            Messenger Account
+                            </Text>
+                     
+                     
                     </TouchableOpacity>
                   )}
                   {item.show && (
@@ -2263,7 +2261,7 @@ class MyContactInfromation extends Component {
                       style={[styles.modal]}
                       nestedScrollEnabled={true}
                     >
-                      {this.state.websiteLabelList.map((i) => {
+                      {this.state.dateLabelList.map((i) => {
                         return (
                           <TouchableOpacity
                             activeOpacity={0.8}
@@ -3531,6 +3529,12 @@ class MyContactInfromation extends Component {
       </View>
     );
   }
+  clearData = () =>{
+     this.setState({
+      image:"",image2:"",image3:"",first_name:"",middle_name:"",last_name:"",nick_name:"",companyData:[],jobTitleData:[]
+     })
+     
+  }
   ShowHideTextComponentView = async () => {
     const {
       profile_image,
@@ -3556,14 +3560,6 @@ class MyContactInfromation extends Component {
       dateData,
       noteInput,
       noteData,
-      mobileData,
-      emailArray,
-      addressArray,
-      messengerAray,
-      socialArray,
-      websiteArray,
-      dateArray,
-      noteArray,
       companyData,
       jobTitleData,
       mondayData,
@@ -3587,6 +3583,7 @@ class MyContactInfromation extends Component {
       this.setState({ status: true });
     } else {
       this.setState({ status: false });
+      this.clearData()
     }
 
     if (profile_image == "") {
@@ -3665,7 +3662,7 @@ class MyContactInfromation extends Component {
         .firestore()
         .collection("user")
         .doc(`${username}`)
-        .update({ mobileLabel: textInput });
+        .update({ mobileabel: textInput });
     }
     //email
 
@@ -3955,6 +3952,7 @@ class MyContactInfromation extends Component {
         .doc(`${username}`)
         .update({ notificationTime: dateNotify });
     }
+   
   };
   renderLast() {
     return (
@@ -3970,7 +3968,7 @@ class MyContactInfromation extends Component {
         <TouchableHighlight
           underlayColor="transparent"
           style={styles.saveView}
-         // onPress={this.ShowHideTextComponentView}
+            onPress={this.ShowHideTextComponentView}
         >
           <Text
             style={{
@@ -3985,280 +3983,7 @@ class MyContactInfromation extends Component {
       </View>
     );
   }
-  ListFirstaName({ item, index }) {
-    return (
-      <View style={{}}>
-        <View style={{ marginTop: Metrics.baseMargin, position: "relative" }}>
-          <View style={{ flexDirection: "row" }}>
-            <View>
-              <Image source={innerimg} style={styles.innerStyle} />
-            </View>
 
-            <View>
-              <View style={styles.searchSection}>
-                {/* <TextInput
-                placeholder=""
-                style={styles.stylefiledText}
-                placeholderTextColor={COLORS.main_text_color}
-                // maxLength={10}
-                editable={this.state.status ? true : false}
-                value={this.state.first_name}
-                onChangeText={(value) => this.setState({ first_name: value })}
-                ref={(input) => {
-                  this.first_name = input;
-                }}
-              /> */}
-                <Text style={styles.stylefiledText}>{item.first_name}</Text>
-                <View style={styles.rightView}>
-                  <Text style={styles.righttext}>First Name</Text>
-                </View>
-              </View>
-
-              <View style={styles.searchSection}>
-                {/* <TextInput
-                placeholder=""
-                style={styles.stylefiledText}
-                placeholderTextColor={COLORS.main_text_color}
-                // maxLength={10}
-                editable={this.state.status ? true : false}
-                value={this.state.middle_name}
-                onChangeText={(value) => this.setState({ middle_name: value })}
-                ref={(input) => {
-                  this.middle_name = input;
-                }}
-              /> */}
-                <Text style={styles.stylefiledText}>{item.middle_name}</Text>
-                <View style={styles.rightView}>
-                  <Text style={styles.righttext}>Middle Name</Text>
-                </View>
-              </View>
-
-              <View style={styles.searchSection}>
-                {/* <TextInput
-                placeholder=""
-                style={styles.stylefiledText}
-                placeholderTextColor={COLORS.main_text_color}
-                // maxLength={10}
-                editable={this.state.status ? true : false}
-                value={this.state.last_name}
-                onChangeText={(value) => this.setState({ last_name: value })}
-                ref={(input) => {
-                  this.last_name = input;
-                }}
-              /> */}
-                <Text style={styles.stylefiledText}>{item.last_name}</Text>
-                <View style={styles.rightView}>
-                  <Text style={styles.righttext}>Last Name</Text>
-                </View>
-              </View>
-
-              <View style={styles.searchSection}>
-                {/* <TextInput
-                placeholder=""
-                style={styles.stylefiledText}
-                placeholderTextColor={COLORS.main_text_color}
-                editable={this.state.status ? true : false}
-                value={this.state.nick_name}
-                onChangeText={(value) => this.setState({ nick_name: value })}
-                ref={(input) => {
-                  this.nick_name = input;
-                }}
-                //  onSubmitEditing={this.onPressKey}
-              /> */}
-                <Text style={styles.stylefiledText}>{item.last_name}</Text>
-                <View style={styles.rightView}>
-                  <Text style={styles.righttext}>Nickname</Text>
-                </View>
-              </View>
-            </View>
-          </View>
-        </View>
-        <View style={{ marginTop: Metrics.doubleBaseMargin }}>
-          <View style={{ flexDirection: "row" }}>
-            <View>
-              <Image source={call} style={styles.innerStyle} />
-            </View>
-            <View style={{ flexDirection: "column" }}>
-              <View style={{ flexDirection: "column" }}>
-                {this.state.textInput.map((item, index) => {
-                  return (
-                    <View>
-                      {this.state.status ? (
-                        <View style={styles.searchSection}>
-                          {this.state.isMobileSection ? (
-                            <TouchableOpacity
-                              style={{ flexDirection: "column" }}
-                            >
-                              <Text
-                                style={[
-                                  styles.Text_1,
-                                  {
-                                    fontSize: width * 0.02,
-                                    width: width * 0.5,
-                                    marginTop: width * 0.02,
-                                  },
-                                ]}
-                              >
-                                Phone Number
-                              </Text>
-                              {/* <TextInput
-                              placeholder="Phone Number"
-                              style={[
-                                styles.stylefiledText,
-                                { marginBottom: width * 0.025 },
-                              ]}
-                              returnKeyType="next"
-                              placeholderTextColor={COLORS.main_text_color}
-                              editable={this.state.status ? true : false}
-                              onChangeText={(number) =>
-                                this.addValues(number, index)
-                              }
-                              keyboardType={"numeric"}
-                              ref={(ref) => {
-                                this.textInputRef = ref;
-                              }}
-                              autoFocus={true}
-                            /> */}
-                    <Text style={styles.stylefiledText}>{this.state.n2}</Text>
-
-                            </TouchableOpacity>
-                          ) : (
-                            <TouchableOpacity
-                              onPress={this.onPressKey}
-                              // onPress={() =>
-                              // this.setState({ isMobileSection: true })
-                              // }
-                            >
-                         
-                              <Text style={styles.stylefiledText}>
-                                Phone Number
-                              </Text>
-                            </TouchableOpacity>
-                          )}
-
-                          <TouchableOpacity
-                            style={styles.modalBtn}
-                            onPress={() => this.show(index)}
-                          >
-                            <Text style={styles.selectTypeText}>
-                              {item.label}
-                            </Text>
-                          </TouchableOpacity>
-                        </View>
-                      ) : (
-                        <TouchableOpacity style={styles.searchSection}>
-                          {/* <Text style={styles.stylefiledText}>
-                            Phone Number
-                          </Text> */}
-               <Text style={styles.stylefiledText}>{this.state.n2}</Text>
-
-                        </TouchableOpacity>
-                      )}
-                      {item.show && (
-                        <ScrollView
-                          style={[styles.modal]}
-                          nestedScrollEnabled={true}
-                        >
-                          {mobileLabelList.map((i) => {
-                            return (
-                              <TouchableOpacity
-                                activeOpacity={0.8}
-                                onPress={() => this.selectLabel(index, i.label)}
-                              >
-                                <View style={styles.labelContainer}>
-                                  <Text style={styles.label}>{i.label}</Text>
-                                </View>
-                              </TouchableOpacity>
-                            );
-                          })}
-
-                          <View style={styles.labelContainer}>
-                            <TouchableOpacity
-                              style={styles.customView}
-                              onPress={() => {
-                                this.setState({ checkNumberSection: true });
-                              }}
-                            >
-                              <Text style={[styles.label]}>Custom</Text>
-                              {this.state.checkNumberSection ? (
-                                <View style={styles.customRight}>
-                                  <Image
-                                    source={checked}
-                                    style={styles.checkedIcon}
-                                  />
-                                </View>
-                              ) : null}
-                            </TouchableOpacity>
-                            {this.state.checkNumberSection ? (
-                              <TextInput
-                                style={styles.cutomTextInput}
-                                placeholderTextColor={COLORS.main_text_color}
-                                placeholder={"Label"}
-                                onChangeText={(customLabel) =>
-                                  this.setState({ customLabel })
-                                }
-                                onSubmitEditing={() =>
-                                  this.selectLabel(
-                                    index,
-                                    this.state.customLabel
-                                  )
-                                }
-                              />
-                            ) : null}
-                          </View>
-                        </ScrollView>
-                      )}
-                    </View>
-                  );
-                })}
-              </View>
-            </View>
-          </View>
-          <View style={{ flexDirection: "row" }}>
-            <View style={{ flex: 1 }}>
-              <TouchableOpacity
-                style={styles.addNewBox}
-                onPress={() =>
-                  this.addTextInput(this.state.textInput.length, false)
-                }
-              >
-                {this.state.status ? (
-                  <Text
-                    style={[
-                      styles.addNew,
-                      {
-                        color:
-                          this.props.theme.mode === "light"
-                            ? COLORS.main_text_color
-                            : COLORS.white,
-                      },
-                    ]}
-                  >
-                    + Add Phone Number
-                  </Text>
-                ) : null}
-              </TouchableOpacity>
-            </View>
-
-            {this.state.removeNumberSection ? (
-              <View style={{ flex: 1, alignItems: "flex-end" }}>
-                <TouchableOpacity
-                  style={{}}
-                  onPress={() => this.removeTextInput()}
-                >
-                  {this.state.status ? (
-                    <Text style={[styles.removeNew]}>
-                      - Remove Phone Number
-                    </Text>
-                  ) : null}
-                </TouchableOpacity>
-              </View>
-            ) : null}
-          </View>
-        </View>
-      </View>
-    );
-  }
 
   render() {
     const { mobileLabelList } = this.state;
@@ -4276,20 +4001,21 @@ class MyContactInfromation extends Component {
         <View style={styles.container}>
           <Container>
             <ScrollView nestedScrollEnabled={true}>
-              <View style={{ width: width, alignItems: "center" }}>
+              <View style={{ width: width, alignItems: "center" ,marginBottom:Metrics.baseMargin}}>
+              
                 {this.renderHeader()}
                 {this.renderMiddle()}
-                <View style={{ height: height * 0.6 }}>
+                {/* <View style={{ height: height  }}>
                   <FlatList
                     refreshing={true}
                     keyExtractor={(item, index) => index.toString()}
-                    data={this.state.firstName}
+                    data={this.state.saprated}
                     extraData={this.state}
                     numColumns={1}
                     renderItem={this.ListFirstaName.bind(this)}
                   />
-                </View>
-                {/* {this.renderName()}
+                </View> */}
+                {this.renderName()}
                 {this.renderMobile()}
                 {this.renderEmail()}
                 {this.renderAddress()}
@@ -4298,7 +4024,7 @@ class MyContactInfromation extends Component {
                 {this.renderWebsite()}
                 {this.renderDate()}
                 {this.renderNote()}
-                {this.renderCompany()} */}
+                {this.renderCompany()}
               </View>
             </ScrollView>
             {this.renderLast()}

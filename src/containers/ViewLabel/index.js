@@ -113,7 +113,7 @@ class ViewLabel extends Component {
       console.log(item.label);
 
     var labelArray = item.label;
-    var nameArr = labelArray !== undefined && labelArray.split(",");
+    var nameArr = labelArray !== undefined  && labelArray !== null && labelArray.split(",") ;
     console.log(nameArr);
 
     return (

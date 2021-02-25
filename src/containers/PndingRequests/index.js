@@ -24,9 +24,10 @@ import Labels from "../Labels/index";
 import Metrics from "../theme/Metrics";
 import { Spinner } from "../../components/Spinner";
 import { addItem } from "../../services/FirebaseDatabase/addToFirebase";
-import { addManualContact } from "../../services/FirebaseDatabase/manualContactToFirebase";
 import checkedWhite from "../../assets/icons/checkedWhite.png";
 import { connect } from "react-redux";
+import firebase from "../../services/FirebaseDatabase/db";
+import { importContactToFirebase } from "../../services/FirebaseDatabase/importContacToFirebase";
 import moment from "moment";
 import { request } from "react-native-permissions";
 import styles from "./style.js";
@@ -70,8 +71,19 @@ class pendingRequest extends Component {
       requestDates: "",
       selectedTiem: "",
       denyYESSection: false,
-      selectedRelation:[],
-      labelSelected:""
+      selectedRelation: [],
+      labelSelected: "",
+      r_name: [],
+      r_names: "",
+      usernameData: [],
+      usernameDatas: [],
+      reciverName: [],
+      senderName: [],
+      label_id: [],
+      label_ids: "",
+      labelName: [],
+      label_Name: "",
+      ID_Lable: "",
     };
   }
   renderHeader() {
@@ -116,44 +128,73 @@ class pendingRequest extends Component {
           this.setState({ pendingRequest: data });
 
           if (data == "") {
-           // console.log("empty---->", this.state.names);
+            // console.log("empty---->", this.state.names);
             this.setState({ names: [] });
-           // console.log("empty---->", this.state.names);
+            // console.log("empty---->", this.state.names);
             this.setState({ loader: false });
           } else {
             this.state.pendingRequest.map((item) => {
+              console.log("penidng---->", item);
               this.state.p_id.push(item.id);
+              this.state.label_id.push(item.label_id);
               let formateDate = moment(item.created_at).format("MMMM, Do YYYY");
               let formateTime = moment(item.created_at).format("LLLL");
-              console.log("iddddd---->", formateTime);
               this.state.requestDate.push(formateDate);
               this.state.requestTime.push(formateTime);
-              //console.log("pending request ---->", item.created_at);
             });
-            var pID = this.state.p_id.map((item) => {
+
+            var pID = this.state.p_id.map((item, index) => {
+              // console.log("empty---->",item);
               return { item: item, isSelect: false };
             });
             this.setState({
               p_ids: pID,
               requestTimeS: this.state.requestTime,
               requestDates: this.state.requestDate,
+              label_ids: this.state.label_id,
               loader: false,
             });
           }
           this.saperateIds();
         })
         .catch((error) => {
-          console.log("errrorr---->", error);
+          console.log("rr---->", error);
         });
     });
   };
-
+  getLabelName = () => {
+    //  console.log("lael ---->",  this.state.label_id)
+    this.state.label_id.map((item, index) => {
+      const baseurl = Constants.baseurl;
+      var _body = new FormData();
+      _body.append("id", item);
+      fetch(baseurl + "get_labelname", {
+        method: "POST",
+        body: _body,
+      })
+        .then((response) => {
+          return response.json();
+        })
+        .then((responseJson) => {
+          //  console.log("label name--->",responseJson)
+          this.state.labelName.push(responseJson.data);
+             console.log("label --->",  this.state.labelName)
+        })
+        .catch((error) => {
+          console.log("name error---->", error);
+        });
+    });
+  };
   compareIDs = () => {
     const { user_id } = this.props;
+    this.setState({ labelName: [] });
     var r_id = this.state.recivedIdArray[0];
+
     if (user_id == r_id) {
       console.log("yes both are same");
+      this.getLabelName();
       this.getUsername();
+      this.getSendernameAddContactInSender();
     }
   };
 
@@ -169,11 +210,14 @@ class pendingRequest extends Component {
       const rId = pendingRequest.find(
         ({ receive_rid }) => receive_rid == receive_rid
       );
+      var recivedId = rId.receive_rid;
+      recivedIdArray.push(recivedId);
+
       const sid = pendingRequest.find(
         ({ sender_id }) => sender_id == sender_id
       );
-      var recivedId = rId.receive_rid;
-      recivedIdArray.push(recivedId);
+      var sender_Id = sid.sender_id;
+      senderIdArray.push(sender_Id);
     });
 
     pendingRequest.map((item) => {
@@ -183,6 +227,7 @@ class pendingRequest extends Component {
   };
 
   getUsername = () => {
+    //  console.log("pending is-->", this.state.pendingRequest);
     var s_id = this.state.senderIdArray[0];
     this.state.pendingRequest.forEach((doc) => {
       const baseurl = Constants.baseurl;
@@ -200,20 +245,77 @@ class pendingRequest extends Component {
           if (data.username == "") {
             console.log("Name is-->", empty);
           } else {
+            var u = data;
+            // console.log("lkll=--->",u)
+            this.state.usernameData.push(u);
             var u_name = data.username;
             this.state.name.push(u_name);
-           // console.log("Get Username Response---->", data);
+            // console.log("Get Username Response---->", this.state.usernameData);
             var c = this.state.name.length;
             this.setState({ counter: c });
           }
           if (this.state.name == "") {
-           // console.log("Name is-->", empty);
             this.setState({ loader: false });
           } else {
-            var nameData = this.state.name.map((item) => {
+            var data = this.state.usernameData.map((item) => {
               return { item: item, isSelect: false };
             });
-            this.setState({ names: nameData });
+
+            var nameData = this.state.name.map((item, index) => {
+              return {
+                item: item,
+                isSelect: false,
+                label_name: this.state.labelName[index].relation,
+                id_label: this.state.label_id[index],
+              };
+            });
+
+            this.setState({ names: nameData, usernameDatas: data });
+            // console.log("name ---->", this.state.names);
+
+            this.setState({ loader: false });
+          }
+        })
+        .catch((error) => {
+          console.log("name error---->", error);
+        });
+    });
+  };
+  getSendernameAddContactInSender = () => {
+    const { user_id, username } = this.props;
+    var s_id = this.state.senderIdArray[0];
+    this.state.pendingRequest.forEach((doc) => {
+      // console.log("Get Username Response---->",  doc.receive_rid);
+      const baseurl = Constants.baseurl;
+      var _body = new FormData();
+      _body.append("id", user_id);
+      fetch(baseurl + "get_username", {
+        method: "POST",
+        body: _body,
+      })
+        .then((response) => {
+          return response.json();
+        })
+        .then((responseJson) => {
+          var data = responseJson.data;
+          if (data.username == "") {
+            console.log("Name is-->", empty);
+          } else {
+            var u_name = data;
+            this.state.r_name.push(u_name);
+            // console.log("Get Username Response---->", u_name);
+            var c = this.state.name.length;
+            this.setState({ counter: c });
+          }
+          if (this.state.r_name == "") {
+            // console.log("Name is-->", empty);
+            this.setState({ loader: false });
+          } else {
+            var nameData = this.state.r_name.map((item) => {
+              return { item: item, isSelect: false };
+            });
+            this.setState({ r_names: nameData });
+            // console.log("Get Username Response---->", this.state.r_names);
             this.setState({ loader: false });
           }
         })
@@ -223,13 +325,23 @@ class pendingRequest extends Component {
     });
   };
 
+ 
+  
   removePendingRequestData = () => {
-    console.log("selectedRelation ---->",this.state.selectedLable)
     const { user_id, username } = this.props;
-    const { name, names, trueName, isSelectedName, selectedLable ,dataManage } = this.state;
-//    console.log("Name---->", dataManage);
-     var r_id = this.state.recivedIdArray[0];       
-      dataManage.map((item) => {
+    const {
+      name,
+      names,
+      trueName,
+      usernameDatas,
+      label_Name,
+      senderName,
+      selectedLable,
+      dataManage,
+      senderIdArray,
+      r_names,
+    } = this.state;
+    dataManage.map((item) => {
       item.isSelect == true
         ? selectedLable.push(item.relation)
         : console.log("selected------->", item.isSelect);
@@ -240,57 +352,202 @@ class pendingRequest extends Component {
       if (item.isSelect == true) {
         this.setState({ trueName: [] });
         trueName.push(item.item);
-       // console.log("aftere true name ----->", trueName);
       }
     });
-    console.log("selected------->",selected);
+    usernameDatas.map((item) => {
+      if (item.isSelect == true) {
+        senderName.push(item);
+      }
+    });
+    let sId = senderIdArray[0];
 
-    
-    addItem(user_id, user_id, selected, "", "", trueName[0]);
-    addItem(r_id, r_id, selected, "", "", trueName[0]);
 
-    addManualContact(
-      // user_id,
-      username,
-      selected,
-      "",
-      "",
-      "",
-      trueName[0],
-      "",
-      "",
-      "",
-      "",
-      "",
-      "",
-      "",
-      "",
-      "",
-      "",
-      "",
-      "",
-      "",
-      "",
-      "",
-      "",
-      "",
-      "",
-      "",
-      "",
-      "",
-      "",
-      "",
-      "",
-      "",
-      "",
-      "",
-      "",
-      "",
-      "",
-      "",
-      ""
-    );
   
+    addItem(user_id, user_id, selected, "", "", trueName[0]);
+    addItem(sId, sId, label_Name, "", "", username.username);
+    // selected is reciver label name
+    // label_Name  is  sender label name
+    firebase
+      .firestore()
+      .collection("user")
+      .doc(trueName[0])
+      .get()
+      .then((snap) => {
+        let fields = snap._data;
+       if(fields.address.length > 0){this.setState({address : fields.address[0].address})}
+       if(fields.messenger.length > 0){this.setState({messenger : fields.messenger[0].messenger})}
+       if(fields.socialMedia.length > 0){this.setState({socialMedia : fields.socialMedia[0].social})}
+       if(fields.website.length > 0){this.setState({website : fields.website[0].website})}
+       if(fields.date.length > 0){this.setState({date : fields.date[0].date})}
+       if(fields.note.length > 0){this.setState({note : fields.note[0].note})}
+       if(fields.company.length > 0){this.setState({company : fields.company[0].company})}
+       if(fields.jobTitle.length > 0){this.setState({jobTitle : fields.jobTitle[0].jobTitle})}
+       if(fields.monday.length > 0){this.setState({monday : fields.monday[0].monday})}
+       if(fields.mondayTo.length > 0){this.setState({mondayTo : fields.mondayTo[0].mondayTo})}
+       if(fields.tuesday.length > 0){this.setState({tuesday : fields.tuesday[0].tuesday})}
+       if(fields.tuesdayTo.length > 0){this.setState({tuesdayTo : fields.tuesdayTo[0].tuesdayTo})}
+       if(fields.wednesday.length > 0){this.setState({wednesday : fields.wednesday[0].wednesday})}
+       if(fields.wednesdayTo.length > 0){this.setState({wednesdayTo : fields.wednesdayTo[0].wednesdayTo})}
+       if(fields.thursday.length > 0){this.setState({thursday : fields.thursday[0].thursday})}
+       if(fields.thursdayTo.length > 0){this.setState({thursdayTo : fields.thursdayTo[0].thursdayTo})}
+       if(fields.friday.length > 0){this.setState({friday : fields.friday[0].friday})}
+       if(fields.fridayTo.length > 0){this.setState({fridayTo : fields.fridayTo[0].fridayTo})}
+       if(fields.saturday.length > 0){this.setState({saturday : fields.saturday[0].saturday})}
+       if(fields.saturdayTo.length > 0){this.setState({saturdayTo : fields.saturdayTo[0].saturdayTo})}
+       if(fields.sunday.length > 0){this.setState({sunday : fields.sunday[0].sunday})}
+       if(fields.sundayTo.length > 0){this.setState({sundayTo : fields.sundayTo[0].sundayTo})}
+
+       importContactToFirebase(
+          username.username,
+          fields.profile_image,
+          fields.profile_image2,
+          fields.profile_image3,
+          trueName[0],
+          "",
+          fields.last_name,
+          "",
+          "",
+          senderName[0].item.contact,
+          "",
+          "",
+          "",
+          senderName[0].item.email,
+          "",
+          "",
+          this.state.address,
+          "",
+          this.state.messenger,
+          "",
+          "",
+          this.state.socialMedia,
+          "",
+          "",
+          this.state.website,
+          "",
+          "",
+          this.state.date,
+          "",
+          this.state.note,
+          "",
+          this.state.company,
+          "",
+          this.state.jobTitle,
+          "",
+          "",
+          "",
+          "",
+          selected,
+          selected,
+          label_Name,
+          false,
+          this.state.monday,
+          this.state.mondayTo,
+          this.state.tuesday,
+          this.state.tuesdayTo,
+          this.state.wednesday,
+          this.state.wednesdayTo,
+          this.state.thursday,
+          this.state.thursdayTo,
+          this.state.friday,
+          this.state.fridayTo,
+          this.state.saturday,
+          this.state.saturdayTo,
+          this.state.sunday,
+          this.state.sundayTo
+        );
+      });
+
+    firebase
+      .firestore()
+      .collection("user")
+      .doc(username.username)
+      .get()
+      .then((snap) => {
+        let fields = snap._data;
+        console.log("monday--->",)
+        if(fields.address.length > 0){this.setState({address : fields.address[0].address})}
+       if(fields.messenger.length > 0){this.setState({messenger : fields.messenger[0].messenger})}
+       if(fields.socialMedia.length > 0){this.setState({socialMedia : fields.socialMedia[0].social})}
+       if(fields.website.length > 0){this.setState({website : fields.website[0].website})}
+       if(fields.date.length > 0){this.setState({date : fields.date[0].date})}
+       if(fields.note.length > 0){this.setState({note : fields.note[0].note})}
+       if(fields.company.length > 0){this.setState({company : fields.company[0].company})}
+       if(fields.jobTitle.length > 0){this.setState({jobTitle : fields.jobTitle[0].jobTitle})}
+       if(fields.monday.length > 0){this.setState({monday : fields.monday[0].monday})}
+       if(fields.mondayTo.length > 0){this.setState({mondayTo : fields.mondayTo[0].mondayTo})}
+       if(fields.tuesday.length > 0){this.setState({tuesday : fields.tuesday[0].tuesday})}
+       if(fields.tuesdayTo.length > 0){this.setState({tuesdayTo : fields.tuesdayTo[0].tuesdayTo})}
+       if(fields.wednesday.length > 0){this.setState({wednesday : fields.wednesday[0].wednesday})}
+       if(fields.wednesdayTo.length > 0){this.setState({wednesdayTo : fields.wednesdayTo[0].wednesdayTo})}
+       if(fields.thursday.length > 0){this.setState({thursday : fields.thursday[0].thursday})}
+       if(fields.thursdayTo.length > 0){this.setState({thursdayTo : fields.thursdayTo[0].thursdayTo})}
+       if(fields.friday.length > 0){this.setState({friday : fields.friday[0].friday})}
+       if(fields.fridayTo.length > 0){this.setState({fridayTo : fields.fridayTo[0].fridayTo})}
+       if(fields.saturday.length > 0){this.setState({saturday : fields.saturday[0].saturday})}
+       if(fields.saturdayTo.length > 0){this.setState({saturdayTo : fields.saturdayTo[0].saturdayTo})}
+       if(fields.sunday.length > 0){this.setState({sunday : fields.sunday[0].sunday})}
+       if(fields.sundayTo.length > 0){this.setState({sundayTo : fields.sundayTo[0].sundayTo})}
+        //save data in sender
+        importContactToFirebase(
+          trueName[0],
+          fields.profile_image,
+          fields.profile_image2,
+          fields.profile_image3,
+          username.username,
+          "",
+          fields.last_name,
+          "",
+          "",
+          username.contact,
+          "",
+          "",
+          "",
+          username.email,
+          "",
+          "",
+          this.state.address,
+          "",
+          this.state.messenger,
+          "",
+          "",
+          this.state.socialMedia,
+          "",
+          "",
+          this.state.website,
+          "",
+          "",
+          this.state.date,
+          "",
+          this.state.note,
+          "",
+          this.state.company,
+          "",
+          this.state.jobTitle,
+          "",
+          "",
+          "",
+          "",
+          selected,
+          selected,
+          label_Name,
+          false,
+          this.state.monday,
+          this.state.mondayTo,
+          this.state.tuesday,
+          this.state.tuesdayTo,
+          this.state.wednesday,
+          this.state.wednesdayTo,
+          this.state.thursday,
+          this.state.thursdayTo,
+          this.state.friday,
+          this.state.fridayTo,
+          this.state.saturday,
+          this.state.saturdayTo,
+          this.state.sunday,
+          this.state.sundayTo
+        );
+      });
+
     this.setState({ name: [] });
     this.setState({
       trueName: [],
@@ -300,9 +557,8 @@ class pendingRequest extends Component {
     this.pendingRequestApiCall();
   };
   showDenyRequest = (keyInd, item, time) => {
-    console.log("time---->", time);
+    //  console.log("time---->", time);
     this.setState({
-      // labelSection: true,
       denySection: true,
       acceptName: item,
       middleSection: false,
@@ -357,18 +613,18 @@ class pendingRequest extends Component {
           var data = responseJson;
           if (data == "") {
             // console.log("empty---->", this.state.names);
-             this.setState({ names: [] });
+            this.setState({ names: [] });
             // console.log("empty---->", this.state.names);
-             this.setState({ loader: false });
-           }else{
+            this.setState({ loader: false });
+          } else {
             console.log("Update Pending response---->", data);
             this.setState({ acceptData: data });
             console.log(
               "Update Pending response---->",
               this.state.acceptData.status
             );
-           }
-         
+          }
+
           if (this.state.acceptData.status == true) {
             this.setState({ trueName: [] });
             this.setState({ name: [] });
@@ -383,20 +639,22 @@ class pendingRequest extends Component {
     });
   };
 
-  showLabelList = (keyInd, item) => {
-    //console.log("Key Ind --->",keyInd)
+  showLabelList = (keyInd, item, time, labelName, label_id) => {
+    console.log("Key Ind --->", label_id);
     this.setState({
       labelSection: true,
       acceptName: item,
       middleSection: false,
       keyInd: keyInd,
+      reciverTime: time,
+      label_Name: labelName,
+      ID_Lable: label_id,
     });
   };
 
   acceptSubmit = () => {
-    const { names, p_ids, p_idsSelected, keyInd } = this.state;
+    const { names, p_ids, p_idsSelected, keyInd, usernameDatas } = this.state;
 
-    // console.log("Key Ind---->", keyInd);
     let arr1 = names.map((item, key) => {
       if (keyInd == key) {
         item.isSelect = !item.isSelect;
@@ -404,6 +662,14 @@ class pendingRequest extends Component {
       return { ...item };
     });
     this.setState({ names: arr1 });
+
+    let data = usernameDatas.map((item, key) => {
+      if (keyInd == key) {
+        item.isSelect = !item.isSelect;
+      }
+      return { ...item };
+    });
+    this.setState({ usernameDatas: data });
 
     let arr = p_ids.map((item, key) => {
       if (keyInd == key) {
@@ -418,7 +684,7 @@ class pendingRequest extends Component {
         p_idsSelected.push(item.item);
       }
     });
-    console.log("p_ids---->", p_idsSelected);
+    //    console.log("p_ids---->", p_idsSelected);
     p_idsSelected.map((item, index) => {
       // this.setState({ loader: true }, async () => {
       const baseurl = Constants.baseurl;
@@ -459,16 +725,39 @@ class pendingRequest extends Component {
     // });
   };
 
+  // labelList = () => {
+  //   this.setState({ isLoading: true }, async () => {
+  //     const baseurl = Constants.baseurl;
+  //     fetch(baseurl + "get_label")
+  //       .then((response) => {
+  //         return response.json();
+  //       })
+  //       .then((responseJson) => {
+  //         var arr = responseJson.data.relation.split(/,/).map((item) => {
+  //           return { relation: item, isSelect: false };
+  //         });
+  //         this.setState({ dataManage: arr, isLoading: false });
+  //       })
+  //       .catch((error) => {
+  //         console.error(error);
+  //         this.setState({ isLoading: false });
+  //       });
+  //   });
+  // };
   labelList = () => {
     this.setState({ isLoading: true }, async () => {
       const baseurl = Constants.baseurl;
-      fetch(baseurl + "get_label")
+      fetch(baseurl + "getlabel")
         .then((response) => {
           return response.json();
         })
         .then((responseJson) => {
-          var arr = responseJson.data.relation.split(/,/).map((item) => {
-            return { relation: item, isSelect: false };
+          var arr = responseJson.data.map((item, index) => {
+            return {
+              relation: item.relation,
+              isSelect: false,
+              labelID: item.id,
+            };
           });
           this.setState({ dataManage: arr, isLoading: false });
         })
@@ -478,9 +767,10 @@ class pendingRequest extends Component {
         });
     });
   };
+
   selectAll = () => {
-    const { dataManage ,labelSelected ,selectedRelation} = this.state;
-  
+    const { dataManage, labelSelected, selectedRelation } = this.state;
+
     let contactArr = dataManage.map((item, key) => {
       this.state.checkedOff == true
         ? (item.isSelect = true)
@@ -489,23 +779,22 @@ class pendingRequest extends Component {
       this.setState({ checkedOff: !this.state.checkedOff });
       return { ...item };
     });
-    this.setState({ dataManage: contactArr  });
-  //  console.log("---->",dataManage)
-    
+    this.setState({ dataManage: contactArr });
+    //  console.log("---->",dataManage)
+
     dataManage.map((item) => {
-     
       item.isSelect == true
         ? selectedRelation.push(item.relation)
         : console.log("selected------->", item.isSelect);
     });
-   // const selected = selectedRelation.toString();
-    
-    this.setState({ selectedLable : selectedRelation });
-   console.log("datemanage---->",selectedRelation)
+    // const selected = selectedRelation.toString();
+
+    this.setState({ selectedLable: selectedRelation });
+    console.log("datemanage---->", selectedRelation);
   };
 
   onchecked = (keyInd, item, item2) => {
-    console.log("selct--->", item2.relation);
+    // console.log("selct--->", item2.relation);
     this.setState({ selectedLable: item2.relation });
     const { dataManage, selectedRealetion } = this.state;
     let arr = dataManage.map((item, key) => {
@@ -515,7 +804,6 @@ class pendingRequest extends Component {
       return { ...item };
     });
     this.setState({ dataManage: arr });
-    // console.log("datatmanage arr ===> ", dataManage);
   };
   renderItem({ item, index }) {
     return (
@@ -606,6 +894,19 @@ class pendingRequest extends Component {
                   >
                     Label:
                   </Text>
+                  <Text
+                    style={[
+                      styles.usernameText,
+                      {
+                        color:
+                          this.props.theme.mode == "light"
+                            ? COLORS.main_text_color
+                            : COLORS.white,
+                      },
+                    ]}
+                  >
+                    {item.label_name}
+                  </Text>
                 </View>
               </View>
             </View>
@@ -664,7 +965,13 @@ class pendingRequest extends Component {
                     { marginLeft: Metrics.doubleBaseMargin },
                   ]}
                   onPress={(value) => {
-                    this.showLabelList(index, item.item);
+                    this.showLabelList(
+                      index,
+                      item.item,
+                      this.state.requestTimeS[index],
+                      item.label_name,
+                      item.id_label
+                    );
                   }}
                 >
                   <Text
@@ -744,7 +1051,7 @@ class pendingRequest extends Component {
     });
     this.acceptSubmit();
     let arr = this.state.dataManage.map((item, key) => {
-      if (item.isSelect ==  true) {
+      if (item.isSelect == true) {
         item.isSelect = false;
       }
       return { ...item };
@@ -813,8 +1120,7 @@ class pendingRequest extends Component {
                 Select (De-select) All{" "}
               </Text>
             </TouchableOpacity>
-            {/* <ScrollView>
-            <View style={{ borderWidth: 1, height: height * 0.3 }}> */}
+
             {this.state.dataManage.map((item, key) =>
               this.state.dataManage === [""] ? null : (
                 <View style={styles.mainView}>
@@ -950,6 +1256,18 @@ class pendingRequest extends Component {
               </View>
             </View>
           </View>
+          <Text
+            style={{
+              fontSize: width * 0.025,
+              fontFamily: Font.regular,
+              color:
+                this.props.theme.mode == "light" ? COLORS.black : COLORS.white,
+              marginLeft: Metrics.baseMargin,
+              marginTop: Metrics.baseMargin,
+            }}
+          >
+            Request Received on {this.state.reciverTime}
+          </Text>
         </View>
       </View>
     );
@@ -1028,7 +1346,7 @@ class pendingRequest extends Component {
               marginLeft: Metrics.smallMargin,
             }}
           >
-            <Text
+            {/* <Text
               style={{
                 fontSize: width * 0.025,
                 fontFamily: Font.regular,
@@ -1040,7 +1358,7 @@ class pendingRequest extends Component {
             >
               Request Received on
               {this.state.selectedTiem}
-            </Text>
+            </Text> */}
           </View>
           <Text
             style={{
@@ -1198,7 +1516,7 @@ class pendingRequest extends Component {
 const mapStateToProps = (state) => ({
   theme: state.themeReducer.theme,
   user_id: state.login.shouldLoadData.user_id,
-  username: state.login.shouldLoadData.username,
+  username: state.login.shouldLoadData,
 });
 
 const mapDispatchToProps = (dispatch) => ({

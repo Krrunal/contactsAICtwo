@@ -4,15 +4,15 @@ import styled, { ThemeProvider } from "styled-components/native";
 
 import AsyncStorage from "@react-native-community/async-storage";
 import { COLORS } from "../theme/Colors.js";
+import Constants from "../../action/Constants";
 import Font from "../theme/font.js";
 import GeneralStatusBar from "../../components/StatusBar/index";
 import Header from "../../components/header/index";
+import { Spinner } from "../../components/Spinner";
 import { connect } from "react-redux";
 import firebase from "../../services/FirebaseDatabase/db";
 import firebaseFrom from "react-native-firebase";
 import styles from "./forAdd2Style.js";
-import Constants from "../../action/Constants";
-import { Spinner } from "../../components/Spinner";
 
 var { width, height } = Dimensions.get("window");
 
@@ -29,6 +29,7 @@ class forAdd2 extends Component {
     u_name3: "",
     u_name4: "",
     isLoading: false,
+    label_id:"",
   };
 
   async componentDidMount() {
@@ -50,7 +51,32 @@ class forAdd2 extends Component {
     console.log("multiple----2---->", this.state.userLabel2);
     console.log("multiple----3---->", this.state.userLabel3);
     console.log("multiple----4---->", this.state.userLabel4);
+    this.labelList();
   }
+
+  labelList = () => {
+    this.setState({ isLoading: true }, async () => {
+      const baseurl = Constants.baseurl;
+      fetch(baseurl + "getlabel")
+        .then((response) => {
+          return response.json();
+        })
+        .then((responseJson) => {
+         
+          var arr = responseJson.data.map((item) => { 
+            if(item.relation == this.state.label){
+              //console.log("response=---->", item.relation);
+              this.setState({label_id:item.id})
+            }
+          })
+          this.setState({ isLoading: false });
+        })
+        .catch((error) => {
+          console.error(error);
+          this.setState({ isLoading: false });
+        });
+    });
+  };
 
   renderHeader() {
     return (
@@ -199,6 +225,7 @@ class forAdd2 extends Component {
     _body.append("username3", u_name3);
     _body.append("username4", u_name4);
     _body.append("sender_id", user_id);
+    _body.append("label_id", this.state.label_id);
     fetch(baseurl + "send_bulk", {
       method: "POST",
       headers: {

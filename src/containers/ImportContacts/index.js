@@ -336,7 +336,7 @@ class importContact extends Component {
   importnavigate = (isSelect, item, key) => {
     const { fetchedContacts, selectedContact, n1, n2 } = this.state;
     const { user_id, username } = this.props;
-
+       this.setState({isLoading: true})
     firebase
       .firestore()
       .collection("user")
@@ -348,31 +348,56 @@ class importContact extends Component {
           snap.forEach(async (doc) => {
             fetchedContacts.map((item) => {
               if (item.isSelected == true) {
-                if (doc._data.number.length > 0 &&  item.phoneNumbers.length > 0) {
-                  if ( doc._data.number[0].number !== item.phoneNumbers[0].number) {
-                  
-                    console.log(
-                      "phone number---->",
-                      item.phoneNumbers[0].number
-                    );
-                   
+                if (
+                  doc._data.number.length > 0 &&
+                  item.phoneNumbers.length > 0
+                ) {
+                  if (
+                    doc._data.number[0].number !== item.phoneNumbers[0].number
+                  ) {
+                    // console.log("phone number---->", item.phoneNumbers[0].number );
                   } else {
                     item.isSelected = false;
-                
                   }
                 }
               }
             });
           });
+
           fetchedContacts.map((item) => {
             if (item.isSelected == true) {
+              console.log("fetch contactss------>", item.thumbnailPath);
+              if (item.urlAddresses.length > 0) {
+                const address = item.urlAddresses.find(({ url }) => url == url);
+                let address1 = address.url;
+                this.setState({ website: address1 });
+              }
+
+              if (item.postalAddresses.length > 0) {
+                const address = item.postalAddresses.find(
+                  ({ formattedAddress }) => formattedAddress == formattedAddress
+                );
+                let address1 = address.formattedAddress;
+                this.setState({ address1: address1 });
+              }
+              if (item.postalAddresses.length > 0) {
+                const address = item.postalAddresses.find(
+                  ({ formattedAddress }) => formattedAddress == formattedAddress
+                );
+                console.log("address---->", address.label);
+                let address1 = address.label;
+                this.setState({ addressLable: address1 });
+              }
               importContactToFirebase(
                 username,
+                item.thumbnailPath,
                 "",
-                item.givenName,
-                item.middleName,
-                item.familyName,
                 "",
+                item.givenName.toLowerCase(),
+                item.middleName.toLowerCase(),
+                item.familyName.toLowerCase(),
+                "",
+                this.state.addressLable,
                 "",
                 "",
                 "",
@@ -381,51 +406,76 @@ class importContact extends Component {
                 "",
                 item.emailAddresses,
                 "",
-                item.postalAddresses,
+                this.state.address1,
                 "",
                 "",
                 "",
                 "",
                 "",
                 "",
-                "",
+                this.state.website,
                 "",
                 "",
                 item.birthday,
                 "",
                 "",
-                item.note,
-                item.company,
+                item.note.toLowerCase(),
+                item.company.toLowerCase(),
                 "",
-                item.jobTitle,
-                ""
+                item.jobTitle.toLowerCase(),
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                true,
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
               );
             }
           });
+
           this.props.navigation.navigate("SerachEditContact");
-                  this.setState({ checked: false, isLoading: false });
-                  let contactArr = fetchedContacts.map((item, key) => {
-                    if ((item.isSelected = true)) {
-                      item.isSelected = false;
-                    }
-                    if (this.state.checkedOff == true) {
-                      this.setState({ checkedOff: false });
-                    }
-        
-                    return { ...item };
-                  });
-        this.setState({ fetchedContacts: contactArr });
-               
+          this.setState({ checked: false, isLoading: false });
+          let contactArr = fetchedContacts.map((item, key) => {
+            if ((item.isSelected = true)) {
+              item.isSelected = false;
+            }
+            if (this.state.checkedOff == true) {
+              this.setState({ checkedOff: false });
+            }
+
+            return { ...item };
+          });
+          this.setState({ fetchedContacts: contactArr });
+          this.setState({isLoading: true})
         } else {
           fetchedContacts.map((item) => {
             if (item.isSelected == true) {
               importContactToFirebase(
                 username,
+                item.thumbnailPath,
                 "",
-                item.givenName,
-                item.middleName,
-                item.familyName,
                 "",
+                item.givenName.toLowerCase(),
+                item.middleName.toLowerCase(),
+                item.familyName.toLowerCase(),
+                "",
+                this.state.addressLable,
                 "",
                 "",
                 "",
@@ -434,26 +484,45 @@ class importContact extends Component {
                 "",
                 item.emailAddresses,
                 "",
-                item.postalAddresses,
+                this.state.address1,
                 "",
                 "",
                 "",
                 "",
                 "",
                 "",
-                "",
+                this.state.website,
                 "",
                 "",
                 item.birthday,
                 "",
                 "",
-                item.note,
-                item.company,
+                item.note.toLowerCase(),
+                item.company.toLowerCase(),
                 "",
-                item.jobTitle,
+                item.jobTitle.toLowerCase(),
                 "",
                 "",
-                ""
+                "",
+                "",
+                "",
+                "",
+                "",
+                true,
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
               );
             }
           });
@@ -469,7 +538,8 @@ class importContact extends Component {
 
             return { ...item };
           });
-        this.setState({ fetchedContacts: contactArr });     
+          this.setState({ fetchedContacts: contactArr });
+          this.setState({isLoading: true})
         }
       });
   };
@@ -480,12 +550,12 @@ class importContact extends Component {
       if (item.isSelected == true) {
         importContactToFirebase(
           username,
+          item.thumbnailPath,
+          item.givenName.toLowerCase(),
+          item.middleName.toLowerCase(),
+          item.familyName.toLowerCase(),
           "",
-
-          item.givenName,
-          item.middleName,
-          item.familyName,
-          "",
+          this.state.addressLable,
           "",
           "",
           "",
@@ -494,24 +564,29 @@ class importContact extends Component {
           "",
           item.emailAddresses,
           "",
-          item.postalAddresses,
+          this.state.address1,
           "",
           "",
           "",
           "",
           "",
           "",
-          "",
+          this.state.website,
           "",
           "",
           item.birthday,
           "",
           "",
-          item.note,
-          item.company,
+          item.note.toLowerCase(),
+          item.company.toLowerCase(),
           "",
-          item.jobTitle,
-          ""
+          item.jobTitle.toLowerCase(),
+          "",
+          "",
+          "",
+          "",
+          "",
+          true
         );
       }
     });

@@ -617,14 +617,14 @@ class SideBar extends React.Component {
                       >
                         <Text style={styles.itemText}>Display</Text>
                       </TouchableOpacity>
-                      <TouchableOpacity
+                      {/* <TouchableOpacity
                         onPress={() => {
                           this.props.navigation.navigate("Profile") &&
                             this.props.navigation.closeDrawer();
                         }}
                       >
                         <Text style={styles.itemText}>My Account</Text>
-                      </TouchableOpacity>
+                      </TouchableOpacity> */}
                     </View>
                   ) : null}
                 </View>

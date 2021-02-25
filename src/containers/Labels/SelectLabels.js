@@ -45,7 +45,7 @@ class Selectlabels extends Component {
   componentDidMount() {
     this.setState({ loader: true });
     const baseurl = Constants.baseurl;
-    fetch(baseurl + "get_label")
+    fetch(baseurl + "getlabel")
       .then((response) => {
         return response.json();
       })
@@ -54,10 +54,9 @@ class Selectlabels extends Component {
           console.log(responseJson.data.relation);
           this.setState({ dataManage: "" });
         } else {
-          var labelData = responseJson.data.relation.split(/,/).map((item) => {
-            console.log("label --->",labelData);
-            return { relation: item, isSelect: false };
-          });
+          var labelData = responseJson.data.map((item,index) => {
+                 return { relation: item.relation, isSelect: false , id: item.id };
+              });
           this.setState({ dataManage: labelData });
         }
       })
@@ -100,20 +99,18 @@ class Selectlabels extends Component {
   deleteApiCall = (isSelect, item, key) => {
     
     const { dataManage, selectedRealetion } = this.state;
-
     dataManage.map((item) => {
       item.isSelect == true
-        ? selectedRealetion.push(item.relation)
-        : console.log("selected------->", item.isSelect);
+        ? selectedRealetion.push(item.id)
+        : console.log("selected------->", item.id);
     });
 
-    const selected = selectedRealetion.toString();
-
-    const baseurl = Constants.baseurl;
+    selectedRealetion.map((item,index) => {
+      const baseurl = Constants.baseurl;
     var _body = new FormData();
-    _body.append("relation", selected);
+    _body.append("id", item);
 
-    fetch(baseurl + "delete_label", {
+    fetch(baseurl + "deletelabel", {
       method: "post",
       headers: {
         "Content-Type":
@@ -123,18 +120,14 @@ class Selectlabels extends Component {
     })
       .then((response) => response.json())
       .then((responseJson) => {
+        console.log("responseJsodelete lael------->", responseJson);
         this.refs.toast.show(responseJson.message);
         this.setState({ addView : false });
         this.props.navigation.navigate("Label")
-        if (responseJson.data.relation == "") {
-          this.setState({ dataManage: responseJson.data.relation });
-        } else {
-          var labelData = responseJson.data.relation.split(/,/).map((item) => {
-            return { relation: item, isSelect: false };
-          });
-          this.setState({ dataManage: labelData });
-        }
+       
       });
+    })
+   
   };
 
   renderHeader() {

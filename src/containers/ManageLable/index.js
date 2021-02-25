@@ -13,6 +13,7 @@ import {
 } from "react-native";
 import React, { Component, useState } from "react";
 import styled, { ThemeProvider } from "styled-components/native";
+import firebase from "../../services/FirebaseDatabase/db";
 
 import Add from "../AddContact/index";
 import AsyncStorage from "@react-native-community/async-storage";
@@ -55,54 +56,11 @@ class ManageLable extends Component {
       phone_1: "",
       phone_2: "",
       phone_3: "",
-      email_1: {
-        email: "",
-        label: "",
-      },
-      email_2: {
-        email: "",
-        label: "",
-      },
-      address: {
-        address: "",
-        label: "",
-      },
-      address2: {
-        address: "",
-        label: "",
-      },
-      messanger_1: {
-        messanger: "",
-        label: "",
-      },
-      messanger_2: {
-        messanger: "",
-        label: "",
-      },
-      social_media_1: {
-        socialMedia: "",
-        label: "",
-      },
-      social_media_2: {
-        socialMedia: "",
-        label: "",
-      },
-      website_1: {
-        website: "",
-        label: "",
-      },
-      website_2: {
-        website: "",
-        label: "",
-      },
-      date: {
-        date: "",
-        label: "",
-      },
-      note: {
-        note: "",
-        label: "",
-      },
+     
+      address:"",
+      
+      date: "",
+      note: "",
       company: "",
       job_title: "",
       work_hour:  {
@@ -137,171 +95,41 @@ class ManageLable extends Component {
       checked_job_title: false,
       checked_work_hours: false,
 
-      //mobile modal
-      phone_1: {
-        phone_1: "",
-        label: "",
-      },
-      isMobileModelOpen: false,
-      mobileLabelList: [
-        { label: "Personal" },
-        { label: "Work" },
-        { label: "Home" },
-        { label: "Main" },
-        { label: "Other" },
-      ],
-      mobileLabel: "",
-      isAddMobileLabel: false,
-      phone_2: {
-        phone_2: "",
-        label: "",
-      },
-      isMobileModelOpen2: false,
-      mobileLabelList2: [
-        { label: "Personal" },
-        { label: "Work" },
-        { label: "Other" },
-      ],
-      mobileLabel2: "",
-      isAddMobileLabel2: false,
-      // email modal
-      isEmailModelOpen: false,
-      emailLabelList: [
-        { label: "Personal" },
-        { label: "Work" },
-        { label: "Main" },
-        { label: "Other" },
-      ],
-      emailLabel: "",
-      isAddEmailLabel: false,
-      isEmailArrrayModelOpen: false,
-      isAddEmailArrayLabel: false,
-      //
-      isEmailModelOpen_2: false,
-      emailLabelList_2: [
-        { label: "Personal" },
-        { label: "Work" },
-        { label: "Main" },
-        { label: "Other" },
-      ],
-      emailLabel_2: "",
-      isAddEmailLabel_2: false,
-      isEmailArrrayModelOpen_2: false,
-      isAddEmailArrayLabel_2: false,
-      //address modal
-      isAddressModelOpen: false,
-      addressLabelList: [
-        { label: "Home" },
-        { label: "Work" },
-        { label: "Other" },
-      ],
-      addressLabel: "",
-      isAddAddressLabel: false,
-      isAddressArrayModelOpen: false,
-      isAddAddressArrayLabel: false,
-      //messnger model
-      isMessangerModelOpen: false,
-      mesangerLabelList: [{ label: "Work" }, { label: "Personal" }],
-      messengerLabel: "",
-      isAddMessangerLabel: false,
-      isMessangerArrayModelOpen: false,
-      isAddMessangerArrayLabel: false,
-      //messnger model 2
-      isMessangerModelOpen2: false,
-      mesangerLabelList2: [{ label: "Work" }, { label: "Personal" }],
-      messengerLabel2: "",
-      isAddMessangerLabel2: false,
-      isMessangerArrayModelOpen2: false,
-      isAddMessangerArrayLabel2: false,
-      //social Media
-      isSocialMediaModelOpen: false,
-      socialMediaLabelList: [
-        { label: "Instagram Personal " },
-        { label: "Periscop Professional" },
-      ],
-      socialMediaLabel: "",
-      isAddSocialMediaLabel: false,
-      isSocialMediaArrayModelOpen: false,
-      isSocialMediaModelOpen: false,
-      isAddSocialMediaArrayLabel: false,
-      //social Media 2
-      isSocialMediaModelOpen2: false,
-      socialMediaLabelList2: [
-        { label: "Instagram Personal " },
-        { label: "Periscop Professional" },
-      ],
-      socialMediaLabel2: "",
-      isAddSocialMediaLabel2: false,
-      isSocialMediaArrayModelOpen2: false,
-      isSocialMediaModelOpen2: false,
-      isAddSocialMediaArrayLabel2: false,
-      //website
-      isWebsiteModelOpen: false,
-      websiteLableList: [
-        { label: " Sport gambling podcast" },
-        { label: " Universal Studio" },
-      ],
-      websiteLabel: "",
-      isAddWebsiteLabel: false,
-      isWebsiteArrayModelOpen: false,
-      isWebsiteModelOpen: false,
-      isAddWebsiteArrayLabel: false,
-      //website 2
-      isWebsiteModelOpen2: false,
-      websiteLableList2: [
-        { label: " Sport gambling podcast" },
-        { label: " Universal Studio" },
-      ],
-      websiteLabel2: "",
-      isAddWebsiteLabel2: false,
-      isWebsiteArrayModelOpen2: false,
-      isWebsiteModelOpen2: false,
-      isAddWebsiteArrayLabel2: false,
-      //date
-      isDateModelOpen: false,
-      dateLableList: [{ label: " Birthday" }, { label: "Wedding Anniversary" }],
-      dateLabel: "",
-      isAddDateLabel: false,
-      isDateArrayModelOpen: false,
-      isDateModelOpen: false,
-      isAddDateArrayLabel: false,
-      isVisible: false,
-      //note
-      isNoteModelOpen: false,
-      noteLabelList: [{ label: "Note" }],
-      noteLabel: "",
-      isAddNoteLabel: false,
-      isNoteArrayModelOpen: false,
-      isNoteModelOpen: false,
-      isAddNoteArrayLabel: false,
-      dataManage: [],
-      flatViewOpen: false,
-      
-      image: null,
-      images: null,
-      image2: null,
-      image3: null,
       profile_image:"",
       profile_image2:"",
       profile_image3:"",
       // work hour 
-      monday_1:"",
-      monday_2:"",
-      tue_1:"",
-      tue_2:"",
-      wed_1:"",
-      wed_2:"",
-      thru_1:"",
-      thru_2:"",
-      fri_1:"",
-      fri_2:"",
-      sat_1:"",
-      sat_2:"",
-      sun_1:"",
-      sun_2:"",
+    
       tz:[],
       tzs:"",
       workViewOpen:false,
+
+      boolean_first_name:"0",
+      boolean_last_name:"0",
+      boolean_middle_name:"0",
+      boolean_nick_name:"0",
+      boolean_profile_image:"0",
+      boolean_profile_image2:"0",
+      boolean_profile_image3:"0",
+      boolean_number:"0",
+      boolean_number2:"0",
+      boolean_email:"0",
+      boolean_messenger:"0",
+      boolean_socialMedia:"0",
+      boolean_socialMedia2:"0",
+      boolean_address:"0",
+      boolean_address2:"0",
+      boolean_note:"0",
+      boolean_website:"0",
+      boolean_date:"0",
+      boolean_company:"0",
+      boolean_jobTitle:"0",
+      // boolean_profile_image:"0",
+      // boolean_profile_image2:"0",
+      // boolean_profile_image3:"0",
+      boolean_work_hours: "0",
+      // new data 
+      iSec: false,
     };
   }
 
@@ -310,72 +138,120 @@ class ManageLable extends Component {
     this.setState({
       selectedName: await AsyncStorage.getItem("@selectedName"),
     });
+   
   
     this.focusListener = navigation.addListener("didFocus", async () => {
       this.labelList();
     });
-    
+    this.firebaseDataCAll();
  
-      this.state.tz.push("GMT (Greenwhich)");
-      this.state.tz.push("GMT (Universal)");
-      this.state.tz.push("GMT+1:00(European Central)");
-      this.state.tz.push("GMT+2:00(Eastern European)");
-      this.state.tz.push("GMT+2:00(Arabic Egypt Standard)"); 
-      this.state.tz.push("GMT+3:00(Eastern African)");
-      this.state.tz.push("GMT+3:30(Middle East Time)");
-      this.state.tz.push("GMT+4:00(Near East)");
-      this.state.tz.push("GMT+5:00(Pakistan Lahore)");
-      this.state.tz.push("GMT+5:30(India Standard)");
-      this.state.tz.push("GMT+6:00(Bangladesh)");
-      this.state.tz.push("GMT+7:00(Vietnam)");
-      this.state.tz.push("GMT+8:00(China Taiwan)");
-      this.state.tz.push("GMT+9:00(Japan)");
-      this.state.tz.push("GMT+9:30(Australia Central) ");
-      this.state.tz.push("GMT+10:00(Australia Eastern) ");
-      this.state.tz.push("GMT+11:00(Solomon Standard)");
-      this.state.tz.push("GMT+12:00(New Zealand)");
-      this.state.tz.push("GMT-11:00(Midway Islands )");
-      this.state.tz.push("GMT-10:00(Hawaii)");
-      this.state.tz.push("GMT-9:00(Alaska)");
-      this.state.tz.push("GMT-8:00(Pacific)");
-      this.state.tz.push("GMT-7:00(Phoenix)");
-      this.state.tz.push("GMT-7:00(Mountain)");
-      this.state.tz.push("GMT-6:00(Central)");
-      this.state.tz.push("GMT-5:00(Eastern)");
-      this.state.tz.push("GMT-5:00(Indiana Eastern)");
-      this.state.tz.push("GMT-5:00(Puerto Rico)");
-      this.state.tz.push("GMT-5:00(US Virgin Islands Time)");
-      this.state.tz.push("GMT-4:00(Canada Newfoundland Time)");
-      this.state.tz.push("GMT-3:00(Argentina)");
-      this.state.tz.push("GMT-3:00(Brazil Eastern)");
-      this.state.tz.push("GMT-1:00(Central African )");
-
-
-      this.setState({tzs :  this.state.tz});
-      //  let date = new Date;
-      //  this.state.tzs.forEach((timeZone) => {
-
-      // });
+      // this.state.tz.push("GMT (Greenwhich)");
+      // this.state.tz.push("GMT (Universal)");
+      // this.state.tz.push("GMT+1:00(European Central)");
+      // this.state.tz.push("GMT+2:00(Eastern European)");
+      // this.state.tz.push("GMT+2:00(Arabic Egypt Standard)"); 
+      // this.state.tz.push("GMT+3:00(Eastern African)");
+      // this.state.tz.push("GMT+3:30(Middle East Time)");
+      // this.state.tz.push("GMT+4:00(Near East)");
+      // this.state.tz.push("GMT+5:00(Pakistan Lahore)");
+      // this.state.tz.push("GMT+5:30(India Standard)");
+      // this.state.tz.push("GMT+6:00(Bangladesh)");
+      // this.state.tz.push("GMT+7:00(Vietnam)");
+      // this.state.tz.push("GMT+8:00(China Taiwan)");
+      // this.state.tz.push("GMT+9:00(Japan)");
+      // this.state.tz.push("GMT+9:30(Australia Central) ");
+      // this.state.tz.push("GMT+10:00(Australia Eastern) ");
+      // this.state.tz.push("GMT+11:00(Solomon Standard)");
+      // this.state.tz.push("GMT+12:00(New Zealand)");
+      // this.state.tz.push("GMT-11:00(Midway Islands )");
+      // this.state.tz.push("GMT-10:00(Hawaii)");
+      // this.state.tz.push("GMT-9:00(Alaska)");
+      // this.state.tz.push("GMT-8:00(Pacific)");
+      // this.state.tz.push("GMT-7:00(Phoenix)");
+      // this.state.tz.push("GMT-7:00(Mountain)");
+      // this.state.tz.push("GMT-6:00(Central)");
+      // this.state.tz.push("GMT-5:00(Eastern)");
+      // this.state.tz.push("GMT-5:00(Indiana Eastern)");
+      // this.state.tz.push("GMT-5:00(Puerto Rico)");
+      // this.state.tz.push("GMT-5:00(US Virgin Islands Time)");
+      // this.state.tz.push("GMT-4:00(Canada Newfoundland Time)");
+      // this.state.tz.push("GMT-3:00(Argentina)");
+      // this.state.tz.push("GMT-3:00(Brazil Eastern)");
+      // this.state.tz.push("GMT-1:00(Central African )");
+      // this.setState({tzs :  this.state.tz});
+    
+  }
+  firebaseDataCAll = () =>{
+    const { username } = this.props;
+    this.setState({ isLoading: true }, () => {
+      firebase
+        .firestore()
+        .collection("user")
+        .doc(username)
+        .get()
+        .then((snap) => {
+         
+          var item = snap._data;
+          this.setState({ contact: item });
+      //    console.log("social media ---->", item.date[0].date);
+          this.setState({ profile_image: item.profile_image });
+          this.setState({ profile_image2: item.profile_image2 });
+          this.setState({ profile_image3: item.profile_image3});
+          this.setState({ first_name : item.first_name});
+          this.setState({ last_name : item.last_name});
+          this.setState({ middle_name : item.middle_name});
+          this.setState({ nick_name : item.nick_name});
+         {item.number !== ""  ? this.setState({ number: item.number[0].phone })  : null }
+         {item.email !== "" ?  this.setState({ email: item.email[0].email }): null}
+         {item.messenger !== "" ?  this.setState({ messenger: item.messenger[0].messenger }) : null}
+         {item.socialMedia !== "" ? this.setState({ socialMedia: item.socialMedia[0].social }) : null}
+         {item.socialMedia1 !== "" ?  this.setState({ socialMedia2: item.socialMedia1[0].social }) : null}
+         {item.address !== "" ? this.setState({ address: item.address[0].address }) : null}
+         {item.note !== "" ?  this.setState({ note: item.note[0].note }) : null}
+         {item.website !== "" ?  this.setState({ website: item.website[0].website }): null}
+         {item.company !== "" ? this.setState({ company: item.company[0].company }): null}
+         {item.jobTitle !== "" ?  this.setState({ jobTitle: item.jobTitle[0].jobTitle }): null}
+         {item.date !== "" ? this.setState({ date: item.date[0].date })  : null}
+        
+         {item.monday !== "" ? this.setState({ monday: item.monday[0].monday }) : null} 
+         {item.mondayTo !== "" ? this.setState({ mondayTo: item.mondayTo[0].mondayTo }): null}
+         {item.tuesday !== "" ?  this.setState({ tuesday: item.tuesday[0].tuesday }) : null}
+         {item.tuesdayTo !== "" ? this.setState({ tuesdayTo: item.tuesdayTo[0].tuesdayTo }): null}
+         {item.wednesday !== "" ?  this.setState({ wednesday: item.wednesday[0].wednesday }): null}
+         {item.thursday !== "" ?   this.setState({ thursday: item.thursday[0].thursday }): null}
+         {item.thursdayTo !== "" ?  this.setState({ thursdayTo: item.thursdayTo[0].thursdayTo }): null}
+         {item.friday !== "" ?  this.setState({ friday: item.friday[0].friday }): null}
+         {item.saturday !== "" ? this.setState({ saturday: item.saturday[0].saturday }) : null}
+         {item.saturdayTo !== "" ? this.setState({ saturdayTo: item.saturdayTo[0].saturdayTo }): null}
+         {item.sunday !== "" ?  this.setState({ sunday: item.sunday[0].sunday }): null}
+         {item.sundayTo !== "" ? this.setState({ sundayTo: item.sundayTo[0].sundayTo }): null}
+         this.setState({ isLoading: false });
+          });
+    });
   }
   labelList = () => {
     this.setState({ isLoading: true }, async () => {
       const baseurl = Constants.baseurl;
-      fetch(baseurl + "get_label")
+      fetch(baseurl + "getlabel")
         .then((response) => {
           return response.json();
         })
         .then((responseJson) => {
           if (responseJson.data.relation == "") {
-            this.setState({ dataManage: [] });
+            this.setState({ dataManage: [], isLoading: false });
           } else {
-            var labelData = responseJson.data.relation
-              .split(/,/)
-              .map((item) => {
-                return { relation: item, value: item };
+          //    console.log("label listt--->",responseJson)
+                  var labelData2 = responseJson.data.map((item,index) => {
+                    if(item.relation ==  this.state.selectedName){
+                   //   console.log("   --->",item.relation)
+                      this.setState({labelID : item.id })
+                    }
+                });
+             var labelData = responseJson.data.map((item,index) => {
+                 return { relation: item.relation, isSelect: false ,labelID : item.id };
               });
-            this.setState({ dataManage: labelData });
-
-            console.log("label data--->", this.state.dataManage);
+            this.setState({ dataManage : labelData, isLoading: false });
+           this.setState({ isLoading: false });
           }
         })
         .catch((error) => {
@@ -393,239 +269,33 @@ class ManageLable extends Component {
       />
     );
   }
-  selectPhoto = () => {
-    ActionSheet.show(
-      {
-        options: BUTTONS,
-        cancelButtonIndex: CANCEL_INDEX,
-        destructiveButtonIndex: DESTRUCTIVE_INDEX,
-        title: "Select Photo",
-      },
-      (buttonIndex) => {
-        switch (buttonIndex) {
-          case 0:
-            this.takePhtotFromCamera();
-            break;
-
-          case 1:
-            this.fromGallery();
-            break;
-          default:
-            break;
-        }
+  selectPhoto = () =>{
+    if(this.state.status == true){
+    if(this.state.iSec == true){
+      this.setState({ iSec : false  ,boolean_profile_image : 0})
+    }else{
+      this.setState({ iSec : true ,boolean_profile_image : 1})
+    }
+  }
+  }
+  selectPhoto2 = () =>{
+    if(this.state.status == true){
+    if(this.state.iSec2 == true){
+      this.setState({ iSec2 : false ,boolean_profile_image2 : 0})
+    }else{
+      this.setState({ iSec2 : true ,boolean_profile_image2 : 1})
+    }
+  }
+  }
+  selectPhoto3 = () =>{
+    if(this.state.status == true){
+      if(this.state.iSec3 == true){
+        this.setState({ iSec3 : false ,boolean_profile_image3 : 0})
+      }else{
+        this.setState({ iSec3 : true ,boolean_profile_image3 : 1})
       }
-    );
-  };
-  selectPhoto2 = () => {
-    ActionSheet.show(
-      {
-        options: BUTTONS,
-        cancelButtonIndex: CANCEL_INDEX,
-        destructiveButtonIndex: DESTRUCTIVE_INDEX,
-        title: "Select Photo",
-      },
-      (buttonIndex) => {
-        switch (buttonIndex) {
-          case 0:
-            this.takePhotoFromCamera2();
-            break;
-
-          case 1:
-            this.fromGallery2();
-            break;
-          default:
-            break;
-        }
-      }
-    );
-  };
-  selectPhoto3 = () => {
-    ActionSheet.show(
-      {
-        options: BUTTONS,
-        cancelButtonIndex: CANCEL_INDEX,
-        destructiveButtonIndex: DESTRUCTIVE_INDEX,
-        title: "Select Photo",
-      },
-      (buttonIndex) => {
-        switch (buttonIndex) {
-          case 0:
-            this.takePhtotFromCamera3();
-            break;
-
-          case 1:
-            this.fromGallery3();
-            break;
-          default:
-            break;
-        }
-      }
-    );
-  };
-  fromGallery = () => {
-    ImagePicker.openPicker({
-      width: 300,
-      height: 400,
-      cropping: true,
-    }).then((image) => {
-      this.setState({ profile_image: image.path });
-      console.log("URI ......>", image.path);
-      console.log(image);
-      this.setState({
-        image: {
-          uri: image.path,
-          width: image.width,
-          height: image.height,
-          mime: image.mime,
-        },
-        images: null,
-      });
-    });
-  };
-
-  takePhtotFromCamera = () => {
-    ImagePicker.openCamera({
-      width: 300,
-      height: 400,
-      cropping: true,
-    }).then((image) => {
-      this.setState({ profile_image: image.path });
-      console.log("URI ......>", image.path);
-      console.log(image);
-      this.setState({
-        image: {
-          uri: image.path,
-          width: image.width,
-          height: image.height,
-          mime: image.mime,
-        },
-        images: null,
-      });
-    });
-  };
-
-  takePhotoFromCamera2 = () => {
-    ImagePicker.openCamera({
-      width: 300,
-      height: 400,
-      cropping: true,
-    }).then((image2) => {
-      this.setState({ profile_image2: image2.path });
-      console.log(image2);
-      this.setState({
-        image2: {
-          uri: image2.path,
-          width: image2.width,
-          height: image2.height,
-          mime: image2.mime,
-        },
-        images: null,
-      });
-    });
-  };
-
-  fromGallery2 = () => {
-    ImagePicker.openPicker({
-      width: 300,
-      height: 400,
-      cropping: true,
-    }).then((image2) => {
-      this.setState({ profile_image2: image2.path });
-      console.log(image2);
-      this.setState({
-        image2: {
-          uri: image2.path,
-          width: image2.width,
-          height: image2.height,
-          mime: image2.mime,
-        },
-        images: null,
-      });
-    });
-  };
-
-  takePhtotFromCamera3 = () => {
-    ImagePicker.openCamera({
-      width: 300,
-      height: 400,
-      cropping: true,
-    }).then((image3) => {
-      this.setState({ profile_image3: image3.path });
-      console.log(image3);
-      this.setState({
-        image3: {
-          uri: image3.path,
-          width: image3.width,
-          height: image3.height,
-          mime: image3.mime,
-        },
-        images: null,
-      });
-    });
-  };
-
-  fromGallery3 = () => {
-    ImagePicker.openPicker({
-      width: 300,
-      height: 400,
-      cropping: true,
-    }).then((image3) => {
-      this.setState({ profile_image3: image3.path });
-      console.log(image3);
-      this.setState({
-        image3: {
-          uri: image3.path,
-          width: image3.width,
-          height: image3.height,
-          mime: image3.mime,
-        },
-        images: null,
-      });
-    });
-  };
-  renderImage = (image) => {
-    return (
-      <Image
-        style={{
-          width: width * 0.189,
-          height: width * 0.188,
-          borderRadius: 7,
-          borderWidth: 3,
-          resizeMode: "cover",
-        }}
-        source={image}
-      />
-    );
-  };
-  renderImage2 = (image2) => {
-    return (
-      <Image
-        style={{
-          width: width * 0.189,
-          height: width * 0.188,
-          borderRadius: 7,
-          borderWidth: 3,
-          resizeMode: "cover",
-        }}
-        source={image2}
-      />
-    );
-  };
-  renderImage3 = (image3) => {
-    return (
-      <Image
-        style={{
-          width: width * 0.189,
-          height: width * 0.188,
-          borderRadius: 7,
-          borderWidth: 3,
-          resizeMode: "cover",
-        }}
-        source={image3}
-      />
-    );
-  };
-
+    }
+  }
   renderMiddle() {
     return (
       <Root>
@@ -633,34 +303,40 @@ class ManageLable extends Component {
           <View style={styles.middleView}>
             <View style={styles.firstMiddle}>
               <View style={styles.squareBorder}>
-                {this.renderImage(this.state.image)}
+                   <Image
+                   source = {{uri :this.state.profile_image}}
+                   style={styles.SqureImage}
+                   />
               </View>
 
-              <TouchableOpacity style={styles.first} onPress={this.state.status ? this.selectPhoto : null}>
-                <Text style={styles.firstText}>Select Photo</Text>
-              </TouchableOpacity>
+             
+ 
+               <TouchableOpacity style={[styles.first,{  backgroundColor: this.state.iSec ? COLORS.main_text_color :COLORS.white }]} onPress={this.selectPhoto}>
+                 
+                </TouchableOpacity>
+               
             </View>
             <View style={styles.firstMiddle}>
               <View style={styles.squareBorder}>
-                {this.renderImage2(this.state.image2)}
+              <Image
+                   source = {{uri :this.state.profile_image2}}
+                   style={styles.SqureImage}
+                   />
               </View>
-              <TouchableOpacity
-                style={styles.first}
-                onPress={this.state.status ? this.selectPhoto2 :null}
-              >
-                <Text style={styles.firstText}>Select Photo</Text>
-              </TouchableOpacity>
+              <TouchableOpacity style={[styles.first,{  backgroundColor: this.state.iSec2 ? COLORS.main_text_color :COLORS.white }]} onPress={this.selectPhoto2}>
+                 
+               </TouchableOpacity>
             </View>
             <View style={styles.firstMiddle}>
               <View style={styles.squareBorder}>
-                {this.renderImage3(this.state.image3)}
+              <Image
+                   source = {{uri :this.state.profile_image3}}
+                   style={styles.SqureImage}
+                   />
               </View>
-              <TouchableOpacity
-                style={styles.first}
-                onPress={this.state.status ? this.selectPhoto3 : null}
-              >
-                <Text style={styles.firstText}>Select Photo</Text>
-              </TouchableOpacity>
+              <TouchableOpacity style={[styles.first,{  backgroundColor: this.state.iSec3 ? COLORS.main_text_color :COLORS.white }]} onPress={this.selectPhoto3}>
+                 
+                 </TouchableOpacity>
             </View>
           </View>
         </View>
@@ -671,37 +347,34 @@ class ManageLable extends Component {
   first_name_submit = () => {
     const { checked_first_name } = this.state;
     if (checked_first_name == true) {
-      this.setState({ checked_first_name: false });
-      this.setState({ first_name: "" });
+      this.setState({ checked_first_name: false , boolean_first_name : 0 });
+    
     } else {
-      this.setState({ checked_first_name: true });
+      this.setState({ checked_first_name: true , boolean_first_name : 1});
     }
   };
   middle_name_submit = () => {
     const { checked_middle_name } = this.state;
     if (checked_middle_name == true) {
-      this.setState({ checked_middle_name: false });
-      this.setState({ middle_name: "" });
+      this.setState({ checked_middle_name: false , boolean_middle_name : 0 });
     } else {
-      this.setState({ checked_middle_name: true });
+      this.setState({ checked_middle_name: true , boolean_middle_name : 1 });
     }
   };
   last_name_submit = () => {
     const { checked_last_name } = this.state;
     if (checked_last_name == true) {
-      this.setState({ checked_last_name: false });
-      this.setState({ last_name: "" });
+      this.setState({ checked_last_name: false ,boolean_last_name:0});
     } else {
-      this.setState({ checked_last_name: true });
+      this.setState({ checked_last_name: true ,boolean_last_name:1});
     }
   };
   nick_name_submit = () => {
     const { checked_nick_name } = this.state;
     if (checked_nick_name == true) {
-      this.setState({ checked_nick_name: false });
-      this.setState({ nick_name: "" });
+      this.setState({ checked_nick_name: false ,boolean_nick_name:0});
     } else {
-      this.setState({ checked_nick_name: true });
+      this.setState({ checked_nick_name: true ,boolean_nick_name:1});
     }
   };
 
@@ -720,15 +393,10 @@ class ManageLable extends Component {
               tintColors={{ true: "#1374A3", false: "#1374A3" }}
             />
             <View style={styles.filedView}>
-              <TextInput
-                placeholder="First Name"
-                style={styles.stylefiledText}
-                placeholderTextColor={COLORS.main_text_color}
-                keyboardType={"default"}
-                value={this.state.first_name}
-                onChangeText={(first_name) => this.setState({ first_name })}
-                editable={this.state.checked_first_name == false ? false : true}
-              />
+              <Text  style={styles.stylefiledText}>
+                {this.state.first_name}
+              </Text>
+           
               <View style={styles.rightView}>
                 <Text style={styles.righttext}>First Name</Text>
               </View>
@@ -737,15 +405,9 @@ class ManageLable extends Component {
         ) : (
           <View style={styles.smallView}>
             <View style={styles.filedView}>
-              <TextInput
-                placeholder="First Name"
-                style={styles.stylefiledText}
-                placeholderTextColor={COLORS.main_text_color}
-                keyboardType={"default"}
-                value={this.state.first_name}
-                onChangeText={(first_name) => this.setState({ first_name })}
-                editable={this.state.status == true ? true : false}
-              />
+            <Text  style={styles.stylefiledText}>
+                {this.state.first_name}
+              </Text>
               <View style={styles.rightView}>
                 <Text style={styles.righttext}>First Name</Text>
               </View>
@@ -761,22 +423,9 @@ class ManageLable extends Component {
               tintColors={{ true: "#1374A3", false: "#1374A3" }}
             />
             <View style={styles.filedView}>
-              <TextInput
-                placeholder="Middle Name"
-                style={styles.stylefiledText}
-                placeholderTextColor={COLORS.main_text_color}
-                ref={(input) => {
-                  this.middle_name = input;
-                }}
-                value={this.state.middle_name}
-                onChangeText={(middle_name) => this.setState({ middle_name })}
-                onSubmitEditing={() => {
-                  this.last_name.focus();
-                }}
-                editable={
-                  this.state.checked_middle_name == false ? false : true
-                }
-              />
+            <Text  style={styles.stylefiledText}>
+                {this.state.middle_name}
+              </Text>
               <View style={styles.rightView}>
                 <Text style={styles.righttext}>Middle Name</Text>
               </View>
@@ -785,20 +434,9 @@ class ManageLable extends Component {
         ) : (
           <View style={styles.smallView}>
             <View style={styles.filedView}>
-              <TextInput
-                placeholder="Middle Name"
-                style={styles.stylefiledText}
-                placeholderTextColor={COLORS.main_text_color}
-                ref={(input) => {
-                  this.middle_name = input;
-                }}
-                value={this.state.middle_name}
-                onChangeText={(middle_name) => this.setState({ middle_name })}
-                onSubmitEditing={() => {
-                  this.last_name.focus();
-                }}
-                editable={this.state.status == true ? true : false}
-              />
+            <Text  style={styles.stylefiledText}>
+                {this.state.middle_name}
+              </Text>
               <View style={styles.rightView}>
                 <Text style={styles.righttext}>Middle Name</Text>
               </View>
@@ -814,20 +452,9 @@ class ManageLable extends Component {
               tintColors={{ true: "#1374A3", false: "#1374A3" }}
             />
             <View style={styles.filedView}>
-              <TextInput
-                placeholder="Last Name"
-                style={styles.stylefiledText}
-                placeholderTextColor={COLORS.main_text_color}
-                ref={(input) => {
-                  this.last_name = input;
-                }}
-                value={this.state.last_name}
-                onChangeText={(last_name) => this.setState({ last_name })}
-                onSubmitEditing={() => {
-                  this.nick_name.focus();
-                }}
-                editable={this.state.checked_last_name == false ? false : true}
-              />
+            <Text  style={styles.stylefiledText}>
+                {this.state.last_name}
+              </Text>
               <View style={styles.rightView}>
                 <Text style={styles.righttext}>Last Name</Text>
               </View>
@@ -836,20 +463,9 @@ class ManageLable extends Component {
         ) : (
           <View style={styles.smallView}>
             <View style={styles.filedView}>
-              <TextInput
-                placeholder="Last Name"
-                style={styles.stylefiledText}
-                placeholderTextColor={COLORS.main_text_color}
-                ref={(input) => {
-                  this.last_name = input;
-                }}
-                value={this.state.last_name}
-                onChangeText={(last_name) => this.setState({ last_name })}
-                onSubmitEditing={() => {
-                  this.nick_name.focus();
-                }}
-                editable={this.state.status == true ? true : false}
-              />
+            <Text  style={styles.stylefiledText}>
+                {this.state.last_name}
+              </Text>
               <View style={styles.rightView}>
                 <Text style={styles.righttext}>Last Name</Text>
               </View>
@@ -864,20 +480,9 @@ class ManageLable extends Component {
               tintColors={{ true: "#1374A3", false: "#1374A3" }}
             />
             <View style={styles.filedView}>
-              <TextInput
-                placeholder="NickName"
-                style={styles.stylefiledText}
-                placeholderTextColor={COLORS.main_text_color}
-                value={this.state.nick_name}
-                ref={(input) => {
-                  this.nick_name = input;
-                }}
-                onChangeText={(nick_name) => this.setState({ nick_name })}
-                onSubmitEditing={() => {
-                  this.phone_1.focus();
-                }}
-                editable={this.state.checked_nick_name == false ? false : true}
-              />
+            <Text  style={styles.stylefiledText}>
+                {this.state.nick_name}
+              </Text>
               <View style={styles.rightView}>
                 <Text style={styles.righttext}>Nick Name</Text>
               </View>
@@ -886,20 +491,9 @@ class ManageLable extends Component {
         ) : (
           <View style={styles.smallView}>
             <View style={styles.filedView}>
-              <TextInput
-                placeholder="NickName"
-                style={styles.stylefiledText}
-                placeholderTextColor={COLORS.main_text_color}
-                value={this.state.nick_name}
-                ref={(input) => {
-                  this.nick_name = input;
-                }}
-                onChangeText={(nick_name) => this.setState({ nick_name })}
-                onSubmitEditing={() => {
-                  this.phone_1.focus();
-                }}
-                editable={this.state.status == true ? true : false}
-              />
+            <Text  style={styles.stylefiledText}>
+                {this.state.nick_name}
+              </Text>
               <View style={styles.rightView}>
                 <Text style={styles.righttext}>Nick Name</Text>
               </View>
@@ -913,10 +507,9 @@ class ManageLable extends Component {
   phone_1_submit = () => {
     const { checked_phone_1 } = this.state;
     if (checked_phone_1 == true) {
-      this.setState({ checked_phone_1: false });
-      this.setState({ phone_1: "" });
+      this.setState({ checked_phone_1: false ,boolean_number :0});
     } else {
-      this.setState({ checked_phone_1: true });
+      this.setState({ checked_phone_1: true ,boolean_number:1});
     }
   };
   onChangeNumber_1 = (value) => {
@@ -926,24 +519,12 @@ class ManageLable extends Component {
   phone_2_submit = () => {
     const { checked_phone_2 } = this.state;
     if (checked_phone_2 == true) {
-      this.setState({ checked_phone_2: false });
-      this.setState({ phone_2: "" });
+      this.setState({ checked_phone_2: false,boolean_number2:0});
     } else {
-      this.setState({ checked_phone_2: true });
+      this.setState({ checked_phone_2: true,boolean_number2:1 });
     }
   };
-  onChangeNumber_2 = ({
-    dialCode,
-    unmaskedPhoneNumber,
-    phoneNumber,
-    isVerified,
-  }) => {
-    if (isVerified == true) {
-      this.setState({ phone_2: unmaskedPhoneNumber });
-    } else {
-      this.setState({ phone_2: unmaskedPhoneNumber });
-    }
-  };
+
 
   renderMobileLabel = ({ item, index }) => {
     return (
@@ -995,43 +576,19 @@ class ManageLable extends Component {
               </View>
             
               <View style={{ }}>
-              <TextInput
-                placeholder="Phone Number"
-                style={styles.stylefiledText}
-                placeholderTextColor={COLORS.main_text_color}
-                // value={this.state.email_1}
-                onChangeText={(value) => this.onChangeNumber_1(value)}
-                keyboardType={"numeric"}
-                ref={(input) => {
-                  this.email_1 = input;
-                }}
-                editable={this.state.checked_phone_1 == false ? false : true}
-              />
-                {/* <IntlPhoneInput
-                  containerStyle={{
-                    width: width * 0.52,
-                    height: height * 0.05,
-                    marginBottom: Metrics.doubleBaseMargin,
-                    }}
-                  phoneInputStyle={styles.mobileInputText}
-                  dialCodeTextStyle={styles.dialcodeText}
-                  dialCode={this.state.dialCode}
-                  // placeholder='3265'
-                  value={this.state.phone_1}
-                  ref={(input) => {
-                    this.phone_1 = input;
-                  }}
-                  keyboardType={"numeric"}
-                  onChangeText={this.onChangeNumber_1}
-                  isShowLabelManually={false}
-                /> */}
+                
+              <Text  style={styles.stylefiledText}>
+                {this.state.number}
+              </Text>
               </View>
             </View>
           </View>
         ) : (
           <View style={styles.smallView}>
             <View style={styles.filedView}>
-              <Text style={styles.stylefiledText}>Phone Number </Text>
+            <Text  style={styles.stylefiledText}>
+                {this.state.number}
+              </Text>
               <View style={styles.rightView}>
                 <Text style={styles.righttext}>Personal(Mobile)</Text>
               </View>
@@ -1044,10 +601,9 @@ class ManageLable extends Component {
   email_1_submit = () => {
     const { checked_email_1 } = this.state;
     if (checked_email_1 == true) {
-      this.setState({ checked_email_1: false });
-      this.setState({ email_1: "" });
+      this.setState({ checked_email_1: false ,boolean_email:0});
     } else {
-      this.setState({ checked_email_1: true });
+      this.setState({ checked_email_1: true ,boolean_email:1 });
     }
   };
 
@@ -1087,42 +643,18 @@ class ManageLable extends Component {
                     </View>
               </View>
               <View style={{ flexDirection: "row" }}>
-                <TextInput
-                  placeholder="E-mail Address"
-                  style={styles.stylefiledText}
-                  placeholderTextColor={COLORS.main_text_color}
-                  // value={this.state.email_1}
-                  onChangeText={(value) => this.onChangeEmail(value)}
-                  onSubmitEditing={() => {
-                    this.email_2.focus();
-                  }}
-                  keyboardType={"email-address"}
-                  ref={(input) => {
-                    this.email_1 = input;
-                  }}
-                  editable={this.state.checked_email_1 == false ? false : true}
-                />
+              <Text  style={styles.stylefiledText}>
+                {this.state.email}
+              </Text>
               </View>
             </View>
           </View>
         ) : (
           <View style={styles.smallView}>
             <View style={styles.filedView}>
-              <TextInput
-                placeholder="E-mail Address"
-                style={styles.stylefiledText}
-                placeholderTextColor={COLORS.main_text_color}
-                // value={this.state.email_1}
-                onChangeText={(value) => this.onChangeEmail(value)}
-                onSubmitEditing={() => {
-                  this.email_2.focus();
-                }}
-                keyboardType={"email-address"}
-                ref={(input) => {
-                  this.email_1 = input;
-                }}
-                editable={this.state.status == true ? true : false}
-              />
+            <Text  style={styles.stylefiledText}>
+                {this.state.email}
+              </Text>
               <View style={styles.rightView}>
                 <Text style={styles.righttext}>Personal</Text>
               </View>
@@ -1136,19 +668,17 @@ class ManageLable extends Component {
   address_submit = () => {
     const { checked_address } = this.state;
     if (checked_address == true) {
-      this.setState({ checked_address: false });
-      this.setState({ address: "" });
+      this.setState({ checked_address: false ,boolean_address:0});
     } else {
-      this.setState({ checked_address: true });
+      this.setState({ checked_address: true ,boolean_address:1});
     }
   };
   address_submit2 = () =>{
     const { checked_address2 } = this.state;
     if (checked_address2 == true) {
-      this.setState({ checked_address2: false });
-      this.setState({ 2: "" });
+      this.setState({ checked_address2: false  ,boolean_address2:0});
     } else {
-      this.setState({ checked_address2: true });
+      this.setState({ checked_address2: true ,boolean_address2:1});
     }
   }
   onChangeAddress = (value) => {
@@ -1185,49 +715,22 @@ class ManageLable extends Component {
             />
             <View style={styles.addressFieldContainerAddress}>
             <View style={{width:width*0.8,height:width*0.030,flexDirection: "row" }}>
-                      <Text style={[styles.rightTextMobile,{marginLeft:5}]}>Address</Text>
+                      <Text style={[styles.rightTextMobile,{marginLeft:5}]}>Personal</Text>
                     <View style={styles.rightViewMobile}>
                       <Text style={styles.rightTextMobile}>Personal</Text>
                     </View>
               </View>
-              <TextInput
-                placeholder="Address "
-                style={styles.addressField}
-                placeholderTextColor={COLORS.main_text_color}
-                // value={this.state.address}
-                onChangeText={(value) => this.onChangeAddress(value)}
-                onSubmitEditing={() => {
-                  this.messanger_1.focus();
-                }}
-                keyboardType={"default"}
-                ref={(input) => {
-                  this.address = input;
-                }}
-                multiline={true}
-                editable={this.state.checked_address == false ? false : true}
-              />
-             
+              <Text  style={styles.stylefiledText}>
+                {this.state.address}
+              </Text>
             </View>
           </View>
         ) : (
           <View style={styles.smallView}>
             <View style={styles.addressFieldContainer}>
-              <TextInput
-                placeholder="Address "
-                style={styles.addressField}
-                placeholderTextColor={COLORS.main_text_color}
-                // value={this.state.address}
-                onChangeText={(value) => this.onChangeAddress(value)}
-                onSubmitEditing={() => {
-                  this.messanger_1.focus();
-                }}
-                keyboardType={"default"}
-                ref={(input) => {
-                  this.address = input;
-                }}
-                multiline={true}
-                editable={this.state.status == true ? true : false}
-              />
+            <Text  style={styles.stylefiledText}>
+                {this.state.address}
+              </Text>
               <View style={styles.rightView}>
                 <Text style={styles.righttext}>Address</Text>
               </View>
@@ -1291,10 +794,9 @@ class ManageLable extends Component {
   messagner_1_submit = () => {
     const { checked_messagner_1 } = this.state;
     if (checked_messagner_1 == true) {
-      this.setState({ checked_messagner_1: false });
-      this.setState({ messanger_1: "" });
+      this.setState({ checked_messagner_1: false ,boolean_messenger:0});
     } else {
-      this.setState({ checked_messagner_1: true });
+      this.setState({ checked_messagner_1: true,boolean_messenger:1 });
     }
   };
 
@@ -1331,44 +833,17 @@ class ManageLable extends Component {
                     </View>
               </View>
             
-              <TextInput
-                placeholder="Messanger Account "
-                style={styles.stylefiledText}
-                placeholderTextColor={COLORS.main_text_color}
-                //value={this.state.messanger_1}
-                onChangeText={(value) => this.onChangeMessenger(value)}
-                onSubmitEditing={() => {
-                  this.messanger_2.focus();
-                }}
-                keyboardType={"default"}
-                ref={(input) => {
-                  this.messanger_1 = input;
-                }}
-                editable={
-                  this.state.checked_messagner_1 == false ? false : true
-                }
-              />
-          
+              <Text  style={styles.stylefiledText}>
+                {this.state.messenger}
+              </Text>
             </View>
           </View>
         ) : (
           <View style={styles.smallView}>
             <View style={styles.filedView}>
-              <TextInput
-                placeholder="Messanger Account "
-                style={styles.stylefiledText}
-                placeholderTextColor={COLORS.main_text_color}
-                //value={this.state.messanger_1}
-                onChangeText={(value) => this.onChangeMessenger(value)}
-                onSubmitEditing={() => {
-                  this.messanger_2.focus();
-                }}
-                keyboardType={"default"}
-                ref={(input) => {
-                  this.messanger_1 = input;
-                }}
-                editable={this.state.status == true ? true : false}
-              />
+            <Text  style={styles.stylefiledText}>
+                {this.state.messenger}
+              </Text>
               <View style={styles.rightView}>
                 <Text style={styles.righttext}>Facebook Messenger</Text>
               </View>
@@ -1381,43 +856,19 @@ class ManageLable extends Component {
   socil_media_1_submit = () => {
     const { checked_social_media_1 } = this.state;
     if (checked_social_media_1 == true) {
-      this.setState({ checked_social_media_1: false });
-      this.setState({ social_media_1: "" });
+      this.setState({ checked_social_media_1: false ,boolean_socialMedia:0});
     } else {
-      this.setState({ checked_social_media_1: true });
+      this.setState({ checked_social_media_1: true,boolean_socialMedia:1 });
     }
   };
   socil_media_2_submit = () => {
     const { checked_social_media_2 } = this.state;
     if (checked_social_media_2 == true) {
-      this.setState({ checked_social_media_2: false });
-      this.setState({ social_media_2: "" });
+      this.setState({ checked_social_media_2: false ,boolean_socialMedia2:0});
     } else {
-      this.setState({ checked_social_media_2: true });
+      this.setState({ checked_social_media_2: true,boolean_socialMedia2:1 });
     }
   };
-
-  onChangeSocialMedia = (value) => {
-    this.state.social_media_1.socialMedia = value;
-    this.setState({ social_media_1: this.state.social_media_1 });
-  };
-
-  changeSocialMediaLabel = (label) => {
-    this.setState({ isSocialMediaModelOpen: false });
-    this.state.social_media_1.label = label;
-    this.setState({ social_media_1: this.state.social_media_1 });
-  };
-  onChangeSocialMedia2 = (value) => {
-    this.state.social_media_2.socialMedia = value;
-    this.setState({ social_media_2: this.state.social_media_2 });
-  };
-
-  changeSocialMediaLabel2 = (label) => {
-    this.setState({ isSocialMediaModelOpen2: false });
-    this.state.social_media_2.label = label;
-    this.setState({ social_media_2: this.state.social_media_2 });
-  };
-
   renderSocialmedia() {
     return (
       <View
@@ -1440,46 +891,19 @@ class ManageLable extends Component {
                       <Text style={styles.rightTextMobile}>Twitter</Text>
                     </View>
               </View>
-              <TextInput
-                placeholder=" Social Media Account  -1"
-                style={styles.stylefiledText}
-                placeholderTextColor={COLORS.main_text_color}
-                //value={this.state.social_media_1}
-                onChangeText={(value) => this.onChangeSocialMedia(value)}
-                onSubmitEditing={() => {
-                  this.social_media_2.focus();
-                }}
-                keyboardType={"default"}
-                ref={(input) => {
-                  this.social_media_1 = input;
-                }}
-                editable={
-                  this.state.checked_social_media_1 == false ? false : true
-                }
-              />
+              <Text  style={styles.stylefiledText}>
+                {this.state.socialMedia}
+              </Text>
               
             </View>
           </View>
         ) : (
           <View style={styles.smallView}>
             <View style={styles.filedView}>
-              <TextInput
-                placeholder=" Social Media Account  -1"
-                style={styles.stylefiledText}
-                placeholderTextColor={COLORS.main_text_color}
-                //value={this.state.social_media_1}
-                onChangeText={(value) => this.onChangeSocialMedia(value)}
-                onSubmitEditing={() => {
-                  this.social_media_2.focus();
-                }}
-                keyboardType={"default"}
-                ref={(input) => {
-                  this.social_media_1 = input;
-                }}
-                editable={
-                  this.state.checked_social_media_1 == false ? false : true
-                }
-              />
+            <Text  style={styles.stylefiledText}>
+                {this.state.socialMedia}
+              </Text>
+              
               <View style={styles.rightView}>
                 <Text style={styles.righttext}>Twitter</Text>
               </View>
@@ -1500,46 +924,18 @@ class ManageLable extends Component {
                       <Text style={styles.rightTextMobile}>Instagram</Text>
                     </View>
               </View>
-              <TextInput
-                placeholder=" Social Media Account  -2"
-                style={styles.stylefiledText}
-                placeholderTextColor={COLORS.main_text_color}
-                value={this.state.social_media_2}
-                onChangeText={(value) => this.onChangeSocialMedia2(value)}
-                onSubmitEditing={() => {
-                  this.website_1.focus();
-                }}
-                keyboardType={"default"}
-                ref={(input) => {
-                  this.social_media_2 = input;
-                }}
-                editable={
-                  this.state.checked_social_media_2 == false ? false : true
-                }
-              />
+              <Text  style={styles.stylefiledText}>
+                {this.state.socialMedia2}
+              </Text>
               
             </View>
           </View>
         ) : (
           <View style={styles.smallView}>
             <View style={styles.filedView}>
-              <TextInput
-                placeholder=" Social Media Account  -2"
-                style={styles.stylefiledText}
-                placeholderTextColor={COLORS.main_text_color}
-                value={this.state.social_media_2}
-                onChangeText={(value) => this.onChangeSocialMedia2(value)}
-                onSubmitEditing={() => {
-                  this.website_1.focus();
-                }}
-                keyboardType={"default"}
-                ref={(input) => {
-                  this.social_media_2 = input;
-                }}
-                editable={
-                  this.state.checked_social_media_2 == false ? false : true
-                }
-              />
+            <Text  style={styles.stylefiledText}>
+                {this.state.socialMedia2}
+              </Text>
               <View style={styles.rightView}>
                 <Text style={styles.righttext}>Instagram</Text>
               </View>
@@ -1552,23 +948,11 @@ class ManageLable extends Component {
   website_1_submit = () => {
     const { checked_website_1 } = this.state;
     if (checked_website_1 == true) {
-      this.setState({ checked_website_1: false });
-      this.setState({ website_1: "" });
+      this.setState({ checked_website_1: false ,boolean_website:0});
     } else {
-      this.setState({ checked_website_1: true });
+      this.setState({ checked_website_1: true,boolean_website:1 });
     }
   };
-
-  onChangeWebsite = (value, index) => {
-    this.state.website_1.website = value;
-    this.setState({ website_1: this.state.website_1 });
-  };
-  changeWebsiteLabel = (label) => {
-    this.setState({ isWebsiteModelOpen: false });
-    this.state.website_1.label = label;
-    this.setState({ website_1: this.state.website_1 });
-  };
-
   renderWebsite() {
     return (
       <View
@@ -1591,42 +975,18 @@ class ManageLable extends Component {
                       <Text style={styles.rightTextMobile}>SGP</Text>
                     </View>
               </View>
-              <TextInput
-                placeholder="Website"
-                style={styles.stylefiledText}
-                placeholderTextColor={COLORS.main_text_color}
-                // value={this.state.website}
-                onChangeText={(value) => this.onChangeWebsite(value)}
-                onSubmitEditing={() => {
-                  this.website_2.focus();
-                }}
-                keyboardType={"default"}
-                ref={(input) => {
-                  this.website_1 = input;
-                }}
-                editable={this.state.checked_website_1 == false ? false : true}
-              />
+              <Text  style={styles.stylefiledText}>
+                {this.state.website}
+              </Text>
              
             </View>
           </View>
         ) : (
           <View style={styles.smallView}>
             <View style={styles.filedView}>
-              <TextInput
-                placeholder="Website -1"
-                style={styles.stylefiledText}
-                placeholderTextColor={COLORS.main_text_color}
-                // value={this.state.website}
-                onChangeText={(value) => this.onChangeWebsite(value)}
-                onSubmitEditing={() => {
-                  this.website_2.focus();
-                }}
-                keyboardType={"default"}
-                ref={(input) => {
-                  this.website_1 = input;
-                }}
-                editable={this.state.checked_website_1 == false ? false : true}
-              />
+            <Text  style={styles.stylefiledText}>
+                {this.state.website}
+              </Text>
               <View style={styles.rightView}>
                 <Text style={styles.righttext}>SGP</Text>
               </View>
@@ -1636,36 +996,17 @@ class ManageLable extends Component {
       </View>
     );
   }
+
+
   date_submit = () => {
     const { checked_date } = this.state;
     if (checked_date == true) {
-      this.setState({ checked_date: false });
-      this.setState({ date: "" });
+      this.setState({ checked_date: false ,boolean_date:0});
     } else {
-      this.setState({ checked_date: true });
+      this.setState({ checked_date: true,boolean_date:1 });
     }
-  };
-  showDateTimePicker = () => {
-    {
-      
-      this.setState({ isVisible: true });
-    }
-  };
-  onChangeDate = (date) => {
-    var date = moment(date).format("MMMM, Do YYYY");
-    this.state.date.date = date;
-    this.setState({ date: this.state.date });
-    console.log("datae-----///>", this.state.date);
-  };
-  hidePicker = () => {
-    this.setState({ isVisible: false });
   };
 
-  changeDateLabel = (label) => {
-    this.setState({ isDateModelOpen: false });
-    this.state.date.label = label;
-    this.setState({ date: this.state.date });
-  };
   renderDate() {
     return (
       <View
@@ -1689,26 +1030,17 @@ class ManageLable extends Component {
                     </View>
               </View>
             
-              <TouchableOpacity onPress={this.state.checked_date == true ? this.showDateTimePicker :null}>
-                {this.state.isVisible == false && this.state.date.date == "" ? (
-                  <View style={styles.dateView}>
-                    <Text style={styles.dateText}>Date</Text>
-                  </View>
-                ) : null}
-                <Text style={styles.dateText}>{this.state.date.date}</Text>
-
-                <DateTimePickerModal
-                  isVisible={this.state.isVisible}
-                  onConfirm={this.onChangeDate}
-                  onCancel={this.hidePicker}
-                />
-              </TouchableOpacity>
+              <Text  style={styles.stylefiledText}>
+                {this.state.date}
+              </Text>
             </View>
           </View>
         ) : (
           <View style={styles.smallView}>
             <View style={styles.filedView}>
-              <Text style={styles.stylefiledText}>Date</Text>
+            <Text  style={styles.stylefiledText}>
+                {this.state.date}
+              </Text>
               <View style={styles.rightView}>
                 <Text style={styles.righttext}>Birthday</Text>
               </View>
@@ -1721,22 +1053,10 @@ class ManageLable extends Component {
   note_submit = () => {
     const { checked_note } = this.state;
     if (checked_note == true) {
-      this.setState({ checked_note: false });
-      this.setState({ note: "" });
+      this.setState({ checked_note: false ,boolean_note:0});
     } else {
-      this.setState({ checked_note: true });
+      this.setState({ checked_note: true,boolean_note:1 });
     }
-  };
-
-  onChangeNote = (value) => {
-    this.state.note.note = value;
-    this.setState({ note: this.state.note });
-  };
-
-  changeNoteLabel = (label) => {
-    this.setState({ isNoteModelOpen: false });
-    this.state.note.label = label;
-    this.setState({ Note: this.state.note });
   };
 
   renderNote() {
@@ -1761,44 +1081,18 @@ class ManageLable extends Component {
                       <Text style={styles.rightTextMobile}>Note 1</Text>
                     </View>
               </View>
-              <TextInput
-                placeholder="Note"
-                style={styles.addressField}
-                placeholderTextColor={COLORS.main_text_color}
-                // value={this.state.note}
-                onChangeText={(value) => this.onChangeNote(value)}
-                onSubmitEditing={() => {
-                  this.company.focus();
-                }}
-                keyboardType={"default"}
-                ref={(input) => {
-                  this.note = input;
-                }}
-                multiline={true}
-                editable={this.state.checked_note == false ? false : true}
-              />
+              <Text  style={styles.stylefiledText}>
+                {this.state.note}
+              </Text>
             
             </View>
           </View>
         ) : (
           <View style={styles.smallView}>
             <View style={styles.addressFieldContainer}>
-              <TextInput
-                placeholder="Note"
-                style={styles.addressField}
-                placeholderTextColor={COLORS.main_text_color}
-                // value={this.state.note}
-                onChangeText={(value) => this.onChangeNote(value)}
-                onSubmitEditing={() => {
-                  this.company.focus();
-                }}
-                keyboardType={"default"}
-                ref={(input) => {
-                  this.note = input;
-                }}
-                multiline={true}
-                editable={this.state.status == true ? true : false}
-              />
+            <Text  style={styles.stylefiledText}>
+                {this.state.note}
+              </Text>
               <View style={styles.rightView}>
                 <Text style={styles.righttext}>Note 1</Text>
               </View>
@@ -1811,87 +1105,27 @@ class ManageLable extends Component {
   company_submit = () => {
     const { checked_company } = this.state;
     if (checked_company == true) {
-      this.setState({ checked_company: false });
-      this.setState({ company: "" });
+      this.setState({ checked_company: false ,boolean_company:0});
     } else {
-      this.setState({ checked_company: true });
+      this.setState({ checked_company: true,boolean_company:1 });
     }
   };
   job_title_submit = () => {
     const { checked_job_title } = this.state;
     if (checked_job_title == true) {
-      this.setState({ checked_job_title: false });
-      this.setState({ job_title: "" });
+      this.setState({ checked_job_title: false ,boolean_jobTitle:0});
     } else {
-      this.setState({ checked_job_title: true });
+      this.setState({ checked_job_title: true,boolean_jobTitle:1 });
     }
   };
   work_hour_submit = () => {
     const { checked_work_hours } = this.state;
     if (checked_work_hours == true) {
-      this.setState({ checked_work_hours: false });
-      this.setState({ work_hour: "" });
+      this.setState({ checked_work_hours: false ,boolean_work_hours:0});
     } else {
-      this.setState({ checked_work_hours: true });
+      this.setState({ checked_work_hours: true,boolean_work_hours:1 });
     }
   };
-  onChangeMonday = (value) => {
-      this.state.work_hour.monday.first = value ;
-      this.setState({work_hour : this.state.work_hour })
-  }
-  onChangeMondayTo = (value) => {
-    this.state.work_hour.monday.to = value ;
-    this.setState({work_hour : this.state.work_hour })
-  }
- onChangeTuesday = (value) => {
-      this.state.work_hour.tuesday.first = value ;
-      this.setState({work_hour : this.state.work_hour })
-  }
-  onChangeTuesdayTo = (value) => {
-    this.state.work_hour.tuesday.to  = value ;
-    this.setState({work_hour : this.state.work_hour })
-  }
-  onChangeWednesday = (value) => {
-    this.state.work_hour.wednesday.first = value ;
-    this.setState({work_hour : this.state.work_hour })
-  }
-  onChangeWednesdayTo = (value) => {
-    this.state.work_hour.wednesday.to = value ;
-    this.setState({work_hour : this.state.work_hour })
-  }
-  onChangeThursday = (value) => {
-    this.state.work_hour.thursday.first = value ;
-    this.setState({work_hour : this.state.work_hour })
-  }
-  onChangeThursdayTo = (value) => {
-    this.state.work_hour.thursday.to = value ;
-    this.setState({work_hour : this.state.work_hour })
-  }
-  onChangeFriday = (value) => {
-    this.state.work_hour.friday.first = value ;
-    this.setState({work_hour : this.state.work_hour })
-  }
-  onChangeFridayTo = (value) => {
-    this.state.work_hour.friday.to = value ;
-    this.setState({work_hour : this.state.work_hour })
-  }
-  onChangeSaturday = (value) => {
-    this.state.work_hour.saturday.first = value ;
-    this.setState({work_hour : this.state.work_hour })
-  }
-  onChangeSaturdayTo = (value) => {
-    this.state.work_hour.saturday.to = value ;
-    this.setState({work_hour : this.state.work_hour })
-  }
-  onChangeSunday = (value) => {
-    this.state.work_hour.sunday.first = value ;
-    this.setState({work_hour : this.state.work_hour })
-  }
-   onChangeSundayTo = (value) => {
-    this.state.work_hour.sunday.to = value ;
-    this.setState({work_hour : this.state.work_hour })
-  }
-
   renderCompany() {
     return (
       <View
@@ -1916,48 +1150,22 @@ class ManageLable extends Component {
                   flexDirection: "row",
                 }}
               >
-                {/* <Text style={[styles.rightTextMobile, { marginLeft: 10 }]}>
-                  Company
-                </Text> */}
+               
                 <View style={styles.rightViewMobile}>
                   <Text style={styles.rightTextMobile}>Company</Text>
                 </View>
               </View>
-              <TextInput
-                placeholder="Company"
-                style={[styles.stylefiledText,{marginBottom:width*0.03}]}
-                placeholderTextColor={COLORS.main_text_color}
-                value={this.state.company}
-                onChangeText={(company) => this.setState({ company })}
-                onSubmitEditing={() => {
-                  this.job_title.focus();
-                }}
-                keyboardType={"default"}
-                ref={(input) => {
-                  this.company = input;
-                }}
-                editable={this.state.checked_company == false ? false : true}
-              />
+              <Text  style={styles.stylefiledText}>
+                {this.state.company}
+              </Text>
             </View>
           </View>
         ) : (
           <View style={styles.smallView}>
             <View style={styles.filedView}>
-              <TextInput
-                placeholder="Company"
-                style={[styles.stylefiledText]}
-                placeholderTextColor={COLORS.main_text_color}
-                value={this.state.company}
-                onChangeText={(company) => this.setState({ company })}
-                onSubmitEditing={() => {
-                  this.job_title.focus();
-                }}
-                keyboardType={"default"}
-                ref={(input) => {
-                  this.company = input;
-                }}
-                editable={this.state.status == true ? true : false}
-              />
+            <Text  style={styles.stylefiledText}>
+                {this.state.company}
+              </Text>
                  <View style={styles.rightView}>
                       <Text style={styles.righttext}>Company</Text>
                   </View>
@@ -1987,515 +1195,512 @@ class ManageLable extends Component {
                   <Text style={styles.rightTextMobile}>Job Title</Text>
                 </View>
               </View>
-              <TextInput
-                placeholder="Job Title"
-                style={[styles.stylefiledText,{marginBottom:width*0.03}]}
-                placeholderTextColor={COLORS.main_text_color}
-                value={this.state.job_title}
-                onChangeText={(job_title) => this.setState({ job_title })}
-                onSubmitEditing={() => {
-                  this.monday_1.focus();
-                }}
-                keyboardType={"default"}
-                ref={(input) => {
-                  this.job_title = input;
-                }}
-                editable={this.state.checked_job_title == false ? false : true}
-              />
+              <Text  style={styles.stylefiledText}>
+                {this.state.jobTitle}
+              </Text>
             </View>
           </View>
         ) : (
           <View style={styles.smallView}>
             <View style={styles.filedView}>
-              <TextInput
-                placeholder="Job Title"
-                style={styles.stylefiledText}
-                placeholderTextColor={COLORS.main_text_color}
-                value={this.state.job_title}
-                onChangeText={(job_title) => this.setState({ job_title })}
-                onSubmitEditing={() => {
-                  this.monday.first.focus();
-                }}
-                keyboardType={"default"}
-                ref={(input) => {
-                  this.job_title = input;
-                }}
-                editable={this.state.status == true ? true : false}
-              />
+            <Text  style={styles.stylefiledText}>
+                {this.state.jobTitle}
+              </Text>
               <View style={styles.rightView}>
                 <Text style={styles.righttext}>Job Title</Text>
               </View>
             </View>
           </View>
         )}
-        {this.state.status ? (
-          <View style={{ flexDirection: "row", marginTop: Metrics.baseMargin }}>
-            <CheckBox
-              value={this.state.checked_work_hours}
-              onValueChange={this.work_hour_submit}
-              tintColors={{ true: "#1374A3", false: "#1374A3" }}
-            />
-            <View style={styles.workView}>
-              <View style={styles.LeftView}>
-                {/* <Image source={checked} style={styles.checkedIcon} /> */}
-                <View style={{ flexDirection: "row", alignItems: "center" }}>
-                  <Text
-                    style={[
-                      styles.workText,
-                      { fontSize: width * 0.025, width: width * 0.16 },
-                    ]}
-                  >
-                    Monday
-                  </Text>
-                  <View style={styles.timeView}>
-                    <TextInput
-                      placeholder="7:00AM"
-                      placeholderTextColor={COLORS.main_text_color}
-                      style={styles.timeText}
-                     // value={this.state.work_hour.monday.first}
-                      onChangeText={(value) => this.onChangeMonday(value)}
-                      editable={this.state.checked_work_hours == false ? false : true}
-                    />
-                  </View>
-                  <Text
-                    style={[
-                      styles.workText,
-                      { fontSize: width * 0.035, marginLeft: 5 },
-                    ]}
-                  >
-                    to
-                  </Text>
-                  <View style={styles.timeView}>
-                    <TextInput
-                      placeholder="3:30AM"
-                      placeholderTextColor={COLORS.main_text_color}
-                      style={styles.timeText}
-                      //value={this.state.work_hour.monday.to}
-                      onChangeText={(value) => this.onChangeMondayTo(value)}
-                      editable={this.state.checked_work_hours == false ? false : true}
-                    />
-                  </View>
-                </View>
-                <View style={styles.dayView}>
-                  <Text
-                    style={[
-                      styles.workText,
-                      { fontSize: width * 0.025, width: width * 0.16 },
-                    ]}
-                  >
-                    Tuesday
-                  </Text>
-                  <View style={styles.timeView}>
-                    <TextInput
-                      placeholder="7:00AM"
-                      placeholderTextColor={COLORS.main_text_color}
-                      style={styles.timeText}
-                      //value={this.state.work_hour.tuesday.first}
-                      onChangeText={(value) => this.onChangeTuesday(value)}
-                      editable={this.state.checked_work_hours == false ? false : true}
-                    />
-                  </View>
-                  <Text
-                    style={[
-                      styles.workText,
-                      { fontSize: width * 0.035, marginLeft: 5 },
-                    ]}
-                  >
-                    to
-                  </Text>
-                  <View style={styles.timeView}>
-                    <TextInput
-                      placeholder="3:30AM"
-                      placeholderTextColor={COLORS.main_text_color}
-                      style={styles.timeText}
-                     // value={this.state.work_hour.tuesday.to}
-                      onChangeText={(value) => this.onChangeTuesdayTo(value)}
-                      editable={this.state.checked_work_hours == false ? false : true}
-                    />
-                  </View>
-                </View>
-                <View style={styles.dayView}>
-                  <Text
-                    style={[
-                      styles.workText,
-                      { fontSize: width * 0.025, width: width * 0.16 },
-                    ]}
-                  >
-                    Wednesday
-                  </Text>
-                  <View style={styles.timeView}>
-                    <TextInput
-                      placeholder="7:00AM"
-                      placeholderTextColor={COLORS.main_text_color}
-                      style={styles.timeText}
-                    //  value={this.state.work_hour.wednesday.first}
-                      onChangeText={(value) => this.onChangeWednesday(value)}
-                      editable={this.state.checked_work_hours == false ? false : true}
-                    />
-                  </View>
-                  <Text
-                    style={[
-                      styles.workText,
-                      { fontSize: width * 0.035, marginLeft: 5 },
-                    ]}
-                  >
-                    to
-                  </Text>
-                  <View style={styles.timeView}>
-                    <TextInput
-                      placeholder="3:30AM"
-                      placeholderTextColor={COLORS.main_text_color}
-                      style={styles.timeText}
-                      //value={this.state.work_hour.wednesday.to}
-                      onChangeText={(value) => this.onChangeWednesdayTo(value)}
-                      editable={this.state.checked_work_hours == false ? false : true}
-                    />
-                  </View>
-                </View>
-                <View style={styles.dayView}>
-                  <Text
-                    style={[
-                      styles.workText,
-                      { fontSize: width * 0.025, width: width * 0.16 },
-                    ]}
-                  >
-                    Thursday
-                  </Text>
-                  <View style={styles.timeView}>
-                    <TextInput
-                      placeholder="7:00AM"
-                      placeholderTextColor={COLORS.main_text_color}
-                      style={styles.timeText}
-                     // value={this.state.work_hour.thursday.first}
-                      onChangeText={(value) => this.onChangeThursday(value)}
-                      editable={this.state.checked_work_hours == false ? false : true}
-                    />
-                  </View>
-                  <Text
-                    style={[
-                      styles.workText,
-                      { fontSize: width * 0.035, marginLeft: 5 },
-                    ]}
-                  >
-                    to
-                  </Text>
-                  <View style={styles.timeView}>
-                    <TextInput
-                      placeholder="3:30AM"
-                      placeholderTextColor={COLORS.main_text_color}
-                      style={styles.timeText}
-                      //value={this.state.work_hour.thursday.to}
-                      onChangeText={(value) => this.onChangeThursdayTo(value)}
-                      editable={this.state.checked_work_hours == false ? false : true}
-                    />
-                  </View>
-                </View>
-                <View style={styles.dayView}>
-                  <Text
-                    style={[
-                      styles.workText,
-                      { fontSize: width * 0.025, width: width * 0.16 },
-                    ]}
-                  >
-                    Friday
-                  </Text>
-                  <View style={styles.timeView}>
-                    <TextInput
-                      placeholder="7:00AM"
-                      placeholderTextColor={COLORS.main_text_color}
-                      style={styles.timeText}
-                     // value={this.state.work_hour.friday.first}
-                      onChangeText={(value) => this.onChangeFriday(value)}
-                      editable={this.state.checked_work_hours == false ? false : true}
-                    />
-                  </View>
-                  <Text
-                    style={[
-                      styles.workText,
-                      { fontSize: width * 0.035, marginLeft: 5 },
-                    ]}
-                  >
-                    to
-                  </Text>
-                  <View style={styles.timeView}>
-                    <TextInput
-                      placeholder="3:30AM"
-                      placeholderTextColor={COLORS.main_text_color}
-                      style={styles.timeText}
-                     // value={this.state.work_hour.friday.to}
-                      onChangeText={(value) => this.onChangeFridayTo(value)}
-                      editable={this.state.checked_work_hours == false ? false : true}
-                    />
-                  </View>
-                </View>
-                <View style={styles.dayView}>
-                  <Text
-                    style={[
-                      styles.workText,
-                      { fontSize: width * 0.025, width: width * 0.16 },
-                    ]}
-                  >
-                    Saturday
-                  </Text>
-                  <View style={styles.timeView}>
-                    <TextInput
-                      placeholder="OFF"
-                      placeholderTextColor={COLORS.main_text_color}
-                      style={styles.timeText}
-                     // value={this.state.work_hour.saturday.first}
-                      onChangeText={(value) => this.onChangeSaturday(value)}
-                      editable={this.state.checked_work_hours == false ? false : true}
-                    />
-                  </View>
-                  <Text
-                    style={[
-                      styles.workText,
-                      { fontSize: width * 0.035, marginLeft: 5 },
-                    ]}
-                  >
-                    to
-                  </Text>
-                  <View style={styles.timeView}>
-                    <TextInput
-                      placeholder="OFF"
-                      placeholderTextColor={COLORS.main_text_color}
-                      style={styles.timeText}
-                    //  value={this.state.work_hour.saturday.to}
-                      onChangeText={(value) => this.onChangeSaturdayTo(value)}
-                      editable={this.state.checked_work_hours == false ? false : true}
-                    />
-                  </View>
-                </View>
-                <View style={styles.dayView}>
-                  <Text
-                    style={[
-                      styles.workText,
-                      { fontSize: width * 0.025, width: width * 0.16 },
-                    ]}
-                  >
-                    Sunday
-                  </Text>
-                  <View style={styles.timeView}>
-                    <TextInput
-                      placeholder="OFF"
-                      placeholderTextColor={COLORS.main_text_color}
-                      style={styles.timeText}
-                     // value={this.state.work_hour.sunday.first}
-                      onChangeText={(value) => this.onChangeSunday(value)}
-                      editable={this.state.checked_work_hours == false ? false : true}
-                    />
-                  </View>
-                  <Text
-                    style={[
-                      styles.workText,
-                      { fontSize: width * 0.035, marginLeft: 5 },
-                    ]}
-                  >
-                    to
-                  </Text>
-                  <View style={styles.timeView}>
-                    <TextInput
-                      placeholder="OFF"
-                      placeholderTextColor={COLORS.main_text_color}
-                      style={styles.timeText}
-                     // value={this.state.work_hour.sunday.to}
-                      onChangeText={(value) => this.onChangeSundayTo(value)}
-                      editable={this.state.checked_work_hours == false ? false : true}
-                    />
-                  </View>
-                </View>
-              </View>
-
-              <View style={styles.rightView}>
-                <View style={{ flexDirection: "column" }}>
-                  <Text
-                    style={[
-                      styles.workText,
-                      {
-                        fontSize: width * 0.026,
-                        marginRight: 5,
-                        textAlign: "right",
-                      },
-                    ]}
-                  >
-                    Work Hours
-                  </Text>
-                  <TouchableOpacity
-                    onPress={() => this.setState({ workViewOpen: true })}
-                    style={styles.selectTimezone}
-                  >
-                    {this.state.selectItem == "" ? (
-                      <Text
-                        style={[styles.workText, { fontSize: width * 0.018 }]}
-                      >
-                        Select Time Zone
-                      </Text>
-                    ) : (
-                      <Text
-                        style={[styles.workText, { fontSize: width * 0.018 ,textAlign:'center'}]}
-                      >
-                        {this.state.selectItem}
-                      </Text>
-                    )}
-                {this.state.checked_work_hours ==  true ? 
-                 <Modal
-                 style={styles.workModal}
-                 visible={this.state.workViewOpen}
-                 transparent={true}
-                 animationType="fade"
-                 onRequestClose={() =>
-                   this.setState({ workViewOpen : false })
-                 }
+      {this.state.status ?
+         <View style={{ flexDirection: "row", marginTop: Metrics.baseMargin }}>
+         <CheckBox
+           value={this.state.checked_work_hours}
+           onValueChange={this.work_hour_submit}
+           tintColors={{ true: "#1374A3", false: "#1374A3" }}
+         />
+         <View style={styles.workView}>
+           <View style={styles.LeftView}>
+             {/* <Image source={checked} style={styles.checkedIcon} /> */}
+             <View style={{ flexDirection: "row", alignItems: "center" }}>
+               <Text
+                 style={[
+                   styles.workText,
+                   { fontSize: width * 0.025, width: width * 0.16 },
+                 ]}
                >
-                 <View style={styles.workModalView}>
-                   <View style={styles.content}>
-                     <FlatList
-                       refreshing={true}
-                       keyExtractor={(item, index) => index.toString()}
-                       data={this.state.tzs}
-                       extraData={this.state}
-                       numColumns={1}
-                       renderItem={this.renderItem.bind(this)}
-                     />
-                   </View>
-                 </View>
-               </Modal>: 
-               null } 
-                   
-                  </TouchableOpacity>
-                </View>
-              </View>
-            </View>
-          </View>
-        ) : (
-          <View style={styles.smallView}>
-            <View style={styles.workView}>
-              <View style={styles.LeftView}>
-                <View style={styles.dayView}>
-                  <Text style={[styles.workText, { fontSize: width * 0.03 }]}>
-                    Monday
-                  </Text>
-                  <View style={styles.timeView}></View>
-                  <Text
-                    style={[
-                      styles.workText,
-                      { fontSize: width * 0.035, marginLeft: 5 },
-                    ]}
-                  >
-                    to
-                  </Text>
-                  <View style={styles.timeView}></View>
-                </View>
-                <View style={styles.dayView}>
-                  <Text style={[styles.workText, { fontSize: width * 0.03 }]}>
-                    Monday
-                  </Text>
-                  <View style={styles.timeView}></View>
-                  <Text
-                    style={[
-                      styles.workText,
-                      { fontSize: width * 0.035, marginLeft: 5 },
-                    ]}
-                  >
-                    to
-                  </Text>
-                  <View style={styles.timeView}></View>
-                </View>
-                <View style={styles.dayView}>
-                  <Text style={[styles.workText, { fontSize: width * 0.03 }]}>
-                    Monday
-                  </Text>
-                  <View style={styles.timeView}></View>
-                  <Text
-                    style={[
-                      styles.workText,
-                      { fontSize: width * 0.035, marginLeft: 5 },
-                    ]}
-                  >
-                    to
-                  </Text>
-                  <View style={styles.timeView}></View>
-                </View>
-                <View style={styles.dayView}>
-                  <Text style={[styles.workText, { fontSize: width * 0.03 }]}>
-                    Monday
-                  </Text>
-                  <View style={styles.timeView}></View>
-                  <Text
-                    style={[
-                      styles.workText,
-                      { fontSize: width * 0.035, marginLeft: 5 },
-                    ]}
-                  >
-                    to
-                  </Text>
-                  <View style={styles.timeView}></View>
-                </View>
-                <View style={styles.dayView}>
-                  <Text style={[styles.workText, { fontSize: width * 0.03 }]}>
-                    Monday
-                  </Text>
-                  <View style={styles.timeView}></View>
-                  <Text
-                    style={[
-                      styles.workText,
-                      { fontSize: width * 0.035, marginLeft: 5 },
-                    ]}
-                  >
-                    to
-                  </Text>
-                  <View style={styles.timeView}></View>
-                </View>
-                <View style={styles.dayView}>
-                  <Text style={[styles.workText, { fontSize: width * 0.03 }]}>
-                    Monday
-                  </Text>
-                  <View style={styles.timeView}></View>
-                  <Text
-                    style={[
-                      styles.workText,
-                      { fontSize: width * 0.035, marginLeft: 5 },
-                    ]}
-                  >
-                    to
-                  </Text>
-                  <View style={styles.timeView}></View>
-                </View>
-                <View style={styles.dayView}>
-                  <Text style={[styles.workText, { fontSize: width * 0.03 }]}>
-                    Monday
-                  </Text>
-                  <View style={styles.timeView}>
-                    {/* <TextInput
-                         placeholder="time"
-                         style={[styles.workText, { fontSize: width * 0.020 }]}
-                         /> */}
-                  </View>
-                  <Text
-                    style={[
-                      styles.workText,
-                      { fontSize: width * 0.035, marginLeft: 5 },
-                    ]}
-                  >
-                    to
-                  </Text>
-                  <View style={styles.timeView}></View>
-                </View>
-              </View>
+                 Monday
+               </Text>
+               <View style={styles.timeView}>
+               <Text style={styles.timeText}>{this.state.monday}</Text>
+                 
+               </View>
+               <Text
+                 style={[
+                   styles.workText,
+                   { fontSize: width * 0.035, marginLeft: 5 },
+                 ]}
+               >
+                 to
+               </Text>
+               <View style={styles.timeView}>
+               <Text style={styles.timeText}>{this.state.mondayTo}</Text>
+               </View>
+             </View>
+             <View style={styles.dayView}>
+               <Text
+                 style={[
+                   styles.workText,
+                   { fontSize: width * 0.025, width: width * 0.16 },
+                 ]}
+               >
+                 Tuesday
+               </Text>
+               <View style={styles.timeView}>
+               <Text style={styles.timeText}>{this.state.tuesday}</Text>
+               </View>
+               <Text
+                 style={[
+                   styles.workText,
+                   { fontSize: width * 0.035, marginLeft: 5 },
+                 ]}
+               >
+                 to
+               </Text>
+               <View style={styles.timeView}>
+               <Text style={styles.timeText}>{this.state.tuesdayTo}</Text>
+               </View>
+             </View>
+             <View style={styles.dayView}>
+               <Text
+                 style={[
+                   styles.workText,
+                   { fontSize: width * 0.025, width: width * 0.16 },
+                 ]}
+               >
+                 Wednesday
+               </Text>
+               <View style={styles.timeView}>
+               <Text style={styles.timeText}>{this.state.wednesday}</Text>
+               </View>
+               <Text
+                 style={[
+                   styles.workText,
+                   { fontSize: width * 0.035, marginLeft: 5 },
+                 ]}
+               >
+                 to
+               </Text>
+               <View style={styles.timeView}>
+               <Text style={styles.timeText}>{this.state.wednesdayTo}</Text>
+               </View>
+             </View>
+             <View style={styles.dayView}>
+               <Text
+                 style={[
+                   styles.workText,
+                   { fontSize: width * 0.025, width: width * 0.16 },
+                 ]}
+               >
+                 Thursday
+               </Text>
+               <View style={styles.timeView}>
+               <Text style={styles.timeText}>{this.state.thursday}</Text>
+               </View>
+               <Text
+                 style={[
+                   styles.workText,
+                   { fontSize: width * 0.035, marginLeft: 5 },
+                 ]}
+               >
+                 to
+               </Text>
+               <View style={styles.timeView}>
+               <Text style={styles.timeText}>{this.state.thursdayTo}</Text>
+               </View>
+             </View>
+             <View style={styles.dayView}>
+               <Text
+                 style={[
+                   styles.workText,
+                   { fontSize: width * 0.025, width: width * 0.16 },
+                 ]}
+               >
+                 Friday
+               </Text>
+               <View style={styles.timeView}>
+               <Text style={styles.timeText}>{this.state.friday}</Text>
+               </View>
+               <Text
+                 style={[
+                   styles.workText,
+                   { fontSize: width * 0.035, marginLeft: 5 },
+                 ]}
+               >
+                 to
+               </Text>
+               <View style={styles.timeView}>
+               <Text style={styles.timeText}>{this.state.fridayTo}</Text>
+               </View>
+             </View>
+             <View style={styles.dayView}>
+               <Text
+                 style={[
+                   styles.workText,
+                   { fontSize: width * 0.025, width: width * 0.16 },
+                 ]}
+               >
+                 Saturday
+               </Text>
+               <View style={styles.timeView}>
+               <Text style={styles.timeText}>{this.state.saturday}</Text>
+               </View>
+               <Text
+                 style={[
+                   styles.workText,
+                   { fontSize: width * 0.035, marginLeft: 5 },
+                 ]}
+               >
+                 to
+               </Text>
+               <View style={styles.timeView}>
+               <Text style={styles.timeText}>{this.state.saturdayTo}</Text>
+               </View>
+             </View>
+             <View style={styles.dayView}>
+               <Text
+                 style={[
+                   styles.workText,
+                   { fontSize: width * 0.025, width: width * 0.16 },
+                 ]}
+               >
+                 Sunday
+               </Text>
+               <View style={styles.timeView}>
+               <Text style={styles.timeText}>{this.state.sunday}</Text>
+               </View>
+               <Text
+                 style={[
+                   styles.workText,
+                   { fontSize: width * 0.035, marginLeft: 5 },
+                 ]}
+               >
+                 to
+               </Text>
+               <View style={styles.timeView}>
+               <Text style={styles.timeText}>{this.state.sundayTo}</Text>
+               </View>
+             </View>
+           </View>
 
-              <View style={styles.rightView}>
-                <View style={{ flexDirection: "column" }}>
-                  <Text style={[styles.workText, { fontSize: width * 0.026 }]}>
-                    Work Hours
-                  </Text>
-                  <Text style={[styles.workText, { fontSize: width * 0.02 }]}>
-                    GMT -05:00(Eastern Time)
-                  </Text>
+           <View style={styles.rightView}>
+             <View style={{ flexDirection: "column" }}>
+               <Text
+                 style={[
+                   styles.workText,
+                   {
+                     fontSize: width * 0.026,
+                     marginRight: 5,
+                     textAlign: "right",
+                   },
+                 ]}
+               >
+                 Work Hours
+               </Text>
+               {/* <TouchableOpacity
+                 onPress={() => this.setState({ workViewOpen: true })}
+                 style={styles.selectTimezone}
+               >
+                 {this.state.selectItem == "" ? (
+                   <Text
+                     style={[styles.workText, { fontSize: width * 0.018 }]}
+                   >
+                     Select Time Zone
+                   </Text>
+                 ) : (
+                   <Text
+                     style={[styles.workText, { fontSize: width * 0.018 ,textAlign:'center'}]}
+                   >
+                     {this.state.selectItem}
+                   </Text>
+                 )}
+             {this.state.checked_work_hours ==  true ? 
+              <Modal
+              style={styles.workModal}
+              visible={this.state.workViewOpen}
+              transparent={true}
+              animationType="fade"
+              onRequestClose={() =>
+                this.setState({ workViewOpen : false })
+              }
+            >
+              <View style={styles.workModalView}>
+                <View style={styles.content}>
+                  <FlatList
+                    refreshing={true}
+                    keyExtractor={(item, index) => index.toString()}
+                    data={this.state.tzs}
+                    extraData={this.state}
+                    numColumns={1}
+                    renderItem={this.renderItem.bind(this)}
+                  />
                 </View>
               </View>
+            </Modal>: 
+            null } 
+                
+               </TouchableOpacity> */}
+             </View>
+           </View>
+         </View>
+       </View>
+       :
+       <View style={styles.smallView}>
+       <View style={{ flexDirection: "row", marginTop: Metrics.baseMargin}}>
+       {/* <CheckBox
+         value={this.state.checked_work_hours}
+         onValueChange={this.work_hour_submit}
+         tintColors={{ true: "#1374A3", false: "#1374A3" }}
+       /> */}
+       <View style={styles.workView}>
+         <View style={styles.LeftView}>
+           {/* <Image source={checked} style={styles.checkedIcon} /> */}
+           <View style={{ flexDirection: "row", alignItems: "center" }}>
+             <Text
+               style={[
+                 styles.workText,
+                 { fontSize: width * 0.025, width: width * 0.16 },
+               ]}
+             >
+               Monday
+             </Text>
+             <View style={styles.timeView}>
+             <Text style={styles.timeText}>{this.state.monday}</Text>
+               
+             </View>
+             <Text
+               style={[
+                 styles.workText,
+                 { fontSize: width * 0.035, marginLeft: 5 },
+               ]}
+             >
+               to
+             </Text>
+             <View style={styles.timeView}>
+             <Text style={styles.timeText}>{this.state.mondayTo}</Text>
+             </View>
+           </View>
+           <View style={styles.dayView}>
+             <Text
+               style={[
+                 styles.workText,
+                 { fontSize: width * 0.025, width: width * 0.16 },
+               ]}
+             >
+               Tuesday
+             </Text>
+             <View style={styles.timeView}>
+             <Text style={styles.timeText}>{this.state.tuesday}</Text>
+             </View>
+             <Text
+               style={[
+                 styles.workText,
+                 { fontSize: width * 0.035, marginLeft: 5 },
+               ]}
+             >
+               to
+             </Text>
+             <View style={styles.timeView}>
+             <Text style={styles.timeText}>{this.state.tuesdayTo}</Text>
+             </View>
+           </View>
+           <View style={styles.dayView}>
+             <Text
+               style={[
+                 styles.workText,
+                 { fontSize: width * 0.025, width: width * 0.16 },
+               ]}
+             >
+               Wednesday
+             </Text>
+             <View style={styles.timeView}>
+             <Text style={styles.timeText}>{this.state.wednesday}</Text>
+             </View>
+             <Text
+               style={[
+                 styles.workText,
+                 { fontSize: width * 0.035, marginLeft: 5 },
+               ]}
+             >
+               to
+             </Text>
+             <View style={styles.timeView}>
+             <Text style={styles.timeText}>{this.state.wednesdayTo}</Text>
+             </View>
+           </View>
+           <View style={styles.dayView}>
+             <Text
+               style={[
+                 styles.workText,
+                 { fontSize: width * 0.025, width: width * 0.16 },
+               ]}
+             >
+               Thursday
+             </Text>
+             <View style={styles.timeView}>
+             <Text style={styles.timeText}>{this.state.thursday}</Text>
+             </View>
+             <Text
+               style={[
+                 styles.workText,
+                 { fontSize: width * 0.035, marginLeft: 5 },
+               ]}
+             >
+               to
+             </Text>
+             <View style={styles.timeView}>
+             <Text style={styles.timeText}>{this.state.thursdayTo}</Text>
+             </View>
+           </View>
+           <View style={styles.dayView}>
+             <Text
+               style={[
+                 styles.workText,
+                 { fontSize: width * 0.025, width: width * 0.16 },
+               ]}
+             >
+               Friday
+             </Text>
+             <View style={styles.timeView}>
+             <Text style={styles.timeText}>{this.state.friday}</Text>
+             </View>
+             <Text
+               style={[
+                 styles.workText,
+                 { fontSize: width * 0.035, marginLeft: 5 },
+               ]}
+             >
+               to
+             </Text>
+             <View style={styles.timeView}>
+             <Text style={styles.timeText}>{this.state.fridayTo}</Text>
+             </View>
+           </View>
+           <View style={styles.dayView}>
+             <Text
+               style={[
+                 styles.workText,
+                 { fontSize: width * 0.025, width: width * 0.16 },
+               ]}
+             >
+               Saturday
+             </Text>
+             <View style={styles.timeView}>
+             <Text style={styles.timeText}>{this.state.saturday}</Text>
+             </View>
+             <Text
+               style={[
+                 styles.workText,
+                 { fontSize: width * 0.035, marginLeft: 5 },
+               ]}
+             >
+               to
+             </Text>
+             <View style={styles.timeView}>
+             <Text style={styles.timeText}>{this.state.saturdayTo}</Text>
+             </View>
+           </View>
+           <View style={styles.dayView}>
+             <Text
+               style={[
+                 styles.workText,
+                 { fontSize: width * 0.025, width: width * 0.16 },
+               ]}
+             >
+               Sunday
+             </Text>
+             <View style={styles.timeView}>
+             <Text style={styles.timeText}>{this.state.sunday}</Text>
+             </View>
+             <Text
+               style={[
+                 styles.workText,
+                 { fontSize: width * 0.035, marginLeft: 5 },
+               ]}
+             >
+               to
+             </Text>
+             <View style={styles.timeView}>
+             <Text style={styles.timeText}>{this.state.sundayTo}</Text>
+             </View>
+           </View>
+         </View>
+
+         <View style={styles.rightView}>
+           <View style={{ flexDirection: "column" }}>
+             <Text
+               style={[
+                 styles.workText,
+                 {
+                   fontSize: width * 0.026,
+                   marginRight: 5,
+                   textAlign: "right",
+                 },
+               ]}
+             >
+               Work Hours
+             </Text>
+             {/* <TouchableOpacity
+               onPress={() => this.setState({ workViewOpen: true })}
+               style={styles.selectTimezone}
+             >
+               {this.state.selectItem == "" ? (
+                 <Text
+                   style={[styles.workText, { fontSize: width * 0.018 }]}
+                 >
+                   Select Time Zone
+                 </Text>
+               ) : (
+                 <Text
+                   style={[styles.workText, { fontSize: width * 0.018 ,textAlign:'center'}]}
+                 >
+                   {this.state.selectItem}
+                 </Text>
+               )}
+           {this.state.checked_work_hours ==  true ? 
+            <Modal
+            style={styles.workModal}
+            visible={this.state.workViewOpen}
+            transparent={true}
+            animationType="fade"
+            onRequestClose={() =>
+              this.setState({ workViewOpen : false })
+            }
+          >
+            <View style={styles.workModalView}>
+              <View style={styles.content}>
+                <FlatList
+                  refreshing={true}
+                  keyExtractor={(item, index) => index.toString()}
+                  data={this.state.tzs}
+                  extraData={this.state}
+                  numColumns={1}
+                  renderItem={this.renderItem.bind(this)}
+                />
+              </View>
             </View>
-          </View>
-        )}
+          </Modal>: 
+          null } 
+              
+             </TouchableOpacity> */}
+           </View>
+         </View>
+       </View>
+     </View>
+     </View>
+      }
+       
+       
       </View>
     );
   }
@@ -2612,6 +1817,26 @@ class ManageLable extends Component {
         checked_company: true,
         checked_job_title: true,
         checked_work_hours: true,
+        boolean_profile_image:1,
+        boolean_profile_image2:1,
+        boolean_profile_image3:1,
+        boolean_first_name:1,
+        boolean_middle_name : 1,
+        boolean_last_name:1,
+        boolean_nick_name:1,
+        boolean_number:1,
+        boolean_email:1 ,
+        boolean_address:1,
+        boolean_address2:1,
+        boolean_messenger:1,
+        boolean_socialMedia:1,
+        boolean_socialMedia2:1,
+        boolean_website:1 ,
+        boolean_date:1,
+        boolean_note:1 ,
+        boolean_company:1 ,
+        boolean_jobTitle:1,
+        boolean_work_hours:1
       });
     } else {
       this.setState({ selectAll: false });
@@ -2637,6 +1862,26 @@ class ManageLable extends Component {
         checked_company: false,
         checked_job_title: false,
         checked_work_hours: false,
+        boolean_profile_image:0,
+        boolean_profile_image2:0,
+        boolean_profile_image3:0,
+        boolean_first_name:0,
+        boolean_middle_name : 0,
+        boolean_last_name:0,
+        boolean_nick_name:0,
+        boolean_number:0,
+        boolean_email:0,
+        boolean_address:0,
+        boolean_address2:0,
+        boolean_messenger:0,
+        boolean_socialMedia:0,
+        boolean_socialMedia2:0,
+        boolean_website:0,
+        boolean_date:0,
+        boolean_note:0,
+        boolean_company:0,
+        boolean_jobTitle:0,
+        boolean_work_hours:0,
       });
     }
   };
@@ -2672,81 +1917,68 @@ class ManageLable extends Component {
       </View>
     );
   }
+  updateSettingApiCall = () =>{
+    const { user_id, username } = this.props;
+    console.log("label listt--->",this.state.labelID)
+    const baseurl = Constants.baseurl;
+    var _body = new FormData();
+    _body.append("user_id", user_id);
+    _body.append("relation_id", this.state.labelID);
+    _body.append("first_name", this.state.boolean_first_name);
+    _body.append("middle_name", this.state.boolean_middle_name);
+    _body.append("last_name", this.state.boolean_last_name);
+    _body.append("nick_name", this.state.boolean_nick_name);
+    _body.append("phone_number", this.state.boolean_number);
+    _body.append("email", this.state.boolean_email);
+    _body.append("address", this.state.boolean_address);
+    _body.append("address_2", this.state.boolean_address2);
+    _body.append("messenger", this.state.boolean_messenger);
+    _body.append("social_media", this.state.boolean_socialMedia);
+    _body.append("sociale_media_2", this.state.boolean_socialMedia2);
+    _body.append("website", this.state.boolean_website);
+    _body.append("note", this.state.boolean_note);
+    _body.append("company", this.state.boolean_company);
+    _body.append("job_title", this.state.boolean_jobTitle);
+    _body.append("work_hours", this.state.boolean_work_hours);
+    _body.append("image_1", this.state.boolean_profile_image);
+     _body.append("image_2", this.state.boolean_profile_image2);
+     _body.append("image_3", this.state.boolean_profile_image3);
+     _body.append("date", this.state.boolean_date);
+    fetch(baseurl + "check", {
+      method: "POST",
+      body: _body,
+    })
+      .then((response) => {
+        return response.json();
+      })
+      .then((responseJson) => {
+        console.log("check response--->",responseJson)
+      })
+      .catch((error) => {
+        console.log("name error---->", error);
+      });
+  }
   forSelectNavigate = () => {
     if (this.state.status == false) {
       this.setState({ status: true });
     } else {
       this.setState({ status: false });
+       this.updateSettingApiCall();
     }
-    const {
-          selectedName,
-          first_name,
-          last_name,
-          middle_name,
-          nick_name,
-          phone_1,
-          email_1,
-          address,
-          address2,
-          messanger_1,
-          social_media_1,
-          social_media_2,
-          website_1,
-          date,
-          note,
-          company,
-          job_title,
-          work_hour,
-          profile_image,
-          profile_image2,
-          profile_image3
-
-    } = this.state;
-    const { user_id } = this.props;
-    if (this.state.status == true) {
-      if (first_name == "") {
-        alert("Please enter to save data");
-      } else {
-        manageLabelToFirebase(
-          user_id,
-          selectedName,
-          profile_image,
-          profile_image2,
-          profile_image3,
-          first_name,
-          middle_name,
-          last_name,
-          nick_name,
-          phone_1,
-          email_1,
-          address,
-          address2,
-          messanger_1,
-          social_media_1,
-          social_media_2,
-          website_1,
-          date,
-          note,
-          company,
-          job_title,
-          work_hour
-        );
-        this.props.navigation.navigate("forSelectContact");
-        alert("Successfully save data");
-      }
-    } else {
-      this.setState({ status: true });
-    }
+   this.props.navigation.navigate("forSelectContact");
+      
   };
-  onManage = (item) => {
-    this.setState({ selectedName: item });
+  onManage = (item,labelID) => {
+    console.log("label listt--->",labelID)
+    this.updateSettingApiCall();
+    this.setState({ selectedName: item , labelID:labelID});
     this.setState({ flatViewOpen: false });
   };
   contactsList({ item, index }) {
     return (
       <TouchableOpacity
         onPress={() => {
-          this.onManage(item.relation);
+          this.onManage(item.relation,item.labelID);
         }}
       >
         <Text style={styles.flatSmallText}>{item.relation}</Text>

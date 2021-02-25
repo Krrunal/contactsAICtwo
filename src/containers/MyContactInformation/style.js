@@ -140,7 +140,7 @@ export default StyleSheet.create({
     color: COLORS.main_text_color,
     fontSize: width * 0.03,
     width: width * 0.5,
-    fontFamily: Font.regular,
+    fontFamily: Font.medium,
    },
   Text_1: {
     marginLeft: Metrics.smallMargin,
@@ -152,8 +152,7 @@ export default StyleSheet.create({
     justifyContent: "flex-start",
     flex: 1,
     marginRight: Metrics.smallMargin,
-   // height: height * 0.15,
-   // bottom: 10,
+   
   },
   rightViewBorder: {
     alignItems: "center",
@@ -575,20 +574,10 @@ export default StyleSheet.create({
     borderWidth: 1,
     borderRadius: 5,
     borderColor: COLORS.main_text_color,
-    // backgroundColor: COLORS.white,
-    // shadowColor: COLORS.black,
-    // shadowOffset: {
-    //   width: 2,
-    //   height: 2,
-    // },
-    // shadowOpacity: 0.25,
-    // shadowRadius: 4,
-    // elevation: 5,
-    // borderRadius: 5,
-    marginLeft: Metrics.smallMargin,
+     marginLeft: Metrics.smallMargin,
     flexDirection: "row",
     position: "relative",
-    //  alignItems: "center",
+    
   },
   LeftView: {
     width: width * 0.53,
@@ -783,7 +772,6 @@ export default StyleSheet.create({
   },
   customRight: {
     alignItems: "flex-end",
-    //justifyContent: "flex-end",
     flex: 1,
     marginRight: Metrics.smallMargin,
   },

@@ -47,6 +47,7 @@ class chooseContactFromLabel extends Component {
     disabledLabel: false,
     qrCodeData: {},
     checkedOff: false,
+    labelID:"",labelIDs:[]
   };
 
   async componentDidMount() {
@@ -85,14 +86,14 @@ class chooseContactFromLabel extends Component {
   labelList = () => {
     this.setState({ isLoading: true }, async () => {
       const baseurl = Constants.baseurl;
-      fetch(baseurl + "get_label")
+      fetch(baseurl + "getlabel")
         .then((response) => {
           return response.json();
         })
         .then((responseJson) => {
-          var arr = responseJson.data.relation.split(/,/).map((item) => {
-            return { relation: item, isSelect: false };
-          });
+          var arr = responseJson.data.map((item,index) => {
+            return { relation: item.relation, isSelect: false ,labelID : item.id};
+         });
           this.setState({ dataManage: arr, isLoading: false });
         })
         .catch((error) => {
@@ -125,6 +126,7 @@ class chooseContactFromLabel extends Component {
             dataManage: responseJson.data.relation,
             viewSection: false,
             label: "",
+          
           });
         } else {
           var labelData = responseJson.data.relation.split(/,/);
@@ -132,6 +134,7 @@ class chooseContactFromLabel extends Component {
             dataManage: labelData,
             viewSection: false,
             label: "",
+           
           });
         }
       });
@@ -150,7 +153,8 @@ class chooseContactFromLabel extends Component {
     this.setState({ dataManage: contactArr });
   };
 
-  onchecked = (keyInd, item) => {
+  onchecked = (keyInd, item ,id) => {
+    console.log("iddd",id)
     const { dataManage, selectedRealetion } = this.state;
     let arr = dataManage.map((item, key) => {
       if (keyInd == key) {
@@ -160,7 +164,6 @@ class chooseContactFromLabel extends Component {
     });
 
     this.setState({ dataManage: arr });
-    // console.log("datatmanage arr ===> ", dataManage);
   };
   onPressAddLabel = () => {
     this.setState({ viewSection: true });
@@ -235,7 +238,7 @@ class chooseContactFromLabel extends Component {
                   <CheckBox
                     value={item.isSelect}
                     onChange={() => {
-                      this.onchecked(key, item.isSelect);
+                      this.onchecked(key, item.isSelect , item.labelID);
                     }}
                     tintColors={{ true: "#1374A3", false: "#1374A3" }}
                   />
@@ -272,40 +275,11 @@ class chooseContactFromLabel extends Component {
                 }}
                 keyboardType={"default"}
                 autoCapitalize={false}
-                // onSubmitEditing={this.labelApiCall}
                 placeholderTextColor={COLORS.black}
               />
             </View>
           )}
-          {/* 
-          <TouchableOpacity
-            style={styles.mainView}
-            // onPress={
-            //   this.state.viewSection == false
-            //     ? this.onPressAddLabel
-            //     : this.message
-            // }
-            disable={this.state.disabledLabel}
-          >
-            <Image
-              source={plus}
-              style={{
-                width: width * 0.055,
-                height: width * 0.055,
-                marginLeft: Metrics.xsmallMargin,
-              }}
-            />
-            <View style={styles.smallWhiteview}>
-              <Text
-                style={{
-                  fontSize: width * 0.03,
-                  fontFamily: Font.regular,
-                }}
-              >
-                Add
-              </Text>
-            </View>
-          </TouchableOpacity> */}
+          
         </View>
       </ScrollView>
     );
@@ -342,7 +316,16 @@ class chooseContactFromLabel extends Component {
   }
   notificationApiCall = () => {
     const { username, user_id } = this.props;
+    
     this.setState({ isLoading: true });
+    const { dataManage, selectedRealetion ,labelIDs} = this.state;
+   
+    dataManage.map((item) => {
+      item.isSelect == true
+        ? labelIDs.push(item.labelID)
+        : console.log("selected------->", item.labelID);
+    });
+    console.log("labele------->",this.state.labelIDs);
     const deviceid = this.state.qrCodeData.fcmToken;
     const baseurl = Constants.baseurl;
     const receive_id = this.state.qrCodeData.user_id;
@@ -352,7 +335,7 @@ class chooseContactFromLabel extends Component {
     _body.append("receive_id", receive_id);
     _body.append("username", username);
     _body.append("sender_id", user_id);
-
+    _body.append("label_id", labelIDs[0]);
     fetch(baseurl + "android", {
       method: "POST",
       headers: {
@@ -373,17 +356,17 @@ class chooseContactFromLabel extends Component {
   };
 
   async forAddContactNavigate() {
-    const { dataManage, selectedRealetion } = this.state;
-    this.notificationApiCall();
+    const { dataManage, selectedRealetion ,labelIDs} = this.state;
+  
     dataManage.map((item) => {
       item.isSelect == true
         ? selectedRealetion.push(item.relation)
         : console.log("selected------->", item.isSelect);
     });
-
+   
     const selected = selectedRealetion.toString();
     await AsyncStorage.setItem("@selectedLabel", selected);
-
+    this.notificationApiCall();
     if (selected == "") {
       this.refs.toast.show("Please select label to associate with USERNAME");
     } else {

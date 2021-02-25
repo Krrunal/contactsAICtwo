@@ -62,7 +62,7 @@ class labels extends Component {
   labelList = () => {
     this.setState({ isLoading: true }, async () => {
       const baseurl = Constants.baseurl;
-      fetch(baseurl + "get_label")
+      fetch(baseurl + "getlabel")
         .then((response) => {
           return response.json();
         })
@@ -70,13 +70,14 @@ class labels extends Component {
           if (responseJson.data.relation == "") {
             this.setState({ dataManage: [], isLoading: false });
           } else {
-            var labelData = responseJson.data.relation
-              .split(/,/)
-              .map((item) => {
-                return { relation: item, isSelect: false };
+           // console.log(" getlabel--->", responseJson.data[0].relation);
+            
+            //  var labelData =responseJson.data.relation
+            var labelData = responseJson.data.map((item,index) => {
+                 return { relation: item.relation, isSelect: false };
               });
             this.setState({ dataManage : labelData, isLoading: false });
-            console.log("label data--->", responseJson.data.relation);
+           this.setState({ isLoading: false });
           }
         })
         .catch((error) => {
@@ -132,7 +133,7 @@ class labels extends Component {
     var _body = new FormData();
     _body.append("relation", relation);
     // console.log("state value === > ", relation);
-    fetch(baseurl + "add_label", {
+    fetch(baseurl + "addlabel", {
       method: "POST",
       headers: {
         "Content-Type":
@@ -142,23 +143,26 @@ class labels extends Component {
     })
       .then((response) => response.json())
       .then((responseJson) => {
+        this.setState({ viewSection : false , label: "",});
+        console.log("add labe; ---->",responseJson.message)
         this.refs.toast.show(responseJson.message);
         
-        if (responseJson.data.relation == "") {
-          this.setState({
-            dataManage: responseJson.data.relation,
-            viewSection: false,
-            label: "",
-          });
-        } else {
-          var labelData = responseJson.data.relation.split(/,/);
-          this.setState({
-            dataManage: labelData,
-            viewSection: false,
-            label: "",
-          });
-          this.labelList();
-        }
+        this.labelList();
+        // if (responseJson.data.relation == "") {
+        //   this.setState({
+        //     dataManage: responseJson.data.relation,
+        //     viewSection: false,
+        //     label: "",
+        //   });
+        // } else {
+        //   var labelData = responseJson.data.relation.split(/,/);
+        //   this.setState({
+        //     dataManage: labelData,
+        //     viewSection: false,
+        //     label: "",
+        //   });
+        //   this.labelList();
+        // }
       });
   };
 

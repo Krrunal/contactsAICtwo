@@ -113,7 +113,7 @@ export default StyleSheet.create({
   righttext: {
     color: COLORS.main_text_color,
     fontFamily: Font.regular,
-    fontSize: width * 0.02,
+    fontSize: width * 0.019,
     textAlign: "right",
   },
 

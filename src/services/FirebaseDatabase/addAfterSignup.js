@@ -18,7 +18,7 @@ export const addItem = (
       is_active: is_active,
       token: token,
       number: number,
-       platform:platform,
+      platform:platform,
       profile_image: "", 
       profile_image2: "",
       profile_image3: "",

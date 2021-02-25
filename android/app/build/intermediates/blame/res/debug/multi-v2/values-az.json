@@ -4,23 +4,6 @@
             "outputFile": "/Users/macmini/Desktop/contactsAICtwo/android/app/build/intermediates/incremental/mergeDebugResources/merged.dir/values-az/values-az.xml",
             "map": [
                 {
-                    "source": "/Users/macmini/.gradle/caches/transforms-2/files-2.1/3be0659c237fc1df97007c15c1dcc4ca/core-1.5.0-beta01/res/values-az/values-az.xml",
-                    "from": {
-                        "startLines": "2",
-                        "startColumns": "4",
-                        "startOffsets": "55",
-                        "endColumns": "100",
-                        "endOffsets": "151"
-                    },
-                    "to": {
-                        "startLines": "60",
-                        "startColumns": "4",
-                        "startOffsets": "7044",
-                        "endColumns": "100",
-                        "endOffsets": "7140"
-                    }
-                },
-                {
                     "source": "/Users/macmini/.gradle/caches/transforms-2/files-2.1/49015da0e9e2cbad696fcb11b4ba217d/biometric-1.0.1/res/values-az/values-az.xml",
                     "from": {
                         "startLines": "2,3,4,5,6,7,8,9,10,11,12",
@@ -86,6 +69,23 @@
                         "startOffsets": "4106",
                         "endColumns": "220",
                         "endOffsets": "4322"
+                    }
+                },
+                {
+                    "source": "/Users/macmini/.gradle/caches/transforms-2/files-2.1/63624cce877f6ba4cd8ac853b4148a9e/core-1.5.0-beta02/res/values-az/values-az.xml",
+                    "from": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "55",
+                        "endColumns": "100",
+                        "endOffsets": "151"
+                    },
+                    "to": {
+                        "startLines": "60",
+                        "startColumns": "4",
+                        "startOffsets": "7044",
+                        "endColumns": "100",
+                        "endOffsets": "7140"
                     }
                 },
                 {

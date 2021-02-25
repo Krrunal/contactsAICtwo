@@ -39,7 +39,6 @@ import unchecked from "../../assets/icons/unchecked.png";
 
 // afterLogout
 
-
 var { width, height } = Dimensions.get("window");
 
 class Login extends Component {
@@ -109,7 +108,7 @@ class Login extends Component {
         this.setState({ checkedOff: true });
         await AsyncStorage.setItem("@loginUsername", emailLogin);
         await AsyncStorage.setItem("@loginPass", password);
-        this.setState({ checkedOff: true });
+        // this.setState({ checkedOff: true });
       }
     } else {
       this.setState({ checkedOff: false });
@@ -134,15 +133,22 @@ class Login extends Component {
   };
 
   loginUser = () => {
-    const { loginUsername, loginPass, phone_number ,checkedOff} = this.state;
+    const { loginUsername, loginPass, phone_number, checkedOff } = this.state;
 
     console.log("pas chnage prips---->", this.props.password);
-    if(checkedOff == true){
-      this.props.loginEmailChange(loginUsername);
-      this.props.loginEmailChange(phone_number);
-      this.props.loginPassChange(loginPass);
-      this.props.loginUser();
-    }else{
+    if (checkedOff == true) {
+      if (phone_number == "") {
+        this.props.loginEmailChange(loginUsername);
+        //this.props.loginEmailChange(phone_number);
+        this.props.loginPassChange(loginPass);
+        this.props.loginUser();
+      } else {
+        // this.props.loginEmailChange(loginUsername);
+        this.props.loginEmailChange(phone_number);
+        this.props.loginPassChange(loginPass);
+        this.props.loginUser();
+      }
+    } else {
       const { phone_number, emailLogin } = this.state;
 
       if (emailLogin == "" && phone_number == "") {
