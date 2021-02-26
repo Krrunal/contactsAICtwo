@@ -219,6 +219,7 @@ export default StyleSheet.create({
     width: width * 0.5,
     fontFamily: Font.regular,
     textAlignVertical: "top",
+    
   },
 
   rightView: {
@@ -239,8 +240,9 @@ export default StyleSheet.create({
     alignItems: "center",
     color: COLORS.main_text_color,
     fontSize: width * 0.03,
-   // width: width * 0.5,
+    width: width * 0.4,
    fontFamily: Font.medium,
+  
     
   },
   selectTypeText: {

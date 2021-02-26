@@ -143,7 +143,7 @@
 67        android:allowBackup="false"
 67-->/Users/macmini/Desktop/contactsAICtwo/android/app/src/main/AndroidManifest.xml:18:7-34
 68        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
-68-->[androidx.core:core:1.5.0-beta01] /Users/macmini/.gradle/caches/transforms-2/files-2.1/3be0659c237fc1df97007c15c1dcc4ca/core-1.5.0-beta01/AndroidManifest.xml:24:18-86
+68-->[androidx.core:core:1.5.0-beta02] /Users/macmini/.gradle/caches/transforms-2/files-2.1/63624cce877f6ba4cd8ac853b4148a9e/core-1.5.0-beta02/AndroidManifest.xml:24:18-86
 69        android:debuggable="true"
 70        android:icon="@mipmap/ic_launcher"
 70-->/Users/macmini/Desktop/contactsAICtwo/android/app/src/main/AndroidManifest.xml:16:7-41

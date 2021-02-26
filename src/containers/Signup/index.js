@@ -71,14 +71,17 @@ class Signup extends Component {
     empty:""
   };
   backAction = () => {
-    this.props.regcontactChange(empty);
-    this.props.regunameChange(empty);
-    this.props.regEmailChange(empty);
+   
     BackHandler.exitApp();
     return true;
   };  
 
   componentDidMount = async () => {
+    this.props.regcontactChange("");
+    this.props.regunameChange("");
+    this.props.regEmailChange("");
+    this.props.regPassChange("");
+    this.props.regconfirmpassWord("");
     BackHandler.addEventListener("hardwareBackPress", this.backAction);
   }
 
@@ -869,7 +872,9 @@ class Signup extends Component {
                               <Icon name="times" size={30} />
                             </TouchableHighlight>
                           </View>
-                          <BoldBlack> Password must contain: </BoldBlack>
+
+                          <Text style={styles.submitText}>Password must contain:</Text>
+                        
 
                           <View style={styles.modalView}>
                             <View>{this.showModelData()}</View>

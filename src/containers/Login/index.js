@@ -62,6 +62,7 @@ class Login extends Component {
       passSection: false,
       loginPass: "",
       emailPassword: "",
+      loginNumber: "",
       empty: "",
     };
   }
@@ -77,9 +78,11 @@ class Login extends Component {
     this.setState({
       loginUsername: await AsyncStorage.getItem("@loginUsername"),
       loginPass: await AsyncStorage.getItem("@loginPass"),
+      loginNumber: await AsyncStorage.getItem("@loginNumber"),
     });
     console.log("Login USername------>", this.state.loginUsername);
     console.log("Login password------>", this.state.loginPass);
+    console.log("Login loginNumber------>", this.state.loginNumber);
     if (this.state.loginUsername == null && this.state.loginPass == null) {
       this.setState({ checkedOff: false });
       this.setState({ loginUsername: "", loginPass: "" });
@@ -98,23 +101,24 @@ class Login extends Component {
 
   check = async () => {
     const { password } = this.props;
-    const { emailLogin, checkedOff } = this.state;
-    // console.log("username:=--->", emailLogin);
-    // console.log("Password:=--->", password);
+    const { emailLogin, checkedOff, phone_number } = this.state;
+    console.log("username:=--->", emailLogin);
+    console.log("Password:=--->", password);
+    console.log("mobile=====>", this.state.phone_number);
     if (checkedOff == false) {
-      if (emailLogin == "") {
+      if (password == "") {
         showToastError("Please fill all required fileds");
       } else {
         this.setState({ checkedOff: true });
         await AsyncStorage.setItem("@loginUsername", emailLogin);
         await AsyncStorage.setItem("@loginPass", password);
-        // this.setState({ checkedOff: true });
+        await AsyncStorage.setItem("@loginNumber", phone_number);
       }
     } else {
       this.setState({ checkedOff: false });
       await AsyncStorage.setItem("@loginUsername", "");
       await AsyncStorage.setItem("@loginPass", "");
-      this.setState({ loginUsername: "", loginPass: "" });
+      this.setState({ loginUsername: "", loginPass: "", loginNumber: "" });
     }
   };
 
@@ -133,20 +137,46 @@ class Login extends Component {
   };
 
   loginUser = () => {
-    const { loginUsername, loginPass, phone_number, checkedOff } = this.state;
+    const {
+      loginUsername,
+      loginPass,
+      phone_number,
+      checkedOff,
+      loginNumber,
+    } = this.state;
 
-    console.log("pas chnage prips---->", this.props.password);
     if (checkedOff == true) {
-      if (phone_number == "") {
-        this.props.loginEmailChange(loginUsername);
-        //this.props.loginEmailChange(phone_number);
-        this.props.loginPassChange(loginPass);
-        this.props.loginUser();
+      if (loginUsername || (loginNumber && loginPass == "")) {
+        if (loginUsername !== null) {
+          this.props.loginEmailChange(loginUsername);
+          this.props.loginPassChange(loginPass);
+          this.props.loginUser();
+          console.log(" USername------>", this.state.loginUsername);
+        }
+        if (loginNumber == null) {
+          this.props.loginEmailChange(loginNumber);
+          this.props.loginPassChange(loginPass);
+          this.props.loginUser();
+          console.log(" loginNumber------>", this.state.loginNumber);
+        }
       } else {
-        // this.props.loginEmailChange(loginUsername);
-        this.props.loginEmailChange(phone_number);
-        this.props.loginPassChange(loginPass);
-        this.props.loginUser();
+        const { phone_number, emailLogin } = this.state;
+
+        if (emailLogin == "" && phone_number == "") {
+          showToastError("Please fill all required fileds");
+        }
+        if (emailLogin !== "" && phone_number !== "") {
+          showToastError("Only one filed required");
+        } else {
+          if (phone_number != "") {
+            this.props.loginEmailChange(phone_number);
+            this.props.loginUser();
+          }
+          if (emailLogin != "") {
+            this.props.loginEmailChange(emailLogin);
+            this.props.loginUser();
+          }
+        }
       }
     } else {
       const { phone_number, emailLogin } = this.state;
@@ -167,30 +197,7 @@ class Login extends Component {
         }
       }
     }
-    // if (loginUsername !== null && loginPass !== null) {
-    //   this.props.loginEmailChange(loginUsername);
-    //   this.props.loginEmailChange(phone_number);
-    //   this.props.loginPassChange(loginPass);
-    //   this.props.loginUser();
-    // } else {
-    //   const { phone_number, emailLogin } = this.state;
-
-    //   if (emailLogin == "" && phone_number == "") {
-    //     showToastError("Please fill all required fileds");
-    //   }
-    //   if (emailLogin !== "" && phone_number !== "") {
-    //     showToastError("Only one filed required");
-    //   } else {
-    //     if (phone_number != "") {
-    //       this.props.loginEmailChange(phone_number);
-    //       this.props.loginUser();
-    //     }
-    //     if (emailLogin != "") {
-    //       this.props.loginEmailChange(emailLogin);
-    //       this.props.loginUser();
-    //     }
-    //   }
-    // }
+   
   };
 
   onSubmit(value) {
@@ -295,7 +302,12 @@ class Login extends Component {
                     phoneInputStyle={styles.mobileInputText}
                     dialCodeTextStyle={styles.mobileInputText}
                     dialCode={this.state.dialCode}
-                    value={phone}
+                    value={
+                      this.state.loginNumber !== ""
+                        ? this.state.loginNumber
+                        : phone
+                    }
+                    // value={phone}
                     inputRef={"phone"}
                     keyboardType={"numeric"}
                     onChangeText={this.onChangeNumber}
@@ -310,7 +322,16 @@ class Login extends Component {
                     onPress={this.viewPhoneToggle}
                     underlayColor="#DDDDDD"
                   >
-                    <Text style={styles.phnText}>Phone Number</Text>
+                    {this.state.loginNumber == null ||
+                    this.state.loginNumber == "" ? (
+                      <Text style={styles.phnText}>Phone Number</Text>
+                    ) : (
+                      <Text style={styles.phnText}>
+                        {this.state.loginNumber}
+                      </Text>
+                    )}
+                    {/* this.state.loginNumber */}
+                    {/* <Text style={styles.phnText}>Phone Number</Text> */}
                   </TouchableHighlight>
                 ) : null}
 
@@ -355,9 +376,6 @@ class Login extends Component {
                         this.nameFocus = ref;
                       }}
                       autoFocus={true}
-                      // onSubmitEditing={(emailLogin) =>
-                      //   this.onSubmit("emailLogin")
-                      // }
                       value={
                         this.state.loginUsername !== ""
                           ? this.state.loginUsername
@@ -548,7 +566,6 @@ class Login extends Component {
                 </TouchableOpacity>
 
                 <TouchableHighlight
-                  //style={styles.rememberContain}
                   underlayColor="transparent"
                   onPress={this.check}
                 >

@@ -340,6 +340,14 @@ class addmanuallyContact extends Component {
       companyIndexOnly: "",
       companyNameOnly: "",
       companyCounter: 0,
+     
+      singleCompany:"",
+      singleWebsite:"",
+      singleMessenger:"",
+      singleSocialMedia:"",
+      singleNote:"",
+      singleJobTitle:"",
+      singleAddress:""
     };
   }
 
@@ -386,7 +394,18 @@ class addmanuallyContact extends Component {
       jobTitle,
       workHours,
       workHoursArray,
-      jobTitleArray
+      jobTitleArray,
+      image,
+      image2,
+      image3,  
+       singleCompany,
+      singleWebsite,
+      singleMessenger,
+      singleSocialMedia,
+      singleNote,
+      singleJobTitle,
+      singleAddress,
+
     } = this.state;
     const { user_id, username } = this.props;
     if (this.state.status == true) {
@@ -456,7 +475,14 @@ class addmanuallyContact extends Component {
             jobTitle,
             workHours,
             jobTitleArray,
-            workHoursArray
+            workHoursArray,
+            singleCompany,
+            singleWebsite,
+            singleMessenger,
+            singleSocialMedia,
+            singleNote,
+            singleJobTitle,
+            singleAddress,
           );
           this.setState({
             status: false,
@@ -495,7 +521,14 @@ class addmanuallyContact extends Component {
             company: "",
             companyArray: [],
             jobTitle: "",
-            workHours: "",
+            workHours  : "",
+            singleCompany: "",
+            singleWebsite: "",
+            singleMessenger: "",
+            singleSocialMedia: "",
+            singleNote: "",
+            singleJobTitle: "",
+            singleAddress: "",
           });
           alert("Add contact successfully");
         }
@@ -756,7 +789,7 @@ class addmanuallyContact extends Component {
     return (
       <Root>
         <View style={{ alignItems: "center" }}>
-          <Text style={styles.lableText}>Friend</Text>
+          {/* <Text style={styles.lableText}>Friend</Text> */}
           <View style={styles.middleView}>
             <View style={styles.firstMiddle}>
               <View style={styles.squareBorder}>
@@ -1387,6 +1420,7 @@ class addmanuallyContact extends Component {
                 placeholderTextColor={COLORS.main_text_color}
                 editable={this.state.status ? true : false}
                 onChangeText={(value) => this.onChangeEmail(value)}
+                value={this.state.email}
               />
               {this.state.status ? (
                 <TouchableHighlight
@@ -1689,7 +1723,7 @@ class addmanuallyContact extends Component {
 
   onChangeAddress = (value) => {
     this.state.address.address = value;
-    this.setState({ address: this.state.address });
+    this.setState({ address: this.state.address , singleAddress : value});
   };
 
   onChangeAddressArray = (value, index) => {
@@ -1753,6 +1787,7 @@ class addmanuallyContact extends Component {
                 numberOfLines={5}
                 editable={this.state.status ? true : false}
                 onChangeText={(value) => this.onChangeAddress(value)}
+                value={this.state.address}
               />
               {this.state.status ? (
                 <TouchableHighlight
@@ -2066,7 +2101,7 @@ class addmanuallyContact extends Component {
 
   onChangeMessenger = (value) => {
     this.state.messanger.messanger = value;
-    this.setState({ messenger1: this.state.messanger });
+    this.setState({ messenger1: this.state.messanger  , singleMessenger : value});
   };
 
   onChangeMessengerArray = (value, index) => {
@@ -2120,6 +2155,7 @@ class addmanuallyContact extends Component {
                 placeholderTextColor={COLORS.main_text_color}
                 editable={this.state.status ? true : false}
                 onChangeText={(value) => this.onChangeMessenger(value)}
+                value={this.state.messenger1}
               />
               {this.state.status ? (
                 <TouchableHighlight
@@ -2424,7 +2460,7 @@ class addmanuallyContact extends Component {
 
   onChangeSocialMedia = (value) => {
     this.state.socialMedia.socialMedia = value;
-    this.setState({ socialMedia: this.state.socialMedia });
+    this.setState({ socialMedia: this.state.socialMedia , singleSocialMedia : value });
   };
 
   onChangeSocialMediaArray = (value, index) => {
@@ -2479,6 +2515,7 @@ class addmanuallyContact extends Component {
                 //value={this.state.social_media1}
                 editable={this.state.status ? true : false}
                 onChangeText={(value) => this.onChangeSocialMedia(value)}
+               value={this.state.socialMedia}
               />
               {this.state.status ? (
                 <TouchableHighlight
@@ -2790,7 +2827,7 @@ class addmanuallyContact extends Component {
 
   onChangeWebsite = (value, index) => {
     this.state.website.website = value;
-    this.setState({ website: this.state.website });
+    this.setState({ website: this.state.website , singleWebsite : value });
   };
 
   onChangeWebsiteArray = (value, index) => {
@@ -2842,7 +2879,7 @@ class addmanuallyContact extends Component {
                 placeholder="Website"
                 style={styles.stylefiledText}
                 placeholderTextColor={COLORS.main_text_color}
-                //value={this.state.website1}
+                value={this.state.website}
                 editable={this.state.status ? true : false}
                 onChangeText={(value) => this.onChangeWebsite(value)}
               />
@@ -3558,7 +3595,7 @@ class addmanuallyContact extends Component {
 
   onChangeNote = (value) => {
     this.state.note.note = value;
-    this.setState({ note: this.state.note });
+    this.setState({ note: this.state.note  , singleNote : value});
   };
 
   onChangeNoteArray = (value, index) => {
@@ -3616,7 +3653,7 @@ class addmanuallyContact extends Component {
                 placeholderTextColor={COLORS.main_text_color}
                 multiline={true}
                 numberOfLines={5}
-                //value={this.state.note1}
+                value={this.state.note}
                 editable={this.state.status ? true : false}
                 onChangeText={(value) => this.onChangeNote(value)}
               />
@@ -3926,9 +3963,8 @@ class addmanuallyContact extends Component {
   };
 
   onChangeCompany = (value) => {
-    console.log("Comapny-------->", value);
     this.state.company.company = value;
-    this.setState({ company: this.state.company });
+    this.setState({ company : this.state.company ,singleCompany : value});
   };
 
   onChangeCompanyArray = (value, index) => {
@@ -3949,7 +3985,7 @@ class addmanuallyContact extends Component {
   //Job Title
   onChangeJobTitle = (value) => {
     this.state.jobTitle.jobTitle = value;
-    this.setState({ jobTitle: this.state.jobTitle });
+    this.setState({ jobTitle: this.state.jobTitle  , singleJobTitle : value});
   };
   
   onChangeJobTitleArray  = (value,index) => {
@@ -4012,7 +4048,7 @@ class addmanuallyContact extends Component {
                 placeholder="Company"
                 style={styles.stylefiledText}
                 placeholderTextColor={COLORS.main_text_color}
-                //value={this.state.company1}
+                value={this.state.company}
                 editable={this.state.status ? true : false}
                 onChangeText={(value) => this.onChangeCompany(value)}
               />
@@ -4023,7 +4059,7 @@ class addmanuallyContact extends Component {
                 placeholder="Job Title"
                 style={styles.stylefiledText}
                 placeholderTextColor={COLORS.main_text_color}
-                //value={this.state.job_title}
+                value={this.state.jobTitle}
                 editable={this.state.status ? true : false}
                 onChangeText={(value) => this.onChangeJobTitle(value)}
               />
@@ -4033,62 +4069,12 @@ class addmanuallyContact extends Component {
                 placeholder="Work Hours"
                 style={styles.stylefiledText}
                 placeholderTextColor={COLORS.main_text_color}
-               // value={this.state.job_title}
+                value={this.state.workHours}
                 editable={this.state.status ? true : false}
                 onChangeText={(value) => this.onChangeWorkHours(value)}
               />
             </View>
-            {/* <TouchableOpacity
-              style={[styles.filedView, { alignItems: "center" }]}
-              onPress={this.showTimePicker}
-            >
-              {this.state.isVisibleWork == false &&
-              this.state.choosenWork == "" ? (
-                <Text style={styles.dateText}>Work Hours</Text>
-              ) : null}
-
-              <Text style={styles.dateText}>{this.state.choosenWork}</Text>
-
-              {this.state.choosenWork !== "" ? (
-                <Text style={styles.dateBlack}>To</Text>
-              ) : null}
-
-              {this.state.choosenWork !== "" ? (
-                <TouchableOpacity
-                  style={styles.dateView}
-                  onPress={this.showTimeToPicker}
-                >
-                  {this.state.choosenWorkTo == "" ? (
-                    <View
-                      style={{
-                        justifyContent: "center",
-                        height: height * 0.05,
-                        marginTop: Metrics.baseMargin,
-                      }}
-                    >
-                      <Text style={styles.dateText}> 00:00:00 AM/PM </Text>
-                    </View>
-                  ) : null}
-
-                  <Text style={styles.dateText}>
-                    {this.state.choosenWorkTo}
-                  </Text>
-                </TouchableOpacity>
-              ) : null}
-
-              <DateTimePickerModal
-                isVisible={this.state.isVisibleWorkTo}
-                onConfirm={this.onChangeWorkHoursTo}
-                onCancel={this.hidePickerTo}
-                mode="time"
-              />
-              <DateTimePickerModal
-                isVisible={this.state.isVisibleWork}
-                onConfirm={this.onChangeWorkHours}
-                onCancel={this.hidePicker}
-                mode="time"
-              /> */}
-            {/* </TouchableOpacity> */}
+           
             {this.state.companySection == true &&
               this.state.companyArray.map((input, key) => {
                 return (

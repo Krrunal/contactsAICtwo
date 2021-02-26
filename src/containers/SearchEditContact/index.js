@@ -15,10 +15,12 @@ import {
 import React, { Component, useState } from "react";
 import { Title, connectStyle } from "native-base";
 import styled, { ThemeProvider } from "styled-components/native";
-import Constants from "../../action/Constants";
+
 import AsyncStorage from "@react-native-community/async-storage";
 import { COLORS } from "../theme/Colors";
+import Constants from "../../action/Constants";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
+import { FA5Style } from "react-native-vector-icons/FontAwesome5";
 import Font from "../theme/font";
 import GeneralStatusBar from "../../components/StatusBar/index";
 import Header from "../../components/header/index";
@@ -36,6 +38,7 @@ import handshake from "../../assets/images/handshake.png";
 import home from "../../assets/images/home.png";
 import innerimg from "../../assets/images/innerimg.png";
 import instagram from "../../assets/images/instagram.png";
+import leftArrow from "../../assets/images/leftArrow.png";
 import message from "../../assets/images/message.png";
 import moment from "moment";
 import note from "../../assets/images/note.png";
@@ -43,15 +46,11 @@ import person from "../../assets/images/person.png";
 import plus from "../../assets/images/plus.png";
 import reset from "../../assets/images/resetBlack.png";
 import rightArrow from "../../assets/images/rightArrow.png";
-
-import leftArrow from "../../assets/images/leftArrow.png";
-
 import rigthLogo from "../../assets/icons/contact.png";
 import sideBar from "../../assets/images/sideBAR.png";
 import style from "../../components/StatusBar/style.js";
 import styles from "./style.js";
 import website from "../../assets/images/website.png";
-import { FA5Style } from "react-native-vector-icons/FontAwesome5";
 
 var { width, height } = Dimensions.get("screen");
 class searchContact extends Component {
@@ -65,7 +64,7 @@ class searchContact extends Component {
       last_name: "",
       nick_name: "",
       notificationTime: [],
-
+      status: false,
       tz: [],
       tzs: "",
 
@@ -167,14 +166,15 @@ class searchContact extends Component {
       isNoteUpdate: false,
       isCompanyUpdate: false,
       isJobTitleUpdate: false,
-      isWorkHoursUpdate   : false,
-
-      //image section 
-      leftSec  : false,
-      imgSec1  : true,
-      imgSec2  : false,
-      imgSec3  : false,
-      rightSec  : false,
+      isWorkHoursUpdate: false,
+      forKey: "",
+      //image section
+      leftSec: false,
+      imgSec1: true,
+      imgSec2: false,
+      imgSec3: false,
+      rightSec: false,
+      u_name: "",
     };
   }
 
@@ -213,7 +213,6 @@ class searchContact extends Component {
         snap.forEach((doc) => {
           var item = doc._data;
           this.state.contact.push(item);
-          // console.log("last_name----->", item);
         });
         this.setState({ contacts: this.state.contact });
         const sort = this.state.contacts.sort(function (a, b) {
@@ -252,20 +251,24 @@ class searchContact extends Component {
 
   handleSearch = (text) => {
     const { data, shortcontacts, itemCompany } = this.state;
-    if (text.toLowerCase() == text) {
-      const shortData = data.filter(
-        (obj) =>
-          obj[text?.toLowerCase() ?? "en"]?.indexOf(text) > -1 ||
-          obj.first_name.indexOf(text) > -1 ||
-          obj.nick_name.indexOf(text) > -1 ||
-          obj.last_name.indexOf(text) > -1 ||
-          obj.middle_name.indexOf(text) > -1 ||
-          obj.company.indexOf(text) > -1 ||
-          obj.website.indexOf(text) > -1 ||
-          obj.address.indexOf(text) > -1
-      );
-      this.setState({ shortcontacts: shortData, searchText: text });
-    }
+
+    const shortData = data.filter(
+      (obj) =>
+        obj[text?.toLowerCase() ?? "en"]?.indexOf(text) > -1 ||
+        obj.first_name.indexOf(text) > -1 ||
+        obj.nick_name.indexOf(text) > -1 ||
+        obj.last_name.indexOf(text) > -1 ||
+        obj.middle_name.indexOf(text) > -1 ||
+        obj.company.indexOf(text) > -1 ||
+        obj.website.indexOf(text) > -1 ||
+        obj.address.indexOf(text) > -1 ||
+        obj.r_label_name.indexOf(text) > -1 ||
+        obj.s_label_name.indexOf(text) > -1 ||
+        obj.jobTitle.indexOf(text) > -1 ||
+        obj.social_media.indexOf(text) > -1 ||
+        obj.note.indexOf(text) > -1
+    );
+    this.setState({ shortcontacts: shortData, searchText: text });
   };
   serachFocus = () => {
     this.setState({ serachSection: true });
@@ -333,12 +336,17 @@ class searchContact extends Component {
         })
         .then((responseJson) => {
           var arr = responseJson.data.map((item, index) => {
+            console.log("responseJson--->", item.relation);
+            console.log(" slabel  ----->", this.state.s_label_name);
             if (item.relation == this.state.s_label_name) {
               this.setState({ s_label_id: item.id });
-              console.log("responseJson--->", this.state.s_label_id);
+              console.log("responseJson label--->", this.state.s_label_id);
+              this.checkSettings();
+            } else {
+              console.log("else--->", this.state.s_label_id);
+              // this.setState({ isLoading: false });
             }
           });
-          this.checkSettings();
         })
         .catch((error) => {
           console.error(error);
@@ -347,6 +355,8 @@ class searchContact extends Component {
     });
   };
   checkSettings = () => {
+    // console.log("labelList ----->",this.state.s_label_name);
+    // console.log("labelList ----->",this.state.s_label_id);
     const baseurl = Constants.baseurl;
     var _body = new FormData();
     _body.append("relation_id", this.state.s_label_id);
@@ -366,10 +376,10 @@ class searchContact extends Component {
         let item = responseJson.data;
 
         let fields = this.state.selectedData;
-
+        console.log("item---->", item);
         if (responseJson.status == true) {
           console.log("settings---->", fields);
-
+          this.setState({ u_name: fields.u_name });
           if (item.profile_image == 1) {
             this.setState({ profile_image: fields.profile_image });
           } else {
@@ -380,8 +390,8 @@ class searchContact extends Component {
           } else {
             this.setState({ profile_image2: "" });
           }
-          if(fields.profile_image2  !== "" ){
-            this.setState({rightSec  : true,})
+          if (fields.profile_image2 !== "") {
+            this.setState({ rightSec: true });
           }
           if (item.profile_image3 == 1) {
             this.setState({ profile_image3: fields.profile_image3 });
@@ -481,15 +491,16 @@ class searchContact extends Component {
             this.setState({ sunday: "" });
             this.setState({ sundayTo: "" });
           }
-          this.setState({ isLoading: false });
           this.setState({ contactInfoSection: true });
+          this.setState({ isLoading: false });
         }
-        if (responseJson.data.status == false) {
+        if (responseJson.status == false) {
           this.getAllData();
         }
       })
       .catch((error) => {
         console.log("Update errrorr---->", error);
+        this.setState({ isLoading: false });
       });
   };
 
@@ -497,9 +508,10 @@ class searchContact extends Component {
     let fields = this.state.selectedData;
     this.setState({ profile_image: fields.profile_image });
     this.setState({ profile_image2: fields.profile_image2 });
-    if(fields.profile_image2  !== "" ){
-      this.setState({rightSec  : true,})
+    if (fields.profile_image2 !== "") {
+      this.setState({ rightSec: true });
     }
+    this.setState({ u_name: fields.u_name });
     this.setState({ profile_image3: fields.profile_image3 });
     this.setState({ first_name: fields.first_name });
     this.setState({ last_name: fields.last_name });
@@ -527,14 +539,16 @@ class searchContact extends Component {
     this.setState({ saturdayTo: fields.saturdayTo });
     this.setState({ sunday: fields.sunday });
     this.setState({ sundayTo: fields.sundayTo });
-    this.setState({ isLoading: false });
+
     this.setState({ contactInfoSection: true });
+    this.setState({ isLoading: false });
   };
   apiCallForGetSettings = (key) => {
     const { shortcontacts, firstName } = this.state;
     const { username } = this.props;
 
     let selecte_name = shortcontacts[key].first_name;
+    // console.log(" sjprtconatc ----->", shortcontacts);
     firebase
       .firestore()
       .collection("user")
@@ -553,21 +567,72 @@ class searchContact extends Component {
         snap.forEach((doc) => {
           let fields = doc._data;
           if (selecte_name == doc._data.u_name) {
-            console.log("fn ----->", fields.s_label_name);
             this.setState({ s_label_name: fields.s_label_name });
+            console.log("doc._data.u_name ----->", this.state.s_label_name);
             this.labelList();
           }
         });
       });
   };
+  mannuallyEntered = (key) => {
+    let FN = this.state.selectedData;
+    console.log("mannuallyEntered ----->", FN);
+    this.setState({ profile_image: FN.profile_image });
+    this.setState({ profile_image2: FN.profile_image2 });
+    if (FN.profile_image2 !== "") {
+      this.setState({ rightSec: true });
+    }
+    this.setState({ u_name: FN.u_name });
+    this.setState({ profile_image3: FN.profile_image3 });
+    this.setState({ first_name: FN.first_name });
+    this.setState({ last_name: FN.last_name });
+    this.setState({ contactInfoSection: true });
+    this.setState({ number: FN.number1.number });
+    this.setState({ number2: FN.number2 });
+    this.setState({ email: FN.email1.email });
+    this.setState({ email2: FN.email2 });
+    this.setState({ address: FN.address1.address });
+    this.setState({ address2: FN.address2 });
+    this.setState({ messenger: FN.messenger1.messanger });
+    this.setState({ socialMedia: FN.social_media1.socialMedia });
+    this.setState({ website: FN.website.website });
+    this.setState({ date: FN.date.date });
+    this.setState({ note: FN.note.note });
+    this.setState({ company: FN.company.company });
+    this.setState({ jobTitle: FN.jobTitle.jobTitle });
+    this.setState({ contactInfoSection: true });
+    this.setState({ isLoading: false });
+  };
   onFlatlist = async (key, first_name, last_name, user_name) => {
-    this.setState({ isLoading: true });
+    console.log("onFlatlist ----->", key);
+    this.setState({ isLoading: true, forKey: key });
     const { shortcontacts, firstName } = this.state;
     const { username } = this.props;
     let FN = shortcontacts[key];
     firstName.push(FN);
+     this.setState({ selectedData : shortcontacts[key] })
+    let selecte_name = shortcontacts[key].u_name;
 
-    let selecte_name = shortcontacts[key].first_name;
+    firebase
+      .firestore()
+      .collection("user")
+      .doc(username)
+      .collection("contacts")
+      .get()
+      .then((snap) => {
+        snap.forEach((doc) => {
+          snap.docs.forEach((doc_id) => {
+            if (selecte_name == doc._data.u_name) {
+              snap.docs.forEach((doc_id) => {
+                if (selecte_name == doc_id._data.u_name) {
+                  this.setState({ doc_id: doc_id.id });
+                  console.log("true ----->", doc_id.id);
+                }
+              });
+            }
+          });
+        });
+      });
 
     firebase
       .firestore()
@@ -582,13 +647,41 @@ class searchContact extends Component {
             if (selecte_name == doc._data.u_name) {
               snap.docs.forEach((doc_id) => {
                 if (selecte_name == doc_id._data.u_name) {
-                  //console.log("doc_id ====>" ,doc_id.id)
                   this.setState({ doc_id: doc_id.id });
                 }
               });
               this.setState({ selectedData: doc._data });
+              // this.labelList();
               this.apiCallForGetSettings(key);
             }
+          }
+          if (FN.isManually == true) {
+            console.log("mannuallyEntered ----->", FN);
+            this.setState({ profile_image: FN.profile_image });
+            this.setState({ profile_image2: FN.profile_image2 });
+            if (FN.profile_image2 !== "") {
+              this.setState({ rightSec: true });
+            }
+            this.setState({ u_name: FN.u_name });
+            this.setState({ profile_image3: FN.profile_image3 });
+            this.setState({ first_name: FN.first_name });
+            this.setState({ last_name: FN.last_name });
+            this.setState({ contactInfoSection: true });
+            this.setState({ number: FN.number1.number });
+            this.setState({ number2: FN.number2 });
+            this.setState({ email: FN.email1.email });
+            this.setState({ email2: FN.email2 });
+            this.setState({ address: FN.address });
+            this.setState({ address2: FN.address2 });
+            this.setState({ messenger: FN.messenger });
+            this.setState({ socialMedia: FN.social_media });
+            this.setState({ website: FN.website });
+            this.setState({ date: FN.date.date });
+            this.setState({ note: FN.note });
+            this.setState({ company: FN.company });
+            this.setState({ jobTitle: FN.jobTitle });
+            this.setState({ contactInfoSection: true });
+            this.setState({ isLoading: false });
           }
           if (doc._data.isImport == true) {
             if (selecte_name == doc._data.u_name) {
@@ -598,6 +691,7 @@ class searchContact extends Component {
               this.setState({ profile_image3: fields.profile_image3 });
               this.setState({ first_name: fields.first_name });
               this.setState({ last_name: fields.last_name });
+              this.setState({ u_name: fields.u_name });
               if (fields.number.length > 0) {
                 this.setState({ number: fields.number[0].number });
               }
@@ -605,8 +699,8 @@ class searchContact extends Component {
               if (fields.email.length > 0) {
                 this.setState({ email: fields.email[0].email });
               }
-              this.setState({ messenger: fields.messenger });
-              this.setState({ socialMedia: fields.social_media });
+              this.setState({ messenger: fields.messenger1 });
+              this.setState({ socialMedia: fields.social_media1 });
               this.setState({ website: fields.website });
               this.setState({ date: fields.date });
               this.setState({ note: fields.note });
@@ -626,8 +720,8 @@ class searchContact extends Component {
               this.setState({ saturdayTo: fields.saturdayTo });
               this.setState({ sunday: fields.sunday });
               this.setState({ sundayTo: fields.sundayTo });
-              this.setState({ isLoading: false });
               this.setState({ contactInfoSection: true });
+              this.setState({ isLoading: false });
             }
           }
         });
@@ -737,57 +831,106 @@ class searchContact extends Component {
       </View>
     );
   }
-  rightPress = () =>{
-    if(this.state.imgSec1 == true){
-      this.setState({ imgSec1 : false ,  imgSec2: true ,leftSec:true})
+  rightPress = () => {
+    if (this.state.imgSec1 == true) {
+      this.setState({ imgSec1: false, imgSec2: true, leftSec: true });
     }
-    if(this.state.imgSec2 == true){
-      this.setState({ imgSec2 : false ,  imgSec3 : true ,leftSec:true , rightSec:false})
+    if (this.state.imgSec2 == true) {
+      this.setState({
+        imgSec2: false,
+        imgSec3: true,
+        leftSec: true,
+        rightSec: false,
+      });
     }
-  }
-  leftPress = () =>{
-    
-    if(this.state.imgSec2 == true){
-      this.setState({ imgSec1 : true ,  imgSec2: false ,leftSec:false})
+  };
+  leftPress = () => {
+    if (this.state.imgSec2 == true) {
+      this.setState({ imgSec1: true, imgSec2: false, leftSec: false });
     }
-    if(this.state.imgSec3 == true){
-      this.setState({ imgSec2 : true ,  imgSec3 : false ,leftSec:true , rightSec:true})
+    if (this.state.imgSec3 == true) {
+      this.setState({
+        imgSec2: true,
+        imgSec3: false,
+        leftSec: true,
+        rightSec: true,
+      });
     }
-  }
+  };
   renderPhoto() {
     return (
       <View>
-        <View style={{ flexDirection: "row" , width:width,alignItems:'center' ,justifyContent:'center'}}>
-        {this.state.leftSec == true ? (
-          <TouchableOpacity style={styles.arrowView} onPress={this.leftPress}>
-            <Image source={rightArrow} style={[styles.arrowStyle,{transform: [{ rotate: '180deg' }]}]} />
-          </TouchableOpacity>
-           ) : null}
-            {this.state.imgSec1 == true ? (
+        <View
+          style={{
+            flexDirection: "row",
+            width: width,
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          {this.state.leftSec == true ? (
+            <TouchableOpacity style={styles.arrowView} onPress={this.leftPress}>
+              <Image
+                source={rightArrow}
+                style={[
+                  styles.arrowStyle,
+                  { transform: [{ rotate: "180deg" }] },
+                ]}
+              />
+            </TouchableOpacity>
+          ) : null}
+          {this.state.profile_image == "" ||
+          this.state.profile_image3 == "" ||
+          this.state.profile_image3 == "" ? (
+            <Image
+              source={person}
+              style={[ styles.personImageStyle ]}
+            />
+          ) : this.state.imgSec1 == true ? (
             <View>
-              <Image source={{uri : this.state.profile_image}} style={[styles.personImageStyle,{marginLeft:this.state.leftSec == true ? null : Metrics.labelMargin}]} />
+              <Image
+                source={{ uri: this.state.profile_image }}
+                style={[
+                  styles.personImageStyle,
+                  {
+                    marginLeft:
+                      this.state.leftSec == true ? null : Metrics.labelMargin,
+                  },
+                ]}
+              />
             </View>
           ) : null}
 
           {this.state.imgSec2 == true ? (
             <View>
-              <Image source={{uri : this.state.profile_image2}} style={styles.personImageStyle} />
+              <Image
+                source={{ uri: this.state.profile_image2 }}
+                style={styles.personImageStyle}
+              />
             </View>
           ) : null}
           {this.state.imgSec3 == true ? (
-            <View style={{ }}>
-              <Image source={{uri : this.state.profile_image3}} style={[styles.personImageStyle,{marginRight:this.state.rightSec == true ? null : Metrics.labelMargin}]} />
+            <View style={{}}>
+              <Image
+                source={{ uri: this.state.profile_image3 }}
+                style={[
+                  styles.personImageStyle,
+                  {
+                    marginRight:
+                      this.state.rightSec == true ? null : Metrics.labelMargin,
+                  },
+                ]}
+              />
             </View>
           ) : null}
- 
-           
-
-        
-           {this.state.rightSec == true ? (
-          <TouchableOpacity style={styles.arrowView} onPress={this.rightPress}>
-            <Image source={leftArrow} style={[styles.arrowStyle]} />
-          </TouchableOpacity>
-           ) : null}
+          {this.state.rightSec == true ? (
+            <TouchableOpacity
+              style={styles.arrowView}
+              onPress={this.rightPress}
+            >
+              <Image source={leftArrow} style={[styles.arrowStyle]} />
+            </TouchableOpacity>
+          ) : null}
         </View>
       </View>
     );
@@ -832,198 +975,199 @@ class searchContact extends Component {
   ShowHideTextComponentView = async () => {
     if (this.state.status == false) {
       this.setState({ status: true });
-      // this.updateData();
     } else {
       this.setState({ status: false });
-    }
-    const { username } = this.props;
-    const {
-      doc_id,
-      First_name,
-      Last_name,
-      Number,
-      Number2,
-      Email,
-      Email2,
-      Address,
-      Address2,
-      Messenger,
-      SocialMedia,
-      Website,
-      fomateDate,
-      Note,
-      Company,
-      JobTitle,
-      Monday,
-    } = this.state;
-    if (Last_name == "") {
-    } else {
-      firebase
-        .firestore()
-        .collection("user")
-        .doc(username)
-        .collection("contacts")
-        .doc(doc_id)
-        .update({ last_name: Last_name, isLNUpdate: true });
-    }
-    if (First_name == "") {
-    } else {
-      firebase
-        .firestore()
-        .collection("user")
-        .doc(username)
-        .collection("contacts")
-        .doc(doc_id)
-        .update({ first_name: First_name, isFnUpdate: true });
-    }
 
-    if (Number == "") {
-    } else {
-      firebase
-        .firestore()
-        .collection("user")
-        .doc(username)
-        .collection("contacts")
-        .doc(doc_id)
-        .update({ number1: Number, isNumberUpdate: true });
-    }
+      const { username } = this.props;
+      const {
+        doc_id,
+        First_name,
+        Last_name,
+        Number,
+        Number2,
+        Email,
+        Email2,
+        Address,
+        Address2,
+        Messenger,
+        SocialMedia,
+        Website,
+        fomateDate,
+        Note,
+        Company,
+        JobTitle,
+        Monday,
+      } = this.state;
+      if (Last_name == "") {
+      } else {
+        firebase
+          .firestore()
+          .collection("user")
+          .doc(username)
+          .collection("contacts")
+          .doc(doc_id)
+          .update({ last_name: Last_name, isLNUpdate: true });
+      }
+      if (First_name == "") {
+      } else {
+        firebase
+          .firestore()
+          .collection("user")
+          .doc(username)
+          .collection("contacts")
+          .doc(doc_id)
+          .update({ first_name: First_name, isFnUpdate: true });
+      }
 
-    if (Number2 == "") {
-    } else {
-      firebase
-        .firestore()
-        .collection("user")
-        .doc(username)
-        .collection("contacts")
-        .doc(doc_id)
-        .update({ number2: Number2, isNumber2Update: true });
-    }
+      if (Number == "") {
+      } else {
+        firebase
+          .firestore()
+          .collection("user")
+          .doc(username)
+          .collection("contacts")
+          .doc(doc_id)
+          .update({ number1: Number, isNumberUpdate: true });
+      }
 
-    if (Email == "") {
-    } else {
-      firebase
-        .firestore()
-        .collection("user")
-        .doc(username)
-        .collection("contacts")
-        .doc(doc_id)
-        .update({ email1: Email, isEmailUpdate: true });
-    }
-    if (Email2 == "") {
-    } else {
-      firebase
-        .firestore()
-        .collection("user")
-        .doc(username)
-        .collection("contacts")
-        .doc(doc_id)
-        .update({ email2: Email2, isEmail2Update: true });
-    }
-    if (Address == "") {
-    } else {
-      firebase
-        .firestore()
-        .collection("user")
-        .doc(username)
-        .collection("contacts")
-        .doc(doc_id)
-        .update({ address1: Address, isAddressUpdate: true });
-    }
-    if (Address2 == "") {
-    } else {
-      firebase
-        .firestore()
-        .collection("user")
-        .doc(username)
-        .collection("contacts")
-        .doc(doc_id)
-        .update({ address2: Address2, isAddress2Update: true });
-    }
+      if (Number2 == "") {
+      } else {
+        firebase
+          .firestore()
+          .collection("user")
+          .doc(username)
+          .collection("contacts")
+          .doc(doc_id)
+          .update({ number2: Number2, isNumber2Update: true });
+      }
 
-    if (Messenger == "") {
-    } else {
-      firebase
-        .firestore()
-        .collection("user")
-        .doc(username)
-        .collection("contacts")
-        .doc(doc_id)
-        .update({ messenger1: Messenger, isMessengerUpdate: true });
-    }
+      if (Email == "") {
+      } else {
+        firebase
+          .firestore()
+          .collection("user")
+          .doc(username)
+          .collection("contacts")
+          .doc(doc_id)
+          .update({ email1: Email, isEmailUpdate: true });
+      }
+      if (Email2 == "") {
+      } else {
+        firebase
+          .firestore()
+          .collection("user")
+          .doc(username)
+          .collection("contacts")
+          .doc(doc_id)
+          .update({ email2: Email2, isEmail2Update: true });
+      }
+      if (Address == "") {
+      } else {
+        firebase
+          .firestore()
+          .collection("user")
+          .doc(username)
+          .collection("contacts")
+          .doc(doc_id)
+          .update({ address1: Address, isAddressUpdate: true });
+      }
+      if (Address2 == "") {
+      } else {
+        firebase
+          .firestore()
+          .collection("user")
+          .doc(username)
+          .collection("contacts")
+          .doc(doc_id)
+          .update({ address2: Address2, isAddress2Update: true });
+      }
 
-    if (SocialMedia == "") {
-    } else {
-      firebase
-        .firestore()
-        .collection("user")
-        .doc(username)
-        .collection("contacts")
-        .doc(doc_id)
-        .update({ social_media1: SocialMedia, isSocialMediaUpdate: true });
-    }
+      if (Messenger == "") {
+      } else {
+        firebase
+          .firestore()
+          .collection("user")
+          .doc(username)
+          .collection("contacts")
+          .doc(doc_id)
+          .update({ messenger1: Messenger, isMessengerUpdate: true });
+      }
 
-    if (Website == "") {
-    } else {
-      firebase
-        .firestore()
-        .collection("user")
-        .doc(username)
-        .collection("contacts")
-        .doc(doc_id)
-        .update({ website: Website, isWebsiteUpdate: true });
-    }
+      if (SocialMedia == "") {
+      } else {
+        firebase
+          .firestore()
+          .collection("user")
+          .doc(username)
+          .collection("contacts")
+          .doc(doc_id)
+          .update({ social_media1: SocialMedia, isSocialMediaUpdate: true });
+      }
 
-    if (fomateDate == "") {
-    } else {
-      firebase
-        .firestore()
-        .collection("user")
-        .doc(username)
-        .collection("contacts")
-        .doc(doc_id)
-        .update({ date: fomateDate, isdateUpdate: true });
-    }
+      if (Website == "") {
+      } else {
+        firebase
+          .firestore()
+          .collection("user")
+          .doc(username)
+          .collection("contacts")
+          .doc(doc_id)
+          .update({ website: Website, isWebsiteUpdate: true });
+      }
 
-    if (Note == "") {
-    } else {
-      firebase
-        .firestore()
-        .collection("user")
-        .doc(username)
-        .collection("contacts")
-        .doc(doc_id)
-        .update({ note: Note, isNoteUpdate: true });
-    }
+      if (fomateDate == "") {
+      } else {
+        firebase
+          .firestore()
+          .collection("user")
+          .doc(username)
+          .collection("contacts")
+          .doc(doc_id)
+          .update({ date: fomateDate, isdateUpdate: true });
+      }
 
-    if (Company == "") {
-    } else {
-      firebase
-        .firestore()
-        .collection("user")
-        .doc(username)
-        .collection("contacts")
-        .doc(doc_id)
-        .update({ company: Company, isCompanyUpdate: true });
-    }
-    if (JobTitle == "") {
-    } else {
-      firebase
-        .firestore()
-        .collection("user")
-        .doc(username)
-        .collection("contacts")
-        .doc(doc_id)
-        .update({ jobTitle: JobTitle, isJobTitleUpdate: true });
-    }
-    if (Monday == "") {
-    } else {
-      firebase
-        .firestore()
-        .collection("user")
-        .doc(username)
-        .collection("contacts")
-        .doc(doc_id)
-        .update({ monday: Monday, isWorkHoursUpdate: true });
+      if (Note == "") {
+      } else {
+        firebase
+          .firestore()
+          .collection("user")
+          .doc(username)
+          .collection("contacts")
+          .doc(doc_id)
+          .update({ note: Note, isNoteUpdate: true });
+      }
+
+      if (Company == "") {
+      } else {
+        firebase
+          .firestore()
+          .collection("user")
+          .doc(username)
+          .collection("contacts")
+          .doc(doc_id)
+          .update({ company: Company, isCompanyUpdate: true });
+      }
+      if (JobTitle == "") {
+      } else {
+        firebase
+          .firestore()
+          .collection("user")
+          .doc(username)
+          .collection("contacts")
+          .doc(doc_id)
+          .update({ jobTitle: JobTitle, isJobTitleUpdate: true });
+      }
+      if (Monday == "") {
+      } else {
+        firebase
+          .firestore()
+          .collection("user")
+          .doc(username)
+          .collection("contacts")
+          .doc(doc_id)
+          .update({ monday: Monday, isWorkHoursUpdate: true });
+      }
+      this.onFlatlist(this.state.forKey);
     }
   };
   renderContactLast() {
@@ -1140,6 +1284,12 @@ class searchContact extends Component {
       </View>
     );
   }
+  onPressKey = () => {
+    this.setState({ isMobileSection: true });
+    if (this.state.isMobileSection == true) {
+      this.textInputRef.focus();
+    }
+  };
   renderMobile() {
     return (
       <View style={{ marginTop: Metrics.baseMargin, position: "relative" }}>
@@ -1155,18 +1305,41 @@ class searchContact extends Component {
             <View style={{ flexDirection: "row" }}>
               <View style={styles.searchSection}>
                 {this.state.status ? (
-                  <TextInput
-                    placeholder=""
-                    style={styles.stylefiledText}
-                    placeholderTextColor={COLORS.main_text_color}
-                    // maxLength={10}
-                    editable={this.state.status ? true : false}
-                    value={this.state.Number}
-                    onChangeText={(value) => this.setState({ Number: value })}
-                    ref={(input) => {
-                      this.numberFocus = input;
-                    }}
-                  />
+                  this.state.isMobileSection ? (
+                    <TouchableOpacity style={{ flexDirection: "column" }}>
+                      <Text
+                        style={[
+                          styles.Text_1,
+                          {
+                            fontSize: width * 0.02,
+                            width: width * 0.5,
+                            marginTop: width * 0.02,
+                          },
+                        ]}
+                      >
+                        Phone Number
+                      </Text>
+                      <TextInput
+                        placeholder=""
+                        style={styles.stylefiledText}
+                        placeholderTextColor={COLORS.main_text_color}
+                        // maxLength={10}
+                        editable={this.state.status ? true : false}
+                        value={this.state.Number}
+                        onChangeText={(value) =>
+                          this.setState({ Number: value })
+                        }
+                        ref={(input) => {
+                          this.textInputRef = input;
+                        }}
+                        autoFocus={true}
+                      />
+                    </TouchableOpacity>
+                  ) : (
+                    <TouchableOpacity onPress={this.onPressKey}>
+                      <Text style={styles.stylefiledText}>Phone Number</Text>
+                    </TouchableOpacity>
+                  )
                 ) : (
                   <Text style={styles.stylefiledText}>{this.state.number}</Text>
                 )}
@@ -1187,6 +1360,12 @@ class searchContact extends Component {
       </View>
     );
   }
+  onPressEmail = () => {
+    this.setState({ isEmailSection: true });
+    if (this.state.isEmailSection == true) {
+      this.emailFocus.focus();
+    }
+  };
   renderEmail() {
     return (
       <View style={{ marginTop: Metrics.baseMargin, position: "relative" }}>
@@ -1202,18 +1381,41 @@ class searchContact extends Component {
             <View style={{ flexDirection: "row" }}>
               <View style={styles.searchSection}>
                 {this.state.status ? (
-                  <TextInput
-                    placeholder=""
-                    style={styles.stylefiledText}
-                    placeholderTextColor={COLORS.main_text_color}
-                    // maxLength={10}
-                    editable={this.state.status ? true : false}
-                    value={this.state.Email}
-                    onChangeText={(value) => this.setState({ Email: value })}
-                    ref={(input) => {
-                      this.emailFocus = input;
-                    }}
-                  />
+                  this.state.isEmailSection ? (
+                    <TouchableOpacity style={{ flexDirection: "column" }}>
+                      <Text
+                        style={[
+                          styles.Text_1,
+                          {
+                            fontSize: width * 0.02,
+                            width: width * 0.5,
+                            marginTop: width * 0.02,
+                          },
+                        ]}
+                      >
+                        E-mail Address
+                      </Text>
+                      <TextInput
+                        placeholder=""
+                        style={styles.stylefiledText}
+                        placeholderTextColor={COLORS.main_text_color}
+                        // maxLength={10}
+                        editable={this.state.status ? true : false}
+                        value={this.state.Email}
+                        onChangeText={(value) =>
+                          this.setState({ Email: value })
+                        }
+                        ref={(input) => {
+                          this.emailFocus = input;
+                        }}
+                        autoFocus={true}
+                      />
+                    </TouchableOpacity>
+                  ) : (
+                    <TouchableOpacity onPress={this.onPressEmail}>
+                      <Text style={styles.stylefiledText}>E-mail Address</Text>
+                    </TouchableOpacity>
+                  )
                 ) : (
                   <Text style={styles.stylefiledText}>{this.state.email}</Text>
                 )}
@@ -1234,6 +1436,12 @@ class searchContact extends Component {
       </View>
     );
   }
+  onPressKey2 = () => {
+    this.setState({ isMobileSection2: true });
+    if (this.state.isMobileSection2 == true) {
+      this.numberFocus2.focus();
+    }
+  };
   renderMobile2() {
     return (
       <View style={{ marginTop: Metrics.baseMargin, position: "relative" }}>
@@ -1249,18 +1457,46 @@ class searchContact extends Component {
             <View style={{ flexDirection: "row" }}>
               <View style={styles.searchSection}>
                 {this.state.status ? (
-                  <TextInput
-                    placeholder=""
-                    style={styles.stylefiledText}
-                    placeholderTextColor={COLORS.main_text_color}
-                    // maxLength={10}
-                    editable={this.state.status ? true : false}
-                    value={this.state.Number2}
-                    onChangeText={(value) => this.setState({ Number2: value })}
-                    ref={(input) => {
-                      this.numberFocus2 = input;
-                    }}
-                  />
+                  this.state.isMobileSection2 ? (
+                    <TouchableOpacity style={{ flexDirection: "column" }}>
+                      <Text
+                        style={[
+                          styles.Text_1,
+                          {
+                            fontSize: width * 0.02,
+                            width: width * 0.5,
+                            marginTop: width * 0.02,
+                          },
+                        ]}
+                      >
+                        Phone Number
+                      </Text>
+                      <TextInput
+                        placeholder=""
+                        style={styles.stylefiledText}
+                        placeholderTextColor={COLORS.main_text_color}
+                        // maxLength={10}
+                        editable={this.state.status ? true : false}
+                        value={this.state.Number2}
+                        onChangeText={(value) =>
+                          this.setState({ Number2: value })
+                        }
+                        ref={(input) => {
+                          this.numberFocus2 = input;
+                        }}
+                        autoFocus={true}
+                      />
+                    </TouchableOpacity>
+                  ) : (
+                    <TouchableOpacity
+                      onPress={this.onPressKey2}
+                      // onPress={() =>
+                      // this.setState({ isMobileSection: true })
+                      // }
+                    >
+                      <Text style={styles.stylefiledText}>Phone Number</Text>
+                    </TouchableOpacity>
+                  )
                 ) : (
                   <Text style={styles.stylefiledText}>
                     {this.state.number2}
@@ -1283,6 +1519,12 @@ class searchContact extends Component {
       </View>
     );
   }
+  onPressEmail2 = () => {
+    this.setState({ isEmailSection2: true });
+    if (this.state.isEmailSection2 == true) {
+      this.emailFocus2.focus();
+    }
+  };
   renderEmail2() {
     return (
       <View style={{ marginTop: Metrics.baseMargin, position: "relative" }}>
@@ -1298,20 +1540,43 @@ class searchContact extends Component {
             <View style={{ flexDirection: "row" }}>
               <View style={styles.searchSection}>
                 {this.state.status ? (
-                  <TextInput
-                    placeholder=""
-                    style={styles.stylefiledText}
-                    placeholderTextColor={COLORS.main_text_color}
-                    // maxLength={10}
-                    editable={this.state.status ? true : false}
-                    value={this.state.Email2}
-                    onChangeText={(value) => this.setState({ Email2: value })}
-                    ref={(input) => {
-                      this.emailFocus2 = input;
-                    }}
-                  />
+                  this.state.isEmailSection2 ? (
+                    <TouchableOpacity style={{ flexDirection: "column" }}>
+                      <Text
+                        style={[
+                          styles.Text_1,
+                          {
+                            fontSize: width * 0.02,
+                            width: width * 0.5,
+                            marginTop: width * 0.02,
+                          },
+                        ]}
+                      >
+                        E-mail Address
+                      </Text>
+                      <TextInput
+                        placeholder=""
+                        style={styles.stylefiledText}
+                        placeholderTextColor={COLORS.main_text_color}
+                        // maxLength={10}
+                        editable={this.state.status ? true : false}
+                        value={this.state.Email2}
+                        onChangeText={(value) =>
+                          this.setState({ Email2: value })
+                        }
+                        ref={(input) => {
+                          this.emailFocus2 = input;
+                        }}
+                        autoFocus={true}
+                      />
+                    </TouchableOpacity>
+                  ) : (
+                    <TouchableOpacity onPress={this.onPressEmail2}>
+                      <Text style={styles.stylefiledText}>E-mail Address</Text>
+                    </TouchableOpacity>
+                  )
                 ) : (
-                  <Text style={styles.stylefiledText}>{this.state.email}</Text>
+                  <Text style={styles.stylefiledText}>{this.state.email2}</Text>
                 )}
 
                 <View style={styles.rightView}>
@@ -1330,7 +1595,12 @@ class searchContact extends Component {
       </View>
     );
   }
-
+  onPressAddress = () => {
+    this.setState({ isAddressSection2: true });
+    if (this.state.isAddressSection2 == true) {
+      this.AddressFocus.focus();
+    }
+  };
   renderAddress() {
     return (
       <View style={{ marginTop: Metrics.baseMargin, position: "relative" }}>
@@ -1343,20 +1613,51 @@ class searchContact extends Component {
             <View style={{ flexDirection: "row" }}>
               <View style={styles.searchSectionAddress}>
                 {this.state.status ? (
-                  <TextInput
-                    placeholder=""
-                    style={styles.addressField}
-                    placeholderTextColor={COLORS.main_text_color}
-                    // maxLength={10}
-                    editable={this.state.status ? true : false}
-                    value={this.state.Address}
-                    onChangeText={(value) => this.setState({ Address: value })}
-                    ref={(input) => {
-                      this.AddressFocus = input;
-                    }}
-                  />
+                  this.state.isAddressSection ? (
+                    <TouchableOpacity style={{ flexDirection: "column" }}>
+                      <Text
+                        style={[
+                          styles.Text_1,
+                          {
+                            fontSize: width * 0.02,
+                            width: width * 0.5,
+                            marginTop: width * 0.02,
+                          },
+                        ]}
+                      >
+                        Address
+                      </Text>
+                      <TextInput
+                        placeholder=""
+                        style={[
+                          styles.addressField,
+                          { marginTop: Metrics.baseMargin },
+                        ]}
+                        placeholderTextColor={COLORS.main_text_color}
+                        // maxLength={10}
+                        editable={this.state.status ? true : false}
+                        value={this.state.Address}
+                        onChangeText={(value) =>
+                          this.setState({ Address: value })
+                        }
+                        ref={(input) => {
+                          this.AddressFocus = input;
+                        }}
+                        autoFocus={true}
+                      />
+                    </TouchableOpacity>
+                  ) : (
+                    <TouchableOpacity onPress={this.onPressAddress}>
+                      <Text style={styles.stylefiledText}>Address</Text>
+                    </TouchableOpacity>
+                  )
                 ) : (
-                  <Text style={styles.stylefiledText}>
+                  <Text
+                    style={[
+                      styles.stylefiledText,
+                      { marginTop: Metrics.baseMargin },
+                    ]}
+                  >
                     {this.state.address}
                   </Text>
                 )}
@@ -1377,6 +1678,13 @@ class searchContact extends Component {
       </View>
     );
   }
+  onPressAddress2 = () => {
+    this.setState({ isAddressSection2: true });
+    if (this.state.isAddressSection2 == true) {
+      this.AddressFocus2.focus();
+    }
+  };
+
   renderAddress2() {
     return (
       <View style={{ marginTop: Metrics.baseMargin, position: "relative" }}>
@@ -1389,20 +1697,51 @@ class searchContact extends Component {
             <View style={{ flexDirection: "row" }}>
               <View style={styles.searchSectionAddress}>
                 {this.state.status ? (
-                  <TextInput
-                    placeholder=""
-                    style={styles.addressField}
-                    placeholderTextColor={COLORS.main_text_color}
-                    // maxLength={10}
-                    editable={this.state.status ? true : false}
-                    value={this.state.Address2}
-                    onChangeText={(value) => this.setState({ Address2: value })}
-                    ref={(input) => {
-                      this.AddressFocus2 = input;
-                    }}
-                  />
+                  this.state.isAddressSection2 ? (
+                    <TouchableOpacity style={{ flexDirection: "column" }}>
+                      <Text
+                        style={[
+                          styles.Text_1,
+                          {
+                            fontSize: width * 0.02,
+                            width: width * 0.5,
+                            marginTop: width * 0.02,
+                          },
+                        ]}
+                      >
+                        Address
+                      </Text>
+                      <TextInput
+                        placeholder=""
+                        style={[
+                          styles.addressField,
+                          { marginTop: Metrics.baseMargin },
+                        ]}
+                        placeholderTextColor={COLORS.main_text_color}
+                        // maxLength={10}
+                        editable={this.state.status ? true : false}
+                        value={this.state.Address2}
+                        onChangeText={(value) =>
+                          this.setState({ Address2: value })
+                        }
+                        ref={(input) => {
+                          this.AddressFocus2 = input;
+                        }}
+                        autoFocus={true}
+                      />
+                    </TouchableOpacity>
+                  ) : (
+                    <TouchableOpacity onPress={this.onPressAddress2}>
+                      <Text style={styles.stylefiledText}>Address</Text>
+                    </TouchableOpacity>
+                  )
                 ) : (
-                  <Text style={styles.stylefiledText}>
+                  <Text
+                    style={[
+                      styles.stylefiledText,
+                      { marginTop: Metrics.baseMargin },
+                    ]}
+                  >
                     {this.state.address2}
                   </Text>
                 )}
@@ -1423,6 +1762,12 @@ class searchContact extends Component {
       </View>
     );
   }
+  onPressMessenger = () => {
+    this.setState({ isMessengerSection: true });
+    if (this.state.isMessengerSection == true) {
+      this.MessengerFocus.focus();
+    }
+  };
   renderMessenger() {
     return (
       <View style={{ marginTop: Metrics.baseMargin, position: "relative" }}>
@@ -1438,23 +1783,46 @@ class searchContact extends Component {
             <View style={{ flexDirection: "row" }}>
               <View style={styles.searchSection}>
                 {this.state.status ? (
-                  <TextInput
-                    placeholder=""
-                    style={styles.stylefiledText}
-                    placeholderTextColor={COLORS.main_text_color}
-                    // maxLength={10}
-                    editable={this.state.status ? true : false}
-                    value={this.state.Messenger}
-                    onChangeText={(value) =>
-                      this.setState({ Messenger: value })
-                    }
-                    ref={(input) => {
-                      this.MessengerFocus = input;
-                    }}
-                  />
+                  this.state.isMessengerSection ? (
+                    <TouchableOpacity style={{ flexDirection: "column" }}>
+                      <Text
+                        style={[
+                          styles.Text_1,
+                          {
+                            fontSize: width * 0.02,
+                            width: width * 0.5,
+                            marginTop: width * 0.02,
+                          },
+                        ]}
+                      >
+                        Messenger Account
+                      </Text>
+                      <TextInput
+                        placeholder=""
+                        style={styles.stylefiledText}
+                        placeholderTextColor={COLORS.main_text_color}
+                        // maxLength={10}
+                        editable={this.state.status ? true : false}
+                        value={this.state.Messenger}
+                        onChangeText={(value) =>
+                          this.setState({ Messenger: value })
+                        }
+                        ref={(input) => {
+                          this.MessengerFocus = input;
+                        }}
+                        autoFocus={true}
+                      />
+                    </TouchableOpacity>
+                  ) : (
+                    <TouchableOpacity onPress={this.onPressMessenger}>
+                      <Text style={styles.stylefiledText}>
+                        Messenger Account
+                      </Text>
+                    </TouchableOpacity>
+                  )
                 ) : (
                   <Text style={styles.stylefiledText}>
-                    {this.state.messenger2}
+                    {this.state.messenger}
                   </Text>
                 )}
 
@@ -1474,7 +1842,12 @@ class searchContact extends Component {
       </View>
     );
   }
-
+  onPressSocialMedia = () => {
+    this.setState({ isSocialSection: true });
+    if (this.state.isSocialSection == true) {
+      this.SocialMediaFocus.focus();
+    }
+  };
   renderSocialMedia() {
     return (
       <View style={{ marginTop: Metrics.baseMargin, position: "relative" }}>
@@ -1490,20 +1863,43 @@ class searchContact extends Component {
             <View style={{ flexDirection: "row" }}>
               <View style={styles.searchSection}>
                 {this.state.status ? (
-                  <TextInput
-                    placeholder=""
-                    style={styles.stylefiledText}
-                    placeholderTextColor={COLORS.main_text_color}
-                    // maxLength={10}
-                    editable={this.state.status ? true : false}
-                    value={this.state.SocialMedia}
-                    onChangeText={(value) =>
-                      this.setState({ SocialMedia: value })
-                    }
-                    ref={(input) => {
-                      this.SocialMediaFocus = input;
-                    }}
-                  />
+                  this.state.isSocialSection ? (
+                    <TouchableOpacity style={{ flexDirection: "column" }}>
+                      <Text
+                        style={[
+                          styles.Text_1,
+                          {
+                            fontSize: width * 0.02,
+                            width: width * 0.5,
+                            marginTop: width * 0.02,
+                          },
+                        ]}
+                      >
+                        Social Media Account
+                      </Text>
+                      <TextInput
+                        placeholder=""
+                        style={styles.stylefiledText}
+                        placeholderTextColor={COLORS.main_text_color}
+                        // maxLength={10}
+                        editable={this.state.status ? true : false}
+                        value={this.state.SocialMedia}
+                        onChangeText={(value) =>
+                          this.setState({ SocialMedia: value })
+                        }
+                        ref={(input) => {
+                          this.SocialMediaFocus = input;
+                        }}
+                        autoFocus={true}
+                      />
+                    </TouchableOpacity>
+                  ) : (
+                    <TouchableOpacity onPress={this.onPressSocialMedia}>
+                      <Text style={styles.stylefiledText}>
+                        Social Media Account
+                      </Text>
+                    </TouchableOpacity>
+                  )
                 ) : (
                   <Text style={styles.stylefiledText}>
                     {this.state.socialMedia}
@@ -1526,6 +1922,13 @@ class searchContact extends Component {
       </View>
     );
   }
+
+  onPressWebsite = () => {
+    this.setState({ isWebsiteSection: true });
+    if (this.state.isWebsiteSection == true) {
+      this.WebsiteFocus.focus();
+    }
+  };
   renderWebsite() {
     return (
       <View style={{ marginTop: Metrics.baseMargin, position: "relative" }}>
@@ -1541,18 +1944,41 @@ class searchContact extends Component {
             <View style={{ flexDirection: "row" }}>
               <View style={styles.searchSection}>
                 {this.state.status ? (
-                  <TextInput
-                    placeholder=""
-                    style={styles.stylefiledText}
-                    placeholderTextColor={COLORS.main_text_color}
-                    // maxLength={10}
-                    editable={this.state.status ? true : false}
-                    value={this.state.Website}
-                    onChangeText={(value) => this.setState({ Website: value })}
-                    ref={(input) => {
-                      this.WebsiteFocus = input;
-                    }}
-                  />
+                  this.state.isWebsiteSection ? (
+                    <TouchableOpacity style={{ flexDirection: "column" }}>
+                      <Text
+                        style={[
+                          styles.Text_1,
+                          {
+                            fontSize: width * 0.02,
+                            width: width * 0.5,
+                            marginTop: width * 0.02,
+                          },
+                        ]}
+                      >
+                        Website
+                      </Text>
+                      <TextInput
+                        placeholder=""
+                        style={styles.stylefiledText}
+                        placeholderTextColor={COLORS.main_text_color}
+                        // maxLength={10}
+                        editable={this.state.status ? true : false}
+                        value={this.state.Website}
+                        onChangeText={(value) =>
+                          this.setState({ Website: value })
+                        }
+                        ref={(input) => {
+                          this.WebsiteFocus = input;
+                        }}
+                        autoFocus={true}
+                      />
+                    </TouchableOpacity>
+                  ) : (
+                    <TouchableOpacity onPress={this.onPressWebsite}>
+                      <Text style={styles.stylefiledText}>Website</Text>
+                    </TouchableOpacity>
+                  )
                 ) : (
                   <Text style={styles.stylefiledText}>
                     {this.state.website}
@@ -1635,6 +2061,12 @@ class searchContact extends Component {
       </View>
     );
   }
+  onPressNote = () => {
+    this.setState({ isNoteSection: true });
+    if (this.state.isNoteSection == true) {
+      this.NoteFocus.focus();
+    }
+  };
   renderNote() {
     return (
       <View style={{ marginTop: Metrics.baseMargin, position: "relative" }}>
@@ -1647,19 +2079,50 @@ class searchContact extends Component {
             <View style={{ flexDirection: "row" }}>
               <View style={styles.searchSectionAddress}>
                 {this.state.status ? (
-                  <TextInput
-                    placeholder=""
-                    style={styles.addressField}
-                    placeholderTextColor={COLORS.main_text_color}
-                    editable={this.state.status ? true : false}
-                    value={this.state.Note}
-                    onChangeText={(value) => this.setState({ Note: value })}
-                    ref={(input) => {
-                      this.NoteFocus = input;
-                    }}
-                  />
+                  this.state.isNoteSection ? (
+                    <TouchableOpacity style={{ flexDirection: "column" }}>
+                      <Text
+                        style={[
+                          styles.Text_1,
+                          {
+                            fontSize: width * 0.02,
+                            width: width * 0.5,
+                            marginTop: width * 0.02,
+                          },
+                        ]}
+                      >
+                        Note
+                      </Text>
+                      <TextInput
+                        placeholder=""
+                        style={[
+                          styles.addressField,
+                          { marginTop: Metrics.smallMargin },
+                        ]}
+                        placeholderTextColor={COLORS.main_text_color}
+                        editable={this.state.status ? true : false}
+                        value={this.state.Note}
+                        onChangeText={(value) => this.setState({ Note: value })}
+                        ref={(input) => {
+                          this.NoteFocus = input;
+                        }}
+                        autoFocus={true}
+                      />
+                    </TouchableOpacity>
+                  ) : (
+                    <TouchableOpacity onPress={this.onPressNote}>
+                      <Text style={styles.stylefiledText}>Note</Text>
+                    </TouchableOpacity>
+                  )
                 ) : (
-                  <Text style={styles.stylefiledText}>{this.state.note}</Text>
+                  <Text
+                    style={[
+                      styles.stylefiledText,
+                      { marginTop: Metrics.baseMargin },
+                    ]}
+                  >
+                    {this.state.note}
+                  </Text>
                 )}
 
                 <View style={styles.addressRightView}>
@@ -2473,7 +2936,7 @@ class searchContact extends Component {
                     marginTop: Metrics.baseMargin,
                   }}
                 >
-                  <Text>@Username</Text>
+                  <Text>{this.state.u_name}</Text>
                 </View>
               </View>
             ) : (
@@ -2499,7 +2962,9 @@ class searchContact extends Component {
                         marginTop: Metrics.baseMargin,
                       }}
                     >
-                      <Text>User name</Text>
+                      <Text>
+                        {this.state.first_name} {this.state.last_name}
+                      </Text>
                     </View>
                     <View
                       style={{
@@ -2535,9 +3000,7 @@ class searchContact extends Component {
             {this.state.contactInfoSection == true ? (
               <View>{this.renderContactLast()}</View>
             ) : (
-              <View>
-               
-                {this.renderLast()}</View>
+              <View>{this.renderLast()}</View>
             )}
           </Container>
           {this.showLoader()}

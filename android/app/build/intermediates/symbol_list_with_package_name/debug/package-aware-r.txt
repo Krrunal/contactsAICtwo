@@ -1526,6 +1526,7 @@ drawable src_assets_images_handshake
 drawable src_assets_images_home
 drawable src_assets_images_innerimg
 drawable src_assets_images_instagram
+drawable src_assets_images_leftarrow
 drawable src_assets_images_logo
 drawable src_assets_images_logout
 drawable src_assets_images_message
@@ -1534,6 +1535,8 @@ drawable src_assets_images_outerimg
 drawable src_assets_images_person
 drawable src_assets_images_plus
 drawable src_assets_images_reset
+drawable src_assets_images_resetblack
+drawable src_assets_images_rightarrow
 drawable src_assets_images_sidebar
 drawable src_assets_images_website
 drawable test_custom_background

@@ -76,7 +76,7 @@ class MyContactInfromation extends Component {
       textInput: [{ label: "Select Type...", show: false }],
       inputData: [],
       mobileLabelList: [
-        { label: "Personal(Mobie)" },
+        { label: "Personal(Mobile)" },
         { label: "Personal(Lanline)" },
         { label: "Work(Mobile)" },
         { label: "Work(Landline)" },
@@ -87,7 +87,7 @@ class MyContactInfromation extends Component {
       emailInput: [{ label: "Select Type...", show: false }],
       emailData: [],
       emailLabelList: [
-        { label: "Personal(Mobie)" },
+        { label: "Personal(Mobile)" },
         { label: "Personal(Lanline)" },
         { label: "Work(Mobile)" },
         { label: "Work(Landline)" },
@@ -98,12 +98,9 @@ class MyContactInfromation extends Component {
       addressInput: [{ label: "Select Type...", show: false }],
       addressData: [],
       addressLabelList: [
-        { label: "Personal(Mobie)" },
-        { label: "Personal(Lanline)" },
-        { label: "Work(Mobile)" },
-        { label: "Work(Landline)" },
-        { label: "Personal Fax" },
-        { label: "Work Fax" },
+        { label: "Personal" },
+        { label: "Work" },
+        
       ],
       //messenger
       messengerInput: [{ label: "Select Type...", show: false }],
@@ -225,53 +222,7 @@ class MyContactInfromation extends Component {
   }
 
   componentDidMount = async () => {
-    const { username } = this.props;
-    firebase
-    .firestore()
-    .collection("user")
-    .doc(username)
-    .get()
-    .then((snap) => {
-      var item = snap._data;
-      this.setState({ firstName : item.first_name })
-      this.setState({ lastName : item.first_name })
-      this.setState({ middleName : item.first_name })
-      this.setState({ nickName : item.first_name })
-      {item.number !== ""  ? this.setState({ number: item.number[0].phone })  : null }
-      {item.email !== "" ?  this.setState({ email: item.email[0].email }): null}
-      {item.messenger !== "" ?  this.setState({ messenger: item.messenger[0].messenger }) : null}
-      {item.socialMedia !== "" ? this.setState({ instagram: item.socialMedia[0].social }) : null}
-      {item.socialMedia1 !== "" ?  this.setState({ instagram2: item.socialMedia1[0].social }) : null}
-      {item.address !== "" ? this.setState({ address: item.address[0].address }) : null}
-      {item.note !== "" ?  this.setState({ note: item.note[0].note }) : null}
-      {item.website !== "" ?  this.setState({ website: item.website[0].website }): null}
-      {item.company !== "" ? this.setState({ company: item.company[0].company }): null}
-      {item.jobTitle !== "" ?  this.setState({ jobTitle: item.jobTitle[0].jobTitle }): null}
-      {item.date !== "" ? this.setState({ date: item.date[0].date })  : null}
-      {item.weddingDate !== "" ?this.setState({ weddingDate: item.weddingDate[0].date }) : null}
-      {item.mobileLabel !== "" ?   this.setState({ number1Lablel: item.mobileLabel[0].label }): null}
-      {item.emailabel !== "" ?  this.setState({ emailLabel: item.emailabel[0].label }): null}
-      {item.messengerlabel !== "" ? this.setState({ messengerLabel: item.messengerlabel[0].label }) : null}
-      {item.addresslabel !== "" ?  this.setState({ addressLabel: item.addresslabel[0].label }) : null}
-      {item.sociallabel !== "" ?  this.setState({ instagramLabel: item.sociallabel[0].label }) : null}
-      {item.sociallabel !== "" ?this.setState({ instagramLabel2: item.sociallabel[1].label }) : null}
-      {item.notelabel !== "" ?  this.setState({ noteLabel: item.notelabel[0].label }) : null}
-      {item.websitelabel !== "" ?this.setState({ websiteLabel: item.websitelabel[0].label }) : null}
-      {item.monday !== "" ? this.setState({ monday: item.monday[0].monday }) : null} 
-      {item.mondayTo !== "" ? this.setState({ mondayTo: item.mondayTo[0].mondayTo }): null}
-      {item.tuesday !== "" ?  this.setState({ tuesday: item.tuesday[0].tuesday }) : null}
-      {item.tuesdayTo !== "" ? this.setState({ tuesdayTo: item.tuesdayTo[0].tuesdayTo }): null}
-      {item.wednesday !== "" ?  this.setState({ wednesday: item.wednesday[0].wednesday }): null}
-      {item.thursday !== "" ?   this.setState({ thursday: item.thursday[0].thursday }): null}
-      {item.thursdayTo !== "" ?  this.setState({ thursdayTo: item.thursdayTo[0].thursdayTo }): null}
-      {item.friday !== "" ?  this.setState({ friday: item.friday[0].friday }): null}
-      {item.saturday !== "" ? this.setState({ saturday: item.saturday[0].saturday }) : null}
-      {item.saturdayTo !== "" ? this.setState({ saturdayTo: item.saturdayTo[0].saturdayTo }): null}
-      {item.sunday !== "" ?  this.setState({ sunday: item.sunday[0].sunday }): null}
-      {item.sundayTo !== "" ? this.setState({ sundayTo: item.sundayTo[0].sundayTo }): null}
-      // console.log("My contact info ---->", item.first_name);
-
-    })
+      this.timeZoneField();
   };
 
 
@@ -387,8 +338,11 @@ class MyContactInfromation extends Component {
       height: 400,
       cropping: true,
     }).then((image) => {
-      this.setState({ profile_image: image.path });
-      console.log("URI ......>", image.path);
+      let i = image.path
+      let filename =  i.substring(i.lastIndexOf('/') + 1);
+        this.setState({ profile_image: image.path });
+      //  this.setState({ profile_image: filename });
+      console.log("URI ......>", filename);
       console.log(image);
       this.setState({
         image: {
@@ -806,7 +760,7 @@ class MyContactInfromation extends Component {
                             </Text>
 
                             <TextInput
-                              placeholder="Phone Number"
+                              placeholder=""
                               style={[
                                 styles.stylefiledText,
                                 { marginBottom: width * 0.025 },
@@ -1042,7 +996,7 @@ class MyContactInfromation extends Component {
                             E-mail Address
                           </Text>
                           <TextInput
-                            placeholder="E-mail Address"
+                            placeholder=""
                             style={[
                               styles.Text_1,
                               { fontSize: width * 0.03, width: width * 0.5 },
@@ -1276,7 +1230,7 @@ class MyContactInfromation extends Component {
                             Address
                           </Text>
                           <TextInput
-                            placeholder="Address"
+                            placeholder=""
                             style={styles.addressField}
                             placeholderTextColor={COLORS.main_text_color}
                             editable={this.state.status ? true : false}
@@ -1291,7 +1245,7 @@ class MyContactInfromation extends Component {
                         </TouchableOpacity>
                       ) : (
                         <TouchableOpacity onPress={this.onPressAddress}>
-                          <Text style={styles.stylefiledText}>Address</Text>
+                           <Text style={styles.stylefiledText}>Address</Text>
                         </TouchableOpacity>
                       )}
                       <View style={styles.rightView}>
@@ -1307,7 +1261,8 @@ class MyContactInfromation extends Component {
                     </View>
                   ) : (
                     <TouchableOpacity style={styles.searchSection}>
-                      <Text style={styles.stylefiledText}>{this.state.address}</Text>
+                     
+                      <Text style={styles.stylefiledText}>Address</Text>
                     </TouchableOpacity>
                   )}
                   {item.show && (
@@ -1502,7 +1457,7 @@ class MyContactInfromation extends Component {
                             Messenger Account
                           </Text>
                           <TextInput
-                            placeholder="Messenger Account"
+                            placeholder=""
                             style={styles.stylefiledText}
                             placeholderTextColor={COLORS.main_text_color}
                             editable={this.state.status ? true : false}
@@ -1733,7 +1688,7 @@ class MyContactInfromation extends Component {
                             Social Media Account
                           </Text>
                           <TextInput
-                            placeholder="Social Media Account"
+                            placeholder=""
                             style={styles.stylefiledText}
                             placeholderTextColor={COLORS.main_text_color}
                             editable={this.state.status ? true : false}
@@ -1961,7 +1916,7 @@ class MyContactInfromation extends Component {
                             Website
                           </Text>
                           <TextInput
-                            placeholder="Website"
+                            placeholder=""
                             style={styles.stylefiledText}
                             placeholderTextColor={COLORS.main_text_color}
                             editable={this.state.status ? true : false}
@@ -2452,7 +2407,7 @@ class MyContactInfromation extends Component {
                             Note
                           </Text>
                           <TextInput
-                            placeholder="Note"
+                            placeholder=""
                             style={styles.addressField}
                             placeholderTextColor={COLORS.main_text_color}
                             editable={this.state.status ? true : false}
@@ -2586,6 +2541,7 @@ class MyContactInfromation extends Component {
   }
 
   onChangeCompany = (company, index) => {
+    this.setState({company :company})
     let dataArray = this.state.companyData;
     let checkBool = false;
     if (dataArray.length !== 0) {
@@ -2608,6 +2564,7 @@ class MyContactInfromation extends Component {
     }
   };
   onChangeJobTitle = (jobTitle, index) => {
+    this.setState({ jobTitle : jobTitle})
     let dataArray = this.state.jobTitleData;
     let checkBool = false;
     if (dataArray.length !== 0) {
@@ -3023,6 +2980,7 @@ class MyContactInfromation extends Component {
                           onChangeText={(company) =>
                             this.onChangeCompany(company, index)
                           }
+                          value={this.state.company}
                           ref={(ref) => {
                             this.companyFocus = ref;
                           }}
@@ -3042,7 +3000,7 @@ class MyContactInfromation extends Component {
                           placeholder=""
                           style={styles.stylefiledText}
                           placeholderTextColor={COLORS.main_text_color}
-                          //value={this.state.jobTitle}
+                           value={this.state.jobTitle}
                           editable={this.state.status ? true : false}
                           onChangeText={(jobTitle) =>
                             this.onChangeJobTitle(jobTitle, index)
@@ -3530,10 +3488,13 @@ class MyContactInfromation extends Component {
     );
   }
   clearData = () =>{
+    let companyData = this.state.companyData[0].company
      this.setState({
-      image:"",image2:"",image3:"",first_name:"",middle_name:"",last_name:"",nick_name:"",companyData:[],jobTitleData:[]
+      image:"",image2:"",image3:"",first_name:"",middle_name:"",last_name:"",nick_name:"",
+      companyData:"",jobTitleData:[] , company : "", jobTitle : ""
      })
-     
+
+     console.log("cle DTATA------>",this.state.companyData[0].company)
   }
   ShowHideTextComponentView = async () => {
     const {

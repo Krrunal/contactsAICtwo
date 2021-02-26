@@ -83,7 +83,29 @@ class pendingRequest extends Component {
       label_ids: "",
       labelName: [],
       label_Name: "",
-      ID_Lable: "",
+      ID_Lable   : "",
+      address  : "",
+      messenger : "",
+      socialMedia : "",
+      website : "",
+      date : "",
+      note : "",
+      company : "",
+      jobTitle : "",
+      monday : "",
+      mondayTo : "",
+      tuesday : "",
+      tuesdayTo : "",
+      wednesday : "",
+      wednesdayTo : "",
+      thursday : "",
+      thursdayTo : "",
+      friday : "",
+      fridayTo : "",
+      saturday : "",
+      saturdayTo : "",
+      sunday : "",
+      sundayTo : "",
     };
   }
   renderHeader() {
@@ -105,6 +127,7 @@ class pendingRequest extends Component {
   };
 
   pendingRequestApiCall = () => {
+     this.setState({ labelName: [] });
     const { user_id } = this.props;
     this.setState({ loader: true }, async () => {
       const baseurl = Constants.baseurl;
@@ -178,7 +201,9 @@ class pendingRequest extends Component {
         .then((responseJson) => {
           //  console.log("label name--->",responseJson)
           this.state.labelName.push(responseJson.data);
+
              console.log("label --->",  this.state.labelName)
+             this.getUsername();
         })
         .catch((error) => {
           console.log("name error---->", error);
@@ -193,7 +218,7 @@ class pendingRequest extends Component {
     if (user_id == r_id) {
       console.log("yes both are same");
       this.getLabelName();
-      this.getUsername();
+      // this.getUsername();
       this.getSendernameAddContactInSender();
     }
   };
@@ -260,7 +285,7 @@ class pendingRequest extends Component {
             var data = this.state.usernameData.map((item) => {
               return { item: item, isSelect: false };
             });
-
+                console.log("labellll------",this.state.labelName)
             var nameData = this.state.name.map((item, index) => {
               return {
                 item: item,
@@ -374,6 +399,7 @@ class pendingRequest extends Component {
       .get()
       .then((snap) => {
         let fields = snap._data;
+        console.log("job title   trueName ---->",fields)
        if(fields.address.length > 0){this.setState({address : fields.address[0].address})}
        if(fields.messenger.length > 0){this.setState({messenger : fields.messenger[0].messenger})}
        if(fields.socialMedia.length > 0){this.setState({socialMedia : fields.socialMedia[0].social})}
@@ -414,12 +440,12 @@ class pendingRequest extends Component {
           senderName[0].item.email,
           "",
           "",
-          this.state.address,
+          this.state.address.toLowerCase(),
           "",
-          this.state.messenger,
+          this.state.messenger.toLowerCase(),
           "",
           "",
-          this.state.socialMedia,
+          this.state.socialMedia.toLowerCase(),
           "",
           "",
           this.state.website,
@@ -427,16 +453,16 @@ class pendingRequest extends Component {
           "",
           this.state.date,
           "",
-          this.state.note,
+          this.state.note.toLowerCase(),
           "",
-          this.state.company,
+          this.state.company.toLowerCase(),
           "",
-          this.state.jobTitle,
-          "",
-          "",
+          this.state.jobTitle.toLowerCase(),
           "",
           "",
-          selected,
+          "",
+          "",
+          selected.toLowerCase(),
           selected,
           label_Name,
           false,
@@ -464,7 +490,7 @@ class pendingRequest extends Component {
       .get()
       .then((snap) => {
         let fields = snap._data;
-        console.log("monday--->",)
+        console.log("job title   username ---->",fields)
         if(fields.address.length > 0){this.setState({address : fields.address[0].address})}
        if(fields.messenger.length > 0){this.setState({messenger : fields.messenger[0].messenger})}
        if(fields.socialMedia.length > 0){this.setState({socialMedia : fields.socialMedia[0].social})}
@@ -505,12 +531,12 @@ class pendingRequest extends Component {
           username.email,
           "",
           "",
-          this.state.address,
+          this.state.address.toLowerCase(),
           "",
-          this.state.messenger,
+          this.state.messenger.toLowerCase(),
           "",
           "",
-          this.state.socialMedia,
+          this.state.socialMedia.toLowerCase(),
           "",
           "",
           this.state.website,
@@ -518,16 +544,16 @@ class pendingRequest extends Component {
           "",
           this.state.date,
           "",
-          this.state.note,
+          this.state.note.toLowerCase(),
           "",
-          this.state.company,
+          this.state.company.toLowerCase(),
           "",
-          this.state.jobTitle,
-          "",
-          "",
+          this.state.jobTitle.toLowerCase(),
           "",
           "",
-          selected,
+          "",
+          "",
+          selected.toLowerCase(),
           selected,
           label_Name,
           false,
@@ -553,6 +579,7 @@ class pendingRequest extends Component {
       trueName: [],
       middleSection: true,
       afterConfirmSection: false,
+      labelName:[]
     });
     this.pendingRequestApiCall();
   };

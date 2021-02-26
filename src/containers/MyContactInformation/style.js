@@ -209,6 +209,7 @@ export default StyleSheet.create({
     width: width * 0.5,
     fontFamily: Font.regular,
     textAlignVertical: "top",
+   
   },
 
   addressRightView: {

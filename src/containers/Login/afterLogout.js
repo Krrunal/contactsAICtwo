@@ -39,10 +39,9 @@ import unchecked from "../../assets/icons/unchecked.png";
 
 // afterLogout
 
-
 var { width, height } = Dimensions.get("window");
 
-class  afterLogout extends Component {
+class afterLogout extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -63,6 +62,7 @@ class  afterLogout extends Component {
       passSection: false,
       loginPass: "",
       emailPassword: "",
+      loginNumber:"",
       empty: "",
     };
   }
@@ -78,9 +78,11 @@ class  afterLogout extends Component {
     this.setState({
       loginUsername: await AsyncStorage.getItem("@loginUsername"),
       loginPass: await AsyncStorage.getItem("@loginPass"),
+      loginNumber: await AsyncStorage.getItem("@loginNumber"),
     });
-    console.log("Login USername------>", this.state.loginUsername);
-    console.log("Login password------>", this.state.loginPass);
+    // console.log("Login USername------>", this.state.loginUsername);
+    // console.log("Login password------>", this.state.loginPass);
+    // console.log("Login loginNumber------>", this.state.loginNumber);
     if (this.state.loginUsername == null && this.state.loginPass == null) {
       this.setState({ checkedOff: false });
       this.setState({ loginUsername: "", loginPass: "" });
@@ -99,23 +101,25 @@ class  afterLogout extends Component {
 
   check = async () => {
     const { password } = this.props;
-    const { emailLogin, checkedOff } = this.state;
-    // console.log("username:=--->", emailLogin);
-    // console.log("Password:=--->", password);
+    const { emailLogin, checkedOff ,phone_number} = this.state;
+    console.log("username:=--->", emailLogin);
+    console.log("Password:=--->", password);
+    console.log("mobile=====>",this.state.phone_number)
     if (checkedOff == false) {
-      if (emailLogin == "") {
+      if ( password == "" ) {
         showToastError("Please fill all required fileds");
       } else {
-        this.setState({ checkedOff: true });
         await AsyncStorage.setItem("@loginUsername", emailLogin);
         await AsyncStorage.setItem("@loginPass", password);
+        await AsyncStorage.setItem("@loginNumber", phone_number);
         this.setState({ checkedOff: true });
       }
+      
     } else {
       this.setState({ checkedOff: false });
       await AsyncStorage.setItem("@loginUsername", "");
       await AsyncStorage.setItem("@loginPass", "");
-      this.setState({ loginUsername: "", loginPass: "" });
+      this.setState({ loginUsername: "", loginPass: "" ,loginNumber:""});
     }
   };
 
@@ -134,15 +138,48 @@ class  afterLogout extends Component {
   };
 
   loginUser = () => {
-    const { loginUsername, loginPass, phone_number ,checkedOff} = this.state;
+    const {
+      loginUsername,
+      loginPass,
+      phone_number,
+      checkedOff,
+      loginNumber,
+    } = this.state;
 
-    console.log("pas chnage prips---->", this.props.password);
-    if(checkedOff == true){
-      this.props.loginEmailChange(loginUsername);
-      this.props.loginEmailChange(phone_number);
-      this.props.loginPassChange(loginPass);
-      this.props.loginUser();
-    }else{
+    if (checkedOff == true) {
+      if (loginUsername || (loginNumber && loginPass == "")) {
+        if (loginUsername !== null) {
+          this.props.loginEmailChange(loginUsername);
+          this.props.loginPassChange(loginPass);
+          this.props.loginUser();
+          console.log(" USername------>", this.state.loginUsername);
+        }
+        if (loginNumber == null) {
+          this.props.loginEmailChange(loginNumber);
+          this.props.loginPassChange(loginPass);
+          this.props.loginUser();
+          console.log(" loginNumber------>", this.state.loginNumber);
+        }
+      } else {
+        const { phone_number, emailLogin } = this.state;
+
+        if (emailLogin == "" && phone_number == "") {
+          showToastError("Please fill all required fileds");
+        }
+        if (emailLogin !== "" && phone_number !== "") {
+          showToastError("Only one filed required");
+        } else {
+          if (phone_number != "") {
+            this.props.loginEmailChange(phone_number);
+            this.props.loginUser();
+          }
+          if (emailLogin != "") {
+            this.props.loginEmailChange(emailLogin);
+            this.props.loginUser();
+          }
+        }
+      }
+    } else {
       const { phone_number, emailLogin } = this.state;
 
       if (emailLogin == "" && phone_number == "") {
@@ -161,31 +198,9 @@ class  afterLogout extends Component {
         }
       }
     }
-    // if (loginUsername !== null && loginPass !== null) {
-    //   this.props.loginEmailChange(loginUsername);
-    //   this.props.loginEmailChange(phone_number);
-    //   this.props.loginPassChange(loginPass);
-    //   this.props.loginUser();
-    // } else {
-    //   const { phone_number, emailLogin } = this.state;
-
-    //   if (emailLogin == "" && phone_number == "") {
-    //     showToastError("Please fill all required fileds");
-    //   }
-    //   if (emailLogin !== "" && phone_number !== "") {
-    //     showToastError("Only one filed required");
-    //   } else {
-    //     if (phone_number != "") {
-    //       this.props.loginEmailChange(phone_number);
-    //       this.props.loginUser();
-    //     }
-    //     if (emailLogin != "") {
-    //       this.props.loginEmailChange(emailLogin);
-    //       this.props.loginUser();
-    //     }
-    //   }
-    // }
+   
   };
+
 
   onSubmit(value) {
     switch (value) {
@@ -289,7 +304,11 @@ class  afterLogout extends Component {
                     phoneInputStyle={styles.mobileInputText}
                     dialCodeTextStyle={styles.mobileInputText}
                     dialCode={this.state.dialCode}
-                    value={phone}
+                    value={
+                      this.state.loginNumber !== ""
+                        ? this.state.loginNumber
+                        : phone
+                    }
                     inputRef={"phone"}
                     keyboardType={"numeric"}
                     onChangeText={this.onChangeNumber}
@@ -298,13 +317,22 @@ class  afterLogout extends Component {
                   />
                 ) : null}
 
-                {this.state.viewPhone ? (
+               {this.state.viewPhone ? (
                   <TouchableHighlight
                     style={styles.viewEmail}
                     onPress={this.viewPhoneToggle}
                     underlayColor="#DDDDDD"
                   >
-                    <Text style={styles.phnText}>Phone Number</Text>
+                     {this.state.loginNumber == null ||
+                    this.state.loginNumber == "" ? (
+                      <Text style={styles.phnText}>Phone Number</Text>
+                    ) : (
+                      <Text style={styles.phnText}>
+                        {this.state.loginNumber}
+                      </Text>
+                    )}
+                    {/* this.state.loginNumber */}
+                    {/* <Text style={styles.phnText}>Phone Number</Text> */}
                   </TouchableHighlight>
                 ) : null}
 
@@ -613,7 +641,7 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps, actions)( afterLogout);
+export default connect(mapStateToProps, actions)(afterLogout);
 
 const Container = styled.View`
   flex: 1;

@@ -13,7 +13,6 @@ import {
 } from "react-native";
 import React, { Component, useState } from "react";
 import styled, { ThemeProvider } from "styled-components/native";
-import firebase from "../../services/FirebaseDatabase/db";
 
 import Add from "../AddContact/index";
 import AsyncStorage from "@react-native-community/async-storage";
@@ -32,6 +31,7 @@ import Toast from "react-native-easy-toast";
 import checked from '../../assets/icons/checked.png'
 import { connect } from "react-redux";
 import downArrow from "../../assets/icons/dropIcon.png";
+import firebase from "../../services/FirebaseDatabase/db";
 import { manageLabelToFirebase } from "../../services/FirebaseDatabase/managelabelToFirebase";
 import moment from "moment";
 import styles from "./style.js";
@@ -139,7 +139,7 @@ class ManageLable extends Component {
       selectedName: await AsyncStorage.getItem("@selectedName"),
     });
    
-  
+    this.setState({ isLoading: true })
     this.focusListener = navigation.addListener("didFocus", async () => {
       this.labelList();
     });
@@ -193,7 +193,7 @@ class ManageLable extends Component {
          
           var item = snap._data;
           this.setState({ contact: item });
-      //    console.log("social media ---->", item.date[0].date);
+           console.log("social media ---->",item);
           this.setState({ profile_image: item.profile_image });
           this.setState({ profile_image2: item.profile_image2 });
           this.setState({ profile_image3: item.profile_image3});
@@ -207,6 +207,7 @@ class ManageLable extends Component {
          {item.socialMedia !== "" ? this.setState({ socialMedia: item.socialMedia[0].social }) : null}
          {item.socialMedia1 !== "" ?  this.setState({ socialMedia2: item.socialMedia1[0].social }) : null}
          {item.address !== "" ? this.setState({ address: item.address[0].address }) : null}
+         {item.address !== "" ? this.setState({ address2: item.address[1].address }) : null}
          {item.note !== "" ?  this.setState({ note: item.note[0].note }) : null}
          {item.website !== "" ?  this.setState({ website: item.website[0].website }): null}
          {item.company !== "" ? this.setState({ company: item.company[0].company }): null}
@@ -218,9 +219,11 @@ class ManageLable extends Component {
          {item.tuesday !== "" ?  this.setState({ tuesday: item.tuesday[0].tuesday }) : null}
          {item.tuesdayTo !== "" ? this.setState({ tuesdayTo: item.tuesdayTo[0].tuesdayTo }): null}
          {item.wednesday !== "" ?  this.setState({ wednesday: item.wednesday[0].wednesday }): null}
+         {item.wednesdayTo !== "" ?  this.setState({ wednesdayTo: item.wednesdayTo[0].wednesdayTo }): null}
          {item.thursday !== "" ?   this.setState({ thursday: item.thursday[0].thursday }): null}
          {item.thursdayTo !== "" ?  this.setState({ thursdayTo: item.thursdayTo[0].thursdayTo }): null}
          {item.friday !== "" ?  this.setState({ friday: item.friday[0].friday }): null}
+         {item.fridayTo !== "" ?  this.setState({ fridayTo: item.fridayTo[0].fridayTo }): null}
          {item.saturday !== "" ? this.setState({ saturday: item.saturday[0].saturday }) : null}
          {item.saturdayTo !== "" ? this.setState({ saturdayTo: item.saturdayTo[0].saturdayTo }): null}
          {item.sunday !== "" ?  this.setState({ sunday: item.sunday[0].sunday }): null}
@@ -779,7 +782,7 @@ class ManageLable extends Component {
                   { marginTop: Metrics.smallMargin },
                 ]}
               >
-                Address
+                {this.state.address2}
               </Text>
 
               <View style={styles.rightView}>

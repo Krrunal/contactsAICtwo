@@ -107,12 +107,12 @@ MERGED from [androidx.transition:transition:1.2.0] /Users/macmini/.gradle/caches
 MERGED from [androidx.vectordrawable:vectordrawable-animated:1.1.0] /Users/macmini/.gradle/caches/transforms-2/files-2.1/3829ba6d6c067776e10ac6e2636dab83/vectordrawable-animated-1.1.0/AndroidManifest.xml:17:1-24:12
 MERGED from [androidx.vectordrawable:vectordrawable:1.1.0] /Users/macmini/.gradle/caches/transforms-2/files-2.1/2bdb88e4c08d14d5c60a5b13b1dcd17e/vectordrawable-1.1.0/AndroidManifest.xml:17:1-24:12
 MERGED from [androidx.asynclayoutinflater:asynclayoutinflater:1.0.0] /Users/macmini/.gradle/caches/transforms-2/files-2.1/f567d46ec53baf83f5ff820e5220e26e/asynclayoutinflater-1.0.0/AndroidManifest.xml:17:1-22:12
-MERGED from [androidx.core:core:1.5.0-beta01] /Users/macmini/.gradle/caches/transforms-2/files-2.1/3be0659c237fc1df97007c15c1dcc4ca/core-1.5.0-beta01/AndroidManifest.xml:17:1-26:12
+MERGED from [androidx.core:core:1.5.0-beta02] /Users/macmini/.gradle/caches/transforms-2/files-2.1/63624cce877f6ba4cd8ac853b4148a9e/core-1.5.0-beta02/AndroidManifest.xml:17:1-26:12
 MERGED from [androidx.cursoradapter:cursoradapter:1.0.0] /Users/macmini/.gradle/caches/transforms-2/files-2.1/9534d5be3e6dc4c9637b1caa91e95bfe/cursoradapter-1.0.0/AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.room:room-runtime:2.2.5] /Users/macmini/.gradle/caches/transforms-2/files-2.1/f38faf73cc4f18269ea756f0e666e16b/room-runtime-2.2.5/AndroidManifest.xml:17:1-31:12
 MERGED from [androidx.sqlite:sqlite-framework:2.1.0] /Users/macmini/.gradle/caches/transforms-2/files-2.1/97466f2e780e591b8b04ee519bb6ee78/sqlite-framework-2.1.0/AndroidManifest.xml:17:1-24:12
 MERGED from [androidx.sqlite:sqlite:2.1.0] /Users/macmini/.gradle/caches/transforms-2/files-2.1/9a96b893d13e811c8cbf9acbb48f0441/sqlite-2.1.0/AndroidManifest.xml:17:1-24:12
-MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.0] /Users/macmini/.gradle/caches/transforms-2/files-2.1/e2741433793b0911471488659ab1873a/versionedparcelable-1.1.0/AndroidManifest.xml:17:1-27:12
+MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.1] /Users/macmini/.gradle/caches/transforms-2/files-2.1/a2fa1a9516e8898034ceabc71f8ae418/versionedparcelable-1.1.1/AndroidManifest.xml:17:1-27:12
 MERGED from [androidx.interpolator:interpolator:1.0.0] /Users/macmini/.gradle/caches/transforms-2/files-2.1/d0907bd6436be24da22db631b141e0e3/interpolator-1.0.0/AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.exifinterface:exifinterface:1.1.0-beta01] /Users/macmini/.gradle/caches/transforms-2/files-2.1/52f5fd8dd9995dc636ae4b10c0b78c65/exifinterface-1.1.0-beta01/AndroidManifest.xml:17:1-24:12
 MERGED from [com.google.firebase:firebase-components:16.1.0] /Users/macmini/.gradle/caches/transforms-2/files-2.1/8fcffd4651963e4ecc661c3a1cfe73ab/jetified-firebase-components-16.1.0/AndroidManifest.xml:15:1-23:12
@@ -339,18 +339,18 @@ MERGED from [com.google.android.gms:play-services-measurement-base:17.5.0] /User
 MERGED from [com.google.android.gms:play-services-measurement-base:17.5.0] /Users/macmini/.gradle/caches/transforms-2/files-2.1/f7c2853433465b0e7a20555ffd158202/jetified-play-services-measurement-base-17.5.0/AndroidManifest.xml:7:5-20
 MERGED from [com.google.android.gms:play-services-basement:17.3.0] /Users/macmini/.gradle/caches/transforms-2/files-2.1/c0d6fb0019130460a030249dd32f6a45/jetified-play-services-basement-17.3.0/AndroidManifest.xml:22:5-26:19
 MERGED from [com.google.android.gms:play-services-basement:17.3.0] /Users/macmini/.gradle/caches/transforms-2/files-2.1/c0d6fb0019130460a030249dd32f6a45/jetified-play-services-basement-17.3.0/AndroidManifest.xml:22:5-26:19
-MERGED from [androidx.core:core:1.5.0-beta01] /Users/macmini/.gradle/caches/transforms-2/files-2.1/3be0659c237fc1df97007c15c1dcc4ca/core-1.5.0-beta01/AndroidManifest.xml:24:5-89
-MERGED from [androidx.core:core:1.5.0-beta01] /Users/macmini/.gradle/caches/transforms-2/files-2.1/3be0659c237fc1df97007c15c1dcc4ca/core-1.5.0-beta01/AndroidManifest.xml:24:5-89
+MERGED from [androidx.core:core:1.5.0-beta02] /Users/macmini/.gradle/caches/transforms-2/files-2.1/63624cce877f6ba4cd8ac853b4148a9e/core-1.5.0-beta02/AndroidManifest.xml:24:5-89
+MERGED from [androidx.core:core:1.5.0-beta02] /Users/macmini/.gradle/caches/transforms-2/files-2.1/63624cce877f6ba4cd8ac853b4148a9e/core-1.5.0-beta02/AndroidManifest.xml:24:5-89
 MERGED from [androidx.room:room-runtime:2.2.5] /Users/macmini/.gradle/caches/transforms-2/files-2.1/f38faf73cc4f18269ea756f0e666e16b/room-runtime-2.2.5/AndroidManifest.xml:24:5-29:19
 MERGED from [androidx.room:room-runtime:2.2.5] /Users/macmini/.gradle/caches/transforms-2/files-2.1/f38faf73cc4f18269ea756f0e666e16b/room-runtime-2.2.5/AndroidManifest.xml:24:5-29:19
-MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.0] /Users/macmini/.gradle/caches/transforms-2/files-2.1/e2741433793b0911471488659ab1873a/versionedparcelable-1.1.0/AndroidManifest.xml:24:5-25:19
-MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.0] /Users/macmini/.gradle/caches/transforms-2/files-2.1/e2741433793b0911471488659ab1873a/versionedparcelable-1.1.0/AndroidManifest.xml:24:5-25:19
+MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.1] /Users/macmini/.gradle/caches/transforms-2/files-2.1/a2fa1a9516e8898034ceabc71f8ae418/versionedparcelable-1.1.1/AndroidManifest.xml:24:5-25:19
+MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.1] /Users/macmini/.gradle/caches/transforms-2/files-2.1/a2fa1a9516e8898034ceabc71f8ae418/versionedparcelable-1.1.1/AndroidManifest.xml:24:5-25:19
 MERGED from [androidx.biometric:biometric:1.0.1] /Users/macmini/.gradle/caches/transforms-2/files-2.1/49015da0e9e2cbad696fcb11b4ba217d/biometric-1.0.1/AndroidManifest.xml:27:5-32:19
 MERGED from [androidx.biometric:biometric:1.0.1] /Users/macmini/.gradle/caches/transforms-2/files-2.1/49015da0e9e2cbad696fcb11b4ba217d/biometric-1.0.1/AndroidManifest.xml:27:5-32:19
 MERGED from [com.facebook.soloader:annotation:0.8.2] /Users/macmini/.gradle/caches/transforms-2/files-2.1/60e87bfe728c6b45222db78a4735fbb4/jetified-annotation-0.8.2/AndroidManifest.xml:11:5-20
 MERGED from [com.facebook.soloader:annotation:0.8.2] /Users/macmini/.gradle/caches/transforms-2/files-2.1/60e87bfe728c6b45222db78a4735fbb4/jetified-annotation-0.8.2/AndroidManifest.xml:11:5-20
 	android:appComponentFactory
-		ADDED from [androidx.core:core:1.5.0-beta01] /Users/macmini/.gradle/caches/transforms-2/files-2.1/3be0659c237fc1df97007c15c1dcc4ca/core-1.5.0-beta01/AndroidManifest.xml:24:18-86
+		ADDED from [androidx.core:core:1.5.0-beta02] /Users/macmini/.gradle/caches/transforms-2/files-2.1/63624cce877f6ba4cd8ac853b4148a9e/core-1.5.0-beta02/AndroidManifest.xml:24:18-86
 	android:label
 		ADDED from /Users/macmini/Desktop/contactsAICtwo/android/app/src/main/AndroidManifest.xml:15:7-39
 		ADDED from /Users/macmini/Desktop/contactsAICtwo/android/app/src/main/AndroidManifest.xml:15:7-39
@@ -704,8 +704,8 @@ MERGED from [androidx.vectordrawable:vectordrawable:1.1.0] /Users/macmini/.gradl
 MERGED from [androidx.vectordrawable:vectordrawable:1.1.0] /Users/macmini/.gradle/caches/transforms-2/files-2.1/2bdb88e4c08d14d5c60a5b13b1dcd17e/vectordrawable-1.1.0/AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.asynclayoutinflater:asynclayoutinflater:1.0.0] /Users/macmini/.gradle/caches/transforms-2/files-2.1/f567d46ec53baf83f5ff820e5220e26e/asynclayoutinflater-1.0.0/AndroidManifest.xml:20:5-44
 MERGED from [androidx.asynclayoutinflater:asynclayoutinflater:1.0.0] /Users/macmini/.gradle/caches/transforms-2/files-2.1/f567d46ec53baf83f5ff820e5220e26e/asynclayoutinflater-1.0.0/AndroidManifest.xml:20:5-44
-MERGED from [androidx.core:core:1.5.0-beta01] /Users/macmini/.gradle/caches/transforms-2/files-2.1/3be0659c237fc1df97007c15c1dcc4ca/core-1.5.0-beta01/AndroidManifest.xml:20:5-22:41
-MERGED from [androidx.core:core:1.5.0-beta01] /Users/macmini/.gradle/caches/transforms-2/files-2.1/3be0659c237fc1df97007c15c1dcc4ca/core-1.5.0-beta01/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.core:core:1.5.0-beta02] /Users/macmini/.gradle/caches/transforms-2/files-2.1/63624cce877f6ba4cd8ac853b4148a9e/core-1.5.0-beta02/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.core:core:1.5.0-beta02] /Users/macmini/.gradle/caches/transforms-2/files-2.1/63624cce877f6ba4cd8ac853b4148a9e/core-1.5.0-beta02/AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.cursoradapter:cursoradapter:1.0.0] /Users/macmini/.gradle/caches/transforms-2/files-2.1/9534d5be3e6dc4c9637b1caa91e95bfe/cursoradapter-1.0.0/AndroidManifest.xml:20:5-44
 MERGED from [androidx.cursoradapter:cursoradapter:1.0.0] /Users/macmini/.gradle/caches/transforms-2/files-2.1/9534d5be3e6dc4c9637b1caa91e95bfe/cursoradapter-1.0.0/AndroidManifest.xml:20:5-44
 MERGED from [androidx.room:room-runtime:2.2.5] /Users/macmini/.gradle/caches/transforms-2/files-2.1/f38faf73cc4f18269ea756f0e666e16b/room-runtime-2.2.5/AndroidManifest.xml:20:5-22:41
@@ -714,8 +714,8 @@ MERGED from [androidx.sqlite:sqlite-framework:2.1.0] /Users/macmini/.gradle/cach
 MERGED from [androidx.sqlite:sqlite-framework:2.1.0] /Users/macmini/.gradle/caches/transforms-2/files-2.1/97466f2e780e591b8b04ee519bb6ee78/sqlite-framework-2.1.0/AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.sqlite:sqlite:2.1.0] /Users/macmini/.gradle/caches/transforms-2/files-2.1/9a96b893d13e811c8cbf9acbb48f0441/sqlite-2.1.0/AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.sqlite:sqlite:2.1.0] /Users/macmini/.gradle/caches/transforms-2/files-2.1/9a96b893d13e811c8cbf9acbb48f0441/sqlite-2.1.0/AndroidManifest.xml:20:5-22:41
-MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.0] /Users/macmini/.gradle/caches/transforms-2/files-2.1/e2741433793b0911471488659ab1873a/versionedparcelable-1.1.0/AndroidManifest.xml:20:5-22:41
-MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.0] /Users/macmini/.gradle/caches/transforms-2/files-2.1/e2741433793b0911471488659ab1873a/versionedparcelable-1.1.0/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.1] /Users/macmini/.gradle/caches/transforms-2/files-2.1/a2fa1a9516e8898034ceabc71f8ae418/versionedparcelable-1.1.1/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.1] /Users/macmini/.gradle/caches/transforms-2/files-2.1/a2fa1a9516e8898034ceabc71f8ae418/versionedparcelable-1.1.1/AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.interpolator:interpolator:1.0.0] /Users/macmini/.gradle/caches/transforms-2/files-2.1/d0907bd6436be24da22db631b141e0e3/interpolator-1.0.0/AndroidManifest.xml:20:5-44
 MERGED from [androidx.interpolator:interpolator:1.0.0] /Users/macmini/.gradle/caches/transforms-2/files-2.1/d0907bd6436be24da22db631b141e0e3/interpolator-1.0.0/AndroidManifest.xml:20:5-44
 MERGED from [androidx.exifinterface:exifinterface:1.1.0-beta01] /Users/macmini/.gradle/caches/transforms-2/files-2.1/52f5fd8dd9995dc636ae4b10c0b78c65/exifinterface-1.1.0-beta01/AndroidManifest.xml:20:5-22:41

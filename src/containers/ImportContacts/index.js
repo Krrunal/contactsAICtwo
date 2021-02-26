@@ -44,6 +44,9 @@ class importContact extends Component {
     aicGivenName: [],
     aicGivenNames: [],
     checkedOff: false,
+    addressLable:"",
+    address1:"",
+    website:"",
   };
 
   componentDidMount() {
@@ -366,7 +369,7 @@ class importContact extends Component {
 
           fetchedContacts.map((item) => {
             if (item.isSelected == true) {
-              console.log("fetch contactss------>", item.thumbnailPath);
+              console.log("fetch contactss------>", item);
               if (item.urlAddresses.length > 0) {
                 const address = item.urlAddresses.find(({ url }) => url == url);
                 let address1 = address.url;
@@ -416,13 +419,13 @@ class importContact extends Component {
                 this.state.website,
                 "",
                 "",
-                item.birthday,
+                "",
                 "",
                 "",
                 item.note.toLowerCase(),
                 item.company.toLowerCase(),
                 "",
-                item.jobTitle.toLowerCase(),
+                item.jobTitle,
                 "",
                 "",
                 "",

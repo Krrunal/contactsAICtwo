@@ -226,9 +226,7 @@ class chooseContactFromLabel extends Component {
                     this.props.theme.mode === "light" ? "#1374A3" : "white",
                 },
               ]}
-            >
-              {" "}
-              Select (De-select) All
+            > Select (De-select) All
             </Text>
           </TouchableOpacity>
           <ScrollView>
@@ -325,7 +323,9 @@ class chooseContactFromLabel extends Component {
         ? labelIDs.push(item.labelID)
         : console.log("selected------->", item.labelID);
     });
-    console.log("labele------->",this.state.labelIDs);
+    
+    let ids = this.state.labelIDs.toString()
+    console.log("labele------->",ids);
     const deviceid = this.state.qrCodeData.fcmToken;
     const baseurl = Constants.baseurl;
     const receive_id = this.state.qrCodeData.user_id;
@@ -335,7 +335,7 @@ class chooseContactFromLabel extends Component {
     _body.append("receive_id", receive_id);
     _body.append("username", username);
     _body.append("sender_id", user_id);
-    _body.append("label_id", labelIDs[0]);
+    _body.append("label_id", labelIDs);
     fetch(baseurl + "android", {
       method: "POST",
       headers: {
