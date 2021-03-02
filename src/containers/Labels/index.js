@@ -76,6 +76,7 @@ class labels extends Component {
             var labelData = responseJson.data.map((item,index) => {
                  return { relation: item.relation, isSelect: false };
               });
+              console.log(" labelData    --->", labelData); 
             this.setState({ dataManage : labelData, isLoading: false });
            this.setState({ isLoading: false });
           }

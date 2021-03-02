@@ -48,7 +48,6 @@ import moment from "moment";
 import note from "../../assets/images/note.png";
 import reset from "../../assets/images/reset.png";
 import styles from "./style.js";
-import { updateMyInfo } from "../../services/FirebaseDatabase/updateMyInfo";
 import website from "../../assets/images/website.png";
 import websiteImg from "../../assets/images/website.png";
 
@@ -87,12 +86,8 @@ class MyContactInfromation extends Component {
       emailInput: [{ label: "Select Type...", show: false }],
       emailData: [],
       emailLabelList: [
-        { label: "Personal(Mobile)" },
-        { label: "Personal(Lanline)" },
-        { label: "Work(Mobile)" },
-        { label: "Work(Landline)" },
-        { label: "Personal Fax" },
-        { label: "Work Fax" },
+        { label: "Personal" },
+        { label: "Work" },
       ],
       //address
       addressInput: [{ label: "Select Type...", show: false }],
@@ -363,8 +358,8 @@ class MyContactInfromation extends Component {
       cropping: true,
     }).then((image) => {
       this.setState({ profile_image: image.path });
-      console.log("URI ......>", image.path);
-      console.log(image);
+      // console.log("URI ......>", image.path);
+      // console.log(image);
       this.setState({
         image: {
           uri: image.path,
@@ -2643,6 +2638,7 @@ class MyContactInfromation extends Component {
   }
 
   onChangeMonday = (monday, index) => {
+    this.setState({ monday : monday})
     let dataArray = this.state.mondayData;
     let checkBool = false;
     if (dataArray.length !== 0) {
@@ -2665,6 +2661,7 @@ class MyContactInfromation extends Component {
     }
   };
   onChangeMondayTo = (mondayTo, index) => {
+    this.setState({ mondayTo : mondayTo})
     let dataArray = this.state.mondayTOData;
     let checkBool = false;
     if (dataArray.length !== 0) {
@@ -2688,6 +2685,7 @@ class MyContactInfromation extends Component {
   };
 
   onChangeTuesday = (tuesday, index) => {
+    this.setState({ tuesday : tuesday})
     let dataArray = this.state.tuesdayData;
     let checkBool = false;
     if (dataArray.length !== 0) {
@@ -2710,6 +2708,7 @@ class MyContactInfromation extends Component {
     }
   };
   onChangeTuesdayTo = (tuesdayTo, index) => {
+     this.setState({ tuesdayTo : tuesdayTo})
     let dataArray = this.state.tuesdayTOData;
     let checkBool = false;
     if (dataArray.length !== 0) {
@@ -2732,6 +2731,7 @@ class MyContactInfromation extends Component {
     }
   };
   onChangeWednesday = (wednesday, index) => {
+    this.setState({ wednesday : wednesday})
     let dataArray = this.state.wednesdayData;
     let checkBool = false;
     if (dataArray.length !== 0) {
@@ -2754,6 +2754,7 @@ class MyContactInfromation extends Component {
     }
   };
   onChangeWednesdayTo = (wednesdayTo, index) => {
+    this.setState({ wednesdayTo : wednesdayTo})
     let dataArray = this.state.wednesdayTOData;
     let checkBool = false;
     if (dataArray.length !== 0) {
@@ -2776,6 +2777,7 @@ class MyContactInfromation extends Component {
     }
   };
   onChangeThursday = (thursday, index) => {
+    this.setState({ thursday : thursday})
     let dataArray = this.state.thursdayData;
     let checkBool = false;
     if (dataArray.length !== 0) {
@@ -2798,6 +2800,7 @@ class MyContactInfromation extends Component {
     }
   };
   onChangeThursdayTo = (thursdayTo, index) => {
+     this.setState({ thursdayTo : thursdayTo})
     let dataArray = this.state.thursdayTOData;
     let checkBool = false;
     if (dataArray.length !== 0) {
@@ -2820,6 +2823,7 @@ class MyContactInfromation extends Component {
     }
   };
   onChangeFriday = (friday, index) => {
+    this.setState({ friday : friday})
     let dataArray = this.state.fridayData;
     let checkBool = false;
     if (dataArray.length !== 0) {
@@ -2842,6 +2846,7 @@ class MyContactInfromation extends Component {
     }
   };
   onChangeFridayTo = (fridayTo, index) => {
+    this.setState({ fridayTo : fridayTo})
     let dataArray = this.state.fridayTOData;
     let checkBool = false;
     if (dataArray.length !== 0) {
@@ -2864,6 +2869,7 @@ class MyContactInfromation extends Component {
     }
   };
   onChangeSaturday = (saturday, index) => {
+    this.setState({ saturday : saturday})
     let dataArray = this.state.saturdayData;
     let checkBool = false;
     if (dataArray.length !== 0) {
@@ -2886,6 +2892,7 @@ class MyContactInfromation extends Component {
     }
   };
   onChangeSaturdayTo = (saturdayTo, index) => {
+    this.setState({ saturdayTo : saturdayTo})
     let dataArray = this.state.saturdayTOData;
     let checkBool = false;
     if (dataArray.length !== 0) {
@@ -2908,6 +2915,7 @@ class MyContactInfromation extends Component {
     }
   };
   onChangeSunday = (sunday, index) => {
+    this.setState({ sunday : sunday})
     let dataArray = this.state.sundayData;
     let checkBool = false;
     if (dataArray.length !== 0) {
@@ -2930,6 +2938,7 @@ class MyContactInfromation extends Component {
     }
   };
   onChangeSundayTo = (sundayTo, index) => {
+    this.setState({ sundayTo : sundayTo})
     let dataArray = this.state.sundayTOData;
     let checkBool = false;
     if (dataArray.length !== 0) {
@@ -3048,7 +3057,9 @@ class MyContactInfromation extends Component {
                                 editable={this.state.status ? true : false}
                                 onChangeText={(monday) =>
                                   this.onChangeMonday(monday, index)
-                                }
+                                } 
+                                value={this.state.monday}
+                                
                                 ref={(ref) => {
                                   this.mondayFocus = ref;
                                 }}
@@ -3072,6 +3083,7 @@ class MyContactInfromation extends Component {
                                 onChangeText={(mondayTo) =>
                                   this.onChangeMondayTo(mondayTo, index)
                                 }
+                                value={this.state.mondayTo}
                               />
                             </View>
                           </View>
@@ -3096,6 +3108,7 @@ class MyContactInfromation extends Component {
                                 onChangeText={(tuesday) =>
                                   this.onChangeTuesday(tuesday, index)
                                 }
+                                value={this.state.tuesday}
                               />
                             </View>
                             <Text
@@ -3115,6 +3128,7 @@ class MyContactInfromation extends Component {
                                 onChangeText={(tuesdayTo) =>
                                   this.onChangeTuesdayTo(tuesdayTo, index)
                                 }
+                                value={this.state.tuesdayTo}
                               />
                             </View>
                           </View>
@@ -3139,6 +3153,7 @@ class MyContactInfromation extends Component {
                                 onChangeText={(wednesday) =>
                                   this.onChangeWednesday(wednesday, index)
                                 }
+                                value={this.state.wednesday}
                               />
                             </View>
                             <Text
@@ -3158,6 +3173,7 @@ class MyContactInfromation extends Component {
                                 onChangeText={(wednesdayTo) =>
                                   this.onChangeWednesdayTo(wednesdayTo, index)
                                 }
+                                value={this.state.wednesdayTo}
                               />
                             </View>
                           </View>
@@ -3182,6 +3198,7 @@ class MyContactInfromation extends Component {
                                 onChangeText={(thursday) =>
                                   this.onChangeThursday(thursday, index)
                                 }
+                                value={this.state.thursday}
                               />
                             </View>
                             <Text
@@ -3201,6 +3218,7 @@ class MyContactInfromation extends Component {
                                 onChangeText={(thursdayTo) =>
                                   this.onChangeThursdayTo(thursdayTo, index)
                                 }
+                                value={this.state.thursdayTo}
                               />
                             </View>
                           </View>
@@ -3225,6 +3243,7 @@ class MyContactInfromation extends Component {
                                 onChangeText={(friday) =>
                                   this.onChangeFriday(friday, index)
                                 }
+                                value={this.state.friday}
                               />
                             </View>
                             <Text
@@ -3244,6 +3263,7 @@ class MyContactInfromation extends Component {
                                 onChangeText={(fridayTo) =>
                                   this.onChangeFridayTo(fridayTo, index)
                                 }
+                                value={this.state.fridayTo}
                               />
                             </View>
                           </View>
@@ -3268,6 +3288,7 @@ class MyContactInfromation extends Component {
                                 onChangeText={(saturday) =>
                                   this.onChangeSaturday(saturday, index)
                                 }
+                                value={this.state.saturday}
                               />
                             </View>
                             <Text
@@ -3287,6 +3308,7 @@ class MyContactInfromation extends Component {
                                 onChangeText={(saturdayTo) =>
                                   this.onChangeSaturdayTo(saturdayTo, index)
                                 }
+                                value={this.state.saturdayTo}
                               />
                             </View>
                           </View>
@@ -3311,6 +3333,7 @@ class MyContactInfromation extends Component {
                                 onChangeText={(sunday) =>
                                   this.onChangeSunday(sunday, index)
                                 }
+                                value={this.state.sunday}
                               />
                             </View>
                             <Text
@@ -3330,6 +3353,7 @@ class MyContactInfromation extends Component {
                                 onChangeText={(sundayTo) =>
                                   this.onChangeSundayTo(sundayTo, index)
                                 }
+                                value={this.state.sundayTo}
                               />
                             </View>
                           </View>
@@ -3488,13 +3512,25 @@ class MyContactInfromation extends Component {
     );
   }
   clearData = () =>{
-    let companyData = this.state.companyData[0].company
+  
      this.setState({
       image:"",image2:"",image3:"",first_name:"",middle_name:"",last_name:"",nick_name:"",
       companyData:"",jobTitleData:[] , company : "", jobTitle : ""
-     })
+    ,monday:"" , mondayTo: "",
+    tuesday: "",
+    tuesdayTo: "",
+    wednesday: "",
+    wednesdayTo: "",
+    thursday: "",
+    thursdayTo: "",
+    friday: "",
+    fridayTo: "",
+    saturday: "",
+    saturdayTo: "",
+    sunday: "",
+    sundayTo: "",
+    })
 
-     console.log("cle DTATA------>",this.state.companyData[0].company)
   }
   ShowHideTextComponentView = async () => {
     const {
@@ -3547,8 +3583,21 @@ class MyContactInfromation extends Component {
       this.clearData()
     }
 
+
+   
+
     if (profile_image == "") {
     } else {
+      let filename =  profile_image.substring(profile_image.lastIndexOf('/') + 1); 
+          firebase
+            .storage()
+            .ref(filename)
+            .putFile(filename)
+            .then((snapshot) => {
+              console.log(`${filename} has been successfully uploaded.`);
+            })
+        .catch((e) => console.log('uploading image error => ', e));
+              
       firebase
         .firestore()
         .collection("user")
@@ -3558,6 +3607,8 @@ class MyContactInfromation extends Component {
 
     if (profile_image2 == "") {
     } else {
+
+   
       firebase
         .firestore()
         .collection("user")
@@ -3901,12 +3952,13 @@ class MyContactInfromation extends Component {
         .doc(`${username}`)
         .update({ sundayTo: sundayTOData });
     }
-    let dateNotify = this.state.notificationTime[0].toString();
-
-    console.log("notiictaip time=-->", dateNotify);
+    
+    // console.log("notiictaip time=-->", dateNotify);
 
     if (this.state.notificationTime == "") {
     } else {
+    let dateNotify = this.state.notificationTime[0].toString();
+
       firebase
         .firestore()
         .collection("user")

@@ -193,7 +193,7 @@ class ManageLable extends Component {
          
           var item = snap._data;
           this.setState({ contact: item });
-           console.log("social media ---->",item);
+          console.log("social media ---->",item);
           this.setState({ profile_image: item.profile_image });
           this.setState({ profile_image2: item.profile_image2 });
           this.setState({ profile_image3: item.profile_image3});
@@ -207,7 +207,7 @@ class ManageLable extends Component {
          {item.socialMedia !== "" ? this.setState({ socialMedia: item.socialMedia[0].social }) : null}
          {item.socialMedia1 !== "" ?  this.setState({ socialMedia2: item.socialMedia1[0].social }) : null}
          {item.address !== "" ? this.setState({ address: item.address[0].address }) : null}
-         {item.address !== "" ? this.setState({ address2: item.address[1].address }) : null}
+        //  {item.address.length > 1  == "" ? this.setState({ address2: item.address[1].address }) : null}
          {item.note !== "" ?  this.setState({ note: item.note[0].note }) : null}
          {item.website !== "" ?  this.setState({ website: item.website[0].website }): null}
          {item.company !== "" ? this.setState({ company: item.company[0].company }): null}

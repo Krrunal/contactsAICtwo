@@ -48,7 +48,6 @@ import moment from "moment";
 import note from "../../assets/images/note.png";
 import reset from "../../assets/images/reset.png";
 import styles from "./style.js";
-import { updateMyInfo } from "../../services/FirebaseDatabase/updateMyInfo";
 import website from "../../assets/images/website.png";
 import websiteImg from "../../assets/images/website.png";
 

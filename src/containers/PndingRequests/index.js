@@ -122,12 +122,13 @@ class pendingRequest extends Component {
     this.setState({
       qrCodeData: JSON.parse(await AsyncStorage.getItem("@qrData")),
     });
-    this.pendingRequestApiCall();
     this.labelList();
+    this.pendingRequestApiCall();
+  
   };
 
   pendingRequestApiCall = () => {
-     this.setState({ labelName: [] });
+    //  this.setState({ labelName: [] });
     const { user_id } = this.props;
     this.setState({ loader: true }, async () => {
       const baseurl = Constants.baseurl;
@@ -151,15 +152,14 @@ class pendingRequest extends Component {
           this.setState({ pendingRequest: data });
 
           if (data == "") {
-            // console.log("empty---->", this.state.names);
             this.setState({ names: [] });
-            // console.log("empty---->", this.state.names);
+            this.setState({labelName : []})
             this.setState({ loader: false });
           } else {
             this.state.pendingRequest.map((item) => {
-              console.log("penidng---->", item);
               this.state.p_id.push(item.id);
               this.state.label_id.push(item.label_id);
+              console.log("penidng---->",  this.state.label_id);
               let formateDate = moment(item.created_at).format("MMMM, Do YYYY");
               let formateTime = moment(item.created_at).format("LLLL");
               this.state.requestDate.push(formateDate);
@@ -167,7 +167,6 @@ class pendingRequest extends Component {
             });
 
             var pID = this.state.p_id.map((item, index) => {
-              // console.log("empty---->",item);
               return { item: item, isSelect: false };
             });
             this.setState({
@@ -186,8 +185,12 @@ class pendingRequest extends Component {
     });
   };
   getLabelName = () => {
-    //  console.log("lael ---->",  this.state.label_id)
+    console.log("label iddddd---->", this.state.label_id);
+    // let label 
     this.state.label_id.map((item, index) => {
+     
+      let  id = item.split(',')
+      console.log("lael ---->",  id)
       const baseurl = Constants.baseurl;
       var _body = new FormData();
       _body.append("id", item);
@@ -199,26 +202,30 @@ class pendingRequest extends Component {
           return response.json();
         })
         .then((responseJson) => {
-          //  console.log("label name--->",responseJson)
-          this.state.labelName.push(responseJson.data);
 
-             console.log("label --->",  this.state.labelName)
-             this.getUsername();
+          this.state.labelName.push(responseJson.data);
+          console.log("get label name resopns --->",responseJson.data)
+          //  this.getUsername();
         })
         .catch((error) => {
-          console.log("name error---->", error);
+         console.log("name error---->", error);
         });
     });
   };
   compareIDs = () => {
     const { user_id } = this.props;
-    this.setState({ labelName: [] });
+    // this.setState({ labelName: [] });
     var r_id = this.state.recivedIdArray[0];
 
     if (user_id == r_id) {
       console.log("yes both are same");
       this.getLabelName();
-      // this.getUsername();
+      this.getUsername();
+      // console.log("label   dfdfddf--->",  this.state.labelName)
+      // if(this.state.labelName.length > 0){
+      //   this.getUsername();
+      // }
+      // 
       this.getSendernameAddContactInSender();
     }
   };
@@ -252,7 +259,6 @@ class pendingRequest extends Component {
   };
 
   getUsername = () => {
-    //  console.log("pending is-->", this.state.pendingRequest);
     var s_id = this.state.senderIdArray[0];
     this.state.pendingRequest.forEach((doc) => {
       const baseurl = Constants.baseurl;
@@ -271,7 +277,6 @@ class pendingRequest extends Component {
             console.log("Name is-->", empty);
           } else {
             var u = data;
-            // console.log("lkll=--->",u)
             this.state.usernameData.push(u);
             var u_name = data.username;
             this.state.name.push(u_name);
@@ -285,7 +290,7 @@ class pendingRequest extends Component {
             var data = this.state.usernameData.map((item) => {
               return { item: item, isSelect: false };
             });
-                console.log("labellll------",this.state.labelName)
+               // console.log("labellll------",this.state.labelName)
             var nameData = this.state.name.map((item, index) => {
               return {
                 item: item,
@@ -302,7 +307,7 @@ class pendingRequest extends Component {
           }
         })
         .catch((error) => {
-          console.log("name error---->", error);
+       //   console.log("name error---->", error);
         });
     });
   };
@@ -345,7 +350,7 @@ class pendingRequest extends Component {
           }
         })
         .catch((error) => {
-          console.log("name error---->", error);
+          console.log("name error sender---->", error);
         });
     });
   };
@@ -779,6 +784,7 @@ class pendingRequest extends Component {
           return response.json();
         })
         .then((responseJson) => {
+          console.log("label list responseJson---->",responseJson.data)
           var arr = responseJson.data.map((item, index) => {
             return {
               relation: item.relation,

@@ -102,6 +102,7 @@ class searchContact extends Component {
       note: "",
       company: "",
       jobTitle: "",
+      JobTitle:"",
       monday: "",
       mondayTo: "",
       tuesday: "",
@@ -139,8 +140,8 @@ class searchContact extends Component {
       WednesdayTo: "",
       Thursday: "",
       ThursdayTo: "",
-      Firday: "",
-      FirdayTo: "",
+      Friday: "",
+      FridayTo: "",
       Saturday: "",
       SaturdayTo: "",
       Sunday: "",
@@ -149,6 +150,7 @@ class searchContact extends Component {
       u_id: "",
       s_label_name: "",
       selectedData: "",
+      eachUserData:"",
       doc_id: "",
 
       isLNUpdate: false,
@@ -262,8 +264,7 @@ class searchContact extends Component {
         obj.company.indexOf(text) > -1 ||
         obj.website.indexOf(text) > -1 ||
         obj.address.indexOf(text) > -1 ||
-        obj.r_label_name.indexOf(text) > -1 ||
-        obj.s_label_name.indexOf(text) > -1 ||
+        obj.selectedName.indexOf(text) > -1 ||
         obj.jobTitle.indexOf(text) > -1 ||
         obj.social_media.indexOf(text) > -1 ||
         obj.note.indexOf(text) > -1
@@ -336,11 +337,11 @@ class searchContact extends Component {
         })
         .then((responseJson) => {
           var arr = responseJson.data.map((item, index) => {
-            console.log("responseJson--->", item.relation);
-            console.log(" slabel  ----->", this.state.s_label_name);
+            // console.log("responseJson--->", item.relation);
+            // console.log(" slabel  ----->", this.state.s_label_name);
             if (item.relation == this.state.s_label_name) {
               this.setState({ s_label_id: item.id });
-              console.log("responseJson label--->", this.state.s_label_id);
+              // console.log("responseJson label--->", this.state.s_label_id);
               this.checkSettings();
             } else {
               console.log("else--->", this.state.s_label_id);
@@ -375,8 +376,8 @@ class searchContact extends Component {
       .then((responseJson) => {
         let item = responseJson.data;
 
-        let fields = this.state.selectedData;
-        console.log("item---->", item);
+        let fields = this.state.eachUserData;
+         console.log("item---->", item);
         if (responseJson.status == true) {
           console.log("settings---->", fields);
           this.setState({ u_name: fields.u_name });
@@ -409,71 +410,71 @@ class searchContact extends Component {
             this.setState({ last_name: "" });
           }
           if (item.phone_number == 1) {
-            this.setState({ number: fields.number1 });
+            item.number !== ""  ?  this.setState({ number: fields.number[0].phone }) :null
           } else {
             this.setState({ number: "" });
           }
           if (item.address == 1) {
-            this.setState({ address: fields.address1 });
+            item.address  !== "" ?  this.setState({ address: fields.address[0].address }) : null
           } else {
             this.setState({ address: "" });
           }
           if (item.email == 1) {
-            this.setState({ email: fields.email1 });
+            item.email !== "" ?   this.setState({ email: fields.email[0].email }) : null
           } else {
             this.setState({ email: "" });
           }
           if (item.messenger == 1) {
-            this.setState({ messenger: fields.messenger1 });
+            item.messenger !== "" ? this.setState({ messenger: fields.messenger[0].messenger }) : null
           } else {
             this.setState({ messenger: "" });
           }
           if (item.Social_media == 1) {
-            this.setState({ socialMedia: fields.social_media1 });
+            item.socialMedia !== "" ?    this.setState({ socialMedia: fields.socialMedia[0].social }): null
           } else {
             this.setState({ socialMedia: "" });
           }
           if (item.website == 1) {
-            this.setState({ website: fields.website });
+            item.website !== "" ?   this.setState({ website: fields.website[0].website }) : null
           } else {
             this.setState({ website: "" });
           }
           if (item.date == 1) {
-            this.setState({ date: fields.date });
+            item.date !== "" ?  this.setState({ date: fields.date[0].date }) :null
           } else {
             this.setState({ date: "" });
           }
           if (item.note == 1) {
-            this.setState({ note: fields.note });
+            item.note !== "" ?    this.setState({ note: fields.note[0].note }) :null
           } else {
             this.setState({ note: "" });
           }
           if (item.company == 1) {
-            this.setState({ company: fields.company });
+            item.company !== "" ?      this.setState({ company: fields.company[0].company }) :null
           } else {
             this.setState({ company: "" });
           }
           if (item.jobTitle == 1) {
-            this.setState({ jobTitle: fields.jobTitle });
+            item.jobTitle !== "" ?   this.setState({ jobTitle: fields.jobTitle[0].jobTitle }) :null
           } else {
             this.setState({ jobTitle: "" });
           }
           if (item.work_hours == 1) {
-            this.setState({ jobTitle: fields.jobTitle });
-            this.setState({ monday: fields.monday });
-            this.setState({ mondayTo: fields.mondayTo });
-            this.setState({ tuesday: fields.tuesday });
-            this.setState({ tuesdayTo: fields.tuesdayTo });
-            this.setState({ wednesday: fields.wednesday });
-            this.setState({ wednesdayTo: fields.wednesdayTo });
-            this.setState({ thursday: fields.thursday });
-            this.setState({ thursdayTo: fields.thursdayTo });
-            this.setState({ friday: fields.friday });
-            this.setState({ fridayTo: fields.fridayTo });
-            this.setState({ saturday: fields.saturday });
-            this.setState({ saturdayTo: fields.saturdayTo });
-            this.setState({ sunday: fields.sunday });
-            this.setState({ sundayTo: fields.sundayTo });
+            item.jobTitle !== "" ?   this.setState({ jobTitle: fields.jobTitle[0].jobTitle }) :null
+            item.monday !== "" ?  this.setState({ monday: fields.monday[0].monday }):null
+            item.mondayTo !== "" ?  this.setState({ mondayTo: fields.mondayTo[0].mondayTo }):null
+            item.tuesday !== "" ? this.setState({ tuesday: fields.tuesday[0].tuesday }):null
+            item.tuesdayTo !== "" ? this.setState({ tuesdayTo: fields.tuesdayTo[0].tuesdayTo }):null
+            item.wednesday !== "" ?   this.setState({ wednesday: fields.wednesday[0].wednesday }):null
+            item.wednesdayTo !== "" ?this.setState({ wednesdayTo: fields.wednesdayTo[0].wednesdayTo }):null
+            item.thursday !== "" ?  this.setState({ thursday: fields.thursday[0].thursday }):null
+            item.thursdayTo !== "" ?  this.setState({ thursdayTo: fields.thursdayTo[0].thursdayTo }):null
+            item.friday !== "" ?  this.setState({ friday: fields.friday[0].friday }):null
+            item.fridayTo !== "" ? this.setState({ fridayTo: fields.fridayTo[0].fridayTo }):null
+            item.saturday !== "" ?  this.setState({ saturday: fields.saturday[0].saturday }):null
+            item.saturdayTo !== "" ?  this.setState({ saturdayTo: fields.saturdayTo[0].saturdayTo }):null
+            item.sunday !== "" ?  this.setState({ sunday: fields.sunday[0].sunday }):null
+            item.sundayTo !== "" ? this.setState({ sundayTo: fields.sundayTo[0].sundayTo }):null
           } else {
             this.setState({ jobTitle: "" });
             this.setState({ monday: "" });
@@ -555,6 +556,8 @@ class searchContact extends Component {
       .doc(selecte_name)
       .get()
       .then((snap) => {
+       // console.log(" sjprtconatc ----->", snap._data);
+         this.setState({ eachUserData : snap._data })
         this.setState({ u_id: snap._data.user_id });
       });
     firebase
@@ -574,35 +577,35 @@ class searchContact extends Component {
         });
       });
   };
-  mannuallyEntered = (key) => {
-    let FN = this.state.selectedData;
-    console.log("mannuallyEntered ----->", FN);
-    this.setState({ profile_image: FN.profile_image });
-    this.setState({ profile_image2: FN.profile_image2 });
-    if (FN.profile_image2 !== "") {
-      this.setState({ rightSec: true });
-    }
-    this.setState({ u_name: FN.u_name });
-    this.setState({ profile_image3: FN.profile_image3 });
-    this.setState({ first_name: FN.first_name });
-    this.setState({ last_name: FN.last_name });
-    this.setState({ contactInfoSection: true });
-    this.setState({ number: FN.number1.number });
-    this.setState({ number2: FN.number2 });
-    this.setState({ email: FN.email1.email });
-    this.setState({ email2: FN.email2 });
-    this.setState({ address: FN.address1.address });
-    this.setState({ address2: FN.address2 });
-    this.setState({ messenger: FN.messenger1.messanger });
-    this.setState({ socialMedia: FN.social_media1.socialMedia });
-    this.setState({ website: FN.website.website });
-    this.setState({ date: FN.date.date });
-    this.setState({ note: FN.note.note });
-    this.setState({ company: FN.company.company });
-    this.setState({ jobTitle: FN.jobTitle.jobTitle });
-    this.setState({ contactInfoSection: true });
-    this.setState({ isLoading: false });
-  };
+  // mannuallyEntered = (key) => {
+  //   let FN = this.state.selectedData;
+  //   console.log("mannuallyEntered ----->", FN);
+  //   this.setState({ profile_image: FN.profile_image });
+  //   this.setState({ profile_image2: FN.profile_image2 });
+  //   if (FN.profile_image2 !== "") {
+  //     this.setState({ rightSec: true });
+  //   }
+  //   this.setState({ u_name: FN.u_name });
+  //   this.setState({ profile_image3: FN.profile_image3 });
+  //   this.setState({ first_name: FN.first_name });
+  //   this.setState({ last_name: FN.last_name });
+  //   this.setState({ contactInfoSection: true });
+  //   this.setState({ number: FN.number1.number });
+  //   this.setState({ number2: FN.number2 });
+  //   this.setState({ email: FN.email1.email });
+  //   this.setState({ email2: FN.email2 });
+  //   this.setState({ address: FN.address1.address });
+  //   this.setState({ address2: FN.address2 });
+  //   this.setState({ messenger: FN.messenger1.messanger });
+  //   this.setState({ socialMedia: FN.social_media1.socialMedia });
+  //   this.setState({ website: FN.website.website });
+  //   this.setState({ date: FN.date.date });
+  //   this.setState({ note: FN.note.note });
+  //   this.setState({ company: FN.company.company });
+  //   this.setState({ jobTitle: FN.jobTitle.jobTitle });
+  //   this.setState({ contactInfoSection: true });
+  //   this.setState({ isLoading: false });
+  // };
   onFlatlist = async (key, first_name, last_name, user_name) => {
     console.log("onFlatlist ----->", key);
     this.setState({ isLoading: true, forKey: key });
@@ -651,12 +654,13 @@ class searchContact extends Component {
                 }
               });
               this.setState({ selectedData: doc._data });
-              // this.labelList();
               this.apiCallForGetSettings(key);
             }
           }
           if (FN.isManually == true) {
+            let FN = fields 
             console.log("mannuallyEntered ----->", FN);
+            this.setState({ selectedData : FN })
             this.setState({ profile_image: FN.profile_image });
             this.setState({ profile_image2: FN.profile_image2 });
             if (FN.profile_image2 !== "") {
@@ -666,26 +670,41 @@ class searchContact extends Component {
             this.setState({ profile_image3: FN.profile_image3 });
             this.setState({ first_name: FN.first_name });
             this.setState({ last_name: FN.last_name });
-            this.setState({ contactInfoSection: true });
-            this.setState({ number: FN.number1.number });
+          
+            this.setState({ number: FN.number1 });
             this.setState({ number2: FN.number2 });
-            this.setState({ email: FN.email1.email });
+            this.setState({ email: FN.email1 });
             this.setState({ email2: FN.email2 });
-            this.setState({ address: FN.address });
+            this.setState({ address: FN.address1 });
             this.setState({ address2: FN.address2 });
-            this.setState({ messenger: FN.messenger });
-            this.setState({ socialMedia: FN.social_media });
+            this.setState({ messenger: FN.messenger1 });
+            this.setState({ socialMedia: FN.social_media1 });
             this.setState({ website: FN.website });
-            this.setState({ date: FN.date.date });
+            this.setState({ date: FN.date });
             this.setState({ note: FN.note });
             this.setState({ company: FN.company });
             this.setState({ jobTitle: FN.jobTitle });
+            this.setState({ monday: FN.monday });
+            this.setState({ mondayTo: FN.mondayTo });
+            this.setState({ tuesday: FN.tuesday });
+            this.setState({ tuesdayTo: FN.tuesdayTo });
+            this.setState({ wednesday: FN.wednesday });
+            this.setState({ wednesdayTo: FN.wednesdayTo });
+            this.setState({ thursday: FN.thursday });
+            this.setState({ thursdayTo: FN.thursdayTo });
+            this.setState({ friday: FN.friday });
+            this.setState({ fridayTo: FN.fridayTo });
+            this.setState({ saturday: FN.saturday });
+            this.setState({ saturdayTo: FN.saturdayTo });
+            this.setState({ sunday: FN.sunday });
+            this.setState({ sundayTo: FN.sundayTo });
             this.setState({ contactInfoSection: true });
             this.setState({ isLoading: false });
           }
           if (doc._data.isImport == true) {
             if (selecte_name == doc._data.u_name) {
               console.log("true ----->", fields);
+              this.setState({ selectedData : fields })
               this.setState({ profile_image: fields.profile_image });
               this.setState({ profile_image2: fields.profile_image2 });
               this.setState({ profile_image3: fields.profile_image3 });
@@ -699,6 +718,8 @@ class searchContact extends Component {
               if (fields.email.length > 0) {
                 this.setState({ email: fields.email[0].email });
               }
+              this.setState({ number2: fields.number2 });
+              this.setState({ email2: fields.email2 });
               this.setState({ messenger: fields.messenger1 });
               this.setState({ socialMedia: fields.social_media1 });
               this.setState({ website: fields.website });
@@ -997,6 +1018,19 @@ class searchContact extends Component {
         Company,
         JobTitle,
         Monday,
+        MondayTo,
+        Tuesday,
+        TuesdayTo,
+        Wednesday,
+        WednesdayTo,
+        Thursday,
+        ThursdayTo,
+        Friday,
+        FridayTo,
+        Saturday,
+        SaturdayTo,
+        Sunday,
+        SundayTo,
       } = this.state;
       if (Last_name == "") {
       } else {
@@ -1166,6 +1200,136 @@ class searchContact extends Component {
           .collection("contacts")
           .doc(doc_id)
           .update({ monday: Monday, isWorkHoursUpdate: true });
+      }
+      if (MondayTo == "") {
+      } else {
+        firebase
+          .firestore()
+          .collection("user")
+          .doc(username)
+          .collection("contacts")
+          .doc(doc_id)
+          .update({ mondayTo: MondayTo, isWorkHoursUpdate: true });
+      }
+      if (Tuesday == "") {
+      } else {
+        firebase
+          .firestore()
+          .collection("user")
+          .doc(username)
+          .collection("contacts")
+          .doc(doc_id)
+          .update({ tuesday : Tuesday, isWorkHoursUpdate: true });
+      }
+      if (TuesdayTo == "") {
+      } else {
+        firebase
+          .firestore()
+          .collection("user")
+          .doc(username)
+          .collection("contacts")
+          .doc(doc_id)
+          .update({ tuesdayTo : TuesdayTo, isWorkHoursUpdate: true });
+      }
+      if (Wednesday == "") {
+      } else {
+        firebase
+          .firestore()
+          .collection("user")
+          .doc(username)
+          .collection("contacts")
+          .doc(doc_id)
+          .update({ wednesday : Wednesday, isWorkHoursUpdate: true });
+      }
+      if (WednesdayTo == "") {
+      } else {
+        firebase
+          .firestore()
+          .collection("user")
+          .doc(username)
+          .collection("contacts")
+          .doc(doc_id)
+          .update({ wednesdayTo : WednesdayTo, isWorkHoursUpdate: true });
+      }
+      if (Thursday == "") {
+      } else {
+        firebase
+          .firestore()
+          .collection("user")
+          .doc(username)
+          .collection("contacts")
+          .doc(doc_id)
+          .update({ thursday : Thursday, isWorkHoursUpdate: true });
+      }
+      if (ThursdayTo == "") {
+      } else {
+        firebase
+          .firestore()
+          .collection("user")
+          .doc(username)
+          .collection("contacts")
+          .doc(doc_id)
+          .update({ thursdayTo : ThursdayTo, isWorkHoursUpdate: true });
+      }
+      if (Friday == "") {
+      } else {
+        firebase
+          .firestore()
+          .collection("user")
+          .doc(username)
+          .collection("contacts")
+          .doc(doc_id)
+          .update({ friday : Friday, isWorkHoursUpdate: true });
+      }
+      if (FridayTo == "") {
+      } else {
+        firebase
+          .firestore()
+          .collection("user")
+          .doc(username)
+          .collection("contacts")
+          .doc(doc_id)
+          .update({ fridayTo : FridayTo, isWorkHoursUpdate: true });
+      }
+      if (Saturday == "") {
+      } else {
+        firebase
+          .firestore()
+          .collection("user")
+          .doc(username)
+          .collection("contacts")
+          .doc(doc_id)
+          .update({ saturday : Saturday, isWorkHoursUpdate: true });
+      }
+      if (SaturdayTo == "") {
+      } else {
+        firebase
+          .firestore()
+          .collection("user")
+          .doc(username)
+          .collection("contacts")
+          .doc(doc_id)
+          .update({ saturdayTo : SaturdayTo, isWorkHoursUpdate: true });
+      }
+      if (Sunday == "") {
+      } else {
+        firebase
+          .firestore()
+          .collection("user")
+          .doc(username)
+          .collection("contacts")
+          .doc(doc_id)
+          .update({ sunday : Sunday, isWorkHoursUpdate: true });
+      }
+      if (SundayTo == "") {
+      } else {
+        firebase
+          .firestore()
+          .collection("user")
+          .doc(username)
+          .collection("contacts")
+          .doc(doc_id)
+          .update({ sundayTo : SundayTo, isWorkHoursUpdate: true });
       }
       this.onFlatlist(this.state.forKey);
     }
@@ -1596,8 +1760,8 @@ class searchContact extends Component {
     );
   }
   onPressAddress = () => {
-    this.setState({ isAddressSection2: true });
-    if (this.state.isAddressSection2 == true) {
+    this.setState({ isAddressSection: true });
+    if (this.state.isAddressSection == true) {
       this.AddressFocus.focus();
     }
   };
@@ -1635,6 +1799,7 @@ class searchContact extends Component {
                         ]}
                         placeholderTextColor={COLORS.main_text_color}
                         // maxLength={10}
+                        multiline={true}
                         editable={this.state.status ? true : false}
                         value={this.state.Address}
                         onChangeText={(value) =>
@@ -1724,6 +1889,7 @@ class searchContact extends Component {
                         onChangeText={(value) =>
                           this.setState({ Address2: value })
                         }
+                        multiline={true}
                         ref={(input) => {
                           this.AddressFocus2 = input;
                         }}
@@ -2004,7 +2170,7 @@ class searchContact extends Component {
   showDatePicker = (index) => {
     this.setState({ isVisible: true });
   };
-  onChangeDate = (date, index, item) => {
+  onChangeDate = (date) => {
     var fomateDate = moment(date).format("MMMM, Do YYYY");
     this.setState({ fomateDate: fomateDate });
   };
@@ -2023,24 +2189,30 @@ class searchContact extends Component {
             <View style={{ flexDirection: "row" }}>
               <View style={styles.searchSection}>
                 {this.state.status ? (
+                  this.state.fomateDate == "" ? 
                   <View>
+                    
                     <TouchableOpacity
                       style={{ width: width * 0.5 }}
-                      onPress={() => this.showDatePicker(index)}
+                      onPress={() => this.showDatePicker()}
                     >
                       <Text style={styles.stylefiledText}>Date</Text>
                     </TouchableOpacity>
                     <DateTimePickerModal
                       isVisible={this.state.isVisible}
                       onConfirm={(date) =>
-                        this.onChangeDate(date, index, item.date)
+                        this.onChangeDate(date)
                       }
                       onCancel={this.hidePicker}
                       mode="date"
                       is24Hour={false}
                       titleIOS="Pick your Notification time"
                     />
+                   
                   </View>
+                  : 
+                  <Text style={styles.stylefiledText}>{this.state.fomateDate}</Text>
+                  
                 ) : (
                   <Text style={styles.stylefiledText}>{this.state.date}</Text>
                 )}
@@ -2099,6 +2271,7 @@ class searchContact extends Component {
                           styles.addressField,
                           { marginTop: Metrics.smallMargin },
                         ]}
+                        multiline={true}
                         placeholderTextColor={COLORS.main_text_color}
                         editable={this.state.status ? true : false}
                         value={this.state.Note}
@@ -2242,7 +2415,7 @@ class searchContact extends Component {
                           placeholder=""
                           placeholderTextColor={COLORS.main_text_color}
                           style={styles.timeText}
-                          value={this.state.monday}
+                          value={this.state.Monday}
                           onChangeText={(value) => {
                             this.setState({ Monday: value });
                           }}
@@ -2267,7 +2440,7 @@ class searchContact extends Component {
                           placeholder=""
                           placeholderTextColor={COLORS.main_text_color}
                           style={styles.timeText}
-                          value={this.state.mondayTo}
+                          value={this.state.MondayTo}
                           onChangeText={(value) => {
                             this.setState({ MondayTo: value });
                           }}
@@ -2289,7 +2462,7 @@ class searchContact extends Component {
                           placeholder=""
                           placeholderTextColor={COLORS.main_text_color}
                           style={styles.timeText}
-                          value={this.state.tuesday}
+                          value={this.state.Tuesday}
                           onChangeText={(value) => {
                             this.setState({ Tuesday: value });
                           }}
@@ -2309,7 +2482,7 @@ class searchContact extends Component {
                           placeholder=""
                           placeholderTextColor={COLORS.main_text_color}
                           style={styles.timeText}
-                          value={this.state.tuesdayTo}
+                          value={this.state.TuesdayTo}
                           onChangeText={(value) => {
                             this.setState({ TuesdayTo: value });
                           }}
@@ -2331,7 +2504,7 @@ class searchContact extends Component {
                           placeholder=""
                           placeholderTextColor={COLORS.main_text_color}
                           style={styles.timeText}
-                          value={this.state.wednesday}
+                          value={this.state.Wednesday}
                           onChangeText={(value) => {
                             this.setState({ Wednesday: value });
                           }}
@@ -2351,7 +2524,7 @@ class searchContact extends Component {
                           placeholder=""
                           placeholderTextColor={COLORS.main_text_color}
                           style={styles.timeText}
-                          value={this.state.wednesdayTo}
+                          value={this.state.WednesdayTo}
                           onChangeText={(value) => {
                             this.setState({ WednesdayTo: value });
                           }}
@@ -2373,7 +2546,7 @@ class searchContact extends Component {
                           placeholder=""
                           placeholderTextColor={COLORS.main_text_color}
                           style={styles.timeText}
-                          value={this.state.thursday}
+                          value={this.state.Thursday}
                           onChangeText={(value) => {
                             this.setState({ Thursday: value });
                           }}
@@ -2393,7 +2566,7 @@ class searchContact extends Component {
                           placeholder=""
                           placeholderTextColor={COLORS.main_text_color}
                           style={styles.timeText}
-                          value={this.state.thursdayTo}
+                          value={this.state.ThursdayTo}
                           onChangeText={(value) => {
                             this.setState({ ThursdayTo: value });
                           }}
@@ -2415,9 +2588,9 @@ class searchContact extends Component {
                           placeholder=""
                           placeholderTextColor={COLORS.main_text_color}
                           style={styles.timeText}
-                          value={this.state.friday}
+                          value={this.state.Friday}
                           onChangeText={(value) => {
-                            this.setState({ Firday: value });
+                            this.setState({ Friday: value });
                           }}
                           editable={this.state.status ? true : false}
                         />
@@ -2435,9 +2608,9 @@ class searchContact extends Component {
                           placeholder=""
                           placeholderTextColor={COLORS.main_text_color}
                           style={styles.timeText}
-                          value={this.state.fridayTo}
+                          value={this.state.FridayTo}
                           onChangeText={(value) => {
-                            this.setState({ FirdayTo: value });
+                            this.setState({ FridayTo: value });
                           }}
                           editable={this.state.status ? true : false}
                         />
@@ -2457,7 +2630,7 @@ class searchContact extends Component {
                           placeholder=""
                           placeholderTextColor={COLORS.main_text_color}
                           style={styles.timeText}
-                          value={this.state.saturday}
+                          value={this.state.Saturday}
                           onChangeText={(value) => {
                             this.setState({ Saturday: value });
                           }}
@@ -2477,7 +2650,7 @@ class searchContact extends Component {
                           placeholder=""
                           placeholderTextColor={COLORS.main_text_color}
                           style={styles.timeText}
-                          value={this.state.saturdayTo}
+                          value={this.state.SaturdayTo}
                           onChangeText={(value) => {
                             this.setState({ SaturdayTo: value });
                           }}
@@ -2499,7 +2672,7 @@ class searchContact extends Component {
                           placeholder=""
                           placeholderTextColor={COLORS.main_text_color}
                           style={styles.timeText}
-                          value={this.state.sunday}
+                          value={this.state.Sunday}
                           onChangeText={(value) => {
                             this.setState({ Sunday: value });
                           }}
@@ -2519,7 +2692,7 @@ class searchContact extends Component {
                           placeholder=""
                           placeholderTextColor={COLORS.main_text_color}
                           style={styles.timeText}
-                          value={this.state.sundayTo}
+                          value={this.state.SundayTo}
                           onChangeText={(value) => {
                             this.setState({ SundayTo: value });
                           }}
@@ -2635,7 +2808,7 @@ class searchContact extends Component {
                           { marginTop: Metrics.xsmallMargin },
                         ]}
                       >
-                        <Text style={styles.timeText}>
+                        <Text style={styles.timeText2}>
                           {this.state.monday}{" "}
                         </Text>
                       </View>
@@ -2653,7 +2826,7 @@ class searchContact extends Component {
                           { marginTop: Metrics.xsmallMargin },
                         ]}
                       >
-                        <Text style={styles.timeText}>
+                        <Text style={styles.timeText2}>
                           {this.state.mondayTo}{" "}
                         </Text>
                       </View>
@@ -2668,7 +2841,7 @@ class searchContact extends Component {
                         Tuesday
                       </Text>
                       <View style={styles.timeView}>
-                        <Text style={styles.timeText}>
+                        <Text style={styles.timeText2}>
                           {this.state.tuesday}{" "}
                         </Text>
                       </View>
@@ -2681,7 +2854,7 @@ class searchContact extends Component {
                         to
                       </Text>
                       <View style={styles.timeView}>
-                        <Text style={styles.timeText}>
+                        <Text style={styles.timeText2}>
                           {this.state.tuesdayTo}{" "}
                         </Text>
                       </View>
@@ -2696,7 +2869,7 @@ class searchContact extends Component {
                         Wednesday
                       </Text>
                       <View style={styles.timeView}>
-                        <Text style={styles.timeText}>
+                        <Text style={styles.timeText2}>
                           {this.state.wednesday}{" "}
                         </Text>
                       </View>
@@ -2709,7 +2882,7 @@ class searchContact extends Component {
                         to
                       </Text>
                       <View style={styles.timeView}>
-                        <Text style={styles.timeText}>
+                        <Text style={styles.timeText2}>
                           {this.state.wednesdayTo}{" "}
                         </Text>
                       </View>
@@ -2724,7 +2897,7 @@ class searchContact extends Component {
                         Thursday
                       </Text>
                       <View style={styles.timeView}>
-                        <Text style={styles.timeText}>
+                        <Text style={styles.timeText2}>
                           {this.state.thursday}{" "}
                         </Text>
                       </View>
@@ -2737,7 +2910,7 @@ class searchContact extends Component {
                         to
                       </Text>
                       <View style={styles.timeView}>
-                        <Text style={styles.timeText}>
+                        <Text style={styles.timeText2}>
                           {this.state.thursdayTo}{" "}
                         </Text>
                       </View>
@@ -2752,7 +2925,7 @@ class searchContact extends Component {
                         Friday
                       </Text>
                       <View style={styles.timeView}>
-                        <Text style={styles.timeText}>
+                        <Text style={styles.timeText2}>
                           {this.state.friday}{" "}
                         </Text>
                       </View>
@@ -2765,7 +2938,7 @@ class searchContact extends Component {
                         to
                       </Text>
                       <View style={styles.timeView}>
-                        <Text style={styles.timeText}>
+                        <Text style={styles.timeText2}>
                           {this.state.fridayTo}{" "}
                         </Text>
                       </View>
@@ -2780,7 +2953,7 @@ class searchContact extends Component {
                         Saturday
                       </Text>
                       <View style={styles.timeView}>
-                        <Text style={styles.timeText}>
+                        <Text style={styles.timeText2}>
                           {this.state.saturday}{" "}
                         </Text>
                       </View>
@@ -2793,7 +2966,7 @@ class searchContact extends Component {
                         to
                       </Text>
                       <View style={styles.timeView}>
-                        <Text style={styles.timeText}>
+                        <Text style={styles.timeText2}>
                           {this.state.saturdayTo}{" "}
                         </Text>
                       </View>
@@ -2808,7 +2981,7 @@ class searchContact extends Component {
                         Sunday
                       </Text>
                       <View style={styles.timeView}>
-                        <Text style={styles.timeText}>
+                        <Text style={styles.timeText2}>
                           {this.state.sunday}{" "}
                         </Text>
                       </View>
@@ -2821,7 +2994,7 @@ class searchContact extends Component {
                         to
                       </Text>
                       <View style={styles.timeView}>
-                        <Text style={styles.timeText}>
+                        <Text style={styles.timeText2}>
                           {this.state.sundayTo}{" "}
                         </Text>
                       </View>

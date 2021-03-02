@@ -64,6 +64,7 @@ export const addItem = (
       notificationTime:"Tue Jan 12 2021 14:23:00 GMT+0530",
       weddingDate:"Tue Jan 12 2021 14:23:00 GMT+0530",
       isLogedIn : false,
+      u_name: user_name,
     });
 };
 

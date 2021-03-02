@@ -47,6 +47,7 @@ class importContact extends Component {
     addressLable:"",
     address1:"",
     website:"",
+    jobTitle:"",
   };
 
   componentDidMount() {
@@ -387,10 +388,16 @@ class importContact extends Component {
                 const address = item.postalAddresses.find(
                   ({ formattedAddress }) => formattedAddress == formattedAddress
                 );
-                console.log("address---->", address.label);
+              
                 let address1 = address.label;
                 this.setState({ addressLable: address1 });
               }
+               console.log("address---->",  item.jobTitle,);
+               if(item.jobTitle == ""){
+                      this.setState({ jobTitle : ""})      
+               }else{
+                this.setState({ jobTitle :  item.jobTitle})      
+               }
               importContactToFirebase(
                 username,
                 item.thumbnailPath,
@@ -425,7 +432,7 @@ class importContact extends Component {
                 item.note.toLowerCase(),
                 item.company.toLowerCase(),
                 "",
-                item.jobTitle,
+               this.state.jobTitle.toLowerCase(),
                 "",
                 "",
                 "",
@@ -503,7 +510,7 @@ class importContact extends Component {
                 item.note.toLowerCase(),
                 item.company.toLowerCase(),
                 "",
-                item.jobTitle.toLowerCase(),
+                this.state.jobTitle.toLowerCase(),
                 "",
                 "",
                 "",

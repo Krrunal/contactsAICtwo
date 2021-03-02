@@ -122,12 +122,12 @@ class addmanuallyContact extends Component {
         workHours: "",
         label: "",
       },
-
+      sEmail:"",
       messenger1: "",
       messenger2: "",
       social_media1: "",
       social_media2: "",
-
+      sNumber:"",
       website1: "",
       website2: "",
       dob: "",
@@ -347,7 +347,8 @@ class addmanuallyContact extends Component {
       singleSocialMedia:"",
       singleNote:"",
       singleJobTitle:"",
-      singleAddress:""
+      singleAddress:"",
+      sDate:"",
     };
   }
 
@@ -405,7 +406,9 @@ class addmanuallyContact extends Component {
       singleNote,
       singleJobTitle,
       singleAddress,
-
+      sEmail,
+      sNumber,
+      sDate
     } = this.state;
     const { user_id, username } = this.props;
     if (this.state.status == true) {
@@ -483,6 +486,9 @@ class addmanuallyContact extends Component {
             singleNote,
             singleJobTitle,
             singleAddress,
+            sEmail,
+            sNumber,
+            sDate,
           );
           this.setState({
             status: false,
@@ -529,6 +535,9 @@ class addmanuallyContact extends Component {
             singleNote: "",
             singleJobTitle: "",
             singleAddress: "",
+            sEmail:"",
+            sNumber:"",
+            sDate:"",
           });
           alert("Add contact successfully");
         }
@@ -989,31 +998,26 @@ class addmanuallyContact extends Component {
     phoneNumber,
     isVerified,
   }) => {
-    //console.log("number--->",dialCode + "-" + unmaskedPhoneNumber)
     if (isVerified == true) {
       let value = dialCode + "-" + unmaskedPhoneNumber;
       this.state.number1.number = value;
-      this.setState({ number1 : this.state.number1 });
+      this.setState({ number1 : this.state.number1  ,sNumber :  dialCode + "-" + unmaskedPhoneNumber});
     } else {
       this.state.number1.number = unmaskedPhoneNumber;
-      this.setState({ number1 : this.state.number1 });
+      this.setState({ number1 : this.state.number1 ,sNumber :  dialCode + "-" + unmaskedPhoneNumber });
    } 
   };
   mobileLabelSet = (value) =>{
       this.setState({ isMobileModelOpen: false  })
       this.state.number1.label = value;
       this.setState({ number1 : this.state.number1 });
-      //console.log("number--->",this.state.number1)
-   
-  }
+    }
   renderMobileLabel = ({ item, index }) => {
     return (
       <TouchableHighlight
         underlayColor="transparent"
         onPress={() => this.mobileLabelSet(item.label)}
-        // onPress={() =>
-        //   this.setState({ mobileLabel: item.label, isMobileModelOpen: false })
-        // }
+       
       >
         <Text style={styles.labelName}> {item.label} </Text>
       </TouchableHighlight>
@@ -1367,7 +1371,7 @@ class addmanuallyContact extends Component {
   };
   onChangeEmail = (value) => {
     this.state.email.email = value;
-    this.setState({ email: this.state.email });
+    this.setState({ email: this.state.email , sEmail :  value });
   };
   onChangeEmailArray = (value, index) => {
     this.setState({ emailIndexOnly: index });
@@ -3179,7 +3183,7 @@ class addmanuallyContact extends Component {
     console.log("A date has been picked: ", date);
       var fomate = moment(date).format("MMMM, Do YYYY")
      this.state.date.date = fomate;
-     this.setState({ date: this.state.date });
+     this.setState({ date: this.state.date ,  sDate :  fomate});
     this.setState({
       isVisible: false,
       choosenDate: moment(date).format("MMMM, Do YYYY"),

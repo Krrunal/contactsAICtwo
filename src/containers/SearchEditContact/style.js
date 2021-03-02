@@ -355,10 +355,21 @@ export default StyleSheet.create({
   timeText: {
     justifyContent: "center",
     alignItems: "center",
+    // color: COLORS.main_text_color,
+    // fontFamily: Font.medium,
+    // fontSize: width * 0.018,
+    color: COLORS.main_text_color,
+    fontFamily: Font.regular,
+    fontSize: width * 0.018,
+    width: width * 0.11,
+    height: width * 0.08,
+  },
+  timeText2 : {
+    justifyContent: "center",
+    alignItems: "center",
     color: COLORS.main_text_color,
     fontFamily: Font.medium,
     fontSize: width * 0.018,
-   
   },
   saveView: {
     justifyContent: "center",

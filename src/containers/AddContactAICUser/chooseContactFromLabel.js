@@ -335,7 +335,7 @@ class chooseContactFromLabel extends Component {
     _body.append("receive_id", receive_id);
     _body.append("username", username);
     _body.append("sender_id", user_id);
-    _body.append("label_id", labelIDs);
+    _body.append("label_id", labelIDs[0]);
     fetch(baseurl + "android", {
       method: "POST",
       headers: {
