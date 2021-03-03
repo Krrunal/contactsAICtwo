@@ -55,6 +55,8 @@ import com.horcrux.svg.SvgPackage;
 import com.rntimezone.RNReactNativeTimezonePackage;
 // react-native-vector-icons
 import com.oblador.vectoricons.VectorIconsPackage;
+// rn-fetch-blob
+import com.RNFetchBlob.RNFetchBlobPackage;
 
 public class PackageList {
   private Application application;
@@ -121,7 +123,8 @@ public class PackageList {
       new SendSMSPackage(),
       new SvgPackage(),
       new RNReactNativeTimezonePackage(),
-      new VectorIconsPackage()
+      new VectorIconsPackage(),
+      new RNFetchBlobPackage()
     ));
   }
 }

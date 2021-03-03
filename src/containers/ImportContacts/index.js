@@ -11,7 +11,7 @@ import {
 } from "react-native";
 import React, { Component, useState } from "react";
 import styled, { ThemeProvider } from "styled-components/native";
-
+import RNFetchBlob from "rn-fetch-blob";
 import { COLORS } from "../theme/Colors.js";
 import CheckBox from "@react-native-community/checkbox";
 import Contacts from "react-native-contacts";
@@ -29,7 +29,7 @@ import { importContactToFirebase } from "../../services/FirebaseDatabase/importC
 import { isRequired } from "react-native/Libraries/DeprecatedPropTypes/DeprecatedColorPropType";
 import sideBar from "../../assets/images/sideBAR.png";
 import styles from "./style.js";
-
+import Constants from "../../action/Constants";
 var { width, height } = Dimensions.get("window");
 
 class importContact extends Component {
@@ -48,6 +48,7 @@ class importContact extends Component {
     address1:"",
     website:"",
     jobTitle:"",
+    doc_id:"",
   };
 
   componentDidMount() {
@@ -337,6 +338,51 @@ class importContact extends Component {
   //       }
   //     });
   // };
+  getUniqeID =(profile_base) =>{
+    console.log(" doc_id --->", this.state.doc_id);
+    const { user_id, username } = this.props;
+    this.setState({ isLoading: true });
+    const baseurl = Constants.baseurl;
+    var _body = new FormData();
+    _body.append("docid", this.state.doc_id);
+    _body.append("userfile", profile_base);
+    _body.append("position", 1);
+    fetch(baseurl + "uploadfiles", {
+      method: "POST",
+      body: _body,
+    })
+      .then((response) => {
+        return response.json();
+      })
+      .then((responseJson) => {
+        console.log(" update  profile image 111 --->", responseJson);
+        this.setState({ isLoading: false });
+      })
+      .catch((error) => {
+        this.setState({ isLoading: false });
+        alert("Something went wrong in image Update");
+        console.log("name error---->", error);
+      });
+  }
+  convertBase642(PATH_TO_THE_FILE) {
+    let data = "";
+    RNFetchBlob.fs
+      .readStream(PATH_TO_THE_FILE, "base64", 4095)
+      .then((ifstream) => {
+        ifstream.open();
+        ifstream.onData((chunk) => {
+          data += chunk;
+        });
+        ifstream.onError((err) => {
+          console.log("oops", err);
+        });
+        ifstream.onEnd(() => {
+          var bs = data;
+          // this.setState({ profile_base : bs });
+          this.getUniqeID(bs)
+        });
+      });
+  }
   importnavigate = (isSelect, item, key) => {
     const { fetchedContacts, selectedContact, n1, n2 } = this.state;
     const { user_id, username } = this.props;
@@ -369,8 +415,11 @@ class importContact extends Component {
           });
 
           fetchedContacts.map((item) => {
+           
             if (item.isSelected == true) {
-              console.log("fetch contactss------>", item);
+              var S4 = (((1 + Math.random()) * 0x10000) | 0).toString(16).substring(1);
+              // console.log(" if s4---->", S4);
+              console.log("fetch contactss------>", item.emailAddresses[0].email);
               if (item.urlAddresses.length > 0) {
                 const address = item.urlAddresses.find(({ url }) => url == url);
                 let address1 = address.url;
@@ -398,6 +447,12 @@ class importContact extends Component {
                }else{
                 this.setState({ jobTitle :  item.jobTitle})      
                }
+               if( item.thumbnailPath == ""){
+
+               }else{
+                 this.convertBase642(item.thumbnailPath)
+               }
+               
               importContactToFirebase(
                 username,
                 item.thumbnailPath,
@@ -412,7 +467,7 @@ class importContact extends Component {
                 "",
                 "",
                 item.phoneNumbers,
-                "",
+                item.emailAddresses[0].email,
                 "",
                 item.emailAddresses,
                 "",
@@ -455,10 +510,29 @@ class importContact extends Component {
                 "",
                 "",
                 "",
+                "",
+                S4
               );
+              firebase
+              .firestore()
+              .collection("user")
+              .doc(username)
+              .collection("contacts")
+              .get()
+              .then((snap) => {
+                snap.docs.forEach((doc_id) => {
+                  if (S4 == doc_id._data.unique_id) {
+                    console.log("doc idddddd ----->", doc_id.id);
+                    this.setState({ doc_id: doc_id.id });
+                    
+                  }
+                });
+              });
             }
+           
           });
-
+        
+        // this.getUniqeID();
           this.props.navigation.navigate("SerachEditContact");
           this.setState({ checked: false, isLoading: false });
           let contactArr = fetchedContacts.map((item, key) => {
@@ -468,14 +542,21 @@ class importContact extends Component {
             if (this.state.checkedOff == true) {
               this.setState({ checkedOff: false });
             }
-
-            return { ...item };
+           return { ...item };
           });
           this.setState({ fetchedContacts: contactArr });
           this.setState({isLoading: true})
+        
         } else {
           fetchedContacts.map((item) => {
             if (item.isSelected == true) {
+              var S4 = (((1 + Math.random()) * 0x10000) | 0).toString(16).substring(1);
+              console.log("s4---->", S4);
+              if( item.thumbnailPath == ""){
+
+              }else{
+                this.convertBase642(item.thumbnailPath)
+              }
               importContactToFirebase(
                 username,
                 item.thumbnailPath,
@@ -533,9 +614,28 @@ class importContact extends Component {
                 "",
                 "",
                 "",
+                "",
+                S4
               );
+              firebase
+              .firestore()
+              .collection("user")
+              .doc(username)
+              .collection("contacts")
+              .get()
+              .then((snap) => {
+                snap.docs.forEach((doc_id) => {
+                  if (S4 == doc_id._data.unique_id) {
+                    console.log("doc idddddd ----->", doc_id.id);
+                    this.setState({ doc_id: doc_id.id });
+                    
+                  }
+                });
+              });
             }
           });
+          
+       //   this.getUniqeID();
           this.props.navigation.navigate("SerachEditContact");
           this.setState({ checked: false, isLoading: false });
           let contactArr = fetchedContacts.map((item, key) => {
@@ -550,71 +650,11 @@ class importContact extends Component {
           });
           this.setState({ fetchedContacts: contactArr });
           this.setState({isLoading: true})
+          alert("hi")
         }
       });
   };
-  goInsert = () => {
-    const { fetchedContacts, selectedContact } = this.state;
-    const { user_id, username } = this.props;
-    fetchedContacts.map((item) => {
-      if (item.isSelected == true) {
-        importContactToFirebase(
-          username,
-          item.thumbnailPath,
-          item.givenName.toLowerCase(),
-          item.middleName.toLowerCase(),
-          item.familyName.toLowerCase(),
-          "",
-          this.state.addressLable,
-          "",
-          "",
-          "",
-          item.phoneNumbers,
-          "",
-          "",
-          item.emailAddresses,
-          "",
-          this.state.address1,
-          "",
-          "",
-          "",
-          "",
-          "",
-          "",
-          this.state.website,
-          "",
-          "",
-          item.birthday,
-          "",
-          "",
-          item.note.toLowerCase(),
-          item.company.toLowerCase(),
-          "",
-          item.jobTitle.toLowerCase(),
-          "",
-          "",
-          "",
-          "",
-          "",
-          true
-        );
-      }
-    });
-    this.props.navigation.navigate("SerachEditContact");
-    this.setState({ checked: false, isLoading: false });
-    let contactArr = fetchedContacts.map((item, key) => {
-      if ((item.isSelected = true)) {
-        item.isSelected = false;
-      }
-      if (this.state.checkedOff == true) {
-        this.setState({ checkedOff: false });
-      }
 
-      return { ...item };
-    });
-    this.setState({ n1: [] });
-    this.setState({ fetchedContacts: contactArr });
-  };
   showLoader() {
     if (this.state.isLoading == true) {
       return <Spinner />;

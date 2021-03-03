@@ -49,6 +49,7 @@ export const addManualContact = (
   sEmail,
   sNumber,
   sDate,
+  unique_id
 ) => {
   firebase
     .firestore()
@@ -107,6 +108,7 @@ export const addManualContact = (
       email1:sEmail,
       number1 : sNumber,
       date : sDate,
+      unique_id:unique_id,
       monday  :"",
       mondayTo  :"",
       tuesday  :"",

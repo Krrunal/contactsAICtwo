@@ -56,7 +56,9 @@ export const importContactToFirebase = (
   saturday,
   saturdayTo,
   sunday,
-  sundayTo
+  sundayTo,
+  user_id,
+  unique_id
 ) => {
   firebase
     .firestore()
@@ -80,8 +82,8 @@ export const importContactToFirebase = (
       email1: email1,
       email2: email2,
       email: emailArray,
-      address1: address1,
-      address: addressArray,
+      address1: addressArray,
+      address: address1,
       messenger1: messenger1,
       messenger2: messenger2,
       messenger: messangerArray,
@@ -119,7 +121,9 @@ export const importContactToFirebase = (
       saturdayTo: saturdayTo,
       sunday: sunday,
       sundayTo: sundayTo,
+      user_id:user_id,
       u_name:first_name,
+      unique_id:unique_id,
       // isLNUpdate  :false,
       // isFnUpdate : false,
       // isNumberUpdate :false,

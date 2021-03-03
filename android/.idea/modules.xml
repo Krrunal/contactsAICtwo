@@ -26,6 +26,7 @@
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/-1409782744/react-native-svg.iml" filepath="$PROJECT_DIR$/.idea/modules/-1409782744/react-native-svg.iml" group="contactsAIC/react-native-svg" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/1524445813/react-native-timezone.iml" filepath="$PROJECT_DIR$/.idea/modules/1524445813/react-native-timezone.iml" group="contactsAIC/react-native-timezone" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/639336332/react-native-vector-icons.iml" filepath="$PROJECT_DIR$/.idea/modules/639336332/react-native-vector-icons.iml" group="contactsAIC/react-native-vector-icons" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/465220821/rn-fetch-blob.iml" filepath="$PROJECT_DIR$/.idea/modules/465220821/rn-fetch-blob.iml" group="contactsAIC/rn-fetch-blob" />
     </modules>
   </component>
 </project>

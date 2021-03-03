@@ -11,7 +11,7 @@ import {
 } from "react-native";
 import React, { Component, useState } from "react";
 import styled, { ThemeProvider } from "styled-components/native";
-
+import Constants from "../../action/Constants";
 import Add from "../AddContact/index";
 import AsyncStorage from "@react-native-community/async-storage";
 import { COLORS } from "../theme/Colors.js";
@@ -46,7 +46,7 @@ class forSelectContact extends Component {
     this.setState({
       selectedName: await AsyncStorage.getItem("@selectedName"),
     });
-
+   
     firebase
       .firestore()
       .collection("user")
@@ -63,6 +63,8 @@ class forSelectContact extends Component {
         this.setState({ contacts: this.state.contact });
       });
   }
+
+ 
   renderHeader() {
     return (
       <Header

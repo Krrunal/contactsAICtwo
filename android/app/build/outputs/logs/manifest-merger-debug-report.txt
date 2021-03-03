@@ -32,6 +32,7 @@ MERGED from [:react-native-sms] /Users/macmini/Desktop/contactsAICtwo/node_modul
 MERGED from [:react-native-svg] /Users/macmini/Desktop/contactsAICtwo/node_modules/react-native-svg/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:2:1-9:12
 MERGED from [:react-native-timezone] /Users/macmini/Desktop/contactsAICtwo/node_modules/react-native-timezone/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:2:1-11:12
 MERGED from [:react-native-vector-icons] /Users/macmini/Desktop/contactsAICtwo/node_modules/react-native-vector-icons/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:2:1-11:12
+MERGED from [:rn-fetch-blob] /Users/macmini/Desktop/contactsAICtwo/node_modules/rn-fetch-blob/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:2:1-47:12
 MERGED from [com.facebook.react:react-native:0.63.2] /Users/macmini/.gradle/caches/transforms-2/files-2.1/ced59879c5cb5e3477f820c37ab9bd17/jetified-react-native-0.63.2/AndroidManifest.xml:2:1-13:12
 MERGED from [com.google.firebase:firebase-core:17.5.0] /Users/macmini/.gradle/caches/transforms-2/files-2.1/cdf4249485b83d788484e324a09f688f/jetified-firebase-core-17.5.0/AndroidManifest.xml:2:1-9:12
 MERGED from [com.google.firebase:firebase-database:19.5.0] /Users/macmini/.gradle/caches/transforms-2/files-2.1/0b985b3ba19b67d437196c8c01d586dc/jetified-firebase-database-19.5.0/AndroidManifest.xml:15:1-38:12
@@ -165,6 +166,8 @@ MERGED from [:react-native-firebase] /Users/macmini/Desktop/contactsAICtwo/node_
 MERGED from [:react-native-firebase] /Users/macmini/Desktop/contactsAICtwo/node_modules/react-native-firebase/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:11:5-67
 MERGED from [notifee_core_release.aar] /Users/macmini/.gradle/caches/transforms-2/files-2.1/8c0d84d1078fedc395a01baea9abd21f/jetified-notifee_core_release/AndroidManifest.xml:15:5-67
 MERGED from [notifee_core_release.aar] /Users/macmini/.gradle/caches/transforms-2/files-2.1/8c0d84d1078fedc395a01baea9abd21f/jetified-notifee_core_release/AndroidManifest.xml:15:5-67
+MERGED from [:rn-fetch-blob] /Users/macmini/Desktop/contactsAICtwo/node_modules/rn-fetch-blob/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:15:5-67
+MERGED from [:rn-fetch-blob] /Users/macmini/Desktop/contactsAICtwo/node_modules/rn-fetch-blob/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:15:5-67
 MERGED from [com.google.firebase:firebase-database:19.5.0] /Users/macmini/.gradle/caches/transforms-2/files-2.1/0b985b3ba19b67d437196c8c01d586dc/jetified-firebase-database-19.5.0/AndroidManifest.xml:26:5-67
 MERGED from [com.google.firebase:firebase-database:19.5.0] /Users/macmini/.gradle/caches/transforms-2/files-2.1/0b985b3ba19b67d437196c8c01d586dc/jetified-firebase-database-19.5.0/AndroidManifest.xml:26:5-67
 MERGED from [com.google.firebase:firebase-firestore:21.0.0] /Users/macmini/.gradle/caches/transforms-2/files-2.1/c71fe8df7d6d5d2cc67b0b476f351708/jetified-firebase-firestore-21.0.0/AndroidManifest.xml:14:5-67
@@ -223,6 +226,8 @@ MERGED from [notifee_core_release.aar] /Users/macmini/.gradle/caches/transforms-
 MERGED from [notifee_core_release.aar] /Users/macmini/.gradle/caches/transforms-2/files-2.1/8c0d84d1078fedc395a01baea9abd21f/jetified-notifee_core_release/AndroidManifest.xml:12:5-79
 MERGED from [:react-native-community_netinfo] /Users/macmini/Desktop/contactsAICtwo/node_modules/@react-native-community/netinfo/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:9:5-79
 MERGED from [:react-native-community_netinfo] /Users/macmini/Desktop/contactsAICtwo/node_modules/@react-native-community/netinfo/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:9:5-79
+MERGED from [:rn-fetch-blob] /Users/macmini/Desktop/contactsAICtwo/node_modules/rn-fetch-blob/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:27:5-79
+MERGED from [:rn-fetch-blob] /Users/macmini/Desktop/contactsAICtwo/node_modules/rn-fetch-blob/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:27:5-79
 MERGED from [com.google.firebase:firebase-database:19.5.0] /Users/macmini/.gradle/caches/transforms-2/files-2.1/0b985b3ba19b67d437196c8c01d586dc/jetified-firebase-database-19.5.0/AndroidManifest.xml:25:5-79
 MERGED from [com.google.firebase:firebase-database:19.5.0] /Users/macmini/.gradle/caches/transforms-2/files-2.1/0b985b3ba19b67d437196c8c01d586dc/jetified-firebase-database-19.5.0/AndroidManifest.xml:25:5-79
 MERGED from [com.google.firebase:firebase-firestore:21.0.0] /Users/macmini/.gradle/caches/transforms-2/files-2.1/c71fe8df7d6d5d2cc67b0b476f351708/jetified-firebase-firestore-21.0.0/AndroidManifest.xml:13:5-79
@@ -275,6 +280,8 @@ MERGED from [:react-native-image-crop-picker] /Users/macmini/Desktop/contactsAIC
 MERGED from [:react-native-image-crop-picker] /Users/macmini/Desktop/contactsAICtwo/node_modules/react-native-image-crop-picker/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:18:5-32:19
 MERGED from [:react-native-keychain] /Users/macmini/Desktop/contactsAICtwo/node_modules/react-native-keychain/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:14:5-21:19
 MERGED from [:react-native-keychain] /Users/macmini/Desktop/contactsAICtwo/node_modules/react-native-keychain/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:14:5-21:19
+MERGED from [:rn-fetch-blob] /Users/macmini/Desktop/contactsAICtwo/node_modules/rn-fetch-blob/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:35:5-45:19
+MERGED from [:rn-fetch-blob] /Users/macmini/Desktop/contactsAICtwo/node_modules/rn-fetch-blob/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:35:5-45:19
 MERGED from [com.facebook.react:react-native:0.63.2] /Users/macmini/.gradle/caches/transforms-2/files-2.1/ced59879c5cb5e3477f820c37ab9bd17/jetified-react-native-0.63.2/AndroidManifest.xml:11:5-20
 MERGED from [com.facebook.react:react-native:0.63.2] /Users/macmini/.gradle/caches/transforms-2/files-2.1/ced59879c5cb5e3477f820c37ab9bd17/jetified-react-native-0.63.2/AndroidManifest.xml:11:5-20
 MERGED from [com.google.firebase:firebase-core:17.5.0] /Users/macmini/.gradle/caches/transforms-2/files-2.1/cdf4249485b83d788484e324a09f688f/jetified-firebase-core-17.5.0/AndroidManifest.xml:7:5-20
@@ -554,6 +561,8 @@ MERGED from [:react-native-timezone] /Users/macmini/Desktop/contactsAICtwo/node_
 MERGED from [:react-native-timezone] /Users/macmini/Desktop/contactsAICtwo/node_modules/react-native-timezone/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:7:5-9:41
 MERGED from [:react-native-vector-icons] /Users/macmini/Desktop/contactsAICtwo/node_modules/react-native-vector-icons/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:7:5-9:41
 MERGED from [:react-native-vector-icons] /Users/macmini/Desktop/contactsAICtwo/node_modules/react-native-vector-icons/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:7:5-9:41
+MERGED from [:rn-fetch-blob] /Users/macmini/Desktop/contactsAICtwo/node_modules/rn-fetch-blob/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:7:5-9:41
+MERGED from [:rn-fetch-blob] /Users/macmini/Desktop/contactsAICtwo/node_modules/rn-fetch-blob/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:7:5-9:41
 MERGED from [com.facebook.react:react-native:0.63.2] /Users/macmini/.gradle/caches/transforms-2/files-2.1/ced59879c5cb5e3477f820c37ab9bd17/jetified-react-native-0.63.2/AndroidManifest.xml:7:5-9:41
 MERGED from [com.facebook.react:react-native:0.63.2] /Users/macmini/.gradle/caches/transforms-2/files-2.1/ced59879c5cb5e3477f820c37ab9bd17/jetified-react-native-0.63.2/AndroidManifest.xml:7:5-9:41
 MERGED from [com.google.firebase:firebase-core:17.5.0] /Users/macmini/.gradle/caches/transforms-2/files-2.1/cdf4249485b83d788484e324a09f688f/jetified-firebase-core-17.5.0/AndroidManifest.xml:5:5-44
@@ -780,12 +789,16 @@ uses-permission#android.permission.ACCESS_WIFI_STATE
 ADDED from [com.facebook.flipper:flipper:0.37.0] /Users/macmini/.gradle/caches/transforms-2/files-2.1/df13a9fac97a3c013503f2387d42b148/jetified-flipper-0.37.0/AndroidManifest.xml:16:5-76
 MERGED from [:react-native-community_netinfo] /Users/macmini/Desktop/contactsAICtwo/node_modules/@react-native-community/netinfo/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:10:5-76
 MERGED from [:react-native-community_netinfo] /Users/macmini/Desktop/contactsAICtwo/node_modules/@react-native-community/netinfo/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:10:5-76
+MERGED from [:rn-fetch-blob] /Users/macmini/Desktop/contactsAICtwo/node_modules/rn-fetch-blob/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:30:5-76
+MERGED from [:rn-fetch-blob] /Users/macmini/Desktop/contactsAICtwo/node_modules/rn-fetch-blob/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:30:5-76
 	android:name
 		ADDED from [com.facebook.flipper:flipper:0.37.0] /Users/macmini/.gradle/caches/transforms-2/files-2.1/df13a9fac97a3c013503f2387d42b148/jetified-flipper-0.37.0/AndroidManifest.xml:16:22-73
 uses-permission#android.permission.WAKE_LOCK
 ADDED from [:react-native-firebase] /Users/macmini/Desktop/contactsAICtwo/node_modules/react-native-firebase/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:12:5-68
 MERGED from [notifee_core_release.aar] /Users/macmini/.gradle/caches/transforms-2/files-2.1/8c0d84d1078fedc395a01baea9abd21f/jetified-notifee_core_release/AndroidManifest.xml:11:5-68
 MERGED from [notifee_core_release.aar] /Users/macmini/.gradle/caches/transforms-2/files-2.1/8c0d84d1078fedc395a01baea9abd21f/jetified-notifee_core_release/AndroidManifest.xml:11:5-68
+MERGED from [:rn-fetch-blob] /Users/macmini/Desktop/contactsAICtwo/node_modules/rn-fetch-blob/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:21:5-68
+MERGED from [:rn-fetch-blob] /Users/macmini/Desktop/contactsAICtwo/node_modules/rn-fetch-blob/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:21:5-68
 MERGED from [com.google.firebase:firebase-iid:21.0.1] /Users/macmini/.gradle/caches/transforms-2/files-2.1/dd658431e59ba0c54c927b0eb596ac48/jetified-firebase-iid-21.0.1/AndroidManifest.xml:24:5-68
 MERGED from [com.google.firebase:firebase-iid:21.0.1] /Users/macmini/.gradle/caches/transforms-2/files-2.1/dd658431e59ba0c54c927b0eb596ac48/jetified-firebase-iid-21.0.1/AndroidManifest.xml:24:5-68
 MERGED from [androidx.work:work-runtime:2.4.0] /Users/macmini/.gradle/caches/transforms-2/files-2.1/fd1fd782f1e6f9152aa90f58c2510bff/work-runtime-2.4.0/AndroidManifest.xml:25:5-68
@@ -898,6 +911,8 @@ ADDED from [:react-native-image-crop-picker] /Users/macmini/Desktop/contactsAICt
 		ADDED from [:react-native-image-crop-picker] /Users/macmini/Desktop/contactsAICtwo/node_modules/react-native-image-crop-picker/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:12:21-70
 uses-permission#android.permission.WRITE_EXTERNAL_STORAGE
 ADDED from [:react-native-image-crop-picker] /Users/macmini/Desktop/contactsAICtwo/node_modules/react-native-image-crop-picker/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:16:5-81
+MERGED from [:rn-fetch-blob] /Users/macmini/Desktop/contactsAICtwo/node_modules/rn-fetch-blob/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:33:5-81
+MERGED from [:rn-fetch-blob] /Users/macmini/Desktop/contactsAICtwo/node_modules/rn-fetch-blob/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:33:5-81
 	android:name
 		ADDED from [:react-native-image-crop-picker] /Users/macmini/Desktop/contactsAICtwo/node_modules/react-native-image-crop-picker/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:16:22-78
 provider#androidx.core.content.FileProvider
@@ -944,6 +959,20 @@ MERGED from [androidx.biometric:biometric:1.0.1] /Users/macmini/.gradle/caches/t
 		ADDED from [:react-native-keychain] /Users/macmini/Desktop/contactsAICtwo/node_modules/react-native-keychain/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:20:13-64
 	android:name
 		ADDED from [:react-native-keychain] /Users/macmini/Desktop/contactsAICtwo/node_modules/react-native-keychain/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:18:13-78
+uses-permission#com.android.vending.CHECK_LICENSE
+ADDED from [:rn-fetch-blob] /Users/macmini/Desktop/contactsAICtwo/node_modules/rn-fetch-blob/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:12:5-73
+	android:name
+		ADDED from [:rn-fetch-blob] /Users/macmini/Desktop/contactsAICtwo/node_modules/rn-fetch-blob/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:12:22-70
+provider#com.RNFetchBlob.Utils.FileProvider
+ADDED from [:rn-fetch-blob] /Users/macmini/Desktop/contactsAICtwo/node_modules/rn-fetch-blob/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:36:9-44:20
+	android:grantUriPermissions
+		ADDED from [:rn-fetch-blob] /Users/macmini/Desktop/contactsAICtwo/node_modules/rn-fetch-blob/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:40:13-47
+	android:authorities
+		ADDED from [:rn-fetch-blob] /Users/macmini/Desktop/contactsAICtwo/node_modules/rn-fetch-blob/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:38:13-60
+	android:exported
+		ADDED from [:rn-fetch-blob] /Users/macmini/Desktop/contactsAICtwo/node_modules/rn-fetch-blob/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:39:13-37
+	android:name
+		ADDED from [:rn-fetch-blob] /Users/macmini/Desktop/contactsAICtwo/node_modules/rn-fetch-blob/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:37:13-62
 meta-data#com.google.firebase.components:com.google.firebase.database.DatabaseRegistrar
 ADDED from [com.google.firebase:firebase-database:19.5.0] /Users/macmini/.gradle/caches/transforms-2/files-2.1/0b985b3ba19b67d437196c8c01d586dc/jetified-firebase-database-19.5.0/AndroidManifest.xml:32:13-34:85
 	android:value

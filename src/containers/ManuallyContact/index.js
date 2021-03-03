@@ -17,7 +17,7 @@ import {
 import React, { Component } from "react";
 import { darkTheme, lightTheme } from "../theme/themeProps";
 import styled, { ThemeProvider } from "styled-components/native";
-
+import RNFetchBlob from "rn-fetch-blob";
 import { COLORS } from "../theme/Colors.js";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import Font from "../theme/font";
@@ -48,11 +48,10 @@ import moment from "moment";
 import note from "../../assets/images/note.png";
 import rigthLogo from "../../assets/icons/contact.png";
 import sideBar from "../../assets/images/sideBAR.png";
-import { storage } from "react-native-firebase";
+import Constants from "../../action/Constants";
 import styles from "./style.js";
 import { switchTheme } from "../../action/themeAction";
 import uuid from "react-native-uuid";
-import { v4 as uuidv4 } from "uuid";
 import website from "../../assets/images/website.png";
 
 var { width, height } = Dimensions.get("window");
@@ -122,12 +121,12 @@ class addmanuallyContact extends Component {
         workHours: "",
         label: "",
       },
-      sEmail:"",
+      sEmail: "",
       messenger1: "",
       messenger2: "",
       social_media1: "",
       social_media2: "",
-      sNumber:"",
+      sNumber: "",
       website1: "",
       website2: "",
       dob: "",
@@ -140,11 +139,11 @@ class addmanuallyContact extends Component {
       image2: null,
       image3: null,
       profile_image: "",
-      profile_image2:"",
-      profile_image3:"",
-      imagePath:"",
+      profile_image2: "",
+      profile_image3: "",
+      imagePath: "",
       numberArray: [],
-      mobileArray:[],
+      mobileArray: [],
       emailArray: [],
       addressArray: [],
       messangerArray: [],
@@ -340,25 +339,109 @@ class addmanuallyContact extends Component {
       companyIndexOnly: "",
       companyNameOnly: "",
       companyCounter: 0,
-     
-      singleCompany:"",
-      singleWebsite:"",
-      singleMessenger:"",
-      singleSocialMedia:"",
-      singleNote:"",
-      singleJobTitle:"",
-      singleAddress:"",
-      sDate:"",
+
+      singleCompany: "",
+      singleWebsite: "",
+      singleMessenger: "",
+      singleSocialMedia: "",
+      singleNote: "",
+      singleJobTitle: "",
+      singleAddress: "",
+      sDate: "",
+      doc_id: "",
+      unique_id: "",
+      profile_base: "",
+      profile_base2: "",
+      profile_base3: "",
     };
   }
+  updatePhoto = () => {
+    const { user_id, username } = this.props;
+    const { doc_id, profile_base, profile_base2, profile_base3 } = this.state;
+    console.log(" -------->", this.state.doc_id);
+    if (profile_base == "") {
+    } else {
+      this.setState({ isLoading: true });
+      const baseurl = Constants.baseurl;
+      var _body = new FormData();
+      _body.append("docid", doc_id);
+      _body.append("userfile", profile_base);
+      _body.append("position", 1);
+      fetch(baseurl + "uploadfiles", {
+        method: "POST",
+        body: _body,
+      })
+        .then((response) => {
+          return response.json();
+        })
+        .then((responseJson) => {
+          console.log(" update  profile image 111 --->", responseJson);
+          this.setState({ isLoading: false });
+        })
+        .catch((error) => {
+          this.setState({ isLoading: false });
+          alert("Something went wrong in image Update");
+          console.log("name error---->", error);
+        });
+    }
+    if (profile_base2 == "") {
+    } else {
+      this.setState({ isLoading: true });
+      const baseurl = Constants.baseurl;
+      var _body = new FormData();
+      _body.append("docid", doc_id);
+      _body.append("userfile", profile_base2);
+      _body.append("position", 2);
+      fetch(baseurl + "uploadfiles", {
+        method: "POST",
+        body: _body,
+      })
+        .then((response) => {
+          return response.json();
+        })
+        .then((responseJson) => {
+          console.log(" update  profile image 22--->", responseJson);
+          this.setState({ isLoading: false });
+        })
+        .catch((error) => {
+          this.setState({ isLoading: false });
+          alert("Something went wrong in image Update");
+          console.log("name error---->", error);
+        });
+    }
+    if (profile_base3 == "") {
+    } else {
+      this.setState({ isLoading: true });
+      const baseurl = Constants.baseurl;
+      var _body = new FormData();
+      _body.append("docid", doc_id);
+      _body.append("userfile", profile_base3);
+      _body.append("position", 3);
+      fetch(baseurl + "uploadfiles", {
+        method: "POST",
+        body: _body,
+      })
+        .then((response) => {
+          return response.json();
+        })
+        .then((responseJson) => {
+          console.log(" update  profile image 33 --->", responseJson);
+          this.setState({ isLoading: false });
+        })
+        .catch((error) => {
+          this.setState({ isLoading: false });
+          alert("Something went wrong in image Update");
+          console.log("name error---->", error);
+        });
+    }
+    alert("Add contact successfully");
+  };
 
   ShowHideTextComponentView = () => {
     if (this.state.status == false) {
       this.setState({ status: true });
     } else {
       this.setState({ status: false });
-      console.log("email--->", this.state.email);
-      console.log("array--->", this.state.emailArray);
     }
     const {
       profile_image,
@@ -398,8 +481,8 @@ class addmanuallyContact extends Component {
       jobTitleArray,
       image,
       image2,
-      image3,  
-       singleCompany,
+      image3,
+      singleCompany,
       singleWebsite,
       singleMessenger,
       singleSocialMedia,
@@ -408,7 +491,7 @@ class addmanuallyContact extends Component {
       singleAddress,
       sEmail,
       sNumber,
-      sDate
+      sDate,
     } = this.state;
     const { user_id, username } = this.props;
     if (this.state.status == true) {
@@ -438,7 +521,11 @@ class addmanuallyContact extends Component {
           jobTitle !== "" ||
           workHours !== ""
         ) {
-         // console.log("Messanger ", first_name);
+          var S4 = (((1 + Math.random()) * 0x10000) | 0)
+            .toString(16)
+            .substring(1);
+          console.log("s4---->", S4);
+
           addManualContact(
             // user_id,
             username,
@@ -489,15 +576,33 @@ class addmanuallyContact extends Component {
             sEmail,
             sNumber,
             sDate,
+            S4
           );
+          this.setState({ unique_id: S4 });
+          // this.updatePhoto()
+          firebase
+            .firestore()
+            .collection("user")
+            .doc(username)
+            .collection("contacts")
+            .get()
+            .then((snap) => {
+              snap.docs.forEach((doc_id) => {
+                if (S4 == doc_id._data.unique_id) {
+                  console.log("doc idddddd ----->", doc_id.id);
+                  this.setState({ doc_id: doc_id.id });
+                  this.updatePhoto();
+                }
+              });
+            });
           this.setState({
             status: false,
             image: "",
             image2: "",
             image3: "",
-            profile_image:"",
-            profile_image2:"",
-            profile_image3:"",
+            profile_image: "",
+            profile_image2: "",
+            profile_image3: "",
             first_name: "",
             middle_name: "",
             last_name: "",
@@ -517,7 +622,7 @@ class addmanuallyContact extends Component {
             socialMedia: "",
             social_media2: "",
             socialMediaArray: [],
-            website : "",
+            website: "",
             website2: "",
             websiteArray: [],
             date: "",
@@ -527,7 +632,7 @@ class addmanuallyContact extends Component {
             company: "",
             companyArray: [],
             jobTitle: "",
-            workHours  : "",
+            workHours: "",
             singleCompany: "",
             singleWebsite: "",
             singleMessenger: "",
@@ -535,11 +640,15 @@ class addmanuallyContact extends Component {
             singleNote: "",
             singleJobTitle: "",
             singleAddress: "",
-            sEmail:"",
-            sNumber:"",
-            sDate:"",
+            sEmail: "",
+            sNumber: "",
+            sDate: "",
+            unique_id: "",
+            // profile_base:"",
+            // profile_base2:"",
+            // profile_base3:"",
           });
-          alert("Add contact successfully");
+       
         }
       }
     } else {
@@ -555,6 +664,7 @@ class addmanuallyContact extends Component {
       />
     );
   }
+
   selectPhoto = () => {
     ActionSheet.show(
       {
@@ -624,16 +734,74 @@ class addmanuallyContact extends Component {
       }
     );
   };
+  convertBase64(PATH_TO_THE_FILE) {
+    let data = "";
+    RNFetchBlob.fs
+      .readStream(PATH_TO_THE_FILE, "base64", 4095)
+      .then((ifstream) => {
+        ifstream.open();
+        ifstream.onData((chunk) => {
+          data += chunk;
+        });
+        ifstream.onError((err) => {
+          console.log("oops", err);
+        });
+        ifstream.onEnd(() => {
+          var bs = data;
+          this.setState({ profile_base: bs });
+          this._uploadImageBase64(bs);
+        });
+      });
+  }
 
+  convertBase642(PATH_TO_THE_FILE) {
+    let data = "";
+    RNFetchBlob.fs
+      .readStream(PATH_TO_THE_FILE, "base64", 4095)
+      .then((ifstream) => {
+        ifstream.open();
+        ifstream.onData((chunk) => {
+          data += chunk;
+        });
+        ifstream.onError((err) => {
+          console.log("oops", err);
+        });
+        ifstream.onEnd(() => {
+          var bs = data;
+          this.setState({ profile_base2: bs });
+          this._uploadImageBase64(bs);
+        });
+      });
+  }
+  convertBase643(PATH_TO_THE_FILE) {
+    let data = "";
+    RNFetchBlob.fs
+      .readStream(PATH_TO_THE_FILE, "base64", 4095)
+      .then((ifstream) => {
+        ifstream.open();
+        ifstream.onData((chunk) => {
+          data += chunk;
+        });
+        ifstream.onError((err) => {
+          console.log("oops", err);
+        });
+        ifstream.onEnd(() => {
+          var bs = data;
+          this.setState({ profile_base3: bs });
+          this._uploadImageBase64(bs);
+        });
+      });
+  }
+  _uploadImageBase64 = (profile) => {};
   takePhtotFromCamera = () => {
     ImagePicker.openCamera({
       width: 300,
       height: 400,
       cropping: true,
     }).then((image) => {
-      this.setState({ profile_image : image.path });
-      console.log("URI ......>",image.path);
-      // console.log(image);
+      this.setState({ profile_image: image.path });
+      console.log("URI ......>", image.path);
+      this.convertBase64(image.path);
       this.setState({
         image: {
           uri: image.path,
@@ -652,10 +820,9 @@ class addmanuallyContact extends Component {
       height: 400,
       cropping: true,
     }).then((image) => {
-      this.setState({ profile_image : image.path });
-      console.log("URI ......>",image.path);
-
-    
+      this.setState({ profile_image: image.path });
+      console.log("URI ......>", image.path);
+      this.convertBase64(image.path);
       this.setState({
         image: {
           uri: image.path,
@@ -669,16 +836,14 @@ class addmanuallyContact extends Component {
     });
   };
 
- 
-
   takePhotoFromCamera2 = () => {
     ImagePicker.openCamera({
       width: 300,
       height: 400,
       cropping: true,
     }).then((image2) => {
-      this.setState({ profile_image2 : image2.path });
-      console.log(image2);
+      this.setState({ profile_image2: image2.path });
+      this.convertBase642(image2.path);
       this.setState({
         image2: {
           uri: image2.path,
@@ -696,8 +861,8 @@ class addmanuallyContact extends Component {
       height: 400,
       cropping: true,
     }).then((image2) => {
-      this.setState({ profile_image2 : image2.path });
-      console.log(image2);
+      this.setState({ profile_image2: image2.path });
+      this.convertBase642(image2.path);
       this.setState({
         image2: {
           uri: image2.path,
@@ -716,7 +881,8 @@ class addmanuallyContact extends Component {
       height: 400,
       cropping: true,
     }).then((image3) => {
-      this.setState({ profile_image3 : image3.path });
+      this.setState({ profile_image3: image3.path });
+      this.convertBase643(image3.path);
       console.log(image3);
       this.setState({
         image3: {
@@ -736,8 +902,8 @@ class addmanuallyContact extends Component {
       height: 400,
       cropping: true,
     }).then((image3) => {
-      this.setState({ profile_image3 : image3.path });
-
+      this.setState({ profile_image3: image3.path });
+      this.convertBase643(image3.path);
       console.log(image3);
       this.setState({
         image3: {
@@ -950,7 +1116,7 @@ class addmanuallyContact extends Component {
           this.setState({
             numberCounter: this.state.numberCounter + 1,
             numberSection: true,
-            numberArray: [...this.state.numberArray, { number: "" , label: ""}],
+            numberArray: [...this.state.numberArray, { number: "", label: "" }],
           });
         } else {
           alert("Please Fill the Field");
@@ -973,7 +1139,7 @@ class addmanuallyContact extends Component {
       this.state.numberArray[index].number = value.unmaskedPhoneNumber;
       this.setState({ numberArray: this.state.numberArray });
     }
-    console.log("number---->",this.state.numberArray);
+    console.log("number---->", this.state.numberArray);
   };
   removeItem = (key) => {
     const { numberArray } = this.state;
@@ -1001,23 +1167,28 @@ class addmanuallyContact extends Component {
     if (isVerified == true) {
       let value = dialCode + "-" + unmaskedPhoneNumber;
       this.state.number1.number = value;
-      this.setState({ number1 : this.state.number1  ,sNumber :  dialCode + "-" + unmaskedPhoneNumber});
+      this.setState({
+        number1: this.state.number1,
+        sNumber: dialCode + "-" + unmaskedPhoneNumber,
+      });
     } else {
       this.state.number1.number = unmaskedPhoneNumber;
-      this.setState({ number1 : this.state.number1 ,sNumber :  dialCode + "-" + unmaskedPhoneNumber });
-   } 
-  };
-  mobileLabelSet = (value) =>{
-      this.setState({ isMobileModelOpen: false  })
-      this.state.number1.label = value;
-      this.setState({ number1 : this.state.number1 });
+      this.setState({
+        number1: this.state.number1,
+        sNumber: dialCode + "-" + unmaskedPhoneNumber,
+      });
     }
+  };
+  mobileLabelSet = (value) => {
+    this.setState({ isMobileModelOpen: false });
+    this.state.number1.label = value;
+    this.setState({ number1: this.state.number1 });
+  };
   renderMobileLabel = ({ item, index }) => {
     return (
       <TouchableHighlight
         underlayColor="transparent"
         onPress={() => this.mobileLabelSet(item.label)}
-       
       >
         <Text style={styles.labelName}> {item.label} </Text>
       </TouchableHighlight>
@@ -1027,7 +1198,7 @@ class addmanuallyContact extends Component {
     this.setState({ isMobileArrrayModelOpen: false });
     this.state.numberArray[index].label = label;
     this.setState({ numberArray: this.state.numberArray });
-    console.log("number---->",this.state.numberArray);
+    console.log("number---->", this.state.numberArray);
   };
   renderMobile() {
     return (
@@ -1085,7 +1256,9 @@ class addmanuallyContact extends Component {
               ) : null}
               {this.state.status && this.state.number1.label !== "" ? (
                 <View style={[styles.rightView]}>
-                  <Text style={styles.righttext}>{this.state.number1.label}</Text>
+                  <Text style={styles.righttext}>
+                    {this.state.number1.label}
+                  </Text>
                 </View>
               ) : null}
             </View>
@@ -1112,7 +1285,7 @@ class addmanuallyContact extends Component {
                         isShowLabelManually={false}
                         defaultCountry="CA"
                       />
-                        <TouchableHighlight
+                      <TouchableHighlight
                         underlayColor="transparent"
                         style={styles.rightView}
                         // key={key}
@@ -1134,7 +1307,7 @@ class addmanuallyContact extends Component {
                           </Text>
                         </View>
                       ) : null}
-                       <Modal
+                      <Modal
                         style={styles.footerModal}
                         visible={this.state.isMobileArrrayModelOpen}
                         transparent={true}
@@ -1210,11 +1383,11 @@ class addmanuallyContact extends Component {
                                 onPress={() =>
                                   this.state.mobileLabel !== ""
                                     ? this.setState({
-                                      isAddMobileArrayLabel: false,
+                                        isAddMobileArrayLabel: false,
                                         isMobileArrrayModelOpen: false,
                                       })
                                     : this.setState({
-                                      isAddMobileArrayLabel: false,
+                                        isAddMobileArrayLabel: false,
                                       })
                                 }
                               >
@@ -1371,7 +1544,7 @@ class addmanuallyContact extends Component {
   };
   onChangeEmail = (value) => {
     this.state.email.email = value;
-    this.setState({ email: this.state.email , sEmail :  value });
+    this.setState({ email: this.state.email, sEmail: value });
   };
   onChangeEmailArray = (value, index) => {
     this.setState({ emailIndexOnly: index });
@@ -1727,7 +1900,7 @@ class addmanuallyContact extends Component {
 
   onChangeAddress = (value) => {
     this.state.address.address = value;
-    this.setState({ address: this.state.address , singleAddress : value});
+    this.setState({ address: this.state.address, singleAddress: value });
   };
 
   onChangeAddressArray = (value, index) => {
@@ -1962,11 +2135,9 @@ class addmanuallyContact extends Component {
             {/* section */}
             {/* {this.state.addressArray.map((index) => ( */}
             <TouchableOpacity
-             
               onPress={() => {
                 this.addAddress();
               }}
-            
             >
               {this.state.status ? (
                 <NormalText> + Add Address </NormalText>
@@ -2105,7 +2276,7 @@ class addmanuallyContact extends Component {
 
   onChangeMessenger = (value) => {
     this.state.messanger.messanger = value;
-    this.setState({ messenger1: this.state.messanger  , singleMessenger : value});
+    this.setState({ messenger1: this.state.messanger, singleMessenger: value });
   };
 
   onChangeMessengerArray = (value, index) => {
@@ -2464,7 +2635,10 @@ class addmanuallyContact extends Component {
 
   onChangeSocialMedia = (value) => {
     this.state.socialMedia.socialMedia = value;
-    this.setState({ socialMedia: this.state.socialMedia , singleSocialMedia : value });
+    this.setState({
+      socialMedia: this.state.socialMedia,
+      singleSocialMedia: value,
+    });
   };
 
   onChangeSocialMediaArray = (value, index) => {
@@ -2519,7 +2693,7 @@ class addmanuallyContact extends Component {
                 //value={this.state.social_media1}
                 editable={this.state.status ? true : false}
                 onChangeText={(value) => this.onChangeSocialMedia(value)}
-               value={this.state.socialMedia}
+                value={this.state.socialMedia}
               />
               {this.state.status ? (
                 <TouchableHighlight
@@ -2831,7 +3005,7 @@ class addmanuallyContact extends Component {
 
   onChangeWebsite = (value, index) => {
     this.state.website.website = value;
-    this.setState({ website: this.state.website , singleWebsite : value });
+    this.setState({ website: this.state.website, singleWebsite: value });
   };
 
   onChangeWebsiteArray = (value, index) => {
@@ -3181,14 +3355,14 @@ class addmanuallyContact extends Component {
 
   onChangeDate = (date) => {
     console.log("A date has been picked: ", date);
-      var fomate = moment(date).format("MMMM, Do YYYY")
-     this.state.date.date = fomate;
-     this.setState({ date: this.state.date ,  sDate :  fomate});
+    var fomate = moment(date).format("MMMM, Do YYYY");
+    this.state.date.date = fomate;
+    this.setState({ date: this.state.date, sDate: fomate });
     this.setState({
       isVisible: false,
       choosenDate: moment(date).format("MMMM, Do YYYY"),
     });
-    console.log("date  ---",this.state.date)
+    console.log("date  ---", this.state.date);
     // this.state.date.date = value;
     // this.setState({ date: this.state.date });
   };
@@ -3599,7 +3773,7 @@ class addmanuallyContact extends Component {
 
   onChangeNote = (value) => {
     this.state.note.note = value;
-    this.setState({ note: this.state.note  , singleNote : value});
+    this.setState({ note: this.state.note, singleNote: value });
   };
 
   onChangeNoteArray = (value, index) => {
@@ -3935,8 +4109,14 @@ class addmanuallyContact extends Component {
             ...this.state.companyArray,
             { company: "", label: "" },
           ],
-          jobTitleArray: [ ...this.state.jobTitleArray,{ jobTitle: "", label: "" },],
-          workHoursArray: [ ...this.state.workHoursArray,{ workHours: "", label: "" },],
+          jobTitleArray: [
+            ...this.state.jobTitleArray,
+            { jobTitle: "", label: "" },
+          ],
+          workHoursArray: [
+            ...this.state.workHoursArray,
+            { workHours: "", label: "" },
+          ],
         });
       }
     }
@@ -3946,9 +4126,18 @@ class addmanuallyContact extends Component {
           this.setState({
             companyCounter: this.state.companyCounter + 1,
             companySection: true,
-            companyArray: [ ...this.state.companyArray,{ company: "", label: "" },],
-            jobTitleArray: [ ...this.state.jobTitleArray,{ jobTitle: "", label: "" },],
-            workHoursArray: [ ...this.state.workHoursArray,{ workHours: "", label: "" },],
+            companyArray: [
+              ...this.state.companyArray,
+              { company: "", label: "" },
+            ],
+            jobTitleArray: [
+              ...this.state.jobTitleArray,
+              { jobTitle: "", label: "" },
+            ],
+            workHoursArray: [
+              ...this.state.workHoursArray,
+              { workHours: "", label: "" },
+            ],
           });
         } else {
           alert("Please Fill the Field");
@@ -3957,18 +4146,11 @@ class addmanuallyContact extends Component {
         alert("Please Fill the Field");
       }
     }
-    // this.setState({
-
-    //   companyArray: [
-    //     ...this.state.companyArray,
-    //     { company: "", label: "", time: "", timeto: "" },
-    //   ],
-    // });
   };
 
   onChangeCompany = (value) => {
     this.state.company.company = value;
-    this.setState({ company : this.state.company ,singleCompany : value});
+    this.setState({ company: this.state.company, singleCompany: value });
   };
 
   onChangeCompanyArray = (value, index) => {
@@ -3976,10 +4158,8 @@ class addmanuallyContact extends Component {
     this.setState({ companyNameOnly: value });
     this.state.companyArray[index].company = value;
     this.setState({ companyArray: this.state.companyArray });
-   
   };
 
- 
   changeCompanyLabel = (label) => {
     this.setState({ isCompanyModelOpen: false });
     this.state.company.label = label;
@@ -3989,22 +4169,19 @@ class addmanuallyContact extends Component {
   //Job Title
   onChangeJobTitle = (value) => {
     this.state.jobTitle.jobTitle = value;
-    this.setState({ jobTitle: this.state.jobTitle  , singleJobTitle : value});
-  };
-  
-  onChangeJobTitleArray  = (value,index) => {
-    
-    this.state.jobTitleArray[index].jobTitle = value;
-    this.setState({ jobTitleArray: this.state.jobTitleArray });
-    console.log("job titile --->" , this.state.jobTitleArray)
+    this.setState({ jobTitle: this.state.jobTitle, singleJobTitle: value });
   };
 
-  onChangeWorkHourArray = (value,index) => {
+  onChangeJobTitleArray = (value, index) => {
+    this.state.jobTitleArray[index].jobTitle = value;
+    this.setState({ jobTitleArray: this.state.jobTitleArray });
+    console.log("job titile --->", this.state.jobTitleArray);
+  };
+
+  onChangeWorkHourArray = (value, index) => {
     this.state.workHoursArray[index].workHours = value;
     this.setState({ workHoursArray: this.state.workHoursArray });
   };
-
-
 
   //work hours
 
@@ -4013,7 +4190,6 @@ class addmanuallyContact extends Component {
     this.setState({ workHours: this.state.workHours });
   };
 
-
   removeCompany = (key) => {
     const { companyArray } = this.state;
     companyArray.splice(key, 1);
@@ -4021,8 +4197,6 @@ class addmanuallyContact extends Component {
       deleteCompanyArray: companyArray,
     });
   };
-  
-
 
   CompanyLeftAction = (key) => {
     return (
@@ -4056,7 +4230,6 @@ class addmanuallyContact extends Component {
                 editable={this.state.status ? true : false}
                 onChangeText={(value) => this.onChangeCompany(value)}
               />
-            
             </View>
             <View style={styles.filedView}>
               <TextInput
@@ -4078,7 +4251,7 @@ class addmanuallyContact extends Component {
                 onChangeText={(value) => this.onChangeWorkHours(value)}
               />
             </View>
-           
+
             {this.state.companySection == true &&
               this.state.companyArray.map((input, key) => {
                 return (
@@ -4095,7 +4268,7 @@ class addmanuallyContact extends Component {
                             this.onChangeCompanyArray(company, key);
                           }}
                         />
-                        </View>
+                      </View>
                       {/* Job Title" */}
                       <View style={styles.filedView}>
                         <TextInput
@@ -4116,9 +4289,11 @@ class addmanuallyContact extends Component {
                           placeholder="Work Hours"
                           style={styles.stylefiledText}
                           placeholderTextColor={COLORS.main_text_color}
-                         // value={this.state.job_title}
+                          // value={this.state.job_title}
                           editable={this.state.status ? true : false}
-                          onChangeText={(value) => {this.onChangeWorkHourArray(value,key)}}
+                          onChangeText={(value) => {
+                            this.onChangeWorkHourArray(value, key);
+                          }}
                         />
                       </View>
                     </View>
@@ -4132,9 +4307,6 @@ class addmanuallyContact extends Component {
             >
               {this.state.status ? <NormalText> + Company </NormalText> : null}
             </TouchableOpacity>
-
-            
-          
           </View>
         </View>
       </View>

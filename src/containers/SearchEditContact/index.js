@@ -102,7 +102,7 @@ class searchContact extends Component {
       note: "",
       company: "",
       jobTitle: "",
-      JobTitle:"",
+      JobTitle: "",
       monday: "",
       mondayTo: "",
       tuesday: "",
@@ -150,7 +150,7 @@ class searchContact extends Component {
       u_id: "",
       s_label_name: "",
       selectedData: "",
-      eachUserData:"",
+      eachUserData: "",
       doc_id: "",
 
       isLNUpdate: false,
@@ -177,6 +177,7 @@ class searchContact extends Component {
       imgSec3: false,
       rightSec: false,
       u_name: "",
+      firstImage: "",
     };
   }
 
@@ -187,20 +188,262 @@ class searchContact extends Component {
       return true;
     }
   };
+  getImage = () => {
+    const { username } = this.props;
+  
+    firebase
+    .firestore()
+    .collection("user")
+    .doc(username)
+    .collection("contacts")
+    .get()
+    .then((snap) => {
+      snap.docs.forEach((doc_id) => {
+        console.log("doc---->", doc_id._data.user_id);
+        const baseurl = Constants.baseurl;
+        var _body = new FormData();
+        _body.append("user_id", doc_id._data.user_id);
+    
+        fetch(baseurl + "get_uplopimages_user", {
+          method: "POST",
+          body: _body,
+        })
+          .then((response) => {
+            return response.json();
+          })
+          .then((responseJson) => {
+           
+            if(responseJson.status == false){
+              console.log("data---->", responseJson.status);
+            }else{
+              responseJson.data.map((img) => {
+                console.log("data---->", img);
+                if (img.position == 1) {
+                  firebase
+                  .firestore()
+                  .collection("user")
+                  .doc(username)
+                  .collection("contacts")
+                  .doc(doc_id.id)
+                  .update({ profile_image : img.profile });
+                  console.log("profile image profile 111 --->", img.profile);
+                }
+                if (img.position == 2) {
+                  firebase
+                  .firestore()
+                  .collection("user")
+                  .doc(username)
+                  .collection("contacts")
+                  .doc(doc_id.id)
+                  .update({ profile_image2 : img.profile });
+                  console.log("profile image 22 --->", img.profile);
+                }
+                if (img.position == 3) {
+                  firebase
+                  .firestore()
+                  .collection("user")
+                  .doc(username)
+                  .collection("contacts")
+                  .doc(doc_id.id)
+                  .update({ profile_image3 : img.profile });
+                  console.log("profile image 3 --->", img.profile);
+                }
+              });
+              this.setState({ isLoading: false });
+            }
+          
+          })
+          .catch((error) => {
+            console.log("name error---->", error);
+          });
+      });
+     
+     })
+ 
+   
+  };
+  getImageFromDoc = () =>{
+    const { username } = this.props;
+    firebase
+    .firestore()
+    .collection("user")
+    .doc(username)
+    .collection("contacts")
+    .get()
+    .then((snap) => {
+      snap.docs.forEach((doc_id) => {
+         console.log("----->",doc_id._data.isManually)
+         if(doc_id._data.isManually == true){
+          const baseurl = Constants.baseurl;
+          var _body = new FormData();
+          _body.append("docid",doc_id.id);
+      
+          fetch(baseurl + "get_uplopimages_doc", {
+            method: "POST",
+            body: _body,
+          })
+            .then((response) => {
+              return response.json();
+            })
+            .then((responseJson) => {
+              if(responseJson.status == false){
+                console.log("data---->", responseJson.status);
+               }else{
+                responseJson.data.map((img) => {
+                  console.log("profile --->", img);
+                  if (img.position == 1) {
+                   firebase
+                   .firestore()
+                   .collection("user")
+                   .doc(username)
+                   .collection("contacts")
+                   .doc(doc_id.id)
+                   .update({ profile_image : img.profile });
+                   console.log("profile image profile 111 --->", img.profile);
+                 }
+                 if (img.position == 2) {
+                   firebase
+                   .firestore()
+                   .collection("user")
+                   .doc(username)
+                   .collection("contacts")
+                   .doc(doc_id.id)
+                   .update({ profile_image2 : img.profile });
+                   console.log("profile image 22 --->", img.profile);
+                 }
+                 if (img.position == 3) {
+                   firebase
+                   .firestore()
+                   .collection("user")
+                   .doc(username)
+                   .collection("contacts")
+                   .doc(doc_id.id)
+                   .update({ profile_image3 : img.profile });
+                   console.log("profile image 3 --->", img.profile);
+                 }
+   
+                this.setState({ isLoading: false });
+               })
+              }
+             
+           
+          })
+          .catch((error) => {
+            console.log("name error---->", error);
+          });
+         }
+       })
+      
+       })
+  }
+  getImageForImportContact = () =>{
+    const { username } = this.props;
+    firebase
+    .firestore()
+    .collection("user")
+    .doc(username)
+    .collection("contacts")
+    .get()
+    .then((snap) => {
+      snap.docs.forEach((doc_id) => {
+         console.log("----->",doc_id._data.isImport)
+         if(doc_id._data.isImport == true){
+          const baseurl = Constants.baseurl;
+          var _body = new FormData();
+          _body.append("docid",doc_id.id);
+      
+          fetch(baseurl + "get_uplopimages_doc", {
+            method: "POST",
+            body: _body,
+          })
+            .then((response) => {
+              return response.json();
+            })
+            .then((responseJson) => {
+              if(responseJson.status == false){
+               // console.log("data---->", responseJson.status);
+               }else{
+                responseJson.data.map((img) => {
+                  console.log(" isImport  profile --->", img);
+                  if (img.position == 1) {
+                   firebase
+                   .firestore()
+                   .collection("user")
+                   .doc(username)
+                   .collection("contacts")
+                   .doc(doc_id.id)
+                   .update({ profile_image : img.profile });
+                   console.log("profile image profile 111 --->", img.profile);
+                 }
+                 if (img.position == 2) {
+                   firebase
+                   .firestore()
+                   .collection("user")
+                   .doc(username)
+                   .collection("contacts")
+                   .doc(doc_id.id)
+                   .update({ profile_image2 : img.profile });
+                   console.log("profile image 22 --->", img.profile);
+                 }
+                 if (img.position == 3) {
+                   firebase
+                   .firestore()
+                   .collection("user")
+                   .doc(username)
+                   .collection("contacts")
+                   .doc(doc_id.id)
+                   .update({ profile_image3 : img.profile });
+                   console.log("profile image 3 --->", img.profile);
+                 }
+   
+                this.setState({ isLoading: false });
+               })
+              }
+             
+           
+          })
+          .catch((error) => {
+            console.log("name error---->", error);
+          });
+         }
+       })
+      
+       })
+  }
+  showContact = () =>{
+  
+      const { navigation } = this.props;
+       this.focusListener = navigation.addListener("didFocus", async () => {
+         this.setState({ isLoading: true });
+         this.setState({ contact: [] });
+         this.setState({ contacts: "" });
+         if (this.props.contactChange.mode === "first") {
+           this.contactList();
+           console.log("first");
+         } else {
+           this.contactListFirst();
+           console.log("Last");
+         }
+       });
+  }
   componentDidMount() {
-    const { navigation } = this.props;
-    this.focusListener = navigation.addListener("didFocus", async () => {
-      this.setState({ isLoading: true });
-      this.setState({ contact: [] });
-      this.setState({ contacts: "" });
-      if (this.props.contactChange.mode === "first") {
-        this.contactList();
-        console.log("first");
-      } else {
-        this.contactListFirst();
-        console.log("Last");
-      }
-    });
+    const { username } = this.props;
+    this.getImage()
+    this.getImageFromDoc()
+    this.getImageForImportContact()
+     const { navigation } = this.props;
+       this.focusListener = navigation.addListener("didFocus", async () => {
+         this.setState({ isLoading: true });
+         this.setState({ contact: [] });
+         this.setState({ contacts: "" });
+         if (this.props.contactChange.mode === "first") {
+           this.contactList();
+           console.log("first");
+         } else {
+           this.contactListFirst();
+           console.log("Last");
+         }
+       });
   }
 
   async contactList() {
@@ -235,10 +478,8 @@ class searchContact extends Component {
       .get()
       .then((snap) => {
         snap.forEach((doc) => {
-          // console.log("first_name----->", doc);
           var item = doc._data;
           this.state.contact.push(item);
-          // console.log("first_name----->", item);
         });
         this.setState({ contacts: this.state.contact });
         const sort = this.state.contacts.sort(function (a, b) {
@@ -336,6 +577,7 @@ class searchContact extends Component {
           return response.json();
         })
         .then((responseJson) => {
+          console.log("responseJson--->", responseJson);
           var arr = responseJson.data.map((item, index) => {
             // console.log("responseJson--->", item.relation);
             // console.log(" slabel  ----->", this.state.s_label_name);
@@ -356,8 +598,6 @@ class searchContact extends Component {
     });
   };
   checkSettings = () => {
-    // console.log("labelList ----->",this.state.s_label_name);
-    // console.log("labelList ----->",this.state.s_label_id);
     const baseurl = Constants.baseurl;
     var _body = new FormData();
     _body.append("relation_id", this.state.s_label_id);
@@ -377,28 +617,78 @@ class searchContact extends Component {
         let item = responseJson.data;
 
         let fields = this.state.eachUserData;
-         console.log("item---->", item);
+
+        console.log("item---->", item);
         if (responseJson.status == true) {
+          const baseurl = Constants.baseurl;
+          var _body = new FormData();
+          _body.append("user_id", fields.user_id);
+
+          fetch(baseurl + "get_uplopimages_user", {
+            method: "POST",
+            body: _body,
+          })
+            .then((response) => {
+              return response.json();
+            })
+            .then((responseJson2) => {
+              responseJson2.data.map((img) => {
+                console.log("profile --->", img);
+                if (img.position == 1) {
+                  if (item.image_1 == 1) {
+                    this.setState({ profile_image: img.profile });
+                  } else {
+                    this.setState({ profile_image: "" });
+                  }
+                  console.log("profile image profile 111 --->", img.profile);
+                }
+                if (img.position == 2) {
+                  if (item.image_2 == 1) {
+                    this.setState({ profile_image2: img.profile });
+                    if (img.profile !== "") {
+                      this.setState({ rightSec: true });
+                    }
+                  } else {
+                    this.setState({ profile_image2: "" });
+                  }
+
+                  console.log("profile image 22 --->", img.profile);
+                }
+                if (img.position == 3) {
+                  if (item.image_3 == 1) {
+                    this.setState({ profile_image3: img.profile });
+                  } else {
+                    this.setState({ profile_image3: "" });
+                  }
+                  console.log("profile image 3 --->", img.profile);
+                }
+              });
+
+              this.setState({ isLoading: false });
+            })
+            .catch((error) => {
+              console.log("name error---->", error);
+            });
           console.log("settings---->", fields);
           this.setState({ u_name: fields.u_name });
-          if (item.profile_image == 1) {
-            this.setState({ profile_image: fields.profile_image });
-          } else {
-            this.setState({ profile_image: "" });
-          }
-          if (item.profile_image2 == 1) {
-            this.setState({ profile_image2: fields.profile_image2 });
-          } else {
-            this.setState({ profile_image2: "" });
-          }
-          if (fields.profile_image2 !== "") {
-            this.setState({ rightSec: true });
-          }
-          if (item.profile_image3 == 1) {
-            this.setState({ profile_image3: fields.profile_image3 });
-          } else {
-            this.setState({ profile_image3: "" });
-          }
+          // if (item.profile_image == 1) {
+          //   this.setState({ profile_image: fields.profile_image });
+          // } else {
+          //   this.setState({ profile_image: "" });
+          // }
+          // if (item.image_2 == 1) {
+          //   this.setState({ profile_image2: fields.profile_image2 });
+          // } else {
+          //   this.setState({ profile_image2: "" });
+          // }
+          // if (fields.profile_image2 !== "") {
+          //   this.setState({ rightSec: true });
+          // }
+          // if (item.image_3 == 1) {
+          //   this.setState({ profile_image3: fields.profile_image3 });
+          // } else {
+          //   this.setState({ profile_image3: "" });
+          // }
           if (item.first_name == 1) {
             this.setState({ first_name: fields.first_name });
           } else {
@@ -410,71 +700,123 @@ class searchContact extends Component {
             this.setState({ last_name: "" });
           }
           if (item.phone_number == 1) {
-            item.number !== ""  ?  this.setState({ number: fields.number[0].phone }) :null
+            item.number !== ""
+              ? this.setState({ number: fields.number[0].phone })
+              : null;
           } else {
             this.setState({ number: "" });
           }
           if (item.address == 1) {
-            item.address  !== "" ?  this.setState({ address: fields.address[0].address }) : null
+            item.address !== ""
+              ? this.setState({ address: fields.address[0].address })
+              : null;
           } else {
             this.setState({ address: "" });
           }
           if (item.email == 1) {
-            item.email !== "" ?   this.setState({ email: fields.email[0].email }) : null
+            item.email !== ""
+              ? this.setState({ email: fields.email[0].email })
+              : null;
           } else {
             this.setState({ email: "" });
           }
           if (item.messenger == 1) {
-            item.messenger !== "" ? this.setState({ messenger: fields.messenger[0].messenger }) : null
+            item.messenger !== ""
+              ? this.setState({ messenger: fields.messenger[0].messenger })
+              : null;
           } else {
             this.setState({ messenger: "" });
           }
           if (item.Social_media == 1) {
-            item.socialMedia !== "" ?    this.setState({ socialMedia: fields.socialMedia[0].social }): null
+            item.socialMedia !== ""
+              ? this.setState({ socialMedia: fields.socialMedia[0].social })
+              : null;
           } else {
             this.setState({ socialMedia: "" });
           }
           if (item.website == 1) {
-            item.website !== "" ?   this.setState({ website: fields.website[0].website }) : null
+            item.website !== ""
+              ? this.setState({ website: fields.website[0].website })
+              : null;
           } else {
             this.setState({ website: "" });
           }
           if (item.date == 1) {
-            item.date !== "" ?  this.setState({ date: fields.date[0].date }) :null
+            item.date !== ""
+              ? this.setState({ date: fields.date[0].date })
+              : null;
           } else {
             this.setState({ date: "" });
           }
           if (item.note == 1) {
-            item.note !== "" ?    this.setState({ note: fields.note[0].note }) :null
+            item.note !== ""
+              ? this.setState({ note: fields.note[0].note })
+              : null;
           } else {
             this.setState({ note: "" });
           }
           if (item.company == 1) {
-            item.company !== "" ?      this.setState({ company: fields.company[0].company }) :null
+            item.company !== ""
+              ? this.setState({ company: fields.company[0].company })
+              : null;
           } else {
             this.setState({ company: "" });
           }
           if (item.jobTitle == 1) {
-            item.jobTitle !== "" ?   this.setState({ jobTitle: fields.jobTitle[0].jobTitle }) :null
+            item.jobTitle !== ""
+              ? this.setState({ jobTitle: fields.jobTitle[0].jobTitle })
+              : null;
           } else {
             this.setState({ jobTitle: "" });
           }
           if (item.work_hours == 1) {
-            item.jobTitle !== "" ?   this.setState({ jobTitle: fields.jobTitle[0].jobTitle }) :null
-            item.monday !== "" ?  this.setState({ monday: fields.monday[0].monday }):null
-            item.mondayTo !== "" ?  this.setState({ mondayTo: fields.mondayTo[0].mondayTo }):null
-            item.tuesday !== "" ? this.setState({ tuesday: fields.tuesday[0].tuesday }):null
-            item.tuesdayTo !== "" ? this.setState({ tuesdayTo: fields.tuesdayTo[0].tuesdayTo }):null
-            item.wednesday !== "" ?   this.setState({ wednesday: fields.wednesday[0].wednesday }):null
-            item.wednesdayTo !== "" ?this.setState({ wednesdayTo: fields.wednesdayTo[0].wednesdayTo }):null
-            item.thursday !== "" ?  this.setState({ thursday: fields.thursday[0].thursday }):null
-            item.thursdayTo !== "" ?  this.setState({ thursdayTo: fields.thursdayTo[0].thursdayTo }):null
-            item.friday !== "" ?  this.setState({ friday: fields.friday[0].friday }):null
-            item.fridayTo !== "" ? this.setState({ fridayTo: fields.fridayTo[0].fridayTo }):null
-            item.saturday !== "" ?  this.setState({ saturday: fields.saturday[0].saturday }):null
-            item.saturdayTo !== "" ?  this.setState({ saturdayTo: fields.saturdayTo[0].saturdayTo }):null
-            item.sunday !== "" ?  this.setState({ sunday: fields.sunday[0].sunday }):null
-            item.sundayTo !== "" ? this.setState({ sundayTo: fields.sundayTo[0].sundayTo }):null
+            item.jobTitle !== ""
+              ? this.setState({ jobTitle: fields.jobTitle[0].jobTitle })
+              : null;
+            item.monday !== ""
+              ? this.setState({ monday: fields.monday[0].monday })
+              : null;
+            item.mondayTo !== ""
+              ? this.setState({ mondayTo: fields.mondayTo[0].mondayTo })
+              : null;
+            item.tuesday !== ""
+              ? this.setState({ tuesday: fields.tuesday[0].tuesday })
+              : null;
+            item.tuesdayTo !== ""
+              ? this.setState({ tuesdayTo: fields.tuesdayTo[0].tuesdayTo })
+              : null;
+            item.wednesday !== ""
+              ? this.setState({ wednesday: fields.wednesday[0].wednesday })
+              : null;
+            item.wednesdayTo !== ""
+              ? this.setState({
+                  wednesdayTo: fields.wednesdayTo[0].wednesdayTo,
+                })
+              : null;
+            item.thursday !== ""
+              ? this.setState({ thursday: fields.thursday[0].thursday })
+              : null;
+            item.thursdayTo !== ""
+              ? this.setState({ thursdayTo: fields.thursdayTo[0].thursdayTo })
+              : null;
+            item.friday !== ""
+              ? this.setState({ friday: fields.friday[0].friday })
+              : null;
+            item.fridayTo !== ""
+              ? this.setState({ fridayTo: fields.fridayTo[0].fridayTo })
+              : null;
+            item.saturday !== ""
+              ? this.setState({ saturday: fields.saturday[0].saturday })
+              : null;
+            item.saturdayTo !== ""
+              ? this.setState({ saturdayTo: fields.saturdayTo[0].saturdayTo })
+              : null;
+            item.sunday !== ""
+              ? this.setState({ sunday: fields.sunday[0].sunday })
+              : null;
+            item.sundayTo !== ""
+              ? this.setState({ sundayTo: fields.sundayTo[0].sundayTo })
+              : null;
           } else {
             this.setState({ jobTitle: "" });
             this.setState({ monday: "" });
@@ -506,40 +848,174 @@ class searchContact extends Component {
   };
 
   getAllData = () => {
-    let fields = this.state.selectedData;
-    this.setState({ profile_image: fields.profile_image });
-    this.setState({ profile_image2: fields.profile_image2 });
-    if (fields.profile_image2 !== "") {
-      this.setState({ rightSec: true });
-    }
+    let fields = this.state.eachUserData;
+
+    console.log("get all data---->", fields.user_id);
+
+    const baseurl = Constants.baseurl;
+    var _body = new FormData();
+    _body.append("user_id", fields.user_id);
+
+    fetch(baseurl + "get_uplopimages_user", {
+      method: "POST",
+      body: _body,
+    })
+      .then((response) => {
+        return response.json();
+      })
+      .then((responseJson) => {
+        console.log("profile --->", responseJson);
+        responseJson.data.map((img) => {
+          console.log("profile --->", img);
+          if (img.position == 1) {
+            this.setState({ profile_image: img.profile });
+           // console.log("profile image profile 111 --->", img.position);
+          }
+          if (img.position == 2) {
+            this.setState({ profile_image2: img.profile });
+            if (img.profile !== "") {
+              this.setState({ rightSec: true });
+            }
+           // console.log("profile image 22 --->", this.state.profile_image2);
+          }
+          if (img.position == 3) {
+            //console.log("profile image 3 --->", img.profile);
+            this.setState({ profile_image3: img.profile });
+          }
+        });
+
+        this.setState({ isLoading: false });
+      })
+      .catch((error) => {
+        console.log("name error---->", error);
+      });
+
     this.setState({ u_name: fields.u_name });
-    this.setState({ profile_image3: fields.profile_image3 });
+
     this.setState({ first_name: fields.first_name });
     this.setState({ last_name: fields.last_name });
-    this.setState({ number: fields.number1 });
-    this.setState({ address: fields.address1 });
-    this.setState({ email: fields.email1 });
-    this.setState({ messenger: fields.messenger1 });
-    this.setState({ socialMedia: fields.social_media1 });
-    this.setState({ website: fields.website });
-    this.setState({ date: fields.date });
-    this.setState({ note: fields.note });
-    this.setState({ company: fields.company });
-    this.setState({ jobTitle: fields.jobTitle });
-    this.setState({ monday: fields.monday });
-    this.setState({ mondayTo: fields.mondayTo });
-    this.setState({ tuesday: fields.tuesday });
-    this.setState({ tuesdayTo: fields.tuesdayTo });
-    this.setState({ wednesday: fields.wednesday });
-    this.setState({ wednesdayTo: fields.wednesdayTo });
-    this.setState({ thursday: fields.thursday });
-    this.setState({ thursdayTo: fields.thursdayTo });
-    this.setState({ friday: fields.friday });
-    this.setState({ fridayTo: fields.fridayTo });
-    this.setState({ saturday: fields.saturday });
-    this.setState({ saturdayTo: fields.saturdayTo });
-    this.setState({ sunday: fields.sunday });
-    this.setState({ sundayTo: fields.sundayTo });
+    {
+      fields.number !== ""
+        ? this.setState({ number: fields.number[0].phone })
+        : null;
+    }
+    {
+      fields.address !== ""
+        ? this.setState({ address: fields.address[0].address })
+        : null;
+    }
+    {
+      fields.email !== ""
+        ? this.setState({ email: fields.email[0].email })
+        : null;
+    }
+
+    {
+      fields.messenger !== ""
+        ? this.setState({ messenger: fields.messenger[0].messenger })
+        : null;
+    }
+    {
+      fields.socialMedia !== ""
+        ? this.setState({ socialMedia: fields.socialMedia[0].social })
+        : null;
+    }
+    {
+      fields.website !== ""
+        ? this.setState({ website: fields.website[0].website })
+        : null;
+    }
+    {
+      fields.date !== "" ? this.setState({ date: fields.date[0].date }) : null;
+    }
+    {
+      fields.note !== "" ? this.setState({ note: fields.note[0].note }) : null;
+    }
+    {
+      fields.company !== ""
+        ? this.setState({ company: fields.company[0].company })
+        : null;
+    }
+    {
+      fields.jobTitle !== ""
+        ? this.setState({ jobTitle: fields.jobTitle[0].jobTitle })
+        : null;
+    }
+    {
+      fields.jobTitle !== ""
+        ? this.setState({ jobTitle: fields.jobTitle[0].jobTitle })
+        : null;
+    }
+    {
+      fields.monday !== ""
+        ? this.setState({ monday: fields.monday[0].monday })
+        : null;
+    }
+    {
+      fields.mondayTo !== ""
+        ? this.setState({ mondayTo: fields.mondayTo[0].mondayTo })
+        : null;
+    }
+    {
+      fields.tuesday !== ""
+        ? this.setState({ tuesday: fields.tuesday[0].tuesday })
+        : null;
+    }
+    {
+      fields.tuesdayTo !== ""
+        ? this.setState({ tuesdayTo: fields.tuesdayTo[0].tuesdayTo })
+        : null;
+    }
+    {
+      fields.wednesday !== ""
+        ? this.setState({ wednesday: fields.wednesday[0].wednesday })
+        : null;
+    }
+    {
+      fields.wednesdayTo !== ""
+        ? this.setState({ wednesdayTo: fields.wednesdayTo[0].wednesdayTo })
+        : null;
+    }
+    {
+      fields.thursday !== ""
+        ? this.setState({ thursday: fields.thursday[0].thursday })
+        : null;
+    }
+    {
+      fields.thursdayTo !== ""
+        ? this.setState({ thursdayTo: fields.thursdayTo[0].thursdayTo })
+        : null;
+    }
+    {
+      fields.friday !== ""
+        ? this.setState({ friday: fields.friday[0].friday })
+        : null;
+    }
+    {
+      fields.fridayTo !== ""
+        ? this.setState({ fridayTo: fields.fridayTo[0].fridayTo })
+        : null;
+    }
+    {
+      fields.saturday !== ""
+        ? this.setState({ saturday: fields.saturday[0].saturday })
+        : null;
+    }
+    {
+      fields.saturdayTo !== ""
+        ? this.setState({ saturdayTo: fields.saturdayTo[0].saturdayTo })
+        : null;
+    }
+    {
+      fields.sunday !== ""
+        ? this.setState({ sunday: fields.sunday[0].sunday })
+        : null;
+    }
+    {
+      fields.sundayTo !== ""
+        ? this.setState({ sundayTo: fields.sundayTo[0].sundayTo })
+        : null;
+    }
 
     this.setState({ contactInfoSection: true });
     this.setState({ isLoading: false });
@@ -556,8 +1032,8 @@ class searchContact extends Component {
       .doc(selecte_name)
       .get()
       .then((snap) => {
-       // console.log(" sjprtconatc ----->", snap._data);
-         this.setState({ eachUserData : snap._data })
+        //console.log(" sjprtconatc ----->", snap._data);
+        this.setState({ eachUserData: snap._data });
         this.setState({ u_id: snap._data.user_id });
       });
     firebase
@@ -613,7 +1089,7 @@ class searchContact extends Component {
     const { username } = this.props;
     let FN = shortcontacts[key];
     firstName.push(FN);
-     this.setState({ selectedData : shortcontacts[key] })
+    this.setState({ selectedData: shortcontacts[key] });
     let selecte_name = shortcontacts[key].u_name;
 
     firebase
@@ -658,66 +1134,142 @@ class searchContact extends Component {
             }
           }
           if (FN.isManually == true) {
-            let FN = fields 
-            console.log("mannuallyEntered ----->", FN);
-            this.setState({ selectedData : FN })
-            this.setState({ profile_image: FN.profile_image });
-            this.setState({ profile_image2: FN.profile_image2 });
-            if (FN.profile_image2 !== "") {
-              this.setState({ rightSec: true });
-            }
-            this.setState({ u_name: FN.u_name });
-            this.setState({ profile_image3: FN.profile_image3 });
-            this.setState({ first_name: FN.first_name });
-            this.setState({ last_name: FN.last_name });
+            if (selecte_name == doc._data.u_name) {
+              let FN = fields;
+              console.log("mannuallyEntered doc_id----->", this.state.doc_id );
+              console.log("mannuallyEntered ----->",FN );
+              const baseurl = Constants.baseurl;
+              var _body = new FormData();
+              _body.append("docid", this.state.doc_id);
           
-            this.setState({ number: FN.number1 });
-            this.setState({ number2: FN.number2 });
-            this.setState({ email: FN.email1 });
-            this.setState({ email2: FN.email2 });
-            this.setState({ address: FN.address1 });
-            this.setState({ address2: FN.address2 });
-            this.setState({ messenger: FN.messenger1 });
-            this.setState({ socialMedia: FN.social_media1 });
-            this.setState({ website: FN.website });
-            this.setState({ date: FN.date });
-            this.setState({ note: FN.note });
-            this.setState({ company: FN.company });
-            this.setState({ jobTitle: FN.jobTitle });
-            this.setState({ monday: FN.monday });
-            this.setState({ mondayTo: FN.mondayTo });
-            this.setState({ tuesday: FN.tuesday });
-            this.setState({ tuesdayTo: FN.tuesdayTo });
-            this.setState({ wednesday: FN.wednesday });
-            this.setState({ wednesdayTo: FN.wednesdayTo });
-            this.setState({ thursday: FN.thursday });
-            this.setState({ thursdayTo: FN.thursdayTo });
-            this.setState({ friday: FN.friday });
-            this.setState({ fridayTo: FN.fridayTo });
-            this.setState({ saturday: FN.saturday });
-            this.setState({ saturdayTo: FN.saturdayTo });
-            this.setState({ sunday: FN.sunday });
-            this.setState({ sundayTo: FN.sundayTo });
-            this.setState({ contactInfoSection: true });
-            this.setState({ isLoading: false });
+              fetch(baseurl + "get_uplopimages_doc", {
+                method: "POST",
+                body: _body,
+              })
+                .then((response) => {
+                  return response.json();
+                })
+                .then((responseJson) => {
+                  responseJson.data.map((img) => {
+                   console.log("profile --->", img);
+                    if (img.position == 1) {
+                      this.setState({ profile_image: img.profile });
+                      console.log("profile image profile 111 --->", img.position);
+                    }
+                    if (img.position == 2) {
+                      this.setState({ profile_image2: img.profile });
+                      if (img.profile !== "") {
+                        this.setState({ rightSec: true });
+                      }
+                      console.log("profile image 22 --->", this.state.profile_image2);
+                    }
+                    if (img.position == 3) {
+                      console.log("profile image 3 --->", img.profile);
+                      this.setState({ profile_image3: img.profile });
+                    }
+                  // });
+          
+                  this.setState({ isLoading: false });
+                })
+                .catch((error) => {
+                  console.log("name error---->", error);
+                });
+              })
+              this.setState({ selectedData: FN });
+              // this.setState({ profile_image: FN.profile_image });
+              // this.setState({ profile_image2: FN.profile_image2 });
+              // if (FN.profile_image2 !== "") {this.setState({ rightSec: true })}
+              this.setState({ u_name: FN.u_name });
+              // this.setState({ profile_image3: FN.profile_image3 });
+              this.setState({ first_name: FN.first_name });
+              this.setState({ last_name: FN.last_name });
+  
+              this.setState({ number: FN.number1 });
+              this.setState({ number2: FN.number2 });
+              this.setState({ email: FN.email1 });
+              this.setState({ email2: FN.email2 });
+              this.setState({ address: FN.address1 });
+              this.setState({ address2: FN.address2 });
+              this.setState({ messenger: FN.messenger1 });
+              this.setState({ socialMedia: FN.social_media1 });
+              this.setState({ website: FN.website });
+              this.setState({ date: FN.date });
+              this.setState({ note: FN.note });
+              this.setState({ company: FN.company });
+              this.setState({ jobTitle: FN.jobTitle });
+              this.setState({ monday: FN.monday });
+              this.setState({ mondayTo: FN.mondayTo });
+              this.setState({ tuesday: FN.tuesday });
+              this.setState({ tuesdayTo: FN.tuesdayTo });
+              this.setState({ wednesday: FN.wednesday });
+              this.setState({ wednesdayTo: FN.wednesdayTo });
+              this.setState({ thursday: FN.thursday });
+              this.setState({ thursdayTo: FN.thursdayTo });
+              this.setState({ friday: FN.friday });
+              this.setState({ fridayTo: FN.fridayTo });
+              this.setState({ saturday: FN.saturday });
+              this.setState({ saturdayTo: FN.saturdayTo });
+              this.setState({ sunday: FN.sunday });
+              this.setState({ sundayTo: FN.sundayTo });
+              this.setState({ contactInfoSection: true });
+              this.setState({ isLoading: false });
+             }
+           
           }
           if (doc._data.isImport == true) {
             if (selecte_name == doc._data.u_name) {
               console.log("true ----->", fields);
-              this.setState({ selectedData : fields })
-              this.setState({ profile_image: fields.profile_image });
-              this.setState({ profile_image2: fields.profile_image2 });
-              this.setState({ profile_image3: fields.profile_image3 });
+              console.log("true doc_id----->", this.state.doc_id );
+
+              const baseurl = Constants.baseurl;
+              var _body = new FormData();
+              _body.append("docid", this.state.doc_id);
+          
+              fetch(baseurl + "get_uplopimages_doc", {
+                method: "POST",
+                body: _body,
+              })
+                .then((response) => {
+                  return response.json();
+                })
+                .then((responseJson) => {
+                  responseJson.data.map((img) => {
+                   console.log("profile --->", img);
+                    if (img.position == 1) {
+                      this.setState({ profile_image: img.profile });
+                      console.log("profile image profile 111 --->", img.position);
+                    }
+                    if (img.position == 2) {
+                      this.setState({ profile_image2: img.profile });
+                      if (img.profile !== "") {
+                        this.setState({ rightSec: true });
+                      }
+                      console.log("profile image 22 --->", this.state.profile_image2);
+                    }
+                    if (img.position == 3) {
+                      console.log("profile image 3 --->", img.profile);
+                      this.setState({ profile_image3: img.profile });
+                    }
+                  // });
+          
+                  this.setState({ isLoading: false });
+                })
+                .catch((error) => {
+                  console.log("name error---->", error);
+                });
+              })
+              this.setState({ selectedData: fields });
+              // this.setState({ profile_image: fields.profile_image });
+              // this.setState({ profile_image2: fields.profile_image2 });
+              // this.setState({ profile_image3: fields.profile_image3 });
               this.setState({ first_name: fields.first_name });
               this.setState({ last_name: fields.last_name });
               this.setState({ u_name: fields.u_name });
               if (fields.number.length > 0) {
                 this.setState({ number: fields.number[0].number });
               }
-              this.setState({ address: fields.address });
-              if (fields.email.length > 0) {
-                this.setState({ email: fields.email[0].email });
-              }
+              this.setState({ address: fields.address1 });
+              this.setState({ email: fields.email1 });
               this.setState({ number2: fields.number2 });
               this.setState({ email2: fields.email2 });
               this.setState({ messenger: fields.messenger1 });
@@ -903,10 +1455,7 @@ class searchContact extends Component {
           {this.state.profile_image == "" ||
           this.state.profile_image3 == "" ||
           this.state.profile_image3 == "" ? (
-            <Image
-              source={person}
-              style={[ styles.personImageStyle ]}
-            />
+            <Image source={person} style={[styles.personImageStyle]} />
           ) : this.state.imgSec1 == true ? (
             <View>
               <Image
@@ -1219,7 +1768,7 @@ class searchContact extends Component {
           .doc(username)
           .collection("contacts")
           .doc(doc_id)
-          .update({ tuesday : Tuesday, isWorkHoursUpdate: true });
+          .update({ tuesday: Tuesday, isWorkHoursUpdate: true });
       }
       if (TuesdayTo == "") {
       } else {
@@ -1229,7 +1778,7 @@ class searchContact extends Component {
           .doc(username)
           .collection("contacts")
           .doc(doc_id)
-          .update({ tuesdayTo : TuesdayTo, isWorkHoursUpdate: true });
+          .update({ tuesdayTo: TuesdayTo, isWorkHoursUpdate: true });
       }
       if (Wednesday == "") {
       } else {
@@ -1239,7 +1788,7 @@ class searchContact extends Component {
           .doc(username)
           .collection("contacts")
           .doc(doc_id)
-          .update({ wednesday : Wednesday, isWorkHoursUpdate: true });
+          .update({ wednesday: Wednesday, isWorkHoursUpdate: true });
       }
       if (WednesdayTo == "") {
       } else {
@@ -1249,7 +1798,7 @@ class searchContact extends Component {
           .doc(username)
           .collection("contacts")
           .doc(doc_id)
-          .update({ wednesdayTo : WednesdayTo, isWorkHoursUpdate: true });
+          .update({ wednesdayTo: WednesdayTo, isWorkHoursUpdate: true });
       }
       if (Thursday == "") {
       } else {
@@ -1259,7 +1808,7 @@ class searchContact extends Component {
           .doc(username)
           .collection("contacts")
           .doc(doc_id)
-          .update({ thursday : Thursday, isWorkHoursUpdate: true });
+          .update({ thursday: Thursday, isWorkHoursUpdate: true });
       }
       if (ThursdayTo == "") {
       } else {
@@ -1269,7 +1818,7 @@ class searchContact extends Component {
           .doc(username)
           .collection("contacts")
           .doc(doc_id)
-          .update({ thursdayTo : ThursdayTo, isWorkHoursUpdate: true });
+          .update({ thursdayTo: ThursdayTo, isWorkHoursUpdate: true });
       }
       if (Friday == "") {
       } else {
@@ -1279,7 +1828,7 @@ class searchContact extends Component {
           .doc(username)
           .collection("contacts")
           .doc(doc_id)
-          .update({ friday : Friday, isWorkHoursUpdate: true });
+          .update({ friday: Friday, isWorkHoursUpdate: true });
       }
       if (FridayTo == "") {
       } else {
@@ -1289,7 +1838,7 @@ class searchContact extends Component {
           .doc(username)
           .collection("contacts")
           .doc(doc_id)
-          .update({ fridayTo : FridayTo, isWorkHoursUpdate: true });
+          .update({ fridayTo: FridayTo, isWorkHoursUpdate: true });
       }
       if (Saturday == "") {
       } else {
@@ -1299,7 +1848,7 @@ class searchContact extends Component {
           .doc(username)
           .collection("contacts")
           .doc(doc_id)
-          .update({ saturday : Saturday, isWorkHoursUpdate: true });
+          .update({ saturday: Saturday, isWorkHoursUpdate: true });
       }
       if (SaturdayTo == "") {
       } else {
@@ -1309,7 +1858,7 @@ class searchContact extends Component {
           .doc(username)
           .collection("contacts")
           .doc(doc_id)
-          .update({ saturdayTo : SaturdayTo, isWorkHoursUpdate: true });
+          .update({ saturdayTo: SaturdayTo, isWorkHoursUpdate: true });
       }
       if (Sunday == "") {
       } else {
@@ -1319,7 +1868,7 @@ class searchContact extends Component {
           .doc(username)
           .collection("contacts")
           .doc(doc_id)
-          .update({ sunday : Sunday, isWorkHoursUpdate: true });
+          .update({ sunday: Sunday, isWorkHoursUpdate: true });
       }
       if (SundayTo == "") {
       } else {
@@ -1329,7 +1878,7 @@ class searchContact extends Component {
           .doc(username)
           .collection("contacts")
           .doc(doc_id)
-          .update({ sundayTo : SundayTo, isWorkHoursUpdate: true });
+          .update({ sundayTo: SundayTo, isWorkHoursUpdate: true });
       }
       this.onFlatlist(this.state.forKey);
     }
@@ -2189,30 +2738,28 @@ class searchContact extends Component {
             <View style={{ flexDirection: "row" }}>
               <View style={styles.searchSection}>
                 {this.state.status ? (
-                  this.state.fomateDate == "" ? 
-                  <View>
-                    
-                    <TouchableOpacity
-                      style={{ width: width * 0.5 }}
-                      onPress={() => this.showDatePicker()}
-                    >
-                      <Text style={styles.stylefiledText}>Date</Text>
-                    </TouchableOpacity>
-                    <DateTimePickerModal
-                      isVisible={this.state.isVisible}
-                      onConfirm={(date) =>
-                        this.onChangeDate(date)
-                      }
-                      onCancel={this.hidePicker}
-                      mode="date"
-                      is24Hour={false}
-                      titleIOS="Pick your Notification time"
-                    />
-                   
-                  </View>
-                  : 
-                  <Text style={styles.stylefiledText}>{this.state.fomateDate}</Text>
-                  
+                  this.state.fomateDate == "" ? (
+                    <View>
+                      <TouchableOpacity
+                        style={{ width: width * 0.5 }}
+                        onPress={() => this.showDatePicker()}
+                      >
+                        <Text style={styles.stylefiledText}>Date</Text>
+                      </TouchableOpacity>
+                      <DateTimePickerModal
+                        isVisible={this.state.isVisible}
+                        onConfirm={(date) => this.onChangeDate(date)}
+                        onCancel={this.hidePicker}
+                        mode="date"
+                        is24Hour={false}
+                        titleIOS="Pick your Notification time"
+                      />
+                    </View>
+                  ) : (
+                    <Text style={styles.stylefiledText}>
+                      {this.state.fomateDate}
+                    </Text>
+                  )
                 ) : (
                   <Text style={styles.stylefiledText}>{this.state.date}</Text>
                 )}
@@ -3165,6 +3712,16 @@ class searchContact extends Component {
                     {this.state.contacts == "" ? (
                       <LineText> No contact imported to show </LineText>
                     ) : null}
+                    {/* <View>
+                      {this.state.firstImage ==  "" ?   <Text>hellllooooooo</Text>:
+                    
+                       <Image
+                        source={{ uri : this.state.firstImage}}
+                       style={styles.profileImage}
+                     />}
+                   
+                    </View> */}
+
                     {this.renderMiddle()}
                   </View>
                 )}

@@ -106,6 +106,9 @@ class pendingRequest extends Component {
       saturdayTo : "",
       sunday : "",
       sundayTo : "",
+      profile_image:"",
+      profile_image2:"",
+      profile_image3:""
     };
   }
   renderHeader() {
@@ -397,6 +400,35 @@ class pendingRequest extends Component {
     addItem(sId, sId, label_Name, "", "", username.username);
     // selected is reciver label name
     // label_Name  is  sender label name
+    // const baseurl = Constants.baseurl;
+    // var _body = new FormData();
+    // _body.append("user_id",user_id);
+
+    // fetch(baseurl + "get_uplopimages_user", {
+    //   method: "POST",
+    //   body: _body,
+    // })
+    //   .then((response) => {
+    //     return response.json();
+    //   })
+    //   .then((responseJson) => {
+    //     responseJson.data.map((img) => {
+    //       console.log("data---->", img);
+    //       if (img.position == 1) {
+    //         this.setState({ profile_image : img.profile})
+    //       }
+    //       if (img.position == 2) {
+    //         this.setState({ profile_image2 : img.profile})
+    //       }
+    //       if (img.position == 3) {
+    //         this.setState({ profile_image3 : img.profile})
+    //       }
+    //     });
+    //     this.setState({ isLoading: false });
+    //   })
+    //   .catch((error) => {
+    //     console.log("name error---->", error);
+    //   });
     firebase
       .firestore()
       .collection("user")
@@ -404,7 +436,9 @@ class pendingRequest extends Component {
       .get()
       .then((snap) => {
         let fields = snap._data;
+       
         console.log("job title   trueName ---->",fields)
+        console.log(" stateteee ---->",this.state.profile_image)
        if(fields.address.length > 0){this.setState({address : fields.address[0].address})}
        if(fields.messenger.length > 0){this.setState({messenger : fields.messenger[0].messenger})}
        if(fields.socialMedia.length > 0){this.setState({socialMedia : fields.socialMedia[0].social})}
@@ -430,9 +464,9 @@ class pendingRequest extends Component {
 
        importContactToFirebase(
           username.username,
-          fields.profile_image,
-          fields.profile_image2,
-          fields.profile_image3,
+          this.state.profile_image,
+          this.state.profile_image2,
+          this.state.profile_image3,
           trueName[0],
           "",
           fields.last_name,
@@ -484,7 +518,8 @@ class pendingRequest extends Component {
           this.state.saturday,
           this.state.saturdayTo,
           this.state.sunday,
-          this.state.sundayTo
+          this.state.sundayTo,
+          fields.user_id
         );
       });
 
@@ -575,7 +610,8 @@ class pendingRequest extends Component {
           this.state.saturday,
           this.state.saturdayTo,
           this.state.sunday,
-          this.state.sundayTo
+          this.state.sundayTo,
+          fields.user_id
         );
       });
 

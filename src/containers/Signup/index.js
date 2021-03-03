@@ -12,6 +12,7 @@ import {
   TouchableHighlight,
   TouchableOpacity,
   View,
+  BackHandler
 } from "react-native";
 import React, { Component } from "react";
 import styled, { ThemeProvider } from "styled-components/native";

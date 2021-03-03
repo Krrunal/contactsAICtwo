@@ -19,6 +19,7 @@ import styled, { ThemeProvider } from "styled-components/native";
 
 import AsyncStorage from "@react-native-community/async-storage";
 import { COLORS } from "../theme/Colors.js";
+import Constants from "../../action/Constants";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import Font from "../theme/font";
 import GeneralStatusBar from "../../components/StatusBar/index";
@@ -28,6 +29,7 @@ import IconEntypo from "react-native-vector-icons/Entypo";
 import ImagePicker from "react-native-image-crop-picker";
 import IntlPhoneInput from "react-native-intl-phone-input";
 import Metrics from "../theme/Metrics";
+import RNFetchBlob from "rn-fetch-blob";
 import { Spinner } from "../../components/Spinner";
 import Swipeable from "react-native-gesture-handler/Swipeable";
 import { Title } from "react-native-paper";
@@ -85,18 +87,11 @@ class MyContactInfromation extends Component {
       //email
       emailInput: [{ label: "Select Type...", show: false }],
       emailData: [],
-      emailLabelList: [
-        { label: "Personal" },
-        { label: "Work" },
-      ],
+      emailLabelList: [{ label: "Personal" }, { label: "Work" }],
       //address
       addressInput: [{ label: "Select Type...", show: false }],
       addressData: [],
-      addressLabelList: [
-        { label: "Personal" },
-        { label: "Work" },
-        
-      ],
+      addressLabelList: [{ label: "Personal" }, { label: "Work" }],
       //messenger
       messengerInput: [{ label: "Select Type...", show: false }],
       messengerData: [],
@@ -175,9 +170,9 @@ class MyContactInfromation extends Component {
       websiteArray: [],
       dateArray: [],
       noteArray: [],
-     
+
       //
-      number:"",
+      number: "",
       email: "",
       address: "",
       addressLabel: "",
@@ -185,7 +180,7 @@ class MyContactInfromation extends Component {
       messenger: "",
       messengerLabel: "",
       instagram: "",
-      instagram2:"",
+      instagram2: "",
       instagramLabel: "",
       instagramLabel2: "",
       note: "",
@@ -193,12 +188,12 @@ class MyContactInfromation extends Component {
       website: "",
       websiteLabel: "",
       company: "",
-      date:"",
-      weddingDate:"",
+      date: "",
+      weddingDate: "",
       jobTitle: "",
       datelabel: "",
-      wedding:{date:""},
-      wedding_anniversary:{},
+      wedding: { date: "" },
+      wedding_anniversary: {},
       monday: "",
       mondayTo: "",
       tuesday: "",
@@ -213,14 +208,55 @@ class MyContactInfromation extends Component {
       saturdayTo: "",
       sunday: "",
       sundayTo: "",
+
+      profile_base: "",
+      profile_base1: "",
+      profile_base2: "",
+
+      image_section1: false,
+      image_section2: false,
+      image_section3: false,
     };
   }
 
   componentDidMount = async () => {
-      this.timeZoneField();
+    this.timeZoneField();
+    this.checkImageUploaded();
   };
+  checkImageUploaded = () => {
+    const baseurl = Constants.baseurl;
+    var _body = new FormData();
+    _body.append("user_id", this.props.user_id);
 
+    fetch(baseurl + "get_uplopimages_user", {
+      method: "POST",
+      body: _body,
+    })
+      .then((response) => {
+        return response.json();
+      })
+      .then((responseJson) => {
+        responseJson.data.map((item) => {
+          console.log("profile --->", item);
+          if (item.position == 1) {
+            this.setState({ image_section1: true });
+            // console.log("profile image profile 111 --->", item.position);
+          }
+          if (item.position == 2) {
+            this.setState({ image_section2: true });
+          }
+          if (item.position == 3) {
+            this.setState({ image_section3: true });
+          }
+        });
 
+        // this.setState({ firstImage: responseJson.data[2].profile });
+        this.setState({ isLoading: false });
+      })
+      .catch((error) => {
+        console.log("name error---->", error);
+      });
+  };
   timeZoneField = async () => {
     this.state.tz.push("GMT (Greenwhich)");
     this.state.tz.push("GMT (Universal)");
@@ -327,17 +363,73 @@ class MyContactInfromation extends Component {
       }
     );
   };
+  convertBase64(PATH_TO_THE_FILE) {
+    let data = "";
+    RNFetchBlob.fs
+      .readStream(PATH_TO_THE_FILE, "base64", 4095)
+      .then((ifstream) => {
+        ifstream.open();
+        ifstream.onData((chunk) => {
+          data += chunk;
+        });
+        ifstream.onError((err) => {
+          console.log("oops", err);
+        });
+        ifstream.onEnd(() => {
+          var bs = data;
+          this.setState({ profile_base: bs });
+          this._uploadImageBase64(bs);
+        });
+      });
+  }
+
+  convertBase642(PATH_TO_THE_FILE) {
+    let data = "";
+    RNFetchBlob.fs
+      .readStream(PATH_TO_THE_FILE, "base64", 4095)
+      .then((ifstream) => {
+        ifstream.open();
+        ifstream.onData((chunk) => {
+          data += chunk;
+        });
+        ifstream.onError((err) => {
+          console.log("oops", err);
+        });
+        ifstream.onEnd(() => {
+          var bs = data;
+          this.setState({ profile_base2: bs });
+          this._uploadImageBase64(bs);
+        });
+      });
+  }
+  convertBase643(PATH_TO_THE_FILE) {
+    let data = "";
+    RNFetchBlob.fs
+      .readStream(PATH_TO_THE_FILE, "base64", 4095)
+      .then((ifstream) => {
+        ifstream.open();
+        ifstream.onData((chunk) => {
+          data += chunk;
+        });
+        ifstream.onError((err) => {
+          console.log("oops", err);
+        });
+        ifstream.onEnd(() => {
+          var bs = data;
+          this.setState({ profile_base3: bs });
+          this._uploadImageBase64(bs);
+        });
+      });
+  }
+  _uploadImageBase64 = (profile) => {};
   fromGallery = () => {
     ImagePicker.openPicker({
       width: 300,
       height: 400,
       cropping: true,
     }).then((image) => {
-      let i = image.path
-      let filename =  i.substring(i.lastIndexOf('/') + 1);
-        this.setState({ profile_image: image.path });
-      //  this.setState({ profile_image: filename });
-      console.log("URI ......>", filename);
+      this.setState({ profile_image: image.path });
+      this.convertBase64(image.path);
       console.log(image);
       this.setState({
         image: {
@@ -358,8 +450,7 @@ class MyContactInfromation extends Component {
       cropping: true,
     }).then((image) => {
       this.setState({ profile_image: image.path });
-      // console.log("URI ......>", image.path);
-      // console.log(image);
+      this.convertBase64(image.path);
       this.setState({
         image: {
           uri: image.path,
@@ -379,6 +470,7 @@ class MyContactInfromation extends Component {
       cropping: true,
     }).then((image2) => {
       this.setState({ profile_image2: image2.path });
+      this.convertBase642(image2.path);
       console.log(image2);
       this.setState({
         image2: {
@@ -399,6 +491,7 @@ class MyContactInfromation extends Component {
       cropping: true,
     }).then((image2) => {
       this.setState({ profile_image2: image2.path });
+      this.convertBase642(image2.path);
       console.log(image2);
       this.setState({
         image2: {
@@ -419,6 +512,7 @@ class MyContactInfromation extends Component {
       cropping: true,
     }).then((image3) => {
       this.setState({ profile_image3: image3.path });
+      this.convertBase643(image3.path);
       console.log(image3);
       this.setState({
         image3: {
@@ -439,6 +533,7 @@ class MyContactInfromation extends Component {
       cropping: true,
     }).then((image3) => {
       this.setState({ profile_image3: image3.path });
+      this.convertBase643(image3.path);
       console.log(image3);
       this.setState({
         image3: {
@@ -1240,7 +1335,7 @@ class MyContactInfromation extends Component {
                         </TouchableOpacity>
                       ) : (
                         <TouchableOpacity onPress={this.onPressAddress}>
-                           <Text style={styles.stylefiledText}>Address</Text>
+                          <Text style={styles.stylefiledText}>Address</Text>
                         </TouchableOpacity>
                       )}
                       <View style={styles.rightView}>
@@ -1256,7 +1351,6 @@ class MyContactInfromation extends Component {
                     </View>
                   ) : (
                     <TouchableOpacity style={styles.searchSection}>
-                     
                       <Text style={styles.stylefiledText}>Address</Text>
                     </TouchableOpacity>
                   )}
@@ -1481,12 +1575,9 @@ class MyContactInfromation extends Component {
                     </View>
                   ) : (
                     <TouchableOpacity style={styles.searchSection}>
-                
-                            <Text style={styles.stylefiledText}>
-                            Messenger Account
-                            </Text>
-                     
-                     
+                      <Text style={styles.stylefiledText}>
+                        Messenger Account
+                      </Text>
                     </TouchableOpacity>
                   )}
                   {item.show && (
@@ -2536,7 +2627,7 @@ class MyContactInfromation extends Component {
   }
 
   onChangeCompany = (company, index) => {
-    this.setState({company :company})
+    this.setState({ company: company });
     let dataArray = this.state.companyData;
     let checkBool = false;
     if (dataArray.length !== 0) {
@@ -2559,7 +2650,7 @@ class MyContactInfromation extends Component {
     }
   };
   onChangeJobTitle = (jobTitle, index) => {
-    this.setState({ jobTitle : jobTitle})
+    this.setState({ jobTitle: jobTitle });
     let dataArray = this.state.jobTitleData;
     let checkBool = false;
     if (dataArray.length !== 0) {
@@ -2638,7 +2729,7 @@ class MyContactInfromation extends Component {
   }
 
   onChangeMonday = (monday, index) => {
-    this.setState({ monday : monday})
+    this.setState({ monday: monday });
     let dataArray = this.state.mondayData;
     let checkBool = false;
     if (dataArray.length !== 0) {
@@ -2661,7 +2752,7 @@ class MyContactInfromation extends Component {
     }
   };
   onChangeMondayTo = (mondayTo, index) => {
-    this.setState({ mondayTo : mondayTo})
+    this.setState({ mondayTo: mondayTo });
     let dataArray = this.state.mondayTOData;
     let checkBool = false;
     if (dataArray.length !== 0) {
@@ -2685,7 +2776,7 @@ class MyContactInfromation extends Component {
   };
 
   onChangeTuesday = (tuesday, index) => {
-    this.setState({ tuesday : tuesday})
+    this.setState({ tuesday: tuesday });
     let dataArray = this.state.tuesdayData;
     let checkBool = false;
     if (dataArray.length !== 0) {
@@ -2708,7 +2799,7 @@ class MyContactInfromation extends Component {
     }
   };
   onChangeTuesdayTo = (tuesdayTo, index) => {
-     this.setState({ tuesdayTo : tuesdayTo})
+    this.setState({ tuesdayTo: tuesdayTo });
     let dataArray = this.state.tuesdayTOData;
     let checkBool = false;
     if (dataArray.length !== 0) {
@@ -2731,7 +2822,7 @@ class MyContactInfromation extends Component {
     }
   };
   onChangeWednesday = (wednesday, index) => {
-    this.setState({ wednesday : wednesday})
+    this.setState({ wednesday: wednesday });
     let dataArray = this.state.wednesdayData;
     let checkBool = false;
     if (dataArray.length !== 0) {
@@ -2754,7 +2845,7 @@ class MyContactInfromation extends Component {
     }
   };
   onChangeWednesdayTo = (wednesdayTo, index) => {
-    this.setState({ wednesdayTo : wednesdayTo})
+    this.setState({ wednesdayTo: wednesdayTo });
     let dataArray = this.state.wednesdayTOData;
     let checkBool = false;
     if (dataArray.length !== 0) {
@@ -2777,7 +2868,7 @@ class MyContactInfromation extends Component {
     }
   };
   onChangeThursday = (thursday, index) => {
-    this.setState({ thursday : thursday})
+    this.setState({ thursday: thursday });
     let dataArray = this.state.thursdayData;
     let checkBool = false;
     if (dataArray.length !== 0) {
@@ -2800,7 +2891,7 @@ class MyContactInfromation extends Component {
     }
   };
   onChangeThursdayTo = (thursdayTo, index) => {
-     this.setState({ thursdayTo : thursdayTo})
+    this.setState({ thursdayTo: thursdayTo });
     let dataArray = this.state.thursdayTOData;
     let checkBool = false;
     if (dataArray.length !== 0) {
@@ -2823,7 +2914,7 @@ class MyContactInfromation extends Component {
     }
   };
   onChangeFriday = (friday, index) => {
-    this.setState({ friday : friday})
+    this.setState({ friday: friday });
     let dataArray = this.state.fridayData;
     let checkBool = false;
     if (dataArray.length !== 0) {
@@ -2846,7 +2937,7 @@ class MyContactInfromation extends Component {
     }
   };
   onChangeFridayTo = (fridayTo, index) => {
-    this.setState({ fridayTo : fridayTo})
+    this.setState({ fridayTo: fridayTo });
     let dataArray = this.state.fridayTOData;
     let checkBool = false;
     if (dataArray.length !== 0) {
@@ -2869,7 +2960,7 @@ class MyContactInfromation extends Component {
     }
   };
   onChangeSaturday = (saturday, index) => {
-    this.setState({ saturday : saturday})
+    this.setState({ saturday: saturday });
     let dataArray = this.state.saturdayData;
     let checkBool = false;
     if (dataArray.length !== 0) {
@@ -2892,7 +2983,7 @@ class MyContactInfromation extends Component {
     }
   };
   onChangeSaturdayTo = (saturdayTo, index) => {
-    this.setState({ saturdayTo : saturdayTo})
+    this.setState({ saturdayTo: saturdayTo });
     let dataArray = this.state.saturdayTOData;
     let checkBool = false;
     if (dataArray.length !== 0) {
@@ -2915,7 +3006,7 @@ class MyContactInfromation extends Component {
     }
   };
   onChangeSunday = (sunday, index) => {
-    this.setState({ sunday : sunday})
+    this.setState({ sunday: sunday });
     let dataArray = this.state.sundayData;
     let checkBool = false;
     if (dataArray.length !== 0) {
@@ -2938,7 +3029,7 @@ class MyContactInfromation extends Component {
     }
   };
   onChangeSundayTo = (sundayTo, index) => {
-    this.setState({ sundayTo : sundayTo})
+    this.setState({ sundayTo: sundayTo });
     let dataArray = this.state.sundayTOData;
     let checkBool = false;
     if (dataArray.length !== 0) {
@@ -3009,7 +3100,7 @@ class MyContactInfromation extends Component {
                           placeholder=""
                           style={styles.stylefiledText}
                           placeholderTextColor={COLORS.main_text_color}
-                           value={this.state.jobTitle}
+                          value={this.state.jobTitle}
                           editable={this.state.status ? true : false}
                           onChangeText={(jobTitle) =>
                             this.onChangeJobTitle(jobTitle, index)
@@ -3057,9 +3148,8 @@ class MyContactInfromation extends Component {
                                 editable={this.state.status ? true : false}
                                 onChangeText={(monday) =>
                                   this.onChangeMonday(monday, index)
-                                } 
+                                }
                                 value={this.state.monday}
-                                
                                 ref={(ref) => {
                                   this.mondayFocus = ref;
                                 }}
@@ -3511,27 +3601,35 @@ class MyContactInfromation extends Component {
       </View>
     );
   }
-  clearData = () =>{
-  
-     this.setState({
-      image:"",image2:"",image3:"",first_name:"",middle_name:"",last_name:"",nick_name:"",
-      companyData:"",jobTitleData:[] , company : "", jobTitle : ""
-    ,monday:"" , mondayTo: "",
-    tuesday: "",
-    tuesdayTo: "",
-    wednesday: "",
-    wednesdayTo: "",
-    thursday: "",
-    thursdayTo: "",
-    friday: "",
-    fridayTo: "",
-    saturday: "",
-    saturdayTo: "",
-    sunday: "",
-    sundayTo: "",
-    })
-
-  }
+  clearData = () => {
+    this.setState({
+      image: "",
+      image2: "",
+      image3: "",
+      first_name: "",
+      middle_name: "",
+      last_name: "",
+      nick_name: "",
+      companyData: "",
+      jobTitleData: [],
+      company: "",
+      jobTitle: "",
+      monday: "",
+      mondayTo: "",
+      tuesday: "",
+      tuesdayTo: "",
+      wednesday: "",
+      wednesdayTo: "",
+      thursday: "",
+      thursdayTo: "",
+      friday: "",
+      fridayTo: "",
+      saturday: "",
+      saturdayTo: "",
+      sunday: "",
+      sundayTo: "",
+    });
+  };
   ShowHideTextComponentView = async () => {
     const {
       profile_image,
@@ -3574,30 +3672,71 @@ class MyContactInfromation extends Component {
       saturdayTOData,
       sundayTOData,
       dateInput2,
+      profile_base,
+      profile_base1,
+      profile_base2,
+      image_section1,
+      image_section2,
+      image_section3,
     } = this.state;
-    const { username } = this.props;
+    const { username, user_id } = this.props;
     if (this.state.status == false) {
       this.setState({ status: true });
     } else {
       this.setState({ status: false });
-      this.clearData()
+      this.clearData();
     }
-
-
-   
 
     if (profile_image == "") {
     } else {
-      let filename =  profile_image.substring(profile_image.lastIndexOf('/') + 1); 
-          firebase
-            .storage()
-            .ref(filename)
-            .putFile(filename)
-            .then((snapshot) => {
-              console.log(`${filename} has been successfully uploaded.`);
-            })
-        .catch((e) => console.log('uploading image error => ', e));
-              
+      if (image_section1 == true) {
+        this.setState({ isLoading: true });
+        const baseurl = Constants.baseurl;
+        var _body = new FormData();
+        _body.append("user_id", user_id);
+        _body.append("userfile", profile_base);
+        _body.append("position", 1);
+        fetch(baseurl + "checkuserimage", {
+          method: "POST",
+          body: _body,
+        })
+          .then((response) => {
+            return response.json();
+          })
+          .then((responseJson) => {
+            console.log(" update  profile image 11 --->", responseJson);
+            this.setState({ isLoading: false });
+          })
+          .catch((error) => {
+            this.setState({ isLoading: false });
+            alert("Something went wrong in image Update");
+            console.log("name error---->", error);
+          });
+      } else {
+        this.setState({ isLoading: true });
+        const baseurl = Constants.baseurl;
+        var _body = new FormData();
+        _body.append("user_id", user_id);
+        _body.append("userfile", profile_base);
+        _body.append("position", 1);
+        fetch(baseurl + "uploadfilesuser", {
+          method: "POST",
+          body: _body,
+        })
+          .then((response) => {
+            return response.json();
+          })
+          .then((responseJson) => {
+            console.log(" profile image 111 --->", responseJson);
+            this.setState({ isLoading: false });
+          })
+          .catch((error) => {
+            this.setState({ isLoading: false });
+            alert("Something went wrong in image upload");
+            console.log("name error---->", error);
+          });
+      }
+
       firebase
         .firestore()
         .collection("user")
@@ -3607,8 +3746,54 @@ class MyContactInfromation extends Component {
 
     if (profile_image2 == "") {
     } else {
+      if (image_section2 == true) {
+        this.setState({ isLoading: true });
+        const baseurl = Constants.baseurl;
+        var _body = new FormData();
+        _body.append("user_id", user_id);
+        _body.append("userfile", profile_base1);
+        _body.append("position", 2);
+        fetch(baseurl + "checkuserimage", {
+          method: "POST",
+          body: _body,
+        })
+          .then((response) => {
+            return response.json();
+          })
+          .then((responseJson) => {
+            console.log(" update  profile image 222 --->", responseJson);
+            this.setState({ isLoading: false });
+          })
+          .catch((error) => {
+            this.setState({ isLoading: false });
+            alert("Something went wrong in image Update");
+            console.log("name error---->", error);
+          });
+      } else {
+        this.setState({ isLoading: true });
+        const { username, user_id } = this.props;
+        const baseurl = Constants.baseurl;
+        var _body = new FormData();
+        _body.append("user_id", user_id);
+        _body.append("userfile", profile_base1);
+        _body.append("position", 2);
+        fetch(baseurl + "uploadfilesuser", {
+          method: "POST",
+          body: _body,
+        })
+          .then((response) => {
+            return response.json();
+          })
+          .then((responseJson) => {
+            console.log("profile image 2222--->", responseJson);
+            this.setState({ isLoading: false });
+          })
+          .catch((error) => {
+            console.log("name error---->", error);
+            alert("Something went wrong in image upload");
+          });
+      }
 
-   
       firebase
         .firestore()
         .collection("user")
@@ -3618,6 +3803,54 @@ class MyContactInfromation extends Component {
 
     if (profile_image3 == "") {
     } else {
+      if (image_section3 == true) {
+        this.setState({ isLoading: true });
+        const baseurl = Constants.baseurl;
+        var _body = new FormData();
+        _body.append("user_id", user_id);
+        _body.append("userfile", profile_base2);
+        _body.append("position", 3);
+        fetch(baseurl + "checkuserimage", {
+          method: "POST",
+          body: _body,
+        })
+          .then((response) => {
+            return response.json();
+          })
+          .then((responseJson) => {
+            console.log(" update  profile image 33 --->", responseJson);
+            this.setState({ isLoading: false });
+          })
+          .catch((error) => {
+            this.setState({ isLoading: false });
+            alert("Something went wrong in image Update");
+            console.log("name error---->", error);
+          });
+      } else {
+        this.setState({ isLoading: true });
+        const { username, user_id } = this.props;
+        const baseurl = Constants.baseurl;
+        var _body = new FormData();
+        _body.append("user_id", user_id);
+        _body.append("userfile", profile_base2);
+        _body.append("position", 3);
+        fetch(baseurl + "uploadfilesuser", {
+          method: "POST",
+          body: _body,
+        })
+          .then((response) => {
+            return response.json();
+          })
+          .then((responseJson) => {
+            console.log("profile image 3333 --->", responseJson);
+            this.setState({ isLoading: false });
+          })
+          .catch((error) => {
+            alert("Something went wrong in image upload");
+            console.log("name error---->", error);
+          });
+      }
+
       firebase
         .firestore()
         .collection("user")
@@ -3952,12 +4185,12 @@ class MyContactInfromation extends Component {
         .doc(`${username}`)
         .update({ sundayTo: sundayTOData });
     }
-    
+
     // console.log("notiictaip time=-->", dateNotify);
 
     if (this.state.notificationTime == "") {
     } else {
-    let dateNotify = this.state.notificationTime[0].toString();
+      let dateNotify = this.state.notificationTime[0].toString();
 
       firebase
         .firestore()
@@ -3965,7 +4198,6 @@ class MyContactInfromation extends Component {
         .doc(`${username}`)
         .update({ notificationTime: dateNotify });
     }
-   
   };
   renderLast() {
     return (
@@ -3981,7 +4213,7 @@ class MyContactInfromation extends Component {
         <TouchableHighlight
           underlayColor="transparent"
           style={styles.saveView}
-            onPress={this.ShowHideTextComponentView}
+          onPress={this.ShowHideTextComponentView}
         >
           <Text
             style={{
@@ -3996,7 +4228,6 @@ class MyContactInfromation extends Component {
       </View>
     );
   }
-
 
   render() {
     const { mobileLabelList } = this.state;
@@ -4014,8 +4245,13 @@ class MyContactInfromation extends Component {
         <View style={styles.container}>
           <Container>
             <ScrollView nestedScrollEnabled={true}>
-              <View style={{ width: width, alignItems: "center" ,marginBottom:Metrics.baseMargin}}>
-              
+              <View
+                style={{
+                  width: width,
+                  alignItems: "center",
+                  marginBottom: Metrics.baseMargin,
+                }}
+              >
                 {this.renderHeader()}
                 {this.renderMiddle()}
                 {/* <View style={{ height: height  }}>
@@ -4056,6 +4292,8 @@ const mapStateToProps = (state) => ({
   dateChange: state.switchDateReducer.dateChange,
   contactChange: state.sortContactsReducer.contactChange,
   nameChange: state.switchNameReducer.nameChange,
+  user_id:
+    state.login.shouldLoadData.user_id || state.reg.shouldLoadData.user_id,
 });
 
 const mapDispatchToProps = (dispatch) => ({
