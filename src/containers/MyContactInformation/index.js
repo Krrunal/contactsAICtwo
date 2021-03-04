@@ -210,8 +210,8 @@ class MyContactInfromation extends Component {
       sundayTo: "",
 
       profile_base: "",
-      profile_base1: "",
       profile_base2: "",
+      profile_base3: "",
 
       image_section1: false,
       image_section2: false,
@@ -243,10 +243,10 @@ class MyContactInfromation extends Component {
             // console.log("profile image profile 111 --->", item.position);
           }
           if (item.position == 2) {
-            this.setState({ image_section2: true });
+            this.setState({ image_section2 : true });
           }
           if (item.position == 3) {
-            this.setState({ image_section3: true });
+            this.setState({ image_section3 : true });
           }
         });
 
@@ -397,10 +397,12 @@ class MyContactInfromation extends Component {
         });
         ifstream.onEnd(() => {
           var bs = data;
-          this.setState({ profile_base2: bs });
+          this.setState({ profile_base2 : bs });
           this._uploadImageBase64(bs);
         });
       });
+
+  
   }
   convertBase643(PATH_TO_THE_FILE) {
     let data = "";
@@ -430,7 +432,7 @@ class MyContactInfromation extends Component {
     }).then((image) => {
       this.setState({ profile_image: image.path });
       this.convertBase64(image.path);
-      console.log(image);
+      console.log("img 111---->",image.path);
       this.setState({
         image: {
           uri: image.path,
@@ -451,6 +453,7 @@ class MyContactInfromation extends Component {
     }).then((image) => {
       this.setState({ profile_image: image.path });
       this.convertBase64(image.path);
+      console.log("img 111---->",image.path);
       this.setState({
         image: {
           uri: image.path,
@@ -471,7 +474,7 @@ class MyContactInfromation extends Component {
     }).then((image2) => {
       this.setState({ profile_image2: image2.path });
       this.convertBase642(image2.path);
-      console.log(image2);
+      console.log("img 2222---->",image2.path);
       this.setState({
         image2: {
           uri: image2.path,
@@ -490,9 +493,9 @@ class MyContactInfromation extends Component {
       height: 400,
       cropping: true,
     }).then((image2) => {
-      this.setState({ profile_image2: image2.path });
+      this.setState({ profile_image2 : image2.path });
       this.convertBase642(image2.path);
-      console.log(image2);
+      console.log("img 2222---->",image2.path);
       this.setState({
         image2: {
           uri: image2.path,
@@ -513,7 +516,7 @@ class MyContactInfromation extends Component {
     }).then((image3) => {
       this.setState({ profile_image3: image3.path });
       this.convertBase643(image3.path);
-      console.log(image3);
+      console.log("img 33---->",image3.path);
       this.setState({
         image3: {
           uri: image3.path,
@@ -534,7 +537,7 @@ class MyContactInfromation extends Component {
     }).then((image3) => {
       this.setState({ profile_image3: image3.path });
       this.convertBase643(image3.path);
-      console.log(image3);
+      console.log("img 33---->",image3.path);
       this.setState({
         image3: {
           uri: image3.path,
@@ -3673,8 +3676,8 @@ class MyContactInfromation extends Component {
       sundayTOData,
       dateInput2,
       profile_base,
-      profile_base1,
       profile_base2,
+      profile_base3,
       image_section1,
       image_section2,
       image_section3,
@@ -3751,7 +3754,7 @@ class MyContactInfromation extends Component {
         const baseurl = Constants.baseurl;
         var _body = new FormData();
         _body.append("user_id", user_id);
-        _body.append("userfile", profile_base1);
+        _body.append("userfile", profile_base2);
         _body.append("position", 2);
         fetch(baseurl + "checkuserimage", {
           method: "POST",
@@ -3775,7 +3778,7 @@ class MyContactInfromation extends Component {
         const baseurl = Constants.baseurl;
         var _body = new FormData();
         _body.append("user_id", user_id);
-        _body.append("userfile", profile_base1);
+        _body.append("userfile", profile_base2);
         _body.append("position", 2);
         fetch(baseurl + "uploadfilesuser", {
           method: "POST",
@@ -3808,7 +3811,7 @@ class MyContactInfromation extends Component {
         const baseurl = Constants.baseurl;
         var _body = new FormData();
         _body.append("user_id", user_id);
-        _body.append("userfile", profile_base2);
+        _body.append("userfile", profile_base3);
         _body.append("position", 3);
         fetch(baseurl + "checkuserimage", {
           method: "POST",
@@ -3832,7 +3835,7 @@ class MyContactInfromation extends Component {
         const baseurl = Constants.baseurl;
         var _body = new FormData();
         _body.append("user_id", user_id);
-        _body.append("userfile", profile_base2);
+        _body.append("userfile", profile_base3);
         _body.append("position", 3);
         fetch(baseurl + "uploadfilesuser", {
           method: "POST",
@@ -3864,7 +3867,7 @@ class MyContactInfromation extends Component {
         .firestore()
         .collection("user")
         .doc(`${username}`)
-        .update({ first_name: first_name });
+        .update({ first_name: first_name ,first_name_small :first_name});
     }
     if (middle_name == "") {
     } else {
@@ -3888,7 +3891,7 @@ class MyContactInfromation extends Component {
         .firestore()
         .collection("user")
         .doc(`${username}`)
-        .update({ last_name: last_name });
+        .update({ last_name: last_name ,last_name_small:last_name});
     }
     //mobile
     if (inputData == "") {

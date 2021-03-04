@@ -178,6 +178,7 @@ class searchContact extends Component {
       rightSec: false,
       u_name: "",
       firstImage: "",
+      userData: "",
     };
   }
 
@@ -190,95 +191,21 @@ class searchContact extends Component {
   };
   getImage = () => {
     const { username } = this.props;
-  
+
     firebase
-    .firestore()
-    .collection("user")
-    .doc(username)
-    .collection("contacts")
-    .get()
-    .then((snap) => {
-      snap.docs.forEach((doc_id) => {
-        console.log("doc---->", doc_id._data.user_id);
-        const baseurl = Constants.baseurl;
-        var _body = new FormData();
-        _body.append("user_id", doc_id._data.user_id);
-    
-        fetch(baseurl + "get_uplopimages_user", {
-          method: "POST",
-          body: _body,
-        })
-          .then((response) => {
-            return response.json();
-          })
-          .then((responseJson) => {
-           
-            if(responseJson.status == false){
-              console.log("data---->", responseJson.status);
-            }else{
-              responseJson.data.map((img) => {
-                console.log("data---->", img);
-                if (img.position == 1) {
-                  firebase
-                  .firestore()
-                  .collection("user")
-                  .doc(username)
-                  .collection("contacts")
-                  .doc(doc_id.id)
-                  .update({ profile_image : img.profile });
-                  console.log("profile image profile 111 --->", img.profile);
-                }
-                if (img.position == 2) {
-                  firebase
-                  .firestore()
-                  .collection("user")
-                  .doc(username)
-                  .collection("contacts")
-                  .doc(doc_id.id)
-                  .update({ profile_image2 : img.profile });
-                  console.log("profile image 22 --->", img.profile);
-                }
-                if (img.position == 3) {
-                  firebase
-                  .firestore()
-                  .collection("user")
-                  .doc(username)
-                  .collection("contacts")
-                  .doc(doc_id.id)
-                  .update({ profile_image3 : img.profile });
-                  console.log("profile image 3 --->", img.profile);
-                }
-              });
-              this.setState({ isLoading: false });
-            }
-          
-          })
-          .catch((error) => {
-            console.log("name error---->", error);
-          });
-      });
-     
-     })
- 
-   
-  };
-  getImageFromDoc = () =>{
-    const { username } = this.props;
-    firebase
-    .firestore()
-    .collection("user")
-    .doc(username)
-    .collection("contacts")
-    .get()
-    .then((snap) => {
-      snap.docs.forEach((doc_id) => {
-         console.log("----->",doc_id._data.isManually)
-         if(doc_id._data.isManually == true){
+      .firestore()
+      .collection("user")
+      .doc(username)
+      .collection("contacts")
+      .get()
+      .then((snap) => {
+        snap.docs.forEach((doc_id) => {
+          console.log("doc---->", doc_id._data.user_id);
           const baseurl = Constants.baseurl;
           var _body = new FormData();
-          _body.append("docid",doc_id.id);
-      
-          fetch(baseurl + "get_uplopimages_doc", {
+          _body.append("user_id", doc_id._data.user_id);
+
+          fetch(baseurl + "get_uplopimages_user", {
             method: "POST",
             body: _body,
           })
@@ -286,164 +213,246 @@ class searchContact extends Component {
               return response.json();
             })
             .then((responseJson) => {
-              if(responseJson.status == false){
+              if (responseJson.status == false) {
+                // this.showContact()
                 console.log("data---->", responseJson.status);
-               }else{
+              } else {
                 responseJson.data.map((img) => {
-                  console.log("profile --->", img);
+                  console.log("data---->", img);
                   if (img.position == 1) {
-                   firebase
-                   .firestore()
-                   .collection("user")
-                   .doc(username)
-                   .collection("contacts")
-                   .doc(doc_id.id)
-                   .update({ profile_image : img.profile });
-                   console.log("profile image profile 111 --->", img.profile);
-                 }
-                 if (img.position == 2) {
-                   firebase
-                   .firestore()
-                   .collection("user")
-                   .doc(username)
-                   .collection("contacts")
-                   .doc(doc_id.id)
-                   .update({ profile_image2 : img.profile });
-                   console.log("profile image 22 --->", img.profile);
-                 }
-                 if (img.position == 3) {
-                   firebase
-                   .firestore()
-                   .collection("user")
-                   .doc(username)
-                   .collection("contacts")
-                   .doc(doc_id.id)
-                   .update({ profile_image3 : img.profile });
-                   console.log("profile image 3 --->", img.profile);
-                 }
-   
+                    firebase
+                      .firestore()
+                      .collection("user")
+                      .doc(username)
+                      .collection("contacts")
+                      .doc(doc_id.id)
+                      .update({ profile_image: img.profile });
+                    console.log("getImage 111 --->", img.profile);
+                  }
+                  if (img.position == 2) {
+                    firebase
+                      .firestore()
+                      .collection("user")
+                      .doc(username)
+                      .collection("contacts")
+                      .doc(doc_id.id)
+                      .update({ profile_image2: img.profile });
+                    console.log("getImage   22 --->", img.profile);
+                  }
+                  if (img.position == 3) {
+                    firebase
+                      .firestore()
+                      .collection("user")
+                      .doc(username)
+                      .collection("contacts")
+                      .doc(doc_id.id)
+                      .update({ profile_image3: img.profile });
+                    console.log("getImage  3 --->", img.profile);
+                  }
+                });
+                //  this.showContact()
                 this.setState({ isLoading: false });
-               })
               }
-             
-           
-          })
-          .catch((error) => {
-            console.log("name error---->", error);
-          });
-         }
-       })
-      
-       })
-  }
-  getImageForImportContact = () =>{
+            })
+            .catch((error) => {
+              console.log("name error---->", error);
+            });
+        });
+        // this.getImageFromDoc()
+      });
+  };
+  getImageFromDoc = () => {
     const { username } = this.props;
     firebase
-    .firestore()
-    .collection("user")
-    .doc(username)
-    .collection("contacts")
-    .get()
-    .then((snap) => {
-      snap.docs.forEach((doc_id) => {
-         console.log("----->",doc_id._data.isImport)
-         if(doc_id._data.isImport == true){
-          const baseurl = Constants.baseurl;
-          var _body = new FormData();
-          _body.append("docid",doc_id.id);
-      
-          fetch(baseurl + "get_uplopimages_doc", {
-            method: "POST",
-            body: _body,
-          })
-            .then((response) => {
-              return response.json();
+      .firestore()
+      .collection("user")
+      .doc(username)
+      .collection("contacts")
+      .get()
+      .then((snap) => {
+        snap.docs.forEach((doc_id) => {
+          console.log("----->", doc_id._data.isManually);
+          if (doc_id._data.isManually == true) {
+            const baseurl = Constants.baseurl;
+            var _body = new FormData();
+            _body.append("docid", doc_id.id);
+
+            fetch(baseurl + "get_uplopimages_doc", {
+              method: "POST",
+              body: _body,
             })
-            .then((responseJson) => {
-              if(responseJson.status == false){
-               // console.log("data---->", responseJson.status);
-               }else{
-                responseJson.data.map((img) => {
-                  console.log(" isImport  profile --->", img);
-                  if (img.position == 1) {
-                   firebase
-                   .firestore()
-                   .collection("user")
-                   .doc(username)
-                   .collection("contacts")
-                   .doc(doc_id.id)
-                   .update({ profile_image : img.profile });
-                   console.log("profile image profile 111 --->", img.profile);
-                 }
-                 if (img.position == 2) {
-                   firebase
-                   .firestore()
-                   .collection("user")
-                   .doc(username)
-                   .collection("contacts")
-                   .doc(doc_id.id)
-                   .update({ profile_image2 : img.profile });
-                   console.log("profile image 22 --->", img.profile);
-                 }
-                 if (img.position == 3) {
-                   firebase
-                   .firestore()
-                   .collection("user")
-                   .doc(username)
-                   .collection("contacts")
-                   .doc(doc_id.id)
-                   .update({ profile_image3 : img.profile });
-                   console.log("profile image 3 --->", img.profile);
-                 }
-   
-                this.setState({ isLoading: false });
-               })
-              }
-             
-           
-          })
-          .catch((error) => {
-            console.log("name error---->", error);
-          });
-         }
-       })
-      
-       })
-  }
-  showContact = () =>{
-  
-      const { navigation } = this.props;
-       this.focusListener = navigation.addListener("didFocus", async () => {
-         this.setState({ isLoading: true });
-         this.setState({ contact: [] });
-         this.setState({ contacts: "" });
-         if (this.props.contactChange.mode === "first") {
-           this.contactList();
-           console.log("first");
-         } else {
-           this.contactListFirst();
-           console.log("Last");
-         }
-       });
-  }
-  componentDidMount() {
+              .then((response) => {
+                return response.json();
+              })
+              .then((responseJson) => {
+                if (responseJson.status == false) {
+                  console.log("data---->", responseJson.status);
+                  //  this.showContact()
+                } else {
+                  responseJson.data.map((img) => {
+                    console.log("profile --->", img);
+                    if (img.position == 1) {
+                      firebase
+                        .firestore()
+                        .collection("user")
+                        .doc(username)
+                        .collection("contacts")
+                        .doc(doc_id.id)
+                        .update({ profile_image: img.profile });
+                      console.log("getImageFromDoc 11 --->", img.profile);
+                    }
+                    if (img.position == 2) {
+                      firebase
+                        .firestore()
+                        .collection("user")
+                        .doc(username)
+                        .collection("contacts")
+                        .doc(doc_id.id)
+                        .update({ profile_image2: img.profile });
+                      console.log("getImageFromDoc 22 --->", img.profile);
+                    }
+                    if (img.position == 3) {
+                      firebase
+                        .firestore()
+                        .collection("user")
+                        .doc(username)
+                        .collection("contacts")
+                        .doc(doc_id.id)
+                        .update({ profile_image3: img.profile });
+                      console.log("getImageFromDoc 3 --->", img.profile);
+                    }
+                    //  this.showContact()
+                    this.setState({ isLoading: false });
+                  });
+                }
+              })
+              .catch((error) => {
+                console.log("name error---->", error);
+              });
+          }
+        });
+        //   this.getImageForImportContact()
+      });
+  };
+  getImageForImportContact = () => {
     const { username } = this.props;
-    this.getImage()
-    this.getImageFromDoc()
-    this.getImageForImportContact()
-     const { navigation } = this.props;
-       this.focusListener = navigation.addListener("didFocus", async () => {
-         this.setState({ isLoading: true });
-         this.setState({ contact: [] });
-         this.setState({ contacts: "" });
-         if (this.props.contactChange.mode === "first") {
-           this.contactList();
-           console.log("first");
-         } else {
-           this.contactListFirst();
-           console.log("Last");
-         }
-       });
+    firebase
+      .firestore()
+      .collection("user")
+      .doc(username)
+      .collection("contacts")
+      .get()
+      .then((snap) => {
+        snap.docs.forEach((doc_id) => {
+          console.log("----->", doc_id._data.isImport);
+          if (doc_id._data.isImport == true) {
+            const baseurl = Constants.baseurl;
+            var _body = new FormData();
+            _body.append("docid", doc_id.id);
+
+            fetch(baseurl + "get_uplopimages_doc", {
+              method: "POST",
+              body: _body,
+            })
+              .then((response) => {
+                return response.json();
+              })
+              .then((responseJson) => {
+                if (responseJson.status == false) {
+                  // this.showContact()
+                } else {
+                  responseJson.data.map((img) => {
+                    console.log(" isImport  profile --->", img);
+                    if (img.position == 1) {
+                      firebase
+                        .firestore()
+                        .collection("user")
+                        .doc(username)
+                        .collection("contacts")
+                        .doc(doc_id.id)
+                        .update({ profile_image: img.profile });
+                      console.log(
+                        "getImageForImportContact 111 --->",
+                        img.profile
+                      );
+                    }
+                    if (img.position == 2) {
+                      firebase
+                        .firestore()
+                        .collection("user")
+                        .doc(username)
+                        .collection("contacts")
+                        .doc(doc_id.id)
+                        .update({ profile_image2: img.profile });
+                      console.log(
+                        "getImageForImportContact e 22 --->",
+                        img.profile
+                      );
+                    }
+                    if (img.position == 3) {
+                      firebase
+                        .firestore()
+                        .collection("user")
+                        .doc(username)
+                        .collection("contacts")
+                        .doc(doc_id.id)
+                        .update({ profile_image3: img.profile });
+                      console.log(
+                        "getImageForImportContact 3 --->",
+                        img.profile
+                      );
+                    }
+                    // this.showContact()
+                    this.setState({ isLoading: false });
+                  });
+                }
+                this.showContact();
+              })
+              .catch((error) => {
+                console.log("name error---->", error);
+              });
+          }
+        });
+      });
+  };
+  showContact = () => {
+    const { username } = this.props;
+
+    const { navigation } = this.props;
+    this.focusListener = navigation.addListener("didFocus", async () => {
+      this.setState({ isLoading: true });
+      this.setState({ contact: [] });
+      this.setState({ contacts: "" });
+      this.getImage();
+      this.getImageFromDoc();
+      this.getImageForImportContact();
+      if (this.props.contactChange.mode === "first") {
+        this.contactList();
+        console.log("first");
+      } else {
+        this.contactListFirst();
+        console.log("Last");
+      }
+    });
+  };
+  componentDidMount() {
+    this.showContact();
+
+    //  this.focusListener = navigation.addListener("didFocus", async () => {
+    //   this.setState({ isLoading: true });
+    //    this.setState({ contact: [] });
+    //    this.setState({ contacts: "" });
+    //    this.getImage()
+    //    this.getImageFromDoc()
+    //    this.getImageForImportContact()
+    //    if (this.props.contactChange.mode === "first") {
+    //      this.contactList();
+    //      console.log("first");
+    //    } else {
+    //      this.contactListFirst();
+    //      console.log("Last");
+    //    }
+    //  });
   }
 
   async contactList() {
@@ -498,17 +507,18 @@ class searchContact extends Component {
     const shortData = data.filter(
       (obj) =>
         obj[text?.toLowerCase() ?? "en"]?.indexOf(text) > -1 ||
-        obj.first_name.indexOf(text) > -1 ||
-        obj.nick_name.indexOf(text) > -1 ||
-        obj.last_name.indexOf(text) > -1 ||
-        obj.middle_name.indexOf(text) > -1 ||
+        obj.first_name_small.indexOf(text) > -1 ||
+        obj.nick_name_small.indexOf(text) > -1 ||
+        obj.last_name_small.toLowerCase().indexOf(text) > -1 ||
+        obj.middle_name_small.indexOf(text) > -1 ||
         obj.company.indexOf(text) > -1 ||
         obj.website.indexOf(text) > -1 ||
-        obj.address.indexOf(text) > -1 ||
+        obj.address1.indexOf(text) > -1 ||
         obj.selectedName.indexOf(text) > -1 ||
         obj.jobTitle.indexOf(text) > -1 ||
-        obj.social_media.indexOf(text) > -1 ||
-        obj.note.indexOf(text) > -1
+        obj.social_media1.indexOf(text) > -1 ||
+        obj.note.indexOf(text) > -1 ||
+        obj.messenger1.indexOf(text) > -1
     );
     this.setState({ shortcontacts: shortData, searchText: text });
   };
@@ -620,6 +630,44 @@ class searchContact extends Component {
 
         console.log("item---->", item);
         if (responseJson.status == true) {
+          firebase
+          .firestore()
+          .collection("user")
+          .doc(this.props.username)
+          .collection("contacts")
+          .doc(this.state.doc_id)
+          .update({
+            first_name: item.first_name == 1 ? fields.first_name : null,
+            last_name: item.last_name == 1  ?  fields.last_name : null,
+            first_name_small: fields.first_name.toLowerCase(),
+            last_name_small: fields.last_name.toLowerCase(),
+            number: item.phone_number == 1 !== "" ? fields.number[0].phone : "",
+            address : item.address == 1  ? fields.address !== "" ? fields.address[0].address : "" : "",
+            email: item.email == 1  ?  fields.email !== "" ? fields.email[0].email  : ""    : ""   ,
+            messenger : item.messenger == 1  ?  fields.messenger !== "" ? fields.messenger[0].messenger  :  "" : "" ,
+            website: item.website == 1  ?  fields.website !== "" ? fields.website[0].website :  ""    : ""  ,
+            date: item.date == 1  ?  fields.date  !== "" ? fields.date[0].date  :  ""    : ""  ,
+            note:  item.note == 1  ? fields.note  !== "" ?fields.note[0].note :   ""      : ""  ,
+            company:  item.company == 1  ? fields.company   !== "" ? fields.company[0].company  :   ""     : ""  ,
+            jobTitle: item.jobTitle == 1  ?  fields.jobTitle  !== "" ? fields.jobTitle[0].jobTitle  :   ""     : ""  ,
+            monday:  item.monday == 1  ? fields.monday !== "" ? fields.monday[0].monday  :   ""     : ""  ,
+            mondayTo:item.mondayTo == 1  ?  fields.mondayTo   !== "" ? fields.mondayTo[0].mondayTo  :   ""     : ""  ,
+            tuesday: item.tuesday == 1  ? fields.tuesday   !== "" ? fields.tuesday[0].tuesday  :   ""     : ""  ,
+            tuesdayTo: item.tuesdayTo == 1  ? fields.tuesdayTo   !== "" ? fields.tuesdayTo[0].tuesdayTo  :   ""     : ""  ,
+            wednesday: item.wednesday == 1  ? fields.wednesday   !== "" ? fields.wednesday[0].wednesday  :   ""     : ""  ,
+            wednesdayTo: item.wednesdayTo == 1  ? fields.wednesdayTo   !== "" ? fields.wednesdayTo[0].wednesdayTo  :   ""    : ""   ,
+            thursday: item.thursday == 1  ? fields.thursday   !== "" ? fields.thursday[0].thursday  :   ""     : ""  ,
+            thursdayTo:item.thursdayTo == 1  ?  fields.thursdayTo   !== "" ? fields.thursdayTo[0].thursdayTo  :   ""     : ""  ,
+            friday: item.friday == 1  ? fields.friday   !== "" ? fields.friday[0].friday  :   ""    : ""   ,
+            fridayTo:item.fridayTo == 1  ?  fields.fridayTo   !== "" ? fields.fridayTo[0].fridayTo  :   ""    : ""   ,
+            saturday:item.saturday == 1  ?  fields.saturday   !== "" ? fields.saturday[0].saturday  :   ""     : ""  ,
+            saturdayTo: item.saturdayTo == 1  ? fields.saturdayTo   !== "" ? fields.saturdayTo[0].saturdayTo  :   ""    : ""   ,
+            sunday: item.sunday == 1  ? fields.sunday   !== "" ? fields.sunday[0].sunday  :   ""     : ""  ,
+            sundayTo: item.sundayTo == 1  ? fields.sundayTo   !== "" ? fields.sundayTo[0].sundayTo  :   ""    : ""   ,
+          });
+
+         console.log("settings---->", fields);
+        
           const baseurl = Constants.baseurl;
           var _body = new FormData();
           _body.append("user_id", fields.user_id);
@@ -637,6 +685,15 @@ class searchContact extends Component {
                 if (img.position == 1) {
                   if (item.image_1 == 1) {
                     this.setState({ profile_image: img.profile });
+                    firebase
+                    .firestore()
+                    .collection("user")
+                    .doc(this.props.username)
+                    .collection("contacts")
+                    .doc(this.state.doc_id)
+                    .update({
+                      profile_image: img.profile,
+                    });
                   } else {
                     this.setState({ profile_image: "" });
                   }
@@ -645,6 +702,15 @@ class searchContact extends Component {
                 if (img.position == 2) {
                   if (item.image_2 == 1) {
                     this.setState({ profile_image2: img.profile });
+                    firebase
+                    .firestore()
+                    .collection("user")
+                    .doc(this.props.username)
+                    .collection("contacts")
+                    .doc(this.state.doc_id)
+                    .update({
+                      profile_image2: img.profile,
+                    });
                     if (img.profile !== "") {
                       this.setState({ rightSec: true });
                     }
@@ -657,6 +723,15 @@ class searchContact extends Component {
                 if (img.position == 3) {
                   if (item.image_3 == 1) {
                     this.setState({ profile_image3: img.profile });
+                    firebase
+                    .firestore()
+                    .collection("user")
+                    .doc(this.props.username)
+                    .collection("contacts")
+                    .doc(this.state.doc_id)
+                    .update({
+                      profile_image3: img.profile,
+                    })
                   } else {
                     this.setState({ profile_image3: "" });
                   }
@@ -664,178 +739,14 @@ class searchContact extends Component {
                 }
               });
 
-              this.setState({ isLoading: false });
+             // this.setState({ isLoading: false });
             })
             .catch((error) => {
               console.log("name error---->", error);
             });
-          console.log("settings---->", fields);
-          this.setState({ u_name: fields.u_name });
-          // if (item.profile_image == 1) {
-          //   this.setState({ profile_image: fields.profile_image });
-          // } else {
-          //   this.setState({ profile_image: "" });
-          // }
-          // if (item.image_2 == 1) {
-          //   this.setState({ profile_image2: fields.profile_image2 });
-          // } else {
-          //   this.setState({ profile_image2: "" });
-          // }
-          // if (fields.profile_image2 !== "") {
-          //   this.setState({ rightSec: true });
-          // }
-          // if (item.image_3 == 1) {
-          //   this.setState({ profile_image3: fields.profile_image3 });
-          // } else {
-          //   this.setState({ profile_image3: "" });
-          // }
-          if (item.first_name == 1) {
-            this.setState({ first_name: fields.first_name });
-          } else {
-            this.setState({ first_name: "" });
-          }
-          if (item.last_name == 1) {
-            this.setState({ last_name: fields.last_name });
-          } else {
-            this.setState({ last_name: "" });
-          }
-          if (item.phone_number == 1) {
-            item.number !== ""
-              ? this.setState({ number: fields.number[0].phone })
-              : null;
-          } else {
-            this.setState({ number: "" });
-          }
-          if (item.address == 1) {
-            item.address !== ""
-              ? this.setState({ address: fields.address[0].address })
-              : null;
-          } else {
-            this.setState({ address: "" });
-          }
-          if (item.email == 1) {
-            item.email !== ""
-              ? this.setState({ email: fields.email[0].email })
-              : null;
-          } else {
-            this.setState({ email: "" });
-          }
-          if (item.messenger == 1) {
-            item.messenger !== ""
-              ? this.setState({ messenger: fields.messenger[0].messenger })
-              : null;
-          } else {
-            this.setState({ messenger: "" });
-          }
-          if (item.Social_media == 1) {
-            item.socialMedia !== ""
-              ? this.setState({ socialMedia: fields.socialMedia[0].social })
-              : null;
-          } else {
-            this.setState({ socialMedia: "" });
-          }
-          if (item.website == 1) {
-            item.website !== ""
-              ? this.setState({ website: fields.website[0].website })
-              : null;
-          } else {
-            this.setState({ website: "" });
-          }
-          if (item.date == 1) {
-            item.date !== ""
-              ? this.setState({ date: fields.date[0].date })
-              : null;
-          } else {
-            this.setState({ date: "" });
-          }
-          if (item.note == 1) {
-            item.note !== ""
-              ? this.setState({ note: fields.note[0].note })
-              : null;
-          } else {
-            this.setState({ note: "" });
-          }
-          if (item.company == 1) {
-            item.company !== ""
-              ? this.setState({ company: fields.company[0].company })
-              : null;
-          } else {
-            this.setState({ company: "" });
-          }
-          if (item.jobTitle == 1) {
-            item.jobTitle !== ""
-              ? this.setState({ jobTitle: fields.jobTitle[0].jobTitle })
-              : null;
-          } else {
-            this.setState({ jobTitle: "" });
-          }
-          if (item.work_hours == 1) {
-            item.jobTitle !== ""
-              ? this.setState({ jobTitle: fields.jobTitle[0].jobTitle })
-              : null;
-            item.monday !== ""
-              ? this.setState({ monday: fields.monday[0].monday })
-              : null;
-            item.mondayTo !== ""
-              ? this.setState({ mondayTo: fields.mondayTo[0].mondayTo })
-              : null;
-            item.tuesday !== ""
-              ? this.setState({ tuesday: fields.tuesday[0].tuesday })
-              : null;
-            item.tuesdayTo !== ""
-              ? this.setState({ tuesdayTo: fields.tuesdayTo[0].tuesdayTo })
-              : null;
-            item.wednesday !== ""
-              ? this.setState({ wednesday: fields.wednesday[0].wednesday })
-              : null;
-            item.wednesdayTo !== ""
-              ? this.setState({
-                  wednesdayTo: fields.wednesdayTo[0].wednesdayTo,
-                })
-              : null;
-            item.thursday !== ""
-              ? this.setState({ thursday: fields.thursday[0].thursday })
-              : null;
-            item.thursdayTo !== ""
-              ? this.setState({ thursdayTo: fields.thursdayTo[0].thursdayTo })
-              : null;
-            item.friday !== ""
-              ? this.setState({ friday: fields.friday[0].friday })
-              : null;
-            item.fridayTo !== ""
-              ? this.setState({ fridayTo: fields.fridayTo[0].fridayTo })
-              : null;
-            item.saturday !== ""
-              ? this.setState({ saturday: fields.saturday[0].saturday })
-              : null;
-            item.saturdayTo !== ""
-              ? this.setState({ saturdayTo: fields.saturdayTo[0].saturdayTo })
-              : null;
-            item.sunday !== ""
-              ? this.setState({ sunday: fields.sunday[0].sunday })
-              : null;
-            item.sundayTo !== ""
-              ? this.setState({ sundayTo: fields.sundayTo[0].sundayTo })
-              : null;
-          } else {
-            this.setState({ jobTitle: "" });
-            this.setState({ monday: "" });
-            this.setState({ mondayTo: "" });
-            this.setState({ tuesday: "" });
-            this.setState({ tuesdayTo: "" });
-            this.setState({ wednesday: "" });
-            this.setState({ wednesdayTo: "" });
-            this.setState({ thursday: "" });
-            this.setState({ thursdayTo: "" });
-            this.setState({ friday: "" });
-            this.setState({ fridayTo: "" });
-            this.setState({ saturday: "" });
-            this.setState({ saturdayTo: "" });
-            this.setState({ sunday: "" });
-            this.setState({ sundayTo: "" });
-          }
-          this.setState({ contactInfoSection: true });
-          this.setState({ isLoading: false });
+            this.showDateAfterUpdate();
+          // this.setState({ contactInfoSection: true });
+          // this.setState({ isLoading: false });
         }
         if (responseJson.status == false) {
           this.getAllData();
@@ -849,9 +760,9 @@ class searchContact extends Component {
 
   getAllData = () => {
     let fields = this.state.eachUserData;
-
-    console.log("get all data---->", fields.user_id);
-
+    let fromContact = this.state.userData;
+    console.log("get all userData    ---->", this.state.userData);
+    console.log("get all fields      ---->", this.state.eachUserData);
     const baseurl = Constants.baseurl;
     var _body = new FormData();
     _body.append("user_id", fields.user_id);
@@ -869,162 +780,143 @@ class searchContact extends Component {
           console.log("profile --->", img);
           if (img.position == 1) {
             this.setState({ profile_image: img.profile });
-           // console.log("profile image profile 111 --->", img.position);
+            firebase
+              .firestore()
+              .collection("user")
+              .doc(this.props.username)
+              .collection("contacts")
+              .doc(this.state.doc_id)
+              .update({
+                profile_image: img.profile,
+              });
           }
           if (img.position == 2) {
             this.setState({ profile_image2: img.profile });
             if (img.profile !== "") {
               this.setState({ rightSec: true });
             }
-           // console.log("profile image 22 --->", this.state.profile_image2);
+            firebase
+              .firestore()
+              .collection("user")
+              .doc(this.props.username)
+              .collection("contacts")
+              .doc(this.state.doc_id)
+              .update({
+                profile_image2: img.profile,
+              });
           }
           if (img.position == 3) {
-            //console.log("profile image 3 --->", img.profile);
+            firebase
+              .firestore()
+              .collection("user")
+              .doc(this.props.username)
+              .collection("contacts")
+              .doc(this.state.doc_id)
+              .update({
+                profile_image3: img.profile,
+           });
             this.setState({ profile_image3: img.profile });
           }
         });
-
-        this.setState({ isLoading: false });
+      //  this.setState({ isLoading: false });
       })
       .catch((error) => {
         console.log("name error---->", error);
       });
+    firebase
+      .firestore()
+      .collection("user")
+      .doc(this.props.username)
+      .collection("contacts")
+      .doc(this.state.doc_id)
+      .update({
+        first_name: fields.first_name,
+        last_name: fields.last_name,
+        first_name_small: fields.first_name.toLowerCase(),
+        last_name_small: fields.last_name.toLowerCase(),
+        number: fields.number !== "" ? fields.number[0].phone : "",
+        address : fields.address !== "" ? fields.address[0].address : "",
+        email:  fields.email !== "" ? fields.email[0].email  : "" ,
+        messenger : fields.messenger !== "" ? fields.messenger[0].messenger  :  "",
+        website: fields.website !== "" ? fields.website[0].website :  "",
+        date: fields.date  !== "" ? fields.date[0].date  :  "",
+        note: fields.note  !== "" ?fields.note[0].note :   ""  ,
+        company: fields.company   !== "" ? fields.company[0].company  :   "" ,
+        jobTitle: fields.jobTitle  !== "" ? fields.jobTitle[0].jobTitle  :   "" ,
+        monday: fields.monday !== "" ? fields.monday[0].monday  :   "" ,
+        mondayTo: fields.mondayTo   !== "" ? fields.mondayTo[0].mondayTo  :   "" ,
+        tuesday: fields.tuesday   !== "" ? fields.tuesday[0].tuesday  :   "" ,
+        tuesdayTo: fields.tuesdayTo   !== "" ? fields.tuesdayTo[0].tuesdayTo  :   "" ,
+        wednesday: fields.wednesday   !== "" ? fields.wednesday[0].wednesday  :   "" ,
+        wednesdayTo: fields.wednesdayTo   !== "" ? fields.wednesdayTo[0].wednesdayTo  :   "" ,
+        thursday: fields.thursday   !== "" ? fields.thursday[0].thursday  :   "" ,
+        thursdayTo: fields.thursdayTo   !== "" ? fields.thursdayTo[0].thursdayTo  :   "" ,
+        friday: fields.friday   !== "" ? fields.friday[0].friday  :   "" ,
+        fridayTo: fields.fridayTo   !== "" ? fields.fridayTo[0].fridayTo  :   "" ,
+        saturday: fields.saturday   !== "" ? fields.saturday[0].saturday  :   "" ,
+        saturdayTo: fields.saturdayTo   !== "" ? fields.saturdayTo[0].saturdayTo  :   "" ,
+        sunday: fields.sunday   !== "" ? fields.sunday[0].sunday  :   "" ,
+        sundayTo: fields.sundayTo   !== "" ? fields.sundayTo[0].sundayTo  :   "" ,
+      });
 
-    this.setState({ u_name: fields.u_name });
+    this.showDateAfterUpdate();
+  };
+  showDateAfterUpdate = () => {
+    let fields = this.state.userData;
+    firebase
+    .firestore()
+    .collection("user")
+    .doc(this.props.username)
+    .collection("contacts")
+    .doc(this.state.doc_id)
+    .get()
+    .then((snap) => {  
+      let FN = snap._data
+      console.log(" sjprtconatc ----->", snap);
+      console.log(" sjprtconatc ----->", this.state.doc_id);
+ 
 
-    this.setState({ first_name: fields.first_name });
-    this.setState({ last_name: fields.last_name });
-    {
-      fields.number !== ""
-        ? this.setState({ number: fields.number[0].phone })
-        : null;
-    }
-    {
-      fields.address !== ""
-        ? this.setState({ address: fields.address[0].address })
-        : null;
-    }
-    {
-      fields.email !== ""
-        ? this.setState({ email: fields.email[0].email })
-        : null;
-    }
-
-    {
-      fields.messenger !== ""
-        ? this.setState({ messenger: fields.messenger[0].messenger })
-        : null;
-    }
-    {
-      fields.socialMedia !== ""
-        ? this.setState({ socialMedia: fields.socialMedia[0].social })
-        : null;
-    }
-    {
-      fields.website !== ""
-        ? this.setState({ website: fields.website[0].website })
-        : null;
-    }
-    {
-      fields.date !== "" ? this.setState({ date: fields.date[0].date }) : null;
-    }
-    {
-      fields.note !== "" ? this.setState({ note: fields.note[0].note }) : null;
-    }
-    {
-      fields.company !== ""
-        ? this.setState({ company: fields.company[0].company })
-        : null;
-    }
-    {
-      fields.jobTitle !== ""
-        ? this.setState({ jobTitle: fields.jobTitle[0].jobTitle })
-        : null;
-    }
-    {
-      fields.jobTitle !== ""
-        ? this.setState({ jobTitle: fields.jobTitle[0].jobTitle })
-        : null;
-    }
-    {
-      fields.monday !== ""
-        ? this.setState({ monday: fields.monday[0].monday })
-        : null;
-    }
-    {
-      fields.mondayTo !== ""
-        ? this.setState({ mondayTo: fields.mondayTo[0].mondayTo })
-        : null;
-    }
-    {
-      fields.tuesday !== ""
-        ? this.setState({ tuesday: fields.tuesday[0].tuesday })
-        : null;
-    }
-    {
-      fields.tuesdayTo !== ""
-        ? this.setState({ tuesdayTo: fields.tuesdayTo[0].tuesdayTo })
-        : null;
-    }
-    {
-      fields.wednesday !== ""
-        ? this.setState({ wednesday: fields.wednesday[0].wednesday })
-        : null;
-    }
-    {
-      fields.wednesdayTo !== ""
-        ? this.setState({ wednesdayTo: fields.wednesdayTo[0].wednesdayTo })
-        : null;
-    }
-    {
-      fields.thursday !== ""
-        ? this.setState({ thursday: fields.thursday[0].thursday })
-        : null;
-    }
-    {
-      fields.thursdayTo !== ""
-        ? this.setState({ thursdayTo: fields.thursdayTo[0].thursdayTo })
-        : null;
-    }
-    {
-      fields.friday !== ""
-        ? this.setState({ friday: fields.friday[0].friday })
-        : null;
-    }
-    {
-      fields.fridayTo !== ""
-        ? this.setState({ fridayTo: fields.fridayTo[0].fridayTo })
-        : null;
-    }
-    {
-      fields.saturday !== ""
-        ? this.setState({ saturday: fields.saturday[0].saturday })
-        : null;
-    }
-    {
-      fields.saturdayTo !== ""
-        ? this.setState({ saturdayTo: fields.saturdayTo[0].saturdayTo })
-        : null;
-    }
-    {
-      fields.sunday !== ""
-        ? this.setState({ sunday: fields.sunday[0].sunday })
-        : null;
-    }
-    {
-      fields.sundayTo !== ""
-        ? this.setState({ sundayTo: fields.sundayTo[0].sundayTo })
-        : null;
-    }
-
-    this.setState({ contactInfoSection: true });
-    this.setState({ isLoading: false });
+      this.setState({ u_name: FN.u_name });
+      this.setState({ first_name: FN.first_name });
+      this.setState({ last_name: FN.last_name });
+      this.setState({ number: FN.number1 });
+      this.setState({ number2: FN.number2 });
+      this.setState({ email: FN.email1 });
+      this.setState({ email2: FN.email2 });
+      this.setState({ address: FN.address1.toLowerCase() });
+      this.setState({ address2: FN.address2 });
+      this.setState({ messenger: FN.messenger1 });
+      this.setState({ socialMedia: FN.social_media1 });
+      this.setState({ website: FN.website });
+      this.setState({ date: FN.date });
+      this.setState({ note: FN.note });
+      this.setState({ company: FN.company });
+      this.setState({ jobTitle: FN.jobTitle });
+      this.setState({ monday: FN.monday });
+      this.setState({ mondayTo: FN.mondayTo });
+      this.setState({ tuesday: FN.tuesday });
+      this.setState({ tuesdayTo: FN.tuesdayTo });
+      this.setState({ wednesday: FN.wednesday });
+      this.setState({ wednesdayTo: FN.wednesdayTo });
+      this.setState({ thursday: FN.thursday });
+      this.setState({ thursdayTo: FN.thursdayTo });
+      this.setState({ friday: FN.friday });
+      this.setState({ fridayTo: FN.fridayTo });
+      this.setState({ saturday: FN.saturday });
+      this.setState({ saturdayTo: FN.saturdayTo });
+      this.setState({ sunday: FN.sunday });
+      this.setState({ sundayTo: FN.sundayTo });
+      this.setState({ contactInfoSection: true });
+      this.setState({ isLoading: false });
+    })
+ 
+  
   };
   apiCallForGetSettings = (key) => {
     const { shortcontacts, firstName } = this.state;
     const { username } = this.props;
 
-    let selecte_name = shortcontacts[key].first_name;
+    let selecte_name = shortcontacts[key].u_name;
     // console.log(" sjprtconatc ----->", shortcontacts);
     firebase
       .firestore()
@@ -1032,7 +924,7 @@ class searchContact extends Component {
       .doc(selecte_name)
       .get()
       .then((snap) => {
-        //console.log(" sjprtconatc ----->", snap._data);
+        console.log(" sjprtconatc ----->", snap._data);
         this.setState({ eachUserData: snap._data });
         this.setState({ u_id: snap._data.user_id });
       });
@@ -1090,6 +982,7 @@ class searchContact extends Component {
     let FN = shortcontacts[key];
     firstName.push(FN);
     this.setState({ selectedData: shortcontacts[key] });
+    this.setState({ userData: shortcontacts[key] });
     let selecte_name = shortcontacts[key].u_name;
 
     firebase
@@ -1136,12 +1029,12 @@ class searchContact extends Component {
           if (FN.isManually == true) {
             if (selecte_name == doc._data.u_name) {
               let FN = fields;
-              console.log("mannuallyEntered doc_id----->", this.state.doc_id );
-              console.log("mannuallyEntered ----->",FN );
+              console.log("mannuallyEntered doc_id----->", this.state.doc_id);
+              console.log("mannuallyEntered ----->", FN);
               const baseurl = Constants.baseurl;
               var _body = new FormData();
               _body.append("docid", this.state.doc_id);
-          
+
               fetch(baseurl + "get_uplopimages_doc", {
                 method: "POST",
                 body: _body,
@@ -1151,39 +1044,45 @@ class searchContact extends Component {
                 })
                 .then((responseJson) => {
                   responseJson.data.map((img) => {
-                   console.log("profile --->", img);
+                    console.log("profile --->", img);
                     if (img.position == 1) {
                       this.setState({ profile_image: img.profile });
-                      console.log("profile image profile 111 --->", img.position);
+                      console.log(
+                        "profile image profile 111 --->",
+                        img.profile
+                      );
                     }
                     if (img.position == 2) {
                       this.setState({ profile_image2: img.profile });
                       if (img.profile !== "") {
                         this.setState({ rightSec: true });
                       }
-                      console.log("profile image 22 --->", this.state.profile_image2);
+                      console.log(
+                        "profile image 22 --->",
+                        this.state.profile_image2
+                      );
                     }
                     if (img.position == 3) {
                       console.log("profile image 3 --->", img.profile);
                       this.setState({ profile_image3: img.profile });
                     }
-                  // });
-          
-                  this.setState({ isLoading: false });
+                    // });
+
+                    this.setState({ isLoading: false });
+                  });
                 })
                 .catch((error) => {
                   console.log("name error---->", error);
                 });
-              })
               this.setState({ selectedData: FN });
-              // this.setState({ profile_image: FN.profile_image });
+              this.setState({ profile_image: FN.profile_image });
               // this.setState({ profile_image2: FN.profile_image2 });
               // if (FN.profile_image2 !== "") {this.setState({ rightSec: true })}
               this.setState({ u_name: FN.u_name });
               // this.setState({ profile_image3: FN.profile_image3 });
               this.setState({ first_name: FN.first_name });
               this.setState({ last_name: FN.last_name });
-  
+
               this.setState({ number: FN.number1 });
               this.setState({ number2: FN.number2 });
               this.setState({ email: FN.email1 });
@@ -1213,18 +1112,17 @@ class searchContact extends Component {
               this.setState({ sundayTo: FN.sundayTo });
               this.setState({ contactInfoSection: true });
               this.setState({ isLoading: false });
-             }
-           
+            }
           }
           if (doc._data.isImport == true) {
             if (selecte_name == doc._data.u_name) {
-              console.log("true ----->", fields);
-              console.log("true doc_id----->", this.state.doc_id );
+              // console.log("true ----->", fields);
+              console.log("true doc_id----->", this.state.doc_id);
 
               const baseurl = Constants.baseurl;
               var _body = new FormData();
               _body.append("docid", this.state.doc_id);
-          
+
               fetch(baseurl + "get_uplopimages_doc", {
                 method: "POST",
                 body: _body,
@@ -1234,30 +1132,36 @@ class searchContact extends Component {
                 })
                 .then((responseJson) => {
                   responseJson.data.map((img) => {
-                   console.log("profile --->", img);
+                    console.log("profile --->", img);
                     if (img.position == 1) {
                       this.setState({ profile_image: img.profile });
-                      console.log("profile image profile 111 --->", img.position);
+                      console.log(
+                        "profile image profile 111 --->",
+                        this.state.profile_image
+                      );
                     }
                     if (img.position == 2) {
                       this.setState({ profile_image2: img.profile });
                       if (img.profile !== "") {
                         this.setState({ rightSec: true });
                       }
-                      console.log("profile image 22 --->", this.state.profile_image2);
+                      console.log(
+                        "profile image 22 --->",
+                        this.state.profile_image2
+                      );
                     }
                     if (img.position == 3) {
                       console.log("profile image 3 --->", img.profile);
                       this.setState({ profile_image3: img.profile });
                     }
-                  // });
-          
-                  this.setState({ isLoading: false });
+                    // });
+
+                    //  this.setState({ isLoading: false });
+                  });
                 })
                 .catch((error) => {
                   console.log("name error---->", error);
                 });
-              })
               this.setState({ selectedData: fields });
               // this.setState({ profile_image: fields.profile_image });
               // this.setState({ profile_image2: fields.profile_image2 });
@@ -1453,7 +1357,7 @@ class searchContact extends Component {
             </TouchableOpacity>
           ) : null}
           {this.state.profile_image == "" ||
-          this.state.profile_image3 == "" ||
+          this.state.profile_image2 == "" ||
           this.state.profile_image3 == "" ? (
             <Image source={person} style={[styles.personImageStyle]} />
           ) : this.state.imgSec1 == true ? (
@@ -1547,7 +1451,7 @@ class searchContact extends Component {
       this.setState({ status: true });
     } else {
       this.setState({ status: false });
-
+    
       const { username } = this.props;
       const {
         doc_id,
@@ -1652,7 +1556,7 @@ class searchContact extends Component {
           .doc(username)
           .collection("contacts")
           .doc(doc_id)
-          .update({ address1: Address, isAddressUpdate: true });
+          .update({ address1: Address.toLowerCase(), isAddressUpdate: true });
       }
       if (Address2 == "") {
       } else {
@@ -1880,7 +1784,7 @@ class searchContact extends Component {
           .doc(doc_id)
           .update({ sundayTo: SundayTo, isWorkHoursUpdate: true });
       }
-      this.onFlatlist(this.state.forKey);
+      this.setState({ contactInfoSection: false });
     }
   };
   renderContactLast() {
@@ -2369,7 +2273,7 @@ class searchContact extends Component {
                   <Text
                     style={[
                       styles.stylefiledText,
-                      { marginTop: Metrics.baseMargin },
+                      { marginTop: Metrics.baseMargin, textTransform: "capitalize", },
                     ]}
                   >
                     {this.state.address}

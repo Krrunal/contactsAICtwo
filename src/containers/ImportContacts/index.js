@@ -49,6 +49,8 @@ class importContact extends Component {
     website:"",
     jobTitle:"",
     doc_id:"",
+    emailAddresses:"",
+    isLoading:false
   };
 
   componentDidMount() {
@@ -419,7 +421,10 @@ class importContact extends Component {
             if (item.isSelected == true) {
               var S4 = (((1 + Math.random()) * 0x10000) | 0).toString(16).substring(1);
               // console.log(" if s4---->", S4);
-              console.log("fetch contactss------>", item.emailAddresses[0].email);
+          //    console.log("fetch contactss------>", item.emailAddresses[0].email);
+              if(item.emailAddresses.length > 0){
+                  this.setState({emailAddresses : item.emailAddresses[0].email})
+              }
               if (item.urlAddresses.length > 0) {
                 const address = item.urlAddresses.find(({ url }) => url == url);
                 let address1 = address.url;
@@ -467,7 +472,7 @@ class importContact extends Component {
                 "",
                 "",
                 item.phoneNumbers,
-                item.emailAddresses[0].email,
+                this.state.emailAddresses,
                 "",
                 item.emailAddresses,
                 "",
@@ -571,7 +576,7 @@ class importContact extends Component {
                 "",
                 "",
                 item.phoneNumbers,
-                "",
+                this.state.emailAddresses,
                 "",
                 item.emailAddresses,
                 "",
@@ -650,7 +655,7 @@ class importContact extends Component {
           });
           this.setState({ fetchedContacts: contactArr });
           this.setState({isLoading: true})
-          alert("hi")
+         
         }
       });
   };

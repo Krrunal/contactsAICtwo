@@ -31,6 +31,7 @@ import { importContactToFirebase } from "../../services/FirebaseDatabase/importC
 import moment from "moment";
 import { request } from "react-native-permissions";
 import styles from "./style.js";
+import { indexOf } from "lodash";
 
 var { width, height } = Dimensions.get("window");
 class pendingRequest extends Component {
@@ -83,32 +84,37 @@ class pendingRequest extends Component {
       label_ids: "",
       labelName: [],
       label_Name: "",
-      ID_Lable   : "",
-      address  : "",
-      messenger : "",
-      socialMedia : "",
-      website : "",
-      date : "",
-      note : "",
-      company : "",
-      jobTitle : "",
-      monday : "",
-      mondayTo : "",
-      tuesday : "",
-      tuesdayTo : "",
-      wednesday : "",
-      wednesdayTo : "",
-      thursday : "",
-      thursdayTo : "",
-      friday : "",
-      fridayTo : "",
-      saturday : "",
-      saturdayTo : "",
-      sunday : "",
-      sundayTo : "",
-      profile_image:"",
-      profile_image2:"",
-      profile_image3:""
+      LABEL_NAME:[],
+      LABEL_NAMEs:"",
+      ID_Lable: "",
+      address: "",
+      messenger: "",
+      socialMedia: "",
+      website: "",
+      date: "",
+      note: "",
+      company: "",
+      jobTitle: "",
+      monday: "",
+      mondayTo: "",
+      tuesday: "",
+      tuesdayTo: "",
+      wednesday: "",
+      wednesdayTo: "",
+      thursday: "",
+      thursdayTo: "",
+      friday: "",
+      fridayTo: "",
+      saturday: "",
+      saturdayTo: "",
+      sunday: "",
+      sundayTo: "",
+      profile_image: "",
+      profile_image2: "",
+      profile_image3: "",
+      LABLE_ID: [],
+      LNID:[],
+      LNNAME:[]
     };
   }
   renderHeader() {
@@ -127,7 +133,7 @@ class pendingRequest extends Component {
     });
     this.labelList();
     this.pendingRequestApiCall();
-  
+    this.getLabelName();
   };
 
   pendingRequestApiCall = () => {
@@ -153,16 +159,20 @@ class pendingRequest extends Component {
         .then((responseJson) => {
           var data = responseJson.data;
           this.setState({ pendingRequest: data });
-
+         //  console.log("penidng---->", responseJson);
+        
           if (data == "") {
             this.setState({ names: [] });
-            this.setState({labelName : []})
+            this.setState({ labelName: [] });
             this.setState({ loader: false });
           } else {
+           
             this.state.pendingRequest.map((item) => {
+                console.log("penidng---->", responseJson.data2);
+                console.log("item.label_id ---->", item.label_id);
               this.state.p_id.push(item.id);
               this.state.label_id.push(item.label_id);
-              console.log("penidng---->",  this.state.label_id);
+               
               let formateDate = moment(item.created_at).format("MMMM, Do YYYY");
               let formateTime = moment(item.created_at).format("LLLL");
               this.state.requestDate.push(formateDate);
@@ -187,13 +197,52 @@ class pendingRequest extends Component {
         });
     });
   };
+  setID = () =>{
+ //   console.log("label name fro compare --->",this.state.labelName)
+    this.state.label_id.map((lN) =>{
+      console.log("lN --->", lN.split(','));
+      lN.split(',').map((id) =>{
+        this.state.LNID.push(id)
+      })
+      // this.state.LNID.push(lN.id)
+      // this.state.LNNAME.push(lN.relation)
+    })
+   
+    // this.state.LNID.map((idddddd) =>{
+    //   console.log("lN state --->", idddddd);
+    //   const baseurl = Constants.baseurl;
+    //   var _body = new FormData();
+    //   _body.append("id", idddddd);
+    //   fetch(baseurl + "get_labelname", {
+    //     method: "POST",
+    //     body: _body,
+    //   })
+    //     .then((response) => {
+    //       return response.json();
+    //     })
+    //     .then((responseJson) => {
+    //         if(idddddd == responseJson.data )
+    //      this.state.labelName.push(responseJson.data.relation);
+    //     console.log("get label name resopns --->",this.state.labelName.toString().split(','))
+          
+    //     })
+    //     .catch((error) => {
+    //      console.log("name error---->", error);
+    //     });
+    // })
+   
+  }
   getLabelName = () => {
-    console.log("label iddddd---->", this.state.label_id);
-    // let label 
+     console.log("label iddddd---->", this.state.label_id);
+    // let label  
+ //   this.setID();
     this.state.label_id.map((item, index) => {
      
-      let  id = item.split(',')
-      console.log("lael ---->",  id)
+    //   let  id = item.split(',').toString()
+    //  console.log("lael ---->",  item)
+    //  item.map((hello) =>{
+    //   console.log("lael ---->",  hello)
+    //  })
       const baseurl = Constants.baseurl;
       var _body = new FormData();
       _body.append("id", item);
@@ -206,9 +255,9 @@ class pendingRequest extends Component {
         })
         .then((responseJson) => {
 
-          this.state.labelName.push(responseJson.data);
-          console.log("get label name resopns --->",responseJson.data)
-          //  this.getUsername();
+       this.state.labelName.push(responseJson.data);
+        //  console.log("get label name resopns --->",responseJson.data)
+          
         })
         .catch((error) => {
          console.log("name error---->", error);
@@ -222,14 +271,16 @@ class pendingRequest extends Component {
 
     if (user_id == r_id) {
       console.log("yes both are same");
-      this.getLabelName();
-      this.getUsername();
+       this.getLabelName();
+       this.getUsername();
       // console.log("label   dfdfddf--->",  this.state.labelName)
       // if(this.state.labelName.length > 0){
       //   this.getUsername();
       // }
-      // 
+      //
+   
       this.getSendernameAddContactInSender();
+      
     }
   };
 
@@ -293,7 +344,7 @@ class pendingRequest extends Component {
             var data = this.state.usernameData.map((item) => {
               return { item: item, isSelect: false };
             });
-               // console.log("labellll------",this.state.labelName)
+            // console.log("labellll------",this.state.labelName)
             var nameData = this.state.name.map((item, index) => {
               return {
                 item: item,
@@ -310,7 +361,7 @@ class pendingRequest extends Component {
           }
         })
         .catch((error) => {
-       //   console.log("name error---->", error);
+          //   console.log("name error---->", error);
         });
     });
   };
@@ -358,8 +409,6 @@ class pendingRequest extends Component {
     });
   };
 
- 
-  
   removePendingRequestData = () => {
     const { user_id, username } = this.props;
     const {
@@ -394,8 +443,6 @@ class pendingRequest extends Component {
     });
     let sId = senderIdArray[0];
 
-
-  
     addItem(user_id, user_id, selected, "", "", trueName[0]);
     addItem(sId, sId, label_Name, "", "", username.username);
     // selected is reciver label name
@@ -436,33 +483,77 @@ class pendingRequest extends Component {
       .get()
       .then((snap) => {
         let fields = snap._data;
-       
-        console.log("job title   trueName ---->",fields)
-        console.log(" stateteee ---->",this.state.profile_image)
-       if(fields.address.length > 0){this.setState({address : fields.address[0].address})}
-       if(fields.messenger.length > 0){this.setState({messenger : fields.messenger[0].messenger})}
-       if(fields.socialMedia.length > 0){this.setState({socialMedia : fields.socialMedia[0].social})}
-       if(fields.website.length > 0){this.setState({website : fields.website[0].website})}
-       if(fields.date.length > 0){this.setState({date : fields.date[0].date})}
-       if(fields.note.length > 0){this.setState({note : fields.note[0].note})}
-       if(fields.company.length > 0){this.setState({company : fields.company[0].company})}
-       if(fields.jobTitle.length > 0){this.setState({jobTitle : fields.jobTitle[0].jobTitle})}
-       if(fields.monday.length > 0){this.setState({monday : fields.monday[0].monday})}
-       if(fields.mondayTo.length > 0){this.setState({mondayTo : fields.mondayTo[0].mondayTo})}
-       if(fields.tuesday.length > 0){this.setState({tuesday : fields.tuesday[0].tuesday})}
-       if(fields.tuesdayTo.length > 0){this.setState({tuesdayTo : fields.tuesdayTo[0].tuesdayTo})}
-       if(fields.wednesday.length > 0){this.setState({wednesday : fields.wednesday[0].wednesday})}
-       if(fields.wednesdayTo.length > 0){this.setState({wednesdayTo : fields.wednesdayTo[0].wednesdayTo})}
-       if(fields.thursday.length > 0){this.setState({thursday : fields.thursday[0].thursday})}
-       if(fields.thursdayTo.length > 0){this.setState({thursdayTo : fields.thursdayTo[0].thursdayTo})}
-       if(fields.friday.length > 0){this.setState({friday : fields.friday[0].friday})}
-       if(fields.fridayTo.length > 0){this.setState({fridayTo : fields.fridayTo[0].fridayTo})}
-       if(fields.saturday.length > 0){this.setState({saturday : fields.saturday[0].saturday})}
-       if(fields.saturdayTo.length > 0){this.setState({saturdayTo : fields.saturdayTo[0].saturdayTo})}
-       if(fields.sunday.length > 0){this.setState({sunday : fields.sunday[0].sunday})}
-       if(fields.sundayTo.length > 0){this.setState({sundayTo : fields.sundayTo[0].sundayTo})}
 
-       importContactToFirebase(
+        console.log("job title   trueName ---->", fields);
+        console.log(" stateteee ---->", this.state.profile_image);
+        if (fields.address.length > 0) {
+          this.setState({ address: fields.address[0].address });
+        }
+        if (fields.messenger.length > 0) {
+          this.setState({ messenger: fields.messenger[0].messenger });
+        }
+        if (fields.socialMedia.length > 0) {
+          this.setState({ socialMedia: fields.socialMedia[0].social });
+        }
+        if (fields.website.length > 0) {
+          this.setState({ website: fields.website[0].website });
+        }
+        if (fields.date.length > 0) {
+          this.setState({ date: fields.date[0].date });
+        }
+        if (fields.note.length > 0) {
+          this.setState({ note: fields.note[0].note });
+        }
+        if (fields.company.length > 0) {
+          this.setState({ company: fields.company[0].company });
+        }
+        if (fields.jobTitle.length > 0) {
+          this.setState({ jobTitle: fields.jobTitle[0].jobTitle });
+        }
+        if (fields.monday.length > 0) {
+          this.setState({ monday: fields.monday[0].monday });
+        }
+        if (fields.mondayTo.length > 0) {
+          this.setState({ mondayTo: fields.mondayTo[0].mondayTo });
+        }
+        if (fields.tuesday.length > 0) {
+          this.setState({ tuesday: fields.tuesday[0].tuesday });
+        }
+        if (fields.tuesdayTo.length > 0) {
+          this.setState({ tuesdayTo: fields.tuesdayTo[0].tuesdayTo });
+        }
+        if (fields.wednesday.length > 0) {
+          this.setState({ wednesday: fields.wednesday[0].wednesday });
+        }
+        if (fields.wednesdayTo.length > 0) {
+          this.setState({ wednesdayTo: fields.wednesdayTo[0].wednesdayTo });
+        }
+        if (fields.thursday.length > 0) {
+          this.setState({ thursday: fields.thursday[0].thursday });
+        }
+        if (fields.thursdayTo.length > 0) {
+          this.setState({ thursdayTo: fields.thursdayTo[0].thursdayTo });
+        }
+        if (fields.friday.length > 0) {
+          this.setState({ friday: fields.friday[0].friday });
+        }
+        if (fields.fridayTo.length > 0) {
+          this.setState({ fridayTo: fields.fridayTo[0].fridayTo });
+        }
+        if (fields.saturday.length > 0) {
+          this.setState({ saturday: fields.saturday[0].saturday });
+        }
+        if (fields.saturdayTo.length > 0) {
+          this.setState({ saturdayTo: fields.saturdayTo[0].saturdayTo });
+        }
+        if (fields.sunday.length > 0) {
+          this.setState({ sunday: fields.sunday[0].sunday });
+        }
+        if (fields.sundayTo.length > 0) {
+          this.setState({ sundayTo: fields.sundayTo[0].sundayTo });
+        }
+
+        importContactToFirebase(
           username.username,
           this.state.profile_image,
           this.state.profile_image2,
@@ -519,7 +610,8 @@ class pendingRequest extends Component {
           this.state.saturdayTo,
           this.state.sunday,
           this.state.sundayTo,
-          fields.user_id
+          fields.user_id,
+          ""
         );
       });
 
@@ -530,29 +622,73 @@ class pendingRequest extends Component {
       .get()
       .then((snap) => {
         let fields = snap._data;
-        console.log("job title   username ---->",fields)
-        if(fields.address.length > 0){this.setState({address : fields.address[0].address})}
-       if(fields.messenger.length > 0){this.setState({messenger : fields.messenger[0].messenger})}
-       if(fields.socialMedia.length > 0){this.setState({socialMedia : fields.socialMedia[0].social})}
-       if(fields.website.length > 0){this.setState({website : fields.website[0].website})}
-       if(fields.date.length > 0){this.setState({date : fields.date[0].date})}
-       if(fields.note.length > 0){this.setState({note : fields.note[0].note})}
-       if(fields.company.length > 0){this.setState({company : fields.company[0].company})}
-       if(fields.jobTitle.length > 0){this.setState({jobTitle : fields.jobTitle[0].jobTitle})}
-       if(fields.monday.length > 0){this.setState({monday : fields.monday[0].monday})}
-       if(fields.mondayTo.length > 0){this.setState({mondayTo : fields.mondayTo[0].mondayTo})}
-       if(fields.tuesday.length > 0){this.setState({tuesday : fields.tuesday[0].tuesday})}
-       if(fields.tuesdayTo.length > 0){this.setState({tuesdayTo : fields.tuesdayTo[0].tuesdayTo})}
-       if(fields.wednesday.length > 0){this.setState({wednesday : fields.wednesday[0].wednesday})}
-       if(fields.wednesdayTo.length > 0){this.setState({wednesdayTo : fields.wednesdayTo[0].wednesdayTo})}
-       if(fields.thursday.length > 0){this.setState({thursday : fields.thursday[0].thursday})}
-       if(fields.thursdayTo.length > 0){this.setState({thursdayTo : fields.thursdayTo[0].thursdayTo})}
-       if(fields.friday.length > 0){this.setState({friday : fields.friday[0].friday})}
-       if(fields.fridayTo.length > 0){this.setState({fridayTo : fields.fridayTo[0].fridayTo})}
-       if(fields.saturday.length > 0){this.setState({saturday : fields.saturday[0].saturday})}
-       if(fields.saturdayTo.length > 0){this.setState({saturdayTo : fields.saturdayTo[0].saturdayTo})}
-       if(fields.sunday.length > 0){this.setState({sunday : fields.sunday[0].sunday})}
-       if(fields.sundayTo.length > 0){this.setState({sundayTo : fields.sundayTo[0].sundayTo})}
+        console.log("job title   username ---->", fields);
+        if (fields.address.length > 0) {
+          this.setState({ address: fields.address[0].address });
+        }
+        if (fields.messenger.length > 0) {
+          this.setState({ messenger: fields.messenger[0].messenger });
+        }
+        if (fields.socialMedia.length > 0) {
+          this.setState({ socialMedia: fields.socialMedia[0].social });
+        }
+        if (fields.website.length > 0) {
+          this.setState({ website: fields.website[0].website });
+        }
+        if (fields.date.length > 0) {
+          this.setState({ date: fields.date[0].date });
+        }
+        if (fields.note.length > 0) {
+          this.setState({ note: fields.note[0].note });
+        }
+        if (fields.company.length > 0) {
+          this.setState({ company: fields.company[0].company });
+        }
+        if (fields.jobTitle.length > 0) {
+          this.setState({ jobTitle: fields.jobTitle[0].jobTitle });
+        }
+        if (fields.monday.length > 0) {
+          this.setState({ monday: fields.monday[0].monday });
+        }
+        if (fields.mondayTo.length > 0) {
+          this.setState({ mondayTo: fields.mondayTo[0].mondayTo });
+        }
+        if (fields.tuesday.length > 0) {
+          this.setState({ tuesday: fields.tuesday[0].tuesday });
+        }
+        if (fields.tuesdayTo.length > 0) {
+          this.setState({ tuesdayTo: fields.tuesdayTo[0].tuesdayTo });
+        }
+        if (fields.wednesday.length > 0) {
+          this.setState({ wednesday: fields.wednesday[0].wednesday });
+        }
+        if (fields.wednesdayTo.length > 0) {
+          this.setState({ wednesdayTo: fields.wednesdayTo[0].wednesdayTo });
+        }
+        if (fields.thursday.length > 0) {
+          this.setState({ thursday: fields.thursday[0].thursday });
+        }
+        if (fields.thursdayTo.length > 0) {
+          this.setState({ thursdayTo: fields.thursdayTo[0].thursdayTo });
+        }
+        if (fields.friday.length > 0) {
+          this.setState({ friday: fields.friday[0].friday });
+        }
+        if (fields.fridayTo.length > 0) {
+          this.setState({ fridayTo: fields.fridayTo[0].fridayTo });
+        }
+        if (fields.saturday.length > 0) {
+          this.setState({ saturday: fields.saturday[0].saturday });
+        }
+        if (fields.saturdayTo.length > 0) {
+          this.setState({ saturdayTo: fields.saturdayTo[0].saturdayTo });
+        }
+        if (fields.sunday.length > 0) {
+          this.setState({ sunday: fields.sunday[0].sunday });
+        }
+        if (fields.sundayTo.length > 0) {
+          this.setState({ sundayTo: fields.sundayTo[0].sundayTo });
+        }
         //save data in sender
         importContactToFirebase(
           trueName[0],
@@ -611,7 +747,8 @@ class pendingRequest extends Component {
           this.state.saturdayTo,
           this.state.sunday,
           this.state.sundayTo,
-          fields.user_id
+          fields.user_id,
+          ""
         );
       });
 
@@ -620,7 +757,7 @@ class pendingRequest extends Component {
       trueName: [],
       middleSection: true,
       afterConfirmSection: false,
-      labelName:[]
+      labelName: [],
     });
     this.pendingRequestApiCall();
   };
@@ -820,7 +957,7 @@ class pendingRequest extends Component {
           return response.json();
         })
         .then((responseJson) => {
-          console.log("label list responseJson---->",responseJson.data)
+       //  console.log("label list responseJson---->", responseJson.data);
           var arr = responseJson.data.map((item, index) => {
             return {
               relation: item.relation,

@@ -53,7 +53,7 @@ import styles from "./style.js";
 import { switchTheme } from "../../action/themeAction";
 import uuid from "react-native-uuid";
 import website from "../../assets/images/website.png";
-
+import { Spinner } from "../../components/Spinner";
 var { width, height } = Dimensions.get("window");
 
 var DESTRUCTIVE_INDEX = 3;
@@ -64,6 +64,7 @@ class addmanuallyContact extends Component {
     super();
 
     this.state = {
+      isLoading:false,
       counter: 0,
       isVisible: false,
       isVisibleArray: false,
@@ -376,7 +377,7 @@ class addmanuallyContact extends Component {
         })
         .then((responseJson) => {
           console.log(" update  profile image 111 --->", responseJson);
-          this.setState({ isLoading: false });
+         // this.setState({ isLoading: false });
         })
         .catch((error) => {
           this.setState({ isLoading: false });
@@ -401,7 +402,7 @@ class addmanuallyContact extends Component {
         })
         .then((responseJson) => {
           console.log(" update  profile image 22--->", responseJson);
-          this.setState({ isLoading: false });
+         // this.setState({ isLoading: false });
         })
         .catch((error) => {
           this.setState({ isLoading: false });
@@ -426,7 +427,7 @@ class addmanuallyContact extends Component {
         })
         .then((responseJson) => {
           console.log(" update  profile image 33 --->", responseJson);
-          this.setState({ isLoading: false });
+         // this.setState({ isLoading: false });
         })
         .catch((error) => {
           this.setState({ isLoading: false });
@@ -435,6 +436,7 @@ class addmanuallyContact extends Component {
         });
     }
     alert("Add contact successfully");
+    this.setState({ isLoading: false });
   };
 
   ShowHideTextComponentView = () => {
@@ -525,7 +527,7 @@ class addmanuallyContact extends Component {
             .toString(16)
             .substring(1);
           console.log("s4---->", S4);
-
+          this.setState({ isLoading: true });
           addManualContact(
             // user_id,
             username,
@@ -664,7 +666,11 @@ class addmanuallyContact extends Component {
       />
     );
   }
-
+  showLoader() {
+    if (this.state.isLoading == true) {
+      return <Spinner />;
+    }
+  }
   selectPhoto = () => {
     ActionSheet.show(
       {
@@ -4404,6 +4410,7 @@ class addmanuallyContact extends Component {
               }}
             />
           </Container>
+          {this.showLoader()}
         </View>
       </ThemeProvider>
     );

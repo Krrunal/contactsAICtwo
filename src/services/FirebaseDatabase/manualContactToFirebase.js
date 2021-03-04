@@ -123,5 +123,9 @@ export const addManualContact = (
       saturdayTo  :"",
       sunday  :"",
       sundayTo  :"",
+      first_name_small: first_name.toLowerCase(),
+      middle_name_small: middle_name.toLowerCase(),
+      last_name_small: last_name.toLowerCase(),
+      nick_name_small: nick_name.toLowerCase(),
     });
 };

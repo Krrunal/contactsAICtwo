@@ -325,11 +325,12 @@ class chooseContactFromLabel extends Component {
     });
     
     let ids = this.state.labelIDs.toString()
-    console.log("labele------->",ids);
+    console.log("labele iddsss  ------->",ids);
+    
     const deviceid = this.state.qrCodeData.fcmToken;
     const baseurl = Constants.baseurl;
     const receive_id = this.state.qrCodeData.user_id;
-
+    
     var _body = new FormData();
     _body.append("deviceid", deviceid);
     _body.append("receive_id", receive_id);
