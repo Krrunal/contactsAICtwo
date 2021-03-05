@@ -19,7 +19,7 @@ var { width, height } = Dimensions.get("window");
 class forAdd2 extends Component {
   state = {
     user_name: "",
-    label: "",
+    label: "",labels :[],
     userLabel1: "",
     userLabel2: "",
     userLabel3: "",
@@ -30,12 +30,14 @@ class forAdd2 extends Component {
     u_name4: "",
     isLoading: false,
     label_id:"",
+    labelID:""
   };
 
   async componentDidMount() {
     this.setState({
       user_name: await AsyncStorage.getItem("@username"),
       label: await AsyncStorage.getItem("@selectedLabel"),
+      labelID: await AsyncStorage.getItem("@selectedID"),
       userLabel1: await AsyncStorage.getItem("@userLabel1"),
       userLabel2: await AsyncStorage.getItem("@userLabel2"),
       userLabel3: await AsyncStorage.getItem("@userLabel3"),
@@ -46,15 +48,17 @@ class forAdd2 extends Component {
       u_name3: await AsyncStorage.getItem("@u_name3"),
       u_name4: await AsyncStorage.getItem("@u_name4"),
     });
-    console.log("Label----1---->", this.state.label);
-    //console.log("multiple----1---->",this.state.userLabel1)
-    console.log("multiple----2---->", this.state.userLabel2);
-    console.log("multiple----3---->", this.state.userLabel3);
-    console.log("multiple----4---->", this.state.userLabel4);
+     console.log("Label----1---->", this.state.labelID);
+    // //console.log("multiple----1---->",this.state.userLabel1)
+    // console.log("multiple----2---->", this.state.userLabel2);
+    // console.log("multiple----3---->", this.state.userLabel3);
+    // console.log("multiple----4---->", this.state.userLabel4);
     this.labelList();
   }
 
   labelList = () => {
+ 
+   
     this.setState({ isLoading: true }, async () => {
       const baseurl = Constants.baseurl;
       fetch(baseurl + "getlabel")
@@ -62,10 +66,10 @@ class forAdd2 extends Component {
           return response.json();
         })
         .then((responseJson) => {
-         
+       //   console.log("response=---->", responseJson);
           var arr = responseJson.data.map((item) => { 
             if(item.relation == this.state.label){
-              //console.log("response=---->", item.relation);
+               console.log("response=---->", item.relation);
               this.setState({label_id:item.id})
             }
           })
@@ -76,6 +80,7 @@ class forAdd2 extends Component {
           this.setState({ isLoading: false });
         });
     });
+ 
   };
 
   renderHeader() {
@@ -217,7 +222,7 @@ class forAdd2 extends Component {
     const { username, user_id } = this.props;
     const { u_name1, u_name2, u_name3, u_name4 } = this.state;
     // console.log("usname 111-->",u_name1);
-    // console.log("user_id---->",user_id)
+  console.log("user_id---->", this.state.label_id )
     const baseurl = Constants.baseurl;
     var _body = new FormData();
     _body.append("username1", u_name1);
@@ -225,7 +230,7 @@ class forAdd2 extends Component {
     _body.append("username3", u_name3);
     _body.append("username4", u_name4);
     _body.append("sender_id", user_id);
-    _body.append("label_id", this.state.label_id);
+    _body.append("label_id",  this.state.labelID);
     fetch(baseurl + "send_bulk", {
       method: "POST",
       headers: {

@@ -417,19 +417,26 @@ class searchContact extends Component {
   };
   showContact = () => {
     const { username } = this.props;
-
+        this.getImage();
+        this.getImageFromDoc();
+        this.getImageForImportContact();
     const { navigation } = this.props;
     this.focusListener = navigation.addListener("didFocus", async () => {
       this.setState({ isLoading: true });
       this.setState({ contact: [] });
       this.setState({ contacts: "" });
-      this.getImage();
-      this.getImageFromDoc();
-      this.getImageForImportContact();
+        // this.getImageFromDoc();
+        // this.getImageForImportContact();
       if (this.props.contactChange.mode === "first") {
+        // this.getImage();
+        // this.getImageFromDoc();
+        // this.getImageForImportContact();
         this.contactList();
         console.log("first");
       } else {
+        // this.getImage();
+        // this.getImageFromDoc();
+        // this.getImageForImportContact();
         this.contactListFirst();
         console.log("Last");
       }
@@ -509,7 +516,7 @@ class searchContact extends Component {
         obj[text?.toLowerCase() ?? "en"]?.indexOf(text) > -1 ||
         obj.first_name_small.indexOf(text) > -1 ||
         obj.nick_name_small.indexOf(text) > -1 ||
-        obj.last_name_small.toLowerCase().indexOf(text) > -1 ||
+        obj.last_name_small.indexOf(text) > -1 ||
         obj.middle_name_small.indexOf(text) > -1 ||
         obj.company.indexOf(text) > -1 ||
         obj.website.indexOf(text) > -1 ||
@@ -518,7 +525,11 @@ class searchContact extends Component {
         obj.jobTitle.indexOf(text) > -1 ||
         obj.social_media1.indexOf(text) > -1 ||
         obj.note.indexOf(text) > -1 ||
-        obj.messenger1.indexOf(text) > -1
+        obj.messenger1.indexOf(text) > -1 ||
+        obj.first_name.indexOf(text) > -1 ||
+        obj.nick_name.indexOf(text) > -1 ||
+        obj.last_name.indexOf(text) > -1 ||
+        obj.middle_name.indexOf(text) > -1
     );
     this.setState({ shortcontacts: shortData, searchText: text });
   };
@@ -631,43 +642,154 @@ class searchContact extends Component {
         console.log("item---->", item);
         if (responseJson.status == true) {
           firebase
-          .firestore()
-          .collection("user")
-          .doc(this.props.username)
-          .collection("contacts")
-          .doc(this.state.doc_id)
-          .update({
-            first_name: item.first_name == 1 ? fields.first_name : null,
-            last_name: item.last_name == 1  ?  fields.last_name : null,
-            first_name_small: fields.first_name.toLowerCase(),
-            last_name_small: fields.last_name.toLowerCase(),
-            number: item.phone_number == 1 !== "" ? fields.number[0].phone : "",
-            address : item.address == 1  ? fields.address !== "" ? fields.address[0].address : "" : "",
-            email: item.email == 1  ?  fields.email !== "" ? fields.email[0].email  : ""    : ""   ,
-            messenger : item.messenger == 1  ?  fields.messenger !== "" ? fields.messenger[0].messenger  :  "" : "" ,
-            website: item.website == 1  ?  fields.website !== "" ? fields.website[0].website :  ""    : ""  ,
-            date: item.date == 1  ?  fields.date  !== "" ? fields.date[0].date  :  ""    : ""  ,
-            note:  item.note == 1  ? fields.note  !== "" ?fields.note[0].note :   ""      : ""  ,
-            company:  item.company == 1  ? fields.company   !== "" ? fields.company[0].company  :   ""     : ""  ,
-            jobTitle: item.jobTitle == 1  ?  fields.jobTitle  !== "" ? fields.jobTitle[0].jobTitle  :   ""     : ""  ,
-            monday:  item.monday == 1  ? fields.monday !== "" ? fields.monday[0].monday  :   ""     : ""  ,
-            mondayTo:item.mondayTo == 1  ?  fields.mondayTo   !== "" ? fields.mondayTo[0].mondayTo  :   ""     : ""  ,
-            tuesday: item.tuesday == 1  ? fields.tuesday   !== "" ? fields.tuesday[0].tuesday  :   ""     : ""  ,
-            tuesdayTo: item.tuesdayTo == 1  ? fields.tuesdayTo   !== "" ? fields.tuesdayTo[0].tuesdayTo  :   ""     : ""  ,
-            wednesday: item.wednesday == 1  ? fields.wednesday   !== "" ? fields.wednesday[0].wednesday  :   ""     : ""  ,
-            wednesdayTo: item.wednesdayTo == 1  ? fields.wednesdayTo   !== "" ? fields.wednesdayTo[0].wednesdayTo  :   ""    : ""   ,
-            thursday: item.thursday == 1  ? fields.thursday   !== "" ? fields.thursday[0].thursday  :   ""     : ""  ,
-            thursdayTo:item.thursdayTo == 1  ?  fields.thursdayTo   !== "" ? fields.thursdayTo[0].thursdayTo  :   ""     : ""  ,
-            friday: item.friday == 1  ? fields.friday   !== "" ? fields.friday[0].friday  :   ""    : ""   ,
-            fridayTo:item.fridayTo == 1  ?  fields.fridayTo   !== "" ? fields.fridayTo[0].fridayTo  :   ""    : ""   ,
-            saturday:item.saturday == 1  ?  fields.saturday   !== "" ? fields.saturday[0].saturday  :   ""     : ""  ,
-            saturdayTo: item.saturdayTo == 1  ? fields.saturdayTo   !== "" ? fields.saturdayTo[0].saturdayTo  :   ""    : ""   ,
-            sunday: item.sunday == 1  ? fields.sunday   !== "" ? fields.sunday[0].sunday  :   ""     : ""  ,
-            sundayTo: item.sundayTo == 1  ? fields.sundayTo   !== "" ? fields.sundayTo[0].sundayTo  :   ""    : ""   ,
-          });
+            .firestore()
+            .collection("user")
+            .doc(this.props.username)
+            .collection("contacts")
+            .doc(this.state.doc_id)
+            .update({
+              first_name: item.first_name == 1 ? fields.first_name : null,
+              last_name: item.last_name == 1 ? fields.last_name : null,
+              first_name_small: fields.first_name.toLowerCase(),
+              last_name_small: fields.last_name.toLowerCase(),
+              number:
+                (item.phone_number == 1) !== "" ? fields.number[0].phone : "",
+              address:
+                item.address == 1
+                  ? fields.address !== ""
+                    ? fields.address[0].address
+                    : ""
+                  : "",
+              email:
+                item.email == 1
+                  ? fields.email !== ""
+                    ? fields.email[0].email
+                    : ""
+                  : "",
+              messenger:
+                item.messenger == 1
+                  ? fields.messenger !== ""
+                    ? fields.messenger[0].messenger
+                    : ""
+                  : "",
+              website:
+                item.website == 1
+                  ? fields.website !== ""
+                    ? fields.website[0].website
+                    : ""
+                  : "",
+              date:
+                item.date == 1
+                  ? fields.date !== ""
+                    ? fields.date[0].date
+                    : ""
+                  : "",
+              note:
+                item.note == 1
+                  ? fields.note !== ""
+                    ? fields.note[0].note
+                    : ""
+                  : "",
+              company:
+                item.company == 1
+                  ? fields.company !== ""
+                    ? fields.company[0].company
+                    : ""
+                  : "",
+              jobTitle:
+                item.jobTitle == 1
+                  ? fields.jobTitle !== ""
+                    ? fields.jobTitle[0].jobTitle
+                    : ""
+                  : "",
+              monday:
+                item.monday == 1
+                  ? fields.monday !== ""
+                    ? fields.monday[0].monday
+                    : ""
+                  : "",
+              mondayTo:
+                item.mondayTo == 1
+                  ? fields.mondayTo !== ""
+                    ? fields.mondayTo[0].mondayTo
+                    : ""
+                  : "",
+              tuesday:
+                item.tuesday == 1
+                  ? fields.tuesday !== ""
+                    ? fields.tuesday[0].tuesday
+                    : ""
+                  : "",
+              tuesdayTo:
+                item.tuesdayTo == 1
+                  ? fields.tuesdayTo !== ""
+                    ? fields.tuesdayTo[0].tuesdayTo
+                    : ""
+                  : "",
+              wednesday:
+                item.wednesday == 1
+                  ? fields.wednesday !== ""
+                    ? fields.wednesday[0].wednesday
+                    : ""
+                  : "",
+              wednesdayTo:
+                item.wednesdayTo == 1
+                  ? fields.wednesdayTo !== ""
+                    ? fields.wednesdayTo[0].wednesdayTo
+                    : ""
+                  : "",
+              thursday:
+                item.thursday == 1
+                  ? fields.thursday !== ""
+                    ? fields.thursday[0].thursday
+                    : ""
+                  : "",
+              thursdayTo:
+                item.thursdayTo == 1
+                  ? fields.thursdayTo !== ""
+                    ? fields.thursdayTo[0].thursdayTo
+                    : ""
+                  : "",
+              friday:
+                item.friday == 1
+                  ? fields.friday !== ""
+                    ? fields.friday[0].friday
+                    : ""
+                  : "",
+              fridayTo:
+                item.fridayTo == 1
+                  ? fields.fridayTo !== ""
+                    ? fields.fridayTo[0].fridayTo
+                    : ""
+                  : "",
+              saturday:
+                item.saturday == 1
+                  ? fields.saturday !== ""
+                    ? fields.saturday[0].saturday
+                    : ""
+                  : "",
+              saturdayTo:
+                item.saturdayTo == 1
+                  ? fields.saturdayTo !== ""
+                    ? fields.saturdayTo[0].saturdayTo
+                    : ""
+                  : "",
+              sunday:
+                item.sunday == 1
+                  ? fields.sunday !== ""
+                    ? fields.sunday[0].sunday
+                    : ""
+                  : "",
+              sundayTo:
+                item.sundayTo == 1
+                  ? fields.sundayTo !== ""
+                    ? fields.sundayTo[0].sundayTo
+                    : ""
+                  : "",
+            });
 
-         console.log("settings---->", fields);
-        
+          console.log("settings---->", fields);
+
           const baseurl = Constants.baseurl;
           var _body = new FormData();
           _body.append("user_id", fields.user_id);
@@ -686,14 +808,14 @@ class searchContact extends Component {
                   if (item.image_1 == 1) {
                     this.setState({ profile_image: img.profile });
                     firebase
-                    .firestore()
-                    .collection("user")
-                    .doc(this.props.username)
-                    .collection("contacts")
-                    .doc(this.state.doc_id)
-                    .update({
-                      profile_image: img.profile,
-                    });
+                      .firestore()
+                      .collection("user")
+                      .doc(this.props.username)
+                      .collection("contacts")
+                      .doc(this.state.doc_id)
+                      .update({
+                        profile_image: img.profile,
+                      });
                   } else {
                     this.setState({ profile_image: "" });
                   }
@@ -703,14 +825,14 @@ class searchContact extends Component {
                   if (item.image_2 == 1) {
                     this.setState({ profile_image2: img.profile });
                     firebase
-                    .firestore()
-                    .collection("user")
-                    .doc(this.props.username)
-                    .collection("contacts")
-                    .doc(this.state.doc_id)
-                    .update({
-                      profile_image2: img.profile,
-                    });
+                      .firestore()
+                      .collection("user")
+                      .doc(this.props.username)
+                      .collection("contacts")
+                      .doc(this.state.doc_id)
+                      .update({
+                        profile_image2: img.profile,
+                      });
                     if (img.profile !== "") {
                       this.setState({ rightSec: true });
                     }
@@ -724,14 +846,14 @@ class searchContact extends Component {
                   if (item.image_3 == 1) {
                     this.setState({ profile_image3: img.profile });
                     firebase
-                    .firestore()
-                    .collection("user")
-                    .doc(this.props.username)
-                    .collection("contacts")
-                    .doc(this.state.doc_id)
-                    .update({
-                      profile_image3: img.profile,
-                    })
+                      .firestore()
+                      .collection("user")
+                      .doc(this.props.username)
+                      .collection("contacts")
+                      .doc(this.state.doc_id)
+                      .update({
+                        profile_image3: img.profile,
+                      });
                   } else {
                     this.setState({ profile_image3: "" });
                   }
@@ -739,12 +861,12 @@ class searchContact extends Component {
                 }
               });
 
-             // this.setState({ isLoading: false });
+              // this.setState({ isLoading: false });
             })
             .catch((error) => {
               console.log("name error---->", error);
             });
-            this.showDateAfterUpdate();
+          this.showDateAfterUpdate();
           // this.setState({ contactInfoSection: true });
           // this.setState({ isLoading: false });
         }
@@ -814,11 +936,11 @@ class searchContact extends Component {
               .doc(this.state.doc_id)
               .update({
                 profile_image3: img.profile,
-           });
+              });
             this.setState({ profile_image3: img.profile });
           }
         });
-      //  this.setState({ isLoading: false });
+        //  this.setState({ isLoading: false });
       })
       .catch((error) => {
         console.log("name error---->", error);
@@ -835,82 +957,83 @@ class searchContact extends Component {
         first_name_small: fields.first_name.toLowerCase(),
         last_name_small: fields.last_name.toLowerCase(),
         number: fields.number !== "" ? fields.number[0].phone : "",
-        address : fields.address !== "" ? fields.address[0].address : "",
-        email:  fields.email !== "" ? fields.email[0].email  : "" ,
-        messenger : fields.messenger !== "" ? fields.messenger[0].messenger  :  "",
-        website: fields.website !== "" ? fields.website[0].website :  "",
-        date: fields.date  !== "" ? fields.date[0].date  :  "",
-        note: fields.note  !== "" ?fields.note[0].note :   ""  ,
-        company: fields.company   !== "" ? fields.company[0].company  :   "" ,
-        jobTitle: fields.jobTitle  !== "" ? fields.jobTitle[0].jobTitle  :   "" ,
-        monday: fields.monday !== "" ? fields.monday[0].monday  :   "" ,
-        mondayTo: fields.mondayTo   !== "" ? fields.mondayTo[0].mondayTo  :   "" ,
-        tuesday: fields.tuesday   !== "" ? fields.tuesday[0].tuesday  :   "" ,
-        tuesdayTo: fields.tuesdayTo   !== "" ? fields.tuesdayTo[0].tuesdayTo  :   "" ,
-        wednesday: fields.wednesday   !== "" ? fields.wednesday[0].wednesday  :   "" ,
-        wednesdayTo: fields.wednesdayTo   !== "" ? fields.wednesdayTo[0].wednesdayTo  :   "" ,
-        thursday: fields.thursday   !== "" ? fields.thursday[0].thursday  :   "" ,
-        thursdayTo: fields.thursdayTo   !== "" ? fields.thursdayTo[0].thursdayTo  :   "" ,
-        friday: fields.friday   !== "" ? fields.friday[0].friday  :   "" ,
-        fridayTo: fields.fridayTo   !== "" ? fields.fridayTo[0].fridayTo  :   "" ,
-        saturday: fields.saturday   !== "" ? fields.saturday[0].saturday  :   "" ,
-        saturdayTo: fields.saturdayTo   !== "" ? fields.saturdayTo[0].saturdayTo  :   "" ,
-        sunday: fields.sunday   !== "" ? fields.sunday[0].sunday  :   "" ,
-        sundayTo: fields.sundayTo   !== "" ? fields.sundayTo[0].sundayTo  :   "" ,
+        address: fields.address !== "" ? fields.address[0].address : "",
+        email: fields.email !== "" ? fields.email[0].email : "",
+        messenger: fields.messenger !== "" ? fields.messenger[0].messenger : "",
+        website: fields.website !== "" ? fields.website[0].website : "",
+        date: fields.date !== "" ? fields.date[0].date : "",
+        note: fields.note !== "" ? fields.note[0].note : "",
+        company: fields.company !== "" ? fields.company[0].company : "",
+        jobTitle: fields.jobTitle !== "" ? fields.jobTitle[0].jobTitle : "",
+        monday: fields.monday !== "" ? fields.monday[0].monday : "",
+        mondayTo: fields.mondayTo !== "" ? fields.mondayTo[0].mondayTo : "",
+        tuesday: fields.tuesday !== "" ? fields.tuesday[0].tuesday : "",
+        tuesdayTo: fields.tuesdayTo !== "" ? fields.tuesdayTo[0].tuesdayTo : "",
+        wednesday: fields.wednesday !== "" ? fields.wednesday[0].wednesday : "",
+        wednesdayTo:
+        fields.wednesdayTo !== "" ? fields.wednesdayTo[0].wednesdayTo : "",
+        thursday: fields.thursday !== "" ? fields.thursday[0].thursday : "",
+        thursdayTo:
+        fields.thursdayTo !== "" ? fields.thursdayTo[0].thursdayTo : "",
+        friday: fields.friday !== "" ? fields.friday[0].friday : "",
+        fridayTo: fields.fridayTo !== "" ? fields.fridayTo[0].fridayTo : "",
+        saturday: fields.saturday !== "" ? fields.saturday[0].saturday : "",
+        saturdayTo:
+        fields.saturdayTo !== "" ? fields.saturdayTo[0].saturdayTo : "",
+        sunday: fields.sunday !== "" ? fields.sunday[0].sunday : "",
+        sundayTo: fields.sundayTo !== "" ? fields.sundayTo[0].sundayTo : "",
       });
 
     this.showDateAfterUpdate();
   };
   showDateAfterUpdate = () => {
     let fields = this.state.userData;
+    this.setState({ isLoading: true });
     firebase
-    .firestore()
-    .collection("user")
-    .doc(this.props.username)
-    .collection("contacts")
-    .doc(this.state.doc_id)
-    .get()
-    .then((snap) => {  
-      let FN = snap._data
-      console.log(" sjprtconatc ----->", snap);
-      console.log(" sjprtconatc ----->", this.state.doc_id);
- 
+      .firestore()
+      .collection("user")
+      .doc(this.props.username)
+      .collection("contacts")
+      .doc(this.state.doc_id)
+      .get()
+      .then((snap) => {
+        let FN = snap._data;
+        console.log(" sjprtconatc ----->", snap);
+        console.log(" sjprtconatc ----->", this.state.doc_id);
 
-      this.setState({ u_name: FN.u_name });
-      this.setState({ first_name: FN.first_name });
-      this.setState({ last_name: FN.last_name });
-      this.setState({ number: FN.number1 });
-      this.setState({ number2: FN.number2 });
-      this.setState({ email: FN.email1 });
-      this.setState({ email2: FN.email2 });
-      this.setState({ address: FN.address1.toLowerCase() });
-      this.setState({ address2: FN.address2 });
-      this.setState({ messenger: FN.messenger1 });
-      this.setState({ socialMedia: FN.social_media1 });
-      this.setState({ website: FN.website });
-      this.setState({ date: FN.date });
-      this.setState({ note: FN.note });
-      this.setState({ company: FN.company });
-      this.setState({ jobTitle: FN.jobTitle });
-      this.setState({ monday: FN.monday });
-      this.setState({ mondayTo: FN.mondayTo });
-      this.setState({ tuesday: FN.tuesday });
-      this.setState({ tuesdayTo: FN.tuesdayTo });
-      this.setState({ wednesday: FN.wednesday });
-      this.setState({ wednesdayTo: FN.wednesdayTo });
-      this.setState({ thursday: FN.thursday });
-      this.setState({ thursdayTo: FN.thursdayTo });
-      this.setState({ friday: FN.friday });
-      this.setState({ fridayTo: FN.fridayTo });
-      this.setState({ saturday: FN.saturday });
-      this.setState({ saturdayTo: FN.saturdayTo });
-      this.setState({ sunday: FN.sunday });
-      this.setState({ sundayTo: FN.sundayTo });
-      this.setState({ contactInfoSection: true });
-      this.setState({ isLoading: false });
-    })
- 
-  
+        this.setState({ u_name: FN.u_name });
+        this.setState({ first_name: FN.first_name });
+        this.setState({ last_name: FN.last_name });
+        this.setState({ number: FN.number1 });
+        this.setState({ number2: FN.number2 });
+        this.setState({ email: FN.email1 });
+        this.setState({ email2: FN.email2 });
+        this.setState({ address: FN.address1.toLowerCase() });
+        this.setState({ address2: FN.address2 });
+        this.setState({ messenger: FN.messenger1 });
+        this.setState({ socialMedia: FN.social_media1 });
+        this.setState({ website: FN.website });
+        this.setState({ date: FN.date });
+        this.setState({ note: FN.note });
+        this.setState({ company: FN.company });
+        this.setState({ jobTitle: FN.jobTitle });
+        this.setState({ monday: FN.monday });
+        this.setState({ mondayTo: FN.mondayTo });
+        this.setState({ tuesday: FN.tuesday });
+        this.setState({ tuesdayTo: FN.tuesdayTo });
+        this.setState({ wednesday: FN.wednesday });
+        this.setState({ wednesdayTo: FN.wednesdayTo });
+        this.setState({ thursday: FN.thursday });
+        this.setState({ thursdayTo: FN.thursdayTo });
+        this.setState({ friday: FN.friday });
+        this.setState({ fridayTo: FN.fridayTo });
+        this.setState({ saturday: FN.saturday });
+        this.setState({ saturdayTo: FN.saturdayTo });
+        this.setState({ sunday: FN.sunday });
+        this.setState({ sundayTo: FN.sundayTo });
+        this.setState({ contactInfoSection: true });
+        this.setState({ isLoading: false });
+      });
   };
   apiCallForGetSettings = (key) => {
     const { shortcontacts, firstName } = this.state;
@@ -945,35 +1068,7 @@ class searchContact extends Component {
         });
       });
   };
-  // mannuallyEntered = (key) => {
-  //   let FN = this.state.selectedData;
-  //   console.log("mannuallyEntered ----->", FN);
-  //   this.setState({ profile_image: FN.profile_image });
-  //   this.setState({ profile_image2: FN.profile_image2 });
-  //   if (FN.profile_image2 !== "") {
-  //     this.setState({ rightSec: true });
-  //   }
-  //   this.setState({ u_name: FN.u_name });
-  //   this.setState({ profile_image3: FN.profile_image3 });
-  //   this.setState({ first_name: FN.first_name });
-  //   this.setState({ last_name: FN.last_name });
-  //   this.setState({ contactInfoSection: true });
-  //   this.setState({ number: FN.number1.number });
-  //   this.setState({ number2: FN.number2 });
-  //   this.setState({ email: FN.email1.email });
-  //   this.setState({ email2: FN.email2 });
-  //   this.setState({ address: FN.address1.address });
-  //   this.setState({ address2: FN.address2 });
-  //   this.setState({ messenger: FN.messenger1.messanger });
-  //   this.setState({ socialMedia: FN.social_media1.socialMedia });
-  //   this.setState({ website: FN.website.website });
-  //   this.setState({ date: FN.date.date });
-  //   this.setState({ note: FN.note.note });
-  //   this.setState({ company: FN.company.company });
-  //   this.setState({ jobTitle: FN.jobTitle.jobTitle });
-  //   this.setState({ contactInfoSection: true });
-  //   this.setState({ isLoading: false });
-  // };
+
   onFlatlist = async (key, first_name, last_name, user_name) => {
     console.log("onFlatlist ----->", key);
     this.setState({ isLoading: true, forKey: key });
@@ -1022,30 +1117,36 @@ class searchContact extends Component {
                   this.setState({ doc_id: doc_id.id });
                 }
               });
-              this.setState({ selectedData: doc._data });
+              this.setState({ selectedData : doc._data });
               this.apiCallForGetSettings(key);
             }
           }
           if (FN.isManually == true) {
-            if (selecte_name == doc._data.u_name) {
-              let FN = fields;
-              console.log("mannuallyEntered doc_id----->", this.state.doc_id);
-              console.log("mannuallyEntered ----->", FN);
-              const baseurl = Constants.baseurl;
-              var _body = new FormData();
-              _body.append("docid", this.state.doc_id);
+            const baseurl = Constants.baseurl;
+            var _body = new FormData();
+            _body.append("docid", this.state.doc_id);
 
-              fetch(baseurl + "get_uplopimages_doc", {
-                method: "POST",
-                body: _body,
+            fetch(baseurl + "get_uplopimages_doc", {
+              method: "POST",
+              body: _body,
+            })
+              .then((response) => {
+                return response.json();
               })
-                .then((response) => {
-                  return response.json();
-                })
-                .then((responseJson) => {
+              .then((responseJson) => {
+                if (responseJson.status == false) {
+                  this.isManuallyContactFuction();
+                } else {
                   responseJson.data.map((img) => {
                     console.log("profile --->", img);
                     if (img.position == 1) {
+                      firebase
+                        .firestore()
+                        .collection("user")
+                        .doc(username)
+                        .collection("contacts")
+                        .doc(doc_id)
+                        .update({ profile_image: img.profile });
                       this.setState({ profile_image: img.profile });
                       console.log(
                         "profile image profile 111 --->",
@@ -1054,6 +1155,13 @@ class searchContact extends Component {
                     }
                     if (img.position == 2) {
                       this.setState({ profile_image2: img.profile });
+                      firebase
+                        .firestore()
+                        .collection("user")
+                        .doc(username)
+                        .collection("contacts")
+                        .doc(doc_id)
+                        .update({ profile_image2: img.profile });
                       if (img.profile !== "") {
                         this.setState({ rightSec: true });
                       }
@@ -1064,83 +1172,63 @@ class searchContact extends Component {
                     }
                     if (img.position == 3) {
                       console.log("profile image 3 --->", img.profile);
+                      firebase
+                        .firestore()
+                        .collection("user")
+                        .doc(username)
+                        .collection("contacts")
+                        .doc(doc_id)
+                        .update({ profile_image3: img.profile });
                       this.setState({ profile_image3: img.profile });
                     }
-                    // });
-
-                    this.setState({ isLoading: false });
+                    this.isManuallyContactFuction();
                   });
-                })
-                .catch((error) => {
-                  console.log("name error---->", error);
-                });
-              this.setState({ selectedData: FN });
-              this.setState({ profile_image: FN.profile_image });
-              // this.setState({ profile_image2: FN.profile_image2 });
-              // if (FN.profile_image2 !== "") {this.setState({ rightSec: true })}
-              this.setState({ u_name: FN.u_name });
-              // this.setState({ profile_image3: FN.profile_image3 });
-              this.setState({ first_name: FN.first_name });
-              this.setState({ last_name: FN.last_name });
-
-              this.setState({ number: FN.number1 });
-              this.setState({ number2: FN.number2 });
-              this.setState({ email: FN.email1 });
-              this.setState({ email2: FN.email2 });
-              this.setState({ address: FN.address1 });
-              this.setState({ address2: FN.address2 });
-              this.setState({ messenger: FN.messenger1 });
-              this.setState({ socialMedia: FN.social_media1 });
-              this.setState({ website: FN.website });
-              this.setState({ date: FN.date });
-              this.setState({ note: FN.note });
-              this.setState({ company: FN.company });
-              this.setState({ jobTitle: FN.jobTitle });
-              this.setState({ monday: FN.monday });
-              this.setState({ mondayTo: FN.mondayTo });
-              this.setState({ tuesday: FN.tuesday });
-              this.setState({ tuesdayTo: FN.tuesdayTo });
-              this.setState({ wednesday: FN.wednesday });
-              this.setState({ wednesdayTo: FN.wednesdayTo });
-              this.setState({ thursday: FN.thursday });
-              this.setState({ thursdayTo: FN.thursdayTo });
-              this.setState({ friday: FN.friday });
-              this.setState({ fridayTo: FN.fridayTo });
-              this.setState({ saturday: FN.saturday });
-              this.setState({ saturdayTo: FN.saturdayTo });
-              this.setState({ sunday: FN.sunday });
-              this.setState({ sundayTo: FN.sundayTo });
-              this.setState({ contactInfoSection: true });
-              this.setState({ isLoading: false });
-            }
+                }
+              })
+              .catch((error) => {
+                console.log("name error---->", error);
+              });
           }
           if (doc._data.isImport == true) {
-            if (selecte_name == doc._data.u_name) {
-              // console.log("true ----->", fields);
-              console.log("true doc_id----->", this.state.doc_id);
+            const baseurl = Constants.baseurl;
+            var _body = new FormData();
+            _body.append("docid", this.state.doc_id);
 
-              const baseurl = Constants.baseurl;
-              var _body = new FormData();
-              _body.append("docid", this.state.doc_id);
-
-              fetch(baseurl + "get_uplopimages_doc", {
-                method: "POST",
-                body: _body,
+            fetch(baseurl + "get_uplopimages_doc", {
+              method: "POST",
+              body: _body,
+            })
+              .then((response) => {
+                return response.json();
               })
-                .then((response) => {
-                  return response.json();
-                })
-                .then((responseJson) => {
+              .then((responseJson) => {
+                // console.log("name error---->", responseJson);
+                if (responseJson.status == false) {
+                } else {
                   responseJson.data.map((img) => {
                     console.log("profile --->", img);
                     if (img.position == 1) {
                       this.setState({ profile_image: img.profile });
+                      firebase
+                        .firestore()
+                        .collection("user")
+                        .doc(username)
+                        .collection("contacts")
+                        .doc(doc_id)
+                        .update({ profile_image: img.profile });
                       console.log(
                         "profile image profile 111 --->",
                         this.state.profile_image
                       );
                     }
                     if (img.position == 2) {
+                      firebase
+                        .firestore()
+                        .collection("user")
+                        .doc(username)
+                        .collection("contacts")
+                        .doc(doc_id)
+                        .update({ profile_image2: img.profile });
                       this.setState({ profile_image2: img.profile });
                       if (img.profile !== "") {
                         this.setState({ rightSec: true });
@@ -1152,59 +1240,135 @@ class searchContact extends Component {
                     }
                     if (img.position == 3) {
                       console.log("profile image 3 --->", img.profile);
+                      firebase
+                        .firestore()
+                        .collection("user")
+                        .doc(username)
+                        .collection("contacts")
+                        .doc(doc_id)
+                        .update({ profile_image3: img.profile });
                       this.setState({ profile_image3: img.profile });
                     }
-                    // });
-
-                    //  this.setState({ isLoading: false });
                   });
-                })
-                .catch((error) => {
-                  console.log("name error---->", error);
-                });
-              this.setState({ selectedData: fields });
-              // this.setState({ profile_image: fields.profile_image });
-              // this.setState({ profile_image2: fields.profile_image2 });
-              // this.setState({ profile_image3: fields.profile_image3 });
-              this.setState({ first_name: fields.first_name });
-              this.setState({ last_name: fields.last_name });
-              this.setState({ u_name: fields.u_name });
-              if (fields.number.length > 0) {
-                this.setState({ number: fields.number[0].number });
-              }
-              this.setState({ address: fields.address1 });
-              this.setState({ email: fields.email1 });
-              this.setState({ number2: fields.number2 });
-              this.setState({ email2: fields.email2 });
-              this.setState({ messenger: fields.messenger1 });
-              this.setState({ socialMedia: fields.social_media1 });
-              this.setState({ website: fields.website });
-              this.setState({ date: fields.date });
-              this.setState({ note: fields.note });
-              this.setState({ company: fields.company });
-              this.setState({ jobTitle: fields.jobTitle });
-              this.setState({ monday: fields.monday });
-              this.setState({ mondayTo: fields.mondayTo });
-              this.setState({ tuesday: fields.tuesday });
-              this.setState({ tuesdayTo: fields.tuesdayTo });
-              this.setState({ wednesday: fields.wednesday });
-              this.setState({ wednesdayTo: fields.wednesdayTo });
-              this.setState({ thursday: fields.thursday });
-              this.setState({ thursdayTo: fields.thursdayTo });
-              this.setState({ friday: fields.friday });
-              this.setState({ fridayTo: fields.fridayTo });
-              this.setState({ saturday: fields.saturday });
-              this.setState({ saturdayTo: fields.saturdayTo });
-              this.setState({ sunday: fields.sunday });
-              this.setState({ sundayTo: fields.sundayTo });
-              this.setState({ contactInfoSection: true });
-              this.setState({ isLoading: false });
-            }
+                }
+              })
+              .catch((error) => {
+                console.log("name error---->", error);
+              });
+            this.isImportContacFuction(doc._data);
           }
         });
       });
   };
 
+  isManuallyContactFuction = () => {
+    this.setState({ isLoading: true });
+    firebase
+      .firestore()
+      .collection("user")
+      .doc(this.props.username)
+      .collection("contacts")
+      .doc(this.state.doc_id)
+      .get()
+      .then((doc) => {
+        let FN = doc._data;
+
+        this.setState({ selectedData: FN });
+        this.setState({ profile_image: FN.profile_image });
+        this.setState({ profile_image2: FN.profile_image2 });
+        if (FN.profile_image2 !== "") {
+          this.setState({ rightSec: true });
+        }
+        this.setState({ u_name: FN.u_name });
+        this.setState({ profile_image3: FN.profile_image3 });
+        this.setState({ first_name: FN.first_name });
+        this.setState({ last_name: FN.last_name });
+
+        this.setState({ number: FN.number1 });
+        this.setState({ number2: FN.number2 });
+        this.setState({ email: FN.email1 });
+        this.setState({ email2: FN.email2 });
+        this.setState({ address: FN.address1 });
+        this.setState({ address2: FN.address2 });
+        this.setState({ messenger: FN.messenger1 });
+        this.setState({ socialMedia: FN.social_media1 });
+        this.setState({ website: FN.website });
+        this.setState({ date: FN.date });
+        this.setState({ note: FN.note });
+        this.setState({ company: FN.company });
+        this.setState({ jobTitle: FN.jobTitle });
+        this.setState({ monday: FN.monday });
+        this.setState({ mondayTo: FN.mondayTo });
+        this.setState({ tuesday: FN.tuesday });
+        this.setState({ tuesdayTo: FN.tuesdayTo });
+        this.setState({ wednesday: FN.wednesday });
+        this.setState({ wednesdayTo: FN.wednesdayTo });
+        this.setState({ thursday: FN.thursday });
+        this.setState({ thursdayTo: FN.thursdayTo });
+        this.setState({ friday: FN.friday });
+        this.setState({ fridayTo: FN.fridayTo });
+        this.setState({ saturday: FN.saturday });
+        this.setState({ saturdayTo: FN.saturdayTo });
+        this.setState({ sunday: FN.sunday });
+        this.setState({ sundayTo: FN.sundayTo });
+        this.setState({ contactInfoSection: true });
+        this.setState({ isLoading: false });
+      });
+  };
+  isImportContacFuction = () => {
+    this.setState({ isLoading: true });
+    firebase
+      .firestore()
+      .collection("user")
+      .doc(this.props.username)
+      .collection("contacts")
+      .doc(this.state.doc_id)
+      .get()
+      .then((doc) => {
+        let fields = doc._data;
+
+        this.setState({ selectedData: fields });
+        this.setState({ first_name: fields.first_name });
+        this.setState({ last_name: fields.last_name });
+        this.setState({ u_name: fields.u_name });
+        this.setState({ profile_image: fields.profile_image });
+        this.setState({ profile_image2: fields.profile_image2 });
+        if (fields.profile_image2 !== "") {
+          this.setState({ rightSec: true });
+        }
+
+        this.setState({ profile_image3: fields.profile_image3 });
+        this.setState({ number: fields.number1});
+        this.setState({ address: fields.address1 });
+        this.setState({ address2: fields.address2 });
+        this.setState({ email: fields.email1 });
+        this.setState({ number2: fields.number2 });
+        this.setState({ email2: fields.email2 });
+        this.setState({ messenger: fields.messenger1 });
+        this.setState({ socialMedia: fields.social_media1 });
+        this.setState({ website: fields.website });
+        this.setState({ date: fields.date });
+        this.setState({ note: fields.note });
+        this.setState({ company: fields.company });
+        this.setState({ jobTitle: fields.jobTitle });
+        this.setState({ monday: fields.monday });
+        this.setState({ mondayTo: fields.mondayTo });
+        this.setState({ tuesday: fields.tuesday });
+        this.setState({ tuesdayTo: fields.tuesdayTo });
+        this.setState({ wednesday: fields.wednesday });
+        this.setState({ wednesdayTo: fields.wednesdayTo });
+        this.setState({ thursday: fields.thursday });
+        this.setState({ thursdayTo: fields.thursdayTo });
+        this.setState({ friday: fields.friday });
+        this.setState({ fridayTo: fields.fridayTo });
+        this.setState({ saturday: fields.saturday });
+        this.setState({ saturdayTo: fields.saturdayTo });
+        this.setState({ sunday: fields.sunday });
+        this.setState({ sundayTo: fields.sundayTo });
+        this.setState({ contactInfoSection: true });
+        this.setState({ isLoading: false });
+      });
+  };
   renderItem({ item, index }) {
     const lengthArray = this.state.contacts.length;
 
@@ -1451,7 +1615,7 @@ class searchContact extends Component {
       this.setState({ status: true });
     } else {
       this.setState({ status: false });
-    
+
       const { username } = this.props;
       const {
         doc_id,
@@ -1784,7 +1948,19 @@ class searchContact extends Component {
           .doc(doc_id)
           .update({ sundayTo: SundayTo, isWorkHoursUpdate: true });
       }
-      this.setState({ contactInfoSection: false });
+      // this.setState({ contactInfoSection: false });
+      if (this.state.selectedData.isImport == true) {
+        console.log("isImport   true----->");
+        this.isImportContacFuction();
+      }
+      if (this.state.selectedData.isManually == true) {
+        console.log("isManually--  true  --->");
+        this.isManuallyContactFuction();
+      }
+      if (this.state.selectedData.isImport == false) {
+        console.log("isImport-    false ---->");
+        this.showDateAfterUpdate();
+      }
     }
   };
   renderContactLast() {
@@ -2273,7 +2449,10 @@ class searchContact extends Component {
                   <Text
                     style={[
                       styles.stylefiledText,
-                      { marginTop: Metrics.baseMargin, textTransform: "capitalize", },
+                      {
+                        marginTop: Metrics.baseMargin,
+                        textTransform: "capitalize",
+                      },
                     ]}
                   >
                     {this.state.address}

@@ -19,7 +19,6 @@
       <change beforePath="$PROJECT_DIR$/.idea/caches/build_file_checksums.ser" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/caches/build_file_checksums.ser" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/app/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/build/intermediates/incremental/debug-mergeNativeLibs/merge-state" beforeDir="false" afterPath="$PROJECT_DIR$/app/build/intermediates/incremental/debug-mergeNativeLibs/merge-state" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/build/intermediates/incremental/mergeDebugResources/compile-file-map.properties" beforeDir="false" afterPath="$PROJECT_DIR$/app/build/intermediates/incremental/mergeDebugResources/compile-file-map.properties" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/build/intermediates/incremental/packageDebug/tmp/debug/dex-renamer-state.txt" beforeDir="false" afterPath="$PROJECT_DIR$/app/build/intermediates/incremental/packageDebug/tmp/debug/dex-renamer-state.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/build/intermediates/incremental/packageDebug/tmp/debug/zip-cache/javaResources0" beforeDir="false" afterPath="$PROJECT_DIR$/app/build/intermediates/incremental/packageDebug/tmp/debug/zip-cache/javaResources0" afterDir="false" />
@@ -50,6 +49,11 @@
       <change beforePath="$PROJECT_DIR$/../node_modules/react-native-timezone/android/build/intermediates/incremental/packageDebugResources/compile-file-map.properties" beforeDir="false" afterPath="$PROJECT_DIR$/../node_modules/react-native-timezone/android/build/intermediates/incremental/packageDebugResources/compile-file-map.properties" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../node_modules/react-native-vector-icons/android/build/intermediates/incremental/packageDebugResources/compile-file-map.properties" beforeDir="false" afterPath="$PROJECT_DIR$/../node_modules/react-native-vector-icons/android/build/intermediates/incremental/packageDebugResources/compile-file-map.properties" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../node_modules/rn-fetch-blob/android/build/intermediates/incremental/packageDebugResources/compile-file-map.properties" beforeDir="false" afterPath="$PROJECT_DIR$/../node_modules/rn-fetch-blob/android/build/intermediates/incremental/packageDebugResources/compile-file-map.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../src/components/drawerNavigation/DrawerContent.js" beforeDir="false" afterPath="$PROJECT_DIR$/../src/components/drawerNavigation/DrawerContent.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../src/containers/AddContactAICUser/addContactMultiple.js" beforeDir="false" afterPath="$PROJECT_DIR$/../src/containers/AddContactAICUser/addContactMultiple.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../src/containers/AddContactAICUser/forAdd2.js" beforeDir="false" afterPath="$PROJECT_DIR$/../src/containers/AddContactAICUser/forAdd2.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../src/containers/ImportContacts/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/../src/containers/ImportContacts/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../src/containers/PndingRequests/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/../src/containers/PndingRequests/index.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../src/containers/SearchEditContact/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/../src/containers/SearchEditContact/index.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -60,7 +64,7 @@
   <component name="DefaultGradleProjectSettings">
     <option name="isMigrated" value="true" />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="05302339BE036437" />
+  <component name="ExecutionTargetManager" SELECTED_TARGET="Pixel_2_API_28" />
   <component name="ExternalProjectsData">
     <projectState path="$PROJECT_DIR$">
       <ProjectState />
@@ -351,28 +355,28 @@
       <screen x="0" y="23" width="1920" height="984" />
     </state>
     <state x="221" y="258" key="AndroidCreateResourceFileDialog/0.23.1920.984@0.23.1920.984" timestamp="1610369220766" />
-    <state width="767" height="254" key="GridCell.Tab.0.bottom" timestamp="1612432061962">
+    <state width="1437" height="254" key="GridCell.Tab.0.bottom" timestamp="1614960831144">
       <screen x="0" y="23" width="1920" height="982" />
     </state>
-    <state width="767" height="254" key="GridCell.Tab.0.bottom/0.23.1920.982@0.23.1920.982" timestamp="1612432061962" />
+    <state width="1437" height="254" key="GridCell.Tab.0.bottom/0.23.1920.982@0.23.1920.982" timestamp="1614960831144" />
     <state width="1159" height="254" key="GridCell.Tab.0.bottom/0.23.1920.988@0.23.1920.988" timestamp="1607321897336" />
     <state width="1371" height="254" key="GridCell.Tab.0.bottom/0.23.1920.989@0.23.1920.989" timestamp="1610524307875" />
-    <state width="767" height="254" key="GridCell.Tab.0.center" timestamp="1612432061961">
+    <state width="1437" height="254" key="GridCell.Tab.0.center" timestamp="1614960831143">
       <screen x="0" y="23" width="1920" height="982" />
     </state>
-    <state width="767" height="254" key="GridCell.Tab.0.center/0.23.1920.982@0.23.1920.982" timestamp="1612432061961" />
+    <state width="1437" height="254" key="GridCell.Tab.0.center/0.23.1920.982@0.23.1920.982" timestamp="1614960831143" />
     <state width="1159" height="254" key="GridCell.Tab.0.center/0.23.1920.988@0.23.1920.988" timestamp="1607321897336" />
     <state width="1371" height="254" key="GridCell.Tab.0.center/0.23.1920.989@0.23.1920.989" timestamp="1610524307875" />
-    <state width="767" height="254" key="GridCell.Tab.0.left" timestamp="1612432061961">
+    <state width="1437" height="254" key="GridCell.Tab.0.left" timestamp="1614960831143">
       <screen x="0" y="23" width="1920" height="982" />
     </state>
-    <state width="767" height="254" key="GridCell.Tab.0.left/0.23.1920.982@0.23.1920.982" timestamp="1612432061961" />
+    <state width="1437" height="254" key="GridCell.Tab.0.left/0.23.1920.982@0.23.1920.982" timestamp="1614960831143" />
     <state width="1159" height="254" key="GridCell.Tab.0.left/0.23.1920.988@0.23.1920.988" timestamp="1607321897334" />
     <state width="1371" height="254" key="GridCell.Tab.0.left/0.23.1920.989@0.23.1920.989" timestamp="1610524307874" />
-    <state width="767" height="254" key="GridCell.Tab.0.right" timestamp="1612432061962">
+    <state width="1437" height="254" key="GridCell.Tab.0.right" timestamp="1614960831144">
       <screen x="0" y="23" width="1920" height="982" />
     </state>
-    <state width="767" height="254" key="GridCell.Tab.0.right/0.23.1920.982@0.23.1920.982" timestamp="1612432061962" />
+    <state width="1437" height="254" key="GridCell.Tab.0.right/0.23.1920.982@0.23.1920.982" timestamp="1614960831144" />
     <state width="1159" height="254" key="GridCell.Tab.0.right/0.23.1920.988@0.23.1920.988" timestamp="1607321897336" />
     <state width="1371" height="254" key="GridCell.Tab.0.right/0.23.1920.989@0.23.1920.989" timestamp="1610524307875" />
     <state x="267" y="133" width="1004" height="746" key="com.android.tools.idea.avdmanager.AvdListDialog" timestamp="1612791360897">
@@ -380,11 +384,11 @@
     </state>
     <state x="267" y="133" width="1004" height="746" key="com.android.tools.idea.avdmanager.AvdListDialog/0.23.1920.984@0.23.1920.984" timestamp="1612791360897" />
     <state x="267" y="133" width="1004" height="748" key="com.android.tools.idea.avdmanager.AvdListDialog/0.23.1920.987@0.23.1920.987" timestamp="1606986450706" />
-    <state x="609" y="348" key="com.intellij.ide.util.TipDialog" timestamp="1614833331732">
-      <screen x="0" y="23" width="1920" height="986" />
+    <state x="609" y="347" key="com.intellij.ide.util.TipDialog" timestamp="1614960799323">
+      <screen x="0" y="23" width="1920" height="982" />
     </state>
     <state x="609" y="346" key="com.intellij.ide.util.TipDialog/0.23.1920.980@0.23.1920.980" timestamp="1611754351876" />
-    <state x="609" y="347" key="com.intellij.ide.util.TipDialog/0.23.1920.982@0.23.1920.982" timestamp="1614786859536" />
+    <state x="609" y="347" key="com.intellij.ide.util.TipDialog/0.23.1920.982@0.23.1920.982" timestamp="1614960799323" />
     <state x="609" y="348" key="com.intellij.ide.util.TipDialog/0.23.1920.983@0.23.1920.983" timestamp="1607521094800" />
     <state x="609" y="348" key="com.intellij.ide.util.TipDialog/0.23.1920.984@0.23.1920.984" timestamp="1614599865734" />
     <state x="609" y="348" key="com.intellij.ide.util.TipDialog/0.23.1920.986@0.23.1920.986" timestamp="1614833331732" />

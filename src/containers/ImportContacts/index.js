@@ -50,7 +50,8 @@ class importContact extends Component {
     jobTitle:"",
     doc_id:"",
     emailAddresses:"",
-    isLoading:false
+    isLoading:false,
+    mobile_phone:""
   };
 
   componentDidMount() {
@@ -446,7 +447,7 @@ class importContact extends Component {
                 let address1 = address.label;
                 this.setState({ addressLable: address1 });
               }
-               console.log("address---->",  item.jobTitle,);
+               
                if(item.jobTitle == ""){
                       this.setState({ jobTitle : ""})      
                }else{
@@ -457,7 +458,10 @@ class importContact extends Component {
                }else{
                  this.convertBase642(item.thumbnailPath)
                }
-               
+               if(item.phoneNumbers.length > 0){
+                console.log("address---->", item.phoneNumbers[0].number);
+                this.setState({ mobile_phone :item.phoneNumbers[0].number})
+               }
               importContactToFirebase(
                 username,
                 item.thumbnailPath,
@@ -468,7 +472,7 @@ class importContact extends Component {
                 item.familyName.toLowerCase(),
                 "",
                 this.state.addressLable,
-                "",
+                this.state.mobile_phone,
                 "",
                 "",
                 item.phoneNumbers,
@@ -550,7 +554,7 @@ class importContact extends Component {
            return { ...item };
           });
           this.setState({ fetchedContacts: contactArr });
-          this.setState({isLoading: true})
+          this.setState({isLoading: false })
         
         } else {
           fetchedContacts.map((item) => {
@@ -572,7 +576,7 @@ class importContact extends Component {
                 item.familyName.toLowerCase(),
                 "",
                 this.state.addressLable,
-                "",
+                this.state.mobile_phone,
                 "",
                 "",
                 item.phoneNumbers,
@@ -654,7 +658,7 @@ class importContact extends Component {
             return { ...item };
           });
           this.setState({ fetchedContacts: contactArr });
-          this.setState({isLoading: true})
+          this.setState({isLoading: false})
          
         }
       });

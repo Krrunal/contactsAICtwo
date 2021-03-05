@@ -8,7 +8,7 @@ import {
   StyleSheet,
   Text,
   TouchableOpacity,
-  View
+  View,
 } from "react-native";
 import React, { useEffect, useState } from "react";
 
@@ -64,32 +64,37 @@ class SideBar extends React.Component {
       afterConfirmSection: false,
       middleSection: true,
       keyInd: "",
-      email:""
+      email: "",
     };
   }
   componentDidMount = async () => {
-    
     this.pendingRequestApiCall();
   };
 
   isLogedInChek = async () => {
     this.props.navigation.closeDrawer();
     Alert.alert(
-        'Logout',
-        'Are you sure you want to logout?',
-        [
-            { text: 'NO', onPress: () => { console.log("cancle logout") } },
-            {
-                text: 'YES', onPress: () => {
-                  this.props.logoutUser();
-                  this.props.loginEmailChangeRemove(this.state.email);
-                }
-            },
-        ],
-        { cancelable: false }
-    )
-    
-     console.log("log out user----->",this.props.shouldLoadData)
+      "Logout",
+      "Are you sure you want to logout?",
+      [
+        {
+          text: "NO",
+          onPress: () => {
+            console.log("cancle logout");
+          },
+        },
+        {
+          text: "YES",
+          onPress: () => {
+            this.props.logoutUser();
+            this.props.loginEmailChangeRemove(this.state.email);
+          },
+        },
+      ],
+      { cancelable: false }
+    );
+
+    console.log("log out user----->", this.props.shouldLoadData);
   };
   pendingRequestApiCall = () => {
     const { user_id } = this.props;
@@ -110,23 +115,21 @@ class SideBar extends React.Component {
           return response.json();
         })
         .then((responseJson) => {
-          var data = responseJson.data;
-          this.setState({ pendingRequest: data });
+          responseJson.map((d1) => {
+            this.setState({ pendingRequest: d1 });
+          });
+          this.state.pendingRequest.data.map((item, index) => { 
+            this.state.p_id.push(item.dd.id);
+          })
+        
 
-          if (data == "") {
-            this.setState({ loader: false });
-          } else {
-            this.state.pendingRequest.map((item) => {
-              this.state.p_id.push(item.id);
-            });
-            var pID = this.state.p_id.map((item) => {
-              return { item: item, isSelect: false };
-            });
-            this.setState({ p_ids: pID, loader: false });
-          }
-          // console.log("iddddd---->",this.state.p_ids)
-          this.saperateIds();
+          var pID = this.state.p_id.map((item) => {
+            return { item: item, isSelect: false };
+          });
+         this.setState({ p_ids: pID, loader: false });
+         this.compareIDs();
         })
+
         .catch((error) => {
           console.log("errrorr---->", error);
         });
@@ -135,6 +138,11 @@ class SideBar extends React.Component {
 
   compareIDs = () => {
     const { user_id } = this.props;
+    this.state.pendingRequest.data.map((item, index) => { 
+     
+      this.state.recivedIdArray.push(item.dd.receive_rid)
+    })
+   // console.log("penidng  ---->",this.state.recivedIdArray)
     var r_id = this.state.recivedIdArray[0];
     if (user_id == r_id) {
       console.log("yes both are same");
@@ -142,74 +150,52 @@ class SideBar extends React.Component {
     }
   };
 
-  saperateIds = () => {
-    //  console.log("saperateIds=---->");
-    const {
-      pendingRequest,
-      receiveId,
-      recivedIdArray,
-      senderIdArray,
-      pendingId,
-    } = this.state;
-    pendingRequest.map((item, index) => {
-      const rId = pendingRequest.find(
-        ({ receive_rid }) => receive_rid == receive_rid
-      );
-      const sid = pendingRequest.find(
-        ({ sender_id }) => sender_id == sender_id
-      );
-
-      var recivedId = rId.receive_rid;
-      recivedIdArray.push(recivedId);
-    });
-
-    pendingRequest.map((item) => {
-      pendingId.push(item.id);
-    });
-    this.compareIDs();
-  };
-
+ 
   getUsername = () => {
     // console.log("getUsername=---->");
     var s_id = this.state.senderIdArray[0];
 
-    this.state.pendingRequest.forEach((doc) => {
-      const baseurl = Constants.baseurl;
-      var _body = new FormData();
-      _body.append("id", doc.sender_id);
-      fetch(baseurl + "get_username", {
-        method: "POST",
-        body: _body,
-      })
-        .then((response) => {
-          return response.json();
+    this.state.pendingRequest.data.forEach((doc) => {
+      if (doc.dd.sender_id == undefined) {
+      } else {
+        const baseurl = Constants.baseurl;
+        var _body = new FormData();
+        _body.append("id", doc.dd.sender_id);
+        fetch(baseurl + "get_username", {
+          method: "POST",
+          body: _body,
         })
-        .then((responseJson) => {
-          var data = responseJson.data;
-          if (data.username == "") {
-            console.log("Name is-->", empty);
-          } else {
-            var u_name = data.username;
-            this.state.name.push(u_name);
-            //console.log("Get Username Response---->", data);
-            var c = this.state.name.length;
-            this.setState({ counter: c });
-            //console.log("Get Username Response---->", this.state.counter);
-          }
-          if (this.state.name == "") {
-            console.log("Name is-->", empty);
-            this.setState({ loader: false });
-          } else {
-            var nameData = this.state.name.map((item) => {
-              return { item: item, isSelect: false };
-            });
-            this.setState({ names: nameData });
-            this.setState({ loader: false });
-          }
-        })
-        .catch((error) => {
-          console.log("name error---->", error);
-        });
+          .then((response) => {
+            return response.json();
+          })
+          .then((responseJson) => {
+            // console.log("Name is-->", responseJson);
+            var data = responseJson.data;
+            if (data.username == "") {
+              console.log("Name is-->", empty);
+            } else {
+              var u_name = data.username;
+              this.state.name.push(u_name);
+              //console.log("Get Username Response---->", data);
+              var c = this.state.name.length;
+              this.setState({ counter: c });
+             console.log("Get Username Response---->", this.state.counter);
+            }
+            if (this.state.name == "") {
+              //console.log("Name is-->", empty);
+              this.setState({ loader: false });
+            } else {
+              var nameData = this.state.name.map((item) => {
+                return { item: item, isSelect: false };
+              });
+              this.setState({ names: nameData });
+              this.setState({ loader: false });
+            }
+          })
+          .catch((error) => {
+            console.log("name error---->", error);
+          });
+      }
     });
   };
 
@@ -529,7 +515,7 @@ class SideBar extends React.Component {
                       <TouchableOpacity
                         onPress={() => {
                           this.props.navigation.navigate("AddContact") &&
-                          this.props.navigation.closeDrawer();
+                            this.props.navigation.closeDrawer();
                         }}
                       >
                         <Text style={styles.itemText}>Add</Text>
@@ -695,13 +681,13 @@ class SideBar extends React.Component {
 }
 
 const mapStateToProps = (state) => {
-//  console.log("drawer---->", state.login);
+  //  console.log("drawer---->", state.login);
   return {
     theme: state.themeReducer.theme,
     user_id: state.login.shouldLoadData.user_id,
     username: state.login.shouldLoadData.username,
-    email : state.login.shouldLoadData.email,
-    shouldLoadData: state.login.shouldLoadData
+    email: state.login.shouldLoadData.email,
+    shouldLoadData: state.login.shouldLoadData,
   };
 };
 

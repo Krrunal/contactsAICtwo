@@ -61,6 +61,8 @@ class addContactMultiple extends Component {
     u_name2: "",
     u_name3: "",
     u_name4: "",
+    labelID:"",labelIDs:[],
+    selectedID:[]
   };
 
   async componentDidMount() {
@@ -112,11 +114,12 @@ class addContactMultiple extends Component {
           return response.json();
         })
         .then((responseJson) => {
-         // console.log("response=---->", responseJson.data);
+         console.log("response=---->", responseJson.data);
       // this.setState({ isLoading: false });
           var arr = responseJson.data.map((item) => {
             return {
               relation: item.relation,
+              Lable_ID:item.id,
               isSelect: false,
               isUser1: false,
               isUser2: false,
@@ -565,15 +568,31 @@ class addContactMultiple extends Component {
       userLabel2,
       userLabel3,
       userLabel4,
+      selectedID
     } = this.state;
 
-    dataManage3.map((item) => {
+    dataManage.map((item) => {
       item.isSelect == true
         ? selectedRealetion.push(item.relation)
         : console.log("isSelect------->", item.isSelect);
     });
     const selected = selectedRealetion.toString();
     await AsyncStorage.setItem("@selectedLabel", selected);
+    //console.log(" ------->", selected);
+    dataManage.map((item) => { 
+      item.isSelect == true
+      ? selectedID.push(item.Lable_ID)
+      : console.log("isSelect------->", item.isSelect);
+      
+    })
+
+    const selectedId = selectedID.toString();
+    await AsyncStorage.setItem("@selectedID", selectedId);
+    console.log("id------->", selectedId);
+
+
+
+
 
     dataManage3.map((item) => {
       item.isUser2 == true
@@ -591,7 +610,8 @@ class addContactMultiple extends Component {
 
     const userLabel13 = userLabel3.toString();
     await AsyncStorage.setItem("@userLabel3", userLabel13);
-
+   
+   
     dataManage5.map((item) => {
       item.isUser4 == true
         ? userLabel4.push(item.relation)
@@ -599,12 +619,19 @@ class addContactMultiple extends Component {
     });
     const userLabel14 = userLabel4.toString();
     await AsyncStorage.setItem("@userLabel4", userLabel14);
-
-    console.log("Data manage ---->", dataManage);
-    console.log("Data 3 ---->", dataManage3);
-    console.log("Data 4 ---->", dataManage4);
-    console.log("Data 5 ---->", dataManage5);
-
+   
+   
+   
+    //  const selected = selectedRealetion.toString();
+    // await AsyncStorage.setItem("@selectedLabel", selected);
+  
+    // console.log("Data manage ---->", selectedRealetion);
+    // console.log("Data manage ---->", dataManage);
+    // console.log("Data 3 ---->", dataManage3);
+    // console.log("Data 4 ---->", dataManage4);
+    // console.log("Data 5 ---->", dataManage5);
+   
+   
     if (selected ==  "" ) {
       this.refs.toast.show("Please select label to associate with USERNAME");
     } else {
