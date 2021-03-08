@@ -28,10 +28,10 @@ import checkedWhite from "../../assets/icons/checkedWhite.png";
 import { connect } from "react-redux";
 import firebase from "../../services/FirebaseDatabase/db";
 import { importContactToFirebase } from "../../services/FirebaseDatabase/importContacToFirebase";
+import { indexOf } from "lodash";
 import moment from "moment";
 import { request } from "react-native-permissions";
 import styles from "./style.js";
-import { indexOf } from "lodash";
 
 var { width, height } = Dimensions.get("window");
 class pendingRequest extends Component {
@@ -159,7 +159,7 @@ class pendingRequest extends Component {
     //     })
     this.labelList();
     this.pendingRequestApiCall();
-    this.getLabelName();
+   
   };
 
   labelList = () => {
@@ -208,19 +208,21 @@ class pendingRequest extends Component {
           return response.json();
         })
         .then((responseJson) => {
-          responseJson.map((d1) => {
-            this.setState({ pendingRequest: d1 });
-          });
+          console.log("pending      -->",responseJson[0].data);
+          
           
         
-          if (this.state.pendingRequest == "") {
+          if (responseJson[0].data == null) {
             this.setState({ names: [] });
             this.setState({ labelName: [] });
             this.setState({ loader: false });
           } else {
-           
+            responseJson.map((d1) => {
+              this.setState({ pendingRequest: d1 });
+            });
+            
             this.state.pendingRequest.data.map((item, index) => { 
-              console.log("pending      -->",item.dd);
+             
               if(item.dd.message == null){
 
               }else{
@@ -234,11 +236,12 @@ class pendingRequest extends Component {
              })
             this.state.pendingRequest.data.map((item, index) => { 
               
-              this.state.p_id.push(item.dd.id);
+               this.state.p_id.push(item.dd.id);
                let formateDate = moment(item.dd.created_at).format( "MMMM, Do YYYY");
                 let formateTime = moment(item.dd.created_at).format("LLLL");
                 this.state.requestDate.push(formateDate);
                 this.state.requestTime.push(formateTime);
+                this.state.label_id.push(item.dd.label_id)
             })
             var pID = this.state.p_id.map((item, index) => {
               return { item: item, isSelect: false };
@@ -250,6 +253,7 @@ class pendingRequest extends Component {
              // label_ids: this.state.label_id,
               loader: false,
             });
+            this.getLabelName();
           }
           this.compareIDs();
         })
@@ -307,7 +311,7 @@ class pendingRequest extends Component {
         })
         .then((responseJson) => {
           this.state.labelName.push(responseJson.data);
-          //  console.log("get label name resopns --->",responseJson.data)
+         console.log("get label name resopns --->",responseJson.data)
         })
         .catch((error) => {
           console.log("name error---->", error);
@@ -370,7 +374,7 @@ class pendingRequest extends Component {
                   item: item,
                   isSelect: false,
                    LNIDD :this.state.LNID[index],
-                  // label_name: this.state.labelName[index].relation,
+                   label_name: this.state.labelName[index].relation,
                   id_label: this.state.label_id[index],
                 };
               });
@@ -466,37 +470,7 @@ class pendingRequest extends Component {
 
     addItem(user_id, user_id, selected, "", "", trueName[0]);
     addItem(sId, sId, label_Name, "", "", username.username);
-    // selected is reciver label name
-    // label_Name  is  sender label name
-    // const baseurl = Constants.baseurl;
-    // var _body = new FormData();
-    // _body.append("user_id",user_id);
-
-    // fetch(baseurl + "get_uplopimages_user", {
-    //   method: "POST",
-    //   body: _body,
-    // })
-    //   .then((response) => {
-    //     return response.json();
-    //   })
-    //   .then((responseJson) => {
-    //     responseJson.data.map((img) => {
-    //       console.log("data---->", img);
-    //       if (img.position == 1) {
-    //         this.setState({ profile_image : img.profile})
-    //       }
-    //       if (img.position == 2) {
-    //         this.setState({ profile_image2 : img.profile})
-    //       }
-    //       if (img.position == 3) {
-    //         this.setState({ profile_image3 : img.profile})
-    //       }
-    //     });
-    //     this.setState({ isLoading: false });
-    //   })
-    //   .catch((error) => {
-    //     console.log("name error---->", error);
-    //   });
+  
     firebase
       .firestore()
       .collection("user")
@@ -591,8 +565,8 @@ class pendingRequest extends Component {
           senderName[0].item.email,
           "",
           "",
-          this.state.address.toLowerCase(),
           "",
+          this.state.address.toLowerCase(),
           this.state.messenger.toLowerCase(),
           "",
           "",
@@ -728,8 +702,8 @@ class pendingRequest extends Component {
           username.email,
           "",
           "",
-          this.state.address.toLowerCase(),
           "",
+           this.state.address.toLowerCase(),
           this.state.messenger.toLowerCase(),
           "",
           "",
