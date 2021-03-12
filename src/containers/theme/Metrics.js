@@ -57,6 +57,7 @@ export default {
   xxsmallMargin:ratio(3),
   xsmallMargin:ratio(4),
   smallMargin: ratio(8),
+  SmallMargin: ratio(12),
   baseMargin: ratio(16),
   xbaseMargin: ratio(20),
   doubleBaseMargin: ratio(32),

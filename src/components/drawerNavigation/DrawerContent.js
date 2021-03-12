@@ -115,7 +115,11 @@ class SideBar extends React.Component {
           return response.json();
         })
         .then((responseJson) => {
-          responseJson.map((d1) => {
+         
+          if (responseJson[0].data == null) {
+            console.log("pending      -->", responseJson[0].data);
+           }else{
+              responseJson.map((d1) => {
             this.setState({ pendingRequest: d1 });
           });
           this.state.pendingRequest.data.map((item, index) => { 
@@ -127,6 +131,9 @@ class SideBar extends React.Component {
             return { item: item, isSelect: false };
           });
          this.setState({ p_ids: pID, loader: false });
+             
+           }
+         
          this.compareIDs();
         })
 
@@ -443,7 +450,7 @@ class SideBar extends React.Component {
                       style={{
                         color: COLORS.white,
                         marginLeft: Metrics.smallMargin,
-                        fontSize: width * 0.045,
+                        fontSize: width * 0.051,
                         fontFamily: Font.medium,
                       }}
                     >
@@ -490,7 +497,7 @@ class SideBar extends React.Component {
                             style={{
                               color: COLORS.white,
                               marginLeft: Metrics.smallMargin,
-                              fontSize: width * 0.037,
+                              fontSize: width * 0.045,
                               marginTop: Metrics.smallMargin,
                               fontFamily: Font.regular,
                             }}
@@ -744,15 +751,15 @@ const styles = StyleSheet.create({
   itemText: {
     color: COLORS.white,
     marginLeft: Metrics.smallMargin,
-    fontSize: width * 0.037,
-    marginTop: Metrics.smallMargin,
+    fontSize: width * 0.045,
+    marginTop: Metrics.SmallMargin,
     fontFamily: Font.regular,
   },
 
   itemTextMain: {
     color: COLORS.white,
     marginLeft: Metrics.smallMargin,
-    fontSize: width * 0.045,
+    fontSize: width * 0.051,
     fontFamily: Font.medium,
   },
 

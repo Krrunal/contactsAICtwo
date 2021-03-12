@@ -62,7 +62,7 @@ class afterLogout extends Component {
       passSection: false,
       loginPass: "",
       emailPassword: "",
-      loginNumber:"",
+      loginNumber: "",
       empty: "",
     };
   }
@@ -80,9 +80,9 @@ class afterLogout extends Component {
       loginPass: await AsyncStorage.getItem("@loginPass"),
       loginNumber: await AsyncStorage.getItem("@loginNumber"),
     });
-    // console.log("Login USername------>", this.state.loginUsername);
-    // console.log("Login password------>", this.state.loginPass);
-    // console.log("Login loginNumber------>", this.state.loginNumber);
+    console.log("Login USername------>", this.state.loginUsername);
+    console.log("Login password------>", this.state.loginPass);
+    console.log("Login loginNumber------>", this.state.loginNumber);
     if (this.state.loginUsername == null && this.state.loginPass == null) {
       this.setState({ checkedOff: false });
       this.setState({ loginUsername: "", loginPass: "" });
@@ -101,25 +101,24 @@ class afterLogout extends Component {
 
   check = async () => {
     const { password } = this.props;
-    const { emailLogin, checkedOff ,phone_number} = this.state;
+    const { emailLogin, checkedOff, phone_number } = this.state;
     console.log("username:=--->", emailLogin);
     console.log("Password:=--->", password);
-    console.log("mobile=====>",this.state.phone_number)
+    console.log("mobile=====>", this.state.phone_number);
     if (checkedOff == false) {
-      if ( password == "" ) {
+      if (password == "") {
         showToastError("Please fill all required fileds");
       } else {
+        this.setState({ checkedOff: true });
         await AsyncStorage.setItem("@loginUsername", emailLogin);
         await AsyncStorage.setItem("@loginPass", password);
         await AsyncStorage.setItem("@loginNumber", phone_number);
-        this.setState({ checkedOff: true });
       }
-      
     } else {
       this.setState({ checkedOff: false });
       await AsyncStorage.setItem("@loginUsername", "");
       await AsyncStorage.setItem("@loginPass", "");
-      this.setState({ loginUsername: "", loginPass: "" ,loginNumber:""});
+      this.setState({ loginUsername: "", loginPass: "", loginNumber: "" });
     }
   };
 
@@ -198,9 +197,7 @@ class afterLogout extends Component {
         }
       }
     }
-   
   };
-
 
   onSubmit(value) {
     switch (value) {
@@ -222,6 +219,7 @@ class afterLogout extends Component {
     phoneNumber,
     isVerified,
   }) => {
+    console.log("Phone ----->", dialCode + "-" + unmaskedPhoneNumber );
     if (isVerified == true) {
       this.setState({ phone_number: dialCode + "-" + unmaskedPhoneNumber });
     } else {
@@ -244,8 +242,48 @@ class afterLogout extends Component {
     this.setState({ viewPhone: true });
   };
   viewPhoneToggle = () => {
-    this.setState({ viewIntl: true });
-    this.setState({ viewPhone: false });
+
+    if (this.state.loginPass == null) {
+      if (this.props.password == "") {
+        this.setState({ viewIntl: true });
+        this.setState({ viewPhone: false  , passSection: false , emailSection : false});
+       //  this.setState({ emailSection : true, passSection: false });
+        console.log(" iffff  2---?", this.props.password);
+      } else {
+        this.setState({ viewIntl: true });
+        this.setState({ viewPhone: false  , emailSection : false});
+        console.log("else 2 ---?",this.props.password);
+      }
+    } else {
+      if (this.props.password == "") {
+        this.setState({ viewIntl: true });
+        this.setState({ viewPhone: false  , passSection: false });
+       //  this.setState({ emailSection : true, passSection: false });
+        console.log(" iffff  2---?", this.props.password);
+      } else {
+        this.setState({ viewIntl: true });
+        this.setState({ viewPhone: false, emailSection : false });
+        console.log("else 2 ---?",this.props.password);
+      }
+    }
+  // this.setState({ viewIntl: true });
+    // this.setState({ viewPhone: false });
+    // if (this.state.passSection == true) {
+    //   this.setState({ passSection: false });
+    //   this.setState({ viewIntl: true });
+    //   this.setState({ viewPhone: false });
+    // } else {
+    //   this.setState({ viewIntl: true });
+    //   this.setState({ viewPhone: false });
+    // }
+    // if (this.state.emailSection == true) {
+    //   this.setState({ emailSection: false });
+    //   this.setState({ viewIntl: true });
+    //   this.setState({ viewPhone: false });
+    // } else {
+    //   this.setState({ viewIntl: true });
+    //   this.setState({ viewPhone: false });
+    // }
   };
 
   passwordChange = (loginPassChange) => {
@@ -253,20 +291,81 @@ class afterLogout extends Component {
     this.setState({ emailPassword: loginPassChange });
   };
   viewEmailSection = () => {
-    this.setState({ emailSection: true });
+   
+    if (this.state.loginPass == null) {
+      if (this.props.password == "") {
+        this.setState({ emailSection : true, passSection: false });
+        console.log(" iffff 1 ---?", this.props.password);
+      } else {
+        this.setState({ emailSection: true });
+        console.log("else 1 ---?",this.props.password);
+      }
+    } else {
+      if (this.props.password == "") {
+         this.setState({ emailSection : true, passSection: false });
+        console.log(" iffff  2---?", this.props.password);
+      } else {
+        this.setState({ emailSection: true });
+        console.log("else 2 ---?",this.props.password);
+      }
+    }
+    
+    // if (this.state.passSection == true) {
+    //   this.setState({ emailSection: true });
+    //   this.setState({ passSection: false });
+    // } else {
+    //   this.setState({ emailSection: true });
+    // }
+    if (this.state.viewIntl == true) {
+      this.setState({ viewIntl: false });
+      this.setState({ viewPhone: true });
+    }
     if (this.state.emailSection == true) {
       this.nameFocus.focus();
     }
   };
   viewPassSection = () => {
     this.props.loginPassChange(this.state.loginPass);
-    this.setState({ passSection: true });
+
+    if (this.state.loginNumber == null) {
+      if (this.state.phone_number == "") {
+        this.setState({ passSection: true, viewIntl: false, viewPhone: true });
+        console.log(" iffff 1 ---?", this.state.phone_number);
+      } else {
+        this.setState({ passSection: true });
+        console.log("else 1 ---?", this.state.phone_number);
+      }
+    } else {
+      if (this.state.phone_number == "") {
+        this.setState({ passSection: true, viewIntl: false, viewPhone: true });
+        console.log(" iffff  2---?", this.state.phone_number);
+      } else {
+        this.setState({ passSection: true });
+        console.log("else 2 ---?", this.state.phone_number);
+      }
+    }
+
+    if (this.state.loginUsername == null) {
+      if (this.state.emailLogin == "") {
+        this.setState({ passSection: true, emailSection: false });
+      } else {
+        this.setState({ passSection: true });
+      }
+    } else {
+      if (this.state.emailLogin == "") {
+        this.setState({ passSection: true, emailSection: false });
+      } else {
+        this.setState({ passSection: true });
+      }
+    }
+
     if (this.state.passSection == true) {
       this.passwordfocus.focus();
     }
   };
   emailChange = (value) => {
     this.setState({ loginUsername: "" });
+
     this.setState({ emailLogin: value });
   };
 
@@ -312,18 +411,18 @@ class afterLogout extends Component {
                     inputRef={"phone"}
                     keyboardType={"numeric"}
                     onChangeText={this.onChangeNumber}
-                    defaultCountry="CA2"
+                    defaultCountry="CA"
                     isLogin={false}
                   />
                 ) : null}
 
-               {this.state.viewPhone ? (
+                {this.state.viewPhone ? (
                   <TouchableHighlight
                     style={styles.viewEmail}
                     onPress={this.viewPhoneToggle}
                     underlayColor="#DDDDDD"
                   >
-                     {this.state.loginNumber == null ||
+                    {this.state.loginNumber == null ||
                     this.state.loginNumber == "" ? (
                       <Text style={styles.phnText}>Phone Number</Text>
                     ) : (
@@ -377,9 +476,6 @@ class afterLogout extends Component {
                         this.nameFocus = ref;
                       }}
                       autoFocus={true}
-                      // onSubmitEditing={(emailLogin) =>
-                      //   this.onSubmit("emailLogin")
-                      // }
                       value={
                         this.state.loginUsername !== ""
                           ? this.state.loginUsername
@@ -570,7 +666,6 @@ class afterLogout extends Component {
                 </TouchableOpacity>
 
                 <TouchableHighlight
-                  //style={styles.rememberContain}
                   underlayColor="transparent"
                   onPress={this.check}
                 >

@@ -197,7 +197,6 @@ class Login extends Component {
         }
       }
     }
-   
   };
 
   onSubmit(value) {
@@ -220,6 +219,7 @@ class Login extends Component {
     phoneNumber,
     isVerified,
   }) => {
+    console.log("Phone ----->", dialCode + "-" + unmaskedPhoneNumber );
     if (isVerified == true) {
       this.setState({ phone_number: dialCode + "-" + unmaskedPhoneNumber });
     } else {
@@ -242,8 +242,48 @@ class Login extends Component {
     this.setState({ viewPhone: true });
   };
   viewPhoneToggle = () => {
-    this.setState({ viewIntl: true });
-    this.setState({ viewPhone: false });
+
+    if (this.state.loginPass == null) {
+      if (this.props.password == "") {
+        this.setState({ viewIntl: true });
+        this.setState({ viewPhone: false  , passSection: false , emailSection : false});
+       //  this.setState({ emailSection : true, passSection: false });
+        console.log(" iffff  2---?", this.props.password);
+      } else {
+        this.setState({ viewIntl: true });
+        this.setState({ viewPhone: false  , emailSection : false});
+        console.log("else 2 ---?",this.props.password);
+      }
+    } else {
+      if (this.props.password == "") {
+        this.setState({ viewIntl: true });
+        this.setState({ viewPhone: false  , passSection: false });
+       //  this.setState({ emailSection : true, passSection: false });
+        console.log(" iffff  2---?", this.props.password);
+      } else {
+        this.setState({ viewIntl: true });
+        this.setState({ viewPhone: false, emailSection : false });
+        console.log("else 2 ---?",this.props.password);
+      }
+    }
+  // this.setState({ viewIntl: true });
+    // this.setState({ viewPhone: false });
+    // if (this.state.passSection == true) {
+    //   this.setState({ passSection: false });
+    //   this.setState({ viewIntl: true });
+    //   this.setState({ viewPhone: false });
+    // } else {
+    //   this.setState({ viewIntl: true });
+    //   this.setState({ viewPhone: false });
+    // }
+    // if (this.state.emailSection == true) {
+    //   this.setState({ emailSection: false });
+    //   this.setState({ viewIntl: true });
+    //   this.setState({ viewPhone: false });
+    // } else {
+    //   this.setState({ viewIntl: true });
+    //   this.setState({ viewPhone: false });
+    // }
   };
 
   passwordChange = (loginPassChange) => {
@@ -251,20 +291,81 @@ class Login extends Component {
     this.setState({ emailPassword: loginPassChange });
   };
   viewEmailSection = () => {
-    this.setState({ emailSection: true });
+   
+    if (this.state.loginPass == null) {
+      if (this.props.password == "") {
+        this.setState({ emailSection : true, passSection: false });
+        console.log(" iffff 1 ---?", this.props.password);
+      } else {
+        this.setState({ emailSection: true });
+        console.log("else 1 ---?",this.props.password);
+      }
+    } else {
+      if (this.props.password == "") {
+         this.setState({ emailSection : true, passSection: false });
+        console.log(" iffff  2---?", this.props.password);
+      } else {
+        this.setState({ emailSection: true });
+        console.log("else 2 ---?",this.props.password);
+      }
+    }
+    
+    // if (this.state.passSection == true) {
+    //   this.setState({ emailSection: true });
+    //   this.setState({ passSection: false });
+    // } else {
+    //   this.setState({ emailSection: true });
+    // }
+    if (this.state.viewIntl == true) {
+      this.setState({ viewIntl: false });
+      this.setState({ viewPhone: true });
+    }
     if (this.state.emailSection == true) {
       this.nameFocus.focus();
     }
   };
   viewPassSection = () => {
     this.props.loginPassChange(this.state.loginPass);
-    this.setState({ passSection: true });
+
+    if (this.state.loginNumber == null) {
+      if (this.state.phone_number == "") {
+        this.setState({ passSection: true, viewIntl: false, viewPhone: true });
+        console.log(" iffff 1 ---?", this.state.phone_number);
+      } else {
+        this.setState({ passSection: true });
+        console.log("else 1 ---?", this.state.phone_number);
+      }
+    } else {
+      if (this.state.phone_number == "") {
+        this.setState({ passSection: true, viewIntl: false, viewPhone: true });
+        console.log(" iffff  2---?", this.state.phone_number);
+      } else {
+        this.setState({ passSection: true });
+        console.log("else 2 ---?", this.state.phone_number);
+      }
+    }
+
+    if (this.state.loginUsername == null) {
+      if (this.state.emailLogin == "") {
+        this.setState({ passSection: true, emailSection: false });
+      } else {
+        this.setState({ passSection: true });
+      }
+    } else {
+      if (this.state.emailLogin == "") {
+        this.setState({ passSection: true, emailSection: false });
+      } else {
+        this.setState({ passSection: true });
+      }
+    }
+
     if (this.state.passSection == true) {
       this.passwordfocus.focus();
     }
   };
   emailChange = (value) => {
     this.setState({ loginUsername: "" });
+
     this.setState({ emailLogin: value });
   };
 
@@ -307,11 +408,10 @@ class Login extends Component {
                         ? this.state.loginNumber
                         : phone
                     }
-                    // value={phone}
                     inputRef={"phone"}
                     keyboardType={"numeric"}
                     onChangeText={this.onChangeNumber}
-                    defaultCountry="CA2"
+                    defaultCountry="CA"
                     isLogin={false}
                   />
                 ) : null}

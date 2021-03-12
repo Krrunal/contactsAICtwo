@@ -208,7 +208,20 @@ class MyContactInfromation extends Component {
       saturdayTo: "",
       sunday: "",
       sundayTo: "",
-
+      Monday: "",
+      MondayTo: "",
+      Tuesday: "",
+      TuesdayTo: "",
+      Wednesday: "",
+      WednesdayTo: "",
+      Thursday: "",
+      ThursdayTo: "",
+      Friday: "",
+      FridayTo: "",
+      Saturday: "",
+      SaturdayTo: "",
+      Sunday: "",
+      SundayTo: "",
       profile_base: "",
       profile_base2: "",
       profile_base3: "",
@@ -216,12 +229,20 @@ class MyContactInfromation extends Component {
       image_section1: false,
       image_section2: false,
       image_section3: false,
+
+      First_name: "",
+      Middle_name: "",
+      Last_name: "",
+      Nick_name: "",
+      JobTitle: "",
+      Company: "",
     };
   }
 
   componentDidMount = async () => {
-    this.timeZoneField();
     this.checkImageUploaded();
+    this.timeZoneField();
+    this.firebaseDataCAll();
   };
   checkImageUploaded = () => {
     const baseurl = Constants.baseurl;
@@ -239,22 +260,25 @@ class MyContactInfromation extends Component {
         responseJson.data.map((item) => {
           console.log("profile --->", item);
           if (item.position == 1) {
-            this.setState({ image_section1: true });
-            // console.log("profile image profile 111 --->", item.position);
+            this.setState({ image_section1: true  });
+            this.setState({ profile_image : item.profile });
+            console.log("profile image profile 111 --->", item.profile);
           }
           if (item.position == 2) {
-            this.setState({ image_section2 : true });
+            this.setState({ image_section2: true });
+            this.setState({ profile_image2 : item.profile });
+            console.log("profile image profile 22 --->", item.profile);
           }
           if (item.position == 3) {
-            this.setState({ image_section3 : true });
+            this.setState({ image_section3: true });
+            this.setState({ profile_image3 : item.profile });
+            console.log("profile image profile 333 --->", item.profile);
           }
         });
-
-        // this.setState({ firstImage: responseJson.data[2].profile });
-        this.setState({ isLoading: false });
-      })
+    })
       .catch((error) => {
         console.log("name error---->", error);
+        this.setState({ isLoading: false });
       });
   };
   timeZoneField = async () => {
@@ -293,7 +317,154 @@ class MyContactInfromation extends Component {
     this.state.tz.push("GMT-1:00(Central African )");
     this.setState({ tzs: this.state.tz });
   };
+  firebaseDataCAll = () => {
+    const { username } = this.props;
+    this.setState({ isLoading: true }, () => {
+      firebase
+        .firestore()
+        .collection("user")
+        .doc(username)
+        .get()
+        .then((snap) => {
+          var item = snap._data;
+          this.setState({ contact: item });
+          console.log("social media ---->", item);
+          this.setState({ profile_image : item.profile_image });
+          this.setState({ first_name: item.first_name });
+          this.setState({ last_name: item.last_name });
+          this.setState({ middle_name: item.middle_name });
+          this.setState({ nick_name: item.nick_name });
+          {
+            item.number !== ""
+              ? this.setState({ number: item.number[0].phone })
+              : null;
+          }
+          {
+            item.email !== ""
+              ? this.setState({ email: item.email[0].email })
+              : null;
+          }
+          {
+            item.messenger !== ""
+              ? this.setState({ messenger: item.messenger[0].messenger })
+              : null;
+          }
+          {
+            item.socialMedia !== ""
+              ? this.setState({ socialMedia: item.socialMedia[0].social })
+              : null;
+          }
+          {
+            item.socialMedia1 !== ""
+              ? this.setState({ socialMedia2: item.socialMedia1[0].social })
+              : null;
+          }
+          {
+            item.address !== ""
+              ? this.setState({ address: item.address[0].address })
+              : null;
+          }
+          //  {item.address.length > 1  == "" ? this.setState({ address2: item.address[1].address }) : null}
+          {
+            item.note !== ""
+              ? this.setState({ note: item.note[0].note })
+              : null;
+          }
+          {
+            item.website !== ""
+              ? this.setState({ website: item.website[0].website })
+              : null;
+          }
+          {
+            item.company !== ""
+              ? this.setState({ company: item.company[0].company })
+              : null;
+          }
+          {
+            item.jobTitle !== ""
+              ? this.setState({ jobTitle: item.jobTitle[0].jobTitle })
+              : null;
+          }
+          {
+            item.date !== ""
+              ? this.setState({ date: item.date[0].date })
+              : null;
+          }
 
+          {
+            item.monday !== ""
+              ? this.setState({ Monday: item.monday[0].monday })
+              : null;
+          }
+          {
+            item.mondayTo !== ""
+              ? this.setState({ MondayTo: item.mondayTo[0].mondayTo })
+              : null;
+          }
+          {
+            item.tuesday !== ""
+              ? this.setState({ Tuesday: item.tuesday[0].tuesday })
+              : null;
+          }
+          {
+            item.tuesdayTo !== ""
+              ? this.setState({ TuesdayTo: item.tuesdayTo[0].tuesdayTo })
+              : null;
+          }
+          {
+            item.wednesday !== ""
+              ? this.setState({ Wednesday: item.wednesday[0].wednesday })
+              : null;
+          }
+          {
+            item.wednesdayTo !== ""
+              ? this.setState({ WednesdayTo: item.wednesdayTo[0].wednesdayTo })
+              : null;
+          }
+          {
+            item.thursday !== ""
+              ? this.setState({ Thursday: item.thursday[0].thursday })
+              : null;
+          }
+          {
+            item.thursdayTo !== ""
+              ? this.setState({ ThursdayTo: item.thursdayTo[0].thursdayTo })
+              : null;
+          }
+          {
+            item.friday !== ""
+              ? this.setState({ Friday: item.friday[0].friday })
+              : null;
+          }
+          {
+            item.fridayTo !== ""
+              ? this.setState({ FridayTo: item.fridayTo[0].fridayTo })
+              : null;
+          }
+          {
+            item.saturday !== ""
+              ? this.setState({ Saturday: item.saturday[0].saturday })
+              : null;
+          }
+          {
+            item.saturdayTo !== ""
+              ? this.setState({ SaturdayTo: item.saturdayTo[0].saturdayTo })
+              : null;
+          }
+          {
+            item.sunday !== ""
+              ? this.setState({ Sunday: item.sunday[0].sunday })
+              : null;
+          }
+          {
+            item.sundayTo !== ""
+              ? this.setState({SundayTo: item.sundayTo[0].sundayTo })
+              : null;
+          }
+          this.setState({ isLoading: false });
+        });
+    });
+  };
   selectPhoto = () => {
     ActionSheet.show(
       {
@@ -397,12 +568,10 @@ class MyContactInfromation extends Component {
         });
         ifstream.onEnd(() => {
           var bs = data;
-          this.setState({ profile_base2 : bs });
+          this.setState({ profile_base2: bs });
           this._uploadImageBase64(bs);
         });
       });
-
-  
   }
   convertBase643(PATH_TO_THE_FILE) {
     let data = "";
@@ -430,9 +599,9 @@ class MyContactInfromation extends Component {
       height: 400,
       cropping: true,
     }).then((image) => {
-      this.setState({ profile_image: image.path });
+    //  this.setState({ profile_image: image.path });
       this.convertBase64(image.path);
-      console.log("img 111---->",image.path);
+      console.log("img 111---->", image.path);
       this.setState({
         image: {
           uri: image.path,
@@ -451,9 +620,9 @@ class MyContactInfromation extends Component {
       height: 400,
       cropping: true,
     }).then((image) => {
-      this.setState({ profile_image: image.path });
+     // this.setState({ profile_image: image.path });
       this.convertBase64(image.path);
-      console.log("img 111---->",image.path);
+      console.log("img 111---->", image.path);
       this.setState({
         image: {
           uri: image.path,
@@ -472,9 +641,9 @@ class MyContactInfromation extends Component {
       height: 400,
       cropping: true,
     }).then((image2) => {
-      this.setState({ profile_image2: image2.path });
+    //  this.setState({ profile_image2: image2.path });
       this.convertBase642(image2.path);
-      console.log("img 2222---->",image2.path);
+      console.log("img 2222---->", image2.path);
       this.setState({
         image2: {
           uri: image2.path,
@@ -493,9 +662,9 @@ class MyContactInfromation extends Component {
       height: 400,
       cropping: true,
     }).then((image2) => {
-      this.setState({ profile_image2 : image2.path });
+     // this.setState({ profile_image2: image2.path });
       this.convertBase642(image2.path);
-      console.log("img 2222---->",image2.path);
+      console.log("img 2222---->", image2.path);
       this.setState({
         image2: {
           uri: image2.path,
@@ -514,9 +683,9 @@ class MyContactInfromation extends Component {
       height: 400,
       cropping: true,
     }).then((image3) => {
-      this.setState({ profile_image3: image3.path });
+    //  this.setState({ profile_image3: image3.path });
       this.convertBase643(image3.path);
-      console.log("img 33---->",image3.path);
+      console.log("img 33---->", image3.path);
       this.setState({
         image3: {
           uri: image3.path,
@@ -535,9 +704,9 @@ class MyContactInfromation extends Component {
       height: 400,
       cropping: true,
     }).then((image3) => {
-      this.setState({ profile_image3: image3.path });
+     // this.setState({ profile_image3: image3.path });
       this.convertBase643(image3.path);
-      console.log("img 33---->",image3.path);
+      console.log("img 33---->", image3.path);
       this.setState({
         image3: {
           uri: image3.path,
@@ -694,7 +863,14 @@ class MyContactInfromation extends Component {
           <View style={styles.middleView}>
             <View style={styles.firstMiddle}>
               <View style={styles.squareBorder}>
-                {this.renderImage(this.state.image)}
+                {this.state.status ?
+                  this.renderImage(this.state.image)
+              : 
+                 <Image
+                   source = {{uri :this.state.profile_image}}
+                  style={styles.SqureImage} />
+               } 
+               
               </View>
 
               <TouchableOpacity
@@ -706,7 +882,13 @@ class MyContactInfromation extends Component {
             </View>
             <View style={styles.firstMiddle}>
               <View style={styles.squareBorder}>
-                {this.renderImage2(this.state.image2)}
+              {this.state.status ?
+                this.renderImage2(this.state.image2)
+                : 
+                <Image
+                  source = {{uri :this.state.profile_image2}}
+                 style={styles.SqureImage} />
+              } 
               </View>
               <TouchableOpacity
                 style={styles.first}
@@ -717,7 +899,13 @@ class MyContactInfromation extends Component {
             </View>
             <View style={styles.firstMiddle}>
               <View style={styles.squareBorder}>
-                {this.renderImage3(this.state.image3)}
+              {this.state.status ?
+                this.renderImage3(this.state.image3)
+                : 
+                <Image
+                  source = {{uri :this.state.profile_image3}}
+                 style={styles.SqureImage} />
+              } 
               </View>
               <TouchableOpacity
                 style={styles.first}
@@ -741,72 +929,100 @@ class MyContactInfromation extends Component {
 
           <View>
             <View style={styles.searchSection}>
-              <TextInput
-                placeholder=""
-                style={styles.stylefiledText}
-                placeholderTextColor={COLORS.main_text_color}
-                // maxLength={10}
-                editable={this.state.status ? true : false}
-                value={this.state.first_name}
-                onChangeText={(value) => this.setState({ first_name: value })}
-                ref={(input) => {
-                  this.first_name = input;
-                }}
-              />
+              {this.state.status ? (
+                <TextInput
+                  placeholder=""
+                  style={styles.stylefiledText}
+                  placeholderTextColor={COLORS.main_text_color}
+                  // maxLength={10}
+                  editable={this.state.status ? true : false}
+                  value={this.state.First_name}
+                  onChangeText={(value) => this.setState({ First_name: value })}
+                  ref={(input) => {
+                    this.First_name = input;
+                  }}
+                />
+              ) : (
+                <Text style={styles.stylefiledText}>
+                  {this.state.first_name}
+                </Text>
+              )}
+
               <View style={styles.rightView}>
                 <Text style={styles.righttext}>First Name</Text>
               </View>
             </View>
 
             <View style={styles.searchSection}>
-              <TextInput
-                placeholder=""
-                style={styles.stylefiledText}
-                placeholderTextColor={COLORS.main_text_color}
-                // maxLength={10}
-                editable={this.state.status ? true : false}
-                value={this.state.middle_name}
-                onChangeText={(value) => this.setState({ middle_name: value })}
-                ref={(input) => {
-                  this.middle_name = input;
-                }}
-              />
+              {this.state.status ? (
+                <TextInput
+                  placeholder=""
+                  style={styles.stylefiledText}
+                  placeholderTextColor={COLORS.main_text_color}
+                  // maxLength={10}
+                  editable={this.state.status ? true : false}
+                  value={this.state.Middle_name}
+                  onChangeText={(value) =>
+                    this.setState({ Middle_name: value })
+                  }
+                  ref={(input) => {
+                    this.Middle_name = input;
+                  }}
+                />
+              ) : (
+                <Text style={styles.stylefiledText}>
+                  {this.state.middle_name}
+                </Text>
+              )}
+
               <View style={styles.rightView}>
                 <Text style={styles.righttext}>Middle Name</Text>
               </View>
             </View>
 
             <View style={styles.searchSection}>
-              <TextInput
-                placeholder=""
-                style={styles.stylefiledText}
-                placeholderTextColor={COLORS.main_text_color}
-                // maxLength={10}
-                editable={this.state.status ? true : false}
-                value={this.state.last_name}
-                onChangeText={(value) => this.setState({ last_name: value })}
-                ref={(input) => {
-                  this.last_name = input;
-                }}
-              />
+              {this.state.status ? (
+                <TextInput
+                  placeholder=""
+                  style={styles.stylefiledText}
+                  placeholderTextColor={COLORS.main_text_color}
+                  // maxLength={10}
+                  editable={this.state.status ? true : false}
+                  value={this.state.Last_name}
+                  onChangeText={(value) => this.setState({ Last_name: value })}
+                  ref={(input) => {
+                    this.Last_name = input;
+                  }}
+                />
+              ) : (
+                <Text style={styles.stylefiledText}>
+                  {this.state.last_name}
+                </Text>
+              )}
               <View style={styles.rightView}>
                 <Text style={styles.righttext}>Last Name</Text>
               </View>
             </View>
 
             <View style={styles.searchSection}>
-              <TextInput
-                placeholder=""
-                style={styles.stylefiledText}
-                placeholderTextColor={COLORS.main_text_color}
-                editable={this.state.status ? true : false}
-                value={this.state.nick_name}
-                onChangeText={(value) => this.setState({ nick_name: value })}
-                ref={(input) => {
-                  this.nick_name = input;
-                }}
-                //  onSubmitEditing={this.onPressKey}
-              />
+              {this.state.status ? (
+                <TextInput
+                  placeholder=""
+                  style={styles.stylefiledText}
+                  placeholderTextColor={COLORS.main_text_color}
+                  editable={this.state.status ? true : false}
+                  value={this.state.Nick_name}
+                  onChangeText={(value) => this.setState({ Nick_name: value })}
+                  ref={(input) => {
+                    this.Nick_name = input;
+                  }}
+                  //  onSubmitEditing={this.onPressKey}
+                />
+              ) : (
+                <Text style={styles.stylefiledText}>
+                  {this.state.nick_name}
+                </Text>
+              )}
               <View style={styles.rightView}>
                 <Text style={styles.righttext}>Nickname</Text>
               </View>
@@ -895,7 +1111,9 @@ class MyContactInfromation extends Component {
                       </View>
                     ) : (
                       <TouchableOpacity style={styles.searchSection}>
-                        <Text style={styles.stylefiledText}>Phone Number</Text>
+                        <Text style={styles.stylefiledText}>
+                          {this.state.number}
+                        </Text>
                       </TouchableOpacity>
                     )}
                     {item.show && (
@@ -1121,7 +1339,9 @@ class MyContactInfromation extends Component {
                     </View>
                   ) : (
                     <TouchableOpacity style={styles.searchSection}>
-                      <Text style={styles.stylefiledText}>E-mail Address</Text>
+                      <Text style={styles.stylefiledText}>
+                        {this.state.email}
+                      </Text>
                     </TouchableOpacity>
                   )}
                   {item.show && (
@@ -1354,7 +1574,9 @@ class MyContactInfromation extends Component {
                     </View>
                   ) : (
                     <TouchableOpacity style={styles.searchSection}>
-                      <Text style={styles.stylefiledText}>Address</Text>
+                      <Text style={styles.stylefiledText}>
+                        {this.state.address}
+                      </Text>
                     </TouchableOpacity>
                   )}
                   {item.show && (
@@ -1579,7 +1801,7 @@ class MyContactInfromation extends Component {
                   ) : (
                     <TouchableOpacity style={styles.searchSection}>
                       <Text style={styles.stylefiledText}>
-                        Messenger Account
+                        {this.state.messenger}
                       </Text>
                     </TouchableOpacity>
                   )}
@@ -1807,7 +2029,7 @@ class MyContactInfromation extends Component {
                   ) : (
                     <TouchableOpacity style={styles.searchSection}>
                       <Text style={styles.stylefiledText}>
-                        Social Media Account
+                        {this.state.socialMedia}
                       </Text>
                     </TouchableOpacity>
                   )}
@@ -2032,7 +2254,10 @@ class MyContactInfromation extends Component {
                     </View>
                   ) : (
                     <TouchableOpacity style={styles.searchSection}>
-                      <Text style={styles.stylefiledText}>Website</Text>
+                      <Text style={styles.stylefiledText}>
+                        {" "}
+                        {this.state.website}
+                      </Text>
                     </TouchableOpacity>
                   )}
                   {item.show && (
@@ -2204,7 +2429,7 @@ class MyContactInfromation extends Component {
     data[index].date = fomateDate;
     data[index].show = false;
     this.setState({ dateInput2: data });
-
+ console.log("datteee----------->",this.state.dateInput2[0].date)
     // let dataArray = this.state.dateData;
     // let checkBool = false;
     // if (dataArray.length !== 0) {
@@ -2296,7 +2521,9 @@ class MyContactInfromation extends Component {
                       </View>
                     ) : (
                       <TouchableOpacity>
-                        <Text style={styles.stylefiledText}>Date</Text>
+                        <Text style={styles.stylefiledText}>
+                          {this.state.date}
+                        </Text>
                       </TouchableOpacity>
                     )}
                   </View>
@@ -2527,7 +2754,9 @@ class MyContactInfromation extends Component {
                     </View>
                   ) : (
                     <TouchableOpacity style={styles.searchSection}>
-                      <Text style={styles.stylefiledText}>Note</Text>
+                      <Text style={styles.stylefiledText}>
+                        {this.state.note}
+                      </Text>
                     </TouchableOpacity>
                   )}
                   {item.show && (
@@ -2629,8 +2858,8 @@ class MyContactInfromation extends Component {
     );
   }
 
-  onChangeCompany = (company, index) => {
-    this.setState({ company: company });
+  onChangeCompany = (ompany, index) => {
+    this.setState({ Company: company });
     let dataArray = this.state.companyData;
     let checkBool = false;
     if (dataArray.length !== 0) {
@@ -2653,7 +2882,7 @@ class MyContactInfromation extends Component {
     }
   };
   onChangeJobTitle = (jobTitle, index) => {
-    this.setState({ jobTitle: jobTitle });
+    this.setState({ JobTitle: jobTitle });
     let dataArray = this.state.jobTitleData;
     let checkBool = false;
     if (dataArray.length !== 0) {
@@ -3075,20 +3304,26 @@ class MyContactInfromation extends Component {
                   <View style={styles.searchSection}>
                     <TouchableOpacity style={{ flexDirection: "row" }}>
                       <View>
-                        <TextInput
-                          placeholder=""
-                          style={styles.stylefiledText}
-                          placeholderTextColor={COLORS.main_text_color}
-                          editable={this.state.status ? true : false}
-                          onChangeText={(company) =>
-                            this.onChangeCompany(company, index)
-                          }
-                          value={this.state.company}
-                          ref={(ref) => {
-                            this.companyFocus = ref;
-                          }}
-                          autoFocus={true}
-                        />
+                        {this.state.status == true ? (
+                          <TextInput
+                            placeholder=""
+                            style={styles.stylefiledText}
+                            placeholderTextColor={COLORS.main_text_color}
+                            editable={this.state.status ? true : false}
+                            onChangeText={(Company) =>
+                              this.onChangeCompany(Company, index)
+                            }
+                            value={this.state.Company}
+                            // ref={(ref) => {
+                            //   this.companyFocus = ref;
+                            // }}
+                            // autoFocus={true}
+                          />
+                        ) : (
+                          <Text style={styles.stylefiledText}>
+                            {this.state.company}
+                          </Text>
+                        )}
                       </View>
                       <View style={styles.addressRightView}>
                         <Text style={styles.compnyRightText}>Company</Text>
@@ -3099,16 +3334,22 @@ class MyContactInfromation extends Component {
                   <View style={styles.searchSection}>
                     <TouchableOpacity style={{ flexDirection: "row" }}>
                       <View>
-                        <TextInput
-                          placeholder=""
-                          style={styles.stylefiledText}
-                          placeholderTextColor={COLORS.main_text_color}
-                          value={this.state.jobTitle}
-                          editable={this.state.status ? true : false}
-                          onChangeText={(jobTitle) =>
-                            this.onChangeJobTitle(jobTitle, index)
-                          }
-                        />
+                        {this.state.status == true ? (
+                          <TextInput
+                            placeholder=""
+                            style={styles.stylefiledText}
+                            placeholderTextColor={COLORS.main_text_color}
+                            value={this.state.JobTitle}
+                            editable={this.state.status ? true : false}
+                            onChangeText={(JobTitle) =>
+                              this.onChangeJobTitle(JobTitle, index)
+                            }
+                          />
+                        ) : (
+                          <Text style={styles.stylefiledText}>
+                            {this.state.jobTitle}
+                          </Text>
+                        )}
                       </View>
                       <View style={styles.addressRightView}>
                         <Text style={styles.compnyRightText}>Job Title</Text>
@@ -3526,6 +3767,8 @@ class MyContactInfromation extends Component {
                     </View>
                   )}
                   {this.state.isCompanySec == true ? null : (
+                    this.state.status ? 
+                    
                     <TouchableOpacity
                       style={styles.searchSection}
                       onPress={() => {
@@ -3559,6 +3802,292 @@ class MyContactInfromation extends Component {
                         <Text style={styles.compnyRightText}>Work Hours</Text>
                       </View>
                     </TouchableOpacity>
+                     : 
+                     <View style={styles.workView}>
+                     <View style={styles.LeftView}>
+                       <Image source={checked} style={styles.checkedIcon} />
+                       <View
+                         style={{
+                           flexDirection: "row",
+                           alignItems: "center",
+                         }}
+                       >
+                         <Text
+                           style={[
+                             styles.workText,
+                             {
+                               fontSize: width * 0.025,
+                               width: width * 0.16,
+                             },
+                           ]}
+                         >
+                           Monday
+                         </Text>
+                         <View style={styles.timeView}>
+                           <Text style={styles.timeText}>{this.state.Monday}</Text>
+
+                         
+                         </View>
+                         <Text
+                           style={[
+                             styles.workText,
+                             { fontSize: width * 0.035, marginLeft: 5 },
+                           ]}
+                         >
+                           to
+                         </Text>
+                         <View style={styles.timeView}>
+                         <Text style={styles.timeText}>{this.state.MondayTo}</Text>
+
+                         </View>
+                       </View>
+                       <View style={styles.dayView}>
+                         <Text
+                           style={[
+                             styles.workText,
+                             {
+                               fontSize: width * 0.025,
+                               width: width * 0.16,
+                             },
+                           ]}
+                         >
+                           Tuesday
+                         </Text>
+                         <View style={styles.timeView}>
+                         <Text style={styles.timeText}>{this.state.Tuesday}</Text>
+
+                         </View>
+                         <Text
+                           style={[
+                             styles.workText,
+                             { fontSize: width * 0.035, marginLeft: 5 },
+                           ]}
+                         >
+                           to
+                         </Text>
+                         <View style={styles.timeView}>
+                         <Text style={styles.timeText}>{this.state.TuesdayTo}</Text>
+
+                         </View>
+                       </View>
+                       <View style={styles.dayView}>
+                         <Text
+                           style={[
+                             styles.workText,
+                             {
+                               fontSize: width * 0.025,
+                               width: width * 0.16,
+                             },
+                           ]}
+                         >
+                           Wednesday
+                         </Text>
+                         <View style={styles.timeView}>
+                         <Text style={styles.timeText}>{this.state.Wednesday}</Text>
+
+                         </View>
+                         <Text
+                           style={[
+                             styles.workText,
+                             { fontSize: width * 0.035, marginLeft: 5 },
+                           ]}
+                         >
+                           to
+                         </Text>
+                         <View style={styles.timeView}>
+                         <Text style={styles.timeText}>{this.state.WednesdayTo}</Text>
+
+                         </View>
+                       </View>
+                       <View style={styles.dayView}>
+                         <Text
+                           style={[
+                             styles.workText,
+                             {
+                               fontSize: width * 0.025,
+                               width: width * 0.16,
+                             },
+                           ]}
+                         >
+                           Thursday
+                         </Text>
+                         <View style={styles.timeView}>
+                         <Text style={styles.timeText}>{this.state.Thursday}</Text>
+
+                         </View>
+                         <Text
+                           style={[
+                             styles.workText,
+                             { fontSize: width * 0.035, marginLeft: 5 },
+                           ]}
+                         >
+                           to
+                         </Text>
+                         <View style={styles.timeView}>
+                         <Text style={styles.timeText}>{this.state.ThursdayTo}</Text>
+
+                         </View>
+                       </View>
+                       <View style={styles.dayView}>
+                         <Text
+                           style={[
+                             styles.workText,
+                             {
+                               fontSize: width * 0.025,
+                               width: width * 0.16,
+                             },
+                           ]}
+                         >
+                           Friday
+                         </Text>
+                         <View style={styles.timeView}>
+                         <Text style={styles.timeText}>{this.state.Friday}</Text>
+
+                         </View>
+                         <Text
+                           style={[
+                             styles.workText,
+                             { fontSize: width * 0.035, marginLeft: 5 },
+                           ]}
+                         >
+                           to
+                         </Text>
+                         <View style={styles.timeView}>
+                         <Text style={styles.timeText}>{this.state.FridayTo}</Text>
+
+                         </View>
+                       </View>
+                       <View style={styles.dayView}>
+                         <Text
+                           style={[
+                             styles.workText,
+                             {
+                               fontSize: width * 0.025,
+                               width: width * 0.16,
+                             },
+                           ]}
+                         >
+                           Saturday
+                         </Text>
+                         <View style={styles.timeView}>
+                         <Text style={styles.timeText}>{this.state.Saturday}</Text>
+
+                         </View>
+                         <Text
+                           style={[
+                             styles.workText,
+                             { fontSize: width * 0.035, marginLeft: 5 },
+                           ]}
+                         >
+                           to
+                         </Text>
+                         <View style={styles.timeView}>
+                         <Text style={styles.timeText}>{this.state.SaturdayTo}</Text>
+
+                         </View>
+                       </View>
+                       <View style={[styles.dayView, {}]}>
+                         <Text
+                           style={[
+                             styles.workText,
+                             {
+                               fontSize: width * 0.025,
+                               width: width * 0.16,
+                             },
+                           ]}
+                         >
+                           Sunday
+                         </Text>
+                         <View style={styles.timeView}>
+                         <Text style={styles.timeText}>{this.state.Sunday}</Text>
+
+                         </View>
+                         <Text
+                           style={[
+                             styles.workText,
+                             { fontSize: width * 0.035, marginLeft: 5 },
+                           ]}
+                         >
+                           to
+                         </Text>
+                         <View style={styles.timeView}>
+                         <Text style={styles.timeText}>{this.state.SundayTo}</Text>
+
+                         </View>
+                       </View>
+                     </View>
+
+                     <View style={styles.rightView}>
+                       <View style={{ flexDirection: "column" }}>
+                         <Text
+                           style={[
+                             styles.workText,
+                             {
+                               fontSize: width * 0.026,
+                               marginRight: 5,
+                               textAlign: "right",
+                             },
+                           ]}
+                         >
+                           Work Hours
+                         </Text>
+                         <TouchableOpacity
+                           onPress={() =>
+                             this.setState({ workViewOpen: true })
+                           }
+                           style={styles.selectTimezone}
+                         >
+                           {this.state.selectItem == "" ? (
+                             <Text
+                               style={[
+                                 styles.workText,
+                                 { fontSize: width * 0.018 },
+                               ]}
+                             >
+                               Select Time Zone
+                             </Text>
+                           ) : (
+                             <Text
+                               style={[
+                                 styles.workText,
+                                 {
+                                   fontSize: width * 0.018,
+                                   textAlign: "center",
+                                 },
+                               ]}
+                             >
+                               {this.state.selectItem}
+                             </Text>
+                           )}
+
+                           <Modal
+                             style={styles.workModal}
+                             visible={this.state.workViewOpen}
+                             transparent={true}
+                             animationType="fade"
+                             onRequestClose={() =>
+                               this.setState({ workViewOpen: false })
+                             }
+                           >
+                             <View style={styles.workModalView}>
+                               <View style={styles.content}>
+                                 <FlatList
+                                   refreshing={true}
+                                   keyExtractor={(item, index) =>
+                                     index.toString()
+                                   }
+                                   data={this.state.tzs}
+                                   extraData={this.state}
+                                   numColumns={1}
+                                   renderItem={this.renderItem2.bind(this)}
+                                 />
+                               </View>
+                             </View>
+                           </Modal>
+                         </TouchableOpacity>
+                       </View>
+                     </View>
+                   </View>
                   )}
                 </View>
               );
@@ -3638,10 +4167,10 @@ class MyContactInfromation extends Component {
       profile_image,
       profile_image2,
       profile_image3,
-      first_name,
-      middle_name,
-      last_name,
-      nick_name,
+      First_name,
+      Middle_name,
+      Last_name,
+      Nick_name,
       inputData,
       textInput,
       emailData,
@@ -3685,12 +4214,14 @@ class MyContactInfromation extends Component {
     const { username, user_id } = this.props;
     if (this.state.status == false) {
       this.setState({ status: true });
+     
     } else {
       this.setState({ status: false });
-      this.clearData();
+      this.firebaseDataCAll();
+     // this.clearData();
     }
 
-    if (profile_image == "") {
+    if (profile_base == "") {
     } else {
       if (image_section1 == true) {
         this.setState({ isLoading: true });
@@ -3747,7 +4278,7 @@ class MyContactInfromation extends Component {
         .update({ profile_image: profile_image });
     }
 
-    if (profile_image2 == "") {
+    if (profile_base2 == "") {
     } else {
       if (image_section2 == true) {
         this.setState({ isLoading: true });
@@ -3804,7 +4335,7 @@ class MyContactInfromation extends Component {
         .update({ profile_image2: profile_image2 });
     }
 
-    if (profile_image3 == "") {
+    if (profile_base3 == "") {
     } else {
       if (image_section3 == true) {
         this.setState({ isLoading: true });
@@ -3861,38 +4392,35 @@ class MyContactInfromation extends Component {
         .update({ profile_image3: profile_image3 });
     }
 
-    if (first_name == "") {
+    if (First_name == "") {
     } else {
-      firebase
-        .firestore()
-        .collection("user")
-        .doc(`${username}`)
-        .update({ first_name: first_name ,first_name_small :first_name});
+      firebase.firestore().collection("user").doc(`${username}`).update({
+        first_name: First_name,
+        first_name_small: First_name.toLowerCase(),
+      });
     }
-    if (middle_name == "") {
+    if (Middle_name == "") {
     } else {
-      firebase
-        .firestore()
-        .collection("user")
-        .doc(`${username}`)
-        .update({ middle_name: middle_name });
+      firebase.firestore().collection("user").doc(`${username}`).update({
+        middle_name: Middle_name,
+        middle_name_small: Middle_name.toLowerCase(),
+      });
     }
-    if (nick_name == "") {
+    if (Nick_name == "") {
     } else {
-      firebase
-        .firestore()
-        .collection("user")
-        .doc(`${username}`)
-        .update({ nick_name: nick_name });
+      firebase.firestore().collection("user").doc(`${username}`).update({
+        nick_name: Nick_name,
+        nick_name_small: Nick_name.toLowerCase(),
+      });
     }
-    if (last_name == "") {
+    if (Last_name == "") {
     } else {
-      firebase
-        .firestore()
-        .collection("user")
-        .doc(`${username}`)
-        .update({ last_name: last_name ,last_name_small:last_name});
+      firebase.firestore().collection("user").doc(`${username}`).update({
+        last_name: Last_name,
+        last_name_small: Last_name.toLowerCase(),
+      });
     }
+
     //mobile
     if (inputData == "") {
     } else {
@@ -4006,22 +4534,22 @@ class MyContactInfromation extends Component {
     }
 
     //date
-    if (dateData == "") {
+    if (this.state.dateInput2[0].date == "Date") {
     } else {
       firebase
         .firestore()
         .collection("user")
         .doc(`${username}`)
-        .update({ date: dateData });
+        .update({ date :  dateInput2 });
     }
-    if (dateInput2 == "") {
-    } else {
-      firebase
-        .firestore()
-        .collection("user")
-        .doc(`${username}`)
-        .update({ date: dateInput2 });
-    }
+    // if (dateInput2 == []) {
+    // } else {
+    //   firebase
+    //     .firestore()
+    //     .collection("user")
+    //     .doc(`${username}`)
+    //     .update({ date: dateInput2 });
+    // }
     const datelabel = dateInput.find(({ label }) => label == label);
     if (datelabel.label === "Select Type...") {
     } else {

@@ -163,8 +163,8 @@ class forAdd2 extends Component {
           <View style={styles.WhiteBigview}>
             <View style={styles.textRigh}>
               <Text style={styles.userText}>{u_name4}</Text>
-            </View>
-            <View style={styles.textRigh}>
+            </View><View style={styles.textRigh}>
+            
               {this.state.userLabel4 == null ? (
                 <Text style={styles.sizeTextSmall}></Text>
               ) : (

@@ -14,7 +14,11 @@ export default StyleSheet.create({
     //justifyContent: "center",
     // marginTop:Metrics.xxdoubleBaseMargin
   },
-
+  SqureImage:{
+    width: width * 0.183,
+    height: width * 0.183,
+    borderRadius:5
+  },
   squareBorder: {
     width: width * 0.2,
     height: width * 0.2,
@@ -167,8 +171,8 @@ export default StyleSheet.create({
   },
   righttext: {
     color: COLORS.main_text_color,
-    fontFamily: Font.regular,
-    fontSize: width * 0.02,
+    fontFamily: Font.light,
+    fontSize: width * 0.022,
     textAlign: "right",
   },
 
@@ -578,7 +582,7 @@ export default StyleSheet.create({
      marginLeft: Metrics.smallMargin,
     flexDirection: "row",
     position: "relative",
-    
+  
   },
   LeftView: {
     width: width * 0.53,

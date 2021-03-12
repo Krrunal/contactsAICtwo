@@ -13,7 +13,7 @@ import {
 } from "react-native";
 import React, { Component, useState } from "react";
 import styled, { ThemeProvider } from "styled-components/native";
-
+import { Spinner } from "../../components/Spinner";
 import Add from "../AddContact/index";
 import AsyncStorage from "@react-native-community/async-storage";
 import { COLORS } from "../theme/Colors.js";
@@ -46,7 +46,7 @@ class ManageLable extends Component {
     super();
     this.state = {
       selectItem: "",
-      status: false,
+      status: true,
       selectAll: false,
       selectedName: "",
       first_name: "",
@@ -58,7 +58,7 @@ class ManageLable extends Component {
       phone_3: "",
 
       address: "",
-
+      isLoading: false,
       date: "",
       note: "",
       company: "",
@@ -130,6 +130,7 @@ class ManageLable extends Component {
       boolean_work_hours: "0",
       // new data
       iSec: false,
+      labelID : "",
     };
   }
 
@@ -143,8 +144,97 @@ class ManageLable extends Component {
     this.focusListener = navigation.addListener("didFocus", async () => {
       this.labelList();
     });
-    this.firebaseDataCAll();
   }
+
+  checkListCall = () => {
+    const { selectedName, labelID } = this.state;
+
+    const baseurl = Constants.baseurl;
+    var _body = new FormData();
+    _body.append("relation_id", labelID);
+    _body.append("user_id", this.props.user_id);
+    fetch(baseurl + "getsettings", {
+      method: "POST",
+      headers: {
+        "Content-Type":
+          Platform.OS == "ios" ? "application/json" : "multipart/form-data",
+      },
+      body: _body,
+    })
+      .then((response) => {
+        return response.json();
+      })
+      .then((responseJson) => {
+        let item = responseJson.data;
+        if (responseJson.status == false) {
+          console.log("labellee  -------->", responseJson.status);
+        } else {
+          console.log("false   -------->", responseJson.status);
+          console.log("false   -------->", item);
+          if(item.image_1 == 1){
+            this.setState({ iSec : true})
+          }
+          if(item.image_2 == 1){
+            this.setState({ iSec2 : true})
+          }
+          if(item.image_3 == 1){
+            this.setState({ iSec3 : true})
+          }
+          if(item.first_name == 1){
+            this.setState({ checked_first_name : true})
+          }
+          if(item.last_name == 1){
+            this.setState({ checked_last_name : true})
+          }
+          if(item.middle_name == 1){
+            this.setState({ checked_middle_name : true})
+          }
+          if(item.nick_name == 1){
+            this.setState({ checked_nick_name : true})
+          }
+          if(item.phone_number == 1){
+            this.setState({ checked_phone_1 : true})
+          }
+          if(item.email == 1){
+            this.setState({ checked_email_1 : true})
+          }
+          if(item.address == 1){
+            this.setState({ checked_address : true})
+          }
+          if(item.address_2 == 1){
+            this.setState({ checked_address2 : true})
+          }
+          if(item.messenger == 1){
+            this.setState({ checked_messagner_1 : true})
+          }
+          if(item.Social_media == 1){
+            this.setState({ checked_social_media_1 : true})
+          }
+          if(item.sociale_media_2 == 1){
+            this.setState({ checked_social_media_2 : true})
+          }
+          if(item.website == 1){
+           this.setState({ checked_website_1 : true})
+          }
+          if(item.date == 1){
+            this.setState({ checked_date : true})
+          }
+          if(item.note == 1){
+            this.setState({ checked_note : true})
+          }
+          if(item.company == 1){
+            this.setState({ checked_company : true})
+          }
+          if(item.job_title == 1){
+            this.setState({ checked_job_title : true})
+          }
+          if(item.work_hours == 1){
+            this.setState({ checked_work_hours : true})
+          }
+        }
+        this.firebaseDataCAll();
+      });
+  };
   checkImageUploaded = () => {
     const baseurl = Constants.baseurl;
     var _body = new FormData();
@@ -160,27 +250,25 @@ class ManageLable extends Component {
       .then((responseJson) => {
         console.log("profile --->", responseJson.data);
         responseJson.data.map((item) => {
-         // console.log("profile --->", item);
+          // console.log("profile --->", item);
           if (item.position == 1) {
-            this.setState({ profile_image : item.profile });
-             console.log("profile image profile 111 --->", item.profile);
+            this.setState({ profile_image: item.profile });
+            console.log("profile image profile 111 --->", item.profile);
           }
           if (item.position == 2) {
-            this.setState({ profile_image2 : item.profile });
+            this.setState({ profile_image2: item.profile });
             console.log("profile image profile 22 --->", item.profile);
-
           }
           if (item.position == 3) {
-            this.setState({ profile_image3 : item.profile });
+            this.setState({ profile_image3: item.profile });
             console.log("profile image profile 333 --->", item.profile);
-
           }
         });
-
-        this.setState({ isLoading: false });
+        //  this.setState({ isLoading: false });
       })
       .catch((error) => {
         console.log("name error---->", error);
+        this.setState({ isLoading: false });
       });
   };
   firebaseDataCAll = () => {
@@ -194,7 +282,7 @@ class ManageLable extends Component {
         .then((snap) => {
           var item = snap._data;
           this.setState({ contact: item });
-          console.log("social media ---->", item);
+          //   console.log("social media ---->", item);
           // this.setState({ profile_image: item.profile_image });
           // this.setState({ profile_image2: item.profile_image2 });
           // this.setState({ profile_image3: item.profile_image3});
@@ -341,14 +429,14 @@ class ManageLable extends Component {
           return response.json();
         })
         .then((responseJson) => {
+          console.log("  responseJson  --->",responseJson.data);
           if (responseJson.data.relation == "") {
             this.setState({ dataManage: [], isLoading: false });
           } else {
-            //    console.log("label listt--->",responseJson)
             var labelData2 = responseJson.data.map((item, index) => {
               if (item.relation == this.state.selectedName) {
-                //   console.log("   --->",item.relation)
                 this.setState({ labelID: item.id });
+                console.log("   --->", this.state.labelID);
               }
             });
             var labelData = responseJson.data.map((item, index) => {
@@ -358,9 +446,10 @@ class ManageLable extends Component {
                 labelID: item.id,
               };
             });
-            this.setState({ dataManage: labelData, isLoading: false });
-            this.setState({ isLoading: false });
+            this.setState({ dataManage: labelData });
+          //  this.setState({ isLoading: false });
           }
+          this.checkListCall();
         })
         .catch((error) => {
           console.error(error);
@@ -412,7 +501,7 @@ class ManageLable extends Component {
             <View style={styles.firstMiddle}>
               <View style={styles.squareBorder}>
                 <Image
-                  source = {{uri :this.state.profile_image}}
+                  source={{ uri: this.state.profile_image }}
                   style={styles.SqureImage}
                 />
               </View>
@@ -432,7 +521,7 @@ class ManageLable extends Component {
             <View style={styles.firstMiddle}>
               <View style={styles.squareBorder}>
                 <Image
-                  source = {{uri :this.state.profile_image2}}
+                  source={{ uri: this.state.profile_image2 }}
                   style={styles.SqureImage}
                 />
               </View>
@@ -451,7 +540,7 @@ class ManageLable extends Component {
             <View style={styles.firstMiddle}>
               <View style={styles.squareBorder}>
                 <Image
-                  source = {{uri :this.state.profile_image3}}
+                  source={{ uri: this.state.profile_image3 }}
                   style={styles.SqureImage}
                 />
               </View>
@@ -514,12 +603,7 @@ class ManageLable extends Component {
         }}
       >
         {this.state.status ? (
-          <TouchableOpacity
-            style={styles.mainView}
-            onPress={() => {
-              alert("Please Select Checkbox");
-            }}
-          >
+          <TouchableOpacity style={styles.mainView}>
             <CheckBox
               value={this.state.checked_first_name}
               onValueChange={this.first_name_submit}
@@ -534,7 +618,12 @@ class ManageLable extends Component {
             </View>
           </TouchableOpacity>
         ) : (
-          <View style={styles.smallView}>
+          <View style={styles.mainView}>
+            <CheckBox
+              value={this.state.checked_first_name}
+              onValueChange={this.first_name_submit}
+              tintColors={{ true: "#1374A3", false: "#1374A3" }}
+            />
             <View style={styles.filedView}>
               <Text style={styles.stylefiledText}>{this.state.first_name}</Text>
               <View style={styles.rightView}>
@@ -561,7 +650,12 @@ class ManageLable extends Component {
             </View>
           </View>
         ) : (
-          <View style={styles.smallView}>
+          <View style={styles.mainView}>
+          <CheckBox
+            value={this.state.checked_middle_name}
+            onValueChange={this.middle_name_submit}
+            tintColors={{ true: "#1374A3", false: "#1374A3" }}
+          />
             <View style={styles.filedView}>
               <Text style={styles.stylefiledText}>
                 {this.state.middle_name}
@@ -2138,11 +2232,87 @@ class ManageLable extends Component {
     }
     this.props.navigation.navigate("forSelectContact");
   };
-  onManage = (item, labelID) => {
-    console.log("label listt--->", labelID);
-    this.updateSettingApiCall();
-    this.setState({ selectedName: item, labelID: labelID });
+  labelList2= () => {
+    console.log("selected item---->",this.state.labelID)
+    // this.setState({ isLoading: true }, async () => {
+    //   const baseurl = Constants.baseurl;
+    //   fetch(baseurl + "getlabel")
+    //     .then((response) => {
+    //       return response.json();
+    //     })
+    //     .then((responseJson) => {
+    //       if (responseJson.data.relation == "") {
+    //         this.setState({ dataManage: [], isLoading: false });
+    //       } else {
+    //         var labelData2 = responseJson.data.map((item, index) => {
+    //           if (item.relation == this.state.selectedName) {
+    //             this.setState({ labelID: item.id });
+    //             console.log("   --->", this.state.labelID);
+    //           }
+    //         });
+    //         var labelData = responseJson.data.map((item, index) => {
+    //           return {
+    //             relation: item.relation,
+    //             isSelect: false,
+    //             labelID: item.id,
+    //           };
+    //         });
+    //         this.setState({ dataManage: labelData });
+
+    //         //  this.setState({ isLoading: false });
+    //       }
+    //       this.checkListCall();
+    //     })
+    //     .catch((error) => {
+    //       console.error(error);
+    //       this.setState({ isLoading: false });
+    //     });
+    // });
+  };
+  onManage = (name, labelID) => {
+     this.updateSettingApiCall();
+    console.log("  labelID  --->",labelID);
+    console.log("  item  --->",name);
+   this.setState({ isLoading: true }, async () => {
+      const baseurl = Constants.baseurl;
+      fetch(baseurl + "getlabel")
+        .then((response) => {
+          return response.json();
+        })
+        .then((responseJson) => {
+          console.log(" 22222  --->", responseJson);
+          if (responseJson.data.relation == "") {
+            this.setState({ dataManage: [], isLoading: false });
+          } else {
+            var labelData2 = responseJson.data.map((item, index) => {
+              if (item.relation == name) {
+                this.setState({ labelID : item.id });
+                console.log(" 222 label    --->", item.id);
+              }
+            });
+            var labelData = responseJson.data.map((item, index) => {
+              return {
+                relation: item.relation,
+                isSelect: false,
+                labelID: item.id,
+              };
+            });
+            this.setState({ dataManage: labelData });
+
+            //  this.setState({ isLoading: false });
+          }
+         this.checkListCall();
+        })
+        .catch((error) => {
+          console.error(error);
+          this.setState({ isLoading: false });
+        });
+    });
+    
+    this.setState({ selectedName: name, labelID: labelID });
+    
     this.setState({ flatViewOpen: false });
+   
   };
   contactsList({ item, index }) {
     return (
@@ -2162,8 +2332,10 @@ class ManageLable extends Component {
       this.setState({ flatViewOpen: true });
     }
   };
+ 
   itemSelect = (item) => {
     this.setState({ selectItem: item, workViewOpen: false });
+   // this.labelList2();
   };
   renderItem({ item, index }) {
     return (
@@ -2179,6 +2351,12 @@ class ManageLable extends Component {
       </TouchableOpacity>
     );
   }
+  showLoader() {
+    if (this.state.isLoading == true) {
+      return <Spinner />;
+    }
+  }
+
   render() {
     const { navigation } = this.props;
     const Param = navigation.getParam("otherParam");
@@ -2229,11 +2407,13 @@ class ManageLable extends Component {
                   fontSize: width * 0.035,
                 }}
               >
-                {this.state.status == true ? "Save" : "Edit"}
+                Save
+                {/* {this.state.status == true ? "Save" : "Edit"} */}
               </Text>
             </TouchableOpacity>
           </View>
         </Container>
+        {this.showLoader()}
       </ThemeProvider>
     );
   }

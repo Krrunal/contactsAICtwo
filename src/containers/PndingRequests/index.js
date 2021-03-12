@@ -131,7 +131,7 @@ class pendingRequest extends Component {
     this.setState({
       qrCodeData: JSON.parse(await AsyncStorage.getItem("@qrData")),
     });
- 
+
     // let v = [{"dd": {
     //   "id": "278",
     //   "sender_id": "27",
@@ -152,14 +152,13 @@ class pendingRequest extends Component {
     //      //  console.log("pending      -->",i.dd.label);
     //       this.state.LNNAME.push(i.dd.label)
     //     })
-        
+
     //     this.state.LNNAME.map((ii) =>{
     //       this.state.LNID.push(ii.toString())
     //      // console.log("pending      -->", ii.toString());
     //     })
     this.labelList();
     this.pendingRequestApiCall();
-   
   };
 
   labelList = () => {
@@ -170,7 +169,7 @@ class pendingRequest extends Component {
           return response.json();
         })
         .then((responseJson) => {
-       //  console.log("label list responseJson---->", responseJson.data);
+          //  console.log("label list responseJson---->", responseJson.data);
           var arr = responseJson.data.map((item, index) => {
             return {
               relation: item.relation,
@@ -186,7 +185,7 @@ class pendingRequest extends Component {
         });
     });
   };
- 
+
   pendingRequestApiCall = () => {
     //  this.setState({ labelName: [] });
     const { user_id } = this.props;
@@ -208,10 +207,8 @@ class pendingRequest extends Component {
           return response.json();
         })
         .then((responseJson) => {
-          console.log("pending      -->",responseJson[0].data);
-          
-          
-        
+          console.log("pending      -->", responseJson[0].data);
+
           if (responseJson[0].data == null) {
             this.setState({ names: [] });
             this.setState({ labelName: [] });
@@ -220,29 +217,27 @@ class pendingRequest extends Component {
             responseJson.map((d1) => {
               this.setState({ pendingRequest: d1 });
             });
-            
-            this.state.pendingRequest.data.map((item, index) => { 
-             
-              if(item.dd.message == null){
 
-              }else{
-                this.state.LNNAME.push(item.dd.message)
+            this.state.pendingRequest.data.map((item, index) => {
+              if (item.dd.message == null) {
+              } else {
+                this.state.LNNAME.push(item.dd.message);
               }
-             
-             })
-             this.state.LNNAME.map((ii) =>{
-                  this.state.LNID.push(ii.toString())
-                   // console.log("pending      -->", ii.toString());
-             })
-            this.state.pendingRequest.data.map((item, index) => { 
-              
-               this.state.p_id.push(item.dd.id);
-               let formateDate = moment(item.dd.created_at).format( "MMMM, Do YYYY");
-                let formateTime = moment(item.dd.created_at).format("LLLL");
-                this.state.requestDate.push(formateDate);
-                this.state.requestTime.push(formateTime);
-                this.state.label_id.push(item.dd.label_id)
-            })
+            });
+            this.state.LNNAME.map((ii) => {
+              this.state.LNID.push(ii.toString());
+              // console.log("pending      -->", ii.toString());
+            });
+            this.state.pendingRequest.data.map((item, index) => {
+              this.state.p_id.push(item.dd.id);
+              let formateDate = moment(item.dd.created_at).format(
+                "MMMM, Do YYYY"
+              );
+              let formateTime = moment(item.dd.created_at).format("LLLL");
+              this.state.requestDate.push(formateDate);
+              this.state.requestTime.push(formateTime);
+              this.state.label_id.push(item.dd.label_id);
+            });
             var pID = this.state.p_id.map((item, index) => {
               return { item: item, isSelect: false };
             });
@@ -250,7 +245,7 @@ class pendingRequest extends Component {
               p_ids: pID,
               requestTimeS: this.state.requestTime,
               requestDates: this.state.requestDate,
-             // label_ids: this.state.label_id,
+              // label_ids: this.state.label_id,
               loader: false,
             });
             this.getLabelName();
@@ -299,7 +294,7 @@ class pendingRequest extends Component {
   getLabelName = () => {
     console.log("label iddddd---->", this.state.label_id);
     this.state.label_id.map((item, index) => {
-     const baseurl = Constants.baseurl;
+      const baseurl = Constants.baseurl;
       var _body = new FormData();
       _body.append("id", item);
       fetch(baseurl + "get_labelname", {
@@ -311,7 +306,7 @@ class pendingRequest extends Component {
         })
         .then((responseJson) => {
           this.state.labelName.push(responseJson.data);
-         console.log("get label name resopns --->",responseJson.data)
+          console.log("get label name resopns --->", responseJson.data);
         })
         .catch((error) => {
           console.log("name error---->", error);
@@ -320,11 +315,10 @@ class pendingRequest extends Component {
   };
   compareIDs = () => {
     const { user_id } = this.props;
-    this.state.pendingRequest.data.map((item, index) => { 
-     
-      this.state.recivedIdArray.push(item.dd.receive_rid)
-    })
-    console.log("penidng  ---->",this.state.recivedIdArray)
+    this.state.pendingRequest.data.map((item, index) => {
+      this.state.recivedIdArray.push(item.dd.receive_rid);
+    });
+    console.log("penidng  ---->", this.state.recivedIdArray);
     var r_id = this.state.recivedIdArray[0];
     if (user_id == r_id) {
       console.log("yes both are same");
@@ -332,12 +326,10 @@ class pendingRequest extends Component {
     }
   };
 
- 
   getUsername = () => {
     var s_id = this.state.senderIdArray[0];
     this.state.pendingRequest.data.forEach((doc) => {
-     
-       if (doc.dd.sender_id == undefined) {
+      if (doc.dd.sender_id == undefined) {
       } else {
         const baseurl = Constants.baseurl;
         var _body = new FormData();
@@ -373,8 +365,8 @@ class pendingRequest extends Component {
                 return {
                   item: item,
                   isSelect: false,
-                   LNIDD :this.state.LNID[index],
-                   label_name: this.state.labelName[index].relation,
+                  LNIDD: this.state.LNID[index],
+                  label_name: this.state.labelName[index].relation,
                   id_label: this.state.label_id[index],
                 };
               });
@@ -470,7 +462,7 @@ class pendingRequest extends Component {
 
     addItem(user_id, user_id, selected, "", "", trueName[0]);
     addItem(sId, sId, label_Name, "", "", username.username);
-  
+
     firebase
       .firestore()
       .collection("user")
@@ -703,7 +695,7 @@ class pendingRequest extends Component {
           "",
           "",
           "",
-           this.state.address.toLowerCase(),
+          this.state.address.toLowerCase(),
           this.state.messenger.toLowerCase(),
           "",
           "",
@@ -1103,12 +1095,12 @@ class pendingRequest extends Component {
                           this.props.theme.mode == "light"
                             ? COLORS.main_text_color
                             : COLORS.white,
-                            width: width * 0.19,
+                        width: width * 0.19,
                       },
                     ]}
                   >
                     {item.LNIDD}
-                        {/* {this.state.pendingRequest.data.map((item, index) => { 
+                    {/* {this.state.pendingRequest.data.map((item, index) => { 
                           {item.dd}
                          })} */}
                     {/* {item.label_name} */}
@@ -1213,7 +1205,6 @@ class pendingRequest extends Component {
             height: height * 0.7,
           }}
         >
-          
           <FlatList
             refreshing={true}
             keyExtractor={(item, index) => index.toString()}

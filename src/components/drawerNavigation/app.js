@@ -34,6 +34,7 @@ import QRScanner from "../../containers/AddContactAICUser/QRScanner";
 import SearchContact from "../../containers/SearchContact/index";
 import SelectLable from '../../containers/Labels/SelectLabels';
 import SerachEditContact from "../../containers/SearchEditContact/index";
+import SerachEditContact2 from "../../containers/SearchEditContact/index2";
 import Share from "../../containers/Share/index";
 import SideBar from './DrawerContent';
 import Signup from "../../containers/Signup/index";
@@ -265,6 +266,13 @@ const RootNavigator = createStackNavigator({
     }},
     SearchContact: {
       screen: SearchContact,
+      navigationOptions: {
+        gesturesEnabled: false,
+        header: null,
+        // drawerLockMode: 'unlocked',
+    }},
+    SerachEditContact2: {
+      screen: SerachEditContact2,
       navigationOptions: {
         gesturesEnabled: false,
         header: null,

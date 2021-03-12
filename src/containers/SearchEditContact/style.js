@@ -16,7 +16,7 @@ export default StyleSheet.create({
     marginLeft: Metrics.baseMargin,
     fontFamily: Font.regular,
     fontSize: width * 0.04,
-    textTransform: "capitalize",
+    // textTransform: "capitalize",
     color: COLORS.main_text_color,
     padding: 5,
   },

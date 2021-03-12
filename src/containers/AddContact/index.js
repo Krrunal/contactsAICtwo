@@ -6,34 +6,34 @@ import {
   View,
 } from "react-native";
 import React, { Component } from "react";
-import { darkTheme, lightTheme } from "../theme/themeProps";
 import styled, { ThemeProvider } from "styled-components/native";
 
 import AsyncStorage from "@react-native-community/async-storage";
 import GeneralStatusBar from "../../components/StatusBar/index";
 import Header from "../../components/header/index";
-import { addManualContact } from '../../services/FirebaseDatabase/manualContactToFirebase';
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
-import firebase from "../../services/FirebaseDatabase/db";
-// import {createDrawerNavigator} from '@react-navigation/drawer';
 import styles from "./style";
 import { switchTheme } from "../../action/themeAction";
 
 var { width, height } = Dimensions.get("window");
 
 class Add extends Component {
-  constructor() {
-    super();
-  this.state = { 
-    user_name:""
-  }}
+  constructor(props) {
+    super(props);
+    this.state = {
+      user_name: "",
+    //  paramm: this.props.navigation.state.params.user
+    };
+  }
 
   componentDidMount = async () => {
-     const {username , user_id} =this.props ;
-     await AsyncStorage.setItem("@sidemenuName", username);
-     await AsyncStorage.setItem("@sidemenuID", user_id);
-  }
+  
+    console.log("cotact ---->",this.props.navigation.state.params.user)
+    const { username, user_id, navigation } = this.props;
+    await AsyncStorage.setItem("@sidemenuName", username);
+    await AsyncStorage.setItem("@sidemenuID", user_id);
+  };
   renderHeader() {
     return (
       <Header
@@ -114,14 +114,15 @@ class Add extends Component {
   }
 }
 function mapStateToProps(state) {
- 
   return {
     theme: state.themeReducer.theme,
-    user_id: (state.login.shouldLoadData.user_id || state.reg.shouldLoadData.user_id),
-    contact: (state.login.shouldLoadData.contact || state.reg.shouldLoadData.contact),
-    email: (state.login.shouldLoadData.email || state.reg.shouldLoadData.email),
-    username: (state.login.shouldLoadData.username || state.reg.shouldLoadData.username),
-
+    user_id:
+      state.login.shouldLoadData.user_id || state.reg.shouldLoadData.user_id,
+    contact:
+      state.login.shouldLoadData.contact || state.reg.shouldLoadData.contact,
+    email: state.login.shouldLoadData.email || state.reg.shouldLoadData.email,
+    username:
+      state.login.shouldLoadData.username || state.reg.shouldLoadData.username,
   };
 }
 

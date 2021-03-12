@@ -49,7 +49,11 @@ export const addManualContact = (
   sEmail,
   sNumber,
   sDate,
-  unique_id
+  unique_id,
+  sfirst_name,
+  smiddle_name,
+ slast_name,
+  snick_name,
 ) => {
   firebase
     .firestore()
@@ -94,13 +98,13 @@ export const addManualContact = (
       workHours: work_hour,
       jobTitleArray:jobTitleArray,
       workHoursArray:workHoursArray,
-      company: singleCompany.toLowerCase(),
+      company: singleCompany,
       website: singleWebsite,
-      messenger1:singleMessenger.toLowerCase(),
-      social_media1 :singleSocialMedia.toLowerCase(),
-      note :singleNote.toLowerCase(),
-      jobTitle :singleJobTitle.toLowerCase(),
-      address1 :singleAddress.toLowerCase(),
+      messenger1:singleMessenger,
+      social_media1 :singleSocialMedia,
+      note :singleNote,
+      jobTitle :singleJobTitle,
+      address1 :singleAddress,
       isManually : true,
       u_name:first_name,
       r_label_name    :"",
@@ -109,6 +113,10 @@ export const addManualContact = (
       number1 : sNumber,
       date : sDate,
       unique_id:unique_id,
+      first_name_small: sfirst_name,
+      middle_name_small: smiddle_name,
+      last_name_small: slast_name,
+      nick_name_small: snick_name,
       monday  :"",
       mondayTo  :"",
       tuesday  :"",
@@ -123,9 +131,6 @@ export const addManualContact = (
       saturdayTo  :"",
       sunday  :"",
       sundayTo  :"",
-      first_name_small: first_name.toLowerCase(),
-      middle_name_small: middle_name.toLowerCase(),
-      last_name_small: last_name.toLowerCase(),
-      nick_name_small: nick_name.toLowerCase(),
+     
     });
 };

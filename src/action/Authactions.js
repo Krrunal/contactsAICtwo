@@ -52,7 +52,6 @@ export const logoutUser = (data,dispatch) => {
 }
 
 export  const loginEmailChangeRemove = (email) => {
-  
   return {
     type: LOGIN_EMAIL,
     payload: email,
@@ -80,7 +79,7 @@ const loginUserSuccess = (data, dispatch) => {
   dispatch({ type: LOAD_DATA_SET, payload: data.data });
  // console.log('log in data ---->',data.data)
   updateItem(data.data.username)
-  dispatch(NavigationService.navigate("SerachEditContact"));
+  dispatch(NavigationService.navigate("SerachEditContact2"));
 };
 
 const regUserSuccess = (data, dispatch) => {
