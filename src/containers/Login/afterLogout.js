@@ -219,6 +219,7 @@ class afterLogout extends Component {
     phoneNumber,
     isVerified,
   }) => {
+    this.setState({ emailLogin: "" });
     console.log("Phone ----->", dialCode + "-" + unmaskedPhoneNumber );
     if (isVerified == true) {
       this.setState({ phone_number: dialCode + "-" + unmaskedPhoneNumber });
@@ -364,8 +365,7 @@ class afterLogout extends Component {
     }
   };
   emailChange = (value) => {
-    this.setState({ loginUsername: "" });
-
+    this.setState({ loginUsername: ""  ,phone_number :"" });
     this.setState({ emailLogin: value });
   };
 

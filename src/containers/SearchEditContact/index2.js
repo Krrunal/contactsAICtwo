@@ -1151,8 +1151,13 @@ async contactListFirst() {
         });
       });
   };
-
-  onFlatlist = async (key, first_name, last_name, user_name) => {
+  onFlatlist = async (key ) =>{
+    const { shortcontacts, firstName ,selectedData } = this.state;
+    const { username } = this.props;
+    let FN = shortcontacts[key];
+    this.props.navigation.navigate("Profile",{ contactData : shortcontacts[key]}); 
+   }
+  onFlatlist1 = async (key, first_name, last_name, user_name) => {
     console.log("onFlatlist ----->", key);
     this.setState({ isLoading: true, forKey: key });
     const { shortcontacts, firstName } = this.state;

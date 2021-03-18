@@ -181,8 +181,7 @@ class InviteContact extends Component {
                 tintColors={{ true: "#1374A3", false: "#1374A3" }}
               />
             <Text  style={[ styles.selectText,{ color:  this.props.theme.mode === "light" ? "#1374A3" : "white",  },    ]} >{item.displayName}  </Text>
-
-            </View>
+          </View>
           ))}
         </ScrollView>
       </View>

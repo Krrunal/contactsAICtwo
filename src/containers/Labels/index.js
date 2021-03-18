@@ -70,9 +70,7 @@ class labels extends Component {
           if (responseJson.data.relation == "") {
             this.setState({ dataManage: [], isLoading: false });
           } else {
-           // console.log(" getlabel--->", responseJson.data[0].relation);
-            
-            //  var labelData =responseJson.data.relation
+          
             var labelData = responseJson.data.map((item,index) => {
                  return { relation: item.relation, isSelect: false };
               });

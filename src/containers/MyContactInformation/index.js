@@ -236,15 +236,21 @@ class MyContactInfromation extends Component {
       Nick_name: "",
       JobTitle: "",
       Company: "",
+      selectItem: "",
+      timeZone: "",
+      data :[{"current_stock": 111, "product_image": "file:///storage/emulated/0/Android/data/com.stockapp/files/Pictures/b0e807e8-fa78-42d1-ab0b-2b9fa0060cb5.jpg", "product_name": "Tree", "user_id": 1}, {"current_stock": 25, "product_image": "file:///storage/emulated/0/Android/data/com.stockapp/files/Pictures/48e3436f-8902-4c08-8431-f062e9ef585c.jpg", "product_name": "Leaf", "user_id": 2}]
     };
   }
 
   componentDidMount = async () => {
-    this.checkImageUploaded();
+  
+    // this.checkImageUploaded();
     this.timeZoneField();
-    this.firebaseDataCAll();
+   this.firebaseDataCAll();
   };
   checkImageUploaded = () => {
+    this.setState({ isLoading: true })
+    const { username } = this.props;
     const baseurl = Constants.baseurl;
     var _body = new FormData();
     _body.append("user_id", this.props.user_id);
@@ -257,25 +263,45 @@ class MyContactInfromation extends Component {
         return response.json();
       })
       .then((responseJson) => {
-        responseJson.data.map((item) => {
-          console.log("profile --->", item);
-          if (item.position == 1) {
-            this.setState({ image_section1: true  });
-            this.setState({ profile_image : item.profile });
-            console.log("profile image profile 111 --->", item.profile);
-          }
-          if (item.position == 2) {
-            this.setState({ image_section2: true });
-            this.setState({ profile_image2 : item.profile });
-            console.log("profile image profile 22 --->", item.profile);
-          }
-          if (item.position == 3) {
-            this.setState({ image_section3: true });
-            this.setState({ profile_image3 : item.profile });
-            console.log("profile image profile 333 --->", item.profile);
-          }
-        });
-    })
+        if (responseJson.status == false) {
+          console.log("profile --->", responseJson.status);
+        } else {
+          responseJson.data.map((item) => {
+            if (item.position == 1) {
+              this.setState({ image_section1: true });
+              this.setState({ profile_image: item.profile });
+              firebase
+                .firestore()
+                .collection("user")
+                .doc(`${username}`)
+                .update({ profile_image: item.profile });
+              console.log("profile image profile 111 --->", item.profile);
+            }
+            if (item.position == 2) {
+              this.setState({ image_section2: true });
+              this.setState({ profile_image2: item.profile });
+              firebase
+                .firestore()
+                .collection("user")
+                .doc(`${username}`)
+                .update({ profile_image2: item.profile });
+              console.log("profile image profile 22 --->", item.profile);
+            }
+            if (item.position == 3) {
+              this.setState({ image_section3: true });
+              this.setState({ profile_image3: item.profile });
+              firebase
+                .firestore()
+                .collection("user")
+                .doc(`${username}`)
+                .update({ profile_image3 : item.profile });
+              console.log("profile image profile 333 --->", item.profile);
+            }
+          });
+        }
+
+       // this.firebaseDataCAll();
+      })
       .catch((error) => {
         console.log("name error---->", error);
         this.setState({ isLoading: false });
@@ -318,8 +344,9 @@ class MyContactInfromation extends Component {
     this.setState({ tzs: this.state.tz });
   };
   firebaseDataCAll = () => {
+    this.checkImageUploaded()
     const { username } = this.props;
-    this.setState({ isLoading: true }, () => {
+    
       firebase
         .firestore()
         .collection("user")
@@ -327,143 +354,166 @@ class MyContactInfromation extends Component {
         .get()
         .then((snap) => {
           var item = snap._data;
-          this.setState({ contact: item });
-          console.log("social media ---->", item);
-          this.setState({ profile_image : item.profile_image });
-          this.setState({ first_name: item.first_name });
-          this.setState({ last_name: item.last_name });
-          this.setState({ middle_name: item.middle_name });
-          this.setState({ nick_name: item.nick_name });
-          {
-            item.number !== ""
-              ? this.setState({ number: item.number[0].phone })
-              : null;
-          }
-          {
-            item.email !== ""
-              ? this.setState({ email: item.email[0].email })
-              : null;
-          }
-          {
-            item.messenger !== ""
-              ? this.setState({ messenger: item.messenger[0].messenger })
-              : null;
-          }
-          {
-            item.socialMedia !== ""
-              ? this.setState({ socialMedia: item.socialMedia[0].social })
-              : null;
-          }
-          {
-            item.socialMedia1 !== ""
-              ? this.setState({ socialMedia2: item.socialMedia1[0].social })
-              : null;
-          }
-          {
-            item.address !== ""
-              ? this.setState({ address: item.address[0].address })
-              : null;
-          }
-          //  {item.address.length > 1  == "" ? this.setState({ address2: item.address[1].address }) : null}
-          {
-            item.note !== ""
-              ? this.setState({ note: item.note[0].note })
-              : null;
-          }
-          {
-            item.website !== ""
-              ? this.setState({ website: item.website[0].website })
-              : null;
-          }
-          {
-            item.company !== ""
-              ? this.setState({ company: item.company[0].company })
-              : null;
-          }
-          {
-            item.jobTitle !== ""
-              ? this.setState({ jobTitle: item.jobTitle[0].jobTitle })
-              : null;
-          }
-          {
-            item.date !== ""
-              ? this.setState({ date: item.date[0].date })
-              : null;
+         // this.setState({ contact: item });
+          this.setState({ isLoading: false });
+          if (item.isDataUpdated == undefined) {
+            console.log("social media ---->", item);
+            this.setState({ first_name: item.first_name });
+            this.setState({ number: item.number, email: item.email });
+          } else {
+            this.setState({ profile_image: item.profile_image  ,image : item.profile_image});
+            this.setState({ profile_image2: item.profile_image2 });
+            this.setState({ profile_image3: item.profile_image3 });
+            this.setState({ First_name : item.first_name });
+            this.setState({ Last_name : item.last_name });
+            this.setState({ Middle_name: item.middle_name });
+            this.setState({ Nick_name: item.nick_name });
+            this.setState({ timeZone: item.timeZone });
+            if (item.isNumberUpdated == true) {
+              {
+                item.number !== ""
+                  ? this.setState({ number: item.number[0].phone })
+                  : null;
+              }
+            } else {
+              this.setState({ number: item.number });
+            }
+
+            if (item.isEmailUpdated == true) {
+              {
+                item.email !== ""
+                  ? this.setState({ email: item.email[0].email })
+                  : null;
+              }
+            } else {
+              this.setState({ email: item.email });
+            }
+
+            {
+              item.messenger !== ""
+                ? this.setState({ messenger: item.messenger[0].messenger })
+                : null;
+            }
+            {
+              item.socialMedia !== ""
+                ? this.setState({ socialMedia: item.socialMedia[0].social })
+                : null;
+            }
+            {
+              item.socialMedia1 !== ""
+                ? this.setState({ socialMedia2: item.socialMedia1[0].social })
+                : null;
+            }
+            {
+              item.address !== ""
+                ? this.setState({ address: item.address[0].address })
+                : null;
+            }
+          
+            //  {item.address.length > 1  == "" ? this.setState({ address2: item.address[1].address }) : null}
+            {
+              item.note !== ""
+                ? this.setState({ note: item.note[0].note })
+                : null;
+            }
+            {
+              item.website !== ""
+                ? this.setState({ website: item.website[0].website })
+                : null;
+            }
+            {
+              item.company !== ""
+                ? this.setState({ Company: item.company[0].company })
+                : null;
+            }
+            {
+              item.jobTitle !== ""
+                ? this.setState({ JobTitle : item.jobTitle[0].jobTitle })
+                : null;
+            }
+            {
+              item.date !== ""
+                ? this.setState({ date: item.date[0].date })
+                : null;
+            }
+
+            {
+              item.monday !== ""
+                ? this.setState({ Monday: item.monday[0].monday })
+                : null;
+            }
+            {
+              item.mondayTo !== ""
+                ? this.setState({ MondayTo: item.mondayTo[0].mondayTo })
+                : null;
+            }
+            {
+              item.tuesday !== ""
+                ? this.setState({ Tuesday: item.tuesday[0].tuesday })
+                : null;
+            }
+            {
+              item.tuesdayTo !== ""
+                ? this.setState({ TuesdayTo: item.tuesdayTo[0].tuesdayTo })
+                : null;
+            }
+            {
+              item.wednesday !== ""
+                ? this.setState({ Wednesday: item.wednesday[0].wednesday })
+                : null;
+            }
+            {
+              item.wednesdayTo !== ""
+                ? this.setState({
+                    WednesdayTo: item.wednesdayTo[0].wednesdayTo,
+                  })
+                : null;
+            }
+            {
+              item.thursday !== ""
+                ? this.setState({ Thursday: item.thursday[0].thursday })
+                : null;
+            }
+            {
+              item.thursdayTo !== ""
+                ? this.setState({ ThursdayTo: item.thursdayTo[0].thursdayTo })
+                : null;
+            }
+            {
+              item.friday !== ""
+                ? this.setState({ Friday: item.friday[0].friday })
+                : null;
+            }
+            {
+              item.fridayTo !== ""
+                ? this.setState({ FridayTo: item.fridayTo[0].fridayTo })
+                : null;
+            }
+            {
+              item.saturday !== ""
+                ? this.setState({ Saturday: item.saturday[0].saturday })
+                : null;
+            }
+            {
+              item.saturdayTo !== ""
+                ? this.setState({ SaturdayTo: item.saturdayTo[0].saturdayTo })
+                : null;
+            }
+            {
+              item.sunday !== ""
+                ? this.setState({ Sunday: item.sunday[0].sunday })
+                : null;
+            }
+            {
+              item.sundayTo !== ""
+                ? this.setState({ SundayTo: item.sundayTo[0].sundayTo })
+                : null;
+            }
           }
 
-          {
-            item.monday !== ""
-              ? this.setState({ Monday: item.monday[0].monday })
-              : null;
-          }
-          {
-            item.mondayTo !== ""
-              ? this.setState({ MondayTo: item.mondayTo[0].mondayTo })
-              : null;
-          }
-          {
-            item.tuesday !== ""
-              ? this.setState({ Tuesday: item.tuesday[0].tuesday })
-              : null;
-          }
-          {
-            item.tuesdayTo !== ""
-              ? this.setState({ TuesdayTo: item.tuesdayTo[0].tuesdayTo })
-              : null;
-          }
-          {
-            item.wednesday !== ""
-              ? this.setState({ Wednesday: item.wednesday[0].wednesday })
-              : null;
-          }
-          {
-            item.wednesdayTo !== ""
-              ? this.setState({ WednesdayTo: item.wednesdayTo[0].wednesdayTo })
-              : null;
-          }
-          {
-            item.thursday !== ""
-              ? this.setState({ Thursday: item.thursday[0].thursday })
-              : null;
-          }
-          {
-            item.thursdayTo !== ""
-              ? this.setState({ ThursdayTo: item.thursdayTo[0].thursdayTo })
-              : null;
-          }
-          {
-            item.friday !== ""
-              ? this.setState({ Friday: item.friday[0].friday })
-              : null;
-          }
-          {
-            item.fridayTo !== ""
-              ? this.setState({ FridayTo: item.fridayTo[0].fridayTo })
-              : null;
-          }
-          {
-            item.saturday !== ""
-              ? this.setState({ Saturday: item.saturday[0].saturday })
-              : null;
-          }
-          {
-            item.saturdayTo !== ""
-              ? this.setState({ SaturdayTo: item.saturdayTo[0].saturdayTo })
-              : null;
-          }
-          {
-            item.sunday !== ""
-              ? this.setState({ Sunday: item.sunday[0].sunday })
-              : null;
-          }
-          {
-            item.sundayTo !== ""
-              ? this.setState({SundayTo: item.sundayTo[0].sundayTo })
-              : null;
-          }
-          this.setState({ isLoading: false });
+         
         });
-    });
+   
   };
   selectPhoto = () => {
     ActionSheet.show(
@@ -599,7 +649,7 @@ class MyContactInfromation extends Component {
       height: 400,
       cropping: true,
     }).then((image) => {
-    //  this.setState({ profile_image: image.path });
+      this.setState({ profile_image: image.path });
       this.convertBase64(image.path);
       console.log("img 111---->", image.path);
       this.setState({
@@ -620,7 +670,7 @@ class MyContactInfromation extends Component {
       height: 400,
       cropping: true,
     }).then((image) => {
-     // this.setState({ profile_image: image.path });
+       this.setState({ profile_image: image.path });
       this.convertBase64(image.path);
       console.log("img 111---->", image.path);
       this.setState({
@@ -641,7 +691,7 @@ class MyContactInfromation extends Component {
       height: 400,
       cropping: true,
     }).then((image2) => {
-    //  this.setState({ profile_image2: image2.path });
+        this.setState({ profile_image2: image2.path });
       this.convertBase642(image2.path);
       console.log("img 2222---->", image2.path);
       this.setState({
@@ -662,7 +712,7 @@ class MyContactInfromation extends Component {
       height: 400,
       cropping: true,
     }).then((image2) => {
-     // this.setState({ profile_image2: image2.path });
+      this.setState({ profile_image2: image2.path });
       this.convertBase642(image2.path);
       console.log("img 2222---->", image2.path);
       this.setState({
@@ -683,7 +733,7 @@ class MyContactInfromation extends Component {
       height: 400,
       cropping: true,
     }).then((image3) => {
-    //  this.setState({ profile_image3: image3.path });
+       this.setState({ profile_image3: image3.path });
       this.convertBase643(image3.path);
       console.log("img 33---->", image3.path);
       this.setState({
@@ -704,7 +754,7 @@ class MyContactInfromation extends Component {
       height: 400,
       cropping: true,
     }).then((image3) => {
-     // this.setState({ profile_image3: image3.path });
+      this.setState({ profile_image3: image3.path });
       this.convertBase643(image3.path);
       console.log("img 33---->", image3.path);
       this.setState({
@@ -797,6 +847,7 @@ class MyContactInfromation extends Component {
 
   //function to add text from TextInputs into single array
   addValues = (phone, index) => {
+    this.setState({ number  : phone})
     let dataArray = this.state.inputData;
     let checkBool = false;
     if (dataArray.length !== 0) {
@@ -863,14 +914,18 @@ class MyContactInfromation extends Component {
           <View style={styles.middleView}>
             <View style={styles.firstMiddle}>
               <View style={styles.squareBorder}>
-                {this.state.status ?
+                {/* {this.state.status ? (
                   this.renderImage(this.state.image)
-              : 
-                 <Image
+                ) : ( */}
+                  <Image
+                    source={{ uri: this.state.profile_image }}
+                    style={styles.SqureImage}
+                  />
+                {/* )} */}
+                {/* <Image
                    source = {{uri :this.state.profile_image}}
-                  style={styles.SqureImage} />
-               } 
-               
+                   style={styles.SqureImage} /> */}
+                {/* {this.renderImage(this.state.profile_image)} */}
               </View>
 
               <TouchableOpacity
@@ -882,13 +937,15 @@ class MyContactInfromation extends Component {
             </View>
             <View style={styles.firstMiddle}>
               <View style={styles.squareBorder}>
-              {this.state.status ?
-                this.renderImage2(this.state.image2)
-                : 
-                <Image
-                  source = {{uri :this.state.profile_image2}}
-                 style={styles.SqureImage} />
-              } 
+                {/* {this.state.status ? (
+                  this.renderImage2(this.state.image2)
+                ) : ( */}
+                  <Image
+                    source={{ uri: this.state.profile_image2 }}
+                    style={styles.SqureImage}
+                  />
+                {/* )} */}
+               
               </View>
               <TouchableOpacity
                 style={styles.first}
@@ -899,13 +956,14 @@ class MyContactInfromation extends Component {
             </View>
             <View style={styles.firstMiddle}>
               <View style={styles.squareBorder}>
-              {this.state.status ?
-                this.renderImage3(this.state.image3)
-                : 
-                <Image
-                  source = {{uri :this.state.profile_image3}}
-                 style={styles.SqureImage} />
-              } 
+                {/* {this.state.status ? (
+                  this.renderImage3(this.state.image3)
+                ) : ( */}
+                  <Image
+                    source={{ uri: this.state.profile_image3 }}
+                    style={styles.SqureImage}
+                  />
+                {/* )} */}
               </View>
               <TouchableOpacity
                 style={styles.first}
@@ -944,7 +1002,7 @@ class MyContactInfromation extends Component {
                 />
               ) : (
                 <Text style={styles.stylefiledText}>
-                  {this.state.first_name}
+                  {this.state.First_name}
                 </Text>
               )}
 
@@ -971,7 +1029,7 @@ class MyContactInfromation extends Component {
                 />
               ) : (
                 <Text style={styles.stylefiledText}>
-                  {this.state.middle_name}
+                  {this.state.Middle_name}
                 </Text>
               )}
 
@@ -996,7 +1054,7 @@ class MyContactInfromation extends Component {
                 />
               ) : (
                 <Text style={styles.stylefiledText}>
-                  {this.state.last_name}
+                  {this.state.Last_name}
                 </Text>
               )}
               <View style={styles.rightView}>
@@ -1020,7 +1078,7 @@ class MyContactInfromation extends Component {
                 />
               ) : (
                 <Text style={styles.stylefiledText}>
-                  {this.state.nick_name}
+                  {this.state.Nick_name}
                 </Text>
               )}
               <View style={styles.rightView}>
@@ -1077,23 +1135,20 @@ class MyContactInfromation extends Component {
                               returnKeyType="next"
                               placeholderTextColor={COLORS.main_text_color}
                               editable={this.state.status ? true : false}
-                              onChangeText={(number) =>
-                                this.addValues(number, index)
+                              onChangeText={(number1  ) =>
+                                this.addValues(number1 , index)
                               }
                               keyboardType={"numeric"}
                               ref={(ref) => {
                                 this.textInputRef = ref;
                               }}
                               autoFocus={true}
+                              value ={this.state.number}
                             />
                           </TouchableOpacity>
                         ) : (
                           <TouchableOpacity
-                            onPress={this.onPressKey}
-                            // onPress={() =>
-                            // this.setState({ isMobileSection: true })
-                            // }
-                          >
+                            onPress={this.onPressKey} >
                             <Text style={styles.stylefiledText}>
                               Phone Number
                             </Text>
@@ -1231,6 +1286,7 @@ class MyContactInfromation extends Component {
     this.setState({ emailInput: data });
   };
   onChangeEmail = (email, index) => {
+    this.setState({ email : email})
     let dataArray = this.state.emailData;
     let checkBool = false;
     if (dataArray.length !== 0) {
@@ -1321,6 +1377,7 @@ class MyContactInfromation extends Component {
                               this.emailInput = ref;
                             }}
                             autoFocus={true}
+                            value={this.state.email}
                           />
                         </TouchableOpacity>
                       ) : (
@@ -1462,6 +1519,7 @@ class MyContactInfromation extends Component {
   };
 
   onChangAddress = (address, index) => {
+    this.setState({address : address})
     let dataArray = this.state.addressData;
     let checkBool = false;
     if (dataArray.length !== 0) {
@@ -1554,6 +1612,8 @@ class MyContactInfromation extends Component {
                               this.addressFocus = ref;
                             }}
                             autoFocus={true}
+                            multiline={true}
+                            value={this.state.address}
                           />
                         </TouchableOpacity>
                       ) : (
@@ -1695,6 +1755,7 @@ class MyContactInfromation extends Component {
     this.setState({ messengerInput: data });
   };
   onChangeMessenger = (messenger, index) => {
+    this.setState({messenger :messenger})
     let dataArray = this.state.messengerData;
     let checkBool = false;
     if (dataArray.length !== 0) {
@@ -1782,6 +1843,7 @@ class MyContactInfromation extends Component {
                               this.messengerFocus = ref;
                             }}
                             autoFocus={true}
+                            value={this.state.messenger}
                           />
                         </TouchableOpacity>
                       ) : (
@@ -1923,6 +1985,7 @@ class MyContactInfromation extends Component {
     this.setState({ socialMediaInput: data });
   };
   onChangeSocialMedia = (social, index) => {
+    this.setState({ socialMedia  : social})
     let dataArray = this.state.socialMediaData;
     let checkBool = false;
     if (dataArray.length !== 0) {
@@ -2010,6 +2073,7 @@ class MyContactInfromation extends Component {
                               this.sociaMediaFocus = ref;
                             }}
                             autoFocus={true}
+                            value = {this.state.socialMedia}
                           />
                         </TouchableOpacity>
                       ) : (
@@ -2151,6 +2215,7 @@ class MyContactInfromation extends Component {
     this.setState({ websiteInput: data });
   };
   onChangeWebsite = (website, index) => {
+    this.setState({website : website})
     let dataArray = this.state.websiteData;
     let checkBool = false;
     if (dataArray.length !== 0) {
@@ -2238,6 +2303,7 @@ class MyContactInfromation extends Component {
                               this.websiteFocus = ref;
                             }}
                             autoFocus={true}
+                            value = {this.state.website}
                           />
                         </TouchableOpacity>
                       ) : (
@@ -2429,7 +2495,7 @@ class MyContactInfromation extends Component {
     data[index].date = fomateDate;
     data[index].show = false;
     this.setState({ dateInput2: data });
- console.log("datteee----------->",this.state.dateInput2[0].date)
+    console.log("datteee----------->", this.state.dateInput2[0].date);
     // let dataArray = this.state.dateData;
     // let checkBool = false;
     // if (dataArray.length !== 0) {
@@ -2485,10 +2551,17 @@ class MyContactInfromation extends Component {
                               <TouchableOpacity
                                 style={{ width: width * 0.5 }}
                                 onPress={() => this.showDatePicker(index)}
-                              >
-                                <Text style={styles.stylefiledText}>
-                                  {item.date}
-                                </Text>
+                              > 
+                              {this.state.date == "" ? 
+                              <Text style={styles.stylefiledText}>
+                                {item.date}
+                              </Text>
+                           :
+                            <Text style={styles.stylefiledText}>
+                                {this.state.date}
+                            </Text> 
+                           }
+                                
                               </TouchableOpacity>
 
                               {item.showDate && (
@@ -2501,7 +2574,6 @@ class MyContactInfromation extends Component {
                                     onCancel={this.hidePicker}
                                     mode="datetime"
                                     is24Hour={false}
-                                    //  date={new Date(notificationTime)}
                                     titleIOS="Pick your Notification time"
                                   />
                                 </View>
@@ -2642,6 +2714,7 @@ class MyContactInfromation extends Component {
   };
 
   onChangNote = (note, index) => {
+    this.setState({note:note})
     let dataArray = this.state.noteData;
     let checkBool = false;
     if (dataArray.length !== 0) {
@@ -2696,6 +2769,7 @@ class MyContactInfromation extends Component {
   };
 
   renderNote() {
+ 
     return (
       <View style={{ marginTop: Metrics.doubleBaseMargin }}>
         <View style={{ flexDirection: "row" }}>
@@ -2734,6 +2808,8 @@ class MyContactInfromation extends Component {
                               this.messengerFocus = ref;
                             }}
                             autoFocus={true}
+                            multiline={true}
+                            value= {this.state.note}
                           />
                         </TouchableOpacity>
                       ) : (
@@ -2858,7 +2934,7 @@ class MyContactInfromation extends Component {
     );
   }
 
-  onChangeCompany = (ompany, index) => {
+  onChangeCompany = ( company , index) => {
     this.setState({ Company: company });
     let dataArray = this.state.companyData;
     let checkBool = false;
@@ -2928,6 +3004,7 @@ class MyContactInfromation extends Component {
   };
 
   itemSelect = (item) => {
+    console.log("item=----->", item);
     this.setState({ selectItem: item, workViewOpen: false });
   };
 
@@ -2946,6 +3023,7 @@ class MyContactInfromation extends Component {
   };
 
   renderItem2({ item, index }) {
+    console.log("itemmm---date-->",item)
     return (
       <TouchableOpacity
         style={{ marginTop: 10, marginLeft: 5 }}
@@ -2961,7 +3039,7 @@ class MyContactInfromation extends Component {
   }
 
   onChangeMonday = (monday, index) => {
-    this.setState({ monday: monday });
+    this.setState({ Monday : monday });
     let dataArray = this.state.mondayData;
     let checkBool = false;
     if (dataArray.length !== 0) {
@@ -2984,7 +3062,7 @@ class MyContactInfromation extends Component {
     }
   };
   onChangeMondayTo = (mondayTo, index) => {
-    this.setState({ mondayTo: mondayTo });
+    this.setState({ MondayTo : mondayTo });
     let dataArray = this.state.mondayTOData;
     let checkBool = false;
     if (dataArray.length !== 0) {
@@ -3008,7 +3086,7 @@ class MyContactInfromation extends Component {
   };
 
   onChangeTuesday = (tuesday, index) => {
-    this.setState({ tuesday: tuesday });
+    this.setState({ Tuesday : tuesday });
     let dataArray = this.state.tuesdayData;
     let checkBool = false;
     if (dataArray.length !== 0) {
@@ -3031,7 +3109,7 @@ class MyContactInfromation extends Component {
     }
   };
   onChangeTuesdayTo = (tuesdayTo, index) => {
-    this.setState({ tuesdayTo: tuesdayTo });
+    this.setState({ TuesdayTo : tuesdayTo });
     let dataArray = this.state.tuesdayTOData;
     let checkBool = false;
     if (dataArray.length !== 0) {
@@ -3054,7 +3132,7 @@ class MyContactInfromation extends Component {
     }
   };
   onChangeWednesday = (wednesday, index) => {
-    this.setState({ wednesday: wednesday });
+    this.setState({ Wednesday: wednesday });
     let dataArray = this.state.wednesdayData;
     let checkBool = false;
     if (dataArray.length !== 0) {
@@ -3077,7 +3155,7 @@ class MyContactInfromation extends Component {
     }
   };
   onChangeWednesdayTo = (wednesdayTo, index) => {
-    this.setState({ wednesdayTo: wednesdayTo });
+    this.setState({ WednesdayTo : wednesdayTo });
     let dataArray = this.state.wednesdayTOData;
     let checkBool = false;
     if (dataArray.length !== 0) {
@@ -3100,7 +3178,7 @@ class MyContactInfromation extends Component {
     }
   };
   onChangeThursday = (thursday, index) => {
-    this.setState({ thursday: thursday });
+    this.setState({ Thursday : thursday });
     let dataArray = this.state.thursdayData;
     let checkBool = false;
     if (dataArray.length !== 0) {
@@ -3123,7 +3201,7 @@ class MyContactInfromation extends Component {
     }
   };
   onChangeThursdayTo = (thursdayTo, index) => {
-    this.setState({ thursdayTo: thursdayTo });
+    this.setState({ ThursdayTo : thursdayTo });
     let dataArray = this.state.thursdayTOData;
     let checkBool = false;
     if (dataArray.length !== 0) {
@@ -3146,7 +3224,7 @@ class MyContactInfromation extends Component {
     }
   };
   onChangeFriday = (friday, index) => {
-    this.setState({ friday: friday });
+    this.setState({ Friday : friday });
     let dataArray = this.state.fridayData;
     let checkBool = false;
     if (dataArray.length !== 0) {
@@ -3169,7 +3247,7 @@ class MyContactInfromation extends Component {
     }
   };
   onChangeFridayTo = (fridayTo, index) => {
-    this.setState({ fridayTo: fridayTo });
+    this.setState({ FridayTo : fridayTo });
     let dataArray = this.state.fridayTOData;
     let checkBool = false;
     if (dataArray.length !== 0) {
@@ -3192,7 +3270,7 @@ class MyContactInfromation extends Component {
     }
   };
   onChangeSaturday = (saturday, index) => {
-    this.setState({ saturday: saturday });
+    this.setState({ Saturday : saturday });
     let dataArray = this.state.saturdayData;
     let checkBool = false;
     if (dataArray.length !== 0) {
@@ -3215,7 +3293,7 @@ class MyContactInfromation extends Component {
     }
   };
   onChangeSaturdayTo = (saturdayTo, index) => {
-    this.setState({ saturdayTo: saturdayTo });
+    this.setState({ SaturdayTo : saturdayTo });
     let dataArray = this.state.saturdayTOData;
     let checkBool = false;
     if (dataArray.length !== 0) {
@@ -3238,7 +3316,7 @@ class MyContactInfromation extends Component {
     }
   };
   onChangeSunday = (sunday, index) => {
-    this.setState({ sunday: sunday });
+    this.setState({ Sunday : sunday });
     let dataArray = this.state.sundayData;
     let checkBool = false;
     if (dataArray.length !== 0) {
@@ -3261,7 +3339,7 @@ class MyContactInfromation extends Component {
     }
   };
   onChangeSundayTo = (sundayTo, index) => {
-    this.setState({ sundayTo: sundayTo });
+    this.setState({ SundayTo : sundayTo });
     let dataArray = this.state.sundayTOData;
     let checkBool = false;
     if (dataArray.length !== 0) {
@@ -3321,7 +3399,7 @@ class MyContactInfromation extends Component {
                           />
                         ) : (
                           <Text style={styles.stylefiledText}>
-                            {this.state.company}
+                            {this.state.Company}
                           </Text>
                         )}
                       </View>
@@ -3347,7 +3425,7 @@ class MyContactInfromation extends Component {
                           />
                         ) : (
                           <Text style={styles.stylefiledText}>
-                            {this.state.jobTitle}
+                            {this.state.JobTitle}
                           </Text>
                         )}
                       </View>
@@ -3379,6 +3457,7 @@ class MyContactInfromation extends Component {
                                 {
                                   fontSize: width * 0.025,
                                   width: width * 0.16,
+                               
                                 },
                               ]}
                             >
@@ -3386,14 +3465,14 @@ class MyContactInfromation extends Component {
                             </Text>
                             <View style={styles.timeView}>
                               <TextInput
-                                placeholder="7:00AM"
+                                placeholder=""
                                 placeholderTextColor={COLORS.main_text_color}
                                 style={styles.timeText}
                                 editable={this.state.status ? true : false}
                                 onChangeText={(monday) =>
                                   this.onChangeMonday(monday, index)
                                 }
-                                value={this.state.monday}
+                                value={this.state.Monday}
                                 ref={(ref) => {
                                   this.mondayFocus = ref;
                                 }}
@@ -3410,14 +3489,14 @@ class MyContactInfromation extends Component {
                             </Text>
                             <View style={styles.timeView}>
                               <TextInput
-                                placeholder="3:30AM"
+                                 placeholder=""
                                 placeholderTextColor={COLORS.main_text_color}
                                 style={styles.timeText}
                                 editable={this.state.status ? true : false}
                                 onChangeText={(mondayTo) =>
                                   this.onChangeMondayTo(mondayTo, index)
                                 }
-                                value={this.state.mondayTo}
+                                value={this.state.MondayTo}
                               />
                             </View>
                           </View>
@@ -3435,14 +3514,14 @@ class MyContactInfromation extends Component {
                             </Text>
                             <View style={styles.timeView}>
                               <TextInput
-                                placeholder="7:00AM"
+                                placeholder=""
                                 placeholderTextColor={COLORS.main_text_color}
                                 style={styles.timeText}
                                 editable={this.state.status ? true : false}
                                 onChangeText={(tuesday) =>
                                   this.onChangeTuesday(tuesday, index)
                                 }
-                                value={this.state.tuesday}
+                                value={this.state.Tuesday}
                               />
                             </View>
                             <Text
@@ -3455,14 +3534,14 @@ class MyContactInfromation extends Component {
                             </Text>
                             <View style={styles.timeView}>
                               <TextInput
-                                placeholder="3:30AM"
+                                 placeholder=""
                                 placeholderTextColor={COLORS.main_text_color}
                                 style={styles.timeText}
                                 editable={this.state.status ? true : false}
                                 onChangeText={(tuesdayTo) =>
                                   this.onChangeTuesdayTo(tuesdayTo, index)
                                 }
-                                value={this.state.tuesdayTo}
+                                value={this.state.TuesdayTo}
                               />
                             </View>
                           </View>
@@ -3480,14 +3559,14 @@ class MyContactInfromation extends Component {
                             </Text>
                             <View style={styles.timeView}>
                               <TextInput
-                                placeholder="7:00AM"
+                               placeholder=""
                                 placeholderTextColor={COLORS.main_text_color}
                                 style={styles.timeText}
                                 editable={this.state.status ? true : false}
                                 onChangeText={(wednesday) =>
                                   this.onChangeWednesday(wednesday, index)
                                 }
-                                value={this.state.wednesday}
+                                value={this.state.Wednesday}
                               />
                             </View>
                             <Text
@@ -3500,14 +3579,14 @@ class MyContactInfromation extends Component {
                             </Text>
                             <View style={styles.timeView}>
                               <TextInput
-                                placeholder="3:30AM"
+                                placeholder=""
                                 placeholderTextColor={COLORS.main_text_color}
                                 style={styles.timeText}
                                 editable={this.state.status ? true : false}
                                 onChangeText={(wednesdayTo) =>
                                   this.onChangeWednesdayTo(wednesdayTo, index)
                                 }
-                                value={this.state.wednesdayTo}
+                                value={this.state.WednesdayTo}
                               />
                             </View>
                           </View>
@@ -3525,14 +3604,14 @@ class MyContactInfromation extends Component {
                             </Text>
                             <View style={styles.timeView}>
                               <TextInput
-                                placeholder="7:00AM"
+                               placeholder=""
                                 placeholderTextColor={COLORS.main_text_color}
                                 style={styles.timeText}
                                 editable={this.state.status ? true : false}
                                 onChangeText={(thursday) =>
                                   this.onChangeThursday(thursday, index)
                                 }
-                                value={this.state.thursday}
+                                value={this.state.Thursday}
                               />
                             </View>
                             <Text
@@ -3545,14 +3624,14 @@ class MyContactInfromation extends Component {
                             </Text>
                             <View style={styles.timeView}>
                               <TextInput
-                                placeholder="3:30AM"
+                                placeholder=""
                                 placeholderTextColor={COLORS.main_text_color}
                                 style={styles.timeText}
                                 editable={this.state.status ? true : false}
                                 onChangeText={(thursdayTo) =>
                                   this.onChangeThursdayTo(thursdayTo, index)
                                 }
-                                value={this.state.thursdayTo}
+                                value={this.state.ThursdayTo}
                               />
                             </View>
                           </View>
@@ -3570,14 +3649,14 @@ class MyContactInfromation extends Component {
                             </Text>
                             <View style={styles.timeView}>
                               <TextInput
-                                placeholder="7:00AM"
+                                placeholder=""
                                 placeholderTextColor={COLORS.main_text_color}
                                 style={styles.timeText}
                                 editable={this.state.status ? true : false}
                                 onChangeText={(friday) =>
                                   this.onChangeFriday(friday, index)
                                 }
-                                value={this.state.friday}
+                                value={this.state.Friday}
                               />
                             </View>
                             <Text
@@ -3590,14 +3669,14 @@ class MyContactInfromation extends Component {
                             </Text>
                             <View style={styles.timeView}>
                               <TextInput
-                                placeholder="3:30AM"
+                               placeholder=""
                                 placeholderTextColor={COLORS.main_text_color}
                                 style={styles.timeText}
                                 editable={this.state.status ? true : false}
                                 onChangeText={(fridayTo) =>
                                   this.onChangeFridayTo(fridayTo, index)
                                 }
-                                value={this.state.fridayTo}
+                                value={this.state.FridayTo}
                               />
                             </View>
                           </View>
@@ -3615,14 +3694,14 @@ class MyContactInfromation extends Component {
                             </Text>
                             <View style={styles.timeView}>
                               <TextInput
-                                placeholder="OFF"
+                               placeholder=""
                                 placeholderTextColor={COLORS.main_text_color}
                                 style={styles.timeText}
                                 editable={this.state.status ? true : false}
                                 onChangeText={(saturday) =>
                                   this.onChangeSaturday(saturday, index)
                                 }
-                                value={this.state.saturday}
+                                value={this.state.Saturday}
                               />
                             </View>
                             <Text
@@ -3635,14 +3714,14 @@ class MyContactInfromation extends Component {
                             </Text>
                             <View style={styles.timeView}>
                               <TextInput
-                                placeholder="OFF"
+                               placeholder=""
                                 placeholderTextColor={COLORS.main_text_color}
                                 style={styles.timeText}
                                 editable={this.state.status ? true : false}
                                 onChangeText={(saturdayTo) =>
                                   this.onChangeSaturdayTo(saturdayTo, index)
                                 }
-                                value={this.state.saturdayTo}
+                                value={this.state.SaturdayTo}
                               />
                             </View>
                           </View>
@@ -3660,14 +3739,14 @@ class MyContactInfromation extends Component {
                             </Text>
                             <View style={styles.timeView}>
                               <TextInput
-                                placeholder="OFF"
+                                placeholder=""
                                 placeholderTextColor={COLORS.main_text_color}
                                 style={styles.timeText}
                                 editable={this.state.status ? true : false}
                                 onChangeText={(sunday) =>
-                                  this.onChangeSunday(sunday, index)
+                                  this.onChangeSunday(Sunday, index)
                                 }
-                                value={this.state.sunday}
+                                value={this.state.Sunday}
                               />
                             </View>
                             <Text
@@ -3680,14 +3759,14 @@ class MyContactInfromation extends Component {
                             </Text>
                             <View style={styles.timeView}>
                               <TextInput
-                                placeholder="OFF"
+                                placeholder=""
                                 placeholderTextColor={COLORS.main_text_color}
                                 style={styles.timeText}
                                 editable={this.state.status ? true : false}
                                 onChangeText={(sundayTo) =>
                                   this.onChangeSundayTo(sundayTo, index)
                                 }
-                                value={this.state.sundayTo}
+                                value={this.state.SundayTo}
                               />
                             </View>
                           </View>
@@ -3713,15 +3792,27 @@ class MyContactInfromation extends Component {
                               }
                               style={styles.selectTimezone}
                             >
+                              {/* when  status true */}
                               {this.state.selectItem == "" ? (
-                                <Text
-                                  style={[
-                                    styles.workText,
-                                    { fontSize: width * 0.018 },
-                                  ]}
-                                >
-                                  Select Time Zone
-                                </Text>
+                                this.state.timeZone == "" ? (
+                                  <Text
+                                    style={[
+                                      styles.workText,
+                                      { fontSize: width * 0.018 },
+                                    ]}
+                                  >
+                                    Select Time Zone
+                                  </Text>
+                                ) : (
+                                  <Text
+                                    style={[
+                                      styles.workText,
+                                      { fontSize: width * 0.018 },
+                                    ]}
+                                  >
+                                    {this.state.timeZone}
+                                  </Text>
+                                )
                               ) : (
                                 <Text
                                   style={[
@@ -3766,9 +3857,7 @@ class MyContactInfromation extends Component {
                       </View>
                     </View>
                   )}
-                  {this.state.isCompanySec == true ? null : (
-                    this.state.status ? 
-                    
+                  {this.state.isCompanySec == true ? null : this.state.status ? (
                     <TouchableOpacity
                       style={styles.searchSection}
                       onPress={() => {
@@ -3802,292 +3891,317 @@ class MyContactInfromation extends Component {
                         <Text style={styles.compnyRightText}>Work Hours</Text>
                       </View>
                     </TouchableOpacity>
-                     : 
-                     <View style={styles.workView}>
-                     <View style={styles.LeftView}>
-                       <Image source={checked} style={styles.checkedIcon} />
-                       <View
-                         style={{
-                           flexDirection: "row",
-                           alignItems: "center",
-                         }}
-                       >
-                         <Text
-                           style={[
-                             styles.workText,
-                             {
-                               fontSize: width * 0.025,
-                               width: width * 0.16,
-                             },
-                           ]}
-                         >
-                           Monday
-                         </Text>
-                         <View style={styles.timeView}>
-                           <Text style={styles.timeText}>{this.state.Monday}</Text>
+                  ) : (
+                    <View style={styles.workView}>
+                      <View style={styles.LeftView}>
+                        <Image source={checked} style={styles.checkedIcon} />
+                        <View
+                          style={{
+                            flexDirection: "row",
+                            alignItems: "center",
+                          }}
+                        >
+                          <Text
+                            style={[
+                              styles.workText,
+                              {
+                                fontSize: width * 0.025,
+                                width: width * 0.16,
+                                
+                              },
+                            ]}
+                          >
+                            Monday
+                          </Text>
+                          <View style={styles.timeView}>
+                            <Text style={[styles.timeText,{marginTop : Metrics.baseMargin}]}>
+                              {this.state.Monday}
+                            </Text>
+                          </View>
+                          <Text
+                            style={[
+                              styles.workText,
+                              { fontSize: width * 0.035, marginLeft: 5 },
+                            ]}
+                          >
+                            to
+                          </Text>
+                          <View style={styles.timeView}>
+                          <Text style={[styles.timeText,{marginTop : Metrics.baseMargin}]}>
+                              {this.state.MondayTo}
+                            </Text>
+                          </View>
+                        </View>
+                        <View style={styles.dayView}>
+                          <Text
+                            style={[
+                              styles.workText,
+                              {
+                                fontSize: width * 0.025,
+                                width: width * 0.16,
+                              },
+                            ]}
+                          >
+                            Tuesday
+                          </Text>
+                          <View style={styles.timeView}>
+                          <Text style={[styles.timeText,{marginTop : Metrics.baseMargin}]}>
+                              {this.state.Tuesday}
+                            </Text>
+                          </View>
+                          <Text
+                            style={[
+                              styles.workText,
+                              { fontSize: width * 0.035, marginLeft: 5 },
+                            ]}
+                          >
+                            to
+                          </Text>
+                          <View style={styles.timeView}>
+                          <Text style={[styles.timeText,{marginTop : Metrics.baseMargin}]}>
+                              {this.state.TuesdayTo}
+                            </Text>
+                          </View>
+                        </View>
+                        <View style={styles.dayView}>
+                          <Text
+                            style={[
+                              styles.workText,
+                              {
+                                fontSize: width * 0.025,
+                                width: width * 0.16,
+                              },
+                            ]}
+                          >
+                            Wednesday
+                          </Text>
+                          <View style={styles.timeView}>
+                          <Text style={[styles.timeText,{marginTop : Metrics.baseMargin}]}>
+                              {this.state.Wednesday}
+                            </Text>
+                          </View>
+                          <Text
+                            style={[
+                              styles.workText,
+                              { fontSize: width * 0.035, marginLeft: 5 },
+                            ]}
+                          >
+                            to
+                          </Text>
+                          <View style={styles.timeView}>
+                          <Text style={[styles.timeText,{marginTop : Metrics.baseMargin}]}>
+                              {this.state.WednesdayTo}
+                            </Text>
+                          </View>
+                        </View>
+                        <View style={styles.dayView}>
+                          <Text
+                            style={[
+                              styles.workText,
+                              {
+                                fontSize: width * 0.025,
+                                width: width * 0.16,
+                              },
+                            ]}
+                          >
+                            Thursday
+                          </Text>
+                          <View style={styles.timeView}>
+                          <Text style={[styles.timeText,{marginTop : Metrics.baseMargin}]}>
+                              {this.state.Thursday}
+                            </Text>
+                          </View>
+                          <Text
+                            style={[
+                              styles.workText,
+                              { fontSize: width * 0.035, marginLeft: 5 },
+                            ]}
+                          >
+                            to
+                          </Text>
+                          <View style={styles.timeView}>
+                          <Text style={[styles.timeText,{marginTop : Metrics.baseMargin}]}>
+                              {this.state.ThursdayTo}
+                            </Text>
+                          </View>
+                        </View>
+                        <View style={styles.dayView}>
+                          <Text
+                            style={[
+                              styles.workText,
+                              {
+                                fontSize: width * 0.025,
+                                width: width * 0.16,
+                              },
+                            ]}
+                          >
+                            Friday
+                          </Text>
+                          <View style={styles.timeView}>
+                          <Text style={[styles.timeText,{marginTop : Metrics.baseMargin}]}>
+                              {this.state.Friday}
+                            </Text>
+                          </View>
+                          <Text
+                            style={[
+                              styles.workText,
+                              { fontSize: width * 0.035, marginLeft: 5 },
+                            ]}
+                          >
+                            to
+                          </Text>
+                          <View style={styles.timeView}>
+                          <Text style={[styles.timeText,{marginTop : Metrics.baseMargin}]}>
+                              {this.state.FridayTo}
+                            </Text>
+                          </View>
+                        </View>
+                        <View style={styles.dayView}>
+                          <Text
+                            style={[
+                              styles.workText,
+                              {
+                                fontSize: width * 0.025,
+                                width: width * 0.16,
+                              },
+                            ]}
+                          >
+                            Saturday
+                          </Text>
+                          <View style={styles.timeView}>
+                          <Text style={[styles.timeText,{marginTop : Metrics.baseMargin}]}>
+                              {this.state.Saturday}
+                            </Text>
+                          </View>
+                          <Text
+                            style={[
+                              styles.workText,
+                              { fontSize: width * 0.035, marginLeft: 5 },
+                            ]}
+                          >
+                            to
+                          </Text>
+                          <View style={styles.timeView}>
+                          <Text style={[styles.timeText,{marginTop : Metrics.baseMargin}]}>
+                              {this.state.SaturdayTo}
+                            </Text>
+                          </View>
+                        </View>
+                        <View style={[styles.dayView, {}]}>
+                          <Text
+                            style={[
+                              styles.workText,
+                              {
+                                fontSize: width * 0.025,
+                                width: width * 0.16,
+                              },
+                            ]}
+                          >
+                            Sunday
+                          </Text>
+                          <View style={styles.timeView}>
+                          <Text style={[styles.timeText,{marginTop : Metrics.baseMargin}]}>
+                              {this.state.Sunday}
+                            </Text>
+                          </View>
+                          <Text
+                            style={[
+                              styles.workText,
+                              { fontSize: width * 0.035, marginLeft: 5 },
+                            ]}
+                          >
+                            to
+                          </Text>
+                          <View style={styles.timeView}>
+                          <Text style={[styles.timeText,{marginTop : Metrics.baseMargin}]}>
+                              {this.state.SundayTo}
+                            </Text>
+                          </View>
+                        </View>
+                      </View>
 
-                         
-                         </View>
-                         <Text
-                           style={[
-                             styles.workText,
-                             { fontSize: width * 0.035, marginLeft: 5 },
-                           ]}
-                         >
-                           to
-                         </Text>
-                         <View style={styles.timeView}>
-                         <Text style={styles.timeText}>{this.state.MondayTo}</Text>
+                      <View style={styles.rightView}>
+                        <View style={{ flexDirection: "column" }}>
+                          <Text
+                            style={[
+                              styles.workText,
+                              {
+                                fontSize: width * 0.026,
+                                marginRight: 5,
+                                textAlign: "right",
+                              },
+                            ]}
+                          >
+                            Work Hours
+                          </Text>
+                          <TouchableOpacity
+                            onPress={() =>
+                              this.setState({ workViewOpen: true })
+                            }
+                            style={styles.selectTimezone}
+                          >
+                            {this.state.selectItem == "" ? (
+                              this.state.timeZone == "" ? (
+                                <Text
+                                  style={[
+                                    styles.workText,
+                                    { fontSize: width * 0.018 },
+                                  ]}
+                                >
+                                  Select Time Zone
+                                </Text>
+                              ) : (
+                                <Text
+                                  style={[
+                                    styles.workText,
+                                    { fontSize: width * 0.018 },
+                                  ]}
+                                >
+                                  {this.state.timeZone}
+                                </Text>
+                              )
+                            ) : (
+                              <Text
+                                style={[
+                                  styles.workText,
+                                  {
+                                    fontSize: width * 0.018,
+                                    textAlign: "center",
+                                  },
+                                ]}
+                              >
+                                {this.state.selectItem}
+                              </Text>
+                            )}
 
-                         </View>
-                       </View>
-                       <View style={styles.dayView}>
-                         <Text
-                           style={[
-                             styles.workText,
-                             {
-                               fontSize: width * 0.025,
-                               width: width * 0.16,
-                             },
-                           ]}
-                         >
-                           Tuesday
-                         </Text>
-                         <View style={styles.timeView}>
-                         <Text style={styles.timeText}>{this.state.Tuesday}</Text>
-
-                         </View>
-                         <Text
-                           style={[
-                             styles.workText,
-                             { fontSize: width * 0.035, marginLeft: 5 },
-                           ]}
-                         >
-                           to
-                         </Text>
-                         <View style={styles.timeView}>
-                         <Text style={styles.timeText}>{this.state.TuesdayTo}</Text>
-
-                         </View>
-                       </View>
-                       <View style={styles.dayView}>
-                         <Text
-                           style={[
-                             styles.workText,
-                             {
-                               fontSize: width * 0.025,
-                               width: width * 0.16,
-                             },
-                           ]}
-                         >
-                           Wednesday
-                         </Text>
-                         <View style={styles.timeView}>
-                         <Text style={styles.timeText}>{this.state.Wednesday}</Text>
-
-                         </View>
-                         <Text
-                           style={[
-                             styles.workText,
-                             { fontSize: width * 0.035, marginLeft: 5 },
-                           ]}
-                         >
-                           to
-                         </Text>
-                         <View style={styles.timeView}>
-                         <Text style={styles.timeText}>{this.state.WednesdayTo}</Text>
-
-                         </View>
-                       </View>
-                       <View style={styles.dayView}>
-                         <Text
-                           style={[
-                             styles.workText,
-                             {
-                               fontSize: width * 0.025,
-                               width: width * 0.16,
-                             },
-                           ]}
-                         >
-                           Thursday
-                         </Text>
-                         <View style={styles.timeView}>
-                         <Text style={styles.timeText}>{this.state.Thursday}</Text>
-
-                         </View>
-                         <Text
-                           style={[
-                             styles.workText,
-                             { fontSize: width * 0.035, marginLeft: 5 },
-                           ]}
-                         >
-                           to
-                         </Text>
-                         <View style={styles.timeView}>
-                         <Text style={styles.timeText}>{this.state.ThursdayTo}</Text>
-
-                         </View>
-                       </View>
-                       <View style={styles.dayView}>
-                         <Text
-                           style={[
-                             styles.workText,
-                             {
-                               fontSize: width * 0.025,
-                               width: width * 0.16,
-                             },
-                           ]}
-                         >
-                           Friday
-                         </Text>
-                         <View style={styles.timeView}>
-                         <Text style={styles.timeText}>{this.state.Friday}</Text>
-
-                         </View>
-                         <Text
-                           style={[
-                             styles.workText,
-                             { fontSize: width * 0.035, marginLeft: 5 },
-                           ]}
-                         >
-                           to
-                         </Text>
-                         <View style={styles.timeView}>
-                         <Text style={styles.timeText}>{this.state.FridayTo}</Text>
-
-                         </View>
-                       </View>
-                       <View style={styles.dayView}>
-                         <Text
-                           style={[
-                             styles.workText,
-                             {
-                               fontSize: width * 0.025,
-                               width: width * 0.16,
-                             },
-                           ]}
-                         >
-                           Saturday
-                         </Text>
-                         <View style={styles.timeView}>
-                         <Text style={styles.timeText}>{this.state.Saturday}</Text>
-
-                         </View>
-                         <Text
-                           style={[
-                             styles.workText,
-                             { fontSize: width * 0.035, marginLeft: 5 },
-                           ]}
-                         >
-                           to
-                         </Text>
-                         <View style={styles.timeView}>
-                         <Text style={styles.timeText}>{this.state.SaturdayTo}</Text>
-
-                         </View>
-                       </View>
-                       <View style={[styles.dayView, {}]}>
-                         <Text
-                           style={[
-                             styles.workText,
-                             {
-                               fontSize: width * 0.025,
-                               width: width * 0.16,
-                             },
-                           ]}
-                         >
-                           Sunday
-                         </Text>
-                         <View style={styles.timeView}>
-                         <Text style={styles.timeText}>{this.state.Sunday}</Text>
-
-                         </View>
-                         <Text
-                           style={[
-                             styles.workText,
-                             { fontSize: width * 0.035, marginLeft: 5 },
-                           ]}
-                         >
-                           to
-                         </Text>
-                         <View style={styles.timeView}>
-                         <Text style={styles.timeText}>{this.state.SundayTo}</Text>
-
-                         </View>
-                       </View>
-                     </View>
-
-                     <View style={styles.rightView}>
-                       <View style={{ flexDirection: "column" }}>
-                         <Text
-                           style={[
-                             styles.workText,
-                             {
-                               fontSize: width * 0.026,
-                               marginRight: 5,
-                               textAlign: "right",
-                             },
-                           ]}
-                         >
-                           Work Hours
-                         </Text>
-                         <TouchableOpacity
-                           onPress={() =>
-                             this.setState({ workViewOpen: true })
-                           }
-                           style={styles.selectTimezone}
-                         >
-                           {this.state.selectItem == "" ? (
-                             <Text
-                               style={[
-                                 styles.workText,
-                                 { fontSize: width * 0.018 },
-                               ]}
-                             >
-                               Select Time Zone
-                             </Text>
-                           ) : (
-                             <Text
-                               style={[
-                                 styles.workText,
-                                 {
-                                   fontSize: width * 0.018,
-                                   textAlign: "center",
-                                 },
-                               ]}
-                             >
-                               {this.state.selectItem}
-                             </Text>
-                           )}
-
-                           <Modal
-                             style={styles.workModal}
-                             visible={this.state.workViewOpen}
-                             transparent={true}
-                             animationType="fade"
-                             onRequestClose={() =>
-                               this.setState({ workViewOpen: false })
-                             }
-                           >
-                             <View style={styles.workModalView}>
-                               <View style={styles.content}>
-                                 <FlatList
-                                   refreshing={true}
-                                   keyExtractor={(item, index) =>
-                                     index.toString()
-                                   }
-                                   data={this.state.tzs}
-                                   extraData={this.state}
-                                   numColumns={1}
-                                   renderItem={this.renderItem2.bind(this)}
-                                 />
-                               </View>
-                             </View>
-                           </Modal>
-                         </TouchableOpacity>
-                       </View>
-                     </View>
-                   </View>
+                            <Modal
+                              style={styles.workModal}
+                              visible={this.state.workViewOpen}
+                              transparent={true}
+                              animationType="fade"
+                              onRequestClose={() =>
+                                this.setState({ workViewOpen: false })
+                              }
+                            >
+                              <View style={styles.workModalView}>
+                                <View style={styles.content}>
+                                  <FlatList
+                                    refreshing={true}
+                                    keyExtractor={(item, index) =>
+                                      index.toString()
+                                    }
+                                    data={this.state.tzs}
+                                    extraData={this.state}
+                                    numColumns={1}
+                                    renderItem={this.renderItem2.bind(this)}
+                                  />
+                                </View>
+                              </View>
+                            </Modal>
+                          </TouchableOpacity>
+                        </View>
+                      </View>
+                    </View>
                   )}
                 </View>
               );
@@ -4162,8 +4276,19 @@ class MyContactInfromation extends Component {
       sundayTo: "",
     });
   };
+  finalSubmit = async () =>{
+    if (this.state.status == false) {
+      this.setState({ status: true });
+    
+    } else {
+      this.setState({ status: false });
+      this.ShowHideTextComponentView();
+      // this.firebaseDataCAll();
+      // this.clearData();
+    }
+  }
   ShowHideTextComponentView = async () => {
-    const {
+   const {
       profile_image,
       profile_image2,
       profile_image3,
@@ -4212,14 +4337,7 @@ class MyContactInfromation extends Component {
       image_section3,
     } = this.state;
     const { username, user_id } = this.props;
-    if (this.state.status == false) {
-      this.setState({ status: true });
-     
-    } else {
-      this.setState({ status: false });
-      this.firebaseDataCAll();
-     // this.clearData();
-    }
+ 
 
     if (profile_base == "") {
     } else {
@@ -4392,6 +4510,10 @@ class MyContactInfromation extends Component {
         .update({ profile_image3: profile_image3 });
     }
 
+    firebase.firestore().collection("user").doc(`${username}`).update({
+      isDataUpdated: true,
+    });
+
     if (First_name == "") {
     } else {
       firebase.firestore().collection("user").doc(`${username}`).update({
@@ -4399,6 +4521,7 @@ class MyContactInfromation extends Component {
         first_name_small: First_name.toLowerCase(),
       });
     }
+
     if (Middle_name == "") {
     } else {
       firebase.firestore().collection("user").doc(`${username}`).update({
@@ -4428,7 +4551,7 @@ class MyContactInfromation extends Component {
         .firestore()
         .collection("user")
         .doc(`${username}`)
-        .update({ number: inputData });
+        .update({ number: inputData, isNumberUpdated: true });
     }
 
     const mobileabel = textInput.find(({ label }) => label == label);
@@ -4449,7 +4572,7 @@ class MyContactInfromation extends Component {
         .firestore()
         .collection("user")
         .doc(`${username}`)
-        .update({ email: emailData });
+        .update({ email: emailData, isEmailUpdated: true });
     }
     const emailabel = emailInput.find(({ label }) => label == label);
     if (emailabel.label === "Select Type...") {
@@ -4540,7 +4663,7 @@ class MyContactInfromation extends Component {
         .firestore()
         .collection("user")
         .doc(`${username}`)
-        .update({ date :  dateInput2 });
+        .update({ date: dateInput2 });
     }
     // if (dateInput2 == []) {
     // } else {
@@ -4716,8 +4839,16 @@ class MyContactInfromation extends Component {
         .doc(`${username}`)
         .update({ sundayTo: sundayTOData });
     }
+    console.log(" em=----->", this.state.selectItem);
 
-    // console.log("notiictaip time=-->", dateNotify);
+    if (this.state.selectItem == "") {
+    } else {
+      firebase
+        .firestore()
+        .collection("user")
+        .doc(`${username}`)
+        .update({ timeZone: this.state.selectItem });
+    }
 
     if (this.state.notificationTime == "") {
     } else {
@@ -4729,6 +4860,7 @@ class MyContactInfromation extends Component {
         .doc(`${username}`)
         .update({ notificationTime: dateNotify });
     }
+    this.firebaseDataCAll();
   };
   renderLast() {
     return (
@@ -4741,27 +4873,26 @@ class MyContactInfromation extends Component {
           flexDirection: "row",
         }}
       >
-        <TouchableHighlight
-          underlayColor="transparent"
+        <TouchableOpacity
+         // underlayColor="transparent"
           style={styles.saveView}
-          onPress={this.ShowHideTextComponentView}
+          onPress={this.finalSubmit}
         >
           <Text
             style={{
               color: COLORS.main_text_color,
               fontFamily: Font.medium,
-              fontSize: width * 0.04,
+              fontSize: width * 0.045,
             }}
           >
             {this.state.status == true ? "Save" : "Edit"}
           </Text>
-        </TouchableHighlight>
+        </TouchableOpacity>
       </View>
     );
   }
-
+ 
   render() {
-    const { mobileLabelList } = this.state;
     return (
       <ThemeProvider theme={this.props.theme}>
         <GeneralStatusBar
@@ -4785,16 +4916,6 @@ class MyContactInfromation extends Component {
               >
                 {this.renderHeader()}
                 {this.renderMiddle()}
-                {/* <View style={{ height: height  }}>
-                  <FlatList
-                    refreshing={true}
-                    keyExtractor={(item, index) => index.toString()}
-                    data={this.state.saprated}
-                    extraData={this.state}
-                    numColumns={1}
-                    renderItem={this.ListFirstaName.bind(this)}
-                  />
-                </View> */}
                 {this.renderName()}
                 {this.renderMobile()}
                 {this.renderEmail()}

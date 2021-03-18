@@ -55,8 +55,14 @@ export default StyleSheet.create({
     resizeMode: "contain",
   },
   plusStyle: {
+    width: width * 0.14,
+    height: width * 0.14,
+  },
+  deleteStyle :{
     width: width * 0.13,
-    height: width * 0.12,
+    height: width * 0.13,
+    resizeMode: "contain",
+    borderRadius: 5,
   },
   scrollStyle: {
     alignItems: "center",
@@ -470,7 +476,6 @@ export default StyleSheet.create({
     width: width * 0.5,
     height: height * 0.3,
     marginTop: Metrics.xbaseMargin,
-   
   },
   smallIcon:{
     width: width * 0.05,
@@ -480,7 +485,6 @@ export default StyleSheet.create({
   },
   doubleImaageView:{
     marginTop:Metrics.baseMargin,
- 
     justifyContent:'center',
     flexDirection:'row',
     alignItems:'center'
@@ -489,8 +493,7 @@ export default StyleSheet.create({
     width: width * 0.2,
     height: height * 0.2,
     resizeMode:'contain',
-
-  },
+ },
   arrowView:{
     alignItems:'center',
     justifyContent:'center',

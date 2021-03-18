@@ -54,6 +54,7 @@ class importContact extends Component {
     emailAddresses: "",
     isLoading: false,
     mobile_phone: "",
+    shortData: [],
   };
 
   componentDidMount() {
@@ -91,19 +92,27 @@ class importContact extends Component {
                 return { contact: item, isSelected: false };
               }
             });
-
+           
+           
             const sort = contacts.sort(function (a, b, index) {
-              console.log("e lse  ---->", a.givenName);
-              if (a.givenName == null) {
-              } else {
+              if (a.givenName !== null && b.givenName !== null) {
+            //   console.log(" ifff  ---->", b.givenName);
                 if (a.givenName.toLowerCase() < b.givenName.toLowerCase())
                   return -1;
                 if (a.givenName.toLowerCase() > b.givenName.toLowerCase())
                   return 1;
                 return 0;
+              } else {
+              //  this.state.shortData.push(a);
+                // if (a.givenName.toLowerCase() < b.givenName.toLowerCase())
+                //   return -1;
+                // if (a.givenName.toLowerCase() > b.givenName.toLowerCase())
+                //   return 1;
+                // return 0;
               }
             });
-
+           
+            
             this.setState({
               isLoading: false,
               // fetchedContacts: contactNumber,

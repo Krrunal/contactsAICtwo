@@ -142,7 +142,7 @@ export default StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     color: COLORS.main_text_color,
-    fontSize: width * 0.03,
+    fontSize: width * 0.032,
     width: width * 0.5,
     fontFamily: Font.medium,
    },
@@ -578,11 +578,11 @@ export default StyleSheet.create({
     height: width * 0.8,
     borderWidth: 1,
     borderRadius: 5,
-    borderColor: COLORS.main_text_color,
+    borderColor: COLORS.black,
      marginLeft: Metrics.smallMargin,
     flexDirection: "row",
     position: "relative",
-  
+ 
   },
   LeftView: {
     width: width * 0.53,
@@ -599,6 +599,7 @@ export default StyleSheet.create({
     borderColor: COLORS.main_text_color,
     justifyContent: "center",
     alignItems: "center",
+    flex:1
   },
   timeText: {
     color: COLORS.main_text_color,
@@ -606,7 +607,11 @@ export default StyleSheet.create({
     fontSize: width * 0.018,
     width: width * 0.11,
     height: width * 0.08,
-    
+    textAlign:'center',
+   
+    // justifyContent: "center",
+    // alignItems: "center",
+
   },
   workModal: {
     width: width,
@@ -649,13 +654,10 @@ export default StyleSheet.create({
     flexDirection: "row",
     marginTop: 10,
     alignItems: "center",
-  
   },
   selectTimezone: {
-    // alignItems: "center",
-    // justifyContent: "center",
-  //  flex: 1,
-    // marginRight: 5,
+    alignItems: "center",
+    justifyContent: "center",
     height: height * 0.04,
     width: width * 0.2,
     borderColor: COLORS.main_text_color,
@@ -665,11 +667,9 @@ export default StyleSheet.create({
   workText: {
     color: COLORS.main_text_color,
     fontFamily: Font.regular,
+    
   },
-
-  ///////
-
-  searchSection: {
+ searchSection: {
     alignItems: "center",
     flexDirection: "row",
     borderWidth: 1,
@@ -710,14 +710,11 @@ export default StyleSheet.create({
     height: width * 0.08,
     justifyContent: "center",
     alignItems: "center",
-    
-  },
-
+   },
   addNewBox: {
     marginLeft: Metrics.xdoubleBaseMargin,
   },
-
-  addNew: {
+ addNew: {
     fontFamily: Font.medium,
     fontSize: width * 0.03,
   },
@@ -751,11 +748,8 @@ export default StyleSheet.create({
    // height: height * 0.3,
     borderColor: COLORS.main_text_color,
   },
-
   labelContainer: {
-  
-  },
-
+    },
   label: {
     fontFamily: Font.medium,
     fontSize: width * 0.03,

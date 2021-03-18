@@ -219,6 +219,7 @@ class Login extends Component {
     phoneNumber,
     isVerified,
   }) => {
+    this.setState({ emailLogin: "" });
     console.log("Phone ----->", dialCode + "-" + unmaskedPhoneNumber );
     if (isVerified == true) {
       this.setState({ phone_number: dialCode + "-" + unmaskedPhoneNumber });
@@ -266,24 +267,7 @@ class Login extends Component {
         console.log("else 2 ---?",this.props.password);
       }
     }
-  // this.setState({ viewIntl: true });
-    // this.setState({ viewPhone: false });
-    // if (this.state.passSection == true) {
-    //   this.setState({ passSection: false });
-    //   this.setState({ viewIntl: true });
-    //   this.setState({ viewPhone: false });
-    // } else {
-    //   this.setState({ viewIntl: true });
-    //   this.setState({ viewPhone: false });
-    // }
-    // if (this.state.emailSection == true) {
-    //   this.setState({ emailSection: false });
-    //   this.setState({ viewIntl: true });
-    //   this.setState({ viewPhone: false });
-    // } else {
-    //   this.setState({ viewIntl: true });
-    //   this.setState({ viewPhone: false });
-    // }
+
   };
 
   passwordChange = (loginPassChange) => {
@@ -364,8 +348,7 @@ class Login extends Component {
     }
   };
   emailChange = (value) => {
-    this.setState({ loginUsername: "" });
-
+    this.setState({ loginUsername: ""  ,phone_number :"" });
     this.setState({ emailLogin: value });
   };
 

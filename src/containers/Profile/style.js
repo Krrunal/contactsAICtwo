@@ -8,520 +8,287 @@ import Metrics from "../theme/Metrics";
 
 var { width, height } = Dimensions.get("window");
 export default StyleSheet.create({
-  ImgBigView: {
-    justifyContent: "center",
-    width: width * 0.970,
-    height: height * 0.4,
+  container: {
+    flex: 1,
     backgroundColor: COLORS.white,
-    shadowColor: COLORS.black,
-    shadowOffset: {
-      width: 3,
-      height: 3,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-    elevation: 5,
-    borderRadius: 5,
-    padding:12
-    //borderWidth:5,
-    // borderColor:COLORS.main_sky_blue
-  },
-  dateView: {
-    width: width * 0.35,
-    justifyContent: "center",
-    marginLeft: Metrics.baseMargin,
-
-    height: height * 0.052,
-    marginTop: Metrics.xsmallMargin,
-  },
-  imgView: {
-    justifyContent: "center",
     alignItems: "center",
-    width: width * 0.9,
-    height: height * 0.3,
-   
-   
+    width:width
+  
   },
-
-  imgStyle: {
-    width:width * 0.85,
-    height: height * 0.28,
-    resizeMode:'contain',
-   
+  arrowView:{
+    alignItems:'center',
+    justifyContent:'center',
+ },
+ arrowStyle:{
+  width: width * 0.2,
+  height: height * 0.2,
+  resizeMode:'contain',
+},
+personImageStyle :{
+  width: width * 0.5,
+  height: height * 0.3,
+  marginTop: Metrics.xbaseMargin,
+},
+searchSection: {
+  alignItems: "center",
+  flexDirection: "row",
+  borderWidth: 1,
+  borderRadius: 5,
+  borderColor: COLORS.main_text_color,
+  height: height * 0.065,
+  paddingHorizontal: 5,
+  marginVertical: 5,
+  position: "relative",
+  width: width * 0.7,
+  marginLeft: Metrics.smallMargin,
+  marginBottom: Metrics.baseMargin,
+  marginRight: Metrics.smallMargin,
+  marginTop: Metrics.xsmallMargin,
+  backgroundColor:COLORS.white
+},
+searchSectionAddress: {
+  flexDirection: "row",
+  borderWidth: 1,
+  borderColor: COLORS.main_text_color,
+  borderRadius: 10,
+  paddingHorizontal: 5,
+  marginVertical: 5,
+  position: "relative",
+  width: width * 0.7,
+  height: height * 0.15,
+  marginLeft: Metrics.smallMargin,
+  marginBottom: Metrics.smallMargin,
+  marginRight: Metrics.smallMargin,
+  marginTop: Metrics.xsmallMargin,
+  backgroundColor:COLORS.white
+},
+stylefiledText: {
+  marginLeft: Metrics.smallMargin,
+  justifyContent: "center",
+  alignItems: "center",
+  color: COLORS.main_text_color,
+  fontSize: width * 0.035,
+  width: width * 0.4,
+ fontFamily: Font.medium,
+},
+doubleImaageView:{
+  marginTop:Metrics.baseMargin,
+  justifyContent:'center',
+  flexDirection:'row',
+  alignItems:'center'
+},
+rightView: {
+  alignItems: "flex-end",
+  justifyContent: "flex-start",
+  flex: 1,
+  marginRight: Metrics.smallMargin,
+},
+righttext: {
+  color: COLORS.main_text_color,
+  fontFamily: Font.regular,
+  fontSize: width * 0.022,
+  textAlign: "right",
+},
+innerStyle: {
+  width: width * 0.1,
+  height: width * 0.1,
+},
+smallIcon:{
+  width: width * 0.05,
+  height: height * 0.03,
+  resizeMode:'contain',
+  paddingHorizontal:Metrics.xbaseMargin
+},
+saveView: {
+  justifyContent: "center",
+  alignItems: "center",
+  width: width * 0.2,
+  height: height * 0.06,
+  backgroundColor: COLORS.white,
+  shadowColor: COLORS.black,
+  shadowOffset: {
+    width: 3,
+    height: 3,
   },
+  shadowOpacity: 0.25,
+  shadowRadius: 4,
+  elevation: 5,
+  borderRadius: 5,
+  marginBottom: 30,
+  marginTop: 10,
+},
+addressRightView: {
+  alignItems: "flex-end",
+  justifyContent: "flex-end",
+  flex: 1,
+  marginRight: Metrics.smallMargin,
+  paddingBottom: 10,
+},
 
-  OverImageText: {
+addressRighttext: {
+  color: COLORS.main_text_color,
+  fontFamily: Font.regular,
+  fontSize: width * 0.02,
+  textAlign: "right",
+},
+compnyRightText: {
+  color: COLORS.main_text_color,
+  fontFamily: Font.regular,
+  fontSize: width * 0.03,
+  textAlign: "right",
+},
+workView: {
+  width: width * 0.7,
+  height: width * 0.8,
+  borderWidth: 1,
+  borderRadius: 5,
+  borderColor: COLORS.main_text_color,
+  marginLeft: Metrics.smallMargin,
+  flexDirection: "row",
+  position: "relative",
+
+},
+checkedIcon: {
+  width: width * 0.05,
+  height: width * 0.05,
+  resizeMode: "contain",
+  marginTop: 6,
+},
+timeView: {
+  width: width * 0.1,
+  borderWidth: 1,
+  height: width * 0.08,
+  marginLeft: 10,
+  borderRadius: 4,
+  borderColor: COLORS.main_text_color,
+  justifyContent: "center",
+  alignItems: "center",
+  // flex:1
+},
+timeText: {
+  color: COLORS.main_text_color,
+  fontFamily: Font.regular,
+  fontSize: width * 0.018,
+  width: width * 0.11,
+  height: width * 0.08,
+  textAlign:'center',
+  // justifyContent: "center",
+  // alignItems: "center",
+
+},
+workText: {
+  color: COLORS.main_text_color,
+  fontFamily: Font.regular,
+  
+},
+selectTimezone: {
+  alignItems: "center",
+  justifyContent: "center",
+  height: height * 0.04,
+  width: width * 0.18,
+  borderColor: COLORS.main_text_color,
+  borderWidth: 1,
+  borderRadius: 10,
+},
+workModalView: {
+  backgroundColor: "rgba(0,0,0,0.0)",
+  margin: 0,
+  height: height,
+  width: width * 0.4,
+  alignItems: "flex-end",
+  justifyContent: "flex-end",
+  position: "absolute",
+  bottom: width * 0.93,
+  flexDirection: "row",
+  right: 0,
+},
+content: {
+  width: width * 0.4,
+  height: height * 0.25,
+  backgroundColor: COLORS.white,
+  shadowColor: COLORS.black,
+  shadowOffset: {
+    width: 3,
+    height: 3,
+  },
+  shadowOpacity: 0.25,
+  shadowRadius: 4,
+  elevation: 5,
+  borderRadius: 10,
+},
+LeftView: {
+  width: width * 0.53,
+  height: width * 0.8,
+  marginLeft: 10,
+},
+ dayView: {
+    flexDirection: "row",
+    marginTop: 10,
+    alignItems: "center",
+  },
+  modal: {
+    backgroundColor: "#ffffff",
     position: "absolute",
-    top: 2,
-    left: 5,
-    right: 0,
-    bottom: 0,
+    bottom: 15,
+    right: 10,
+    borderWidth: 2,
+    borderRadius: 10,
+    width: width * 0.35,
+   // height: height * 0.3,
+    borderColor: COLORS.main_text_color,
   },
-
-  backText: {
-    marginLeft: Metrics.smallMargin,
-    fontFamily: Font.medium,
-    fontSize: width * 0.04,
-    color: COLORS.main_text_color,
-
+  labelContainer: {
   },
-
-  profileText: {
-    color: COLORS.main_text_color,
-    marginLeft: Metrics.baseMargin,
-    marginTop: Metrics.xsmallMargin,
-    fontFamily: Font.medium,
-    fontSize: width * 0.06,
-  },
-
-  middleView: {
-    justifyContent: "center",
-    width: width * 0.97,
-    backgroundColor: COLORS.white,
-    shadowColor: COLORS.black,
-    shadowOffset: {
-      width: 3,
-      height: 3,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-    elevation: 5,
-    borderRadius: 5,
-    marginTop: Metrics.xsmallMargin,
-    alignItems: "center",
-    alignSelf: "center",
-  // borderWidth:1
-  },
-
-  IconView: {
-    justifyContent: "center",
-    width: width * 0.16,
-    alignItems: "center",
-  },
-
-  iconContainer: {
-    width: width * 0.082,
-    height: width * 0.082,
-    alignItems: "center",
-    justifyContent: "center",
-    // borderWidth: 1
-  },
-
-  callImg: {
-    width: width * 0.082,
-    height: width * 0.082,
-    resizeMode: "contain"
-  },
-
-  iconText: {
-    marginTop: Metrics.xsmallMargin,
-  },
-
-  mainView: {
-    alignItems: "center",
-    flexDirection: "row",
-    width: width * 0.8,
-    height: height * 0.1,
-    justifyContent: "center",
-  },
-
-  innerStyle: {
-    width: width * 0.1,
-    height: width * 0.11,
-  },
-
-  filedView: {
-    width: width * 0.8,
-    height: height * 0.06,
-    backgroundColor: COLORS.white,
-    shadowColor: COLORS.black,
-    shadowOffset: {
-      width: 2,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-    elevation: 5,
-    borderRadius: 5,
-    marginLeft: Metrics.xsmallMargin,
-    flexDirection: "row",
-    alignItems:'center',
-   
-  },
-  mobileInputText: {
-    fontSize: width * 0.035,
-    fontFamily: Font.regular,
-    color: COLORS.main_text_color,
-
-  },
-  filedViewtwo: {
-    width: width * 0.8,
-    height: height * 0.06,
-    backgroundColor: COLORS.white,
-    shadowColor: COLORS.black,
-    shadowOffset: {
-      width: 2,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-    elevation: 5,
-    borderRadius: 5,
-    marginLeft: Metrics.xsmallMargin,
-    flexDirection: "row",
-  },
-
-  stylefiledText: {
-    marginLeft: Metrics.smallMargin,
-    color: COLORS.main_text_color,
-    fontFamily: Font.regular,
-    width: width * 0.55,
-    fontSize: width * 0.035,
-      padding:10,
-   
-    marginBottom:Metrics.smallMargin
-  },
-
-  renderView: {
-    marginTop: Metrics.baseMargin,
-    marginLeft: Metrics.smallMargin,
-  },
-
-  rightView: {
-    alignItems: "center",
-    justifyContent: "flex-end",
-    flexDirection: "row",
-    flex: 1,
-    marginRight: Metrics.xsmallMargin,
-    // alignItems: "flex-end",
-    // justifyContent: "center",
-    // flex: 1,
-    // marginRight: Metrics.smallMargin,
-  },
-
-  rightViewAdress: {
-    alignItems: "center",
-    justifyContent: "flex-end",
-    flexDirection: "row",
-    flex: 1,
-    marginRight: Metrics.smallMargin,
-    marginTop: Metrics.baseMargin,
-  },
-
-  righttext: {
-    color: COLORS.main_text_color,
-    fontSize: width * 0.023,
-    fontFamily: Font.light,
-    textAlign: "right",
-    marginRight: Metrics.xsmallMargin,
-    marginBottom:Metrics.smallMargin
-  },
-
-  righttextAdreess: {
-    color: COLORS.main_text_color,
-    fontSize: width * 0.025,
-    fontFamily: Font.light,
-    textAlign: "right",
-  },
-
-  fieldMain: {
-    alignItems: "center",
-    flex: 1,
-    width: width,
-    marginLeft: Metrics.xsmallMargin,
-  },
-
-  filedViewRightTwo: {
-    width: width * 0.8,
-    height: height * 0.06,
-    backgroundColor: COLORS.white,
-    shadowColor: COLORS.black,
-    shadowOffset: {
-      width: 2,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-    elevation: 5,
-    borderRadius: 5,
-    marginTop: Metrics.smallMargin,
-    flexDirection: "row",
-    alignItems:'center',
-  },
-
-  editImg: {
-    width: width * 0.04,
-    height: width * 0.04,
-    marginRight: 12,
-    resizeMode:'contain'
-  },
-
-  rightTwoImg: {
-    flexDirection: "row",
-    width: width * 0.15,
-    justifyContent:"flex-end",
-    marginTop:Metrics.xsmallMargin,
- 
-  },
-
-  resetImg: {
-    justifyContent: "flex-end",
-    flexDirection: "row",
-    flex: 1,
-  },
-
-  filedViewAddress: {
-    width: width * 0.8,
-   // height: height * 0.13,
-    backgroundColor: COLORS.white,
-    shadowColor: COLORS.black,
-    shadowOffset: {
-      width: 2,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-    elevation: 5,
-    borderRadius: 5,
-    marginLeft: Metrics.smallMargin,
-    flexDirection: "row",
-  },
-
-  stylefiledTextAddress: {
-    marginLeft: Metrics.smallMargin,
-    marginLeft: 15,
-    color: COLORS.main_text_color,
-    fontSize: width * 0.036,
-    fontFamily: Font.regular,
-  },
-
-  filedViewRightTwoCompany: {
-    width: width * 0.8,
-   // height: height * 0.25,
-    backgroundColor: COLORS.white,
-    shadowColor: COLORS.black,
-    shadowOffset: {
-      width: 2,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-    elevation: 5,
-    borderRadius: 5,
-    marginTop: Metrics.smallMargin,
-    marginBottom: Metrics.baseMargin,
-  },
-
-  stylefiledTextCompany: {
-    marginLeft: Metrics.smallMargin,
-    color: COLORS.main_text_color,
-    fontFamily: Font.regular,
-    width: width * 0.5,
-  },
-
-  rightTwoCompany: {
-    flexDirection: "row",
-    width: width * 0.15,
-    justifyContent: "flex-end",
-    flexDirection: "row",
-    flex: 1,
-    borderWidth:1
-  },
-
-  saveView: {
-    justifyContent: "center",
-    alignItems: "center",
-    width: width * 0.2,
-    height: height * 0.065,
-    backgroundColor: COLORS.white,
-    shadowColor: COLORS.black,
-    shadowOffset: {
-      width: 3,
-      height: 3,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-    elevation: 5,
-    borderRadius: 5,
-    marginBottom: Metrics.baseMargin,
-    marginTop: Metrics.baseMargin,
-  },
-  textIcon:{
-    marginTop: Metrics.xsmallMargin,
+  label: {
     fontFamily: Font.medium,
     fontSize: width * 0.03,
-    color:COLORS.main_text_color
-  },
-  dateText: {
-    fontFamily: Font.regular,
-    fontSize: width * 0.036,
+    padding: 10,
     color: COLORS.main_text_color,
-    marginLeft: Metrics.smallMargin,
   },
-
-  footerModal: {
-    justifyContent: "center",
-    width: width,
-    height: height * 0.7,
-    opacity: 0.5,
+  customView: {
+    flexDirection: "row",
   },
-  addressRightView: {
+  customRight: {
     alignItems: "flex-end",
-    //justifyContent: "flex-end",
     flex: 1,
     marginRight: Metrics.smallMargin,
-    paddingBottom: 10,
-    marginTop: Metrics.smallMargin,
   },
-  iconSize: {
-    color: COLORS.main_text_color,
-    textAlign: "right",
-  },
-
-  addressRighttext: {
-    color: COLORS.main_text_color,
-    fontFamily: Font.regular,
-    fontSize: width * 0.02,
-    textAlign: "right",
-    marginTop: Metrics.smallMargin,
-  },
-  contactContent: {
-    margin: 0,
-    height: height,
-    width: width,
-    backgroundColor: "rgba(0,0,0,0.6)",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-
-  content: {
-    width: width * 0.9,
-    backgroundColor: COLORS.white,
-    shadowColor: COLORS.black,
-    shadowOffset: {
-      width: 3,
-      height: 3,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-    elevation: 5,
-    borderRadius: 10,
-    paddingVertical: height * 0.02,
-    paddingHorizontal: width * 0.05,
-  },
-
-  labelName: {
-    fontFamily: Font.regular,
-    fontSize: width * 0.043,
-    color: COLORS.main_text_color,
-    marginVertical: height * 0.01,
-  },
-  modalHeader: {
+  cutomTextInput: {
+    borderWidth: 1,
+    marginBottom: 15,
+    marginHorizontal: 10,
+    height: 40,
+    paddingHorizontal: 10,
     fontFamily: Font.medium,
-    fontSize: width * 0.045,
-    alignSelf: "center",
-  },
-
-  addLabelField: {
-    borderWidth: 1,
-    borderColor: COLORS.main_text_color,
-    borderRadius: 5,
-    marginTop: Metrics.baseMargin,
-  },
-  workView:{
-    width: width * 0.8,
-    height: width * 0.8,
-    backgroundColor: COLORS.white,
-    shadowColor: COLORS.black,
-    shadowOffset: {
-      width: 2,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-    elevation: 5,
-    borderRadius: 5,
-    marginLeft: Metrics.smallMargin,
-    flexDirection:'row',
-    position:'relative',
-    marginBottom: Metrics.smallMargin,
-  //  alignItems: "center",
-  },
-  LeftView:{
-    width: width * 0.53,
-    height: width * 0.8,
-    marginLeft:10,
-   
-  },
-  workText:{
+    fontSize: width * 0.03,
     color: COLORS.main_text_color,
-    fontFamily: Font.regular,
-   
   },
-  timeView: {
-    width: width * 0.14,
-    borderWidth: 1,
-    height: width * 0.08,
-    marginLeft: 10,
-    borderRadius: 4,
+  modalBtn: {
     borderColor: COLORS.main_text_color,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  timeText:{
-    color: COLORS.main_text_color,
-    fontFamily: Font.regular,
-    fontSize: width * 0.018,
-    width: width * 0.11,
-    
-  },
-  workModal:{
-    width: width,
-    height: height * 0.4,
-    opacity: 0.5,
-   
-  },
-  workModalView:{
-    backgroundColor: "rgba(0,0,0,0.0)",
-    margin: 0,
-    height: height,
-    width: width * 0.4,
-    alignItems:'flex-end',
-    justifyContent:'flex-end',
-    position:'absolute',
-    bottom: width * 0.23,
-    flexDirection:'row',
-    right:25
-  },
-  content: {
-    width: width * 0.4,
-    height: height * 0.25,
-    backgroundColor: COLORS.white,
-    shadowColor: COLORS.black,
-    shadowOffset: {
-      width: 3,
-      height: 3,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-    elevation: 5,
-    borderRadius: 10,
-   
-  },
-  dayView:{
-    flexDirection:'row',
-    marginTop:10,
-    alignItems:'center',
-  },
-  selectTimezone:{
-    alignItems: "center",
-    justifyContent: "center",
-    //flex: 1,
-    // marginRight: 5,
-    height: height * 0.04,
+    borderRadius: 11,
+    borderWidth: 1,
     width: width * 0.2,
-    // borderColor: COLORS.main_text_color,
-    // borderWidth: 1,
-    // borderRadius: 10,
+    height: width * 0.08,
+    justifyContent: "center",
+    alignItems: "center",
+   },
+   selectTypeText: {
+    fontFamily: Font.light,
+    fontSize: width * 0.023,
+    color: COLORS.main_text_color,
+  },
+  addNew: {
+    fontFamily: Font.medium,
+    fontSize: width * 0.035,
+  },
+  addNewBox: {
+    marginLeft: Metrics.xdoubleBaseMargin,
+  },
+  removeNew: {
+    fontFamily: Font.medium,
+    fontSize: width * 0.03,
+    marginRight: Metrics.baseMargin,
+    color: COLORS.red,
   },
 });
+
