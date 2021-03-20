@@ -1505,8 +1505,22 @@ class searchContact extends Component {
         )}
 
         {/* {item.isImport == false ? ( */}
+          {item.item.isManually  == true ? 
+          <Image source={edit} style={styles.editImgStyle} />
+          : null}
+         {item.item.isImport  == true ? 
+         <Image source={edit} style={styles.editImgStyle} />
+        : null}
+        
+        {item.item.isImport  == false ?
+        <Image source={reset} style={styles.resetImgStyle} />
+         :null
+         }
+        {item.item.serverDatapdate  == true ? 
         <Image source={edit} style={styles.editImgStyle} />
+        : null}
         {/* // ) : (
+        
         //   <Image source={reset} style={styles.resetImgStyle} />
         // )} */}
       </TouchableOpacity>

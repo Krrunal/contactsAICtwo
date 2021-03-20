@@ -192,7 +192,8 @@ class Profile extends Component {
       notificationTime: [],
       s_label_name: "",
       eachUserData: "",
-      mobileContactSection:false ,
+      mobileContactSection: false,
+      importedData: this.props.navigation.state.params.contactData,
     };
   }
   checkSettings = () => {
@@ -217,150 +218,151 @@ class Profile extends Component {
 
         if (responseJson.status == true) {
           firebase
-          .firestore()
-          .collection("user")
-          .doc(this.props.username)
-          .collection("contacts")
-          .doc(this.state.doc_id)
-          .update({
-            first_name: item.first_name == 1 ? fields.first_name : null,
-            last_name: item.last_name == 1 ? fields.last_name : null,
-            first_name_small: fields.first_name.toLowerCase(),
-            last_name_small: fields.last_name.toLowerCase(),
-            number:(item.phone_number == 1) !== "" ? fields.number[0].phone : "",
-            address:
-              item.address == 1
-                ? fields.address !== ""
-                  ? fields.address[0].address
-                  : ""
-                : "",
-            email:
-              item.email == 1
-                ? fields.email !== ""
-                  ? fields.email[0].email
-                  : ""
-                : "",
-            messenger:
-              item.messenger == 1
-                ? fields.messenger !== ""
-                  ? fields.messenger[0].messenger
-                  : ""
-                : "",
-            website:
-              item.website == 1
-                ? fields.website !== ""
-                  ? fields.website[0].website
-                  : ""
-                : "",
-            date:
-              item.date == 1
-                ? fields.date !== ""
-                  ? fields.date[0].date
-                  : ""
-                : "",
-            note:
-              item.note == 1
-                ? fields.note !== ""
-                  ? fields.note[0].note
-                  : ""
-                : "",
-            company:
-              item.company == 1
-                ? fields.company !== ""
-                  ? fields.company[0].company
-                  : ""
-                : "",
-            jobTitle:
-              item.jobTitle == 1
-                ? fields.jobTitle !== ""
-                  ? fields.jobTitle[0].jobTitle
-                  : ""
-                : "",
-            monday:
-              item.monday == 1
-                ? fields.monday !== ""
-                  ? fields.monday[0].monday
-                  : ""
-                : "",
-            mondayTo:
-              item.mondayTo == 1
-                ? fields.mondayTo !== ""
-                  ? fields.mondayTo[0].mondayTo
-                  : ""
-                : "",
-            tuesday:
-              item.tuesday == 1
-                ? fields.tuesday !== ""
-                  ? fields.tuesday[0].tuesday
-                  : ""
-                : "",
-            tuesdayTo:
-              item.tuesdayTo == 1
-                ? fields.tuesdayTo !== ""
-                  ? fields.tuesdayTo[0].tuesdayTo
-                  : ""
-                : "",
-            wednesday:
-              item.wednesday == 1
-                ? fields.wednesday !== ""
-                  ? fields.wednesday[0].wednesday
-                  : ""
-                : "",
-            wednesdayTo:
-              item.wednesdayTo == 1
-                ? fields.wednesdayTo !== ""
-                  ? fields.wednesdayTo[0].wednesdayTo
-                  : ""
-                : "",
-            thursday:
-              item.thursday == 1
-                ? fields.thursday !== ""
-                  ? fields.thursday[0].thursday
-                  : ""
-                : "",
-            thursdayTo:
-              item.thursdayTo == 1
-                ? fields.thursdayTo !== ""
-                  ? fields.thursdayTo[0].thursdayTo
-                  : ""
-                : "",
-            friday:
-              item.friday == 1
-                ? fields.friday !== ""
-                  ? fields.friday[0].friday
-                  : ""
-                : "",
-            fridayTo:
-              item.fridayTo == 1
-                ? fields.fridayTo !== ""
-                  ? fields.fridayTo[0].fridayTo
-                  : ""
-                : "",
-            saturday:
-              item.saturday == 1
-                ? fields.saturday !== ""
-                  ? fields.saturday[0].saturday
-                  : ""
-                : "",
-            saturdayTo:
-              item.saturdayTo == 1
-                ? fields.saturdayTo !== ""
-                  ? fields.saturdayTo[0].saturdayTo
-                  : ""
-                : "",
-            sunday:
-              item.sunday == 1
-                ? fields.sunday !== ""
-                  ? fields.sunday[0].sunday
-                  : ""
-                : "",
-            sundayTo:
-              item.sundayTo == 1
-                ? fields.sundayTo !== ""
-                  ? fields.sundayTo[0].sundayTo
-                  : ""
-                : "",
-          });
+            .firestore()
+            .collection("user")
+            .doc(this.props.username)
+            .collection("contacts")
+            .doc(this.state.doc_id)
+            .update({
+              first_name: item.first_name == 1 ? fields.first_name : null,
+              last_name: item.last_name == 1 ? fields.last_name : null,
+              first_name_small: fields.first_name.toLowerCase(),
+              last_name_small: fields.last_name.toLowerCase(),
+              number:
+                (item.phone_number == 1) !== "" ? fields.number[0].phone : "",
+              address:
+                item.address == 1
+                  ? fields.address !== ""
+                    ? fields.address[0].address
+                    : ""
+                  : "",
+              email:
+                item.email == 1
+                  ? fields.email !== ""
+                    ? fields.email[0].email
+                    : ""
+                  : "",
+              messenger:
+                item.messenger == 1
+                  ? fields.messenger !== ""
+                    ? fields.messenger[0].messenger
+                    : ""
+                  : "",
+              website:
+                item.website == 1
+                  ? fields.website !== ""
+                    ? fields.website[0].website
+                    : ""
+                  : "",
+              date:
+                item.date == 1
+                  ? fields.date !== ""
+                    ? fields.date[0].date
+                    : ""
+                  : "",
+              note:
+                item.note == 1
+                  ? fields.note !== ""
+                    ? fields.note[0].note
+                    : ""
+                  : "",
+              company:
+                item.company == 1
+                  ? fields.company !== ""
+                    ? fields.company[0].company
+                    : ""
+                  : "",
+              jobTitle:
+                item.jobTitle == 1
+                  ? fields.jobTitle !== ""
+                    ? fields.jobTitle[0].jobTitle
+                    : ""
+                  : "",
+              monday:
+                item.monday == 1
+                  ? fields.monday !== ""
+                    ? fields.monday[0].monday
+                    : ""
+                  : "",
+              mondayTo:
+                item.mondayTo == 1
+                  ? fields.mondayTo !== ""
+                    ? fields.mondayTo[0].mondayTo
+                    : ""
+                  : "",
+              tuesday:
+                item.tuesday == 1
+                  ? fields.tuesday !== ""
+                    ? fields.tuesday[0].tuesday
+                    : ""
+                  : "",
+              tuesdayTo:
+                item.tuesdayTo == 1
+                  ? fields.tuesdayTo !== ""
+                    ? fields.tuesdayTo[0].tuesdayTo
+                    : ""
+                  : "",
+              wednesday:
+                item.wednesday == 1
+                  ? fields.wednesday !== ""
+                    ? fields.wednesday[0].wednesday
+                    : ""
+                  : "",
+              wednesdayTo:
+                item.wednesdayTo == 1
+                  ? fields.wednesdayTo !== ""
+                    ? fields.wednesdayTo[0].wednesdayTo
+                    : ""
+                  : "",
+              thursday:
+                item.thursday == 1
+                  ? fields.thursday !== ""
+                    ? fields.thursday[0].thursday
+                    : ""
+                  : "",
+              thursdayTo:
+                item.thursdayTo == 1
+                  ? fields.thursdayTo !== ""
+                    ? fields.thursdayTo[0].thursdayTo
+                    : ""
+                  : "",
+              friday:
+                item.friday == 1
+                  ? fields.friday !== ""
+                    ? fields.friday[0].friday
+                    : ""
+                  : "",
+              fridayTo:
+                item.fridayTo == 1
+                  ? fields.fridayTo !== ""
+                    ? fields.fridayTo[0].fridayTo
+                    : ""
+                  : "",
+              saturday:
+                item.saturday == 1
+                  ? fields.saturday !== ""
+                    ? fields.saturday[0].saturday
+                    : ""
+                  : "",
+              saturdayTo:
+                item.saturdayTo == 1
+                  ? fields.saturdayTo !== ""
+                    ? fields.saturdayTo[0].saturdayTo
+                    : ""
+                  : "",
+              sunday:
+                item.sunday == 1
+                  ? fields.sunday !== ""
+                    ? fields.sunday[0].sunday
+                    : ""
+                  : "",
+              sundayTo:
+                item.sundayTo == 1
+                  ? fields.sundayTo !== ""
+                    ? fields.sundayTo[0].sundayTo
+                    : ""
+                  : "",
+            });
           this.showDateAfterUpdate();
         }
         if (responseJson.status == false) {
@@ -440,7 +442,7 @@ class Profile extends Component {
     this.showDateAfterUpdate();
   };
   showDateAfterUpdate = () => {
-    console.log("hello from show me afer----?>")
+    console.log("hello from show me afer----?>");
     firebase
       .firestore()
       .collection("user")
@@ -450,7 +452,7 @@ class Profile extends Component {
       .get()
       .then((snap) => {
         let FN = snap._data;
-        this.setState({ selectedData : snap._data })
+        this.setState({ selectedData: snap._data });
         this.setState({ eachUserData: snap._data });
         this.setState({ profile_image: FN.profile_image });
         this.setState({ profile_image2: FN.profile_image2 });
@@ -469,25 +471,98 @@ class Profile extends Component {
         this.setState({ address2: FN.address2 });
         this.setState({ messenger: FN.messenger1 });
         this.setState({ socialMedia: FN.socialMedia });
-        {FN.website == "" ? null : this.setState({ website: FN.website[0].website });}  
-        {FN.date == "" ? null :   this.setState({ date: FN.date[0].date });}  
-        {FN.note == "" ? null :  this.setState({ note: FN.note[0].note });}  
-        {FN.company == "" ? null :  this.setState({ company: FN.company[0].company });}  
-        {FN.jobTitle == "" ? null :  this.setState({ jobTitle: FN.jobTitle[0].jobTitle });}  
-        {FN.monday == "" ? null :  this.setState({ Monday: FN.monday[0].monday });}  
-        {FN.mondayTo == "" ? null : this.setState({ MondayTo: FN.mondayTo[0].mondayTo });}  
-        {FN.tuesday == "" ? null :  this.setState({ Tuesday: FN.tuesday[0].tuesday });}  
-        {FN.tuesdayTo == "" ? null : this.setState({ TuesdayTo: FN.tuesdayTo[0].tuesdayTo });}  
-        {FN.wednesday == "" ? null :  this.setState({ Wednesday: FN.wednesday[0].wednesday });}  
-        {FN.wednesdayTo == "" ? null : this.setState({ WednesdayTo: FN.wednesdayTo[0].wednesdayTo });}  
-        {FN.thursday == "" ? null :   this.setState({ Thursday: FN.thursday[0].thursday });}  
-        {FN.thursdayTo == "" ? null : this.setState({ ThursdayTo: FN.thursdayTo[0].thursdayTo });}  
-        {FN.friday == "" ? null :  this.setState({ Friday: FN.friday[0].friday });}  
-        {FN.fridayTo == "" ? null : this.setState({ FridayTo: FN.fridayTo[0].fridayTo });}  
-        {FN.saturday == "" ? null : this.setState({ Saturday: FN.saturday[0].saturday });}  
-        {FN.saturdayTo == "" ? null : this.setState({ SaturdayTo: FN.saturdayTo[0].saturdayTo });}  
-        {FN.sunday == "" ? null :  this.setState({ Sunday: FN.sunday[0].sunday });}  
-        {FN.sundayTo == "" ? null : this.setState({ SundayTo: FN.sundayTo[0].sundayTo });}  
+        {
+          FN.website == ""
+            ? null
+            : this.setState({ website: FN.website[0].website });
+        }
+        {
+          FN.date == "" ? null : this.setState({ date: FN.date[0].date });
+        }
+        {
+          FN.note == "" ? null : this.setState({ note: FN.note[0].note });
+        }
+        {
+          FN.company == ""
+            ? null
+            : this.setState({ company: FN.company[0].company });
+        }
+        {
+          FN.jobTitle == ""
+            ? null
+            : this.setState({ jobTitle: FN.jobTitle[0].jobTitle });
+        }
+        {
+          FN.monday == ""
+            ? null
+            : this.setState({ Monday: FN.monday[0].monday });
+        }
+        {
+          FN.mondayTo == ""
+            ? null
+            : this.setState({ MondayTo: FN.mondayTo[0].mondayTo });
+        }
+        {
+          FN.tuesday == ""
+            ? null
+            : this.setState({ Tuesday: FN.tuesday[0].tuesday });
+        }
+        {
+          FN.tuesdayTo == ""
+            ? null
+            : this.setState({ TuesdayTo: FN.tuesdayTo[0].tuesdayTo });
+        }
+        {
+          FN.wednesday == ""
+            ? null
+            : this.setState({ Wednesday: FN.wednesday[0].wednesday });
+        }
+        {
+          FN.wednesdayTo == ""
+            ? null
+            : this.setState({ WednesdayTo: FN.wednesdayTo[0].wednesdayTo });
+        }
+        {
+          FN.thursday == ""
+            ? null
+            : this.setState({ Thursday: FN.thursday[0].thursday });
+        }
+        {
+          FN.thursdayTo == ""
+            ? null
+            : this.setState({ ThursdayTo: FN.thursdayTo[0].thursdayTo });
+        }
+        {
+          FN.friday == ""
+            ? null
+            : this.setState({ Friday: FN.friday[0].friday });
+        }
+        {
+          FN.fridayTo == ""
+            ? null
+            : this.setState({ FridayTo: FN.fridayTo[0].fridayTo });
+        }
+        {
+          FN.saturday == ""
+            ? null
+            : this.setState({ Saturday: FN.saturday[0].saturday });
+        }
+        {
+          FN.saturdayTo == ""
+            ? null
+            : this.setState({ SaturdayTo: FN.saturdayTo[0].saturdayTo });
+        }
+        {
+          FN.sunday == ""
+            ? null
+            : this.setState({ Sunday: FN.sunday[0].sunday });
+        }
+        {
+          FN.sundayTo == ""
+            ? null
+            : this.setState({ SundayTo: FN.sundayTo[0].sundayTo });
+        }
+        this.setState({ isLoading: false });
       });
   };
   labelList = () => {
@@ -521,7 +596,7 @@ class Profile extends Component {
     let fields = this.props.navigation.state.params.contactData;
 
     this.setState({
-     // selectedData: this.props.navigation.state.params.contactData,
+      importedData: this.props.navigation.state.params.contactData,
       u_name: fields.u_name,
     });
     // console.log('happyy--->',fields)
@@ -545,13 +620,13 @@ class Profile extends Component {
           snap.forEach((doc) => {
             if (fields.u_name == doc._data.u_name) {
               this.setState({ s_label_name: fields.s_label_name });
-              console.log("helloo----->  ", fields.u_name);
+              console.log("----->  ", fields.u_name);
               this.labelList();
             }
           });
         });
     } else {
-      this.setState({ isLoading: false  , mobileContactSection : true});
+      this.setState({ isLoading: false, mobileContactSection: true });
       this.setState({ first_name: fields.first_name });
       this.setState({ last_name: fields.last_name });
       this.setState({ u_name: fields.u_name });
@@ -866,16 +941,23 @@ class Profile extends Component {
                 </View>
               </View>
               {/* {this.state.mobileContactSection == false ?  */}
-               <View style={styles.doubleImaageView}>
-               {this.state.selectedData.first_name !== "" ? (
-                 <Image source={reset} style={styles.smallIcon} />
-               ) : null}
-               {this.state.selectedData.serverFNUpdate == true ? (
-                 <Image source={edit} style={styles.smallIcon} />
-               ) : null}
-             </View>
-             {/* : null } */}
-             
+
+              <View style={styles.doubleImaageView}>
+                {/* for server data */}
+                {this.state.selectedData.isImport == false ? (
+                  this.state.first_name !== "" ? (
+                    <Image source={reset} style={styles.smallIcon} />
+                  ) : null
+                ) : this.state.first_name !== "" ? (
+                  <Image source={edit} style={styles.smallIcon} />
+                ) : null}
+
+                {this.state.selectedData.serverFNUpdate == true ? (
+                  <Image source={edit} style={styles.smallIcon} />
+                ) : null}
+                {/* for server data */}
+              </View>
+              {/* : null } */}
             </View>
             <View style={{ flexDirection: "row" }}>
               <View style={styles.searchSection}>
@@ -905,9 +987,14 @@ class Profile extends Component {
                 </View>
               </View>
               <View style={styles.doubleImaageView}>
-                {this.state.last_name !== "" ? (
-                  <Image source={reset} style={styles.smallIcon} />
+                {this.state.selectedData.isImport == false ? (
+                  this.state.last_name !== "" ? (
+                    <Image source={reset} style={styles.smallIcon} />
+                  ) : null
+                ) : this.state.last_name !== "" ? (
+                  <Image source={edit} style={styles.smallIcon} />
                 ) : null}
+
                 {this.state.selectedData.serverLNUpdate == true ? (
                   <Image source={edit} style={styles.smallIcon} />
                 ) : null}
@@ -1073,9 +1160,13 @@ class Profile extends Component {
                           </TouchableOpacity>
                         </View>
                         <View style={styles.doubleImaageView}>
-                          {this.state.number1 !== "" ? null : (
-                            <Image source={reset} style={styles.smallIcon} />
-                          )}
+                          {this.state.selectedData.isImport == false ? (
+                            this.state.number1 !== "" ? (
+                              <Image source={reset} style={styles.smallIcon} />
+                            ) : null
+                          ) : this.state.number1 !== "" ? (
+                            <Image source={edit} style={styles.smallIcon} />
+                          ) : null}
 
                           {this.state.selectedData.serverNumberUpdate ==
                           true ? (
@@ -1096,9 +1187,13 @@ class Profile extends Component {
                           </View>
                         </TouchableOpacity>
                         <View style={styles.doubleImaageView}>
-                          {this.state.number1 == "" ? null : (
-                            <Image source={reset} style={styles.smallIcon} />
-                          )}
+                          {this.state.selectedData.isImport == false ? (
+                            this.state.number1 !== "" ? (
+                              <Image source={reset} style={styles.smallIcon} />
+                            ) : null
+                          ) : this.state.number1 !== "" ? (
+                            <Image source={edit} style={styles.smallIcon} />
+                          ) : null}
 
                           {this.state.selectedData.serverNumberUpdate ==
                           true ? (
@@ -1338,9 +1433,13 @@ class Profile extends Component {
                         </TouchableOpacity>
                       </View>
                       <View style={styles.doubleImaageView}>
-                        {this.state.email == "" ? null : (
-                          <Image source={reset} style={styles.smallIcon} />
-                        )}
+                        {this.state.selectedData.isImport == false ? (
+                          this.state.email !== "" ? (
+                            <Image source={reset} style={styles.smallIcon} />
+                          ) : null
+                        ) : this.state.email !== "" ? (
+                          <Image source={edit} style={styles.smallIcon} />
+                        ) : null}
 
                         {this.state.selectedData.serverEmailUpdate == true ? (
                           <Image source={edit} style={styles.smallIcon} />
@@ -1358,9 +1457,13 @@ class Profile extends Component {
                         </View>
                       </TouchableOpacity>
                       <View style={styles.doubleImaageView}>
-                        {this.state.email == "" ? null : (
-                          <Image source={reset} style={styles.smallIcon} />
-                        )}
+                        {this.state.selectedData.isImport == false ? (
+                          this.state.email !== "" ? (
+                            <Image source={reset} style={styles.smallIcon} />
+                          ) : null
+                        ) : this.state.email !== "" ? (
+                          <Image source={edit} style={styles.smallIcon} />
+                        ) : null}
 
                         {this.state.selectedData.serverEmailUpdate == true ? (
                           <Image source={edit} style={styles.smallIcon} />
@@ -1600,9 +1703,13 @@ class Profile extends Component {
                         </View>
                       </View>
                       <View style={styles.doubleImaageView}>
-                        {this.state.address == "" ? null : (
-                          <Image source={reset} style={styles.smallIcon} />
-                        )}
+                        {this.state.selectedData.isImport == false ? (
+                          this.state.address !== "" ? (
+                            <Image source={reset} style={styles.smallIcon} />
+                          ) : null
+                        ) : this.state.address !== "" ? (
+                          <Image source={edit} style={styles.smallIcon} />
+                        ) : null}
 
                         {this.state.selectedData.serverAddressUpdate == true ? (
                           <Image source={edit} style={styles.smallIcon} />
@@ -1620,9 +1727,13 @@ class Profile extends Component {
                         </View>
                       </TouchableOpacity>
                       <View style={styles.doubleImaageView}>
-                        {this.state.address == "" ? null : (
-                          <Image source={reset} style={styles.smallIcon} />
-                        )}
+                        {this.state.selectedData.isImport == false ? (
+                          this.state.address !== "" ? (
+                            <Image source={reset} style={styles.smallIcon} />
+                          ) : null
+                        ) : this.state.address !== "" ? (
+                          <Image source={edit} style={styles.smallIcon} />
+                        ) : null}
 
                         {this.state.selectedData.serverAddressUpdate == true ? (
                           <Image source={edit} style={styles.smallIcon} />
@@ -1854,9 +1965,13 @@ class Profile extends Component {
                         </TouchableOpacity>
                       </View>
                       <View style={styles.doubleImaageView}>
-                        {this.state.messenger == "" ? null : (
-                          <Image source={reset} style={styles.smallIcon} />
-                        )}
+                        {this.state.selectedData.isImport == false ? (
+                          this.state.messenger !== "" ? (
+                            <Image source={reset} style={styles.smallIcon} />
+                          ) : null
+                        ) : this.state.messenger !== "" ? (
+                          <Image source={edit} style={styles.smallIcon} />
+                        ) : null}
 
                         {this.state.selectedData.serverMessengerUpdate ==
                         true ? (
@@ -1875,9 +1990,13 @@ class Profile extends Component {
                         </View>
                       </TouchableOpacity>
                       <View style={styles.doubleImaageView}>
-                        {this.state.messenger == "" ? null : (
-                          <Image source={reset} style={styles.smallIcon} />
-                        )}
+                        {this.state.selectedData.isImport == false ? (
+                          this.state.messenger !== "" ? (
+                            <Image source={reset} style={styles.smallIcon} />
+                          ) : null
+                        ) : this.state.messenger !== "" ? (
+                          <Image source={edit} style={styles.smallIcon} />
+                        ) : null}
 
                         {this.state.selectedData.serverMessengerUpdate ==
                         true ? (
@@ -2113,9 +2232,13 @@ class Profile extends Component {
                         </TouchableOpacity>
                       </View>
                       <View style={styles.doubleImaageView}>
-                        {this.state.socialMedia == "" ? null : (
-                          <Image source={reset} style={styles.smallIcon} />
-                        )}
+                        {this.state.selectedData.isImport == false ? (
+                          this.state.socialMedia !== "" ? (
+                            <Image source={reset} style={styles.smallIcon} />
+                          ) : null
+                        ) : this.state.socialMedia !== "" ? (
+                          <Image source={edit} style={styles.smallIcon} />
+                        ) : null}
 
                         {this.state.selectedData.serverSocialUpdate == true ? (
                           <Image source={edit} style={styles.smallIcon} />
@@ -2133,9 +2256,13 @@ class Profile extends Component {
                         </View>
                       </TouchableOpacity>
                       <View style={styles.doubleImaageView}>
-                        {this.state.socialMedia == "" ? null : (
-                          <Image source={reset} style={styles.smallIcon} />
-                        )}
+                        {this.state.selectedData.isImport == false ? (
+                          this.state.socialMedia !== "" ? (
+                            <Image source={reset} style={styles.smallIcon} />
+                          ) : null
+                        ) : this.state.socialMedia !== "" ? (
+                          <Image source={edit} style={styles.smallIcon} />
+                        ) : null}
 
                         {this.state.selectedData.serverSocialUpdate == true ? (
                           <Image source={edit} style={styles.smallIcon} />
@@ -2368,9 +2495,13 @@ class Profile extends Component {
                         </TouchableOpacity>
                       </View>
                       <View style={styles.doubleImaageView}>
-                        {this.state.website == "" ? null : (
-                          <Image source={reset} style={styles.smallIcon} />
-                        )}
+                        {this.state.selectedData.isImport == false ? (
+                          this.state.website !== "" ? (
+                            <Image source={reset} style={styles.smallIcon} />
+                          ) : null
+                        ) : this.state.website !== "" ? (
+                          <Image source={edit} style={styles.smallIcon} />
+                        ) : null}
 
                         {this.state.selectedData.serverWebsiteUpdate == true ? (
                           <Image source={edit} style={styles.smallIcon} />
@@ -2389,9 +2520,13 @@ class Profile extends Component {
                         </View>
                       </TouchableOpacity>
                       <View style={styles.doubleImaageView}>
-                        {this.state.website == "" ? null : (
-                          <Image source={reset} style={styles.smallIcon} />
-                        )}
+                        {this.state.selectedData.isImport == false ? (
+                          this.state.website !== "" ? (
+                            <Image source={reset} style={styles.smallIcon} />
+                          ) : null
+                        ) : this.state.website !== "" ? (
+                          <Image source={edit} style={styles.smallIcon} />
+                        ) : null}
 
                         {this.state.selectedData.serverWebsiteUpdate == true ? (
                           <Image source={edit} style={styles.smallIcon} />
@@ -2667,9 +2802,13 @@ class Profile extends Component {
                           { marginLeft: Metrics.SmallMargin },
                         ]}
                       >
-                        {this.state.date == "" ? null : (
-                          <Image source={reset} style={styles.smallIcon} />
-                        )}
+                        {this.state.selectedData.isImport == false ? (
+                          this.state.date !== "" ? (
+                            <Image source={reset} style={styles.smallIcon} />
+                          ) : null
+                        ) : this.state.date !== "" ? (
+                          <Image source={edit} style={styles.smallIcon} />
+                        ) : null}
 
                         {this.state.selectedData.serverdateUpdate == true ? (
                           <Image source={edit} style={styles.smallIcon} />
@@ -2907,9 +3046,13 @@ class Profile extends Component {
                         </View>
                       </View>
                       <View style={styles.doubleImaageView}>
-                        {this.state.note == "" ? null : (
-                          <Image source={reset} style={styles.smallIcon} />
-                        )}
+                        {this.state.selectedData.isImport == false ? (
+                          this.state.note !== "" ? (
+                            <Image source={reset} style={styles.smallIcon} />
+                          ) : null
+                        ) : this.state.note !== "" ? (
+                          <Image source={edit} style={styles.smallIcon} />
+                        ) : null}
 
                         {this.state.selectedData.serverNoteUpdate == true ? (
                           <Image source={edit} style={styles.smallIcon} />
@@ -2927,9 +3070,13 @@ class Profile extends Component {
                         </View>
                       </TouchableOpacity>
                       <View style={styles.doubleImaageView}>
-                        {this.state.note == "" ? null : (
-                          <Image source={reset} style={styles.smallIcon} />
-                        )}
+                        {this.state.selectedData.isImport == false ? (
+                          this.state.note !== "" ? (
+                            <Image source={reset} style={styles.smallIcon} />
+                          ) : null
+                        ) : this.state.note !== "" ? (
+                          <Image source={edit} style={styles.smallIcon} />
+                        ) : null}
 
                         {this.state.selectedData.serverNoteUpdate == true ? (
                           <Image source={edit} style={styles.smallIcon} />
@@ -3502,9 +3649,13 @@ class Profile extends Component {
                       </TouchableOpacity>
                     </View>
                     <View style={styles.doubleImaageView}>
-                      {this.state.company == "" ? null : (
-                        <Image source={reset} style={styles.smallIcon} />
-                      )}
+                      {this.state.selectedData.isImport == false ? (
+                        this.state.company !== "" ? (
+                          <Image source={reset} style={styles.smallIcon} />
+                        ) : null
+                      ) : this.state.company !== "" ? (
+                        <Image source={edit} style={styles.smallIcon} />
+                      ) : null}
 
                       {this.state.selectedData.serverCompanyUpdate == true ? (
                         <Image source={edit} style={styles.smallIcon} />
@@ -3538,9 +3689,13 @@ class Profile extends Component {
                       </TouchableOpacity>
                     </View>
                     <View style={styles.doubleImaageView}>
-                      {this.state.jobTitle == "" ? null : (
-                        <Image source={reset} style={styles.smallIcon} />
-                      )}
+                      {this.state.selectedData.isImport == false ? (
+                        this.state.jobTitle !== "" ? (
+                          <Image source={reset} style={styles.smallIcon} />
+                        ) : null
+                      ) : this.state.jobTitle !== "" ? (
+                        <Image source={edit} style={styles.smallIcon} />
+                      ) : null}
 
                       {this.state.selectedData.serverJobTitleUpdate == true ? (
                         <Image source={edit} style={styles.smallIcon} />
@@ -3973,9 +4128,13 @@ class Profile extends Component {
                           { marginLeft: Metrics.SmallMargin },
                         ]}
                       >
-                        {this.state.Monday == "" ? null : (
-                          <Image source={reset} style={styles.smallIcon} />
-                        )}
+                        {this.state.selectedData.isImport == false ? (
+                          this.state.Monday !== "" ? (
+                            <Image source={reset} style={styles.smallIcon} />
+                          ) : null
+                        ) : this.state.Monday !== "" ? (
+                          <Image source={edit} style={styles.smallIcon} />
+                        ) : null}
 
                         {this.state.selectedData.serverWorkHoursUpdate ==
                         true ? (
@@ -4026,9 +4185,13 @@ class Profile extends Component {
                           { marginLeft: Metrics.SmallMargin },
                         ]}
                       >
-                        {this.state.Monday == "" ? null : (
-                          <Image source={reset} style={styles.smallIcon} />
-                        )}
+                        {this.state.selectedData.isImport == false ? (
+                          this.state.Monday !== "" ? (
+                            <Image source={reset} style={styles.smallIcon} />
+                          ) : null
+                        ) : this.state.Monday !== "" ? (
+                          <Image source={edit} style={styles.smallIcon} />
+                        ) : null}
 
                         {this.state.selectedData.serverWorkHoursUpdate ==
                         true ? (
@@ -4424,9 +4587,13 @@ class Profile extends Component {
                           { marginLeft: Metrics.SmallMargin },
                         ]}
                       >
-                        {this.state.Monday == "" ? null : (
-                          <Image source={reset} style={styles.smallIcon} />
-                        )}
+                        {this.state.selectedData.isImport == false ? (
+                          this.state.Monday !== "" ? (
+                            <Image source={reset} style={styles.smallIcon} />
+                          ) : null
+                        ) : this.state.Monday !== "" ? (
+                          <Image source={edit} style={styles.smallIcon} />
+                        ) : null}
 
                         {this.state.selectedData.serverWorkHoursUpdate ==
                         true ? (
@@ -4863,8 +5030,15 @@ class Profile extends Component {
       dateSection,
     } = this.state;
     const { username } = this.props;
-    this.setState({ isLoading : true });
+    this.setState({ isLoading: true });
     console.log("fnnnn---->", fnSection);
+    firebase
+      .firestore()
+      .collection("user")
+      .doc(username)
+      .collection("contacts")
+      .doc(doc_id)
+      .update({ serverDatapdate: true });
     if (lnSection == true) {
       firebase
         .firestore()

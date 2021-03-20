@@ -132,6 +132,10 @@
         "source": "/Users/macmini/Desktop/contactsAICtwo/android/app/src/main/res/drawable-xhdpi/node_modules_reactnavigation_stack_src_views_assets_backicon.png"
     },
     {
+        "merged": "/Users/macmini/Desktop/contactsAICtwo/android/app/build/intermediates/res/merged/debug/drawable-mdpi_src_assets_images_delete.png.flat",
+        "source": "/Users/macmini/Desktop/contactsAICtwo/android/app/src/main/res/drawable-mdpi/src_assets_images_delete.png"
+    },
+    {
         "merged": "/Users/macmini/Desktop/contactsAICtwo/android/app/build/intermediates/res/merged/debug/raw_node_modules_reactnativevectoricons_glyphmaps_feather.json.flat",
         "source": "/Users/macmini/Desktop/contactsAICtwo/android/app/src/main/res/raw/node_modules_reactnativevectoricons_glyphmaps_feather.json"
     },

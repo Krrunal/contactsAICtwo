@@ -1097,7 +1097,7 @@ class searchContact2 extends Component {
     const { username } = this.props;
     let FN = shortcontacts[key];
     this.props.navigation.navigate("Profile", {
-      contactData: shortcontacts[key],
+      contactData: shortcontacts[key].item,
     });
   };
 
