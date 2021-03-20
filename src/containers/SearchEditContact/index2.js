@@ -18,8 +18,10 @@ import styled, { ThemeProvider } from "styled-components/native";
 
 import AsyncStorage from "@react-native-community/async-storage";
 import { COLORS } from "../theme/Colors";
+import CheckBox from "@react-native-community/checkbox";
 import Constants from "../../action/Constants";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
+import DeleteImg from "../../assets/images/delete.png";
 import { FA5Style } from "react-native-vector-icons/FontAwesome5";
 import Font from "../theme/font";
 import GeneralStatusBar from "../../components/StatusBar/index";
@@ -30,6 +32,8 @@ import { Spinner } from "../../components/Spinner";
 import _ from "lodash";
 import calender from "../../assets/images/calender.png";
 import call from "../../assets/images/call.png";
+import checkedModified from "../../assets/icons/checkedModified.png";
+import checkedWhite from "../../assets/icons/checkedWhite.png";
 import { connect } from "react-redux";
 import edit from "../../assets/images/edit.png";
 import email from "../../assets/images/email.png";
@@ -57,8 +61,9 @@ class searchContact2 extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      deletePortion: false,
       isVisible: false,
-      counter:0,
+      counter: 0,
       //data
       first_name: "",
       middle_name: "",
@@ -68,13 +73,14 @@ class searchContact2 extends Component {
       status: false,
       tz: [],
       tzs: "",
-
+      checkedOff: false,
       //
       contact: [],
       firstName: [],
       contacts: "",
       isLoading: false,
       shortcontacts: "",
+      shortcontact: "",
       filteredShortcontacts: [],
       nameContacts: "",
       query: "",
@@ -181,14 +187,17 @@ class searchContact2 extends Component {
       firstImage: "",
       userData: "",
       shortableContacts: [],
+      doc_ID: [],
+      doc_IDS: "",
+      isSelect: [],
+      deleteID: [],
     };
   }
 
-  handleBackButton = () => {
-    if (this.props.isLogedIn == false) {
-    } else {
-      BackHandler.exitApp();
-      return true;
+  backAction = () => {
+    alert(this.state.contactInfoSection);
+    if (this.state.contactInfoSection == true) {
+      this.setState({ contactInfoSection: false });
     }
   };
   getImage = () => {
@@ -423,50 +432,16 @@ class searchContact2 extends Component {
         });
       });
   };
-  showContact = () => {
-    const { username } = this.props;
-    // this.getImage();
-    // this.getImageFromDoc();
-    // this.getImageForImportContact();
-    const { navigation } = this.props;
-    this.focusListener = navigation.addListener("didFocus", async () => {
-      this.setState({ isLoading: true });
-      this.setState({ contact: [] });
-      this.setState({ contacts: "" });
-      console.log("----->this.props.contactChange.mode ",this.props.contactChange.mode );
-      if (this.props.contactChange.mode === "first") {
-        //  this.contactList();
-        console.log("----->first");
-        const sort = this.state.contacts.sort(function (a, b) {
-          if (a.last_name.toLowerCase() < b.last_name.toLowerCase()) return -1;
-          if (a.last_name.toLowerCase() > b.last_name.toLowerCase()) return 1;
-          return 0;
-        });
-        this.setState({ shortcontacts: sort, data: sort, isLoading: false });
-      } else {
-        // this.contactListFirst();
-        console.log("---->Last");
-        const sort = this.state.contacts.sort(function (a, b) {
-          console.log("cotact ---->", this.state.contacts.first_name);
-          //  if (a.first_name.toLowerCase() < b.first_name.toLowerCase())
-          //   return -1;
-          //  if (a.first_name.toLowerCase() > b.first_name.toLowerCase()) return 1;
-          //   return 0;
-        });
-        this.setState({ shortcontacts: sort, data: sort, isLoading: false });
-      }
-    });
-  };
 
-componentDidMount() {
-  const { navigation } = this.props;
-  console.log("seacrchhhh    22222   ----->" )
-  
+  componentDidMount() {
+    const { navigation } = this.props;
+
+    // console.log("last_name----->", this.props.navigation.state.params.user);
+    // this.setState({ shortcontacts: this.props.navigation.state.params.user });
     this.focusListener = navigation.addListener("didFocus", async () => {
-      // this.setState({ isLoading: true });
       this.setState({ contact: [] });
-      this.setState({ contacts: "" ,shortcontacts:""});
-     // console.log("first");
+      this.setState({ contacts: "", shortcontacts: "" });
+      // ,doc_IDS:[],doc_IDS:""
       if (this.props.contactChange.mode === "first") {
         this.contactList();
         console.log("first");
@@ -475,121 +450,86 @@ componentDidMount() {
         console.log("Last");
       }
     });
-  
-  
-}
-async contactList() {
-  const { username } = this.props;
-  this.setState({ contact: [] });
-  this.setState({ contacts: "" ,shortcontacts:""});
-  firebase
-    .firestore()
-    .collection("user")
-    .doc(username)
-    .collection("contacts")
-    .get()
-    .then((snap) => {
-    //  console.log("last_name----->",item);
-      snap.forEach((doc) => {
-        var item = doc._data;
-        this.state.contact.push(item);
-      // console.log("last_name----->",item);
-      });
-      this.setState({ contacts: this.state.contact });
-      const sort = this.state.contacts.sort(function (a, b) {
-        if (a.first_name.toLowerCase() < b.first_name.toLowerCase())
-        return -1;
-        if (a.first_name.toLowerCase() > b.first_name.toLowerCase()) return 1;
-        return 0;
-      });
-      this.setState({ shortcontacts: sort, data: sort, isLoading: false });
-    });
-}
-async contactListFirst() {
-  const { username } = this.props;
-  this.setState({ contact: [] });
-  this.setState({ contacts: "" ,shortcontacts:""});
-  firebase
-    .firestore()
-    .collection("user")
-    .doc(username)
-    .collection("contacts")
-    .get()
-    .then((snap) => {
-      
-      snap.forEach((doc) => {
-     //   console.log("first_name----->", doc);
-        var item = doc._data;
-        this.state.contact.push(item);
-          // console.log("first_name----->", item);
-      });
-      this.setState({ contacts: this.state.contact });
-      const sort = this.state.contacts.sort(function (a, b) {
-        if (a.first_name.toLowerCase() < b.first_name.toLowerCase())
-          return -1;
-        if (a.first_name.toLowerCase() > b.first_name.toLowerCase()) return 1;
-        return 0;
-      });
-      this.setState({ shortcontacts: sort, data: sort, isLoading: false });
-    });
-}
-  // async contactList() {
-  //   const { username } = this.props;
-  //   firebase
-  //     .firestore()
-  //     .collection("user")
-  //     .doc(username)
-  //     .collection("contacts")
-  //     .get()
-  //     .then((snap) => {
-  //       snap.forEach((doc) => {
-  //         var item = doc._data;
-  //         this.state.contact.push(item);
-         
-  //       });
+    // firebase
+    // .firestore()
+    // .collection("user")
+    // .doc(this.props.username)
+    // .collection("contacts")
+    // .get()
+    // .then((snap) => {
+    //   this.setState({ doc_IDS : []})
+    //   snap.docs.forEach((doc_id) => {
+    //     this.state.doc_IDS.push(doc_id.id);
+    //   });
+    //   var docData = this.state.doc_IDS.map((item) => {
+    //     return { docID: item, isSelect: false };
+    //   });
+    //   this.setState({ doc_IDS: docData });
+    //   console.log("docData----?", this.state.doc_IDS);
+    // });
+  }
 
-  //        this.setState({ contacts: this.state.contact });
-  //        console.log("contactList   -->",  this.state.contacts);
-  //       const sort = this.state.contacts.sort(function (a, b) {
-  //         // if (a.last_name == "") {
-  //         //   if (a.address1.toLowerCase() < b.address1.toLowerCase()) return -1;
-  //         //   if (a.address1.toLowerCase() > b.address1.toLowerCase()) return 1;
-  //         //   return 0;
-  //         // } else {
-  //           if (a.last_name.toLowerCase() < b.last_name.toLowerCase())
-  //             return -1;
-  //           if (a.last_name.toLowerCase() > b.last_name.toLowerCase()) return 1;
-  //           return 0;
-  //         // }
-  //       });
-  //       this.setState({ shortcontacts: sort, data: sort, isLoading: false });
-  //     });
-  // }
-  // async contactListFirst() {
-  //   const { username } = this.props;
-  //   firebase
-  //     .firestore()
-  //     .collection("user")
-  //     .doc(username)
-  //     .collection("contacts")
-  //     .get()
-  //     .then((snap) => {
-  //       snap.forEach((doc) => {
-  //         var item = doc._data;
-  //         this.state.contact.push(item);
-  //       });
-
-  //       this.setState({ contacts: this.state.contact });
-  //        console.log("contactListFirst--->",  this.state.contacts);
-  //       const sort = this.state.contacts.sort(function (a, b) {
-  //         if (a.first_name.toLowerCase() < b.first_name.toLowerCase())
-  //           return -1;
-  //         if (a.first_name.toLowerCase() > b.first_name.toLowerCase()) return 1;
-  //         return 0;
-  //       });
-  //       this.setState({ shortcontacts: this.state.contacts , isLoading: false });
-  //     });
-  // }
+  async contactList() {
+    const { username } = this.props;
+    this.setState({ contact: [] });
+    this.setState({ contacts: "", shortcontacts: "" });
+    firebase
+      .firestore()
+      .collection("user")
+      .doc(username)
+      .collection("contacts")
+      .get()
+      .then((snap) => {
+        snap.forEach((doc) => {
+          var item = doc._data;
+          this.state.contact.push(item);
+          // console.log("last_name----->",item);
+        });
+        this.setState({ contacts: this.state.contact });
+        const sort = this.state.contacts.sort(function (a, b) {
+          if (a.first_name.toLowerCase() < b.first_name.toLowerCase())
+            return -1;
+          if (a.first_name.toLowerCase() > b.first_name.toLowerCase()) return 1;
+          return 0;
+        });
+        this.setState({ shortcontact: sort, data: sort, isLoading: false });
+        var data = this.state.shortcontact.map((Data) => {
+          return { item: Data, isSelect: false };
+        });
+        this.setState({ shortcontacts: data, isLoading: false });
+        console.log("last_name----->", this.state.shortcontacts);
+      });
+  }
+  async contactListFirst() {
+    const { username } = this.props;
+    this.setState({ contact: [] });
+    this.setState({ contacts: "", shortcontacts: "" });
+    firebase
+      .firestore()
+      .collection("user")
+      .doc(username)
+      .collection("contacts")
+      .get()
+      .then((snap) => {
+        snap.forEach((doc) => {
+          var item = doc._data;
+          this.state.contact.push(item);
+        });
+        this.setState({ contacts: this.state.contact });
+        const sort = this.state.contacts.sort(function (a, b) {
+          if (a.first_name.toLowerCase() < b.first_name.toLowerCase())
+            return -1;
+          if (a.first_name.toLowerCase() > b.first_name.toLowerCase()) return 1;
+          return 0;
+        });
+        this.setState({ shortcontact: sort, data: sort, isLoading: false });
+        var data = this.state.shortcontact.map((Data) => {
+          return { item: Data, isSelect: false };
+        });
+        this.setState({ shortcontacts: data, isLoading: false });
+        console.log("last_name----->", this.state.shortcontacts);
+      });
+  }
 
   handleSearch = (text) => {
     const { data, shortcontacts, itemCompany } = this.state;
@@ -1151,12 +1091,16 @@ async contactListFirst() {
         });
       });
   };
-  onFlatlist = async (key ) =>{
-    const { shortcontacts, firstName ,selectedData } = this.state;
+
+  onFlatlist = async (key) => {
+    const { shortcontacts, firstName, selectedData } = this.state;
     const { username } = this.props;
     let FN = shortcontacts[key];
-    this.props.navigation.navigate("Profile",{ contactData : shortcontacts[key]}); 
-   }
+    this.props.navigation.navigate("Profile", {
+      contactData: shortcontacts[key],
+    });
+  };
+
   onFlatlist1 = async (key, first_name, last_name, user_name) => {
     console.log("onFlatlist ----->", key);
     this.setState({ isLoading: true, forKey: key });
@@ -1175,17 +1119,11 @@ async contactListFirst() {
       .collection("contacts")
       .get()
       .then((snap) => {
-        snap.forEach((doc) => {
-          snap.docs.forEach((doc_id) => {
-            if (selecte_name == doc._data.u_name) {
-              snap.docs.forEach((doc_id) => {
-                if (selecte_name == doc_id._data.u_name) {
-                  this.setState({ doc_id: doc_id.id });
-                  console.log("true ----->", doc_id.id);
-                }
-              });
-            }
-          });
+        snap.docs.forEach((doc_id) => {
+          if (selecte_name == doc_id._data.u_name) {
+            this.setState({ doc_id: doc_id.id });
+            console.log("true ----->", doc_id.id);
+          }
         });
       });
 
@@ -1210,139 +1148,139 @@ async contactListFirst() {
             }
           }
           if (FN.isManually == true) {
-            const baseurl = Constants.baseurl;
-            var _body = new FormData();
-            _body.append("docid", this.state.doc_id);
+            // const baseurl = Constants.baseurl;
+            // var _body = new FormData();
+            // _body.append("docid", this.state.doc_id);
 
-            fetch(baseurl + "get_uplopimages_doc", {
-              method: "POST",
-              body: _body,
-            })
-              .then((response) => {
-                return response.json();
-              })
-              .then((responseJson) => {
-                if (responseJson.status == false) {
-                  this.isManuallyContactFuction();
-                } else {
-                  responseJson.data.map((img) => {
-                    console.log("profile --->", img);
-                    if (img.position == 1) {
-                      firebase
-                        .firestore()
-                        .collection("user")
-                        .doc(username)
-                        .collection("contacts")
-                        .doc(doc_id)
-                        .update({ profile_image: img.profile });
-                      this.setState({ profile_image: img.profile });
-                      console.log(
-                        "profile image profile 111 --->",
-                        img.profile
-                      );
-                    }
-                    if (img.position == 2) {
-                      this.setState({ profile_image2: img.profile });
-                      firebase
-                        .firestore()
-                        .collection("user")
-                        .doc(username)
-                        .collection("contacts")
-                        .doc(doc_id)
-                        .update({ profile_image2: img.profile });
-                      if (img.profile !== "") {
-                        this.setState({ rightSec: true });
-                      }
-                      console.log(
-                        "profile image 22 --->",
-                        this.state.profile_image2
-                      );
-                    }
-                    if (img.position == 3) {
-                      console.log("profile image 3 --->", img.profile);
-                      firebase
-                        .firestore()
-                        .collection("user")
-                        .doc(username)
-                        .collection("contacts")
-                        .doc(doc_id)
-                        .update({ profile_image3: img.profile });
-                      this.setState({ profile_image3: img.profile });
-                    }
-                    this.isManuallyContactFuction();
-                  });
-                }
-              })
-              .catch((error) => {
-                console.log("name error---->", error);
-              });
+            // fetch(baseurl + "get_uplopimages_doc", {
+            //   method: "POST",
+            //   body: _body,
+            // })
+            //   .then((response) => {
+            //     return response.json();
+            //   })
+            //   .then((responseJson) => {
+            //     if (responseJson.status == false) {
+            //       this.isManuallyContactFuction();
+            //     } else {
+            //       responseJson.data.map((img) => {
+            //         console.log("profile --->", img);
+            //         if (img.position == 1) {
+            //           firebase
+            //             .firestore()
+            //             .collection("user")
+            //             .doc(username)
+            //             .collection("contacts")
+            //             .doc(doc_id)
+            //             .update({ profile_image: img.profile });
+            //           this.setState({ profile_image: img.profile });
+            //           console.log(
+            //             "profile image profile 111 --->",
+            //             img.profile
+            //           );
+            //         }
+            //         if (img.position == 2) {
+            //           this.setState({ profile_image2: img.profile });
+            //           firebase
+            //             .firestore()
+            //             .collection("user")
+            //             .doc(username)
+            //             .collection("contacts")
+            //             .doc(doc_id)
+            //             .update({ profile_image2: img.profile });
+            //           if (img.profile !== "") {
+            //             this.setState({ rightSec: true });
+            //           }
+            //           console.log(
+            //             "profile image 22 --->",
+            //             this.state.profile_image2
+            //           );
+            //         }
+            //         if (img.position == 3) {
+            //           console.log("profile image 3 --->", img.profile);
+            //           firebase
+            //             .firestore()
+            //             .collection("user")
+            //             .doc(username)
+            //             .collection("contacts")
+            //             .doc(doc_id)
+            //             .update({ profile_image3: img.profile });
+            //           this.setState({ profile_image3: img.profile });
+            //         }
+            this.isManuallyContactFuction();
+            //     });
+            //   }
+            // })
+            // .catch((error) => {
+            //   console.log("name error---->", error);
+            // });
           }
           if (doc._data.isImport == true) {
-            const baseurl = Constants.baseurl;
-            var _body = new FormData();
-            _body.append("docid", this.state.doc_id);
+            // const baseurl = Constants.baseurl;
+            // var _body = new FormData();
+            // _body.append("docid", this.state.doc_id);
 
-            fetch(baseurl + "get_uplopimages_doc", {
-              method: "POST",
-              body: _body,
-            })
-              .then((response) => {
-                return response.json();
-              })
-              .then((responseJson) => {
-                // console.log("name error---->", responseJson);
-                if (responseJson.status == false) {
-                } else {
-                  responseJson.data.map((img) => {
-                    console.log("profile --->", img);
-                    if (img.position == 1) {
-                      this.setState({ profile_image: img.profile });
-                      firebase
-                        .firestore()
-                        .collection("user")
-                        .doc(username)
-                        .collection("contacts")
-                        .doc(doc_id)
-                        .update({ profile_image: img.profile });
-                      console.log(
-                        "profile image profile 111 --->",
-                        this.state.profile_image
-                      );
-                    }
-                    if (img.position == 2) {
-                      firebase
-                        .firestore()
-                        .collection("user")
-                        .doc(username)
-                        .collection("contacts")
-                        .doc(doc_id)
-                        .update({ profile_image2: img.profile });
-                      this.setState({ profile_image2: img.profile });
-                      if (img.profile !== "") {
-                        this.setState({ rightSec: true });
-                      }
-                      console.log(
-                        "profile image 22 --->",
-                        this.state.profile_image2
-                      );
-                    }
-                    if (img.position == 3) {
-                      console.log("profile image 3 --->", img.profile);
-                      firebase
-                        .firestore()
-                        .collection("user")
-                        .doc(username)
-                        .collection("contacts")
-                        .doc(doc_id)
-                        .update({ profile_image3: img.profile });
-                      this.setState({ profile_image3: img.profile });
-                    }
-                  });
-                }
-              })
-              .catch((error) => {
-                console.log("name error---->", error);
-              });
+            // fetch(baseurl + "get_uplopimages_doc", {
+            //   method: "POST",
+            //   body: _body,
+            // })
+            //   .then((response) => {
+            //     return response.json();
+            //   })
+            //   .then((responseJson) => {
+            //     // console.log("name error---->", responseJson);
+            //     if (responseJson.status == false) {
+            //     } else {
+            //       responseJson.data.map((img) => {
+            //         console.log("profile --->", img);
+            //         if (img.position == 1) {
+            //           this.setState({ profile_image: img.profile });
+            //           firebase
+            //             .firestore()
+            //             .collection("user")
+            //             .doc(username)
+            //             .collection("contacts")
+            //             .doc(doc_id)
+            //             .update({ profile_image: img.profile });
+            //           console.log(
+            //             "profile image profile 111 --->",
+            //             this.state.profile_image
+            //           );
+            //         }
+            //         if (img.position == 2) {
+            //           firebase
+            //             .firestore()
+            //             .collection("user")
+            //             .doc(username)
+            //             .collection("contacts")
+            //             .doc(doc_id)
+            //             .update({ profile_image2: img.profile });
+            //           this.setState({ profile_image2: img.profile });
+            //           if (img.profile !== "") {
+            //             this.setState({ rightSec: true });
+            //           }
+            //           console.log(
+            //             "profile image 22 --->",
+            //             this.state.profile_image2
+            //           );
+            //         }
+            //         if (img.position == 3) {
+            //           console.log("profile image 3 --->", img.profile);
+            //           firebase
+            //             .firestore()
+            //             .collection("user")
+            //             .doc(username)
+            //             .collection("contacts")
+            //             .doc(doc_id)
+            //             .update({ profile_image3: img.profile });
+            //           this.setState({ profile_image3: img.profile });
+            //         }
+            //       });
+            //     }
+            //   })
+            //   .catch((error) => {
+            //     console.log("name error---->", error);
+            //   });
             this.isImportContacFuction(doc._data);
           }
         });
@@ -1404,6 +1342,7 @@ async contactListFirst() {
       });
   };
   isImportContacFuction = () => {
+    this.setState({ contactInfoSection: true });
     this.setState({ isLoading: true });
     firebase
       .firestore()
@@ -1419,6 +1358,7 @@ async contactListFirst() {
         this.setState({ first_name: fields.first_name });
         this.setState({ last_name: fields.last_name });
         this.setState({ u_name: fields.u_name });
+        this.setState({ isLoading: false });
         this.setState({ profile_image: fields.profile_image });
         this.setState({ profile_image2: fields.profile_image2 });
         if (fields.profile_image2 !== "") {
@@ -1453,26 +1393,49 @@ async contactListFirst() {
         this.setState({ saturdayTo: fields.saturdayTo });
         this.setState({ sunday: fields.sunday });
         this.setState({ sundayTo: fields.sundayTo });
-        this.setState({ contactInfoSection: true });
-        this.setState({ isLoading: false });
       });
   };
- 
+  handlerLongClick = () => {
+    this.setState({ deletePortion: true });
+    // {
+    //   this.state.doc_IDS == "" ? null :
+    // }
+  };
+  onchecked = (keyInd, selected) => {
+    let arr = this.state.shortcontacts.map((item, key) => {
+      if (keyInd == key) {
+        item.isSelect = !item.isSelect;
+      }
+      return { ...item };
+    });
+    this.setState({ shortcontacts: arr });
+  };
   renderItem({ item, index }) {
-    const lengthArray = this.state.contacts.length;
-
-    const character = (item.user_name || item.first_name).charAt(0);
+    //  console.log("  press----->", item);
+    const character = (item.item.last_name || item.item.first_name).charAt(0);
+    //  const character =   "A"
     return (
       <TouchableOpacity
         style={styles.quardView}
         onPress={() => {
           this.onFlatlist(index);
         }}
+        onLongPress={this.handlerLongClick}
       >
+        {this.state.deletePortion == true ? (
+          <CheckBox
+            value={item.isSelect}
+            onChange={() => {
+              this.onchecked(index, item.isSelect);
+            }}
+            tintColors={{ true: "#1374A3", false: "#1374A3" }}
+          />
+        ) : null}
+
         <View style={styles.imgView}>
-          {item.profile_image == "" ? (
-            item.profile_image2 == "" ? (
-              item.profile_image3 == "" ? (
+          {item.item.profile_image == "" ? (
+            item.item.profile_image2 == "" ? (
+              item.item.profile_image3 == "" ? (
                 <Text
                   style={[
                     styles.img_text,
@@ -1486,19 +1449,19 @@ async contactListFirst() {
                 </Text>
               ) : (
                 <Image
-                  source={{ uri: item.profile_image3 }}
+                  source={{ uri: item.item.profile_image3 }}
                   style={styles.profileImage}
                 />
               )
             ) : (
               <Image
-                source={{ uri: item.profile_image2 }}
+                source={{ uri: item.item.profile_image2 }}
                 style={styles.profileImage}
               />
             )
           ) : (
             <Image
-              source={{ uri: item.profile_image }}
+              source={{ uri: item.item.profile_image }}
               style={styles.profileImage}
             />
           )}
@@ -1512,7 +1475,8 @@ async contactListFirst() {
               },
             ]}
           >
-            {item.last_name} {item.user_name || item.first_name} {item.middle_name}
+            {item.item.last_name} {item.item.user_name || item.item.first_name}{" "}
+            {item.item.middle_name}
           </Text>
         ) : this.props.nameChange.mode == "firstName" ? (
           <Text
@@ -1523,7 +1487,8 @@ async contactListFirst() {
               },
             ]}
           >
-            {item.last_name} {item.middle_name} {item.user_name || item.first_name}
+            {item.item.last_name} {item.item.middle_name}{" "}
+            {item.item.user_name || item.item.first_name}
           </Text>
         ) : (
           <Text
@@ -1534,7 +1499,8 @@ async contactListFirst() {
               },
             ]}
           >
-            {item.user_name || item.first_name} {item.middle_name} {item.last_name}
+            {item.item.user_name || item.item.first_name}{" "}
+            {item.item.middle_name} {item.item.last_name}
           </Text>
         )}
 
@@ -1546,17 +1512,62 @@ async contactListFirst() {
       </TouchableOpacity>
     );
   }
+  selectAll = () => {
+    const { shortcontacts } = this.state;
+    let contactArr = shortcontacts.map((item, key) => {
+      this.state.checkedOff == true
+        ? (item.isSelect = true)
+        : (item.isSelect = false);
+      item.isSelect = !item.isSelect;
+      this.setState({ checkedOff: !this.state.checkedOff });
+      return { ...item };
+    });
+    this.setState({ shortcontacts : contactArr });
+  };
   renderMiddle() {
     return (
-      <View style={styles.scrollStyle}>
-        <FlatList
-          refreshing={true}
-          keyExtractor={(item, index) => index.toString()}
-          data={this.state.shortcontacts}
-          extraData={this.state}
-          numColumns={1}
-          renderItem={this.renderItem.bind(this)}
-        />
+      <View>
+          {this.state.deletePortion == true ?  
+        <TouchableOpacity
+          style={styles.checkboxView}
+          onPress={() => {
+            this.selectAll();
+          }}
+        >
+          {this.state.checkedOff == true ? (
+            <View style={styles.checkViewForLight}>
+              {this.props.theme.mode === "light" ? (
+                <Image source={checkedWhite} style={styles.checkedStyle} />
+              ) : (
+                <Image source={checkedModified} style={styles.checkedStyle} />
+              )}
+            </View>
+          ) : (
+            <View style={styles.checkView}></View>
+          )}
+          <Text
+            style={[
+              styles.deSelectText,
+              {
+                color: this.props.theme.mode === "light" ? "#1374A3" : "white",
+                marginLeft: Metrics.smallMargin,
+              },
+            ]}
+          >
+            Select (De-select) All
+          </Text>
+        </TouchableOpacity>
+        : null}
+        <View style={styles.scrollStyle}>
+          <FlatList
+            refreshing={true}
+            keyExtractor={(item, index) => index.toString()}
+            data={this.state.shortcontacts}
+            extraData={this.state}
+            numColumns={1}
+            renderItem={this.renderItem.bind(this)}
+          />
+        </View>
       </View>
     );
   }
@@ -1671,21 +1682,82 @@ async contactListFirst() {
         }}
       >
         <View style={{ bottom: 30, position: "absolute" }}>
-          <TouchableOpacity
-            style={styles.Whiteview}
-            onPress={this.plusnavigate}
-          >
-            <Image source={plus} style={styles.plusStyle} />
-          </TouchableOpacity>
+          {this.state.deletePortion == true ? (
+            <TouchableOpacity
+              style={styles.Whiteview}
+              onPress={this.delete_Contacts}
+            >
+              <Image source={DeleteImg} style={styles.deleteStyle} />
+            </TouchableOpacity>
+          ) : (
+            <TouchableOpacity
+              style={styles.Whiteview}
+              onPress={this.plusnavigate}
+            >
+              <Image source={plus} style={styles.plusStyle} />
+            </TouchableOpacity>
+          )}
         </View>
       </View>
     );
   }
-
+  delete_Contacts = () => {
+    this.setState({ isLoading: true });
+    firebase
+      .firestore()
+      .collection("user")
+      .doc(this.props.username)
+      .collection("contacts")
+      .get()
+      .then((snap) => {
+        this.setState({ doc_IDS: [] });
+        snap.docs.forEach((doc_id) => {
+          // this.state.doc_IDS.push(doc_id.id);
+          this.state.shortcontacts.map((item, index) => {
+            if (item.isSelect == true) {
+              let u_name = item.item.u_name;
+              // this.state.doc_ID.push(u_name)
+              if (u_name == doc_id._data.u_name) {
+                console.log("long press----->", doc_id.id);
+                this.state.deleteID.push(doc_id.id);
+              }
+            }
+          });
+        });
+        this.Data_delete();
+      });
+  };
+  Data_delete = () => {
+    this.state.deleteID.map((item, index) => {
+      firebase
+        .firestore()
+        .collection("user")
+        .doc(this.props.username)
+        .collection("contacts")
+        .doc(item)
+        .delete();
+    });
+    this.setState({ deletePortion: false });
+    this.setState({ isLoading: false });
+    console.log("long press----->", this.state.deleteID);
+    if (this.props.contactChange.mode === "first") {
+      this.contactList();
+      console.log("first");
+    } else {
+      this.contactListFirst();
+      console.log("Last");
+    }
+  };
   plusnavigate = () => {
     this.setState({ contact: [] });
     this.props.navigation.navigate("ManuallyAddContact");
-   
+    // firebase
+    //   .firestore()
+    //   .collection("user")
+    //   .doc(this.props.username)
+    //   .collection("contacts")
+    //   .doc("xX2NvRkykEJpBhZhvM9p")
+    //   .delete();
   };
 
   showLoader() {
@@ -2172,6 +2244,7 @@ async contactListFirst() {
       this.textInputRef.focus();
     }
   };
+
   renderMobile() {
     return (
       <View style={{ marginTop: Metrics.baseMargin, position: "relative" }}>
@@ -3884,15 +3957,6 @@ async contactListFirst() {
                     {this.state.shortcontacts == "" ? (
                       <LineText> No contact imported to show </LineText>
                     ) : null}
-                    {/* <View>
-                      {this.state.firstImage ==  "" ?   <Text>hellllooooooo</Text>:
-                    
-                       <Image
-                        source={{ uri : this.state.firstImage}}
-                       style={styles.profileImage}
-                     />}
-                   
-                    </View> */}
 
                     {this.renderMiddle()}
                   </View>
@@ -3915,8 +3979,10 @@ async contactListFirst() {
 function mapStateToProps(state) {
   return {
     theme: state.themeReducer.theme,
-    user_id:state.login.shouldLoadData.user_id || state.reg.shouldLoadData.user_id,
-    username:state.login.shouldLoadData.username || state.reg.shouldLoadData.username,
+    user_id:
+      state.login.shouldLoadData.user_id || state.reg.shouldLoadData.user_id,
+    username:
+      state.login.shouldLoadData.username || state.reg.shouldLoadData.username,
     contactChange: state.sortContactsReducer.contactChange,
     nameChange: state.switchNameReducer.nameChange,
     isLogedIn: state.login.shouldLoadData,

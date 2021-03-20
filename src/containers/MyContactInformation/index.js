@@ -358,7 +358,7 @@ class MyContactInfromation extends Component {
           this.setState({ isLoading: false });
           if (item.isDataUpdated == undefined) {
             console.log("social media ---->", item);
-            this.setState({ first_name: item.first_name });
+            this.setState({ First_name: item.first_name });
             this.setState({ number: item.number, email: item.email });
           } else {
             this.setState({ profile_image: item.profile_image  ,image : item.profile_image});
@@ -380,12 +380,14 @@ class MyContactInfromation extends Component {
             }
 
             if (item.isEmailUpdated == true) {
+             
               {
                 item.email !== ""
                   ? this.setState({ email: item.email[0].email })
                   : null;
               }
             } else {
+             
               this.setState({ email: item.email });
             }
 
@@ -3744,7 +3746,7 @@ class MyContactInfromation extends Component {
                                 style={styles.timeText}
                                 editable={this.state.status ? true : false}
                                 onChangeText={(sunday) =>
-                                  this.onChangeSunday(Sunday, index)
+                                  this.onChangeSunday(sunday, index)
                                 }
                                 value={this.state.Sunday}
                               />

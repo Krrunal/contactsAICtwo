@@ -578,7 +578,7 @@ export default StyleSheet.create({
     height: width * 0.8,
     borderWidth: 1,
     borderRadius: 5,
-    borderColor: COLORS.black,
+    borderColor: COLORS.main_text_color,
      marginLeft: Metrics.smallMargin,
     flexDirection: "row",
     position: "relative",

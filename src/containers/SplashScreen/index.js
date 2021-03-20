@@ -345,7 +345,7 @@ class Splash extends React.Component {
     const { username } = this.props;
     this.getImage();
     this.getImageFromDoc();
-     this.getImageForImportContact();
+    this.getImageForImportContact();
     const { navigation } = this.props;
     this.focusListener = navigation.addListener("didFocus", async () => {
       this.setState({ isLoading: true });
@@ -378,8 +378,13 @@ class Splash extends React.Component {
           if (a.last_name.toLowerCase() < b.last_name.toLowerCase()) return -1;
           if (a.last_name.toLowerCase() > b.last_name.toLowerCase()) return 1;
           return 0;
-        }); 
+        });
+
         this.setState({ shortcontacts: sort });
+        var data = this.state.shortcontacts.map((Data) => {
+          return { item: Data, isSelect: false };
+        });
+        this.setState({ shortcontacts: data });
         this.props.isLogedIn == false
           ? this.props.navigation.reset(
               [NavigationActions.navigate({ routeName: "Login" })],
@@ -405,12 +410,11 @@ class Splash extends React.Component {
       .collection("contacts")
       .get()
       .then((snap) => {
-        
         snap.forEach((doc) => {
-       //   console.log("first_name----->", doc);
+          //   console.log("first_name----->", doc);
           var item = doc._data;
           this.state.contact.push(item);
-            // console.log("first_name----->", item);
+          // console.log("first_name----->", item);
         });
         this.setState({ contacts: this.state.contact });
         const sort = this.state.contacts.sort(function (a, b) {
@@ -420,20 +424,24 @@ class Splash extends React.Component {
           return 0;
         });
         this.setState({ shortcontacts: sort, data: sort, isLoading: false });
+        var data = this.state.shortcontacts.map((Data) => {
+          return { item: Data, isSelect: false };
+        });
+        this.setState({ shortcontacts: data });
         this.props.isLogedIn == false
-        ? this.props.navigation.reset(
-            [NavigationActions.navigate({ routeName: "Login" })],
-            0
-          )
-        : this.props.navigation.reset(
-            [
-              NavigationActions.navigate({
-                routeName: "SerachEditContact",
-                params: { user: this.state.shortcontacts },
-              }),
-            ],
-            0
-          );
+          ? this.props.navigation.reset(
+              [NavigationActions.navigate({ routeName: "Login" })],
+              0
+            )
+          : this.props.navigation.reset(
+              [
+                NavigationActions.navigate({
+                  routeName: "SerachEditContact",
+                  params: { user: this.state.shortcontacts },
+                }),
+              ],
+              0
+            );
       });
   }
   // async componentDidMount() {
@@ -451,12 +459,15 @@ class Splash extends React.Component {
   //         );
   //   }, 2000);
   // }
+  backGroundTask = () => {
+    console.log("remandar ------>")
+  };
   async componentDidMount() {
+    // this.timer = setInterval(() => this.backGroundTask(), 1000);
     BackHandler.addEventListener("hardwareBackPress", this.backAction);
     this.timeoutHandle = setTimeout(async () => {
       this.showContact();
     });
-
   }
   componentWillUnmount() {
     BackHandler.removeEventListener("hardwareBackPress", this.backAction);

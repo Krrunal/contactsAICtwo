@@ -72,10 +72,12 @@ stylefiledText: {
  fontFamily: Font.medium,
 },
 doubleImaageView:{
-  marginTop:Metrics.baseMargin,
+ // marginTop:Metrics.baseMargin,
   justifyContent:'center',
   flexDirection:'row',
-  alignItems:'center'
+  alignItems:'center',
+ 
+  height:height*0.065
 },
 rightView: {
   alignItems: "flex-end",
@@ -92,12 +94,13 @@ righttext: {
 innerStyle: {
   width: width * 0.1,
   height: width * 0.1,
+  marginTop:Metrics.xsmallMargin
 },
 smallIcon:{
   width: width * 0.05,
   height: height * 0.03,
   resizeMode:'contain',
-  paddingHorizontal:Metrics.xbaseMargin
+  paddingHorizontal:Metrics.SmallMargin
 },
 saveView: {
   justifyContent: "center",
