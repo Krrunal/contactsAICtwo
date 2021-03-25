@@ -144,12 +144,13 @@ class importContact extends Component {
 
   selectAll = () => {
     const { fetchedContacts } = this.state;
+  
     let contactArr = fetchedContacts.map((item, key) => {
+      this.setState({ checkedOff: !this.state.checkedOff });
       this.state.checkedOff == true
         ? (item.isSelected = true)
         : (item.isSelected = false);
       item.isSelected = !item.isSelected;
-      this.setState({ checkedOff: !this.state.checkedOff });
       return { ...item };
     });
     this.setState({ fetchedContacts: contactArr });
@@ -433,8 +434,11 @@ class importContact extends Component {
                 "",
                 "",
                 "",
-                S4
-              );
+                S4,
+                item.givenName == null ? "" : item.givenName.toLowerCase(),
+                item.middleName == null ? "" : item.middleName.toLowerCase(),
+                
+                );
               firebase
                 .firestore()
                 .collection("user")
@@ -571,7 +575,9 @@ class importContact extends Component {
                 "",
                 "",
                 "",
-                S4
+                S4,
+                item.givenName == null ? "" : item.givenName.toLowerCase(),
+                item.middleName == null ? "" : item.middleName.toLowerCase(),
               );
               firebase
                 .firestore()

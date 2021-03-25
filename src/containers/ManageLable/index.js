@@ -1,5 +1,6 @@
 import { ActionSheet, Root } from "native-base";
 import {
+  BackHandler,
   Dimensions,
   FlatList,
   Image,
@@ -9,11 +10,11 @@ import {
   TextInput,
   TouchableHighlight,
   TouchableOpacity,
-  View,
+  View
 } from "react-native";
 import React, { Component, useState } from "react";
 import styled, { ThemeProvider } from "styled-components/native";
-import { Spinner } from "../../components/Spinner";
+
 import Add from "../AddContact/index";
 import AsyncStorage from "@react-native-community/async-storage";
 import { COLORS } from "../theme/Colors.js";
@@ -27,6 +28,7 @@ import Icon from "react-native-vector-icons/Entypo";
 import ImagePicker from "react-native-image-crop-picker";
 import IntlPhoneInput from "react-native-intl-phone-input";
 import Metrics from "../theme/Metrics";
+import { Spinner } from "../../components/Spinner";
 import Toast from "react-native-easy-toast";
 import checked from "../../assets/icons/checked.png";
 import { connect } from "react-redux";
@@ -133,7 +135,11 @@ class ManageLable extends Component {
       labelID : "",
     };
   }
-
+backAction = () => {
+  this.setState({ flatViewOpen: false });
+  this.props.navigation.navigate("Label");
+  return true;
+};
   async componentDidMount() {
     const { navigation } = this.props;
     this.checkImageUploaded();
@@ -144,7 +150,14 @@ class ManageLable extends Component {
     this.focusListener = navigation.addListener("didFocus", async () => {
       this.labelList();
     });
+    BackHandler.addEventListener("hardwareBackPress", this.backAction);
+  };
+
+  componentWillUnmount() {
+    BackHandler.removeEventListener("hardwareBackPress", this.backAction);
+    
   }
+
 
   checkListCall = () => {
     const { selectedName, labelID } = this.state;
@@ -1908,49 +1921,7 @@ class ManageLable extends Component {
                     >
                       Work Hours
                     </Text>
-                    {/* <TouchableOpacity
-               onPress={() => this.setState({ workViewOpen: true })}
-               style={styles.selectTimezone}
-             >
-               {this.state.selectItem == "" ? (
-                 <Text
-                   style={[styles.workText, { fontSize: width * 0.018 }]}
-                 >
-                   Select Time Zone
-                 </Text>
-               ) : (
-                 <Text
-                   style={[styles.workText, { fontSize: width * 0.018 ,textAlign:'center'}]}
-                 >
-                   {this.state.selectItem}
-                 </Text>
-               )}
-           {this.state.checked_work_hours ==  true ? 
-            <Modal
-            style={styles.workModal}
-            visible={this.state.workViewOpen}
-            transparent={true}
-            animationType="fade"
-            onRequestClose={() =>
-              this.setState({ workViewOpen : false })
-            }
-          >
-            <View style={styles.workModalView}>
-              <View style={styles.content}>
-                <FlatList
-                  refreshing={true}
-                  keyExtractor={(item, index) => index.toString()}
-                  data={this.state.tzs}
-                  extraData={this.state}
-                  numColumns={1}
-                  renderItem={this.renderItem.bind(this)}
-                />
-              </View>
-            </View>
-          </Modal>: 
-          null } 
-              
-             </TouchableOpacity> */}
+                 
                   </View>
                 </View>
               </View>
@@ -2234,40 +2205,7 @@ class ManageLable extends Component {
   };
   labelList2= () => {
     console.log("selected item---->",this.state.labelID)
-    // this.setState({ isLoading: true }, async () => {
-    //   const baseurl = Constants.baseurl;
-    //   fetch(baseurl + "getlabel")
-    //     .then((response) => {
-    //       return response.json();
-    //     })
-    //     .then((responseJson) => {
-    //       if (responseJson.data.relation == "") {
-    //         this.setState({ dataManage: [], isLoading: false });
-    //       } else {
-    //         var labelData2 = responseJson.data.map((item, index) => {
-    //           if (item.relation == this.state.selectedName) {
-    //             this.setState({ labelID: item.id });
-    //             console.log("   --->", this.state.labelID);
-    //           }
-    //         });
-    //         var labelData = responseJson.data.map((item, index) => {
-    //           return {
-    //             relation: item.relation,
-    //             isSelect: false,
-    //             labelID: item.id,
-    //           };
-    //         });
-    //         this.setState({ dataManage: labelData });
-
-    //         //  this.setState({ isLoading: false });
-    //       }
-    //       this.checkListCall();
-    //     })
-    //     .catch((error) => {
-    //       console.error(error);
-    //       this.setState({ isLoading: false });
-    //     });
-    // });
+  
   };
   onManage = (name, labelID) => {
      this.updateSettingApiCall();

@@ -68,8 +68,18 @@ stylefiledText: {
   alignItems: "center",
   color: COLORS.main_text_color,
   fontSize: width * 0.035,
-  width: width * 0.4,
+  width: width * 0.42,
  fontFamily: Font.medium,
+
+},
+addressField: {
+  marginLeft: Metrics.smallMargin,
+  color: COLORS.main_text_color,
+  fontSize: width * 0.03,
+  width: width * 0.45,
+  fontFamily: Font.regular,
+  textAlignVertical: "top",
+ 
 },
 doubleImaageView:{
  // marginTop:Metrics.baseMargin,
@@ -241,6 +251,7 @@ LeftView: {
     borderColor: COLORS.main_text_color,
   },
   labelContainer: {
+   
   },
   label: {
     fontFamily: Font.medium,
@@ -292,6 +303,11 @@ LeftView: {
     fontSize: width * 0.03,
     marginRight: Metrics.baseMargin,
     color: COLORS.red,
+  },
+  Text_1: {
+    marginLeft: Metrics.smallMargin,
+    color: COLORS.main_text_color,
+    fontFamily: Font.regular,
   },
 });
 

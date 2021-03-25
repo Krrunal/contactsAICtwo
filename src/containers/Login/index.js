@@ -1,4 +1,3 @@
-import * as Keychain from "react-native-keychain";
 import * as actions from "../../action";
 
 import {
@@ -17,9 +16,11 @@ import styled, { ThemeProvider } from "styled-components/native";
 import AsyncStorage from "@react-native-community/async-storage";
 import { COLORS } from "../theme/Colors.js";
 import CheckBox from "@react-native-community/checkbox";
+// import {FloatingLabelInput} from 'react-native-floating-label-input';
 import Font from "../theme/font";
 import GeneralStatusBar from "../../components/StatusBar/index";
 import Icon from "react-native-vector-icons/FontAwesome";
+import Input from '../../components/Text/InputField';
 import { InputCard } from "../../components/InputCard";
 import IntlPhoneInput from "react-native-intl-phone-input";
 import Metrics from "../theme/Metrics";
@@ -28,7 +29,6 @@ import { Root } from "native-base";
 import { Spinner } from "../../components/Spinner";
 import Toast from "react-native-easy-toast";
 import { TouchableHighlight } from "react-native-gesture-handler";
-import { bindActionCreators } from "redux";
 import checked from "../../assets/icons/checked.png";
 import { connect } from "react-redux";
 import innerimg from "../../assets/images/innerimg.png";
@@ -248,23 +248,35 @@ class Login extends Component {
       if (this.props.password == "") {
         this.setState({ viewIntl: true });
         this.setState({ viewPhone: false  , passSection: false , emailSection : false});
-       //  this.setState({ emailSection : true, passSection: false });
-        console.log(" iffff  2---?", this.props.password);
+        console.log(" iffff  2- m --?", this.props.password);
       } else {
         this.setState({ viewIntl: true });
         this.setState({ viewPhone: false  , emailSection : false});
-        console.log("else 2 ---?",this.props.password);
+        console.log("else 2 - m --?",this.props.password);
       }
+     
     } else {
       if (this.props.password == "") {
         this.setState({ viewIntl: true });
         this.setState({ viewPhone: false  , passSection: false });
-       //  this.setState({ emailSection : true, passSection: false });
-        console.log(" iffff  2---?", this.props.password);
+        console.log(" iffff  2--  m  -?", this.props.password);
       } else {
         this.setState({ viewIntl: true });
         this.setState({ viewPhone: false, emailSection : false });
-        console.log("else 2 ---?",this.props.password);
+        console.log("else 2 --  m  -?",this.props.password);
+      }
+    }
+    if (this.state.loginUsername == null) {
+      if (this.state.emailLogin == "") {
+        this.setState({ viewIntl: true , viewPhone: false,  emailSection: false });
+      } else {
+        this.setState({ viewIntl: true , viewPhone: false, });
+      }
+    } else {
+      if (this.state.emailLogin == "") {
+        this.setState({viewIntl: true , viewPhone: false,  emailSection: false });
+      } else {
+        this.setState({viewIntl: true , viewPhone: false, });
       }
     }
 
@@ -293,13 +305,7 @@ class Login extends Component {
         console.log("else 2 ---?",this.props.password);
       }
     }
-    
-    // if (this.state.passSection == true) {
-    //   this.setState({ emailSection: true });
-    //   this.setState({ passSection: false });
-    // } else {
-    //   this.setState({ emailSection: true });
-    // }
+ 
     if (this.state.viewIntl == true) {
       this.setState({ viewIntl: false });
       this.setState({ viewPhone: true });
@@ -352,8 +358,9 @@ class Login extends Component {
     this.setState({ emailLogin: value });
   };
 
+  
   render() {
-    const { loginPassChange, phone, emailLogin } = this.props;
+    const { loginPassChange, phone, emailLogin,email,throwError,validEmail ,editInput} = this.props;
 
     return (
       <ThemeProvider theme={this.props.theme}>
@@ -365,7 +372,20 @@ class Login extends Component {
             this.props.theme.mode === "dark" ? "light-content" : "dark-content"
           }
         />
-
+                   <Input
+                      inputType="email"
+                      label="Email"
+                      // error={throwError}
+                      // validEntry={validEmail}
+                      editable={editInput}
+                      value={email}
+                      autoCompleteType="off"
+                      onChangeText={(email) => {
+                          this.setState({ email });
+                      }}
+                      // onEndEditing={() => this.ValidateEmail(email)}
+                   />
+              
         <Container>
           <ScrollView>
             <Root>
@@ -374,7 +394,7 @@ class Login extends Component {
                   <Image source={logo} style={styles.logoImg} />
                   <Text style={styles.logoText}>CONTACTS AIC</Text>
                 </View>
-
+               
                 {this.state.viewIntl ? (
                   <IntlPhoneInput
                     containerStyle={{
@@ -391,11 +411,13 @@ class Login extends Component {
                         ? this.state.loginNumber
                         : phone
                     }
-                    inputRef={"phone"}
-                    keyboardType={"numeric"}
+                    // inputRef={"phone"}
+                     keyboardType={"numeric"}
                     onChangeText={this.onChangeNumber}
                     defaultCountry="CA"
                     isLogin={false}
+                    inputRef={(ref) => (this.phoneInput = ref)}
+                    autoFocus={true}
                   />
                 ) : null}
 
@@ -473,6 +495,8 @@ class Login extends Component {
                           ? styles.uText1
                           : styles.uText
                       }
+                      onSubmitEditing= {() => this.tuesdayToFocus.focus()}
+
                     ></InputCard>
                   </TouchableOpacity>
                 ) : null}
@@ -640,7 +664,7 @@ class Login extends Component {
                 this.state.passwordError == "" ? null : (
                   <Text style={styles.error}>{this.state.passwordError}</Text>
                 )}
-
+                   
                 <TouchableOpacity
                   style={styles.viewLogin}
                   onPress={this.checkInternet}

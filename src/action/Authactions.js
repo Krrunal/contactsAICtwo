@@ -79,7 +79,7 @@ const loginUserSuccess = (data, dispatch) => {
   dispatch({ type: LOAD_DATA_SET, payload: data.data });
  // console.log('log in data ---->',data.data)
   updateItem(data.data.username)
-  dispatch(NavigationService.navigate("SerachEditContact2"));
+  dispatch(NavigationService.navigate("SerachEditContact" , { params: { user: "" }}));
 };
 
 const regUserSuccess = (data, dispatch) => {

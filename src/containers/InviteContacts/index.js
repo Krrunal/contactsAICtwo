@@ -10,6 +10,7 @@ import {
 } from "react-native";
 import React, { Component, useState } from "react";
 import styled, { ThemeProvider } from "styled-components/native";
+import { Spinner } from "../../components/Spinner";
 
 import { COLORS } from "../theme/Colors.js";
 import CheckBox from "@react-native-community/checkbox";
@@ -65,13 +66,10 @@ class InviteContact extends Component {
       );
       if (granted === PermissionsAndroid.RESULTS.GRANTED) {
         console.log("You can use the CONTACTS");
-       
         this.setState({ isLoading: true }, async () => {
            Contacts.getAll((err, contacts) => {
             if (err) throw err;
             const { phoneNumbers } = this.state
-
-
             const contactNumber = contacts.filter((number) => {
               if (number.phoneNumbers.length != 0) {
                 var n_number = Object.assign({}, number);
@@ -79,10 +77,8 @@ class InviteContact extends Component {
                 n_number.image = "";
                 return n_number;
               }
-            
             });
-
-            //alert(JSON.stringify(contactNumber)); return;
+             //alert(JSON.stringify(contactNumber)); return;
             contactNumber.sort(function (a, b) {
               var AfamilyName = a.givenName == "" ? "" : a.givenName;
               var BfamilyName = b.givenName == "" ? "" : b.givenName;
@@ -247,7 +243,11 @@ class InviteContact extends Component {
     this.getContact();
     
   };
-
+  showLoader() {
+    if (this.state.isLoading == true) {
+      return <Spinner />;
+    }
+  }
   render() {
     return (
       <ThemeProvider theme={this.props.theme}>
@@ -275,6 +275,7 @@ class InviteContact extends Component {
           {this.renderMiddle()}
           {this.renderLast()}
         </Container>
+        {this.showLoader()}
       </ThemeProvider>
     );
   }

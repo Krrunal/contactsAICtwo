@@ -167,6 +167,7 @@ class Profile extends Component {
       jobTitle: "",
       JobTitle: "",
       monday: "",
+      Monday:"",
       mondayTo: "",
       tuesday: "",
       tuesdayTo: "",
@@ -477,7 +478,7 @@ class Profile extends Component {
             : this.setState({ website: FN.website[0].website });
         }
         {
-          FN.date == "" ? null : this.setState({ date: FN.date[0].date });
+          FN.date == ""  ? null : this.setState({ date: FN.date[0].date });
         }
         {
           FN.note == "" ? null : this.setState({ note: FN.note[0].note });
@@ -654,12 +655,12 @@ class Profile extends Component {
           : null;
       }
       {
-        fields.date !== ""
+        fields.date !== ""  
           ? fields.isManually == true
             ? fields.isdateUpdate == true
               ? this.setState({ date: fields.date[0].date })
               : this.setState({ date: fields.date })
-            : this.setState({ date: fields.date[0].date })
+            : fields.date ==  null  ? this.setState({ date: fields.date })  : this.setState({ date: fields.date[0].date })
           : null;
       }
       this.setState({ note: fields.note });
@@ -929,6 +930,8 @@ class Profile extends Component {
                     ref={(input) => {
                       this.first_name = input;
                     }}
+                    onSubmitEditing= {() => { this.last_name.focus()}}
+
                   />
                 ) : (
                   <Text style={styles.stylefiledText}>
@@ -975,6 +978,8 @@ class Profile extends Component {
                     ref={(input) => {
                       this.last_name = input;
                     }}
+                    onSubmitEditing= {() => { this.onPressKey()}}
+
                   />
                 ) : (
                   <Text style={styles.stylefiledText}>
@@ -1114,7 +1119,7 @@ class Profile extends Component {
                                   styles.Text_1,
                                   {
                                     fontSize: width * 0.02,
-                                    width: width * 0.5,
+                                    width: width * 0.4,
                                     marginTop: width * 0.02,
                                   },
                                 ]}
@@ -1140,13 +1145,14 @@ class Profile extends Component {
                                 }}
                                 autoFocus={true}
                                 value={this.state.number1}
+                                onSubmitEditing= {() => { this.onPressEmail()}}
                               />
                             </TouchableOpacity>
                           ) : (
                             <TouchableOpacity onPress={this.onPressKey}>
-                              <Text style={styles.stylefiledText}>
-                                Phone Number
-                              </Text>
+                                {this.state.number1 == "" ? 
+                             <Text style={styles.stylefiledText}>Phone Number  </Text> : <Text style={styles.stylefiledText}> {this.state.number1}  </Text> } 
+                           
                             </TouchableOpacity>
                           )}
 
@@ -1391,7 +1397,7 @@ class Profile extends Component {
                                 styles.Text_1,
                                 {
                                   fontSize: width * 0.02,
-                                  width: width * 0.5,
+                                  width: width * 0.4,
                                   marginTop: width * 0.02,
                                 },
                               ]}
@@ -1414,13 +1420,15 @@ class Profile extends Component {
                               }}
                               autoFocus={true}
                               value={this.state.email}
+                              onSubmitEditing={this.onPressAddress}
                             />
                           </TouchableOpacity>
                         ) : (
                           <TouchableOpacity onPress={this.onPressEmail}>
-                            <Text style={styles.stylefiledText}>
-                              E-mail Address
-                            </Text>
+                             {this.state.email == "" ? 
+                             <Text style={styles.stylefiledText}>E-mail Address</Text>
+                              : <Text style={styles.stylefiledText}> {this.state.email}  </Text> } 
+                         
                           </TouchableOpacity>
                         )}
                         <TouchableOpacity
@@ -1663,7 +1671,7 @@ class Profile extends Component {
                                 styles.Text_1,
                                 {
                                   fontSize: width * 0.02,
-                                  width: width * 0.5,
+                                  width: width * 0.4,
                                   marginTop: width * 0.02,
                                 },
                               ]}
@@ -1684,16 +1692,19 @@ class Profile extends Component {
                               autoFocus={true}
                               multiline={true}
                               value={this.state.address}
+                              onSubmitEditing= {() => { this.onPressMessenger()}}
                             />
                           </TouchableOpacity>
                         ) : (
-                          <TouchableOpacity onPress={this.onPressAddress}>
-                            <Text style={styles.stylefiledText}>Address</Text>
-                          </TouchableOpacity>
+                          <TouchableOpacity onPress={this.onPressAddress} style={{marginTop:Metrics.smallMargin}}>
+                        {this.state.address == "" ? 
+                             <Text style={styles.stylefiledText}>Address</Text>
+                              : <Text style={styles.stylefiledText}> {this.state.address}  </Text> } 
+                       </TouchableOpacity>
                         )}
                         <View style={styles.rightView}>
                           <TouchableOpacity
-                            style={styles.modalBtn}
+                            style={[styles.modalBtn,{marginTop:Metrics.smallMargin}]}
                             onPress={() => this.showAddress(index)}
                           >
                             <Text style={styles.selectTypeText}>
@@ -1926,7 +1937,7 @@ class Profile extends Component {
                                 styles.Text_1,
                                 {
                                   fontSize: width * 0.02,
-                                  width: width * 0.5,
+                                  width: width * 0.4,
                                   marginTop: width * 0.02,
                                 },
                               ]}
@@ -1946,13 +1957,15 @@ class Profile extends Component {
                               }}
                               autoFocus={true}
                               value={this.state.messenger}
+                              onSubmitEditing= {() => { this.onPressSocialMedia()}}
                             />
                           </TouchableOpacity>
                         ) : (
                           <TouchableOpacity onPress={this.onPressMessenger}>
-                            <Text style={styles.stylefiledText}>
-                              Messenger Account
-                            </Text>
+                              {this.state.messenger == "" ? 
+                             <Text style={styles.stylefiledText}>Messenger Account</Text>
+                              : <Text style={styles.stylefiledText}> {this.state.messenger}  </Text> } 
+                         
                           </TouchableOpacity>
                         )}
                         <TouchableOpacity
@@ -2193,7 +2206,7 @@ class Profile extends Component {
                                 styles.Text_1,
                                 {
                                   fontSize: width * 0.02,
-                                  width: width * 0.5,
+                                  width: width * 0.4,
                                   marginTop: width * 0.02,
                                 },
                               ]}
@@ -2213,13 +2226,15 @@ class Profile extends Component {
                               }}
                               autoFocus={true}
                               value={this.state.socialMedia}
+                              onSubmitEditing= {() => { this.onPressWebsite()}}
                             />
                           </TouchableOpacity>
                         ) : (
                           <TouchableOpacity onPress={this.onPressSocialMedia}>
-                            <Text style={styles.stylefiledText}>
-                              Social Media Account
-                            </Text>
+                             {this.state.socialMedia == "" ? 
+                             <Text style={styles.stylefiledText}>Social Media Account</Text>
+                              : <Text style={styles.stylefiledText}> {this.state.socialMedia}  </Text> } 
+                         
                           </TouchableOpacity>
                         )}
                         <TouchableOpacity
@@ -2458,7 +2473,7 @@ class Profile extends Component {
                                 styles.Text_1,
                                 {
                                   fontSize: width * 0.02,
-                                  width: width * 0.5,
+                                  width: width * 0.4,
                                   marginTop: width * 0.02,
                                 },
                               ]}
@@ -2478,12 +2493,15 @@ class Profile extends Component {
                               }}
                               autoFocus={true}
                               value={this.state.website}
+                              onSubmitEditing= {() => this.showDatePicker(index)}
                             />
                           </TouchableOpacity>
                         ) : (
                           <TouchableOpacity onPress={this.onPressWebsite}>
-                            <Text style={styles.stylefiledText}>Website</Text>
-                          </TouchableOpacity>
+                       {this.state.website == "" ? 
+                             <Text style={styles.stylefiledText}>Website</Text>
+                              : <Text style={styles.stylefiledText}> {this.state.website}  </Text> } 
+                                                   </TouchableOpacity>
                         )}
                         <TouchableOpacity
                           style={styles.modalBtn}
@@ -2700,8 +2718,7 @@ class Profile extends Component {
     data[index].date = fomateDate;
     data[index].show = false;
     this.setState({ dateInput2: data, dateSection: true });
-    console.log("datteee----------->", this.state.dateInput2);
-  };
+    this.onPressNote()  };
   showDateText = () => {
     return <Text>{this.state.formateDate}</Text>;
   };
@@ -2799,14 +2816,14 @@ class Profile extends Component {
                       <View
                         style={[
                           styles.doubleImaageView,
-                          { marginLeft: Metrics.SmallMargin },
+                          { marginLeft: Metrics.baseMargin },
                         ]}
                       >
                         {this.state.selectedData.isImport == false ? (
                           this.state.date !== "" ? (
                             <Image source={reset} style={styles.smallIcon} />
                           ) : null
-                        ) : this.state.date !== "" ? (
+                        ) : this.state.date !== ""  &&  this.state.date !== null? (
                           <Image source={edit} style={styles.smallIcon} />
                         ) : null}
 
@@ -3027,16 +3044,20 @@ class Profile extends Component {
                               autoFocus={true}
                               multiline={true}
                               value={this.state.note}
+                              onSubmitEditing= {() => { this.companyFocus.focus()}}
+
                             />
                           </TouchableOpacity>
                         ) : (
-                          <TouchableOpacity onPress={this.onPressNote}>
-                            <Text style={styles.stylefiledText}>Note</Text>
-                          </TouchableOpacity>
+                          <TouchableOpacity onPress={this.onPressNote} style={{marginTop:Metrics.smallMargin}}>
+                     {this.state.note == "" ? 
+                             <Text style={styles.stylefiledText}>Note</Text>
+                              : <Text style={styles.stylefiledText}> {this.state.note}  </Text> } 
+                                                   </TouchableOpacity>
                         )}
                         <View style={[styles.rightView, {}]}>
                           <TouchableOpacity
-                            style={styles.modalBtn}
+                            style={[styles.modalBtn,{marginTop:Metrics.smallMargin}]}
                             onPress={() => this.showNote(index)}
                           >
                             <Text style={styles.selectTypeText}>
@@ -3636,6 +3657,10 @@ class Profile extends Component {
                                 this.onChangeCompany(Company, index)
                               }
                               value={this.state.company}
+                              ref={(ref) => {
+                                this.companyFocus = ref;
+                              }}
+                              onSubmitEditing= {() => { this.jobTtitleFocus.focus()}}
                             />
                           ) : (
                             <Text style={styles.stylefiledText}>
@@ -3676,6 +3701,10 @@ class Profile extends Component {
                               onChangeText={(jobTitle) =>
                                 this.onChangeJobTitle(jobTitle, index)
                               }
+                              ref={(ref) => {
+                                this.jobTtitleFocus = ref;
+                              }}
+                              onSubmitEditing= {() => this.showWorkHour(index)}
                             />
                           ) : (
                             <Text style={styles.stylefiledText}>
@@ -3744,6 +3773,8 @@ class Profile extends Component {
                                   this.mondayFocus = ref;
                                 }}
                                 autoFocus={true}
+                                onSubmitEditing= {() => this.mondayToFocus.focus()}
+
                               />
                             </View>
                             <Text
@@ -3764,6 +3795,11 @@ class Profile extends Component {
                                   this.onChangeMondayTo(mondayTo, index)
                                 }
                                 value={this.state.MondayTo}
+                                ref={(ref) => {
+                                  this.mondayToFocus = ref;
+                                }}
+                                value={this.state.MondayTo}
+                                onSubmitEditing= {() => this.tuesdayFocus.focus()}
                               />
                             </View>
                           </View>
@@ -3789,6 +3825,11 @@ class Profile extends Component {
                                   this.onChangeTuesday(tuesday, index)
                                 }
                                 value={this.state.Tuesday}
+                                ref={(ref) => {
+                                  this.tuesdayFocus = ref;
+                                }}
+                                onSubmitEditing= {() => this.tuesdayToFocus.focus()}
+                                value={this.state.Tuesday}
                               />
                             </View>
                             <Text
@@ -3809,6 +3850,10 @@ class Profile extends Component {
                                   this.onChangeTuesdayTo(tuesdayTo, index)
                                 }
                                 value={this.state.TuesdayTo}
+                                ref={(ref) => {
+                                  this.tuesdayToFocus = ref;
+                                }}
+                                onSubmitEditing= {() => this.wednesday.focus()}
                               />
                             </View>
                           </View>
@@ -3834,6 +3879,10 @@ class Profile extends Component {
                                   this.onChangeWednesday(wednesday, index)
                                 }
                                 value={this.state.Wednesday}
+                                ref={(ref) => {
+                                  this.wednesday = ref;
+                                }}
+                                onSubmitEditing= {() => this.wednesdayTo.focus()}
                               />
                             </View>
                             <Text
@@ -3854,6 +3903,10 @@ class Profile extends Component {
                                   this.onChangeWednesdayTo(wednesdayTo, index)
                                 }
                                 value={this.state.WednesdayTo}
+                                ref={(ref) => {
+                                  this.wednesdayTo = ref;
+                                }}
+                                onSubmitEditing= {() => this.thursday.focus()}
                               />
                             </View>
                           </View>
@@ -3879,6 +3932,10 @@ class Profile extends Component {
                                   this.onChangeThursday(thursday, index)
                                 }
                                 value={this.state.Thursday}
+                                ref={(ref) => {
+                                  this.thursday = ref;
+                                }}
+                                onSubmitEditing= {() => this.thursdayTo.focus()}
                               />
                             </View>
                             <Text
@@ -3899,6 +3956,10 @@ class Profile extends Component {
                                   this.onChangeThursdayTo(thursdayTo, index)
                                 }
                                 value={this.state.ThursdayTo}
+                                ref={(ref) => {
+                                  this.thursdayTo = ref;
+                                }}
+                                onSubmitEditing= {() => this.friday.focus()}
                               />
                             </View>
                           </View>
@@ -3924,6 +3985,10 @@ class Profile extends Component {
                                   this.onChangeFriday(friday, index)
                                 }
                                 value={this.state.Friday}
+                                ref={(ref) => {
+                                  this.friday = ref;
+                                }}
+                                onSubmitEditing= {() => this.fridayTo.focus()}
                               />
                             </View>
                             <Text
@@ -3944,6 +4009,10 @@ class Profile extends Component {
                                   this.onChangeFridayTo(fridayTo, index)
                                 }
                                 value={this.state.FridayTo}
+                                ref={(ref) => {
+                                  this.fridayTo = ref;
+                                }}
+                                onSubmitEditing= {() => this.saturday.focus()}
                               />
                             </View>
                           </View>
@@ -3969,6 +4038,10 @@ class Profile extends Component {
                                   this.onChangeSaturday(saturday, index)
                                 }
                                 value={this.state.Saturday}
+                                ref={(ref) => {
+                                  this.saturday = ref;
+                                }}
+                                onSubmitEditing= {() => this.saturdayTo.focus()}
                               />
                             </View>
                             <Text
@@ -3989,6 +4062,10 @@ class Profile extends Component {
                                   this.onChangeSaturdayTo(saturdayTo, index)
                                 }
                                 value={this.state.SaturdayTo}
+                                ref={(ref) => {
+                                  this.saturdayTo = ref;
+                                }}
+                                onSubmitEditing= {() => this.sunday.focus()}
                               />
                             </View>
                           </View>
@@ -4014,6 +4091,10 @@ class Profile extends Component {
                                   this.onChangeSunday(sunday, index)
                                 }
                                 value={this.state.sunday}
+                                ref={(ref) => {
+                                  this.sunday = ref;
+                                }}
+                                onSubmitEditing= {() => this.sundayTo.focus()}
                               />
                             </View>
                             <Text
@@ -4034,6 +4115,10 @@ class Profile extends Component {
                                   this.onChangeSundayTo(sundayTo, index)
                                 }
                                 value={this.state.SundayTo}
+                                ref={(ref) => {
+                                  this.sundayTo = ref;
+                                }}
+                                onSubmitEditing= {Keyboard.dismiss()}
                               />
                             </View>
                           </View>
@@ -4136,8 +4221,7 @@ class Profile extends Component {
                           <Image source={edit} style={styles.smallIcon} />
                         ) : null}
 
-                        {this.state.selectedData.serverWorkHoursUpdate ==
-                        true ? (
+                        {this.state.selectedData.serverWorkHoursUpdate == true ? (
                           <Image source={edit} style={styles.smallIcon} />
                         ) : null}
                       </View>
@@ -5427,7 +5511,12 @@ class Profile extends Component {
                   >
                     <Text>{this.state.u_name}</Text>
                   </View>
-
+                  <View
+                      style={{
+                        marginBottom: Metrics.XxxxdoubleBaseMargin,
+                        marginLeft: Metrics.smallMargin,
+                      }}
+                    > 
                   {this.renderName()}
                   {this.renderMobile()}
                   {this.renderEmail()}
@@ -5438,6 +5527,7 @@ class Profile extends Component {
                   {this.renderDate()}
                   {this.renderNote()}
                   {this.renderCompany()}
+                  </View>
                 </View>
               </ScrollView>
               {this.renderContactLast()}

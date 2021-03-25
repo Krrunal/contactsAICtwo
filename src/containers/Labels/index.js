@@ -147,21 +147,7 @@ class labels extends Component {
         this.refs.toast.show(responseJson.message);
         
         this.labelList();
-        // if (responseJson.data.relation == "") {
-        //   this.setState({
-        //     dataManage: responseJson.data.relation,
-        //     viewSection: false,
-        //     label: "",
-        //   });
-        // } else {
-        //   var labelData = responseJson.data.relation.split(/,/);
-        //   this.setState({
-        //     dataManage: labelData,
-        //     viewSection: false,
-        //     label: "",
-        //   });
-        //   this.labelList();
-        // }
+      
       });
   };
 
@@ -350,7 +336,7 @@ class labels extends Component {
                   </View> : null
                   }
                 
-                <View style={{ height: height * 0.5 }}>
+                <View style={{ height: height * 0.77  , marginTop:Metrics.baseMargin}}>
                   <AutoDragSortableView
                     dataSource={this.state.dataManage}
                     parentWidth={parentWidth}
@@ -368,7 +354,6 @@ class labels extends Component {
                       }
                     }}
                     keyExtractor={(item, index) => item.txt}
-                    // renderItem={this.renderItem.bind(this)}
                     renderItem={(item, index) => {
                       return this.renderItem(item, index);
                     }}
@@ -386,13 +371,11 @@ class labels extends Component {
                       }
                       value={this.state.label}
                       onChangeText={(value) => this.setState({ label: value })}
-                      // onChangeText={ (value)=> this.textChange(value)}
                       ref={(input) => {
                         this.label = input;
                       }}
                       keyboardType={"default"}
                       autoCapitalize={false}
-                      // onSubmitEditing={this.labelApiCall}
                       placeholderTextColor={COLORS.black}
                     />
                   </View>

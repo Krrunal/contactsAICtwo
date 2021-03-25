@@ -1,4 +1,5 @@
 import {
+BackHandler,
 Dimensions,
 Image,
 Keyboard,
@@ -6,7 +7,7 @@ ScrollView,
 Text,
 TextInput,
 TouchableOpacity,
-View,
+View
 } from "react-native";
 import React, { Component } from "react";
 import { darkTheme, lightTheme } from "../theme/themeProps";
@@ -26,6 +27,21 @@ import { switchTheme } from "../../action/themeAction";
 var { width, height } = Dimensions.get("window");
 
 class manuallyAddContact extends Component {
+  backAction = () => {
+    this.props.navigation.navigate("SerachEditContact2");
+    // BackHandler.exitApp();
+    return true;
+  }; 
+  
+  componentDidMount = async () => {
+      BackHandler.addEventListener("hardwareBackPress", this.backAction);
+  };
+
+  componentWillUnmount() {
+    BackHandler.removeEventListener("hardwareBackPress", this.backAction);
+  
+  }
+  
   renderHeader() {
     return (
       <Header

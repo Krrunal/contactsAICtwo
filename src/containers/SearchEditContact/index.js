@@ -436,8 +436,11 @@ class searchContact extends Component {
   componentDidMount() {
     const { navigation } = this.props;
 
-    // console.log("last_name----->", this.props.navigation.state.params.user);
-    this.setState({ shortcontacts: this.props.navigation.state.params.user });
+    console.log(" from log in ----->", this.props.navigation.state.params.user);
+    this.setState({
+      shortcontacts: this.props.navigation.state.params.user,
+      data: this.props.navigation.state.params.user,
+    });
     this.focusListener = navigation.addListener("didFocus", async () => {
       this.setState({ contact: [] });
       this.setState({ contacts: "", shortcontacts: "" });
@@ -450,23 +453,6 @@ class searchContact extends Component {
         console.log("Last");
       }
     });
-    // firebase
-    // .firestore()
-    // .collection("user")
-    // .doc(this.props.username)
-    // .collection("contacts")
-    // .get()
-    // .then((snap) => {
-    //   this.setState({ doc_IDS : []})
-    //   snap.docs.forEach((doc_id) => {
-    //     this.state.doc_IDS.push(doc_id.id);
-    //   });
-    //   var docData = this.state.doc_IDS.map((item) => {
-    //     return { docID: item, isSelect: false };
-    //   });
-    //   this.setState({ doc_IDS: docData });
-    //   console.log("docData----?", this.state.doc_IDS);
-    // });
   }
 
   async contactList() {
@@ -496,8 +482,8 @@ class searchContact extends Component {
         var data = this.state.shortcontact.map((Data) => {
           return { item: Data, isSelect: false };
         });
-        this.setState({ shortcontacts: data, isLoading: false });
-        console.log("last_name----->", this.state.shortcontacts);
+        this.setState({ shortcontacts: data, data: data, isLoading: false });
+      ///  console.log("last_name----->", this.state.shortcontacts);
       });
   }
   async contactListFirst() {
@@ -526,33 +512,36 @@ class searchContact extends Component {
         var data = this.state.shortcontact.map((Data) => {
           return { item: Data, isSelect: false };
         });
-        this.setState({ shortcontacts: data, isLoading: false });
-        console.log("last_name----->", this.state.shortcontacts);
+        this.setState({ shortcontacts: data, data: data, isLoading: false });
+       // console.log("last_name----->", this.state.shortcontacts);
       });
   }
 
   handleSearch = (text) => {
     const { data, shortcontacts, itemCompany } = this.state;
-
+    if (text == "") {
+      console.log("empyt----->", text);
+      this.setState({ serachSection: false });
+    }
     const shortData = data.filter(
       (obj) =>
         obj[text?.toLowerCase() ?? "en"]?.indexOf(text) > -1 ||
-        obj.first_name_small.indexOf(text) > -1 ||
-        obj.nick_name_small.indexOf(text) > -1 ||
-        obj.last_name_small.indexOf(text) > -1 ||
-        obj.middle_name_small.indexOf(text) > -1 ||
-        obj.company.indexOf(text) > -1 ||
-        obj.website.indexOf(text) > -1 ||
-        obj.address1.indexOf(text) > -1 ||
-        obj.selectedName.indexOf(text) > -1 ||
-        obj.jobTitle.indexOf(text) > -1 ||
-        obj.social_media1.indexOf(text) > -1 ||
-        obj.note.indexOf(text) > -1 ||
-        obj.messenger1.indexOf(text) > -1 ||
-        obj.first_name.indexOf(text) > -1 ||
-        obj.nick_name.indexOf(text) > -1 ||
-        obj.last_name.indexOf(text) > -1 ||
-        obj.middle_name.indexOf(text) > -1
+        obj.item.first_name_small.indexOf(text) > -1 ||
+        obj.item.nick_name_small.indexOf(text) > -1 ||
+        obj.item.last_name_small.indexOf(text) > -1 ||
+        obj.item.middle_name_small.indexOf(text) > -1 ||
+        obj.item.company.indexOf(text) > -1 ||
+        obj.item.website.indexOf(text) > -1 ||
+        obj.item.address1.indexOf(text) > -1 ||
+        obj.item.selectedName.indexOf(text) > -1 ||
+        obj.item.jobTitle.indexOf(text) > -1 ||
+        obj.item.social_media1.indexOf(text) > -1 ||
+        obj.item.note.indexOf(text) > -1 ||
+        obj.item.messenger1.indexOf(text) > -1 ||
+        obj.item.first_name.indexOf(text) > -1 ||
+        obj.item.nick_name.indexOf(text) > -1 ||
+        obj.item.last_name.indexOf(text) > -1 ||
+        obj.item.middle_name.indexOf(text) > -1
     );
     this.setState({ shortcontacts: shortData, searchText: text });
   };
@@ -562,6 +551,12 @@ class searchContact extends Component {
       this.searchText.focus();
     }
   };
+  texSubmit =() =>{
+    if (this.state.searchText == "") {
+      console.log("empyt----->", this.state.searchText);
+      this.setState({ serachSection: false });
+    }
+  }
   renderHeader() {
     return (
       <View style={{ alignItems: "center" }}>
@@ -595,6 +590,7 @@ class searchContact extends Component {
                       }}
                       autoFocus={true}
                       autoCapitalize={"none"}
+                      onSubmitEditing={this.texSubmit}
                     />
                   </View>
                 ) : (
@@ -675,7 +671,8 @@ class searchContact extends Component {
               last_name: item.last_name == 1 ? fields.last_name : null,
               first_name_small: fields.first_name.toLowerCase(),
               last_name_small: fields.last_name.toLowerCase(),
-              number:(item.phone_number == 1) !== "" ? fields.number[0].phone : "",
+              number:
+                (item.phone_number == 1) !== "" ? fields.number[0].phone : "",
               address:
                 item.address == 1
                   ? fields.address !== ""
@@ -1102,7 +1099,6 @@ class searchContact extends Component {
   };
 
   onFlatlist1 = async (key, first_name, last_name, user_name) => {
-   
     this.setState({ isLoading: true, forKey: key });
     const { shortcontacts, firstName } = this.state;
     const { username } = this.props;
@@ -1505,20 +1501,19 @@ class searchContact extends Component {
         )}
 
         {/* {item.isImport == false ? ( */}
-          {item.item.isManually  == true ? 
+        {item.item.isManually == true ? (
           <Image source={edit} style={styles.editImgStyle} />
-          : null}
-         {item.item.isImport  == true ? 
-         <Image source={edit} style={styles.editImgStyle} />
-        : null}
-        
-        {item.item.isImport  == false ?
-        <Image source={reset} style={styles.resetImgStyle} />
-         :null
-         }
-        {item.item.serverDatapdate  == true ? 
-        <Image source={edit} style={styles.editImgStyle} />
-        : null}
+        ) : null}
+        {item.item.isImport == true ? (
+          <Image source={edit} style={styles.editImgStyle} />
+        ) : null}
+
+        {item.item.isImport == false ? (
+          <Image source={reset} style={styles.resetImgStyle} />
+        ) : null}
+        {item.item.serverDatapdate == true ? (
+          <Image source={edit} style={styles.editImgStyle} />
+        ) : null}
         {/* // ) : (
         
         //   <Image source={reset} style={styles.resetImgStyle} />
@@ -1536,42 +1531,43 @@ class searchContact extends Component {
       this.setState({ checkedOff: !this.state.checkedOff });
       return { ...item };
     });
-    this.setState({ shortcontacts : contactArr });
+    this.setState({ shortcontacts: contactArr });
   };
   renderMiddle() {
     return (
       <View>
-          {this.state.deletePortion == true ?  
-        <TouchableOpacity
-          style={styles.checkboxView}
-          onPress={() => {
-            this.selectAll();
-          }}
-        >
-          {this.state.checkedOff == true ? (
-            <View style={styles.checkViewForLight}>
-              {this.props.theme.mode === "light" ? (
-                <Image source={checkedWhite} style={styles.checkedStyle} />
-              ) : (
-                <Image source={checkedModified} style={styles.checkedStyle} />
-              )}
-            </View>
-          ) : (
-            <View style={styles.checkView}></View>
-          )}
-          <Text
-            style={[
-              styles.deSelectText,
-              {
-                color: this.props.theme.mode === "light" ? "#1374A3" : "white",
-                marginLeft: Metrics.smallMargin,
-              },
-            ]}
+        {this.state.deletePortion == true ? (
+          <TouchableOpacity
+            style={styles.checkboxView}
+            onPress={() => {
+              this.selectAll();
+            }}
           >
-            Select (De-select) All
-          </Text>
-        </TouchableOpacity>
-        : null}
+            {this.state.checkedOff == true ? (
+              <View style={styles.checkViewForLight}>
+                {this.props.theme.mode === "light" ? (
+                  <Image source={checkedWhite} style={styles.checkedStyle} />
+                ) : (
+                  <Image source={checkedModified} style={styles.checkedStyle} />
+                )}
+              </View>
+            ) : (
+              <View style={styles.checkView}></View>
+            )}
+            <Text
+              style={[
+                styles.deSelectText,
+                {
+                  color:
+                    this.props.theme.mode === "light" ? "#1374A3" : "white",
+                  marginLeft: Metrics.smallMargin,
+                },
+              ]}
+            >
+              Select (De-select) All
+            </Text>
+          </TouchableOpacity>
+        ) : null}
         <View style={styles.scrollStyle}>
           <FlatList
             refreshing={true}

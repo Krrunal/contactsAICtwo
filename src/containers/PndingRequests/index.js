@@ -598,7 +598,9 @@ class pendingRequest extends Component {
           this.state.sunday,
           this.state.sundayTo,
           fields.user_id,
-          ""
+          "",
+          trueName[0].toLowerCase(),
+          fields.last_name.toLowerCase(),
         );
       });
 
@@ -735,7 +737,9 @@ class pendingRequest extends Component {
           this.state.sunday,
           this.state.sundayTo,
           fields.user_id,
-          ""
+          "",
+          trueName[0].toLowerCase(),
+          fields.last_name.toLowerCase(),
         );
       });
 

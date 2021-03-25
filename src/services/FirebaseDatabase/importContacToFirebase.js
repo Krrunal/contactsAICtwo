@@ -58,7 +58,9 @@ export const importContactToFirebase = (
   sunday,
   sundayTo,
   user_id,
-  unique_id
+  unique_id,
+  first_name_small,
+  middle_name_small
 ) => {
   firebase
     .firestore()
@@ -124,8 +126,10 @@ export const importContactToFirebase = (
       user_id:user_id,
       u_name:first_name,
       unique_id:unique_id,
-      // first_name_small: first_name.toLowerCase(),
-      // middle_name_small: middle_name.toLowerCase(),
+      first_name_small: first_name_small,
+      middle_name_small: middle_name_small,
+      last_name_small:"",
+      nick_name_small:"",
       // last_name_small: last_name.toLowerCase(),
       // nick_name_small: nick_name.toLowerCase(),
       // isLNUpdate  :false,

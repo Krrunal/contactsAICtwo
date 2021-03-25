@@ -13,6 +13,7 @@ import {
   TouchableHighlight,
   TouchableOpacity,
   View,
+  
 } from "react-native";
 import React, { Component, useState } from "react";
 import styled, { ThemeProvider } from "styled-components/native";
@@ -238,18 +239,32 @@ class MyContactInfromation extends Component {
       Company: "",
       selectItem: "",
       timeZone: "",
-      data :[{"current_stock": 111, "product_image": "file:///storage/emulated/0/Android/data/com.stockapp/files/Pictures/b0e807e8-fa78-42d1-ab0b-2b9fa0060cb5.jpg", "product_name": "Tree", "user_id": 1}, {"current_stock": 25, "product_image": "file:///storage/emulated/0/Android/data/com.stockapp/files/Pictures/48e3436f-8902-4c08-8431-f062e9ef585c.jpg", "product_name": "Leaf", "user_id": 2}]
+      data: [
+        {
+          current_stock: 111,
+          product_image:
+            "file:///storage/emulated/0/Android/data/com.stockapp/files/Pictures/b0e807e8-fa78-42d1-ab0b-2b9fa0060cb5.jpg",
+          product_name: "Tree",
+          user_id: 1,
+        },
+        {
+          current_stock: 25,
+          product_image:
+            "file:///storage/emulated/0/Android/data/com.stockapp/files/Pictures/48e3436f-8902-4c08-8431-f062e9ef585c.jpg",
+          product_name: "Leaf",
+          user_id: 2,
+        },
+      ],
     };
   }
 
   componentDidMount = async () => {
-  
     // this.checkImageUploaded();
     this.timeZoneField();
-   this.firebaseDataCAll();
+    this.firebaseDataCAll();
   };
   checkImageUploaded = () => {
-    this.setState({ isLoading: true })
+    this.setState({ isLoading: true });
     const { username } = this.props;
     const baseurl = Constants.baseurl;
     var _body = new FormData();
@@ -294,13 +309,13 @@ class MyContactInfromation extends Component {
                 .firestore()
                 .collection("user")
                 .doc(`${username}`)
-                .update({ profile_image3 : item.profile });
+                .update({ profile_image3: item.profile });
               console.log("profile image profile 333 --->", item.profile);
             }
           });
         }
 
-       // this.firebaseDataCAll();
+        // this.firebaseDataCAll();
       })
       .catch((error) => {
         console.log("name error---->", error);
@@ -344,178 +359,176 @@ class MyContactInfromation extends Component {
     this.setState({ tzs: this.state.tz });
   };
   firebaseDataCAll = () => {
-    this.checkImageUploaded()
+    this.checkImageUploaded();
     const { username } = this.props;
-    
-      firebase
-        .firestore()
-        .collection("user")
-        .doc(username)
-        .get()
-        .then((snap) => {
-          var item = snap._data;
-         // this.setState({ contact: item });
-          this.setState({ isLoading: false });
-          if (item.isDataUpdated == undefined) {
-            console.log("social media ---->", item);
-            this.setState({ First_name: item.first_name });
-            this.setState({ number: item.number, email: item.email });
+
+    firebase
+      .firestore()
+      .collection("user")
+      .doc(username)
+      .get()
+      .then((snap) => {
+        var item = snap._data;
+        // this.setState({ contact: item });
+        this.setState({ isLoading: false });
+        if (item.isDataUpdated == undefined) {
+          console.log("social media ---->", item);
+          this.setState({ First_name: item.first_name });
+          this.setState({ number: item.number, email: item.email });
+        } else {
+          this.setState({
+            profile_image: item.profile_image,
+            image: item.profile_image,
+          });
+          this.setState({ profile_image2: item.profile_image2 });
+          this.setState({ profile_image3: item.profile_image3 });
+          this.setState({ First_name: item.first_name });
+          this.setState({ Last_name: item.last_name });
+          this.setState({ Middle_name: item.middle_name });
+          this.setState({ Nick_name: item.nick_name });
+          this.setState({ timeZone: item.timeZone });
+          if (item.isNumberUpdated == true) {
+            {
+              item.number !== ""
+                ? this.setState({ number: item.number[0].phone })
+                : null;
+            }
           } else {
-            this.setState({ profile_image: item.profile_image  ,image : item.profile_image});
-            this.setState({ profile_image2: item.profile_image2 });
-            this.setState({ profile_image3: item.profile_image3 });
-            this.setState({ First_name : item.first_name });
-            this.setState({ Last_name : item.last_name });
-            this.setState({ Middle_name: item.middle_name });
-            this.setState({ Nick_name: item.nick_name });
-            this.setState({ timeZone: item.timeZone });
-            if (item.isNumberUpdated == true) {
-              {
-                item.number !== ""
-                  ? this.setState({ number: item.number[0].phone })
-                  : null;
-              }
-            } else {
-              this.setState({ number: item.number });
-            }
-
-            if (item.isEmailUpdated == true) {
-             
-              {
-                item.email !== ""
-                  ? this.setState({ email: item.email[0].email })
-                  : null;
-              }
-            } else {
-             
-              this.setState({ email: item.email });
-            }
-
-            {
-              item.messenger !== ""
-                ? this.setState({ messenger: item.messenger[0].messenger })
-                : null;
-            }
-            {
-              item.socialMedia !== ""
-                ? this.setState({ socialMedia: item.socialMedia[0].social })
-                : null;
-            }
-            {
-              item.socialMedia1 !== ""
-                ? this.setState({ socialMedia2: item.socialMedia1[0].social })
-                : null;
-            }
-            {
-              item.address !== ""
-                ? this.setState({ address: item.address[0].address })
-                : null;
-            }
-          
-            //  {item.address.length > 1  == "" ? this.setState({ address2: item.address[1].address }) : null}
-            {
-              item.note !== ""
-                ? this.setState({ note: item.note[0].note })
-                : null;
-            }
-            {
-              item.website !== ""
-                ? this.setState({ website: item.website[0].website })
-                : null;
-            }
-            {
-              item.company !== ""
-                ? this.setState({ Company: item.company[0].company })
-                : null;
-            }
-            {
-              item.jobTitle !== ""
-                ? this.setState({ JobTitle : item.jobTitle[0].jobTitle })
-                : null;
-            }
-            {
-              item.date !== ""
-                ? this.setState({ date: item.date[0].date })
-                : null;
-            }
-
-            {
-              item.monday !== ""
-                ? this.setState({ Monday: item.monday[0].monday })
-                : null;
-            }
-            {
-              item.mondayTo !== ""
-                ? this.setState({ MondayTo: item.mondayTo[0].mondayTo })
-                : null;
-            }
-            {
-              item.tuesday !== ""
-                ? this.setState({ Tuesday: item.tuesday[0].tuesday })
-                : null;
-            }
-            {
-              item.tuesdayTo !== ""
-                ? this.setState({ TuesdayTo: item.tuesdayTo[0].tuesdayTo })
-                : null;
-            }
-            {
-              item.wednesday !== ""
-                ? this.setState({ Wednesday: item.wednesday[0].wednesday })
-                : null;
-            }
-            {
-              item.wednesdayTo !== ""
-                ? this.setState({
-                    WednesdayTo: item.wednesdayTo[0].wednesdayTo,
-                  })
-                : null;
-            }
-            {
-              item.thursday !== ""
-                ? this.setState({ Thursday: item.thursday[0].thursday })
-                : null;
-            }
-            {
-              item.thursdayTo !== ""
-                ? this.setState({ ThursdayTo: item.thursdayTo[0].thursdayTo })
-                : null;
-            }
-            {
-              item.friday !== ""
-                ? this.setState({ Friday: item.friday[0].friday })
-                : null;
-            }
-            {
-              item.fridayTo !== ""
-                ? this.setState({ FridayTo: item.fridayTo[0].fridayTo })
-                : null;
-            }
-            {
-              item.saturday !== ""
-                ? this.setState({ Saturday: item.saturday[0].saturday })
-                : null;
-            }
-            {
-              item.saturdayTo !== ""
-                ? this.setState({ SaturdayTo: item.saturdayTo[0].saturdayTo })
-                : null;
-            }
-            {
-              item.sunday !== ""
-                ? this.setState({ Sunday: item.sunday[0].sunday })
-                : null;
-            }
-            {
-              item.sundayTo !== ""
-                ? this.setState({ SundayTo: item.sundayTo[0].sundayTo })
-                : null;
-            }
+            this.setState({ number: item.number });
           }
 
-         
-        });
-   
+          if (item.isEmailUpdated == true) {
+            {
+              item.email !== ""
+                ? this.setState({ email: item.email[0].email })
+                : null;
+            }
+          } else {
+            this.setState({ email: item.email });
+          }
+
+          {
+            item.messenger !== ""
+              ? this.setState({ messenger: item.messenger[0].messenger })
+              : null;
+          }
+          {
+            item.socialMedia !== ""
+              ? this.setState({ socialMedia: item.socialMedia[0].social })
+              : null;
+          }
+          {
+            item.socialMedia1 !== ""
+              ? this.setState({ socialMedia2: item.socialMedia1[0].social })
+              : null;
+          }
+          {
+            item.address !== ""
+              ? this.setState({ address: item.address[0].address })
+              : null;
+          }
+
+          //  {item.address.length > 1  == "" ? this.setState({ address2: item.address[1].address }) : null}
+          {
+            item.note !== ""
+              ? this.setState({ note: item.note[0].note })
+              : null;
+          }
+          {
+            item.website !== ""
+              ? this.setState({ website: item.website[0].website })
+              : null;
+          }
+          {
+            item.company !== ""
+              ? this.setState({ Company: item.company[0].company })
+              : null;
+          }
+          {
+            item.jobTitle !== ""
+              ? this.setState({ JobTitle: item.jobTitle[0].jobTitle })
+              : null;
+          }
+          {
+            item.date !== ""
+              ? this.setState({ date: item.date[0].date })
+              : null;
+          }
+
+          {
+            item.monday !== ""
+              ? this.setState({ Monday: item.monday[0].monday })
+              : null;
+          }
+          {
+            item.mondayTo !== ""
+              ? this.setState({ MondayTo: item.mondayTo[0].mondayTo })
+              : null;
+          }
+          {
+            item.tuesday !== ""
+              ? this.setState({ Tuesday: item.tuesday[0].tuesday })
+              : null;
+          }
+          {
+            item.tuesdayTo !== ""
+              ? this.setState({ TuesdayTo: item.tuesdayTo[0].tuesdayTo })
+              : null;
+          }
+          {
+            item.wednesday !== ""
+              ? this.setState({ Wednesday: item.wednesday[0].wednesday })
+              : null;
+          }
+          {
+            item.wednesdayTo !== ""
+              ? this.setState({
+                  WednesdayTo: item.wednesdayTo[0].wednesdayTo,
+                })
+              : null;
+          }
+          {
+            item.thursday !== ""
+              ? this.setState({ Thursday: item.thursday[0].thursday })
+              : null;
+          }
+          {
+            item.thursdayTo !== ""
+              ? this.setState({ ThursdayTo: item.thursdayTo[0].thursdayTo })
+              : null;
+          }
+          {
+            item.friday !== ""
+              ? this.setState({ Friday: item.friday[0].friday })
+              : null;
+          }
+          {
+            item.fridayTo !== ""
+              ? this.setState({ FridayTo: item.fridayTo[0].fridayTo })
+              : null;
+          }
+          {
+            item.saturday !== ""
+              ? this.setState({ Saturday: item.saturday[0].saturday })
+              : null;
+          }
+          {
+            item.saturdayTo !== ""
+              ? this.setState({ SaturdayTo: item.saturdayTo[0].saturdayTo })
+              : null;
+          }
+          {
+            item.sunday !== ""
+              ? this.setState({ Sunday: item.sunday[0].sunday })
+              : null;
+          }
+          {
+            item.sundayTo !== ""
+              ? this.setState({ SundayTo: item.sundayTo[0].sundayTo })
+              : null;
+          }
+        }
+      });
   };
   selectPhoto = () => {
     ActionSheet.show(
@@ -672,7 +685,7 @@ class MyContactInfromation extends Component {
       height: 400,
       cropping: true,
     }).then((image) => {
-       this.setState({ profile_image: image.path });
+      this.setState({ profile_image: image.path });
       this.convertBase64(image.path);
       console.log("img 111---->", image.path);
       this.setState({
@@ -693,7 +706,7 @@ class MyContactInfromation extends Component {
       height: 400,
       cropping: true,
     }).then((image2) => {
-        this.setState({ profile_image2: image2.path });
+      this.setState({ profile_image2: image2.path });
       this.convertBase642(image2.path);
       console.log("img 2222---->", image2.path);
       this.setState({
@@ -735,7 +748,7 @@ class MyContactInfromation extends Component {
       height: 400,
       cropping: true,
     }).then((image3) => {
-       this.setState({ profile_image3: image3.path });
+      this.setState({ profile_image3: image3.path });
       this.convertBase643(image3.path);
       console.log("img 33---->", image3.path);
       this.setState({
@@ -849,7 +862,7 @@ class MyContactInfromation extends Component {
 
   //function to add text from TextInputs into single array
   addValues = (phone, index) => {
-    this.setState({ number  : phone})
+    this.setState({ number: phone });
     let dataArray = this.state.inputData;
     let checkBool = false;
     if (dataArray.length !== 0) {
@@ -916,63 +929,53 @@ class MyContactInfromation extends Component {
           <View style={styles.middleView}>
             <View style={styles.firstMiddle}>
               <View style={styles.squareBorder}>
-                {/* {this.state.status ? (
-                  this.renderImage(this.state.image)
-                ) : ( */}
-                  <Image
-                    source={{ uri: this.state.profile_image }}
-                    style={styles.SqureImage}
-                  />
-                {/* )} */}
-                {/* <Image
-                   source = {{uri :this.state.profile_image}}
-                   style={styles.SqureImage} /> */}
-                {/* {this.renderImage(this.state.profile_image)} */}
+                <Image
+                  source={{ uri: this.state.profile_image }}
+                  style={styles.SqureImage}
+                />
               </View>
-
-              <TouchableOpacity
+              {this.state.status ? 
+                <TouchableOpacity
                 style={styles.first}
                 onPress={this.state.status ? this.selectPhoto : null}
               >
                 <Text style={styles.firstText}>Select Photo</Text>
-              </TouchableOpacity>
+              </TouchableOpacity> :  null}
+             
             </View>
             <View style={styles.firstMiddle}>
               <View style={styles.squareBorder}>
-                {/* {this.state.status ? (
-                  this.renderImage2(this.state.image2)
-                ) : ( */}
-                  <Image
-                    source={{ uri: this.state.profile_image2 }}
-                    style={styles.SqureImage}
-                  />
-                {/* )} */}
-               
+                <Image
+                  source={{ uri: this.state.profile_image2 }}
+                  style={styles.SqureImage}
+                />
               </View>
-              <TouchableOpacity
-                style={styles.first}
-                onPress={this.state.status ? this.selectPhoto2 : null}
-              >
-                <Text style={styles.firstText}>Select Photo</Text>
-              </TouchableOpacity>
+              {this.state.status ? 
+               <TouchableOpacity
+               style={styles.first}
+               onPress={this.state.status ? this.selectPhoto2 : null}
+             >
+               <Text style={styles.firstText}>Select Photo</Text>
+             </TouchableOpacity>
+              : null } 
+             
             </View>
             <View style={styles.firstMiddle}>
               <View style={styles.squareBorder}>
-                {/* {this.state.status ? (
-                  this.renderImage3(this.state.image3)
-                ) : ( */}
-                  <Image
-                    source={{ uri: this.state.profile_image3 }}
-                    style={styles.SqureImage}
-                  />
-                {/* )} */}
+                <Image
+                  source={{ uri: this.state.profile_image3 }}
+                  style={styles.SqureImage}
+                />
               </View>
-              <TouchableOpacity
-                style={styles.first}
-                onPress={this.state.status ? this.selectPhoto3 : null}
-              >
-                <Text style={styles.firstText}>Select Photo</Text>
-              </TouchableOpacity>
+              {this.state.status ?  
+               <TouchableOpacity
+               style={styles.first}
+               onPress={this.state.status ? this.selectPhoto3 : null}
+             >
+               <Text style={styles.firstText}>Select Photo</Text>
+             </TouchableOpacity>
+             : null }
+             
             </View>
           </View>
         </View>
@@ -1001,6 +1004,7 @@ class MyContactInfromation extends Component {
                   ref={(input) => {
                     this.First_name = input;
                   }}
+                  onSubmitEditing= {() => { this.Middle_name.focus()}}
                 />
               ) : (
                 <Text style={styles.stylefiledText}>
@@ -1028,6 +1032,7 @@ class MyContactInfromation extends Component {
                   ref={(input) => {
                     this.Middle_name = input;
                   }}
+                  onSubmitEditing= {() => { this.Last_name.focus()}}
                 />
               ) : (
                 <Text style={styles.stylefiledText}>
@@ -1053,6 +1058,7 @@ class MyContactInfromation extends Component {
                   ref={(input) => {
                     this.Last_name = input;
                   }}
+                  onSubmitEditing= {() => { this.Nick_name.focus()}}
                 />
               ) : (
                 <Text style={styles.stylefiledText}>
@@ -1076,7 +1082,7 @@ class MyContactInfromation extends Component {
                   ref={(input) => {
                     this.Nick_name = input;
                   }}
-                  //  onSubmitEditing={this.onPressKey}
+                  onSubmitEditing= {() => { this.onPressKey()}}
                 />
               ) : (
                 <Text style={styles.stylefiledText}>
@@ -1137,23 +1143,24 @@ class MyContactInfromation extends Component {
                               returnKeyType="next"
                               placeholderTextColor={COLORS.main_text_color}
                               editable={this.state.status ? true : false}
-                              onChangeText={(number1  ) =>
-                                this.addValues(number1 , index)
+                              onChangeText={(number1) =>
+                                this.addValues(number1, index)
                               }
                               keyboardType={"numeric"}
                               ref={(ref) => {
                                 this.textInputRef = ref;
                               }}
                               autoFocus={true}
-                              value ={this.state.number}
+                              value={this.state.number}
+                              onSubmitEditing= {() => { this.onPressEmail()}}
                             />
                           </TouchableOpacity>
                         ) : (
-                          <TouchableOpacity
-                            onPress={this.onPressKey} >
-                            <Text style={styles.stylefiledText}>
-                              Phone Number
-                            </Text>
+                          <TouchableOpacity onPress={this.onPressKey}>
+                           
+                            {this.state.number == "" ? 
+                             <Text style={styles.stylefiledText}>   Phone Number  </Text> : <Text style={styles.stylefiledText}> {this.state.number}  </Text> } 
+                           
                           </TouchableOpacity>
                         )}
 
@@ -1288,7 +1295,7 @@ class MyContactInfromation extends Component {
     this.setState({ emailInput: data });
   };
   onChangeEmail = (email, index) => {
-    this.setState({ email : email})
+    this.setState({ email: email });
     let dataArray = this.state.emailData;
     let checkBool = false;
     if (dataArray.length !== 0) {
@@ -1380,13 +1387,15 @@ class MyContactInfromation extends Component {
                             }}
                             autoFocus={true}
                             value={this.state.email}
+                            onSubmitEditing={this.onPressAddress}
                           />
                         </TouchableOpacity>
                       ) : (
                         <TouchableOpacity onPress={this.onPressEmail}>
-                          <Text style={styles.stylefiledText}>
-                            E-mail Address
-                          </Text>
+                          {this.state.email == "" ? 
+                             <Text style={styles.stylefiledText}>E-mail Address</Text>
+                              : <Text style={styles.stylefiledText}> {this.state.email}  </Text> } 
+                         
                         </TouchableOpacity>
                       )}
                       <TouchableOpacity
@@ -1521,7 +1530,7 @@ class MyContactInfromation extends Component {
   };
 
   onChangAddress = (address, index) => {
-    this.setState({address : address})
+    this.setState({ address: address });
     let dataArray = this.state.addressData;
     let checkBool = false;
     if (dataArray.length !== 0) {
@@ -1616,11 +1625,16 @@ class MyContactInfromation extends Component {
                             autoFocus={true}
                             multiline={true}
                             value={this.state.address}
-                          />
+                            onSubmitEditing= {() => { this.onPressMessenger()}}
+                            numberOfLines={6}
+                         />
                         </TouchableOpacity>
                       ) : (
                         <TouchableOpacity onPress={this.onPressAddress}>
-                          <Text style={styles.stylefiledText}>Address</Text>
+                           {this.state.address == "" ? 
+                             <Text style={styles.stylefiledText}>Address</Text>
+                              : <Text style={styles.stylefiledText}> {this.state.address}  </Text> } 
+                         
                         </TouchableOpacity>
                       )}
                       <View style={styles.rightView}>
@@ -1757,7 +1771,7 @@ class MyContactInfromation extends Component {
     this.setState({ messengerInput: data });
   };
   onChangeMessenger = (messenger, index) => {
-    this.setState({messenger :messenger})
+    this.setState({ messenger: messenger });
     let dataArray = this.state.messengerData;
     let checkBool = false;
     if (dataArray.length !== 0) {
@@ -1846,13 +1860,15 @@ class MyContactInfromation extends Component {
                             }}
                             autoFocus={true}
                             value={this.state.messenger}
+                            onSubmitEditing= {() => { this.onPressSocialMedia()}}
                           />
                         </TouchableOpacity>
                       ) : (
                         <TouchableOpacity onPress={this.onPressMessenger}>
-                          <Text style={styles.stylefiledText}>
-                            Messenger Account
-                          </Text>
+                           {this.state.messenger == "" ? 
+                             <Text style={styles.stylefiledText}>Messenger Account</Text>
+                              : <Text style={styles.stylefiledText}> {this.state.messenger}  </Text> } 
+                         
                         </TouchableOpacity>
                       )}
                       <TouchableOpacity
@@ -1987,7 +2003,7 @@ class MyContactInfromation extends Component {
     this.setState({ socialMediaInput: data });
   };
   onChangeSocialMedia = (social, index) => {
-    this.setState({ socialMedia  : social})
+    this.setState({ socialMedia: social });
     let dataArray = this.state.socialMediaData;
     let checkBool = false;
     if (dataArray.length !== 0) {
@@ -2075,14 +2091,17 @@ class MyContactInfromation extends Component {
                               this.sociaMediaFocus = ref;
                             }}
                             autoFocus={true}
-                            value = {this.state.socialMedia}
+                            value={this.state.socialMedia}
+                            onSubmitEditing= {() => { this.onPressWebsite()}}
                           />
                         </TouchableOpacity>
                       ) : (
                         <TouchableOpacity onPress={this.onPressSocialMedia}>
-                          <Text style={styles.stylefiledText}>
-                            Social Media Account
-                          </Text>
+                         {this.state.socialMedia == "" ? 
+                             <Text style={styles.stylefiledText}>Social Media Account</Text>
+                              : <Text style={styles.stylefiledText}> {this.state.socialMedia}  </Text> } 
+                         
+                          
                         </TouchableOpacity>
                       )}
                       <TouchableOpacity
@@ -2217,7 +2236,7 @@ class MyContactInfromation extends Component {
     this.setState({ websiteInput: data });
   };
   onChangeWebsite = (website, index) => {
-    this.setState({website : website})
+    this.setState({ website: website });
     let dataArray = this.state.websiteData;
     let checkBool = false;
     if (dataArray.length !== 0) {
@@ -2305,12 +2324,17 @@ class MyContactInfromation extends Component {
                               this.websiteFocus = ref;
                             }}
                             autoFocus={true}
-                            value = {this.state.website}
+                            value={this.state.website}
+                            onSubmitEditing= {() => this.showDatePicker(index)}
                           />
                         </TouchableOpacity>
                       ) : (
                         <TouchableOpacity onPress={this.onPressWebsite}>
-                          <Text style={styles.stylefiledText}>Website</Text>
+                         {this.state.website == "" ? 
+                             <Text style={styles.stylefiledText}>Website</Text>
+                              : <Text style={styles.stylefiledText}> {this.state.website}  </Text> } 
+                         
+                         
                         </TouchableOpacity>
                       )}
                       <TouchableOpacity
@@ -2498,35 +2522,7 @@ class MyContactInfromation extends Component {
     data[index].show = false;
     this.setState({ dateInput2: data });
     console.log("datteee----------->", this.state.dateInput2[0].date);
-    // let dataArray = this.state.dateData;
-    // let checkBool = false;
-    // if (dataArray.length !== 0) {
-    //   dataArray.forEach((element) => {
-    //     if (element.index === index) {
-    //       element.date = date;
-    //       checkBool = true;
-    //     }
-    //   });
-    // }
-    // if (checkBool) {
-    //   this.setState({
-    //     dateData: dataArray,
-    //   });
-    // } else {
-    //   dataArray.push({ date, index });
-    //   this.setState({
-    //     dateData: dataArray,
-    //   });
-    // }
-
-    // console.log("index---->",this.state.dateData)
-    // const { dateData } = this.state;
-
-    // let dateFormate = dateData.find(({ date }) => date == date );
-    // var formate = dateFormate.date
-    // var fomateDate = moment(formate).format("MMMM, Do YYYY");
-    // this.setState({formateDate : fomateDate})
-    // console.log("index---->",fomateDate)
+     this.onPressNote()
   };
   showDateText = () => {
     return <Text>{this.state.formateDate}</Text>;
@@ -2553,17 +2549,16 @@ class MyContactInfromation extends Component {
                               <TouchableOpacity
                                 style={{ width: width * 0.5 }}
                                 onPress={() => this.showDatePicker(index)}
-                              > 
-                              {this.state.date == "" ? 
-                              <Text style={styles.stylefiledText}>
-                                {item.date}
-                              </Text>
-                           :
-                            <Text style={styles.stylefiledText}>
-                                {this.state.date}
-                            </Text> 
-                           }
-                                
+                              >
+                                {this.state.date == "" ? (
+                                  <Text style={styles.stylefiledText}>
+                                    {item.date}
+                                  </Text>
+                                ) : (
+                                  <Text style={styles.stylefiledText}>
+                                    {this.state.date}
+                                  </Text>
+                                )}
                               </TouchableOpacity>
 
                               {item.showDate && (
@@ -2716,7 +2711,7 @@ class MyContactInfromation extends Component {
   };
 
   onChangNote = (note, index) => {
-    this.setState({note:note})
+    this.setState({ note: note });
     let dataArray = this.state.noteData;
     let checkBool = false;
     if (dataArray.length !== 0) {
@@ -2771,7 +2766,6 @@ class MyContactInfromation extends Component {
   };
 
   renderNote() {
- 
     return (
       <View style={{ marginTop: Metrics.doubleBaseMargin }}>
         <View style={{ flexDirection: "row" }}>
@@ -2807,16 +2801,21 @@ class MyContactInfromation extends Component {
                               this.onChangNote(note, index)
                             }
                             ref={(ref) => {
-                              this.messengerFocus = ref;
+                              this.noteFocus = ref;
                             }}
                             autoFocus={true}
                             multiline={true}
-                            value= {this.state.note}
+                            value={this.state.note}
+                            numberOfLines={6}
+                            onSubmitEditing= {() => { this.companyFocus.focus()}}
                           />
                         </TouchableOpacity>
                       ) : (
                         <TouchableOpacity onPress={this.onPressNote}>
-                          <Text style={styles.stylefiledText}>Note</Text>
+                            {this.state.note == "" ? 
+                             <Text style={styles.stylefiledText}>Note</Text>
+                              : <Text style={styles.stylefiledText}> {this.state.note}  </Text> } 
+                         
                         </TouchableOpacity>
                       )}
                       <View style={styles.rightView}>
@@ -2842,18 +2841,7 @@ class MyContactInfromation extends Component {
                       style={[styles.modal]}
                       nestedScrollEnabled={true}
                     >
-                      {/* {this.state.noteLabelList.map((i) => {
-                        return (
-                          <TouchableOpacity
-                            activeOpacity={0.8}
-                            onPress={() => this.selectNoteLabel(index, i.label)}
-                          >
-                            <View style={styles.labelContainer}>
-                              <Text style={styles.label}>{i.label}</Text>
-                            </View>
-                          </TouchableOpacity>
-                        );
-                      })} */}
+                   
 
                       <View style={styles.labelContainer}>
                         <TouchableOpacity
@@ -2936,7 +2924,7 @@ class MyContactInfromation extends Component {
     );
   }
 
-  onChangeCompany = ( company , index) => {
+  onChangeCompany = (company, index) => {
     this.setState({ Company: company });
     let dataArray = this.state.companyData;
     let checkBool = false;
@@ -3025,7 +3013,7 @@ class MyContactInfromation extends Component {
   };
 
   renderItem2({ item, index }) {
-    console.log("itemmm---date-->",item)
+    console.log("itemmm---date-->", item);
     return (
       <TouchableOpacity
         style={{ marginTop: 10, marginLeft: 5 }}
@@ -3041,7 +3029,7 @@ class MyContactInfromation extends Component {
   }
 
   onChangeMonday = (monday, index) => {
-    this.setState({ Monday : monday });
+    this.setState({ Monday: monday });
     let dataArray = this.state.mondayData;
     let checkBool = false;
     if (dataArray.length !== 0) {
@@ -3064,7 +3052,7 @@ class MyContactInfromation extends Component {
     }
   };
   onChangeMondayTo = (mondayTo, index) => {
-    this.setState({ MondayTo : mondayTo });
+    this.setState({ MondayTo: mondayTo });
     let dataArray = this.state.mondayTOData;
     let checkBool = false;
     if (dataArray.length !== 0) {
@@ -3088,7 +3076,7 @@ class MyContactInfromation extends Component {
   };
 
   onChangeTuesday = (tuesday, index) => {
-    this.setState({ Tuesday : tuesday });
+    this.setState({ Tuesday: tuesday });
     let dataArray = this.state.tuesdayData;
     let checkBool = false;
     if (dataArray.length !== 0) {
@@ -3111,7 +3099,7 @@ class MyContactInfromation extends Component {
     }
   };
   onChangeTuesdayTo = (tuesdayTo, index) => {
-    this.setState({ TuesdayTo : tuesdayTo });
+    this.setState({ TuesdayTo: tuesdayTo });
     let dataArray = this.state.tuesdayTOData;
     let checkBool = false;
     if (dataArray.length !== 0) {
@@ -3157,7 +3145,7 @@ class MyContactInfromation extends Component {
     }
   };
   onChangeWednesdayTo = (wednesdayTo, index) => {
-    this.setState({ WednesdayTo : wednesdayTo });
+    this.setState({ WednesdayTo: wednesdayTo });
     let dataArray = this.state.wednesdayTOData;
     let checkBool = false;
     if (dataArray.length !== 0) {
@@ -3180,7 +3168,7 @@ class MyContactInfromation extends Component {
     }
   };
   onChangeThursday = (thursday, index) => {
-    this.setState({ Thursday : thursday });
+    this.setState({ Thursday: thursday });
     let dataArray = this.state.thursdayData;
     let checkBool = false;
     if (dataArray.length !== 0) {
@@ -3203,7 +3191,7 @@ class MyContactInfromation extends Component {
     }
   };
   onChangeThursdayTo = (thursdayTo, index) => {
-    this.setState({ ThursdayTo : thursdayTo });
+    this.setState({ ThursdayTo: thursdayTo });
     let dataArray = this.state.thursdayTOData;
     let checkBool = false;
     if (dataArray.length !== 0) {
@@ -3226,7 +3214,7 @@ class MyContactInfromation extends Component {
     }
   };
   onChangeFriday = (friday, index) => {
-    this.setState({ Friday : friday });
+    this.setState({ Friday: friday });
     let dataArray = this.state.fridayData;
     let checkBool = false;
     if (dataArray.length !== 0) {
@@ -3249,7 +3237,7 @@ class MyContactInfromation extends Component {
     }
   };
   onChangeFridayTo = (fridayTo, index) => {
-    this.setState({ FridayTo : fridayTo });
+    this.setState({ FridayTo: fridayTo });
     let dataArray = this.state.fridayTOData;
     let checkBool = false;
     if (dataArray.length !== 0) {
@@ -3272,7 +3260,7 @@ class MyContactInfromation extends Component {
     }
   };
   onChangeSaturday = (saturday, index) => {
-    this.setState({ Saturday : saturday });
+    this.setState({ Saturday: saturday });
     let dataArray = this.state.saturdayData;
     let checkBool = false;
     if (dataArray.length !== 0) {
@@ -3295,7 +3283,7 @@ class MyContactInfromation extends Component {
     }
   };
   onChangeSaturdayTo = (saturdayTo, index) => {
-    this.setState({ SaturdayTo : saturdayTo });
+    this.setState({ SaturdayTo: saturdayTo });
     let dataArray = this.state.saturdayTOData;
     let checkBool = false;
     if (dataArray.length !== 0) {
@@ -3318,7 +3306,7 @@ class MyContactInfromation extends Component {
     }
   };
   onChangeSunday = (sunday, index) => {
-    this.setState({ Sunday : sunday });
+    this.setState({ Sunday: sunday });
     let dataArray = this.state.sundayData;
     let checkBool = false;
     if (dataArray.length !== 0) {
@@ -3341,7 +3329,7 @@ class MyContactInfromation extends Component {
     }
   };
   onChangeSundayTo = (sundayTo, index) => {
-    this.setState({ SundayTo : sundayTo });
+    this.setState({ SundayTo: sundayTo });
     let dataArray = this.state.sundayTOData;
     let checkBool = false;
     if (dataArray.length !== 0) {
@@ -3394,10 +3382,10 @@ class MyContactInfromation extends Component {
                               this.onChangeCompany(Company, index)
                             }
                             value={this.state.Company}
-                            // ref={(ref) => {
-                            //   this.companyFocus = ref;
-                            // }}
-                            // autoFocus={true}
+                            ref={(ref) => {
+                              this.companyFocus = ref;
+                            }}
+                            onSubmitEditing= {() => { this.jobTtitleFocus.focus()}}
                           />
                         ) : (
                           <Text style={styles.stylefiledText}>
@@ -3424,6 +3412,11 @@ class MyContactInfromation extends Component {
                             onChangeText={(JobTitle) =>
                               this.onChangeJobTitle(JobTitle, index)
                             }
+                            ref={(ref) => {
+                              this.jobTtitleFocus = ref;
+                            }}
+                            onSubmitEditing= {() => this.showWorkHour(index)}
+
                           />
                         ) : (
                           <Text style={styles.stylefiledText}>
@@ -3459,7 +3452,6 @@ class MyContactInfromation extends Component {
                                 {
                                   fontSize: width * 0.025,
                                   width: width * 0.16,
-                               
                                 },
                               ]}
                             >
@@ -3479,6 +3471,7 @@ class MyContactInfromation extends Component {
                                   this.mondayFocus = ref;
                                 }}
                                 autoFocus={true}
+                                onSubmitEditing= {() => this.mondayToFocus.focus()}
                               />
                             </View>
                             <Text
@@ -3491,14 +3484,19 @@ class MyContactInfromation extends Component {
                             </Text>
                             <View style={styles.timeView}>
                               <TextInput
-                                 placeholder=""
+                                placeholder=""
                                 placeholderTextColor={COLORS.main_text_color}
                                 style={styles.timeText}
                                 editable={this.state.status ? true : false}
                                 onChangeText={(mondayTo) =>
                                   this.onChangeMondayTo(mondayTo, index)
                                 }
+                                ref={(ref) => {
+                                  this.mondayToFocus = ref;
+                                }}
                                 value={this.state.MondayTo}
+                                onSubmitEditing= {() => this.tuesdayFocus.focus()}
+
                               />
                             </View>
                           </View>
@@ -3523,6 +3521,10 @@ class MyContactInfromation extends Component {
                                 onChangeText={(tuesday) =>
                                   this.onChangeTuesday(tuesday, index)
                                 }
+                                ref={(ref) => {
+                                  this.tuesdayFocus = ref;
+                                }}
+                                onSubmitEditing= {() => this.tuesdayToFocus.focus()}
                                 value={this.state.Tuesday}
                               />
                             </View>
@@ -3536,7 +3538,7 @@ class MyContactInfromation extends Component {
                             </Text>
                             <View style={styles.timeView}>
                               <TextInput
-                                 placeholder=""
+                                placeholder=""
                                 placeholderTextColor={COLORS.main_text_color}
                                 style={styles.timeText}
                                 editable={this.state.status ? true : false}
@@ -3544,6 +3546,10 @@ class MyContactInfromation extends Component {
                                   this.onChangeTuesdayTo(tuesdayTo, index)
                                 }
                                 value={this.state.TuesdayTo}
+                                ref={(ref) => {
+                                  this.tuesdayToFocus = ref;
+                                }}
+                                onSubmitEditing= {() => this.wednesday.focus()}
                               />
                             </View>
                           </View>
@@ -3561,7 +3567,7 @@ class MyContactInfromation extends Component {
                             </Text>
                             <View style={styles.timeView}>
                               <TextInput
-                               placeholder=""
+                                placeholder=""
                                 placeholderTextColor={COLORS.main_text_color}
                                 style={styles.timeText}
                                 editable={this.state.status ? true : false}
@@ -3569,6 +3575,10 @@ class MyContactInfromation extends Component {
                                   this.onChangeWednesday(wednesday, index)
                                 }
                                 value={this.state.Wednesday}
+                                ref={(ref) => {
+                                  this.wednesday = ref;
+                                }}
+                                onSubmitEditing= {() => this.wednesdayTo.focus()}
                               />
                             </View>
                             <Text
@@ -3589,6 +3599,10 @@ class MyContactInfromation extends Component {
                                   this.onChangeWednesdayTo(wednesdayTo, index)
                                 }
                                 value={this.state.WednesdayTo}
+                                 ref={(ref) => {
+                                  this.wednesdayTo = ref;
+                                }}
+                                onSubmitEditing= {() => this.thursday.focus()}
                               />
                             </View>
                           </View>
@@ -3606,7 +3620,7 @@ class MyContactInfromation extends Component {
                             </Text>
                             <View style={styles.timeView}>
                               <TextInput
-                               placeholder=""
+                                placeholder=""
                                 placeholderTextColor={COLORS.main_text_color}
                                 style={styles.timeText}
                                 editable={this.state.status ? true : false}
@@ -3614,6 +3628,10 @@ class MyContactInfromation extends Component {
                                   this.onChangeThursday(thursday, index)
                                 }
                                 value={this.state.Thursday}
+                                ref={(ref) => {
+                                  this.thursday = ref;
+                                }}
+                                onSubmitEditing= {() => this.thursdayTo.focus()}
                               />
                             </View>
                             <Text
@@ -3634,6 +3652,10 @@ class MyContactInfromation extends Component {
                                   this.onChangeThursdayTo(thursdayTo, index)
                                 }
                                 value={this.state.ThursdayTo}
+                                ref={(ref) => {
+                                  this.thursdayTo = ref;
+                                }}
+                                onSubmitEditing= {() => this.friday.focus()}
                               />
                             </View>
                           </View>
@@ -3659,6 +3681,10 @@ class MyContactInfromation extends Component {
                                   this.onChangeFriday(friday, index)
                                 }
                                 value={this.state.Friday}
+                                ref={(ref) => {
+                                  this.friday = ref;
+                                }}
+                                onSubmitEditing= {() => this.fridayTo.focus()}
                               />
                             </View>
                             <Text
@@ -3671,7 +3697,7 @@ class MyContactInfromation extends Component {
                             </Text>
                             <View style={styles.timeView}>
                               <TextInput
-                               placeholder=""
+                                placeholder=""
                                 placeholderTextColor={COLORS.main_text_color}
                                 style={styles.timeText}
                                 editable={this.state.status ? true : false}
@@ -3679,6 +3705,10 @@ class MyContactInfromation extends Component {
                                   this.onChangeFridayTo(fridayTo, index)
                                 }
                                 value={this.state.FridayTo}
+                                ref={(ref) => {
+                                  this.fridayTo = ref;
+                                }}
+                                onSubmitEditing= {() => this.saturday.focus()}
                               />
                             </View>
                           </View>
@@ -3696,7 +3726,7 @@ class MyContactInfromation extends Component {
                             </Text>
                             <View style={styles.timeView}>
                               <TextInput
-                               placeholder=""
+                                placeholder=""
                                 placeholderTextColor={COLORS.main_text_color}
                                 style={styles.timeText}
                                 editable={this.state.status ? true : false}
@@ -3704,6 +3734,10 @@ class MyContactInfromation extends Component {
                                   this.onChangeSaturday(saturday, index)
                                 }
                                 value={this.state.Saturday}
+                                ref={(ref) => {
+                                  this.saturday = ref;
+                                }}
+                                onSubmitEditing= {() => this.saturdayTo.focus()}
                               />
                             </View>
                             <Text
@@ -3716,7 +3750,7 @@ class MyContactInfromation extends Component {
                             </Text>
                             <View style={styles.timeView}>
                               <TextInput
-                               placeholder=""
+                                placeholder=""
                                 placeholderTextColor={COLORS.main_text_color}
                                 style={styles.timeText}
                                 editable={this.state.status ? true : false}
@@ -3724,6 +3758,10 @@ class MyContactInfromation extends Component {
                                   this.onChangeSaturdayTo(saturdayTo, index)
                                 }
                                 value={this.state.SaturdayTo}
+                                ref={(ref) => {
+                                  this.saturdayTo = ref;
+                                }}
+                                onSubmitEditing= {() => this.sunday.focus()}
                               />
                             </View>
                           </View>
@@ -3749,6 +3787,10 @@ class MyContactInfromation extends Component {
                                   this.onChangeSunday(sunday, index)
                                 }
                                 value={this.state.Sunday}
+                                ref={(ref) => {
+                                  this.sunday = ref;
+                                }}
+                                onSubmitEditing= {() => this.sundayTo.focus()}
                               />
                             </View>
                             <Text
@@ -3769,6 +3811,10 @@ class MyContactInfromation extends Component {
                                   this.onChangeSundayTo(sundayTo, index)
                                 }
                                 value={this.state.SundayTo}
+                                ref={(ref) => {
+                                  this.sundayTo = ref;
+                                }}
+                                onSubmitEditing= {Keyboard.dismiss()}
                               />
                             </View>
                           </View>
@@ -3859,7 +3905,8 @@ class MyContactInfromation extends Component {
                       </View>
                     </View>
                   )}
-                  {this.state.isCompanySec == true ? null : this.state.status ? (
+                  {this.state.isCompanySec == true ? null : this.state
+                      .status ? (
                     <TouchableOpacity
                       style={styles.searchSection}
                       onPress={() => {
@@ -3909,14 +3956,18 @@ class MyContactInfromation extends Component {
                               {
                                 fontSize: width * 0.025,
                                 width: width * 0.16,
-                                
                               },
                             ]}
                           >
                             Monday
                           </Text>
                           <View style={styles.timeView}>
-                            <Text style={[styles.timeText,{marginTop : Metrics.baseMargin}]}>
+                            <Text
+                              style={[
+                                styles.timeText,
+                                { marginTop: Metrics.baseMargin },
+                              ]}
+                            >
                               {this.state.Monday}
                             </Text>
                           </View>
@@ -3929,7 +3980,12 @@ class MyContactInfromation extends Component {
                             to
                           </Text>
                           <View style={styles.timeView}>
-                          <Text style={[styles.timeText,{marginTop : Metrics.baseMargin}]}>
+                            <Text
+                              style={[
+                                styles.timeText,
+                                { marginTop: Metrics.baseMargin },
+                              ]}
+                            >
                               {this.state.MondayTo}
                             </Text>
                           </View>
@@ -3947,7 +4003,12 @@ class MyContactInfromation extends Component {
                             Tuesday
                           </Text>
                           <View style={styles.timeView}>
-                          <Text style={[styles.timeText,{marginTop : Metrics.baseMargin}]}>
+                            <Text
+                              style={[
+                                styles.timeText,
+                                { marginTop: Metrics.baseMargin },
+                              ]}
+                            >
                               {this.state.Tuesday}
                             </Text>
                           </View>
@@ -3960,7 +4021,12 @@ class MyContactInfromation extends Component {
                             to
                           </Text>
                           <View style={styles.timeView}>
-                          <Text style={[styles.timeText,{marginTop : Metrics.baseMargin}]}>
+                            <Text
+                              style={[
+                                styles.timeText,
+                                { marginTop: Metrics.baseMargin },
+                              ]}
+                            >
                               {this.state.TuesdayTo}
                             </Text>
                           </View>
@@ -3978,7 +4044,12 @@ class MyContactInfromation extends Component {
                             Wednesday
                           </Text>
                           <View style={styles.timeView}>
-                          <Text style={[styles.timeText,{marginTop : Metrics.baseMargin}]}>
+                            <Text
+                              style={[
+                                styles.timeText,
+                                { marginTop: Metrics.baseMargin },
+                              ]}
+                            >
                               {this.state.Wednesday}
                             </Text>
                           </View>
@@ -3991,7 +4062,12 @@ class MyContactInfromation extends Component {
                             to
                           </Text>
                           <View style={styles.timeView}>
-                          <Text style={[styles.timeText,{marginTop : Metrics.baseMargin}]}>
+                            <Text
+                              style={[
+                                styles.timeText,
+                                { marginTop: Metrics.baseMargin },
+                              ]}
+                            >
                               {this.state.WednesdayTo}
                             </Text>
                           </View>
@@ -4009,7 +4085,12 @@ class MyContactInfromation extends Component {
                             Thursday
                           </Text>
                           <View style={styles.timeView}>
-                          <Text style={[styles.timeText,{marginTop : Metrics.baseMargin}]}>
+                            <Text
+                              style={[
+                                styles.timeText,
+                                { marginTop: Metrics.baseMargin },
+                              ]}
+                            >
                               {this.state.Thursday}
                             </Text>
                           </View>
@@ -4022,7 +4103,12 @@ class MyContactInfromation extends Component {
                             to
                           </Text>
                           <View style={styles.timeView}>
-                          <Text style={[styles.timeText,{marginTop : Metrics.baseMargin}]}>
+                            <Text
+                              style={[
+                                styles.timeText,
+                                { marginTop: Metrics.baseMargin },
+                              ]}
+                            >
                               {this.state.ThursdayTo}
                             </Text>
                           </View>
@@ -4040,7 +4126,12 @@ class MyContactInfromation extends Component {
                             Friday
                           </Text>
                           <View style={styles.timeView}>
-                          <Text style={[styles.timeText,{marginTop : Metrics.baseMargin}]}>
+                            <Text
+                              style={[
+                                styles.timeText,
+                                { marginTop: Metrics.baseMargin },
+                              ]}
+                            >
                               {this.state.Friday}
                             </Text>
                           </View>
@@ -4053,7 +4144,12 @@ class MyContactInfromation extends Component {
                             to
                           </Text>
                           <View style={styles.timeView}>
-                          <Text style={[styles.timeText,{marginTop : Metrics.baseMargin}]}>
+                            <Text
+                              style={[
+                                styles.timeText,
+                                { marginTop: Metrics.baseMargin },
+                              ]}
+                            >
                               {this.state.FridayTo}
                             </Text>
                           </View>
@@ -4071,7 +4167,12 @@ class MyContactInfromation extends Component {
                             Saturday
                           </Text>
                           <View style={styles.timeView}>
-                          <Text style={[styles.timeText,{marginTop : Metrics.baseMargin}]}>
+                            <Text
+                              style={[
+                                styles.timeText,
+                                { marginTop: Metrics.baseMargin },
+                              ]}
+                            >
                               {this.state.Saturday}
                             </Text>
                           </View>
@@ -4084,7 +4185,12 @@ class MyContactInfromation extends Component {
                             to
                           </Text>
                           <View style={styles.timeView}>
-                          <Text style={[styles.timeText,{marginTop : Metrics.baseMargin}]}>
+                            <Text
+                              style={[
+                                styles.timeText,
+                                { marginTop: Metrics.baseMargin },
+                              ]}
+                            >
                               {this.state.SaturdayTo}
                             </Text>
                           </View>
@@ -4102,7 +4208,12 @@ class MyContactInfromation extends Component {
                             Sunday
                           </Text>
                           <View style={styles.timeView}>
-                          <Text style={[styles.timeText,{marginTop : Metrics.baseMargin}]}>
+                            <Text
+                              style={[
+                                styles.timeText,
+                                { marginTop: Metrics.baseMargin },
+                              ]}
+                            >
                               {this.state.Sunday}
                             </Text>
                           </View>
@@ -4115,7 +4226,12 @@ class MyContactInfromation extends Component {
                             to
                           </Text>
                           <View style={styles.timeView}>
-                          <Text style={[styles.timeText,{marginTop : Metrics.baseMargin}]}>
+                            <Text
+                              style={[
+                                styles.timeText,
+                                { marginTop: Metrics.baseMargin },
+                              ]}
+                            >
                               {this.state.SundayTo}
                             </Text>
                           </View>
@@ -4278,19 +4394,18 @@ class MyContactInfromation extends Component {
       sundayTo: "",
     });
   };
-  finalSubmit = async () =>{
+  finalSubmit = async () => {
     if (this.state.status == false) {
       this.setState({ status: true });
-    
     } else {
       this.setState({ status: false });
       this.ShowHideTextComponentView();
       // this.firebaseDataCAll();
       // this.clearData();
     }
-  }
+  };
   ShowHideTextComponentView = async () => {
-   const {
+    const {
       profile_image,
       profile_image2,
       profile_image3,
@@ -4339,7 +4454,6 @@ class MyContactInfromation extends Component {
       image_section3,
     } = this.state;
     const { username, user_id } = this.props;
- 
 
     if (profile_base == "") {
     } else {
@@ -4876,7 +4990,7 @@ class MyContactInfromation extends Component {
         }}
       >
         <TouchableOpacity
-         // underlayColor="transparent"
+          // underlayColor="transparent"
           style={styles.saveView}
           onPress={this.finalSubmit}
         >
@@ -4893,7 +5007,7 @@ class MyContactInfromation extends Component {
       </View>
     );
   }
- 
+
   render() {
     return (
       <ThemeProvider theme={this.props.theme}>

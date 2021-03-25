@@ -249,22 +249,22 @@ class afterLogout extends Component {
         this.setState({ viewIntl: true });
         this.setState({ viewPhone: false  , passSection: false , emailSection : false});
        //  this.setState({ emailSection : true, passSection: false });
-        console.log(" iffff  2---?", this.props.password);
+        console.log(" iffff  1 m---?", this.props.password);
       } else {
         this.setState({ viewIntl: true });
         this.setState({ viewPhone: false  , emailSection : false});
-        console.log("else 2 ---?",this.props.password);
+        console.log("else 1  m---?",this.props.password);
       }
     } else {
       if (this.props.password == "") {
         this.setState({ viewIntl: true });
         this.setState({ viewPhone: false  , passSection: false });
        //  this.setState({ emailSection : true, passSection: false });
-        console.log(" iffff  2---?", this.props.password);
+        console.log(" iffff  2m ---?", this.props.password);
       } else {
         this.setState({ viewIntl: true });
         this.setState({ viewPhone: false, emailSection : false });
-        console.log("else 2 ---?",this.props.password);
+        console.log("else 2 - m --?",this.props.password);
       }
     }
   // this.setState({ viewIntl: true });

@@ -2,9 +2,11 @@ import * as actions from "../../action";
 
 import {
   Alert,
+  BackHandler,
   Dimensions,
   FlatList,
   Image,
+  Keyboard,
   Modal,
   Platform,
   Text,
@@ -12,7 +14,6 @@ import {
   TouchableHighlight,
   TouchableOpacity,
   View,
-  BackHandler
 } from "react-native";
 import React, { Component } from "react";
 import styled, { ThemeProvider } from "styled-components/native";
@@ -69,27 +70,46 @@ class Signup extends Component {
     passwordSection: false,
     rePasswordSection: false,
     mobilePlatform: "",
-    empty:""
+    empty: "",
+    number_moible: "",
   };
+
   backAction = () => {
-   
-    BackHandler.exitApp();
+    this.props.navigation.navigate("Login");
+    // BackHandler.exitApp();
     return true;
-  };  
+  };
+
+  _keyboardDidShow() {
+    console.log("Keyboard Shown");
+  }
+
+  _keyboardDidHide() {
+    console.log("Keyboard Hidden");
+  }
 
   componentDidMount = async () => {
+    this.keyboardDidShowListener = Keyboard.addListener(
+      "keyboardDidShow"
+      // this._keyboardDidShow,
+    );
+    this.keyboardDidHideListener = Keyboard.addListener(
+      "keyboardDidHide"
+      // this._keyboardDidHide,
+    );
     this.props.regcontactChange("");
     this.props.regunameChange("");
     this.props.regEmailChange("");
     this.props.regPassChange("");
     this.props.regconfirmpassWord("");
     BackHandler.addEventListener("hardwareBackPress", this.backAction);
-  }
+  };
 
   componentWillUnmount() {
     BackHandler.removeEventListener("hardwareBackPress", this.backAction);
+    this.keyboardDidShowListener.remove();
+    this.keyboardDidHideListener.remove();
   }
-
 
   maxUname = (uname) => {
     return uname.length > 20;
@@ -130,6 +150,7 @@ class Signup extends Component {
   };
 
   checkInternet = async () => {
+    Keyboard.dismiss();
     NetInfo.fetch().then((state) => {
       if (state.isConnected) {
         this.signUp();
@@ -201,12 +222,17 @@ class Signup extends Component {
     phoneNumber,
     isVerified,
   }) => {
+    this.setState({ number_moible: unmaskedPhoneNumber });
     if (isVerified == true) {
       this.props.regcontactChange(dialCode + "-" + unmaskedPhoneNumber);
       this.setState({ contactError: "" });
       this.setState({ contactError1: "" });
       this.setState({ contactError2: "" });
       this.props.checkContact();
+      this.setState({ nameSection: true });
+      if (this.state.nameSection == true) {
+        this.nameFocus.focus();
+      }
     } else {
       this.props.regcontactChange(unmaskedPhoneNumber);
       this.setState({ contactError: "Phone number" });
@@ -363,36 +389,140 @@ class Signup extends Component {
     }
   }
   viewPhoneToggle = () => {
-    this.setState({ viewIntl: true });
-    this.setState({ viewPhone: false });
+    if (this.state.nameSection == true) {
+      if (this.props.uname == "") {
+        this.setState({ nameSection: false });
+      }
+    }
+    if (this.state.emailSection == true) {
+      if (this.props.email == "") {
+        this.setState({ emailSection: false });
+      }
+    }
+    if (this.state.password == true) {
+      if (this.props.email == "") {
+        this.setState({ passwordSection: false });
+      }
+    }
+    if (this.state.rePasswordSection == true) {
+      if (this.props.confirmpassWord == "") {
+        this.setState({ rePasswordSection: false });
+      }
+    }
+    console.log("name section --->", this.props.uname);
+    this.setState({ viewIntl: true, viewPhone: false });
     if (this.state.viewIntl == true) {
       this.phoneInput.focus();
     }
   };
+
   unameFocus = () => {
+    if (this.state.emailSection == true) {
+      if (this.props.email == "") {
+        this.setState({ emailSection: false });
+      }
+    }
+    if (this.state.passwordSection == true) {
+      if (this.props.email == "") {
+        this.setState({ passwordSection: false });
+      }
+    }
+    if (this.state.rePasswordSection == true) {
+      if (this.props.confirmpassWord == "") {
+        this.setState({ rePasswordSection: false });
+      }
+    }
+    if (this.state.viewIntl == true) {
+      if (this.state.number_moible == "") {
+        this.setState({ viewIntl: false, viewPhone: true });
+      }
+    }
     this.setState({ nameSection: true });
     if (this.state.nameSection == true) {
       this.nameFocus.focus();
     }
   };
   emailFocus = () => {
+    if (this.state.passwordSection == true) {
+      if (this.props.email == "") {
+        this.setState({ passwordSection: false });
+      }
+    }
+    if (this.state.rePasswordSection == true) {
+      if (this.props.confirmpassWord == "") {
+        this.setState({ rePasswordSection: false });
+      }
+    }
+    if (this.state.viewIntl == true) {
+      if (this.state.number_moible == "") {
+        this.setState({ viewIntl: false, viewPhone: true });
+      }
+    }
+    if (this.state.nameSection == true) {
+      if (this.props.uname == "") {
+        this.setState({ nameSection: false });
+      }
+    }
     this.setState({ emailSection: true });
     if (this.state.emailSection == true) {
       this.emailFocusInput.focus();
     }
   };
   passwordFocus = () => {
+    if (this.state.rePasswordSection == true) {
+      if (this.props.confirmpassWord == "") {
+        this.setState({ rePasswordSection: false });
+      }
+    }
+    if (this.state.nameSection == true) {
+      if (this.props.uname == "") {
+        this.setState({ nameSection: false });
+      }
+    }
+    if (this.state.viewIntl == true) {
+      if (this.state.number_moible == "") {
+        this.setState({ viewIntl: false, viewPhone: true });
+      }
+    }
+    if (this.state.nameSection == true) {
+      if (this.props.uname == "") {
+        this.setState({ nameSection: false });
+      }
+    }
+
     this.setState({ passwordSection: true });
     if (this.state.passwordSection == true) {
       this.passwordFocusInput.focus();
     }
   };
   repasswordFocus = () => {
+    if (this.state.nameSection == true) {
+      if (this.props.uname == "") {
+        this.setState({ nameSection: false });
+      }
+    }
+    if (this.state.viewIntl == true) {
+      if (this.state.number_moible == "") {
+        this.setState({ viewIntl: false, viewPhone: true });
+      }
+    }
+    if (this.state.nameSection == true) {
+      if (this.props.uname == "") {
+        this.setState({ nameSection: false });
+      }
+    }
+    if (this.state.passwordSection == true) {
+      if (this.props.email == "") {
+        this.setState({ passwordSection: false });
+      }
+    }
     this.setState({ rePasswordSection: true });
     if (this.state.rePasswordSection == true) {
       this.repasswordFocusInput.focus();
     }
   };
+  onSubmitMobile = () => {};
+
   render() {
     const {
       email,
@@ -445,6 +575,7 @@ class Signup extends Component {
                           defaultCountry="CA2"
                           isShowLabel={false}
                           autoFocus={true}
+                          onSubmitEditing={this.onSubmitMobile}
                         />
                       ) : null}
                       {this.state.viewPhone ? (
@@ -474,13 +605,19 @@ class Signup extends Component {
                                   this.props.theme.mode === "light"
                                     ? "black"
                                     : "white",
-                               
                               },
                             ]}
                           >
                             Phone number
                           </Text>
-                          <Text style={[styles.errorSuccess,{  paddingLeft: width * 0.01,}]}>is</Text>
+                          <Text
+                            style={[
+                              styles.errorSuccess,
+                              { paddingLeft: width * 0.01 },
+                            ]}
+                          >
+                            is
+                          </Text>
                           <Text
                             style={[
                               styles.error,
@@ -489,7 +626,7 @@ class Signup extends Component {
                                   this.props.theme.mode === "light"
                                     ? "black"
                                     : "white",
-                               paddingLeft: width * 0.01,
+                                paddingLeft: width * 0.01,
                               },
                             ]}
                           >
@@ -508,7 +645,6 @@ class Signup extends Component {
                                 this.props.theme.mode === "light"
                                   ? COLORS.black
                                   : COLORS.white,
-                            
                             },
                           ]}
                         >
@@ -588,6 +724,7 @@ class Signup extends Component {
                                 this.nameFocus = ref;
                               }}
                               autoFocus={true}
+                              onSubmitEditing={this.emailFocus}
                             ></InputCard>
                             <View style={styles.eyeView}>
                               {uname !== "" &&
@@ -714,7 +851,6 @@ class Signup extends Component {
 
                             <View style={{ flexDirection: "row" }}>
                               <InputCard
-                                // onChangeText={regEmailChange}
                                 onChangeText={(email) =>
                                   this.changeEmail(email)
                                 }
@@ -736,6 +872,7 @@ class Signup extends Component {
                                   this.emailFocusInput = ref;
                                 }}
                                 autoFocus={true}
+                                onSubmitEditing={this.passwordFocus}
                               ></InputCard>
                               <View style={styles.eyeView}>
                                 {email !== "" && this.props.emailMsg == true ? (
@@ -765,26 +902,27 @@ class Signup extends Component {
                       )}
                     </View>
                     <View style={styles.errorView}>
-                    {email !== ""  ?  (this.state.emailError == undefined ||
-                        this.state.emailError == "") &&
-                      this.props.emailMsg == true ? (
-                        <Text
-                          style={[
-                            styles.error,
-                            {
-                              color:
-                                this.props.theme.mode === "light"
-                                  ? COLORS.black
-                                  : COLORS.white,
-                            },
-                          ]}
-                        >
-                          Email <Text style={styles.errorSuccess}>is</Text>{" "}
-                          available
-                        </Text>
-                      ) : null  : null}
+                      {email !== "" ? (
+                        (this.state.emailError == undefined ||
+                          this.state.emailError == "") &&
+                        this.props.emailMsg == true ? (
+                          <Text
+                            style={[
+                              styles.error,
+                              {
+                                color:
+                                  this.props.theme.mode === "light"
+                                    ? COLORS.black
+                                    : COLORS.white,
+                              },
+                            ]}
+                          >
+                            Email <Text style={styles.errorSuccess}>is</Text>{" "}
+                            available
+                          </Text>
+                        ) : null
+                      ) : null}
 
-                     
                       {(this.state.emailError == undefined ||
                         this.state.emailError == "") &&
                       this.props.emailMsg == false ? (
@@ -874,8 +1012,9 @@ class Signup extends Component {
                             </TouchableHighlight>
                           </View>
 
-                          <Text style={styles.submitText}>Password must contain:</Text>
-                        
+                          <Text style={styles.submitText}>
+                            Password must contain:
+                          </Text>
 
                           <View style={styles.modalView}>
                             <View>{this.showModelData()}</View>
@@ -966,6 +1105,7 @@ class Signup extends Component {
                               this.passwordFocusInput = ref;
                             }}
                             autoFocus={true}
+                            onSubmitEditing={this.repasswordFocus}
                           ></InputCard>
                         </View>
                       ) : (
@@ -1043,6 +1183,7 @@ class Signup extends Component {
                               this.repasswordFocusInput = ref;
                             }}
                             autoFocus={true}
+                            onSubmitEditing={Keyboard.dismiss}
                           ></InputCard>
                         </View>
                       ) : (
