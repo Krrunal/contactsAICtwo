@@ -44,18 +44,21 @@ import iconVideo from "../../assets/icons/iconVideo.png";
 import iconcall from "../../assets/icons/iconCall.png";
 import innerimg from "../../assets/images/innerimg.png";
 import instagram from "../../assets/images/instagram.png";
-import leftArrow from "../../assets/images/leftArrow.png";
+import leftArrow from "../../assets/images/rightArrow2.png";
 import logo from "../../assets/images/logo.png";
 import message from "../../assets/images/message.png";
 import moment from "moment";
 import note from "../../assets/images/note.png";
 import reset from "../../assets/images/resetBlack.png";
-import rightArrow from "../../assets/images/rightArrow.png";
+import rightArrow from "../../assets/images/rightArrow2.png";
+import rightArrowWhite from "../../assets/images/rightArrowWhite.png";
 import rigthLogo from "../../assets/icons/contact.png";
 import sideBar from "../../assets/images/sideBAR.png";
 import styles from "./style.js";
 import website from "../../assets/images/website.png";
 import websiteImg from "../../assets/images/website.png";
+import backArrowColor from "../../assets/images/backArrowColor.png";
+import backArrowWhite from "../../assets/images/backArrowWhite.png";
 
 const person = require("../../assets/images/person.png");
 var { width, height } = Dimensions.get("window");
@@ -789,14 +792,29 @@ class Profile extends Component {
   renderHeader() {
     return (
       <View>
+       
         <View
           style={{
             width: width,
             alignItems: "center",
-            marginTop: Metrics.baseMargin,
+          //  justifyContent:'center',
+            // marginTop: Metrics.baseMargin,
+            flexDirection:'row',
+          
           }}
         >
-          <Text>{this.state.u_name}</Text>
+          {/* <View style={styles.blckView}></View> */}
+
+          <TouchableOpacity
+              style={styles.arrowView}
+              onPress={ () => this.props.navigation.navigate("SerachEditContact")}
+            >
+              <Image source={  this.props.theme.mode === "light" ?  backArrowColor : backArrowWhite} style={[styles.backArrowStyle]} />
+            </TouchableOpacity>
+          <View style={styles.centerTextStyle}>
+
+         <Text style={{color:  this.props.theme.mode === "light" ? "#1374A3" : "white",  fontSize: width * 0.06, fontFamily: Font.medium,}}>{this.state.u_name}</Text>
+         </View>
         </View>
       </View>
     );
@@ -839,9 +857,9 @@ class Profile extends Component {
           }}
         >
           {this.state.leftSec == true ? (
-            <TouchableOpacity style={styles.arrowView} onPress={this.leftPress}>
+            <TouchableOpacity style={[styles.arrowView,{marginRight: 10}]} onPress={this.leftPress}>
               <Image
-                source={rightArrow}
+                source={ this.props.theme.mode === "light" ? rightArrow : rightArrowWhite}
                 style={[
                   styles.arrowStyle,
                   { transform: [{ rotate: "180deg" }] },
@@ -849,6 +867,7 @@ class Profile extends Component {
               />
             </TouchableOpacity>
           ) : null}
+         
           {this.state.profile_image == "" ||
           this.state.profile_image2 == "" ||
           this.state.profile_image3 == "" ? (
@@ -892,10 +911,12 @@ class Profile extends Component {
           ) : null}
           {this.state.rightSec == true ? (
             <TouchableOpacity
-              style={styles.arrowView}
+              style={[styles.arrowView,{marginLeft :10}]}
               onPress={this.rightPress}
             >
-              <Image source={leftArrow} style={[styles.arrowStyle]} />
+              <Image 
+              source={ this.props.theme.mode === "light" ? leftArrow : rightArrowWhite}
+              style={[styles.arrowStyle]} />
             </TouchableOpacity>
           ) : null}
         </View>
@@ -4539,7 +4560,7 @@ class Profile extends Component {
                               </Text>
                             </View>
                           </View>
-                          <View style={[styles.dayView, {}]}>
+                          <View style={[styles.dayView, {marginBottom:Metrics.smallMargin}]}>
                             <Text
                               style={[
                                 styles.workText,
@@ -5507,9 +5528,10 @@ class Profile extends Component {
                       alignItems: "flex-start",
                       marginLeft: Metrics.baseMargin,
                       marginTop: Metrics.baseMargin,
+                       
                     }}
                   >
-                    <Text>{this.state.u_name}</Text>
+                    <Text style={{color:  this.props.theme.mode === "light" ? "#1374A3" : "white",  fontSize: width * 0.05, fontFamily: Font.medium,}}>{this.state.u_name}</Text>
                   </View>
                   <View
                       style={{

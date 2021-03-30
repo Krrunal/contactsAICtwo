@@ -1,4 +1,4 @@
-import {
+ import {
   Dimensions,
   FlatList,
   Image,
@@ -103,12 +103,7 @@ class importContact extends Component {
                   return 1;
                 return 0;
               } else {
-              //  this.state.shortData.push(a);
-                // if (a.givenName.toLowerCase() < b.givenName.toLowerCase())
-                //   return -1;
-                // if (a.givenName.toLowerCase() > b.givenName.toLowerCase())
-                //   return 1;
-                // return 0;
+             
               }
             });
            
@@ -363,7 +358,7 @@ class importContact extends Component {
                 this.setState({ addressLable: address1 });
               }
 
-              if (item.jobTitle == "") {
+              if (item.jobTitle == "" || item.jobTitle == null) {
                 this.setState({ jobTitle: "" });
               } else {
                 this.setState({ jobTitle: item.jobTitle });
@@ -373,9 +368,11 @@ class importContact extends Component {
                 this.convertBase642(item.thumbnailPath);
               }
               if (item.phoneNumbers.length > 0) {
-                console.log("address---->", item.phoneNumbers[0].number);
+              //  console.log("address---->", item.phoneNumbers[0].number);
                 this.setState({ mobile_phone: item.phoneNumbers[0].number });
               }
+              console.log(" jobTitle ---->",  this.state.jobTitle);
+              console.log(" item.jobTitle ---->",  item.jobTitle);
               importContactToFirebase(
                 username,
                 item.thumbnailPath,
@@ -410,7 +407,7 @@ class importContact extends Component {
                 item.note.toLowerCase(),
                 item.company.toLowerCase(),
                 "",
-                this.state.jobTitle.toLowerCase(),
+                this.state.jobTitle == null ? "" : this.state.jobTitle.toLowerCase(),
                 "",
                 "",
                 "",
@@ -507,16 +504,17 @@ class importContact extends Component {
                 this.setState({ addressLable: address1 });
               }
 
-              if (item.jobTitle == "") {
+              if (item.jobTitle == "" || item.jobTitle == null) {
                 this.setState({ jobTitle: "" });
               } else {
                 this.setState({ jobTitle: item.jobTitle });
               }
 
               if (item.phoneNumbers.length > 0) {
-                console.log("address---->", item.phoneNumbers[0].number);
+              //  console.log("address---->", item.phoneNumbers[0].number);
                 this.setState({ mobile_phone: item.phoneNumbers[0].number });
               }
+              console.log(" jobTitle ---->",  this.state.jobTitle);
               importContactToFirebase(
                 username,
                 item.thumbnailPath,
@@ -551,7 +549,7 @@ class importContact extends Component {
                 item.note.toLowerCase(),
                 item.company.toLowerCase(),
                 "",
-                this.state.jobTitle.toLowerCase(),
+                this.state.jobTitle == null ? "" : this.state.jobTitle.toLowerCase(),
                 "",
                 "",
                 "",

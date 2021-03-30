@@ -18,7 +18,7 @@ import CheckBox from "@react-native-community/checkbox";
 import Constants from "../../action/Constants";
 import Font from "../theme/font";
 import GeneralStatusBar from "../../components/StatusBar/index";
-import Header from "../../components/header/index";
+import Header from "../../components/header/backHeader";
 import { Label } from "native-base";
 import Labels from "../Labels/index";
 import Metrics from "../theme/Metrics";
@@ -121,11 +121,42 @@ class pendingRequest extends Component {
     return (
       <Header
         title="Pending Requests"
-        onPress={() => this.props.navigation.openDrawer()}
+        onPress={() => this.props.navigation.navigate("SerachEditContact")}
       />
     );
   }
-
+  renderHeaderLable() {
+    return (
+      <Header
+        title="Pending Requests"
+        onPress={() => this.setState({ middleSection: true , labelSection: false })}
+      />
+    );
+  } 
+  renderHeaderConform() {
+    return (
+      <Header
+        title="Pending Requests"
+        onPress={() => this.setState({ afterConfirmSection : false , labelSection: true })}
+      />
+    );
+  } 
+  renderHeaderDeny() {
+    return (
+      <Header
+        title="Pending Requests"
+        onPress={() => this.setState({ denySection : false , middleSection: true })}
+      />
+    );
+  } 
+  renderHeaderDenyYes() {
+    return (
+      <Header
+        title="Pending Requests"
+        onPress={() => this.setState({ denySection : true , denyYESSection: false })}
+      />
+    );
+  } 
   componentDidMount = async () => {
     const { user_id, navigation } = this.props;
     this.setState({
@@ -1683,10 +1714,12 @@ class pendingRequest extends Component {
         />
         <View style={{ flex: 1 }}>
           <Container>
-            {this.renderHeader()}
-            {this.renderUpText()}
+           
+            
             {this.state.labelSection == true ? (
               <View style={{ flex: 1 }}>
+                {this.renderHeaderLable()}
+                {this.renderUpText()}
                 {this.renderU_name()}
                 {this.renderLabel()}
                 {this.renderLast()}
@@ -1694,18 +1727,30 @@ class pendingRequest extends Component {
             ) : null}
             {this.state.middleSection ? (
               <View style={{ width: width, alignItems: "center" }}>
+                 {this.renderHeader()}
+                 {this.renderUpText()}
                 {this.renderMiddle()}
               </View>
             ) : null}
 
             {this.state.afterConfirmSection == true ? (
-              <View>{this.confirmSection()}</View>
+              <View>
+                  {this.renderHeaderConform()}
+                {this.renderUpText()}
+                {this.confirmSection()}</View>
             ) : null}
             {this.state.denySection == true ? (
-              <View>{this.denyView()}</View>
+              <View>
+                 {this.renderHeaderDeny()}
+                {this.renderUpText()}
+                {this.denyView()}
+                </View>
             ) : null}
             {this.state.denyYESSection == true ? (
-              <View>{this.denyYESSectionView()}</View>
+              <View>
+                 {this.renderHeaderDenyYes()}
+                {this.renderUpText()}
+                {this.denyYESSectionView()}</View>
             ) : null}
           </Container>
           {this.showLoader()}

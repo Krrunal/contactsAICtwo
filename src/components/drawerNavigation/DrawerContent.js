@@ -389,7 +389,7 @@ class SideBar extends React.Component {
                     style={{ width: width * 0.04, height: width * 0.04 }}
                   />
                   {this.props.username == null ? (
-                    <Text style={styles.itemTextMain}>My Information</Text>
+                    <Text style={[styles.itemTextMain,]}>My Information</Text>
                   ) : (
                     <Text style={styles.itemTextMain}>
                       {this.props.username}
@@ -751,7 +751,7 @@ const styles = StyleSheet.create({
   itemText: {
     color: COLORS.white,
     marginLeft: Metrics.smallMargin,
-    fontSize: width * 0.045,
+    fontSize: width * 0.043,
     marginTop: Metrics.SmallMargin,
     fontFamily: Font.regular,
   },

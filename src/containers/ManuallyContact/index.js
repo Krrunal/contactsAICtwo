@@ -17,16 +17,19 @@ import {
 import React, { Component } from "react";
 import { darkTheme, lightTheme } from "../theme/themeProps";
 import styled, { ThemeProvider } from "styled-components/native";
-import RNFetchBlob from "rn-fetch-blob";
+
 import { COLORS } from "../theme/Colors.js";
+import Constants from "../../action/Constants";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import Font from "../theme/font";
 import GeneralStatusBar from "../../components/StatusBar/index";
-import Header from "../../components/header/index";
+import Header from "../../components/header/backHeader";
 import Icon from "react-native-vector-icons/Entypo";
 import ImagePicker from "react-native-image-crop-picker";
 import IntlPhoneInput from "react-native-intl-phone-input";
 import Metrics from "../theme/Metrics";
+import RNFetchBlob from "rn-fetch-blob";
+import { Spinner } from "../../components/Spinner";
 import Swipeable from "react-native-gesture-handler/Swipeable";
 import { ThemeContext } from "react-navigation";
 import Toast from "react-native-easy-toast";
@@ -48,12 +51,11 @@ import moment from "moment";
 import note from "../../assets/images/note.png";
 import rigthLogo from "../../assets/icons/contact.png";
 import sideBar from "../../assets/images/sideBAR.png";
-import Constants from "../../action/Constants";
 import styles from "./style.js";
 import { switchTheme } from "../../action/themeAction";
 import uuid from "react-native-uuid";
 import website from "../../assets/images/website.png";
-import { Spinner } from "../../components/Spinner";
+
 var { width, height } = Dimensions.get("window");
 
 var DESTRUCTIVE_INDEX = 3;
@@ -666,7 +668,7 @@ class addmanuallyContact extends Component {
     return (
       <Header
         title="Add Contact Manually"
-        onPress={() => this.props.navigation.openDrawer()}
+        onPress={() => this.props.navigation.navigate("AddContact")}
       />
     );
   }
@@ -980,13 +982,13 @@ class addmanuallyContact extends Component {
               <View style={styles.squareBorder}>
                 {this.renderImage(this.state.image)}
               </View>
-
-              <TouchableOpacity
+              {this.state.status == true ? <TouchableOpacity
                 style={styles.first}
                 onPress={this.state.status == true ? this.selectPhoto : null}
               >
                 <Text style={styles.firstText}>Select Photo</Text>
-              </TouchableOpacity>
+              </TouchableOpacity>  : null }
+             
             </View>
             <View style={styles.firstMiddle}>
               <View style={styles.squareBorder}>
@@ -1000,21 +1002,21 @@ class addmanuallyContact extends Component {
                   <Text style={styles.firstText}>Select Photo</Text>
                 </TouchableOpacity>
               ) : (
-                <TouchableOpacity style={styles.first}>
-                  <Text style={styles.firstText}>Select Photo</Text>
-                </TouchableOpacity>
+               null
               )}
             </View>
             <View style={styles.firstMiddle}>
               <View style={styles.squareBorder}>
                 {this.renderImage3(this.state.image3)}
               </View>
+              {this.state.status == true ? ( 
               <TouchableOpacity
                 style={styles.first}
                 onPress={this.state.status == true ? this.selectPhoto3 : null}
               >
                 <Text style={styles.firstText}>Select Photo</Text>
               </TouchableOpacity>
+              ) : null}
             </View>
           </View>
         </View>
@@ -1231,7 +1233,7 @@ class addmanuallyContact extends Component {
                   dialCode={this.state.dialCode}
                   // placeholder='3265'
                   value={this.state.number1}
-                  inputRef={(ref) => (this.phoneInput = ref)}
+                  // inputRef={(ref) => (this.phoneInput = ref)}
                   keyboardType={"numeric"}
                   onChangeText={this.onChangeNumber}
                   isShowLabelManually={false}

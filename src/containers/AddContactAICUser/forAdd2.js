@@ -7,7 +7,7 @@ import { COLORS } from "../theme/Colors.js";
 import Constants from "../../action/Constants";
 import Font from "../theme/font.js";
 import GeneralStatusBar from "../../components/StatusBar/index";
-import Header from "../../components/header/index";
+import Header from "../../components/header/backHeader";
 import { Spinner } from "../../components/Spinner";
 import { connect } from "react-redux";
 import firebase from "../../services/FirebaseDatabase/db";
@@ -87,7 +87,7 @@ class forAdd2 extends Component {
     return (
       <Header
         title="Add Contacts AIC User"
-        onPress={() => this.props.navigation.openDrawer()}
+        onPress={() => this.props.navigation.navigate("addContactMultiple")}
       />
     );
   }

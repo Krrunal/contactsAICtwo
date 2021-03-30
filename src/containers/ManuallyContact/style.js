@@ -62,6 +62,7 @@ export default StyleSheet.create({
   firstMiddle: {
     alignItems: "center",
     padding: Metrics.xsmallMargin,
+    width: height * 0.16
   },
 
   innerStyle: {

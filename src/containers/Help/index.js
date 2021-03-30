@@ -14,7 +14,7 @@ import styled, { ThemeProvider } from "styled-components/native";
 
 import Font from "../theme/font";
 import GeneralStatusBar from "../../components/StatusBar/index";
-import Header from "../../components/header/index";
+import Header from "../../components/header/backHeader";
 import { connect } from "react-redux";
 import styles from "./style.js";
 
@@ -23,7 +23,9 @@ var { width, height } = Dimensions.get("window");
 class Help extends Component {
   renderHeader() {
     return (
-      <Header title="Help" onPress={() => this.props.navigation.openDrawer()} />
+      <Header title="Help" 
+      onPress={() => this.props.navigation.navigate("SerachEditContact")}
+      />
     );
   }
 

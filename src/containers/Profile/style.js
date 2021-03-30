@@ -18,16 +18,26 @@ export default StyleSheet.create({
   arrowView:{
     alignItems:'center',
     justifyContent:'center',
+  
+  
  },
  arrowStyle:{
   width: width * 0.2,
-  height: height * 0.2,
+  height: height * 0.12,
   resizeMode:'contain',
+
+},
+backArrowStyle:{
+  width: width * 0.12,
+  height: height * 0.1,
+  resizeMode:'contain',
+  marginLeft: Metrics.baseMargin,
 },
 personImageStyle :{
   width: width * 0.5,
   height: height * 0.3,
   marginTop: Metrics.xbaseMargin,
+ 
 },
 searchSection: {
   alignItems: "center",
@@ -152,14 +162,14 @@ compnyRightText: {
 },
 workView: {
   width: width * 0.7,
-  height: width * 0.8,
+  height: width * 0.85,
   borderWidth: 1,
   borderRadius: 5,
   borderColor: COLORS.main_text_color,
   marginLeft: Metrics.smallMargin,
   flexDirection: "row",
   position: "relative",
-
+  backgroundColor: COLORS.white
 },
 checkedIcon: {
   width: width * 0.05,
@@ -238,6 +248,7 @@ LeftView: {
     flexDirection: "row",
     marginTop: 10,
     alignItems: "center",
+   
   },
   modal: {
     backgroundColor: "#ffffff",
@@ -309,5 +320,15 @@ LeftView: {
     color: COLORS.main_text_color,
     fontFamily: Font.regular,
   },
+  blckView :{
+    alignItems:"flex-start",
+    justifyContent:"flex-start",
+    width:width
+  },
+  centerTextStyle:{
+    // borderWidth:1,
+    width:width * 0.7,
+    alignItems:'center'
+  }
 });
 

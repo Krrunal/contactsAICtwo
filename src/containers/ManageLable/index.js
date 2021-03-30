@@ -23,7 +23,7 @@ import Constants from "../../action/Constants";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import Font from "../theme/font";
 import GeneralStatusBar from "../../components/StatusBar/index";
-import Header from "../../components/header/index";
+import Header from "../../components/header/backHeader";
 import Icon from "react-native-vector-icons/Entypo";
 import ImagePicker from "react-native-image-crop-picker";
 import IntlPhoneInput from "react-native-intl-phone-input";
@@ -37,7 +37,6 @@ import firebase from "../../services/FirebaseDatabase/db";
 import { manageLabelToFirebase } from "../../services/FirebaseDatabase/managelabelToFirebase";
 import moment from "moment";
 import styles from "./style.js";
-
 var { width, height } = Dimensions.get("window");
 var momentTime = require("moment-timezone");
 var DESTRUCTIVE_INDEX = 3;
@@ -150,7 +149,7 @@ backAction = () => {
     this.focusListener = navigation.addListener("didFocus", async () => {
       this.labelList();
     });
-    BackHandler.addEventListener("hardwareBackPress", this.backAction);
+    // BackHandler.addEventListener("hardwareBackPress", this.backAction);
   };
 
   componentWillUnmount() {
@@ -475,7 +474,7 @@ backAction = () => {
     return (
       <Header
         title="Manage Label"
-        onPress={() => this.props.navigation.openDrawer()}
+        onPress={() =>  this.props.navigation.navigate("Label")}
       />
     );
   }
@@ -518,18 +517,20 @@ backAction = () => {
                   style={styles.SqureImage}
                 />
               </View>
-
+              
               <TouchableOpacity
-                style={[
-                  styles.first,
-                  {
-                    backgroundColor: this.state.iSec
-                      ? COLORS.main_text_color
-                      : COLORS.white,
-                  },
-                ]}
-                onPress={this.selectPhoto}
-              ></TouchableOpacity>
+              style={[
+                styles.first,
+                {
+                  backgroundColor: this.state.iSec
+                    ? COLORS.main_text_color
+                    : COLORS.white,
+                },
+              ]}
+              onPress={this.selectPhoto}
+            ></TouchableOpacity> 
+         
+              
             </View>
             <View style={styles.firstMiddle}>
               <View style={styles.squareBorder}>
@@ -2195,12 +2196,13 @@ backAction = () => {
       });
   };
   forSelectNavigate = () => {
-    if (this.state.status == false) {
-      this.setState({ status: true });
-    } else {
-      this.setState({ status: false });
-      this.updateSettingApiCall();
-    }
+    // if (this.state.status == false) {
+    //   this.setState({ status: true });
+    // } else {
+    //   this.setState({ status: false });
+    
+    // }
+    this.updateSettingApiCall();
     this.props.navigation.navigate("forSelectContact");
   };
   labelList2= () => {

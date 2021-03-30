@@ -16,7 +16,7 @@ import styled, { ThemeProvider } from "styled-components/native";
 import { COLORS } from "../theme/Colors.js";
 import Font from "../theme/font.js";
 import GeneralStatusBar from "../../components/StatusBar/index";
-import Header from "../../components/header/index";
+import Header from "../../components/header/backHeader";
 import Icon from "react-native-vector-icons/FontAwesome5";
 import Metrics from "../theme/Metrics";
 import { bindActionCreators } from "redux";
@@ -28,13 +28,13 @@ var { width, height } = Dimensions.get("window");
 
 class manuallyAddContact extends Component {
   backAction = () => {
-    this.props.navigation.navigate("SerachEditContact2");
+    this.props.navigation.navigate("SerachEditContact");
     // BackHandler.exitApp();
     return true;
   }; 
   
   componentDidMount = async () => {
-      BackHandler.addEventListener("hardwareBackPress", this.backAction);
+    //  BackHandler.addEventListener("hardwareBackPress", this.backAction);
   };
 
   componentWillUnmount() {
@@ -46,7 +46,7 @@ class manuallyAddContact extends Component {
     return (
       <Header
         title="Add Contacts AIC User"
-        onPress={() => this.props.navigation.openDrawer()}
+        onPress={() =>  this.props.navigation.navigate("AddContact")}
       />
     );
   }

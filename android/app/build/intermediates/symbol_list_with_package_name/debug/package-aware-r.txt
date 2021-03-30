@@ -1516,6 +1516,8 @@ drawable src_assets_icons_navicon
 drawable src_assets_icons_redwrong
 drawable src_assets_icons_settings
 drawable src_assets_icons_unchecked
+drawable src_assets_images_backarrowcolor
+drawable src_assets_images_backarrowwhite
 drawable src_assets_images_bordercorner
 drawable src_assets_images_calender
 drawable src_assets_images_call
@@ -1538,7 +1540,10 @@ drawable src_assets_images_plus
 drawable src_assets_images_reset
 drawable src_assets_images_resetblack
 drawable src_assets_images_rightarrow
+drawable src_assets_images_rightarrow2
+drawable src_assets_images_rightarrowwhite
 drawable src_assets_images_sidebar
+drawable src_assets_images_squrebackwhite
 drawable src_assets_images_website
 drawable test_custom_background
 drawable tooltip_frame_dark

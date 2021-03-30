@@ -20,7 +20,7 @@ import Constants from "../../action/Constants";
 import ContactUs from '../ContactUs/index';
 import Font from "../theme/font";
 import GeneralStatusBar from "../../components/StatusBar/index";
-import Header from "../../components/header/index";
+import Header from "../../components/header/backHeader";
 import Icon from "react-native-vector-icons/FontAwesome5";
 import Metrics from "../theme/Metrics";
 import { Spinner } from "../../components/Spinner";
@@ -268,7 +268,7 @@ class addContactMultiple extends Component {
     return (
       <Header
         title="Add Contacts AIC User"
-        onPress={() => this.props.navigation.openDrawer()}
+        onPress={() => this.props.navigation.navigate("ManuallyAddContact")}
       />
     );
   }

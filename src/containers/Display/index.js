@@ -21,7 +21,7 @@ import CheckBox from "@react-native-community/checkbox";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import Font from "../theme/font";
 import GeneralStatusBar from "../../components/StatusBar/index";
-import Header from "../../components/header/index";
+import Header from "../../components/header/backHeader";
 import { ResponsiveSize } from "../theme/GlobalFont";
 import { bindActionCreators } from "redux";
 import { checkContact } from "../../action/Authactions";
@@ -245,7 +245,7 @@ class display extends Component {
         <Container>
           <Header
             title="Display"
-            onPress={() => this.props.navigation.openDrawer()}
+            onPress={() => this.props.navigation.navigate("SerachEditContact")}
           />
           <View style={styles.middleView}>
             <TouchableOpacity style={styles.FirstView}>

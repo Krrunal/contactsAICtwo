@@ -357,7 +357,12 @@ class Login extends Component {
     this.setState({ loginUsername: ""  ,phone_number :"" });
     this.setState({ emailLogin: value });
   };
-
+afterSubmitUname = () =>{
+  this.setState({ passSection: true })
+  if (this.state.passSection == true) {
+    this.passwordfocus.focus();
+  }
+}
   
   render() {
     const { loginPassChange, phone, emailLogin,email,throwError,validEmail ,editInput} = this.props;
@@ -372,19 +377,7 @@ class Login extends Component {
             this.props.theme.mode === "dark" ? "light-content" : "dark-content"
           }
         />
-                   <Input
-                      inputType="email"
-                      label="Email"
-                      // error={throwError}
-                      // validEntry={validEmail}
-                      editable={editInput}
-                      value={email}
-                      autoCompleteType="off"
-                      onChangeText={(email) => {
-                          this.setState({ email });
-                      }}
-                      // onEndEditing={() => this.ValidateEmail(email)}
-                   />
+              
               
         <Container>
           <ScrollView>
@@ -495,7 +488,7 @@ class Login extends Component {
                           ? styles.uText1
                           : styles.uText
                       }
-                      onSubmitEditing= {() => this.tuesdayToFocus.focus()}
+                      onSubmitEditing= {() => this.afterSubmitUname()}
 
                     ></InputCard>
                   </TouchableOpacity>
@@ -634,6 +627,7 @@ class Login extends Component {
                             ? styles.uText1
                             : styles.uText
                         }
+                        onSubmitEditing= {() => Keyboard.dismiss()}
                       ></InputCard>
 
                       <View style={styles.eyeView}>

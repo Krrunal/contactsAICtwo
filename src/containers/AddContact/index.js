@@ -10,7 +10,7 @@ import styled, { ThemeProvider } from "styled-components/native";
 
 import AsyncStorage from "@react-native-community/async-storage";
 import GeneralStatusBar from "../../components/StatusBar/index";
-import Header from "../../components/header/index";
+import Header from "../../components/header/backHeader";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import styles from "./style";
@@ -23,13 +23,11 @@ class Add extends Component {
     super(props);
     this.state = {
       user_name: "",
-    //  paramm: this.props.navigation.state.params.user
+      //  paramm: this.props.navigation.state.params.user
     };
   }
 
   componentDidMount = async () => {
-  
-    console.log("cotact ---->",this.props.navigation.state.params.user)
     const { username, user_id, navigation } = this.props;
     await AsyncStorage.setItem("@sidemenuName", username);
     await AsyncStorage.setItem("@sidemenuID", user_id);
@@ -38,7 +36,7 @@ class Add extends Component {
     return (
       <Header
         title="Add Contact"
-        onPress={() => this.props.navigation.toggleDrawer()}
+        onPress={() => this.props.navigation.navigate("SerachEditContact")}
       />
     );
   }

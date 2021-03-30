@@ -368,7 +368,12 @@ class afterLogout extends Component {
     this.setState({ loginUsername: ""  ,phone_number :"" });
     this.setState({ emailLogin: value });
   };
-
+  afterSubmitUname = () =>{
+    this.setState({ passSection: true })
+    if (this.state.passSection == true) {
+      this.passwordfocus.focus();
+    }
+  }
   render() {
     const { loginPassChange, phone, emailLogin } = this.props;
 
@@ -490,6 +495,7 @@ class afterLogout extends Component {
                           ? styles.uText1
                           : styles.uText
                       }
+                      onSubmitEditing= {() => this.afterSubmitUname()}
                     ></InputCard>
                   </TouchableOpacity>
                 ) : null}
@@ -627,6 +633,7 @@ class afterLogout extends Component {
                             ? styles.uText1
                             : styles.uText
                         }
+                        onSubmitEditing= {() => Keyboard.dismiss()}
                       ></InputCard>
 
                       <View style={styles.eyeView}>

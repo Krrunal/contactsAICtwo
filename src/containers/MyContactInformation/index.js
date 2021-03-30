@@ -24,7 +24,7 @@ import Constants from "../../action/Constants";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import Font from "../theme/font";
 import GeneralStatusBar from "../../components/StatusBar/index";
-import Header from "../../components/header/index";
+import Header from "../../components/header/backHeader";
 import Icon from "react-native-vector-icons/FontAwesome5";
 import IconEntypo from "react-native-vector-icons/Entypo";
 import ImagePicker from "react-native-image-crop-picker";
@@ -911,7 +911,7 @@ class MyContactInfromation extends Component {
     return (
       <Header
         title="My Contact Information"
-        onPress={() => this.props.navigation.openDrawer()}
+        onPress={() => this.props.navigation.navigate("SerachEditContact")}
       />
     );
   }

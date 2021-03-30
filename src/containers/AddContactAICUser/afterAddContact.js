@@ -15,7 +15,7 @@ import AsyncStorage from "@react-native-community/async-storage";
 import { COLORS } from "../theme/Colors.js";
 import Font from "../theme/font.js";
 import GeneralStatusBar from "../../components/StatusBar/index";
-import Header from "../../components/header/index";
+import Header from "../../components/header/backHeader";
 import Icon from "react-native-vector-icons/FontAwesome5";
 import Metrics from "../theme/Metrics";
 import { connect } from "react-redux";
@@ -41,7 +41,7 @@ class afterAddContact extends Component {
     return (
       <Header
         title="Add Contacts AIC User"
-        onPress={() => this.props.navigation.openDrawer()}
+        onPress={() => this.props.navigation.navigate("ManuallyAddContact")}
       />
     );
   }

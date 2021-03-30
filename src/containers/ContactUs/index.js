@@ -15,7 +15,7 @@ import styled, { ThemeProvider } from "styled-components/native";
 
 import Font from "../theme/font";
 import GeneralStatusBar from "../../components/StatusBar/index";
-import Header from "../../components/header/index";
+import Header from "../../components/header/backHeader";
 import { connect } from "react-redux";
 import notifee from '@notifee/react-native';
 import styles from "./style.js";
@@ -28,8 +28,8 @@ class ContactUs extends Component {
     return (
       <Header
         title="Contact"
-        onPress={() => this.props.navigation.openDrawer()}
-      />
+        onPress={() => this.props.navigation.navigate("SerachEditContact")}
+        />
     );
   }
  

@@ -14,7 +14,7 @@ import styled, { ThemeProvider } from "styled-components/native";
 import { COLORS } from "../theme/Colors.js";
 import DateTimePicker from "react-native-modal-datetime-picker";
 import GeneralStatusBar from "../../components/StatusBar/index";
-import Header from "../../components/header/index";
+import Header from "../../components/header/backHeader";
 import QRCode from "react-native-qrcode-svg";
 import { connect } from "react-redux";
 import { fcmService } from "../../services/FirebaseDatabase/FCMService";
@@ -40,10 +40,7 @@ class Share extends Component {
     return (
       <Header
         title="Share"
-        // onPress={() => {
-        //   this.setState({ section: true });
-        // }}
-        onPress={() => this.props.navigation.toggleDrawer()}
+        onPress={() => this.props.navigation.navigate("SerachEditContact")}
       />
     );
   }
