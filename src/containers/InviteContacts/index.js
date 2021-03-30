@@ -166,7 +166,7 @@ class InviteContact extends Component {
           > Select (De-select) All </Text>
         </TouchableOpacity>
 
-        <ScrollView>
+        <ScrollView  keyboardShouldPersistTaps={true}>
           {fetchedContacts.map((item, key) => (
             <View style={styles.checkboxViewTwo} key={key}>
               <CheckBox

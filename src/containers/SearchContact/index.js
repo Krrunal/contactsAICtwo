@@ -69,7 +69,7 @@ class searchContact extends Component {
             </View>
             <View></View>
 
-            <ScrollView>
+            <ScrollView  keyboardShouldPersistTaps={true}>
               <View style={{ flex: 1 }}>
                 <View style={styles.checkboxViewTwo}>
                   <CheckBox

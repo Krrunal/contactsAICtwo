@@ -18,7 +18,7 @@ var { width, height } = Dimensions.get("window");
 class InputCard extends Component {
     render() {
       const {onChangeText,blurOnSubmit,maxLength, label,value,returnKey,placeholder,
-        keyboardType,children,multiline, secureTextEntry,inputRef,onSubmitEditing, autoCapitalize,onfocus,style,autoFocus} = this.props;
+        keyboardType,children,multiline, secureTextEntry,inputRef,onSubmitEditing, autoCapitalize,onBlur ,onfocus,style,autoFocus} = this.props;
         return( 
             <TextInput
               underlineColorAndroid="transparent"
@@ -40,6 +40,8 @@ class InputCard extends Component {
               placeholderTextColor={COLORS.main_text_color}
              style={style}
              autoFocus={autoFocus}
+             onBlur={onBlur}
+
                />
          )
     }                      

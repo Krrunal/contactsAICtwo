@@ -545,7 +545,7 @@ class Signup extends Component {
         />
 
         <Container>
-          <ScrollView>
+          <ScrollView keyboardShouldPersistTaps={true}>
             <Root>
               <View style={{ flex: 1, alignItems: "center" }}>
                 <View style={{ paddingBottom: Metrics.ratio(10) }}>

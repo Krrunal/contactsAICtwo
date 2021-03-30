@@ -37,9 +37,8 @@ export default StyleSheet.create({
     width: width * 0.85,
     height: height * 0.065,
     borderRadius: 8,
-   // alignItems: "center",
     justifyContent: "center",
-   // flexDirection: "row",
+  
   },
 
   viewLogin: {

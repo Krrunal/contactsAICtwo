@@ -1298,7 +1298,7 @@ class pendingRequest extends Component {
   }
   renderLabel() {
     return (
-      <ScrollView>
+      <ScrollView  keyboardShouldPersistTaps={true}>
         <View style={{ width: width }}>
           <View style={{ width: width, alignItems: "center" }}>
             <View

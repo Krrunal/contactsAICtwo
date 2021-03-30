@@ -3918,7 +3918,7 @@ class searchContact extends Component {
               <View>{this.renderHeader()}</View>
             )}
 
-            <ScrollView nestedScrollEnabled={true}>
+            <ScrollView nestedScrollEnabled={true}  keyboardShouldPersistTaps={true}>
               <View
                 style={{
                   width: width,

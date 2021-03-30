@@ -13,7 +13,6 @@ import {
   TouchableHighlight,
   TouchableOpacity,
   View,
-  
 } from "react-native";
 import React, { Component, useState } from "react";
 import styled, { ThemeProvider } from "styled-components/native";
@@ -5022,7 +5021,7 @@ class MyContactInfromation extends Component {
 
         <View style={styles.container}>
           <Container>
-            <ScrollView nestedScrollEnabled={true}>
+            <ScrollView nestedScrollEnabled={true} keyboardShouldPersistTaps={true}>
               <View
                 style={{
                   width: width,

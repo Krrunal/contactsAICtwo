@@ -1,6 +1,7 @@
 import * as actions from "../../action";
 
 import {
+  Animated,
   BackHandler,
   Dimensions,
   Image,
@@ -8,7 +9,7 @@ import {
   Text,
   TextInput,
   TouchableOpacity,
-  View,
+  View
 } from "react-native";
 import React, { Component } from "react";
 import styled, { ThemeProvider } from "styled-components/native";
@@ -20,7 +21,7 @@ import CheckBox from "@react-native-community/checkbox";
 import Font from "../theme/font";
 import GeneralStatusBar from "../../components/StatusBar/index";
 import Icon from "react-native-vector-icons/FontAwesome";
-import Input from '../../components/Text/InputField';
+import Input from "../../components/Text/InputField";
 import { InputCard } from "../../components/InputCard";
 import IntlPhoneInput from "react-native-intl-phone-input";
 import Metrics from "../theme/Metrics";
@@ -40,6 +41,73 @@ import unchecked from "../../assets/icons/unchecked.png";
 // afterLogout
 
 var { width, height } = Dimensions.get("window");
+class FloatingLabelInput extends Component {
+  state = {
+    isFocused: false,
+    email: "",
+  };
+
+  componentWillMount() {
+    this._animatedIsFocused = new Animated.Value(0);
+  }
+
+  handleFocus = () => this.setState({ isFocused: true });
+  handleBlur = (value) => {
+    console.log("handleBlur--->", value);
+    if (!value) {
+      this.setState({ isFocused: false });
+    }
+  };
+
+  componentDidUpdate() {
+  
+      Animated.timing(this._animatedIsFocused, {
+      toValue: this.state.isFocused ? 1 : 0,
+      duration: 200,
+     
+    }).start();
+
+  }
+
+ 
+  emailChange = (value) => {
+    console.log("value--->", value);
+  };
+  render() {
+    const { value, label, ...props } = this.props;
+    const { isFocused } = this.state;
+    const labelStyle = {
+      position: 'absolute',
+      left: 0,
+      top: this._animatedIsFocused.interpolate({
+        inputRange: [0, 1],
+        outputRange: [18, 0],
+      }),
+      fontSize: this._animatedIsFocused.interpolate({
+        inputRange: [0, 1],
+        outputRange: [20, 14],
+      }),
+      color: this._animatedIsFocused.interpolate({
+        inputRange: [0, 1],
+        outputRange: ['#aaa', '#000'],
+      }),
+    };
+    return (
+      <View style={{ paddingTop: 18 }}>
+          <Animated.Text style={labelStyle}>
+          {label}
+        </Animated.Text>
+        <TextInput
+          {...props}
+          style={styles.uText1}
+          onFocus={this.handleFocus}
+          onBlur={this.handleBlur}
+          blurOnSubmit
+        />
+      </View>
+    );
+  }
+}
 
 class Login extends Component {
   constructor(props) {
@@ -64,6 +132,8 @@ class Login extends Component {
       emailPassword: "",
       loginNumber: "",
       empty: "",
+      isFocused: false,
+      value:""
     };
   }
 
@@ -71,18 +141,19 @@ class Login extends Component {
     BackHandler.exitApp();
     return true;
   };
-
+ 
   componentDidMount = async () => {
-    BackHandler.addEventListener("hardwareBackPress", this.backAction);
+    this._animatedIsFocused = new Animated.Value(0);
 
+    BackHandler.addEventListener("hardwareBackPress", this.backAction);
     this.setState({
       loginUsername: await AsyncStorage.getItem("@loginUsername"),
       loginPass: await AsyncStorage.getItem("@loginPass"),
       loginNumber: await AsyncStorage.getItem("@loginNumber"),
     });
-    console.log("Login USername------>", this.state.loginUsername);
-    console.log("Login password------>", this.state.loginPass);
-    console.log("Login loginNumber------>", this.state.loginNumber);
+    // console.log("Login USername------>", this.state.loginUsername);
+    // console.log("Login password------>", this.state.loginPass);
+    // console.log("Login loginNumber------>", this.state.loginNumber);
     if (this.state.loginUsername == null && this.state.loginPass == null) {
       this.setState({ checkedOff: false });
       this.setState({ loginUsername: "", loginPass: "" });
@@ -98,6 +169,15 @@ class Login extends Component {
       ? this.setState({ show: false })
       : this.setState({ show: true });
   };
+  componentDidUpdate() {
+  
+    Animated.timing(this._animatedIsFocused, {
+    toValue: this.state.isFocused ? 1 : 0,
+    duration: 200,
+   
+  }).start();
+
+}
 
   check = async () => {
     const { password } = this.props;
@@ -123,6 +203,7 @@ class Login extends Component {
   };
 
   navigate = () => {
+    Keyboard.dismiss();
     this.props.navigation.navigate("Signup");
   };
 
@@ -220,7 +301,7 @@ class Login extends Component {
     isVerified,
   }) => {
     this.setState({ emailLogin: "" });
-    console.log("Phone ----->", dialCode + "-" + unmaskedPhoneNumber );
+    console.log("Phone ----->", dialCode + "-" + unmaskedPhoneNumber);
     if (isVerified == true) {
       this.setState({ phone_number: dialCode + "-" + unmaskedPhoneNumber });
     } else {
@@ -243,43 +324,52 @@ class Login extends Component {
     this.setState({ viewPhone: true });
   };
   viewPhoneToggle = () => {
-
     if (this.state.loginPass == null) {
       if (this.props.password == "") {
         this.setState({ viewIntl: true });
-        this.setState({ viewPhone: false  , passSection: false , emailSection : false});
+        this.setState({
+          viewPhone: false,
+          passSection: false,
+          emailSection: false,
+        });
         console.log(" iffff  2- m --?", this.props.password);
       } else {
         this.setState({ viewIntl: true });
-        this.setState({ viewPhone: false  , emailSection : false});
-        console.log("else 2 - m --?",this.props.password);
+        this.setState({ viewPhone: false, emailSection: false });
+        console.log("else 2 - m --?", this.props.password);
       }
-     
     } else {
       if (this.props.password == "") {
         this.setState({ viewIntl: true });
-        this.setState({ viewPhone: false  , passSection: false });
+        this.setState({ viewPhone: false, passSection: false });
         console.log(" iffff  2--  m  -?", this.props.password);
       } else {
         this.setState({ viewIntl: true });
-        this.setState({ viewPhone: false, emailSection : false });
-        console.log("else 2 --  m  -?",this.props.password);
+        this.setState({ viewPhone: false, emailSection: false });
+        console.log("else 2 --  m  -?", this.props.password);
       }
     }
     if (this.state.loginUsername == null) {
       if (this.state.emailLogin == "") {
-        this.setState({ viewIntl: true , viewPhone: false,  emailSection: false });
+        this.setState({
+          viewIntl: true,
+          viewPhone: false,
+          emailSection: false,
+        });
       } else {
-        this.setState({ viewIntl: true , viewPhone: false, });
+        this.setState({ viewIntl: true, viewPhone: false });
       }
     } else {
       if (this.state.emailLogin == "") {
-        this.setState({viewIntl: true , viewPhone: false,  emailSection: false });
+        this.setState({
+          viewIntl: true,
+          viewPhone: false,
+          emailSection: false,
+        });
       } else {
-        this.setState({viewIntl: true , viewPhone: false, });
+        this.setState({ viewIntl: true, viewPhone: false });
       }
     }
-
   };
 
   passwordChange = (loginPassChange) => {
@@ -287,29 +377,28 @@ class Login extends Component {
     this.setState({ emailPassword: loginPassChange });
   };
   viewEmailSection = () => {
-   
     if (this.state.loginPass == null) {
       if (this.props.password == "") {
-        this.setState({ emailSection : true, passSection: false });
+        this.setState({ emailSection: true, passSection: false });
         console.log(" iffff 1 ---?", this.props.password);
       } else {
         this.setState({ emailSection: true });
-        console.log("else 1 ---?",this.props.password);
+        console.log("else 1 ---?", this.props.password);
       }
     } else {
       if (this.props.password == "") {
-         this.setState({ emailSection : true, passSection: false });
+        this.setState({ emailSection: true, passSection: false });
         console.log(" iffff  2---?", this.props.password);
       } else {
         this.setState({ emailSection: true });
-        console.log("else 2 ---?",this.props.password);
+        console.log("else 2 ---?", this.props.password);
       }
     }
- 
     if (this.state.viewIntl == true) {
       this.setState({ viewIntl: false });
       this.setState({ viewPhone: true });
     }
+       this.setState({ emailSection: true });
     if (this.state.emailSection == true) {
       this.nameFocus.focus();
     }
@@ -354,19 +443,35 @@ class Login extends Component {
     }
   };
   emailChange = (value) => {
-    this.setState({ loginUsername: ""  ,phone_number :"" });
+    this.setState({ loginUsername: "", phone_number: "" });
     this.setState({ emailLogin: value });
   };
-afterSubmitUname = () =>{
-  this.setState({ passSection: true })
-  if (this.state.passSection == true) {
-    this.passwordfocus.focus();
-  }
-}
-  
+  afterSubmitUname = () => {
+    this.setState({ passSection: true });
+    if (this.state.passSection == true) {
+      this.passwordfocus.focus();
+    }
+  };
+  handleFocus = () => this.setState({ isFocused : false });
+  handleTextChange = (newText) => {
+   this.setState({ value: newText })
+     console.log("onEmailFocus ---?", this.state.value);
+  };
+  handleBlur = (value) => {
+    this.setState({ isFocused: false });
+  };
   render() {
-    const { loginPassChange, phone, emailLogin,email,throwError,validEmail ,editInput} = this.props;
-
+    const {
+      loginPassChange,
+      phone,
+      emailLogin,
+      email,
+      throwError,
+      validEmail,
+      editInput,
+     
+    } = this.props;
+  
     return (
       <ThemeProvider theme={this.props.theme}>
         <GeneralStatusBar
@@ -377,18 +482,17 @@ afterSubmitUname = () =>{
             this.props.theme.mode === "dark" ? "light-content" : "dark-content"
           }
         />
-              
-              
+
         <Container>
-          <ScrollView>
+          <ScrollView keyboardShouldPersistTaps={true}>
             <Root>
               <View style={styles.container}>
                 <View style={styles.headerView}>
                   <Image source={logo} style={styles.logoImg} />
                   <Text style={styles.logoText}>CONTACTS AIC</Text>
                 </View>
-               
-                {this.state.viewIntl ? (
+           
+               {this.state.viewIntl ? (
                   <IntlPhoneInput
                     containerStyle={{
                       width: width * 0.85,
@@ -405,7 +509,7 @@ afterSubmitUname = () =>{
                         : phone
                     }
                     // inputRef={"phone"}
-                     keyboardType={"numeric"}
+                    keyboardType={"numeric"}
                     onChangeText={this.onChangeNumber}
                     defaultCountry="CA"
                     isLogin={false}
@@ -428,8 +532,7 @@ afterSubmitUname = () =>{
                         {this.state.loginNumber}
                       </Text>
                     )}
-                    {/* this.state.loginNumber */}
-                    {/* <Text style={styles.phnText}>Phone Number</Text> */}
+                  
                   </TouchableHighlight>
                 ) : null}
 
@@ -467,13 +570,16 @@ afterSubmitUname = () =>{
 
                     <InputCard
                       onChangeText={(value) => this.emailChange(value)}
-                      blurOnSubmit={false}
+                      // blurOnSubmit={false}
                       autoCapitalize={true}
                       // ref={"emailCont"}
                       ref={(ref) => {
                         this.nameFocus = ref;
                       }}
                       autoFocus={true}
+                      onFocus={this.handleFocus}
+                     
+                     
                       value={
                         this.state.loginUsername !== ""
                           ? this.state.loginUsername
@@ -488,8 +594,7 @@ afterSubmitUname = () =>{
                           ? styles.uText1
                           : styles.uText
                       }
-                      onSubmitEditing= {() => this.afterSubmitUname()}
-
+                      onSubmitEditing={() => this.afterSubmitUname()}
                     ></InputCard>
                   </TouchableOpacity>
                 ) : null}
@@ -627,7 +732,7 @@ afterSubmitUname = () =>{
                             ? styles.uText1
                             : styles.uText
                         }
-                        onSubmitEditing= {() => Keyboard.dismiss()}
+                        onSubmitEditing={() => Keyboard.dismiss()}
                       ></InputCard>
 
                       <View style={styles.eyeView}>
@@ -658,7 +763,7 @@ afterSubmitUname = () =>{
                 this.state.passwordError == "" ? null : (
                   <Text style={styles.error}>{this.state.passwordError}</Text>
                 )}
-                   
+
                 <TouchableOpacity
                   style={styles.viewLogin}
                   onPress={this.checkInternet}

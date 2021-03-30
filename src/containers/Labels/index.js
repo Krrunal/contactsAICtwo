@@ -165,7 +165,7 @@ class labels extends Component {
 
   renderMiddle() {
     return (
-      <ScrollView>
+      <ScrollView  keyboardShouldPersistTaps={true}>
         <View style={{ flex: 1, marginBottom: Metrics.smallMargin }}>
           {this.state.dataManage.map((item, key) =>
             this.state.dataManage === [""] ? null : (
@@ -262,7 +262,7 @@ class labels extends Component {
   }
   renderItem(item, index) {
     return (
-      <ScrollView>
+      <ScrollView  keyboardShouldPersistTaps={true}>
         <View style={{ flex: 1, marginBottom: Metrics.baseMargin }}>
           <View style={styles.tripleView}>
             <TouchableOpacity
@@ -326,7 +326,7 @@ class labels extends Component {
           <Container>
             {this.renderHeader()}
             {/* {this.renderMiddle()} */}
-            <ScrollView>
+            <ScrollView  keyboardShouldPersistTaps={true}>
               <View>
                 {this.state.addView ? 
                 <View style={{marginLeft: Metrics.doubleBaseMargin,marginTop: Metrics.doubleBaseMargin,}}>

@@ -1233,6 +1233,7 @@ class Profile extends Component {
                       <ScrollView
                         style={[styles.modal]}
                         nestedScrollEnabled={true}
+                        keyboardShouldPersistTaps={true}
                       >
                         {mobileLabelList.map((i) => {
                           return (
@@ -1504,6 +1505,7 @@ class Profile extends Component {
                     <ScrollView
                       style={[styles.modal]}
                       nestedScrollEnabled={true}
+                      
                     >
                       {this.state.emailLabelList.map((i) => {
                         return (
@@ -5518,7 +5520,7 @@ class Profile extends Component {
           <Container>
             <View style={{ height: height }}>
               {this.renderHeader()}
-              <ScrollView nestedScrollEnabled={true}>
+              <ScrollView nestedScrollEnabled={true}  keyboardShouldPersistTaps={true}>
                 <View>
                   <View style={{ width: width, alignItems: "center" }}>
                     {this.renderPhoto()}

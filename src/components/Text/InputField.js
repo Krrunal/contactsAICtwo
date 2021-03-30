@@ -176,9 +176,7 @@ class Input extends Component<InputProps, InputState> {
                                 {label} 
                             </Animated.Text>
                             <TextInput
-                                style={[styles.textInputStyle, {
-                                  
-                                }, error && { color: '#fc8686' }]}
+                                style={[styles.textInputStyle, {}, error && { color: '#fc8686' }]}
                                 secureTextEntry={secureToggle}
                                 placeholder={placeholder}
                                 placeholderTextColor={"#c3c7da"}

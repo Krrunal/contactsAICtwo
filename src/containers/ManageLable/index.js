@@ -37,6 +37,7 @@ import firebase from "../../services/FirebaseDatabase/db";
 import { manageLabelToFirebase } from "../../services/FirebaseDatabase/managelabelToFirebase";
 import moment from "moment";
 import styles from "./style.js";
+
 var { width, height } = Dimensions.get("window");
 var momentTime = require("moment-timezone");
 var DESTRUCTIVE_INDEX = 3;
@@ -2314,7 +2315,7 @@ backAction = () => {
           {this.renderHeader()}
           {this.renderDropDown()}
 
-          <ScrollView>
+          <ScrollView  keyboardShouldPersistTaps={true}>
             {this.renderMiddle()}
             {this.renderSelectAll()}
             {this.renderName()}

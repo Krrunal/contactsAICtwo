@@ -1,4 +1,4 @@
- import {
+import {
   Dimensions,
   FlatList,
   Image,
@@ -192,7 +192,7 @@ class importContact extends Component {
           </Text>
         </TouchableOpacity>
 
-        <ScrollView>
+        <ScrollView  keyboardShouldPersistTaps={true}>
           {fetchedContacts.map((item, key) => (
             <TouchableOpacity
               style={styles.checkboxViewTwo}

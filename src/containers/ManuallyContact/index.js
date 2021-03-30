@@ -4339,7 +4339,7 @@ class addmanuallyContact extends Component {
         <View style={styles.container}>
           <Container>
             {this.renderHeader()}
-            <ScrollView>
+            <ScrollView  keyboardShouldPersistTaps={true}>
               {this.renderMiddle()}
               {this.renderName()}
               {this.renderMobile()}
