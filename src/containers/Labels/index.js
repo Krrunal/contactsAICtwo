@@ -18,7 +18,7 @@ import { COLORS } from "../theme/Colors.js";
 import Constants from "../../action/Constants";
 import Font from "../theme/font";
 import GeneralStatusBar from "../../components/StatusBar/index";
-import Header from "../../components/header/index";
+import Header from "../../components/header/backHeader";
 import { Label } from "native-base";
 import Metrics from "../theme/Metrics";
 import { Spinner } from "../../components/Spinner";
@@ -56,7 +56,10 @@ class labels extends Component {
     const { navigation } = this.props;
     this.focusListener = navigation.addListener("didFocus", async () => {
       this.labelList();
+      this.setState({ viewSection : false , addView: false,});
     });
+    
+    
   }
 
   labelList = () => {
@@ -109,7 +112,7 @@ class labels extends Component {
     return (
       <Header
         title="Labels"
-        onPress={() => this.props.navigation.openDrawer()}
+        onPress={() => this.props.navigation.navigate("SerachEditContact")}
       />
     );
   }
@@ -123,6 +126,9 @@ class labels extends Component {
   onPressAddLabel = () => {
     this.setState({ viewSection: true });
     this.setState({ addView: true });
+    if (this.state.viewSection == true) {
+      this.label.focus();
+    }
 
   };
 
@@ -145,15 +151,13 @@ class labels extends Component {
         this.setState({ viewSection : false , label: "",});
         console.log("add labe; ---->",responseJson.message)
         this.refs.toast.show(responseJson.message);
-        
         this.labelList();
-      
-      });
+       });
   };
 
   textChange = (value) => {
     var valueLength = this.state.label;
-
+    this.setState({ isLoading: true })
     if (valueLength.length <= 3) {
       //this.refs.toast.show("Label contain maximum 3 character")
       alert("Label contain maximum 3 character");
@@ -262,7 +266,7 @@ class labels extends Component {
   }
   renderItem(item, index) {
     return (
-      <ScrollView  keyboardShouldPersistTaps={true}>
+      <ScrollView  keyboardShouldPersistTaps="always">
         <View style={{ flex: 1, marginBottom: Metrics.baseMargin }}>
           <View style={styles.tripleView}>
             <TouchableOpacity
@@ -322,11 +326,11 @@ class labels extends Component {
           }
         />
 
-        <View style={{ flex: 1, height: height }}>
-          <Container>
+        <View style={{ flex: 1, height: height }} keyboardShouldPersistTaps="always">
+          <Container >
             {this.renderHeader()}
             {/* {this.renderMiddle()} */}
-            <ScrollView  keyboardShouldPersistTaps={true}>
+            <ScrollView  keyboardShouldPersistTaps="always">
               <View>
                 {this.state.addView ? 
                 <View style={{marginLeft: Metrics.doubleBaseMargin,marginTop: Metrics.doubleBaseMargin,}}>
@@ -336,7 +340,7 @@ class labels extends Component {
                   </View> : null
                   }
                 
-                <View style={{ height: height * 0.77  , marginTop:Metrics.baseMargin}}>
+                <View style={{ height: height * 0.65  , marginTop:Metrics.baseMargin}}>
                   <AutoDragSortableView
                     dataSource={this.state.dataManage}
                     parentWidth={parentWidth}
@@ -377,6 +381,7 @@ class labels extends Component {
                       keyboardType={"default"}
                       autoCapitalize={false}
                       placeholderTextColor={COLORS.black}
+                      autoFocus={true}
                     />
                   </View>
                 )}

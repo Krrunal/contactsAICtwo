@@ -850,7 +850,9 @@ class MyContactInfromation extends Component {
   //function to remove TextInput dynamically
   removeTextInput = () => {
     let textInput = this.state.textInput;
+  
     if (textInput.length === 1) {
+   
     } else {
       let inputData = this.state.inputData;
       textInput.pop();
@@ -1004,6 +1006,10 @@ class MyContactInfromation extends Component {
                     this.First_name = input;
                   }}
                   onSubmitEditing= {() => { this.Middle_name.focus()}}
+                  keyboardType={"email-address"}
+                  returnKey="previous"
+                  blurOnSubmit={false}
+                  autoCapitalize={true}
                 />
               ) : (
                 <Text style={styles.stylefiledText}>
@@ -1378,15 +1384,14 @@ class MyContactInfromation extends Component {
                             ]}
                             placeholderTextColor={COLORS.main_text_color}
                             editable={this.state.status ? true : false}
-                            onChangeText={(email) =>
-                              this.onChangeEmail(email, index)
-                            }
+                            onChangeText={(email) => this.onChangeEmail(email, index)}
                             ref={(ref) => {
                               this.emailInput = ref;
                             }}
                             autoFocus={true}
                             value={this.state.email}
                             onSubmitEditing={this.onPressAddress}
+                            keyboardType={"default"}
                           />
                         </TouchableOpacity>
                       ) : (
@@ -5019,9 +5024,9 @@ class MyContactInfromation extends Component {
           }
         />
 
-        <View style={styles.container}>
+        <View style={styles.container}  keyboardShouldPersistTaps="always">
           <Container>
-            <ScrollView nestedScrollEnabled={true} keyboardShouldPersistTaps={true}>
+            <ScrollView nestedScrollEnabled={true} keyboardShouldPersistTaps="always">
               <View
                 style={{
                   width: width,

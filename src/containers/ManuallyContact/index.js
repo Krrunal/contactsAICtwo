@@ -4336,10 +4336,10 @@ class addmanuallyContact extends Component {
             this.props.theme.mode === "dark" ? "light-content" : "dark-content"
           }
         />
-        <View style={styles.container}>
+        <View style={styles.container} keyboardShouldPersistTaps="always">
           <Container>
             {this.renderHeader()}
-            <ScrollView  keyboardShouldPersistTaps={true}>
+            <ScrollView  keyboardShouldPersistTaps="always">
               {this.renderMiddle()}
               {this.renderName()}
               {this.renderMobile()}

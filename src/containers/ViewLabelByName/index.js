@@ -212,7 +212,7 @@ class ViewLabelByName extends Component {
           }
         />
         
-        <View style={{ flex: 1 }}>
+        <View style={{ flex: 1 }} keyboardShouldPersistTaps="always">
         <Container>
           {this.renderHeader()}
           {this.renderMiddle()}

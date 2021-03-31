@@ -1079,7 +1079,12 @@ class Profile extends Component {
   };
   removeTextInput = () => {
     let textInput = this.state.textInput;
+    console.log("remvoe---->",textInput.length)
+    if (textInput.length === 2) {
+      this.setState({removeNumberSection : false})
+    }
     if (textInput.length === 1) {
+      this.setState({removeNumberSection : false})
     } else {
       let inputData = this.state.inputData;
       textInput.pop();
@@ -1383,6 +1388,9 @@ class Profile extends Component {
 
   removeEmail = (key) => {
     let emailInput = this.state.emailInput;
+    if (emailInput.length === 2) {
+      this.setState({ removeEmailSection  : false})
+    }
     if (emailInput.length === 1) {
       console.log("adress input --->", emailInput.length);
     } else {
@@ -1656,6 +1664,9 @@ class Profile extends Component {
   };
   removeAddress = (key) => {
     let addressInput = this.state.addressInput;
+    if (addressInput.length === 2) {
+      this.setState({ removeAddressSection  : false})
+    }
     if (addressInput.length === 1) {
       console.log("adress input --->", addressInput.length);
     } else {
@@ -1924,6 +1935,9 @@ class Profile extends Component {
 
   removeMessenger = (key) => {
     let messengerInput = this.state.messengerInput;
+    if (messengerInput.length === 2) {
+      this.setState({removeMessengerSection : false})
+    }
     if (messengerInput.length === 1) {
       console.log("adress input --->", messengerInput.length);
     } else {
@@ -2193,6 +2207,9 @@ class Profile extends Component {
 
   removeSocial = (key) => {
     let socialMediaInput = this.state.socialMediaInput;
+    if (socialMediaInput.length === 2) {
+      this.setState({removeSocialSection : false})
+    }
     if (socialMediaInput.length === 1) {
       console.log("adress input --->", socialMediaInput.length);
     } else {
@@ -2460,6 +2477,9 @@ class Profile extends Component {
 
   removeWebsite = (key) => {
     let websiteInput = this.state.websiteInput;
+    if (websiteInput.length === 2) {
+      this.setState({removeWebsiteSection : false})
+    }
     if (websiteInput.length === 1) {
       console.log("adress input --->", websiteInput.length);
     } else {
@@ -2705,6 +2725,9 @@ class Profile extends Component {
   };
   removeDate = (key) => {
     let dateInput = this.state.dateInput;
+    if (dateInput.length === 2) {
+      this.setState({removeDateSection : false})
+    }
     if (dateInput.length === 1) {
       console.log("adress input --->", dateInput.length);
     } else {
@@ -2779,14 +2802,28 @@ class Profile extends Component {
                                       Date
                                     </Text>
                                   ) : (
+                                    this.state.date == "" ? 
                                     <Text
-                                      style={[
-                                        styles.stylefiledText,
-                                        { width: width * 0.45 },
-                                      ]}
-                                    >
-                                      {this.state.date}
-                                    </Text>
+                                    style={[
+                                      styles.stylefiledText,
+                                      { width: width * 0.45 },
+                                    ]}
+                                  >
+                                     {this.state.date}
+                                   
+                                   
+                                  </Text> 
+                                  :
+                                  <Text
+                                  style={[
+                                    styles.stylefiledText,
+                                    { width: width * 0.45 },
+                                  ]}
+                                >
+                                  {item.date}
+                                 
+                                </Text> 
+                                   
                                   )}
                                 </TouchableOpacity>
 
@@ -3008,6 +3045,9 @@ class Profile extends Component {
   };
   removeNote = (key) => {
     let noteInput = this.state.noteInput;
+    if (noteInput.length === 2) {
+      this.setState({ removeNoteSection : false})
+    }
     if (noteInput.length === 1) {
       console.log("adress input --->", noteInput.length);
     } else {
@@ -3286,6 +3326,9 @@ class Profile extends Component {
 
   removeCompany = (key) => {
     let companyInput = this.state.companyInput;
+    if (companyInput.length === 2) {
+      this.setState({removeCompanySection : false})
+    }
     if (companyInput.length === 1) {
       console.log("adress input --->", companyInput.length);
     } else {
@@ -5518,9 +5561,9 @@ class Profile extends Component {
 
         <View style={styles.container}>
           <Container>
-            <View style={{ height: height }}>
+            <View style={{ height: height }} keyboardShouldPersistTaps="always">
               {this.renderHeader()}
-              <ScrollView nestedScrollEnabled={true}  keyboardShouldPersistTaps={true}>
+              <ScrollView nestedScrollEnabled={true}  keyboardShouldPersistTaps="always">
                 <View>
                   <View style={{ width: width, alignItems: "center" }}>
                     {this.renderPhoto()}

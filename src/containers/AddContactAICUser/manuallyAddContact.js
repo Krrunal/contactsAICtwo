@@ -53,7 +53,7 @@ class manuallyAddContact extends Component {
 
   renderMiddle() {
     return (
-      <View style={styles.mainView}>
+      <View style={styles.mainView} keyboardShouldPersistTaps="always">
         <TouchableOpacity style={styles.Whiteview} onPress={this.QRScanner}>
           <Text style={styles.blueText}>QR Code</Text>
         </TouchableOpacity>

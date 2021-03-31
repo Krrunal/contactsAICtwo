@@ -27,6 +27,7 @@ import Font from "../theme/font";
 import GeneralStatusBar from "../../components/StatusBar/index";
 import Header from "../../components/header/index";
 import Icon from "react-native-vector-icons/FontAwesome";
+import Input from "../../components/Text/InputField";
 import Metrics from "../theme/Metrics";
 import { Spinner } from "../../components/Spinner";
 import _ from "lodash";
@@ -80,6 +81,7 @@ class searchContact extends Component {
       contacts: "",
       isLoading: false,
       shortcontacts: "",
+      data:"",
       shortcontact: "",
       filteredShortcontacts: [],
       nameContacts: "",
@@ -191,6 +193,7 @@ class searchContact extends Component {
       doc_IDS: "",
       isSelect: [],
       deleteID: [],
+      serachText:""
     };
   }
 
@@ -433,9 +436,19 @@ class searchContact extends Component {
       });
   };
 
+//  componentDidUpdate() {
+//     this.timer = setInterval(() => this.checkEmpty(), 5000);
+//   }
+
+  checkEmpty = () =>{
+    console.log("checkEmpty  --->",this.state.serachText);
+if(this.state.serachText == ""){
+  this.setState({ serachSection: false });
+}
+  }
   componentDidMount() {
     const { navigation } = this.props;
-
+    // this.timer = setInterval(() => this.checkEmpty(), 5000);
     console.log(" from log in ----->", this.props.navigation.state.params.user);
     this.setState({
       shortcontacts: this.props.navigation.state.params.user,
@@ -519,11 +532,15 @@ class searchContact extends Component {
 
   handleSearch = (text) => {
     const { data, shortcontacts, itemCompany } = this.state;
+    this.setState({  serachText : text})
     if (text == "") {
-      console.log("empyt----->", text);
       this.setState({ serachSection: false });
     }
-    const shortData = data.filter(
+    if(data == undefined){
+      console.log("empyt----->", data);
+    }else{
+      console.log(" if ----->", data);
+        const shortData = data.filter(
       (obj) =>
         obj[text?.toLowerCase() ?? "en"]?.indexOf(text) > -1 ||
         obj.item.first_name_small.indexOf(text) > -1 ||
@@ -544,6 +561,8 @@ class searchContact extends Component {
         obj.item.middle_name.indexOf(text) > -1
     );
     this.setState({ shortcontacts: shortData, searchText: text });
+    }
+  
   };
   serachFocus = () => {
     this.setState({ serachSection: true });
@@ -564,8 +583,9 @@ class searchContact extends Component {
           <View style={{ width: width * 0.9, flexDirection: "row" }}>
             <TouchableOpacity
               style={styles.sideBarView}
-              onPress={() => this.props.navigation.toggleDrawer()}
-            >
+              onPress={() => 
+             { this.props.navigation.toggleDrawer();
+              this.setState({ serachSection: false }); } }  >
               <Image source={sideBar} style={styles.sidebarStyle} />
             </TouchableOpacity>
             <View style={{ justifyContent: "center" }}>
@@ -573,6 +593,16 @@ class searchContact extends Component {
                 {this.state.serachSection ? (
                   <View style={{ height: width * 0.17 }}>
                     <Text style={styles.searchTextInput}>Search Contacts</Text>
+                    {/* <Input
+                    inputType="email"
+                    label={"Email"}
+                    validEntry={this.state.valid}
+                    value={email}
+                    onChangeText={(email) => {
+                      // this.ValidateEmail(email);
+                      this.setState({ email });
+                    }}
+                  /> */}
                     <TextInput
                       placeholder=""
                       placeholderTextColor={COLORS.main_sky_blue}
@@ -1738,6 +1768,7 @@ class searchContact extends Component {
       });
   };
   Data_delete = () => {
+    this.setState({ serachSection: false });
     this.state.deleteID.map((item, index) => {
       firebase
         .firestore()
@@ -1760,6 +1791,7 @@ class searchContact extends Component {
   };
   plusnavigate = () => {
     this.setState({ contact: [] });
+    this.setState({ serachSection: false });
     this.props.navigation.navigate("ManuallyAddContact");
     // firebase
     //   .firestore()
@@ -3900,7 +3932,7 @@ class searchContact extends Component {
             this.props.theme.mode === "dark" ? "light-content" : "dark-content"
           }
         />
-        <View style={{ flex: 1 }}>
+        <View style={{ flex: 1 }} keyboardShouldPersistTaps="always">
           <Container>
             {this.state.contactInfoSection == true ? (
               <View>
@@ -3918,7 +3950,7 @@ class searchContact extends Component {
               <View>{this.renderHeader()}</View>
             )}
 
-            <ScrollView nestedScrollEnabled={true}  keyboardShouldPersistTaps={true}>
+            <ScrollView nestedScrollEnabled={true}  keyboardShouldPersistTaps="always">
               <View
                 style={{
                   width: width,

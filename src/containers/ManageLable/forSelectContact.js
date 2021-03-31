@@ -11,11 +11,12 @@ import {
 } from "react-native";
 import React, { Component, useState } from "react";
 import styled, { ThemeProvider } from "styled-components/native";
-import Constants from "../../action/Constants";
+
 import Add from "../AddContact/index";
 import AsyncStorage from "@react-native-community/async-storage";
 import { COLORS } from "../theme/Colors.js";
 import CheckBox from "@react-native-community/checkbox";
+import Constants from "../../action/Constants";
 import Font from "../theme/font";
 import GeneralStatusBar from "../../components/StatusBar/index";
 import Header from "../../components/header/index";
@@ -134,7 +135,7 @@ class forSelectContact extends Component {
          
           }}
         >
-          <ScrollView>
+          <ScrollView keyboardShouldPersistTaps="always">
             {contacts.map((item, key) => (
               <View style={styles.checkboxViewTwo} key={key}>
                 <CheckBox
@@ -198,7 +199,7 @@ class forSelectContact extends Component {
             this.props.theme.mode === "dark" ? "light-content" : "dark-content"
           }
         />
-        <Container>
+        <Container keyboardShouldPersistTaps="always">
           {this.renderHeader()}
 
           <View style={{ alignItems: "center", width: width * 0.7 }}>

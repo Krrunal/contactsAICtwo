@@ -70,7 +70,7 @@ class AddContactAICUser extends Component {
           }
         />
 
-        <Container>
+        <Container keyboardShouldPersistTaps="always">
           {this.renderHeader()}
           {this.renderMiddle()}
         </Container>

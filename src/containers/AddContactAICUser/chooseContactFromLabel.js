@@ -192,7 +192,7 @@ class chooseContactFromLabel extends Component {
   }
   renderMiddle() {
     return (
-      <ScrollView  keyboardShouldPersistTaps={true}>
+      <ScrollView  keyboardShouldPersistTaps="always">
         <View
           style={{
             flex: 1,
@@ -229,7 +229,7 @@ class chooseContactFromLabel extends Component {
             > Select (De-select) All
             </Text>
           </TouchableOpacity>
-          <ScrollView  keyboardShouldPersistTaps={true}>
+          <ScrollView keyboardShouldPersistTaps="always">
             {this.state.dataManage.map((item, key) =>
               this.state.dataManage === [""] ? null : (
                 <View style={styles.mainView}>

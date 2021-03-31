@@ -1298,7 +1298,7 @@ class pendingRequest extends Component {
   }
   renderLabel() {
     return (
-      <ScrollView  keyboardShouldPersistTaps={true}>
+      <ScrollView  keyboardShouldPersistTaps="always">
         <View style={{ width: width }}>
           <View style={{ width: width, alignItems: "center" }}>
             <View
@@ -1712,7 +1712,7 @@ class pendingRequest extends Component {
             this.props.theme.mode === "dark" ? "light-content" : "dark-content"
           }
         />
-        <View style={{ flex: 1 }}>
+        <View style={{ flex: 1 }} keyboardShouldPersistTaps="always">
           <Container>
            
             

@@ -269,7 +269,7 @@ class forAdd2 extends Component {
             this.props.theme.mode === "dark" ? "light-content" : "dark-content"
           }
         />
-        <View style={{ flex: 1 }}>
+        <View style={{ flex: 1 }} keyboardShouldPersistTaps="always">
         <Container>
           {this.renderHeader()}
           {this.renderHeaderLine()}

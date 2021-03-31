@@ -1,4 +1,5 @@
 import * as actions from "../../action";
+
 import {
   Dimensions,
   Image,
@@ -11,6 +12,7 @@ import {
 import React, { Component } from "react";
 import { darkTheme, lightTheme } from "../theme/themeProps";
 import styled, { ThemeProvider } from "styled-components/native";
+
 import AsyncStorage from "@react-native-community/async-storage";
 import { COLORS } from "../theme/Colors.js";
 import CheckBox from "@react-native-community/checkbox";
@@ -131,7 +133,7 @@ class aftreMultiplReqSend extends Component {
               }
             />
     
-            <View style={{ flex: 1 }}>
+            <View style={{ flex: 1 }} keyboardShouldPersistTaps="always">
               <Container>
                 {this.renderHeader()}
                

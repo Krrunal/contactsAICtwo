@@ -49,7 +49,7 @@ export default class searchContact extends Component {
           <Text style={{ textAlign: "center" }}>Friend</Text>
         </View>
 
-        <ScrollView  keyboardShouldPersistTaps={true}>
+        <ScrollView  keyboardShouldPersistTaps="always">
           <View style={styles.mainView}>
             <View style={styles.quardView}>
               <CheckBox

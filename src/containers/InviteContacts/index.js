@@ -10,7 +10,6 @@ import {
 } from "react-native";
 import React, { Component, useState } from "react";
 import styled, { ThemeProvider } from "styled-components/native";
-import { Spinner } from "../../components/Spinner";
 
 import { COLORS } from "../theme/Colors.js";
 import CheckBox from "@react-native-community/checkbox";
@@ -20,6 +19,7 @@ import GeneralStatusBar from "../../components/StatusBar/index";
 import Header from "../../components/header/index";
 import Metrics from "../theme/Metrics";
 import SendSMS from 'react-native-sms'
+import { Spinner } from "../../components/Spinner";
 import checkedModified from  "../../assets/icons/checkedModified.png";
 import checkedWhite from  "../../assets/icons/checkedWhite.png";
 import { connect } from "react-redux";
@@ -120,12 +120,12 @@ class InviteContact extends Component {
 
   selectAll = () => {
     const { fetchedContacts } = this.state;
+    this.setState({ checkedOff: !this.state.checkedOff });
     let contactArr = fetchedContacts.map((item, key) => {
       this.state.checkedOff == true
         ? (item.isSelected = true)
         : (item.isSelected = false);
       item.isSelected = !item.isSelected;
-      this.setState({ checkedOff: !this.state.checkedOff });
       return { ...item };
     });
     this.setState({ fetchedContacts: contactArr });
@@ -166,7 +166,7 @@ class InviteContact extends Component {
           > Select (De-select) All </Text>
         </TouchableOpacity>
 
-        <ScrollView  keyboardShouldPersistTaps={true}>
+        <ScrollView  keyboardShouldPersistTaps="always">
           {fetchedContacts.map((item, key) => (
             <View style={styles.checkboxViewTwo} key={key}>
               <CheckBox
@@ -260,7 +260,7 @@ class InviteContact extends Component {
           }
         />
 
-        <Container>
+        <Container keyboardShouldPersistTaps="always">
           {this.renderHeader()}
           <Text
             style={[

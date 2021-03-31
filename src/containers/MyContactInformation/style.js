@@ -15,8 +15,8 @@ export default StyleSheet.create({
     // marginTop:Metrics.xxdoubleBaseMargin
   },
   SqureImage:{
-    width: width * 0.183,
-    height: width * 0.183,
+    width: width * 0.185,
+    height: width * 0.185,
     borderRadius:5
   },
   squareBorder: {

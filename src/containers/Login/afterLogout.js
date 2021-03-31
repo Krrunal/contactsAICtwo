@@ -1,4 +1,3 @@
-import * as Keychain from "react-native-keychain";
 import * as actions from "../../action";
 
 import {
@@ -17,9 +16,11 @@ import styled, { ThemeProvider } from "styled-components/native";
 import AsyncStorage from "@react-native-community/async-storage";
 import { COLORS } from "../theme/Colors.js";
 import CheckBox from "@react-native-community/checkbox";
+// import {FloatingLabelInput} from 'react-native-floating-label-input';
 import Font from "../theme/font";
 import GeneralStatusBar from "../../components/StatusBar/index";
 import Icon from "react-native-vector-icons/FontAwesome";
+import Input from "../../components/Text/InputField";
 import { InputCard } from "../../components/InputCard";
 import IntlPhoneInput from "react-native-intl-phone-input";
 import Metrics from "../theme/Metrics";
@@ -28,7 +29,6 @@ import { Root } from "native-base";
 import { Spinner } from "../../components/Spinner";
 import Toast from "react-native-easy-toast";
 import { TouchableHighlight } from "react-native-gesture-handler";
-import { bindActionCreators } from "redux";
 import checked from "../../assets/icons/checked.png";
 import { connect } from "react-redux";
 import innerimg from "../../assets/images/innerimg.png";
@@ -72,9 +72,14 @@ class afterLogout extends Component {
     return true;
   };
 
+  // componentDidUpdate() {
+  //   this.timer = setInterval(() => this.checkEmpty(), 1000);
+  // }
+
   componentDidMount = async () => {
     BackHandler.addEventListener("hardwareBackPress", this.backAction);
-
+    // this.checkEmpty();
+    // this.timer = setInterval(() => this.checkEmpty(), 1000);
     this.setState({
       loginUsername: await AsyncStorage.getItem("@loginUsername"),
       loginPass: await AsyncStorage.getItem("@loginPass"),
@@ -127,6 +132,7 @@ class afterLogout extends Component {
   };
 
   checkInternet = async () => {
+    Keyboard.dismiss()
     NetInfo.fetch().then((state) => {
       if (state.isConnected) {
         this.loginUser();
@@ -220,7 +226,7 @@ class afterLogout extends Component {
     isVerified,
   }) => {
     this.setState({ emailLogin: "" });
-    console.log("Phone ----->", dialCode + "-" + unmaskedPhoneNumber );
+    console.log("Phone ----->", dialCode + "-" + unmaskedPhoneNumber);
     if (isVerified == true) {
       this.setState({ phone_number: dialCode + "-" + unmaskedPhoneNumber });
     } else {
@@ -243,48 +249,52 @@ class afterLogout extends Component {
     this.setState({ viewPhone: true });
   };
   viewPhoneToggle = () => {
-
     if (this.state.loginPass == null) {
       if (this.props.password == "") {
         this.setState({ viewIntl: true });
-        this.setState({ viewPhone: false  , passSection: false , emailSection : false});
-       //  this.setState({ emailSection : true, passSection: false });
-        console.log(" iffff  1 m---?", this.props.password);
+        this.setState({
+          viewPhone: false,
+          passSection: false,
+          emailSection: false,
+        });
+        console.log(" iffff  2- m --?", this.props.password);
       } else {
         this.setState({ viewIntl: true });
-        this.setState({ viewPhone: false  , emailSection : false});
-        console.log("else 1  m---?",this.props.password);
+        this.setState({ viewPhone: false, emailSection: false });
+        console.log("else 2 - m --?", this.props.password);
       }
     } else {
       if (this.props.password == "") {
         this.setState({ viewIntl: true });
-        this.setState({ viewPhone: false  , passSection: false });
-       //  this.setState({ emailSection : true, passSection: false });
-        console.log(" iffff  2m ---?", this.props.password);
+        this.setState({ viewPhone: false, passSection: false });
+        console.log(" iffff  2--  m  -?", this.props.password);
       } else {
         this.setState({ viewIntl: true });
-        this.setState({ viewPhone: false, emailSection : false });
-        console.log("else 2 - m --?",this.props.password);
+        this.setState({ viewPhone: false, emailSection: false });
+        console.log("else 2 --  m  -?", this.props.password);
       }
     }
-  // this.setState({ viewIntl: true });
-    // this.setState({ viewPhone: false });
-    // if (this.state.passSection == true) {
-    //   this.setState({ passSection: false });
-    //   this.setState({ viewIntl: true });
-    //   this.setState({ viewPhone: false });
-    // } else {
-    //   this.setState({ viewIntl: true });
-    //   this.setState({ viewPhone: false });
-    // }
-    // if (this.state.emailSection == true) {
-    //   this.setState({ emailSection: false });
-    //   this.setState({ viewIntl: true });
-    //   this.setState({ viewPhone: false });
-    // } else {
-    //   this.setState({ viewIntl: true });
-    //   this.setState({ viewPhone: false });
-    // }
+    if (this.state.loginUsername == null) {
+      if (this.state.emailLogin == "") {
+        this.setState({
+          viewIntl: true,
+          viewPhone: false,
+          emailSection: false,
+        });
+      } else {
+        this.setState({ viewIntl: true, viewPhone: false });
+      }
+    } else {
+      if (this.state.emailLogin == "") {
+        this.setState({
+          viewIntl: true,
+          viewPhone: false,
+          emailSection: false,
+        });
+      } else {
+        this.setState({ viewIntl: true, viewPhone: false });
+      }
+    }
   };
 
   passwordChange = (loginPassChange) => {
@@ -292,37 +302,36 @@ class afterLogout extends Component {
     this.setState({ emailPassword: loginPassChange });
   };
   viewEmailSection = () => {
-   
     if (this.state.loginPass == null) {
       if (this.props.password == "") {
-        this.setState({ emailSection : true, passSection: false });
+        this.setState({ emailSection: true, passSection: false });
         console.log(" iffff 1 ---?", this.props.password);
       } else {
         this.setState({ emailSection: true });
-        console.log("else 1 ---?",this.props.password);
+        console.log("else 1 ---?", this.props.password);
       }
     } else {
       if (this.props.password == "") {
-         this.setState({ emailSection : true, passSection: false });
+        this.setState({ emailSection: true, passSection: false });
         console.log(" iffff  2---?", this.props.password);
       } else {
         this.setState({ emailSection: true });
-        console.log("else 2 ---?",this.props.password);
+        console.log("else 2 ---?", this.props.password);
       }
     }
-    
-    // if (this.state.passSection == true) {
-    //   this.setState({ emailSection: true });
-    //   this.setState({ passSection: false });
-    // } else {
-    //   this.setState({ emailSection: true });
-    // }
+
     if (this.state.viewIntl == true) {
       this.setState({ viewIntl: false });
       this.setState({ viewPhone: true });
     }
     if (this.state.emailSection == true) {
       this.nameFocus.focus();
+    }
+  };
+  checkEmpty = () => {
+    this.setState({ passSection: false });
+    if(this.state.emailLogin !== "" ){
+      console.log(" checkEmpty---      ", this.state.phone_number);
     }
   };
   viewPassSection = () => {
@@ -365,17 +374,49 @@ class afterLogout extends Component {
     }
   };
   emailChange = (value) => {
-    this.setState({ loginUsername: ""  ,phone_number :"" });
+    this.setState({ loginUsername: "", phone_number: "" });
     this.setState({ emailLogin: value });
   };
-  afterSubmitUname = () =>{
-    this.setState({ passSection: true })
+  afterSubmitUname = () => {
+    this.setState({ passSection: true });
     if (this.state.passSection == true) {
       this.passwordfocus.focus();
     }
+  };
+  handleFocus = () =>{
+    if(this.props.password == ""){
+      console.log("foucs ---->",this.props.password)
+      this.setState({passSection : false})
+     }
+  }
+  handleFocusEmail =() =>{
+   // console.log("foucs  Eamil   ---->",this.state.emailLogin)
+    if(this.state.emailLogin == ""){ 
+      console.log("foucs  Eamil   ---->",this.state.emailLogin)
+      this.setState({emailSection : false})
+    }
+    
+  }
+  onSubmitMobile = () => {
+    console.log("inale--.")
+  };
+  onBlurMobile =() =>{
+  // if(this.state.phone_number == ""){ 
+  //     console.log("  mobile   ---->",this.state.emailLogin)
+  //     this.setState({viewIntl  : true , viewPhone : false})
+  //   }
+    console.log("   ====   mobile   ---->",this.state.emailLogin)
   }
   render() {
-    const { loginPassChange, phone, emailLogin } = this.props;
+    const {
+      loginPassChange,
+      phone,
+      emailLogin,
+      email,
+      throwError,
+      validEmail,
+      editInput,
+    } = this.props;
 
     return (
       <ThemeProvider theme={this.props.theme}>
@@ -389,7 +430,8 @@ class afterLogout extends Component {
         />
 
         <Container>
-          <ScrollView>
+          <ScrollView keyboardShouldPersistTaps="always"
+>
             <Root>
               <View style={styles.container}>
                 <View style={styles.headerView}>
@@ -413,11 +455,14 @@ class afterLogout extends Component {
                         ? this.state.loginNumber
                         : phone
                     }
-                    inputRef={"phone"}
+                    // inputRef={"phone"}
                     keyboardType={"numeric"}
                     onChangeText={this.onChangeNumber}
                     defaultCountry="CA"
                     isLogin={false}
+                    inputRef={(ref) => (this.phoneInput = ref)}
+                    autoFocus={true}
+                    onSubmitEditing={this.onSubmitMobile}
                   />
                 ) : null}
 
@@ -490,12 +535,14 @@ class afterLogout extends Component {
                       keyboardType={"email-address"}
                       secureEntry={false}
                       placeholder={""}
+                       onBlur = {this.handleFocusEmail}
+                       onFocus ={this.onBlurMobile}
                       style={
                         this.state.emailSection == true
                           ? styles.uText1
                           : styles.uText
                       }
-                      onSubmitEditing= {() => this.afterSubmitUname()}
+                      onSubmitEditing={() => this.afterSubmitUname()}
                     ></InputCard>
                   </TouchableOpacity>
                 ) : null}
@@ -615,10 +662,11 @@ class afterLogout extends Component {
                         //onChangeText={(value) => this.emailChange(value)}
                         blurOnSubmit={false}
                         autoCapitalize={false}
-                        ref={(ref) => {
+                        inputRef ={(ref) => {
                           this.passwordfocus = ref;
                         }}
                         autoFocus={true}
+                        onBlur = {this.handleFocus}
                         value={
                           this.state.loginPass !== null
                             ? this.props.password
@@ -633,7 +681,7 @@ class afterLogout extends Component {
                             ? styles.uText1
                             : styles.uText
                         }
-                        onSubmitEditing= {() => Keyboard.dismiss()}
+                        onSubmitEditing={() => Keyboard.dismiss()}
                       ></InputCard>
 
                       <View style={styles.eyeView}>

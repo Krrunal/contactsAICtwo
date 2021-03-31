@@ -432,7 +432,7 @@ class addContactMultiple extends Component {
     } = this.state;
 
     return (
-      <ScrollView>
+      <ScrollView keyboardShouldPersistTaps="always">
         <View style={{ flex: 1, marginBottom: Metrics.xxdoubleBaseMargin }}>
           {this.state.dataManage.map((item, key) =>
             this.state.dataManage === [""] ? null : (

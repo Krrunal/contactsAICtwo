@@ -150,6 +150,7 @@ class ViewLabel extends Component {
             renderItem={this.contactsList.bind(this)}
             scrollEnabled={true}
             showsVerticalScrollIndicator={false}
+            keyboardShouldPersistTaps="always"
           />
         
       </View>
@@ -173,7 +174,7 @@ class ViewLabel extends Component {
             this.props.theme.mode === "dark" ? "light-content" : "dark-content"
           }
         />
-        <View style={{ flex: 1 }}>
+        <View style={{ flex: 1 }} keyboardShouldPersistTaps="always">
           <Container>
             {this.renderHeader()}
             {this.renderMiddle()}

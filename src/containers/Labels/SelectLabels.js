@@ -18,7 +18,7 @@ import Constants from "../../action/Constants";
 import { DataTable } from "react-native-paper";
 import Font from "../theme/font";
 import GeneralStatusBar from "../../components/StatusBar/index";
-import Header from "../../components/header/index";
+import Header from "../../components/header/backHeader";
 import Icon from "react-native-vector-icons/FontAwesome5";
 import Metrics from "../theme/Metrics";
 import Toast from "react-native-easy-toast";
@@ -129,21 +129,21 @@ class Selectlabels extends Component {
     })
    
   };
-
   renderHeader() {
     return (
       <Header
         title="Labels"
-        onPress={() => this.props.navigation.openDrawer()}
+        onPress={() => this.props.navigation.navigate("Label")}
       />
     );
   }
+
 
   renderMiddle() {
     const { dataManage, selectedRealetion } = this.state;
     return (
       <View style={{ flex: 1, marginBottom: Metrics.smallMargin }}>
-        <ScrollView>
+        <ScrollView keyboardShouldPersistTaps="always">
           {this.state.dataManage === ""
             ? null
             : this.state.dataManage.map((item, key) => (
@@ -189,7 +189,7 @@ class Selectlabels extends Component {
         <View
           style={{
             flex: 1,
-            bottom: 10,
+            bottom: 40,
             position: "absolute",
             flexDirection: "row",
           }}
@@ -198,7 +198,7 @@ class Selectlabels extends Component {
             style={styles.Whiteview}
             onPress={() => this.props.navigation.navigate("Label")}
           >
-            <Text style={styles.bottomButton}>Add</Text>
+            <Text style={styles.bottomButton}>Back</Text>
           </TouchableOpacity>
 
           <TouchableOpacity
@@ -223,7 +223,7 @@ class Selectlabels extends Component {
           }
         />
 
-        <Container>
+        <Container keyboardShouldPersistTaps="always">
           {this.renderHeader()}
           {this.state.addView ? (
             <View   style={{ marginLeft: Metrics.doubleBaseMargin, marginTop: Metrics.doubleBaseMargin,}}>

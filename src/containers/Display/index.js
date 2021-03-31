@@ -242,12 +242,12 @@ class display extends Component {
             this.props.theme.mode === "dark" ? "light-content" : "dark-content"
           }
         />
-        <Container>
+        <Container >
           <Header
             title="Display"
             onPress={() => this.props.navigation.navigate("SerachEditContact")}
           />
-          <View style={styles.middleView}>
+          <View style={styles.middleView} keyboardShouldPersistTaps="always">
             <TouchableOpacity style={styles.FirstView}>
               <BoldText>Sort Contacts by:</BoldText>
               

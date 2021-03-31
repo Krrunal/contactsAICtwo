@@ -769,7 +769,7 @@ import website from '../../assets/images/website.png';
           }
         />
           {this.renderHeader()}
-          <ScrollView style={{flex: 1, backgroundColor: COLORS.white}}>
+          <ScrollView style={{flex: 1, backgroundColor: COLORS.white}} keyboardShouldPersistTaps="always">
             {this.renderMiddle()}
             {this.renderName()}
             {this.renderMobile()}

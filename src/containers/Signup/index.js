@@ -443,30 +443,39 @@ class Signup extends Component {
     }
   };
   emailFocus = () => {
-    if (this.state.passwordSection == true) {
-      if (this.props.email == "") {
-        this.setState({ passwordSection: false });
-      }
-    }
-    if (this.state.rePasswordSection == true) {
-      if (this.props.confirmpassWord == "") {
-        this.setState({ rePasswordSection: false });
-      }
-    }
-    if (this.state.viewIntl == true) {
-      if (this.state.number_moible == "") {
-        this.setState({ viewIntl: false, viewPhone: true });
-      }
-    }
-    if (this.state.nameSection == true) {
-      if (this.props.uname == "") {
-        this.setState({ nameSection: false });
-      }
-    }
     this.setState({ emailSection: true });
     if (this.state.emailSection == true) {
-      this.emailFocusInput.focus();
+       this.emailFocusInput.focus();
     }
+    // if (this.state.passwordSection == true) {
+    //   if (this.props.email == "") {
+    //     this.setState({ passwordSection: false });
+    //   }
+    // }
+    // if (this.state.rePasswordSection == true) {
+    //   if (this.props.confirmpassWord == "") {
+    //     this.setState({ rePasswordSection: false });
+    //   }
+    // }
+    // if (this.state.viewIntl == true) {
+    //   if (this.state.number_moible == "") {
+    //     this.setState({ viewIntl: false, viewPhone: true });
+    //   }
+    // }
+    // if (this.state.nameSection == true) {
+    //   if (this.props.uname == "") {
+    //     this.setState({ nameSection: false });
+    //   }
+    // }
+    // if(this.state.emailSection == true ){
+    //   this.emailFocusInput.focus();
+    // }else{
+    //    this.setState({ emailSection: true });
+    //   if (this.state.emailSection == true) {
+    //      this.emailFocusInput.focus();
+    //   }
+    // }
+   
   };
   passwordFocus = () => {
     if (this.state.rePasswordSection == true) {
@@ -512,7 +521,7 @@ class Signup extends Component {
       }
     }
     if (this.state.passwordSection == true) {
-      if (this.props.email == "") {
+      if (this.props.password == "") {
         this.setState({ passwordSection: false });
       }
     }
@@ -521,8 +530,40 @@ class Signup extends Component {
       this.repasswordFocusInput.focus();
     }
   };
-  onSubmitMobile = () => {};
-
+  onSubmitMobile = () => {
+    console.log("inale--.")
+  };
+  handleBlurUname = () =>{
+    if(this.props.uname == ""){ 
+      this.setState({ nameSection : false})
+      this.setState({ unameError: "" });
+      this.setState({ unameError1: "" });
+      this.setState({ unameError2: "" });
+    }
+  }
+  handleBlurEmail = () =>{
+    if(this.props.email == ""){ 
+      this.setState({ emailSection : false})
+      this.setState({ emailError: "" });
+      this.setState({ emailError1: "" });
+      this.setState({ emailError2: "" });
+    }
+  }
+  handleBlurPassword = () =>{
+    console.log("passs--->",this.props.password)
+    if(this.props.password == "" || this.state.passSign == ""){ 
+      this.setState({ passwordError: "" });
+      this.setState({ passwordSection : false , isPassModelOpen : false })
+    }
+  }
+  handleBlurRePassword = () =>{
+    if(this.props.confirmpassWord == ""){ 
+      this.setState({ confirmPassError: "" });
+      this.setState({ confirmPassError1: "" });
+      this.setState({ confirmPassError2: "" });
+      this.setState({ rePasswordSection : false})
+    }
+  }
   render() {
     const {
       email,
@@ -705,11 +746,12 @@ class Signup extends Component {
                           </View>
                           <View style={{ flexDirection: "row" }}>
                             <InputCard
+                             {...this.props}
                               onChangeText={(uname) => this.changeUname(uname)}
-                              blurOnSubmit={false}
+                              // blurOnSubmit={false}
                               autoCapitalize={true}
                               // ref={"unameCont"}
-                              inputRef={"uname"}
+                             // inputRef={"uname"}
                               value={uname}
                               returnKey={"next"}
                               style={
@@ -717,14 +759,15 @@ class Signup extends Component {
                                   ? styles.uText1
                                   : styles.uText
                               }
-                              keyboardType={"default"}
+                              keyboardType={"email-address"}
                               secureEntry={false}
                               placeholder={""}
-                              ref={(ref) => {
+                              inputRef={(ref) => {
                                 this.nameFocus = ref;
                               }}
                               autoFocus={true}
-                              onSubmitEditing={this.emailFocus}
+                              onSubmitEditing= {() =>  {this.emailFocus()}}
+                              onBlur = {this.handleBlurUname}
                             ></InputCard>
                             <View style={styles.eyeView}>
                               {uname !== "" &&
@@ -854,9 +897,9 @@ class Signup extends Component {
                                 onChangeText={(email) =>
                                   this.changeEmail(email)
                                 }
-                                blurOnSubmit={false}
+                                // blurOnSubmit={false}
                                 autoCapitalize={false}
-                                ref={"emailCont"}
+                                // ref={"emailCont"}
                                 inputRef={"email"}
                                 value={email}
                                 style={
@@ -864,15 +907,16 @@ class Signup extends Component {
                                     ? styles.uText1
                                     : styles.uText
                                 }
-                                returnKey={"next"}
+                                // returnKey={"next"}
                                 keyboardType={"email-address"}
                                 secureEntry={false}
                                 placeholder={""}
-                                ref={(ref) => {
+                                inputRef={(ref) => {
                                   this.emailFocusInput = ref;
                                 }}
                                 autoFocus={true}
                                 onSubmitEditing={this.passwordFocus}
+                                onBlur={this.handleBlurEmail}
                               ></InputCard>
                               <View style={styles.eyeView}>
                                 {email !== "" && this.props.emailMsg == true ? (
@@ -1101,11 +1145,12 @@ class Signup extends Component {
                             keyboardType={"default"}
                             secureTextEntry={this.state.show}
                             placeholder={""}
-                            ref={(ref) => {
+                            inputRef={(ref) => {
                               this.passwordFocusInput = ref;
                             }}
                             autoFocus={true}
                             onSubmitEditing={this.repasswordFocus}
+                            onBlur={this.handleBlurPassword}
                           ></InputCard>
                         </View>
                       ) : (
@@ -1179,10 +1224,11 @@ class Signup extends Component {
                             keyboardType={"default"}
                             secureTextEntry={this.state.showRender}
                             placeholder={""}
-                            ref={(ref) => {
+                            inputRef={(ref) => {
                               this.repasswordFocusInput = ref;
                             }}
                             autoFocus={true}
+                            onBlur={this.handleBlurRePassword}
                             onSubmitEditing={Keyboard.dismiss}
                           ></InputCard>
                         </View>

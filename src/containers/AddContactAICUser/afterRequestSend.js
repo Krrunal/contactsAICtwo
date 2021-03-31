@@ -107,7 +107,7 @@ class afterRequestSend extends Component {
           }
         />
 
-        <Container>
+        <Container keyboardShouldPersistTaps="always">
           {this.renderHeader()}
           {this.renderMiddle()}
           {this.renderLast()}

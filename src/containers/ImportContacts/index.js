@@ -192,7 +192,7 @@ class importContact extends Component {
           </Text>
         </TouchableOpacity>
 
-        <ScrollView  keyboardShouldPersistTaps={true}>
+        <ScrollView  keyboardShouldPersistTaps="always">
           {fetchedContacts.map((item, key) => (
             <TouchableOpacity
               style={styles.checkboxViewTwo}
@@ -631,7 +631,7 @@ class importContact extends Component {
           }
         />
 
-        <View style={{ flex: 1 }}>
+        <View style={{ flex: 1 }} keyboardShouldPersistTaps="always"> 
           <Container>
             {this.renderHeader()}
             <Text

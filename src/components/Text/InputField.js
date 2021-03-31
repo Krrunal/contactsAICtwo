@@ -1,22 +1,27 @@
 import {
   Animated,
+  Dimensions,
   Platform,
   StyleSheet,
   Text,
   TextInput,
   TouchableOpacity,
-  View,
+  View
 } from "react-native";
 import React, { Component } from "react";
 
+import COLORS from "../../containers/theme/Colors";
+import Font from "../../containers/theme/font";
+import Icon from "react-native-vector-icons/FontAwesome";
 // import icons
 // import Feather from 'react-native-vector-icons/Feather';
 // import styles
 import { InputContainer } from "./Input.styles";
-import Ionicons from "react-native-vector-icons/Ionicons";
+import Metrics from '../../containers/theme/Metrics'
 import { TextInputMask } from "react-native-masked-text";
-import colors from "../../containers/theme/Colors";
-import fonts from "../../containers/theme/font";
+
+var { width, height } = Dimensions.get("window");
+// import fonts from "../../containers/theme/font";
 
 interface InputProps {
   label?: string;
@@ -87,6 +92,7 @@ class Input extends Component<InputProps, InputState> {
 
   handleFocus = () => this.setState({ isFocused: true });
   handleBlur = (value) => {
+    console.log("blurrrr----->",value)
     if (!value) {
       this.setState({ isFocused: false });
     }
@@ -107,7 +113,29 @@ class Input extends Component<InputProps, InputState> {
       });
     }
   };
+  rightComponent = () => {
+    const { secure, validEntry, isProfile, error } = this.props;
+    const { secureToggle } = this.state;
+    if (secure) {
+        return (
+            <TouchableOpacity style={[{ justifyContent: 'flex-end', marginBottom: 8, alignItems: 'center', flex: 0.1 }, isAndroid && { height: 40 }]} onPress={() => this.setState({ secureToggle: !secureToggle })}>
+                {secureToggle ? (
+                    <Icon name='eye' color={'#FFFF'} size={18} />
 
+                ) : (
+                        <Icon name="eye-slash" color={'#FFFF'} size={18} />
+                    )}
+            </TouchableOpacity>
+        )
+    } else if (validEntry) {
+        return (
+            <View style={[{ justifyContent: 'flex-end', alignItems: 'center', flex: 0.1, marginTop: 4, marginBottom: 7 }, isAndroid && { height: 40 }]}>
+                <Ionicons name="ios-checkmark" color={error ? COLORS.error : COLORS.white} size={20} />
+            </View>
+        )
+    }
+
+}
 
   render() {
     const {
@@ -133,50 +161,39 @@ class Input extends Component<InputProps, InputState> {
 
     const labelStyle = {
       position: "absolute",
-      fontFamily: fonts.bold,
+      fontFamily: Font.medium,
       left: 0,
-      // top: this._animatedIsFocused.interpolate({
-      //     inputRange: [0, 1],
-      //     outputRange: value ? [0, 0] : isAndroid ? [15, 0] : [18, 0],
-      // }),
-      // fontSize: this._animatedIsFocused.interpolate({
-      //     inputRange: [0, 1],
-      //     outputRange: value ? [14, 14] : [20, 14],
-      // }),
-      // color: this._animatedIsFocused.interpolate({
-      //     inputRange: [0, 1],
-      //     outputRange: isProfile ? [colors.main_text_color, colors.main_text_color] : labelColor ? [labelColor, labelColor] : [colors.white, colors.white]
-      // }),
+      top: this._animatedIsFocused.interpolate({
+          inputRange: [0, 1],
+          outputRange: [10, 0],
+      }),
+      left: this._animatedIsFocused.interpolate({
+        inputRange: [0, 1],
+        outputRange: [14, 10],
+    }),
+      fontSize: this._animatedIsFocused.interpolate({
+          inputRange: [0, 1],
+          outputRange: [18, 12],
+      }),
+      color: this._animatedIsFocused.interpolate({
+          inputRange: [0, 1],
+          outputRange: ['#000', '#000']
+      }),
     };
 
     return (
       // <InputContaine>
        <View>
-          {type ? (
-                    <View style={{ flexDirection: 'row' }}>
-                        <TextInputMask
-                            type={type}
-                            style={[styles.textInputStyle, error && { color: '#fc8686' }]}
-                            onFocus={() => this.setState({ focussed: true })}
-                            secureTextEntry={secureToggle}
-                            placeholderTextColor="#c3c7da"
-                            placeholder={placeholder}
-                            autoComplete="off"
-                            autoCapitalize="none"
-                            editable={editable}
-                            keyboardType={inputType}
-                            {...props}
-                        />
-                        {/* {this.rightComponent()} */}
-                    </View>
-                ) : (
-                        <View style={{ flexDirection: 'row' }}>
-                            <Animated.Text style={[labelStyle, 
+          
+                        <View style={{ flexDirection: 'row', }}>
+                            <Animated.Text style={[labelStyle, {
+                              color:"#1374A3",
+                            },
                             error && { color: '#fc8686' }]}>
                                 {label} 
                             </Animated.Text>
                             <TextInput
-                                style={[styles.textInputStyle, {}, error && { color: '#fc8686' }]}
+                                style={[styles.textInputStyle]}
                                 secureTextEntry={secureToggle}
                                 placeholder={placeholder}
                                 placeholderTextColor={"#c3c7da"}
@@ -188,11 +205,12 @@ class Input extends Component<InputProps, InputState> {
                                 onBlur={()=>this.handleBlur(value)}
                                 blurOnSubmit
                                 value={value}
+                                //  onSubmitEditing={()=>this.handleFocus()}
                                 {...props}
                             />
-                            {/* {this.rightComponent()} */}
+                            {this.rightComponent()}
                         </View>
-                    )}
+                    
        </View>
           // <View style={{ flexDirection: "row" }}>
           //   <Animated.Text>{label}</Animated.Text>
@@ -221,15 +239,23 @@ class Input extends Component<InputProps, InputState> {
 
 const styles = StyleSheet.create({
   textInputStyle: {
-    position: "relative",
-    height: 50,
-    fontFamily: fonts.regular,
-    marginTop: isAndroid ? 2 : 0,
-    fontSize: 18,
-    letterSpacing: 0.3,
-    paddingTop: 10,
-    paddingBottom: 0,
-    paddingLeft: 20,
+    fontSize: width*0.036, 
+    fontFamily: Font.medium,
+    marginLeft: Metrics.baseMargin,
+     width: width * 0.62,
+     color:"#1374A3",
+
+   // marginBottom :Metrics.smallMargin,
+   
+    // position: "relative",
+    // height: 50,
+    // fontFamily: fonts.regular,
+    // marginTop: isAndroid ? 2 : 0,
+    // fontSize: 18,
+    // letterSpacing: 0.3,
+    // paddingTop: 10,
+    // paddingBottom: 0,
+    // paddingLeft: 20,
   },
 });
 

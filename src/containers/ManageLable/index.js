@@ -2311,11 +2311,11 @@ backAction = () => {
             this.props.theme.mode === "dark" ? "light-content" : "dark-content"
           }
         />
-        <Container>
+        <Container keyboardShouldPersistTaps="always">
           {this.renderHeader()}
           {this.renderDropDown()}
 
-          <ScrollView  keyboardShouldPersistTaps={true}>
+          <ScrollView  keyboardShouldPersistTaps="always">
             {this.renderMiddle()}
             {this.renderSelectAll()}
             {this.renderName()}

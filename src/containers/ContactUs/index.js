@@ -63,7 +63,7 @@ class ContactUs extends Component {
           }
         />
 
-        <Container>
+        <Container keyboardShouldPersistTaps="always">
           {this.renderHeader()}
           {/* <Button title="Display Notification" 
           onPress={() => {this.onDisplayNotification()}} /> */}

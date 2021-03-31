@@ -236,7 +236,7 @@ class forAddContact extends Component {
           }
         />
 
-        <Container>
+        <Container keyboardShouldPersistTaps="always">
           {this.renderHeader()}
           {this.renderHeaderLine()}
           {this.renderMiddle()}

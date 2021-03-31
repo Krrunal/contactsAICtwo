@@ -276,7 +276,7 @@ class afterAddContact extends Component {
           <View style={styles.headerLineContainer}>
             <LineText> Enter Contact's Username </LineText>
           </View>
-          <ScrollView style={{ width: width }}  keyboardShouldPersistTaps={true}>
+          <ScrollView style={{ width: width }}  keyboardShouldPersistTaps="always">
             {this.renderMiddle()}
           </ScrollView>
 
